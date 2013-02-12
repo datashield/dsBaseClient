@@ -1,0 +1,4 @@
+export(glm)
+export(glm.list)
+export(histogram)
+export(histogram.list)
