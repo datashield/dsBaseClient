@@ -1,4 +1,4 @@
-export(glm)
-export(glm.list)
-export(histogram)
-export(histogram.list)
+export(datashield.glm)
+export(datashield.histogram)
+export(datashield.length)
+export(datashield.summary)

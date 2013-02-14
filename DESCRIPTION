@@ -6,6 +6,6 @@ License: GPL-3
 Title: Base DataSHIELD methods (client)
 Description: 
 Depends:
-    opal
+    dsopal
 Collate:
     'client.r'

@@ -1,16 +1,24 @@
+#' Summary.
+#'
+#' @export
+#' 
+datashield.summary <- function(opals, expr) {
+  return(datashield.aggregate(opals, as.call(c(quote(summary), expr))))
+}
+
+#' Length.
+#'
+#' @export
+#' 
+datashield.length <- function(opals, expr) {
+  return(datashield.aggregate(opals, as.call(c(quote(length), expr))))
+}
+
 #' Generalize linear model.
 #'
 #' @export
 #' 
-glm <- function(object, ...) {
-  UseMethod('datashield.glm');
-}
-
-#' Generalize linear model list.
-#'
-#' @export
-#' 
-glm.list <- function(opals, formula, family, maxit=10) {
+datashield.glm <- function(opals, formula, family, maxit=10) {
   numstudies<-length(opals)
   
   beta.vect.next<-NULL
@@ -131,19 +139,11 @@ glm.list <- function(opals, formula, family, maxit=10) {
   }
 }
 
-#' Histogram.
-#'
-#' @export
-#' 
-histogram <- function(object, ...) {
-  UseMethod('datashield.histogram');
-}
-
 #' Datashield Histogram.
 #'
 #' @export
 #' 
-histogram.list <- function(opals, a) {
+datashield.histogram <- function(opals, a) {
   
   # call the helper function and use its output
   cally <- call("histogram.1", a) 
