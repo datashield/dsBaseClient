@@ -5,7 +5,7 @@ Version: 1.0
 License: GPL-3
 Title: Base DataSHIELD methods (client)
 Description: 
-Imports:
+Depends:
     opal
 Collate:
     'client.r'
