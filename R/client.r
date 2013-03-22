@@ -1,17 +1,27 @@
 #' Summary.
 #'
+#' @param opals Opal object or list of opal objects.
+#' @param expr Expression or name of a R symbol
 #' @export
-#' 
 datashield.summary <- function(opals, expr) {
-  return(datashield.aggregate(opals, as.call(c(quote(summary), expr))))
+  symbol <- expr
+  if(is.character(expr)) {
+    symbol <- as.symbol(expr)
+  }
+  return(datashield.aggregate(opals, as.call(c(quote(summary), symbol))))
 }
 
 #' Length.
 #'
+#' @param opals Opal object or list of opal objects.
+#' @param expr Expression or name of a R symbol
 #' @export
-#' 
 datashield.length <- function(opals, expr) {
-  return(datashield.aggregate(opals, as.call(c(quote(length), expr))))
+  symbol <- expr
+  if(is.character(expr)) {
+    symbol <- as.symbol(expr)
+  }
+  return(datashield.aggregate(opals, as.call(c(quote(length), symbol))))
 }
 
 #' Generalize linear model.
