@@ -1,11 +1,15 @@
 Package: dsbaseclient
 Maintainer: <datashield@obiba.org>
 Author: <datashield@obiba.org>
-Version: 1.1
+Version: 1.0
 License: GPL-3
 Title: Base DataSHIELD methods (client)
 Description: 
 Depends:
-    opal
+    opal,
+    fields
 Collate:
-    'client.r'
+    'histogram.r'
+    'heatmap.plot.r'
+    'var.combine.r'
+    'contour.plot.r'

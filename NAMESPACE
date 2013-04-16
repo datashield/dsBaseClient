@@ -1,4 +1,4 @@
-export(datashield.glm)
-export(datashield.histogram)
-export(datashield.length)
-export(datashield.summary)
+export(contour.plot)
+export(heatmap.plot)
+export(histogram)
+export(var.combine)
