@@ -13,5 +13,4 @@ Depends:
 Collate:
     'histogram.r'
     'heatmap.plot.r'
-    'var.combine.r'
     'contour.plot.r'
