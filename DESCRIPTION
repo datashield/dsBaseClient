@@ -8,7 +8,6 @@ Description:
 Depends:
     opal,
     fields,
-    dsbase,
     spam
 Collate:
     'datashield.contour.plot.r'
