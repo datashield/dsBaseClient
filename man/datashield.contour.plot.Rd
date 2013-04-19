@@ -1,8 +1,8 @@
-\name{contour.plot}
-\alias{contour.plot}
+\name{datashield.contour.plot}
+\alias{datashield.contour.plot}
 \title{Creates a contour plot}
 \usage{
-  contour.plot(opals, xvect, yvect)
+  datashield.contour.plot(opals, xvect, yvect)
 }
 \arguments{
   \item{opals}{character strings that represent the URL of

@@ -11,6 +11,7 @@ Depends:
     dsbase,
     spam
 Collate:
-    'histogram.r'
-    'heatmap.plot.r'
-    'contour.plot.r'
+    'datashield.contour.plot.r'
+    'datashield.heatmap.plot.r'
+    'datashield.histogram.r'
+    'datashield.table.2d.r'

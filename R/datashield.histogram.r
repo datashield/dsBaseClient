@@ -5,7 +5,7 @@
 #' @author Burton, P.
 #' @export
 #' 
-histogram <- function (opals, a) {
+datashield.histogram <- function (opals, a) {
   
   # call the helper function and use its output
   cally <- call("histogram.1", a) 

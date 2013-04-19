@@ -1,8 +1,8 @@
-\name{heatmap.plot}
-\alias{heatmap.plot}
+\name{datashield.heatmap.plot}
+\alias{datashield.heatmap.plot}
 \title{Plots a heatmap}
 \usage{
-  heatmap.plot(opals, xvect, yvect)
+  datashield.heatmap.plot(opals, xvect, yvect)
 }
 \arguments{
   \item{xvect}{a numerical vector}

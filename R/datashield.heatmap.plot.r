@@ -6,7 +6,7 @@
 #' @author Isaeva, J.
 #' @export
 #' 
-heatmap.plot <- function(opals, xvect, yvect){
+datashield.heatmap.plot <- function(opals, xvect, yvect){
   
   library('fields')
   #################
