@@ -12,7 +12,7 @@ datashield.contour.plot <- function(opals, xvect, yvect){
   # generate the grid density object to plot
   cally <- call("contour.plot.1", xvect, yvect) 
   grid.density.obj <- datashield.aggregate(opals, cally)
-  
+  # comment added for nothing
   numplots <- length(grid.density.obj)
   nrow<-1
   ncol<-1
