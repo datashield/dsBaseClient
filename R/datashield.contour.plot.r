@@ -10,9 +10,9 @@
 datashield.contour.plot <- function(opals, xvect, yvect){
   
   # generate the grid density object to plot
-  cally <- call("contour.plot.1", xvect, yvect) 
+  cally <- call("density.grid.ag", xvect, yvect) 
   grid.density.obj <- datashield.aggregate(opals, cally)
-  # comment added for nothing
+  
   numplots <- length(grid.density.obj)
   nrow<-1
   ncol<-1
@@ -51,9 +51,11 @@ datashield.contour.plot <- function(opals, xvect, yvect){
       x<-grid.density.obj[[j]][,(numcols-1)]
       y<-grid.density.obj[[j]][,(numcols)]
       z<-grid.density.obj[[j]][,1:(numcols-2)]
-      contour(x,y,z)        
+      contour(x,y,z) 
+      
     }
   }
+  
   
   if(is.atomic(grid.density.obj))
   {
