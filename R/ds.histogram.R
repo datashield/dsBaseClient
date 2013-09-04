@@ -113,37 +113,31 @@ ds.histogram <- function(opals=opals, xvect=NULL, type="combine"){
   # plot the individual histograms on the same graph 
   # if the argument 'type'="combine" plot a combined histogram and if 'type'="split" plot single histograms separately
   if(type=="combine"){
-    colour <- "red"
     par(mfrow=c(1,1))
-    plot(combined.histobject,col=colour, xlab=variable, main='Histogram of the pooled data')
+    plot(combined.histobject, xlab=variable, main='Histogram of the pooled data')
   }else{  
     if(type=="split"){
       # set the graph area and plot
       ll <- length(opals)
-      colour <- rainbow(ll)
       if(ll > 1){
         if((ll %% 2) == 0){ numr <- ll/2 }else{ numr <- (ll+1)/2}
         numc <- 2
         par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          plot(hist.objs[[i]], col=colour[i], xlab=variable, main=paste("Histogram of ", names(opals)[i], sep=""))
+          plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(opals)[i], sep=""))
           # if there are cells with count > 0 and < mention them as an '*' on the graph
           if(length(asterix2plot[[i]]) > 0){
-            text(asterix2plot[[i]], rep(10, length(asterix2plot[[i]])), "*", pos=3, cex=1.2)
-            xpos <-  min(hist.objs[[i]]$breaks, na.rm=TRUE)
-            ypos <-  max(hist.objs[[i]]$counts, na.rm=TRUE)
-            text(xpos, ypos, "'*' Cells were 0 < count < 5", pos=3, cex=1.2)
+            text(asterix2plot[[i]], rep(7.5, length(asterix2plot[[i]])), "*", pos=3, cex=1.2)
+            legend('topleft', "(*)\ncell count\n> 0 &\n< 5", bty='n', cex=0.8)
           }
         }
       }else{
         par(mfrow=c(1,1))
-        plot(hist.objs[[1]], col=colour[1], xlab=variable, main=paste("Histogram of ", names(opals)[1], sep=""))
+        plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(opals)[1], sep=""))
         # if there are cells with count > 0 and < mention them as an '*' on the graph
         if(length(asterix2plot[[1]]) > 0){
-          text(asterix2plot[[1]], rep(10, length(asterix2plot[[1]])), "*", pos=3, cex=1.2)
-          xpos <-  min(hist.objs[[1]]$breaks, na.rm=TRUE)
-          ypos <-  max(hist.objs[[1]]$counts, na.rm=TRUE)
-          text(xpos, ypos, "'*' Cells were 0 < count < 5", pos=3, cex=1.2)
+          text(asterix2plot[[1]], rep(7.5, length(asterix2plot[[1]])), "*", pos=3, cex=1.2)
+          legend('topleft', "(*)\ncell count\n> 0 &\n< 5", bty='n', cex=0.8)
         }
       }
     }else{
