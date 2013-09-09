@@ -63,14 +63,16 @@ ds.checkvar <- function(opals, variables){
       
       # get the indices, in the assigned dataset, of the variables to check
       idx2 <- which(var.names[[1]] %in% varIDs)
+      counter <- 1
       for(j in idx2){
         # the server side function 'isNA.ds' to check if vector is empty
-        cally <- call("isNA.ds", variables[[j]])
+        cally <- call("isNA.ds", variables[[counter]])
         out <- datashield.aggregate(opals[i], cally)
         if(out[[1]]){ 
           track <- TRUE
           cat("The variable", var.names[[1]][j], "in", stdname[i], "is empty (NAs only)!\n")
         }
+      counter <- counter+1
       }
     }
     
