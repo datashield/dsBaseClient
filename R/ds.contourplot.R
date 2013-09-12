@@ -70,27 +70,6 @@ ds.contourplot <- function(opals, xvect, yvect, type='combine', numints=20){
   y.global.min = y.range.arg[1]
   y.global.max = y.range.arg[2]
   
-#   # define the min and max of the variables among all the datasets
-#   cally <- call("MinMax.ds", xvect, yvect) 
-#   MinMax.obj <- datashield.aggregate(opals, cally)
-#   
-#   x.global.min = NULL
-#   x.global.max = NULL
-#   y.global.min = NULL
-#   y.global.max = NULL
-#   
-#   for (i in 1:num.sources) {
-#     x.global.min = c(x.global.min, MinMax.obj[[i]][1,1])
-#     x.global.max = c(x.global.max, MinMax.obj[[i]][2,1])
-#     y.global.min = c(y.global.min, MinMax.obj[[i]][1,2])
-#     y.global.max = c(y.global.max, MinMax.obj[[i]][2,2])
-#   }
-#   
-#   x.global.min = min(x.global.min)
-#   x.global.max = max(x.global.max)
-#   y.global.min = min(y.global.min)
-#   y.global.max = max(y.global.max)
-  
   # generate the grid density object to plot
   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
   grid.density.obj <- datashield.aggregate(opals, cally)
