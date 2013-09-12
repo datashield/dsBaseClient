@@ -72,7 +72,7 @@ ds.quantilemean <- function(opals=NULL, xvect=NULL, type="combine"){
     global.quantiles <- global.quantiles + vect
     global.mean <- global.mean + quants[[1]][8]
   } 
-  global.mean <- global.mean/length(opals)
+  global.mean <- global.mean/sum(unlist(lengths))
   global.quantiles <- global.quantiles/sum(unlist(lengths))
   output <- c(global.quantiles, global.mean)
   names(output) <- c("5%","10%","25%","50%","75%","90%","95%","Mean")
