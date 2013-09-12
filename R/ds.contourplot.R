@@ -45,26 +45,51 @@ ds.contourplot <- function(opals, xvect, yvect, type='combine', numints=20){
   # number of studies
   num.sources <- length(opals)
   
-  # define the min and max of the variables among all the datasets
-  cally <- call("MinMax.ds", xvect, yvect) 
-  MinMax.obj <- datashield.aggregate(opals, cally)
+  # get the range from each study and produce the 'global' range
+  cally <- call("range.ds", xvect) 
+  x.ranges <- datashield.aggregate(opals, cally)
   
-  x.global.min = NULL
-  x.global.max = NULL
-  y.global.min = NULL
-  y.global.max = NULL
+  cally <- call("range.ds", yvect) 
+  y.ranges <- datashield.aggregate(opals, cally)
   
-  for (i in 1:num.sources) {
-    x.global.min = c(x.global.min, MinMax.obj[[i]][1,1])
-    x.global.max = c(x.global.max, MinMax.obj[[i]][2,1])
-    y.global.min = c(y.global.min, MinMax.obj[[i]][1,2])
-    y.global.max = c(y.global.max, MinMax.obj[[i]][2,2])
+  x.minrs <- c()
+  x.maxrs <- c()
+  y.minrs <- c()
+  y.maxrs <- c()
+  for(i in 1:num.sources){
+    x.minrs <- append(x.minrs, x.ranges[[i]][1])
+    x.maxrs <- append(x.maxrs, x.ranges[[i]][2])
+    y.minrs <- append(y.minrs, y.ranges[[i]][1])
+    y.maxrs <- append(y.maxrs, y.ranges[[i]][2])
   }
+  x.range.arg <- c(min(x.minrs), max(x.maxrs))
+  y.range.arg <- c(min(y.minrs), max(y.maxrs))
   
-  x.global.min = min(x.global.min)
-  x.global.max = max(x.global.max)
-  y.global.min = min(y.global.min)
-  y.global.max = max(y.global.max)
+  x.global.min = x.range.arg[1]
+  x.global.max = x.range.arg[2]
+  y.global.min = y.range.arg[1]
+  y.global.max = y.range.arg[2]
+  
+#   # define the min and max of the variables among all the datasets
+#   cally <- call("MinMax.ds", xvect, yvect) 
+#   MinMax.obj <- datashield.aggregate(opals, cally)
+#   
+#   x.global.min = NULL
+#   x.global.max = NULL
+#   y.global.min = NULL
+#   y.global.max = NULL
+#   
+#   for (i in 1:num.sources) {
+#     x.global.min = c(x.global.min, MinMax.obj[[i]][1,1])
+#     x.global.max = c(x.global.max, MinMax.obj[[i]][2,1])
+#     y.global.min = c(y.global.min, MinMax.obj[[i]][1,2])
+#     y.global.max = c(y.global.max, MinMax.obj[[i]][2,2])
+#   }
+#   
+#   x.global.min = min(x.global.min)
+#   x.global.max = max(x.global.max)
+#   y.global.min = min(y.global.min)
+#   y.global.max = max(y.global.max)
   
   # generate the grid density object to plot
   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
