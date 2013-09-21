@@ -82,9 +82,6 @@ ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
   # names of the studies 
   opals.names <- names(datasources)
   
-  # number of studies
-  num.sources <- length(datasources)
-  
   # call the server side function that produces a 1-dimensional table for each study
   cally <- call("table1d.ds", xvect)
   server.func.output <- datashield.aggregate(datasources, cally)
@@ -96,7 +93,7 @@ ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
   # call the internal function that processes the ouput of the server side function
   finaloutput  <- dsbaseclient:::table1dhelper4(server.func.output)
 
-  # if the user specified a 'combined' analysis output the relevant object of 'finaloutput'
+  # return the right output depending what the user specified: 'combine' or 'split' analysis
   if(type=="combine"){
     if(zero.studies.valid){
       output1 <- finaloutput$VALIDITY.WARNING

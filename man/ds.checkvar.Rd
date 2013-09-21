@@ -2,12 +2,12 @@
 \alias{ds.checkvar}
 \title{Checks if all variables do exist and are not empty}
 \usage{
-  ds.checkvar(opals, variables)
+  ds.checkvar(datasources, variables)
 }
 \arguments{
-  \item{opals}{a list of opal object(s) obtained after
-  login in to opal servers; these objects hold also the
-  data assign to R, as \code{dataframe}, from opal
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
   \item{variables}{a character vector, the names of the
@@ -33,7 +33,7 @@ myvar <- list("LAB_TSC")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # run checks for the variable LAB_TSC
-ds.checkvar(opals=opals, variables=list(quote(D$LAB_TSC)))
+ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 }
 }
 \author{

@@ -5,7 +5,7 @@
 #' histogram objects to plot. The objects to plot do not contain bins with
 #' counts < 5. The function allows for the user to plot disctinct histograms
 #' (one for each study) or a combine histogram that merges the single plots.
-#' @param opals a list of opal object(s) obtained after login in to opal servers;
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal 
 #' datasources. 
 #' @param xvect vector of values for which the histogram is desired.
@@ -26,16 +26,16 @@
 #' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
-#' ds.quantilemean(opals=opals, xvect=quote(D$LAB_HDL))
+#' ds.quantilemean(datasources=opals, xvect=quote(D$LAB_HDL))
 #' 
 #' # Example 2: Plot the histograms separately (one per study)
-#' ds.quantilemean(opals=opals, xvect=quote(D$LAB_HDL), type="split")
+#' ds.quantilemean(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 #' 
 #' }
 #'
-ds.quantilemean <- function(opals=NULL, xvect=NULL, type="combine"){
+ds.quantilemean <- function(datasources=NULL, xvect=NULL, type="combine"){
   
-  if(is.null(opals)){
+  if(is.null(datasources)){
     cat("\n\n ALERT!\n")
     cat(" No valid opal object(s) provided.\n")
     cat(" Make sure you are logged in to valid opal server(s).\n")
@@ -48,26 +48,26 @@ ds.quantilemean <- function(opals=NULL, xvect=NULL, type="combine"){
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  # names of the opals/studies
-  stdnames <- names(opals)
+  # names of the datasources/studies
+  stdnames <- names(datasources)
   
   # get the name of the input variable
   variable <-  strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
   
   # call the function that checks the variable is available and not empty
   vars2check <- list(xvect)
-  opals <- ds.checkvar(opals, vars2check)
+  datasources <- ds.checkvar(datasources, vars2check)
   
   # get the server function that produces the quantiles
   cally1 <- call("quantilemean.ds", xvect) 
-  quants <- datashield.aggregate(opals, cally1)
+  quants <- datashield.aggregate(datasources, cally1)
   
   # combine the vector of quantiles - using weighted sum
   cally2 <- call("length", xvect) 
-  lengths <- datashield.aggregate(opals, cally2)
+  lengths <- datashield.aggregate(datasources, cally2)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
-  for(i in 1: length(opals)){
+  for(i in 1: length(datasources)){
     vect <- quants[[i]][1:7] * lengths[[i]]
     global.quantiles <- global.quantiles + vect
     global.mean <- global.mean + quants[[i]][8] * lengths[[i]]

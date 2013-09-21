@@ -46,10 +46,13 @@ ds.login <- function(logins=NULL, assign=FALSE, variables=NULL){
   # opal directories where the microdata is stored
   paths <- as.character(logins[,5])
   
+  # studies names
+  stdnames <- as.character(logins[,1])
+  
   # put the server names in a list
   opals <- as.list(as.character(logins$servers))
   
-  # login to the oplas keeping the server names as 
+  # login to the opals keeping the server names as 
   # specified in the login file
   cat("\nLogging into the collaborating servers\n")
   opals <- vector("list", length(urls))
@@ -68,7 +71,7 @@ ds.login <- function(logins=NULL, assign=FALSE, variables=NULL){
       # display a message telling the user that the whole dataset
       # will be assigned since he did not specify variables
       cat("\n  No variables have been specified. \n  All the variables in the opal datasource \n  (the whole dataset) will be assigned to R!\n\n")
-      cat("Assigining data\n\n")
+      cat("Assigining data\n")
       for(i in 1:length(opals)) {
         datashield.assign(opals[[i]], "D", paths[i])
       }
@@ -76,11 +79,12 @@ ds.login <- function(logins=NULL, assign=FALSE, variables=NULL){
       varnames <- datashield.aggregate(opals[1], quote(colnames(D)))
       cat(paste(unlist(varnames), collapse=", "), "\n\n")
     }else{
-      cat("Assigining data\n\n")
+      cat("\nAssigining data:\n")
       for(i in 1:length(opals)) {
-          datashield.assign(opals[[i]], "D", paths[i], variables)
+        cat(stdnames[i],"\n")
+        datashield.assign(opals[[i]], "D", paths[i], variables)
       }
-      cat("Variables assigned:\n")
+      cat("\nVariables assigned:\n")
       cat(paste(unlist(variables), collapse=", "), "\n\n")
     }
   }

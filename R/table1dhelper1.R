@@ -1,7 +1,7 @@
 #'
 #' @title Checks validity of tabulated factor variable
 #' @description this is an INTERNAL function required by the client function
-#' \code{ds.table1d} and each helper functions. It verifies the cell counts of the tabulate vectors which are
+#' \code{ds.table1d}. It verifies the cell counts of the tabulate vectors which are
 #' considered valid if no count > 0 and < 5 and not valid otherwise.
 #' @details the function is not 'exported' and hence not visible to user and
 #' is only called by \code{ds.table1d}

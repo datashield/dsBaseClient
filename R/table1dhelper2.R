@@ -1,6 +1,7 @@
+#' 
 #' @title Combines output of server side function \code{table1d.ds}
 #' @description this is an INTERNAL function required by the client function
-#' \code{ds.table1d} and each helper functions. It gathers the objects returned by \code{table1d.ds}
+#' \code{ds.table1d}. It gathers the objects returned by \code{table1d.ds}
 #' @details the function is not 'exported' and hence not visible to user and
 #' is only called by \code{ds.table1d}
 #' @param input a list object returned by the server side function \code{table1d.ds}

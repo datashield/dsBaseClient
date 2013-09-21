@@ -1,3 +1,4 @@
+#' 
 #' @title Generates percents from counts returned by the function \code{table1d.ds}
 #' @description this is an INTERNAL function required by the helper function
 #' \code{table1dhelper4} functions. It generates percents from the count tables.

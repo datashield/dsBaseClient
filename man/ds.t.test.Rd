@@ -2,14 +2,14 @@
 \alias{ds.t.test}
 \title{Runs a student's t-test on horizontally partitioned data}
 \usage{
-  ds.t.test(opals, x, y = NULL, type = "combine",
+  ds.t.test(datasources, x, y = NULL, type = "combine",
     alternative = "two.sided", mu = 0, paired = FALSE,
     var.equal = FALSE, conf.level = 0.95)
 }
 \arguments{
-  \item{opals}{a list of opal object(s) obtained after
-  login in to opal servers; these objects hold also the
-  data assign to R, as \code{dataframe}, from opal
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
   \item{x}{a (non-empty) numeric vector of data values}
@@ -79,10 +79,10 @@ myvar <- list("LAB_HDL", "LAB_TSC")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: Run a t.test of the pooled data for the variables 'LAB_HDL' and 'LAB_TSC' - default
-ds.t.test(opals=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
 
 # Example 2: Run a t.test for each study separately for the same variables as above
-ds.t.test(opals=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
 }
 }
 \author{

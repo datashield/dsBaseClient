@@ -2,13 +2,13 @@
 \alias{ds.createfactor}
 \title{create and combines factor vectors.}
 \usage{
-  ds.createfactor(opals = NULL, xvect = NULL,
+  ds.createfactor(datasources = NULL, xvect = NULL,
     newvarname = NULL)
 }
 \arguments{
-  \item{opals}{a list of opal object(s) obtained after
-  login in to opal servers; these objects hold also the
-  data assign to R, as \code{dataframe}, from opal
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
   \item{xvect}{a numeric of character vector.}
@@ -36,7 +36,7 @@ myvar <- list("GENDER")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # create a factor vector of the variable 'GENDER', one for each study
-ds.createfactor(opals=opals, "sex", xvect=quote(D$GENDER))
+ds.createfactor(datasources=opals, "sex", xvect=quote(D$GENDER))
 }
 }
 \author{

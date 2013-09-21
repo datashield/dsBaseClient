@@ -1,9 +1,8 @@
 #' 
 #' @title Runs a student's t-test on horizontally partitioned data
 #' @description Performs one and two sample t-tests on vectors of data.
-#' @param opals a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal 
-#' datasources.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param x a (non-empty) numeric vector of data values
 #' @param y an optional (non-empty) numeric vector of data values.
 #' @param type a character which tells if the test is ran for the pooled data or not. 
@@ -42,13 +41,13 @@
 #' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: Run a t.test of the pooled data for the variables 'LAB_HDL' and 'LAB_TSC' - default
-#' ds.t.test(opals=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
 #' 
 #' # Example 2: Run a t.test for each study separately for the same variables as above
-#' ds.t.test(opals=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
 #'}
 #'
-ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95) {
+ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95) {
   
   # get the names of the variables used for the analysis
   if(is.null(y)){
@@ -61,10 +60,10 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
   
   # call the function that checks the variables are available and not empty
   vars2check <- list(x,y)
-  opals <- ds.checkvar(opals, vars2check)
+  datasources <- ds.checkvar(datasources, vars2check)
   
   # number of studies
-  num.sources = length(opals)
+  num.sources = length(datasources)
   
   if(type == "combine"){
     
@@ -77,42 +76,42 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
     if (!is.null(y)) {
       if (paired) {
         cally = call('complete.cases', x, y)
-        datashield.assign(opals, 'pair.compl.obs', cally)
+        datashield.assign(datasources, 'pair.compl.obs', cally)
         cally = call('subset', x, quote(pair.compl.obs))
-        datashield.assign(opals, 'xok', cally)
+        datashield.assign(datasources, 'xok', cally)
         cally = call('subset', y, quote(pair.compl.obs))
-        datashield.assign(opals, 'yok', cally)
+        datashield.assign(datasources, 'yok', cally)
       } else {
         cally = call('complete.cases', x)
-        datashield.assign(opals, 'not.na.x', cally)
+        datashield.assign(datasources, 'not.na.x', cally)
         cally = call('subset', x, quote(not.na.x))
-        datashield.assign(opals, 'xok', cally)
+        datashield.assign(datasources, 'xok', cally)
         cally = call('complete.cases', y)
-        datashield.assign(opals, 'not.na.y', cally)
+        datashield.assign(datasources, 'not.na.y', cally)
         cally = call('subset', y, quote(not.na.y))
-        datashield.assign(opals, 'yok', cally)
+        datashield.assign(datasources, 'yok', cally)
       }
     } else {
       # dname <- deparse(substitute(x))
       if (paired) 
         stop("'y' is missing for paired test")
       cally = call('complete.cases', x)
-      datashield.assign(opals, 'not.na.x', cally)
+      datashield.assign(datasources, 'not.na.x', cally)
       cally = call('subset', x, quote(not.na.x))
-      datashield.assign(opals, 'xok', cally)
+      datashield.assign(datasources, 'xok', cally)
     }
     
     
     if (paired) {
       cally = call('product.ds', quote(yok), quote(-1))
-      datashield.assign(opals, 'minus_y', cally)
-      datashield.assign(opals, 'xok', quote(sum(xok, minus_y)))
-      datashield.assign(opals, 'yok', quote(as.null(yok)))
+      datashield.assign(datasources, 'minus_y', cally)
+      datashield.assign(datasources, 'xok', quote(sum(xok, minus_y)))
+      datashield.assign(datasources, 'yok', quote(as.null(yok)))
     }
     
-    length.local.x = datashield.aggregate(opals, quote(NROW(xok)))
-    mean.local.x = datashield.aggregate(opals, quote(mean.ds(xok)))
-    var.local.x = datashield.aggregate(opals, quote(var(xok)))
+    length.local.x = datashield.aggregate(datasources, quote(NROW(xok)))
+    mean.local.x = datashield.aggregate(datasources, quote(mean.ds(xok)))
+    var.local.x = datashield.aggregate(datasources, quote(var(xok)))
     
     length.total.x = 0
     sum.weighted.x = 0
@@ -145,7 +144,7 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
     mean.global.products.x = length.total.x*(mean.global.x%x%t(mean.global.x))
     var.global.x = 1/(length.total.x-1)*(dummy.sum.x-mean.global.products.x)
     
-    null.y = datashield.aggregate(opals, quote(is.null(yok)))
+    null.y = datashield.aggregate(datasources, quote(is.null(yok)))
     null.y = unlist(null.y)
     
     if (all(null.y)) {
@@ -159,7 +158,7 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
       method <- ifelse(paired, "Paired t-test", "One Sample t-test")
       names(estimate) <- ifelse(paired, "mean of the differences", paste("mean of", variables[1], sep=""))
     } else {
-      length.local.y = datashield.aggregate(opals, quote(NROW(yok)))
+      length.local.y = datashield.aggregate(datasources, quote(NROW(yok)))
       
       length.total.y = 0
       sum.weighted.y = 0
@@ -175,8 +174,8 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
       if (var.equal && length.total.x + length.total.y < 3) 
         stop("not enough observations")
       
-      mean.local.y = datashield.aggregate(opals, quote(mean.ds(yok)))
-      var.local.y = datashield.aggregate(opals, quote(var(yok)))
+      mean.local.y = datashield.aggregate(datasources, quote(mean.ds(yok)))
+      var.local.y = datashield.aggregate(datasources, quote(var(yok)))
       method <- paste(if (!var.equal) 
         "Welch", "Two Sample t-test")
       
@@ -257,11 +256,11 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
     class(rval) <- "htest"
     
     # delete files that are no more required
-    datashield.rm(opals, 'pair.compl.obs')
-    datashield.rm(opals, 'xok')
-    datashield.rm(opals, 'yok')
-    datashield.rm(opals, 'not.na.x')
-    datashield.rm(opals, 'minus_y')  
+    datashield.rm(datasources, 'pair.compl.obs')
+    datashield.rm(datasources, 'xok')
+    datashield.rm(datasources, 'yok')
+    datashield.rm(datasources, 'not.na.x')
+    datashield.rm(datasources, 'minus_y')  
     
     return(rval)
 
@@ -269,7 +268,7 @@ ds.t.test <- function (opals, x, y = NULL, type="combine", alternative = "two.si
     if(type == "split"){
       cally <- call("t.test", x, y, alternative=alternative, mu=mu, 
       paired=paired, var.equal=var.equal, conf.level=conf.level) 
-      results <- datashield.aggregate(opals, cally)
+      results <- datashield.aggregate(datasources, cally)
       return(results)
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')

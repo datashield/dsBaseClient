@@ -2,13 +2,13 @@
 \alias{ds.quantilemean}
 \title{Plots a histogram}
 \usage{
-  ds.quantilemean(opals = NULL, xvect = NULL,
+  ds.quantilemean(datasources = NULL, xvect = NULL,
     type = "combine")
 }
 \arguments{
-  \item{opals}{a list of opal object(s) obtained after
-  login in to opal servers; these objects hold also the
-  data assign to R, as \code{dataframe}, from opal
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
   \item{xvect}{vector of values for which the histogram is
@@ -43,10 +43,10 @@ myvar <- list("LAB_HDL")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
-ds.quantilemean(opals=opals, xvect=quote(D$LAB_HDL))
+ds.quantilemean(datasources=opals, xvect=quote(D$LAB_HDL))
 
 # Example 2: Plot the histograms separately (one per study)
-ds.quantilemean(opals=opals, xvect=quote(D$LAB_HDL), type="split")
+ds.quantilemean(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 
 }
 }

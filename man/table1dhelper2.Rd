@@ -15,8 +15,8 @@
 }
 \description{
   this is an INTERNAL function required by the client
-  function \code{ds.table1d} and each helper functions. It
-  gathers the objects returned by \code{table1d.ds}
+  function \code{ds.table1d}. It gathers the objects
+  returned by \code{table1d.ds}
 }
 \details{
   the function is not 'exported' and hence not visible to

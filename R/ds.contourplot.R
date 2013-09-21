@@ -1,7 +1,7 @@
 #' Generates a contour plot of the given data values.
 #' @title Creates a contour plot
-#' @param opals character strings that represent the URL of the servers where 
-#' the study datasets are stored.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
 #' @param xvect a numerical vector 
 #' @param yvect a numerical vector
 #' @param type a character which represents the type of graph to display. 
@@ -20,16 +20,16 @@
 #' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example1: generate a combined contourplot
-#' ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+#' ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
 #' 
 #' # Example2: generate a contourplot where each study is plotted seaparately
-#' ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+#' ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
 #' 
 #' # Example3: generate a contourplot with a less dense drid
-#' ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
+#' ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 #' }
-#' 
-ds.contourplot <- function(opals, xvect, yvect, type='combine', numints=20){
+#'
+ds.contourplot <- function(datasources, xvect, yvect, type='combine', numints=20){
   
   # labels for the x and y-axis 
   x.lab <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
@@ -37,20 +37,20 @@ ds.contourplot <- function(opals, xvect, yvect, type='combine', numints=20){
   
   # call the function that checks the variable is available and not empty
   vars2check <- list(xvect,yvect)
-  opals <- ds.checkvar(opals, vars2check)
+  datasources <- ds.checkvar(datasources, vars2check)
   
   # name of the studies to be used in the plots' titles
-  stdnames <- names(opals)
+  stdnames <- names(datasources)
   
   # number of studies
-  num.sources <- length(opals)
+  num.sources <- length(datasources)
   
   # get the range from each study and produce the 'global' range
   cally <- call("range.ds", xvect) 
-  x.ranges <- datashield.aggregate(opals, cally)
+  x.ranges <- datashield.aggregate(datasources, cally)
   
   cally <- call("range.ds", yvect) 
-  y.ranges <- datashield.aggregate(opals, cally)
+  y.ranges <- datashield.aggregate(datasources, cally)
   
   x.minrs <- c()
   x.maxrs <- c()
@@ -72,7 +72,7 @@ ds.contourplot <- function(opals, xvect, yvect, type='combine', numints=20){
   
   # generate the grid density object to plot
   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-  grid.density.obj <- datashield.aggregate(opals, cally)
+  grid.density.obj <- datashield.aggregate(datasources, cally)
   
   numcol<-dim(grid.density.obj[[1]])[2]
   

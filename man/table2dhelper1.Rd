@@ -1,12 +1,18 @@
-\name{table1dhelper1}
-\alias{table1dhelper1}
-\title{Checks validity of tabulated factor variable}
+\name{table2dhelper1}
+\alias{table2dhelper1}
+\title{Checks validity of 2D-tables}
 \usage{
-  table1dhelper1(input)
+  table2dhelper1(input, varname1, varname2)
 }
 \arguments{
   \item{input}{a list object returned by the server side
-  function \code{table1d.ds}}
+  function \code{table2d.ds}}
+
+  \item{varname1}{a character string, the name of the first
+  input numerical vector}
+
+  \item{varname2}{a character string, the name of the
+  second input numerical vector}
 }
 \value{
   a list that contains the following elements:
@@ -23,13 +29,13 @@
 }
 \description{
   this is an INTERNAL function required by the client
-  function \code{ds.table1d}. It verifies the cell counts
+  function \code{ds.table2d}. It verifies the cell counts
   of the tabulate vectors which are considered valid if no
   count > 0 and < 5 and not valid otherwise.
 }
 \details{
   the function is not 'exported' and hence not visible to
-  user and is only called by \code{ds.table1d}
+  user and is only called by \code{ds.table2d}
 }
 \author{
   Burton, P.; Gaye, A.

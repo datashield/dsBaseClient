@@ -9,8 +9,8 @@
   function \code{table1d.ds}}
 }
 \value{
-  a list that contains the elements returned by the
-  function \code{ds.table}
+  a list that contains the elements returned by the client
+  function \code{ds.table1d}
 }
 \description{
   this is an INTERNAL function required by the client

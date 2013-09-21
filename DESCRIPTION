@@ -24,3 +24,8 @@ Collate:
     'table1dhelper2.R'
     'table1dhelper3.R'
     'table1dhelper4.R'
+    'ds.table2d.R'
+    'table2dhelper1.R'
+    'table2dhelper2.R'
+    'table2dhelper3.R'
+    'table2dhelper4.R'

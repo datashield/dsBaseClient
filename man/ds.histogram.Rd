@@ -2,13 +2,13 @@
 \alias{ds.histogram}
 \title{Plots a histogram}
 \usage{
-  ds.histogram(opals = opals, xvect = NULL,
+  ds.histogram(datasources = NULL, xvect = NULL,
     type = "combine")
 }
 \arguments{
-  \item{opals}{a list of opal object(s) obtained after
-  login in to opal servers; these objects hold also the
-  data assign to R, as \code{dataframe}, from opal
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
   \item{xvect}{vector of values for which the histogram is
@@ -43,16 +43,16 @@ myvar <- list("LAB_TSC")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: plot a combined histogram of the variable 'LAB_TSC' - default behaviour
-ds.histogram(opals=opals, xvect=quote(D$LAB_TSC))
+ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))
 
 # Example 2: Plot the histograms separately (one per study)
- ds.histogram(opals=opals, xvect=quote(D$LAB_TSC), type="split")
+ ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
 
 # Example 3: Plot the histograms of the first and second study
- ds.histogram(opals=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
+ ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 
 # Example 4: Plot the histogram of the third study only
- ds.histogram(opals=opals[3], xvect=quote(D$LAB_TSC), type="split")
+ ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 }
 }
 \author{

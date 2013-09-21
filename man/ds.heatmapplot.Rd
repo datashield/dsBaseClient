@@ -2,12 +2,14 @@
 \alias{ds.heatmapplot}
 \title{Generates a heatmap plot for merged datasets}
 \usage{
-  ds.heatmapplot(opals, xvect, yvect, type = "combine",
-    numints = 20)
+  ds.heatmapplot(datasources, xvect, yvect,
+    type = "combine", numints = 20)
 }
 \arguments{
-  \item{opals}{character strings that represent the URL of
-  the servers where the study datasets are stored.}
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 
   \item{xvect}{a numerical vector}
 
@@ -37,13 +39,13 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined heatmapplot
-ds.heatmapplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
 
 # Example2: generate a heatmapplot where each study is plotted seaparately
-ds.heatmapplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
 
 # Example3: generate a heatmapplot with a less dense drid
-ds.heatmapplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
+ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 }
 }
 \author{

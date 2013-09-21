@@ -2,12 +2,14 @@
 \alias{ds.contourplot}
 \title{Creates a contour plot}
 \usage{
-  ds.contourplot(opals, xvect, yvect, type = "combine",
-    numints = 20)
+  ds.contourplot(datasources, xvect, yvect,
+    type = "combine", numints = 20)
 }
 \arguments{
-  \item{opals}{character strings that represent the URL of
-  the servers where the study datasets are stored.}
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 
   \item{xvect}{a numerical vector}
 
@@ -37,13 +39,13 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined contourplot
-ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
 
 # Example2: generate a contourplot where each study is plotted seaparately
-ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
 
 # Example3: generate a contourplot with a less dense drid
-ds.contourplot(opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
+ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 }
 }
 \author{
