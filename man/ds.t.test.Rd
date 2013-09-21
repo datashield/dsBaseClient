@@ -70,7 +70,7 @@
   are used for performing t-test.
 }
 \examples{
-\dontrun{
+{
 # load that contains the login details
 data(logindata)
 

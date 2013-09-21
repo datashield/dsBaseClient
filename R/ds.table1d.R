@@ -28,6 +28,8 @@
 #' \item{TABLES.VALID.DATA.COLUMN.PERCENTS}{Column percents, for each study separately and for all valid studies combined}
 #' \item{TABLES.VALID.DATA.ROW.PERCENTS}{Row percents, for each study separately and for all valid studies combined}
 #' \item{TABLES.VALID.DATA.GLOBAL.PERCENTS}{Global percents, for each study separately and for all valid studies combined}
+#' @author Burton, P.; Gaye, A.
+#' @export
 #' @examples 
 #' {
 #' # load the file that contains the login details
@@ -53,8 +55,6 @@
 #' # 5 or more that the actual value can be observed, and then it is non-disclosive 
 #' ds.table1d(datasources=opals, xvect=quote(D$LAB_HDL)) 
 #' }
-#' @author Burton, P.; Gaye, A.
-#' @export
 #'
 ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
 { 

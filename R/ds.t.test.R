@@ -32,7 +32,7 @@
 #' @author Isaeva, J.; Gaye, A.
 #' @export
 #' @examples
-#' \dontrun{
+#' {
 #' # load that contains the login details
 #' data(logindata)
 #' 
