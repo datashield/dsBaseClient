@@ -89,30 +89,76 @@ ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
   # verify that all the studies are not invalid i.e. all studies have input factor variable with counts > 0 and < 
   validity.checks <- dsbaseclient:::table1dhelper1(server.func.output)
   zero.studies.valid <- validity.checks$zero.studies.valid
+  num.valid.tables <- validity.checks$num.valid.tables
   
   # call the internal function that processes the ouput of the server side function
-  finaloutput  <- dsbaseclient:::table1dhelper4(server.func.output)
+  helper4out  <- dsbaseclient:::table1dhelper4(server.func.output)
 
   # return the right output depending what the user specified: 'combine' or 'split' analysis
   if(type=="combine"){
     if(zero.studies.valid){
-      output1 <- finaloutput$VALIDITY.WARNING
+      output1 <- helper4out$VALIDITY.WARNING
       return(list("VALIDITY.WARNING"=output1))
     }else{
-      output1 <- finaloutput$TABLE.VALID.DATA.COUNTS
-      output2 <- finaloutput$TABLE.VALID.DATA.COLUMN.PERCENTS
-      output3 <- finaloutput$TABLE.VALID.DATA.ROW.PERCENTS
-      output4 <- finaloutput$TABLE.VALID.DATA.GLOBAL.PERCENTS
-      output5 <- finaloutput$VALIDITY.WARNING
-      return(list("TABLE.VALID.DATA.COUNTS"=output1, "TABLE.VALID.DATA.COLUMN.PERCENTS"=output2, 
-                  "TABLE.VALID.DATA.ROW.PERCENTS"=output3, "TABLE.VALID.DATA.GLOBAL.PERCENTS"=output4,
-                   "VALIDITY.WARNING"=output5))   
+      output1 <- helper4out$TABLE.VALID.DATA.COUNTS
+      output2 <- helper4out$TABLE.VALID.DATA.COLUMN.PERCENTS
+      output3 <- helper4out$TABLE.VALID.DATA.ROW.PERCENTS
+      output4 <- helper4out$TABLE.VALID.DATA.GLOBAL.PERCENTS
+      output5 <- helper4out$VALIDITY.WARNING
+      outnames <- c(paste("TOTAL.VALID.DATA.COUNTS for variable ", variable,sep=""),
+                    paste("TOTAL.VALID.DATA.COLUMN.PERCENTS for variable ", variable,sep=""),
+                    paste("TOTAL.VALID.DATA.ROW.PERCENTS for variable ", variable,sep=""),
+                    paste("TOTAL.VALID.DATA.GLOBAL.PERCENTS for variable ", variable,sep=""),
+                    "VALIDITY.WARNING")   
+      obj2return <- list(output1,output2,output3,output4,output5)
+      names(obj2return) <- outnames
+      return(obj2return)
     }    
   }else{
     if(type=="split"){
-      output1 <- finaloutput$OPALS.DATA.OVERVIEW
-      output2 <- finaloutput$VALIDITY.WARNING
-      return(list("OPALS.DATA.OVERVIEW"=output1, "VALIDITY.WARNING"=output2))        
+      if(zero.studies.valid){
+        # we do not want to return the 'safe.table' here as if the input variable is a continuous 
+        # variable, the 'safe.table' will fill up the screen and mask mask the rest of the output. 
+        # So here we remove the 'safe.tables' from the ouput 'OPALS.DATA.OVERVIEW'.
+        xx <- which(names(helper4out$OPALS.DATA.OVERVIEW) == "safe.table")
+        output1 <- helper4out$OPALS.DATA.OVERVIEW[-c(xx)]
+        output2 <- "NO STUDIES HAVE VALID DATA!"
+        return(list("OPALS.DATA.OVERVIEW"=output1,"VALIDITY.WARNING"=output2))
+      }else{
+        outnames <- c("OPALS.DATA.OVERVIEW",
+                      paste("TABLE.VALID.DATA.COUNTS for variable ", variable,sep=""),
+                      paste("TABLE.VALID.DATA.COLUMN.PERCENTS for variable ", variable,sep=""),
+                      paste("TABLE.VALID.DATA.ROW.PERCENTS for variable ", variable,sep=""),
+                      paste("TABLE.VALID.DATA.GLOBAL.PERCENTS for variable ", variable,sep=""),
+                      "VALIDITY.WARNING") 
+        if(num.valid.tables > 1){
+          numcols2output <- num.valid.tables
+          output1 <- helper4out$OPALS.DATA.OVERVIEW
+          output2 <- helper4out$TABLE.VALID.DATA.COUNTS[,1:numcols2output]
+          output3 <- helper4out$TABLE.VALID.DATA.COLUMN.PERCENTS[,1:numcols2output]
+          output4 <- helper4out$TABLE.VALID.DATA.ROW.PERCENTS[,1:numcols2output]
+          output5 <- helper4out$TABLE.VALID.DATA.GLOBAL.PERCENTS[,1:numcols2output]
+          output6 <- helper4out$VALIDITY.WARNING
+          obj2return <- list(output1,output2,output3,output4,output5,output6)
+        }
+        if(num.valid.tables == 1){
+          numcols2output <- 1
+          colslabels <- colnames(helper4out$TABLE.VALID.DATA.COUNTS)[1]
+          output1 <- helper4out$OPALS.DATA.OVERVIEW
+          output2 <- as.data.frame(helper4out$TABLE.VALID.DATA.COUNTS[,1:numcols2output])
+          colnames(output2) <- colslabels
+          output3 <- as.data.frame(helper4out$TABLE.VALID.DATA.COLUMN.PERCENTS[,1:numcols2output])
+          colnames(output3) <- colslabels
+          output4 <- as.data.frame(helper4out$TABLE.VALID.DATA.ROW.PERCENTS[,1:numcols2output])
+          colnames(output4) <- colslabels
+          output5 <- as.data.frame(helper4out$TABLE.VALID.DATA.GLOBAL.PERCENTS[,1:numcols2output])
+          colnames(output5) <- colslabels
+          output6 <- helper4out$VALIDITY.WARNING 
+          obj2return <- list(output1,output2,output3,output4,output5,output6)
+        }
+        names(obj2return) <- outnames
+        return(obj2return)         
+      }
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
     }

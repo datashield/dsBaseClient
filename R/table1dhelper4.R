@@ -62,8 +62,8 @@ table1dhelper4  <- function(input) {
 
     # create flags if studies are valid or not
     if(is.null(invalid.study.output.obj))study.validity.flag <- "ALL STUDIES VALID"
-    if(!is.null(invalid.study.output.obj))study.validity.flag <- paste("DATA INVALID IN STUDY",invalid.study.output.obj,
-                                                                     " - ",opals.names[invalid.study.output.obj])
+    if(!is.null(invalid.study.output.obj))study.validity.flag <- paste("DATA INVALID IN",opals.names[invalid.study.output.obj])
+                                                                     
     terminal.output.list <- list(final.output.list,as.matrix(valid.counts.matrix),
             as.matrix(valid.colperc.matrix),as.matrix(valid.rowperc.matrix),as.matrix(valid.globalperc.matrix),
             study.validity.flag)

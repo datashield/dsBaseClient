@@ -142,20 +142,25 @@ ds.table2d <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine")
       output6 <- helper4out$VALIDITY.WARNING
       
       # combined ouput is returned only if all the studies are valid
+      outnames <- c(paste("COMBINED.VALID.DATA.COUNTS--",var.name.1," (rows) V ",var.name.2," (cols) ",sep=""),
+                    paste("COMBINED.VALID.DATA.COLUMN.PERCENTS--",var.name.1," (rows) V ",var.name.2," (cols) ",sep=""),
+                    paste("COMBINED.VALID.DATA.ROW.PERCENTS--",var.name.1," (rows) V ",var.name.2," (cols) ",sep=""),
+                    paste("COMBINED.VALID.DATA.GLOBAL.PERCENTS--",var.name.1," (rows) V ",var.name.2," (cols) ",sep=""),
+                    "CHI2.TESTS.FOR.HOMOGENEITY","VALIDITY.WARNING")    
       if(num.valid.studies==numsources){
-        return(list("COMBINED.VALID.DATA.COUNTS"=output1[,,numsources], "COMBINED.VALID.DATA.COLUMN.PERCENTS"=output2[,,numsources], 
-                    "COMBINED.VALID.DATA.ROW.PERCENTS"=output3[,,numsources], "COMBINED.VALID.DATA.GLOBAL.PERCENTS"=output4[,,numsources],
-                    "CHI2.TESTS.FOR.HOMOGENEITY"=output5, "VALIDITY.WARNING"=output6))  
+        obj2return <- list(output1[,,numsources],output2[,,numsources],output3[,,numsources],
+                           output4[,,numsources],output5,output6)
+        
+        names(obj2return) <- outnames
+        return(obj2return)  
       }else{
         output1 <- helper4out$TABLES.VALID.DATA.COUNTS[,,num.valid.studies+1]
         output2 <- helper4out$TABLES.VALID.DATA.COLUMN.PERCENTS[,,num.valid.studies+1]
         output3 <- helper4out$TABLES.VALID.DATA.ROW.PERCENTS[,,num.valid.studies+1]
         output4 <- helper4out$TABLES.VALID.DATA.GLOBAL.PERCENTS[,,num.valid.studies+1]
-        return(list("TABLES.VALID.DATA.COUNTS--ALL VALID STUDIES COMBINED"=output1, 
-                    "TABLES.VALID.DATA.COLUMN.PERCENTS--ALL VALID STUDIES COMBINED"=output2, 
-                    "TABLES.VALID.DATA.ROW.PERCENTS--ALL VALID STUDIES COMBINED"=output3, 
-                    "TABLES.VALID.DATA.GLOBAL.PERCENTS--ALL VALID STUDIES COMBINED"=output4,
-                    "CHI2.TESTS.FOR.HOMOGENEITY"=output5, "VALIDITY.WARNING"=output6))  
+        obj2return <- list(output1,output2,output3,output4,output5,output6)
+        names(obj2return) <- outnames        
+        return(obj2return)  
       }
     }
   }else{
