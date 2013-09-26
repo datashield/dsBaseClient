@@ -17,9 +17,12 @@
   \describe{
     \item{\code{server}}{a character, the formal name of the study}
     \item{\code{url}}{URL of the opal server}
-    \item{\code{userID}}{login username}
-    \item{\code{pwd}}{login pwd}
-    \item{\code{opalPath}}{path to the opal datasource where the data is stored}
+    \item{\code{userID}}{a character, a formal username or a 
+          path to a valid ssl certificate, if required}
+    \item{\code{pwd}}{a character, a formal password or a 
+          path to a valid ssl key if required}
+    \item{\code{opalPath}}{a character, the path to the opal datasource that holds the data
+         to analyse}
   }
 }
 
