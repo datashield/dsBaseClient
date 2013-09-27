@@ -16,7 +16,6 @@ Collate:
     'ds.createfactor.R'
     'ds.heatmapplot.R'
     'ds.histogram.R'
-    'ds.login.R'
     'ds.quantilemean.R'
     'ds.table1d.R'
     'ds.t.test.R'
