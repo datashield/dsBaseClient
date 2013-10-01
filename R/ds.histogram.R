@@ -21,19 +21,25 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_TSC")
+#' myvar <- list("LAB_TSC","LAB_HDL")
 #' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: plot a combined histogram of the variable 'LAB_TSC' - default behaviour
 #' ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))
 #' 
-#' # Example 2: Plot the histograms separately (one per study)
+#' # Example 2: Plot the histograms of LAB_TSC separately (one per study)
 #'  ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
-#'  
-#' # Example 3: Plot the histograms of the first and second study
+#'
+#' # Example 3: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
+#' 
+#' # Example 4: plot the histograms of LAB_HDL separately (one per study)
+#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
+#' 
+#' # Example 5: Plot the histograms of the first and second study
 #'  ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 #'
-#' # Example 4: Plot the histogram of the third study only
+#' # Example 6: Plot the histogram of the third study only
 #'  ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 #' }
 #'
@@ -68,14 +74,20 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
     minrs <- append(minrs, ranges[[i]][1])
     maxrs <- append(maxrs, ranges[[i]][2])
   }
-  range.arg <- c(min(minrs), max(maxrs))
+  range.arg <<- c(min(minrs), max(maxrs))
   
   # get the global break points and ensure that 
   # the breaks do span the range of xvect on all studies
-  brks <- seq(range.arg[1], range.arg[2], 0.3)
+  binwidth <- 0.3
+  brks <- seq(range.arg[1], range.arg[2], by=binwidth)
+  eqdist <- TRUE
+  
   if(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
+    counter <- 0
     while(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
-      brks <- seq(range.arg[1]*runif(1,0.9,1), range.arg[2]*runif(1,1,1.1), 0.3)
+      lastindx <- length(brks)
+      brks <- c( (brks[1]-binwidth), brks, (brks[1]+binwidth) )
+      counter <- counter+1
     }
   }
 
@@ -91,22 +103,21 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   
   # combine the histogram objects 
   # 'breaks' and 'mids' are the same for all studies
-  global.counts <- rep(0, length(hist.objs[[i]]$counts))
-  global.density <- rep(0, length(hist.objs[[i]]$density))
-  global.intensities <- rep(0, length(hist.objs[[i]]$intensities))
-  for(i in 1:length(datasources)){
+  global.counts <- hist.objs[[1]]$counts
+  global.density <- hist.objs[[1]]$density
+  for(i in 2:length(datasources)){
     global.counts <- global.counts + hist.objs[[i]]$counts
     global.density <- global.density + hist.objs[[i]]$density
-    global.intensities <- global.intensities + hist.objs[[i]]$intensities    
   }
   global.density <- global.density/3
-  global.intensities <- global.intensities/3
+  global.intensities <- global.density 
   
   # generate the combined histogram object to plot
   combined.histobject <- hist.objs[[1]]
   combined.histobject$counts <- global.counts
   combined.histobject$density <- global.density
-  combined.histobject$intensities <- global.intensities
+  combined.histobject$intensities <- combined.histobject$density
+  combined.histobject$equidist <- eqdist
   
   # plot the individual histograms on the same graph 
   # if the argument 'type'="combine" plot a combined histogram and if 'type'="split" plot single histograms separately
@@ -122,20 +133,24 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
         numc <- 2
         par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
           # if there are cells with count > 0 and < mention them as an '*' on the graph
           if(length(asterix2plot[[i]]) > 0){
+            toptitle <- paste("Histogram of ", names(datasources)[i], "\n(*) invalid cells", sep="")
+            plot(hist.objs[[i]], xlab=variable, main=toptitle)
             text(asterix2plot[[i]], rep(7.5, length(asterix2plot[[i]])), "*", pos=3, cex=1.2)
-            legend('topleft', "(*)\ncell count\n> 0 &\n< 5", bty='n', cex=0.8)
+          }else{
+            plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
           }
         }
       }else{
         par(mfrow=c(1,1))
-        plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
         # if there are cells with count > 0 and < mention them as an '*' on the graph
         if(length(asterix2plot[[1]]) > 0){
+          toptitle <- paste("Histogram of ", names(datasources)[1], "\n(*) invalid cells", sep="")
+          plot(hist.objs[[1]], xlab=variable, main=toptitle)
           text(asterix2plot[[1]], rep(7.5, length(asterix2plot[[1]])), "*", pos=3, cex=1.2)
-          legend('topleft', "(*)\ncell count\n> 0 &\n< 5", bty='n', cex=0.8)
+        }else{
+          plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
         }
       }
     }else{
