@@ -30,7 +30,7 @@ data(logindata)
 
 # login and assign specific variable(s)
 myvar <- list("LAB_TSC")
-opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # run checks for the variable LAB_TSC
 ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))

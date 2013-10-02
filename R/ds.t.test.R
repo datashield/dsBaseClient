@@ -45,6 +45,29 @@
 #' 
 #' # Example 2: Run a t.test for each study separately for the same variables as above
 #' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
+#' 
+#' # Example 3: Run a paired t.test of the pooled data
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=T)
+#' 
+#' # Example 4: Run a paired t.test for each study separately
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=T, type='split')
+#' 
+#' # Example 5: Run a t.test of the pooled data with different alternatives
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative='greater')
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative='less')
+#' 
+#' # Example 6: Run a t.test of the pooled data with mu different from zero
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), mu=-4)
+#' 
+#' # Example 7: Run a t.test of the pooled data assuming that variances of variables are equal
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), var.equal=T)
+#' 
+#' # Example 8: Run a t.test of the pooled data with 90% confidence interval
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), conf.level=0.90)
+#' 
+#' # Example 9: Run a one-sample t.test of the pooled data
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL))
+#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired = T)  # should not work
 #'}
 #'
 ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95) {
@@ -52,15 +75,22 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
   # get the names of the variables used for the analysis
   if(is.null(y)){
     variables <-  strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
+    dname = variables
   }else{
     var1 <- strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
     var2 <- strsplit(deparse(y), "\\$", perl=TRUE)[[1]][2]
     variables <- c(var1, var2)
+    dname = paste(var1, 'and', var2)
   }
   
   # call the function that checks the variables are available and not empty
-  vars2check <- list(x,y)
-  datasources <- ds.checkvar(datasources, vars2check)
+  if (is.null(y)) {
+    vars2check <- list(x)
+    datasources <- ds.checkvar(datasources, vars2check)
+  } else {
+    vars2check <- list(x,y)
+    datasources <- ds.checkvar(datasources, vars2check)
+  }
   
   # number of studies
   num.sources = length(datasources)
@@ -92,20 +122,22 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
         datashield.assign(datasources, 'yok', cally)
       }
     } else {
-      # dname <- deparse(substitute(x))
       if (paired) 
         stop("'y' is missing for paired test")
       cally = call('complete.cases', x)
       datashield.assign(datasources, 'not.na.x', cally)
       cally = call('subset', x, quote(not.na.x))
       datashield.assign(datasources, 'xok', cally)
+      cally = call('as.null',x)
+      datashield.assign(datasources, 'yok', cally) # does not matter that as.null(x) since we just want to make y to be NULL
     }
     
     
     if (paired) {
       cally = call('product.ds', quote(yok), quote(-1))
       datashield.assign(datasources, 'minus_y', cally)
-      datashield.assign(datasources, 'xok', quote(sum(xok, minus_y)))
+      # datashield.assign(datasources, 'dummy', quote(cbind(xok, minus_y)))
+      datashield.assign(datasources, 'xok', quote(xok+minus_y))
       datashield.assign(datasources, 'yok', quote(as.null(yok)))
     }
     
@@ -252,7 +284,7 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
     attr(cint, "conf.level") <- conf.level
     rval <- list(statistic = tstat, parameter = df, p.value = pval, 
                  conf.int = cint, estimate = estimate, null.value = mu, 
-                 alternative = alternative, method = method)
+                 alternative = alternative, method = method, data.name=dname)
     class(rval) <- "htest"
     
     # delete files that are no more required
@@ -263,11 +295,11 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
     datashield.rm(datasources, 'minus_y')  
     
     return(rval)
-
+    
   }else{
     if(type == "split"){
       cally <- call("t.test", x, y, alternative=alternative, mu=mu, 
-      paired=paired, var.equal=var.equal, conf.level=conf.level) 
+                    paired=paired, var.equal=var.equal, conf.level=conf.level) 
       results <- datashield.aggregate(datasources, cally)
       return(results)
     }else{

@@ -40,7 +40,7 @@ data(logindata)
 
 # login and assign specific variable(s)
 myvar <- list("LAB_TSC","LAB_HDL")
-opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: plot a combined histogram of the variable 'LAB_TSC' - default behaviour
 ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))

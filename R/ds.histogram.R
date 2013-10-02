@@ -74,7 +74,7 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
     minrs <- append(minrs, ranges[[i]][1])
     maxrs <- append(maxrs, ranges[[i]][2])
   }
-  range.arg <<- c(min(minrs), max(maxrs))
+  range.arg <- c(min(minrs), max(maxrs))
   
   # get the global break points and ensure that 
   # the breaks do span the range of xvect on all studies
@@ -105,9 +105,9 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   
   # combine the histogram objects 
   # 'breaks' and 'mids' are the same for all studies
-  global.counts <- hist.objs[[1]]$counts
-  global.density <- hist.objs[[1]]$density
-  for(i in 2:length(datasources)){
+  global.counts <- rep(0, length(hist.objs[[1]]$counts))
+  global.density <- rep(0, length(hist.objs[[1]]$density))
+  for(i in 1:length(datasources)){
     global.counts <- global.counts + hist.objs[[i]]$counts
     global.density <- global.density + hist.objs[[i]]$density
   }

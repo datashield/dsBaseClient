@@ -40,7 +40,7 @@ data(logindata)
 
 # login and assign specific variable(s)
 myvar <- list("LAB_HDL")
-opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
 ds.quantilemean(datasources=opals, xvect=quote(D$LAB_HDL))

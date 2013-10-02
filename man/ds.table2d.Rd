@@ -95,7 +95,7 @@ data(logindata)
 
 # login and assign the required variables to R
 myvar  <-  list("DIS_DIAB", "DIS_CVA", "GENDER", "LAB_HDL")
-opals  <-  ds.login(logins=logindata,assign=TRUE,variables=myvar)
+opals  <-  datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a two dimensional table, outputting combined contingency tables - default behaviour
 ds.table2d(datasources=opals, quote(D$DIS_DIAB), quote(D$GENDER))

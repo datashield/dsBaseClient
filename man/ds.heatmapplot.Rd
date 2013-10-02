@@ -36,7 +36,7 @@ data(logindata)
 
 # login and assign the required variables to R
 myvar <- list("LAB_TSC","LAB_HDL")
-opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined heatmapplot
 ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
