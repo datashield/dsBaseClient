@@ -40,13 +40,13 @@
 #' 
 #' # login and assign specific variable(s)
 #' myvar <- list("LAB_TSC", "GENDER")
-#' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: Run a t.test of the pooled data for the variables 'LAB_HDL' and 'LAB_TSC' - default
-#' ds.t.test.formula(datasources=opals, formula=D$LAB_TSC~D$GENDER, type="split")
+#' ds.t.test.formula(datasources=opals, formula=D$LAB_TSC~D$GENDER, type="combine")
 #' 
 #' # Example 2: Run a t.test for each study separately for the same variables as above
-#' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
+#' ds.t.test.formula(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$GENDER), type="split")
 #'}
 #'
 ds.t.test.formula <- function (datasources, formula, data=NULL, subset=NULL, na.action=getOption('na.action'), type="combine", alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95) {

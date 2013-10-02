@@ -85,10 +85,10 @@ ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
 
 # Example 3: Run a paired t.test of the pooled data
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=T)
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=TRUE)
 
 # Example 4: Run a paired t.test for each study separately
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=T, type='split')
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=TRUE, type='split')
 
 # Example 5: Run a t.test of the pooled data with different alternatives
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative='greater')
@@ -98,14 +98,14 @@ ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), mu=-4)
 
 # Example 7: Run a t.test of the pooled data assuming that variances of variables are equal
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), var.equal=T)
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), var.equal=TRUE)
 
 # Example 8: Run a t.test of the pooled data with 90\% confidence interval
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), conf.level=0.90)
 
 # Example 9: Run a one-sample t.test of the pooled data
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL))
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired = T)  # should not work
+ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired=TRUE)  # should not work
 }
 }
 \author{
