@@ -46,18 +46,18 @@ opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
 ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))
 
 # Example 2: Plot the histograms of LAB_TSC separately (one per study)
- ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
 
-# Example 3: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+# Example 2: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
 ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
 
-# Example 4: plot the histograms of LAB_HDL separately (one per study)
-ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
+# Example 3: plot the histograms of LAB_HDL separately (one per study)
+ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 
-# Example 5: Plot the histograms of the first and second study
+# Example 4: Plot the histograms of the first and second study
  ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 
-# Example 6: Plot the histogram of the third study only
+# Example 5: Plot the histogram of the third study only
  ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 }
 }

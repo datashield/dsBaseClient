@@ -28,18 +28,18 @@
 #' ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))
 #' 
 #' # Example 2: Plot the histograms of LAB_TSC separately (one per study)
-#'  ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
 #'
-#' # Example 3: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+#' # Example 2: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
 #' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
 #' 
-#' # Example 4: plot the histograms of LAB_HDL separately (one per study)
-#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
+#' # Example 3: plot the histograms of LAB_HDL separately (one per study)
+#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 #' 
-#' # Example 5: Plot the histograms of the first and second study
+#' # Example 4: Plot the histograms of the first and second study
 #'  ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 #'
-#' # Example 6: Plot the histogram of the third study only
+#' # Example 5: Plot the histogram of the third study only
 #'  ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 #' }
 #'
@@ -79,15 +79,17 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   # get the global break points and ensure that 
   # the breaks do span the range of xvect on all studies
   binwidth <- 0.3
-  brks <- seq(range.arg[1], range.arg[2], by=binwidth)
-  eqdist <- TRUE
+  brks <- round(seq(range.arg[1], range.arg[2], by=binwidth),4)
   
   if(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
     counter <- 0
     while(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
       lastindx <- length(brks)
-      brks <- c( (brks[1]-binwidth), brks, (brks[1]+binwidth) )
+      brks <- c( (brks[1]-binwidth), brks, (brks[lastindx]+binwidth) )
       counter <- counter+1
+      if(counter >= 50){
+        stop(" Could not find equidistant break points that span all the data points!", call.=FALSE)
+      }
     }
   }
 
@@ -117,7 +119,6 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   combined.histobject$counts <- global.counts
   combined.histobject$density <- global.density
   combined.histobject$intensities <- combined.histobject$density
-  combined.histobject$equidist <- eqdist
   
   # plot the individual histograms on the same graph 
   # if the argument 'type'="combine" plot a combined histogram and if 'type'="split" plot single histograms separately
