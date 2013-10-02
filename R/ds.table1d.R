@@ -37,7 +37,7 @@
 #' 
 #' # login and assign the required variables to R
 #' myvar  <-  list("DIS_CVA","LAB_HDL")
-#' opals  <-  ds.login(logins=logindata,assign=TRUE,variables=myvar)
+#' opals  <-  datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: generate a one dimensional table, outputting combined contingency tables
 #' ds.table1d(datasources=opals, xvect=quote(D$DIS_CVA))

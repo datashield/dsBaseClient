@@ -38,7 +38,7 @@
 #' 
 #' # login and assign specific variable(s)
 #' myvar <- list("LAB_HDL", "LAB_TSC")
-#' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: Run a t.test of the pooled data for the variables 'LAB_HDL' and 'LAB_TSC' - default
 #' ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))

@@ -17,7 +17,7 @@
 #' 
 #' # login and assign specific variable(s)
 #' myvar <- list("GENDER")
-#' opals <- ds.login(logins=logindata,assign=TRUE,variables=myvar)
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # create a factor vector of the variable 'GENDER', one for each study 
 #' ds.createfactor(datasources=opals, "sex", xvect=quote(D$GENDER))
