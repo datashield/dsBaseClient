@@ -105,7 +105,8 @@ ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), conf.level=
 
 # Example 9: Run a one-sample t.test of the pooled data
 ds.t.test(datasources=opals, x=quote(D$LAB_HDL))
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired=TRUE)  # should not work
+# the below example should not work, paired t.test is not possible if the 'y' variable is missing
+# ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired=TRUE)
 }
 }
 \author{
