@@ -74,12 +74,29 @@
 ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95) {
   
   # get the names of the variables used for the analysis
+  # the input variable might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  inputterms1 <- unlist(strsplit(deparse(x), "\\$", perl=TRUE))
+  inputterms2 <- unlist(strsplit(deparse(y), "\\$", perl=TRUE))
   if(is.null(y)){
-    variables <-  strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
+    if(length(inputterms1) > 1){
+      variables <-strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
+    }else{
+      variables <- deparse(x)
+    }
     dname = variables
   }else{
-    var1 <- strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
-    var2 <- strsplit(deparse(y), "\\$", perl=TRUE)[[1]][2]
+    if(length(inputterms1) > 1){
+      var1 <- strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
+    }else{
+      var1 <- deparse(x)
+    }
+    if(length(inputterms2) > 1){
+      var2 <- strsplit(deparse(y), "\\$", perl=TRUE)[[1]][2]
+    }else{
+      var2 <- deparse(y)    
+    }
     variables <- c(var1, var2)
     dname = paste(var1, 'and', var2)
   }

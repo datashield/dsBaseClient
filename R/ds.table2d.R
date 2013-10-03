@@ -98,8 +98,21 @@ ds.table2d <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine")
   }
   
   # get the name of the input numerical variables
-  var.name.1 <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  var.name.2 <- strsplit(deparse(yvect), "\\$", perl=TRUE)[[1]][2]
+  # the input variable might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  inputterms1 <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  inputterms2 <- unlist(strsplit(deparse(yvect), "\\$", perl=TRUE))
+  if(length(inputterms1) > 1){
+    var.name.1 <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    var.name.1 <- deparse(xvect)
+  }
+  if(length(inputterms2) > 1){
+    var.name.2 <- strsplit(deparse(yvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    var.name.2 <- deparse(yvect)   
+  }
   
   # call the function that checks the variables are available and not empty
   vars2check  <-  list(xvect, yvect)

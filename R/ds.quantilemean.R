@@ -52,8 +52,16 @@ ds.quantilemean <- function(datasources=NULL, xvect=NULL, type="combine"){
   stdnames <- names(datasources)
   
   # get the name of the input variable
-  variable <-  strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  
+  # the input variable might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  if(length(inputterms) > 1){
+    variable <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    variable <- deparse(xvect)
+  }
+    
   # call the function that checks the variable is available and not empty
   vars2check <- list(xvect)
   datasources <- ds.checkvar(datasources, vars2check)

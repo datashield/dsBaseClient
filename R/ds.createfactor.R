@@ -38,19 +38,28 @@ ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  # get the names of the studies/datasources and the name of the variable   
-  stdnames <- names(datasources)
-  var <-  strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  
+  # the input variable might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  if(length(inputterms) > 1){
+    var <-  strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    var <- deparse(xvect)
+  }
+
   # call the function that checks the variables are available and not empty
   vars2check <- list(xvect)
   datasources <- ds.checkvar(datasources, vars2check)
   
   # if no name has been specified for the newly created factor
-  # use the name of the input variable
+  # use the name of the input variable with a suffixe '_f'
   if(is.null(newvarname)){
-    newvarname <- var
+    newvarname <- paste(var,"_f", sep="")
   }
+  
+  # get the names of the studies/datasources and the name of the variable
+  stdnames <- names(datasources)
     
   # create the factor - one for each study
   cat("\nGenerating factor vectors; non valid vectors will be assigned 'NA' values!\n")

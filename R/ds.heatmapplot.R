@@ -29,12 +29,43 @@
 #' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 #' }
 #'
-ds.heatmapplot <- function(datasources, xvect, yvect, type="combine", numints=20)
+ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine", numints=20)
 {
+  if(is.null(datasources)){
+    cat("\n\n ALERT!\n")
+    cat(" No valid opal object(s) provided.\n")
+    cat(" Make sure you are logged in to valid opal server(s).\n")
+    stop(" End of process!\n\n", call.=FALSE)
+  }
+  
+  if(is.null(xvect)){
+    cat("\n\n ALERT!\n")
+    cat(" Please provide a valid numeric vector for 'xvect'\n")
+    stop(" End of process!\n\n", call.=FALSE)
+  }
+  
+  if(is.null(yvect)){
+    cat("\n\n ALERT!\n")
+    cat(" Please provide a valid numeric vector for 'yvec'\n")
+    stop(" End of process!\n\n", call.=FALSE)
+  }
   
   # labels for the x and y-axis 
-  x.lab <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  y.lab <- strsplit(deparse(yvect), "\\$", perl=TRUE)[[1]][2]
+  # the input variable might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  if(length(inputterms) > 1){
+    x.lab <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    x.lab <- deparse(xvect)
+  }
+  inputterms <- unlist(strsplit(deparse(yvect), "\\$", perl=TRUE))
+  if(length(inputterms) > 1){
+    y.lab <- strsplit(deparse(yvect), "\\$", perl=TRUE)[[1]][2]
+  }else{
+    y.lab <- deparse(yvect)
+  }
   
   # call the function that checks the variable is available and not empty
   vars2check <- list(xvect,yvect)

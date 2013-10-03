@@ -9,8 +9,23 @@
 #' @return a mean value
 #' @author Isaeva, J.
 #' @export
+#' @examples {
 #' 
-ji.ds.mean = function(datasources, xvect, type='combine')
+#' # load that contains the login details
+#' data(logindata)
+#' 
+#' # login and assign specific variable(s)
+#' myvar <- list("LAB_TSC")
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#' 
+#' # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
+#' ds.mean(datasources=opals, xvect=quote(D$LAB_TSC))
+#' 
+#' # Example 2: compute the statistical mean of each study separately
+#' ds.mean(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+#' }
+#' 
+ds.mean = function(datasources=NULL, xvect=NULL, type='combine')
 {
   
   if(is.null(datasources)){
@@ -26,9 +41,6 @@ ji.ds.mean = function(datasources, xvect, type='combine')
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  # labels for the x and y-axis 
-  x.lab <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  
   # call the function that checks the variable is available and not empty
   vars2check <- list(xvect)
   datasources <- ds.checkvar(datasources, vars2check)
@@ -39,10 +51,10 @@ ji.ds.mean = function(datasources, xvect, type='combine')
   # number of studies
   num.sources <- length(datasources)
   
-  cally <- call("colMeans", a) 
+  cally <- call('mean.ds', xvect )
   mean.local <- datashield.aggregate(datasources, cally)
   
-  cally = call('NROW', a)
+  cally = call('NROW', xvect)
   length.local <- datashield.aggregate(datasources, cally)
   
   if (type=='split') {
@@ -62,7 +74,7 @@ ji.ds.mean = function(datasources, xvect, type='combine')
     mean.global = sum.weighted/length.total
     
     if (!is.na(mean.global))
-      cat('\nGlobal mean = ', mean.global, '\n')
+      return(list("Global mean"=mean.global))
     
   } else{
     stop('Function argument "type" has to be either "combine" or "split"')

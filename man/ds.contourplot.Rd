@@ -2,8 +2,8 @@
 \alias{ds.contourplot}
 \title{Creates a contour plot}
 \usage{
-  ds.contourplot(datasources, xvect, yvect,
-    type = "combine", numints = 20)
+  ds.contourplot(datasources = NULL, xvect = NULL,
+    yvect = NULL, type = "combine", numints = 20)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
