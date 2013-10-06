@@ -56,6 +56,9 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     stop(" End of process!\n\n", call.=FALSE)
   }
   
+  # print a message for the user informing of checks
+  cat("\nChecks are carried out on the variables used for the analysis\nto ensure they are available from the dataset(s) and not empty.\n\n")
+  
   # names of the studies
   stdnames <- names(datasources)
   
@@ -109,7 +112,7 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     if(length(studies2rm) > 0){
       track <- append(track, studies2rm)
     }else{
-      cat("The checks went fine for ", varname, "!\n")
+      cat("checks went fine for ", varname, "!\n")
     }
   }
   
