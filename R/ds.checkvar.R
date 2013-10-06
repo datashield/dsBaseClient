@@ -19,15 +19,26 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_TSC")
+#' myvar <- list("LAB_TSC", "LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: run checks for the variable LAB_TSC assigned above
-#' opals <- ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
+#' ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 #' 
 #' # Example 2: lets assign LAB_TSC to another variable 'tsc' not attached to 'D' and check 'tsc'
 #' datashield.assign(opals, 'tsc', quote(D$LAB_TSC))
-#' opals <- ds.checkvar(datasources=opals, variables=list(quote(tsc)))
+#' ds.checkvar(datasources=opals, variables=list(quote(tsc)))
+#' 
+#' # Example 3: assign an empty variable and run the checks (uncommment the last line)
+#' server <- "study1"
+#' url <- "http://54.242.140.255"
+#' user <- "administrator"
+#' password <- "password"
+#' table <- "Test.CNSIM"
+#' logindata <- data.frame(cbind(server,url,user,password,table))
+#' myvar <- list("LAB_TSC")
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#' #ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 #' }
 #'
 ds.checkvar <- function(datasources=NULL, variables=NULL){
@@ -45,151 +56,75 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  inputterms <- unlist(strsplit(deparse(variables[[1]]), "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    # print a message for the user informing of checks
-    cat("\nChecks are carried out on the variables used for the analysis\nto ensure they are available from the dataset(s) and not empty.\n\n")
+  # names of the studies
+  stdnames <- names(datasources)
+  
+  # global checks results holder
+  track <- c()
+  
+  # loop through the input variables and check each in all the datasources
+  for(i in 1:length(variables)){
     
-    # get the names of the opal servers/studies
-    stdname <- names(datasources)
-    
-    # the input variable might be given as column table (i.e. D$xvect)
-    # or just as a vector not attached to a table (i.e. xvect)
-    # we have to make sure the function deals with each case
-    # get the names of the variables to check
-    varIDs <- vector("character", length(variables))
-    for(i in 1:length(variables)){
-      xx <- variables[[i]]
-      varIDs[i] <- strsplit(deparse(xx), "\\$", perl=TRUE)[[1]][2]
-    }
+    # get the variable and check if it is given in the form 'D$name'
+    var2check <- variables[[i]]
+    inputterm <- unlist(strsplit(deparse(var2check), "\\$", perl=TRUE))
     
     # a vector that keeps the results of the checks for each study
     toremove <- c()
     
-    # loop through the dataset(s) and the variable(s)
-    symbol <- strsplit(deparse(variables[[1]]), "\\$", perl=TRUE)[[1]][1]
-    for(i in 1: length(datasources)){
+    if(length(inputterm) > 1){
+      # name of the variable
+      varname <- strsplit(deparse(var2check), "\\$", perl=TRUE)[[1]][2]
       
-      # Carry out the first check:  are all the variables to analyse available from dataset
-      track <- FALSE
-      # get the names of the variables in the assigned dataset
-      var.names <- datashield.aggregate(datasources[i],  paste0('colnames(',symbol,')'))   
+      # call the function that checks if the variable is present in the assigned dataset
+      presence <- ds.isPresent(datasources, var2check)
       
-      # check if any of the variables in the arguments is missing from the assigned dataset
-      idx1 <- which(!(varIDs %in% var.names[[1]]))
-      missings <- length(idx1)
-      if(missings > 0){
-        # record that the stduy has failed the first checks and print a message
-        track <- TRUE
-        cat("The variable(s)", varIDs[idx1], "is/are missing from", stdname[i],"!\n") 
-        
-      }else{
-        # carry out the second check: do any of the variables to anlyse contain only NAs
-        # this second check is carried out only if the first check is negative
-        # loop through the variables in the argument and if any fails break out the loop
-        
-        # get the indices, in the assigned dataset, of the variables to check
-        idx2 <- which(var.names[[1]] %in% varIDs)
-        counter <- 1
-        for(j in idx2){
-          # the server side function 'isNA.ds' to check if vector is empty
-          cally <- call("isNA.ds", variables[[counter]])
-          out <- datashield.aggregate(datasources[i], cally)
-          if(out[[1]]){ 
-            track <- TRUE
-            cat("The variable", var.names[[1]][j], "in", stdname[i], "is empty (NAs only)!\n")
-          }
-          counter <- counter+1
-        }
-      }
+      # call the function that checks if the variable is present in the assigned dataset
+      emptyness <- ds.isNA(datasources, var2check)
       
-      # if a study fails any of the two checks add it to the list of studies to exclude and print a message
-      if(track){ 
-        toremove <- append(toremove, i)
-        cat(stdname[i], "will not be included in the analysis\n\n") 
-      }
-      
-    }
-    
-    # remove studies which contain one or more variables that failed the checks
-    if(length(toremove) > 0){
-      datasources <- datasources[-toremove] 
-    }else{
-      cat("The checks went fine: all variables are available and none has all its values missing!\n\n")
-    }
-    
-    # If none of the datasets passed the checks stop the process
-    # ortherwise return the opal objects that passed the checks
-    if(length(datasources) == 0){
-      stop("The variables specified in the arguments are not available or contain only missing values, in all the assigned datasets!")
-    }else{
-      return(datasources)
-    }
-    
-  }else{
-    
-    # print a message for the user informing of checks
-    cat("\nChecks are carried out on the input variable(s) to ensure they are not empty (i.e. all entries are NA)\n\n")
-    
-    # get the names of the opal servers/studies
-    stdname <- names(datasources)
-    
-    # get the names of the variables to check
-    varIDs <- vector("character", length(variables))
-    for(i in 1:length(variables)){
-      xx <- variables[[i]]
-      varIDs[i] <- deparse(xx)
-    }
-    
-    # a vector that keeps the results of the checks for each study
-    toremove <- c()
-    track <- FALSE
-    
-    # loop through the dataset(s) and the variable(s)
-    symbol <- strsplit(deparse(variables[[1]]), "\\$", perl=TRUE)[[1]][1]
-    for(i in 1: length(datasources)){
-      
-      # carry out the second check: do any of the input variables contain only NAs
-      # loop through the variables in the argument and if any fails break out the loop
-      
-      # get the indices, in the assigned dataset, of the variables to check
-      var.names <- varIDs
       for(i in 1:length(datasources)){
-        for(j in 1:length(var.names)){
-          # call the server side function 'isNA.ds' to check if vector is empty
-          cally <- call("isNA.ds", variables[[j]])
-          out <- datashield.aggregate(datasources[i], cally)
-          if(out[[1]]){ 
-            track <- TRUE
-            cat("The variable", var.names[j], "in", stdname[i], "is empty (all values are NA)!\n")
-          }
+        if( !(presence[[i]]) || (emptyness[[i]])){
+          toremove <- append(toremove, 1)
+        }else{
+          toremove <- append(toremove, 0)
         }
       }
-      
-      # if a study fails any of the two checks add it to the list of studies to exclude and print a message
-      if(track){ 
-        toremove <- append(toremove, i)
-        cat(stdname[i], "will not be included in the analysis\n\n") 
-      }
-      
-    }
-    
-    # remove studies which contain one or more variables that failed the checks
-    if(length(toremove) > 0){
-      datasources <- datasources[-toremove] 
     }else{
-      cat("The checks went fine: no variable has all its values missing!\n\n")
+      # name of the variable
+      varname <- deparse(var2check)
+      # if the variable is not given in the form 'D$name' no checks for presence required
+      emptyness <- ds.isNA(datasources, var2check)
+      for(i in 1:length(datasources)){
+        if(emptyness[[i]]){
+          toremove <- append(toremove, 1)
+        }else{
+          toremove <- append(toremove, 0)
+        }
+      }     
     }
     
-    # If the variable(s) did not pass the checks for any of the studies stop the process and display a message
-    # ortherwise return the opal objects that passed the checks
-    if(length(datasources) == 0){
-      stop("\nall the observations in the input variable(s) have missing values, in all the studies!\n")
+    # the studies where the checked variable is missing or completly empty 
+    # are removed from the studies to analyse.
+    studies2rm <- which(toremove == 1)
+    if(length(studies2rm) > 0){
+      track <- append(track, studies2rm)
     }else{
-      return(datasources)
+      cat("The checks went fine for ", varname, "!\n")
     }
-    
   }
   
-
+  # check final results and display final message
+  final.res <- unique(track)
+  if(!(is.null(final.res))){
+    datasources <- datasources[-final.res] 
+    if(length(datasources) == 0 ){
+      stop("\nAll the studies failed the checks for one or more variables!\nTHE ANALYSIS CANNOT BE CARRIED OUT!\n\n")
+    }else{
+      cat("\n",paste(stdnames[final.res]), " will not be included in the analysis!\n\n")
+    }
+  }else{
+    cat("\nAll the variables are available and none has 'NA' at all its entries!\n\n")
+  }
+  return(datasources)
 }
+

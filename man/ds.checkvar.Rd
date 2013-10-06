@@ -36,15 +36,26 @@
 data(logindata)
 
 # login and assign specific variable(s)
-myvar <- list("LAB_TSC")
+myvar <- list("LAB_TSC", "LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: run checks for the variable LAB_TSC assigned above
-opals <- ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
+ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 
 # Example 2: lets assign LAB_TSC to another variable 'tsc' not attached to 'D' and check 'tsc'
 datashield.assign(opals, 'tsc', quote(D$LAB_TSC))
-opals <- ds.checkvar(datasources=opals, variables=list(quote(tsc)))
+ds.checkvar(datasources=opals, variables=list(quote(tsc)))
+
+# Example 3: assign an empty variable and run the checks (uncommment the last line)
+server <- "study1"
+url <- "http://54.242.140.255"
+user <- "administrator"
+password <- "password"
+table <- "Test.CNSIM"
+logindata <- data.frame(cbind(server,url,user,password,table))
+myvar <- list("LAB_TSC")
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 }
 }
 \author{

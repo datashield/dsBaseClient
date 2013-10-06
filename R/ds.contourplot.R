@@ -168,58 +168,5 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
     }    
   } else
     stop('Function argument "type" has to be either "combine" or "split"')
-  
-  
-#   numplots <- length(grid.density.obj)
-#   nrow<-1
-#   ncol<-1
-#   
-#   if(is.atomic(grid.density.obj)==FALSE){
-#     if(numplots==2)
-#     {
-#       ncol<-2
-#     }
-#     
-#     if(numplots==3|numplots==4)
-#     {
-#       nrow<-2
-#       ncol<-2
-#     }
-#     
-#     if(numplots==5|numplots==6)
-#     {
-#       nrow<-2
-#       ncol<-3
-#     }
-#     
-#     if(numplots>6)
-#     {
-#       nrow<-4
-#       ncol<-4
-#     }
-#   }
-#   par(mfrow=c(nrow,ncol))
-#   
-#   if(is.atomic(grid.density.obj)==FALSE)
-#   {
-#     for(j in 1:numplots)
-#     {
-#       numcols<-dim(grid.density.obj[[j]])[2]
-#       x<-grid.density.obj[[j]][,(numcols-1)]
-#       y<-grid.density.obj[[j]][,(numcols)]
-#       z<-grid.density.obj[[j]][,1:(numcols-2)]
-#       contour(x,y,z) 
-#       
-#     }
-#   }
-#   
-#   
-#   if(is.atomic(grid.density.obj))
-#   {
-#     numcols<-dim(grid.density.obj)[2]
-#     x<-grid.density.obj[,(numcols-1)]
-#     y<-grid.density.obj[,(numcols)]
-#     z<-grid.density.obj[,1:(numcols-2)]
-#     contour(x,y,z)
-#   }
+
 }
