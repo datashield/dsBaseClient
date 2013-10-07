@@ -112,7 +112,7 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     if(length(studies2rm) > 0){
       track <- append(track, studies2rm)
     }else{
-      cat("checks went fine for ", varname, "!\n")
+      cat("checks went fine for ", varname, "\n")
     }
   }
   
