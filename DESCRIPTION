@@ -31,3 +31,4 @@ Collate:
     'ds.mean.R'
     'ds.isPresent.R'
     'ds.isNA.R'
+    'ds.summary.R'

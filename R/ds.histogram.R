@@ -104,11 +104,11 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   # call the function that produces the histogram object to plot
   cally2 <- call("histogram.ds", xvect, brks) 
   hist.objs <- vector("list", length(datasources))
-  asterix2plot <-  vector("list", length(datasources))
+  invalidcells <-  vector("list", length(datasources))
   for(i in 1: length(datasources)){
     output <- datashield.aggregate(datasources[i], cally2)
     hist.objs[[i]] <- output[[1]]$histobject
-    asterix2plot[[i]] <- output[[1]]$aterix2plot
+    invalidcells[[i]] <- output[[1]]$invalidcells
   }
   
   # combine the histogram objects 
@@ -142,25 +142,13 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
         numc <- 2
         par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          # if there are cells with count > 0 and < mention them as an '*' on the graph
-          if(length(asterix2plot[[i]]) > 0){
-            toptitle <- paste("Histogram of ", names(datasources)[i], "\n(*) invalid cells", sep="")
-            plot(hist.objs[[i]], xlab=variable, main=toptitle)
-            text(asterix2plot[[i]], rep(7.5, length(asterix2plot[[i]])), "*", pos=3, cex=1.2)
-          }else{
-            plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
-          }
+          cat(names(datasources)[i], ": ", invalidcells[[i]], " invalid categories\n")
+          plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
         }
       }else{
         par(mfrow=c(1,1))
-        # if there are cells with count > 0 and < mention them as an '*' on the graph
-        if(length(asterix2plot[[1]]) > 0){
-          toptitle <- paste("Histogram of ", names(datasources)[1], "\n(*) invalid cells", sep="")
-          plot(hist.objs[[1]], xlab=variable, main=toptitle)
-          text(asterix2plot[[1]], rep(7.5, length(asterix2plot[[1]])), "*", pos=3, cex=1.2)
-        }else{
-          plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
-        }
+        cat(names(datasources)[1], ": ", invalidcells[[1]], " invalid categories\n")
+        plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
       }
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
