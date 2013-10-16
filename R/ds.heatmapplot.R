@@ -77,21 +77,6 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
   # number of studies
   num.sources <- length(datasources)
   
-
-  
-  
-#   # generate the grid density object to plot
-# #   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-#   cally <- call("densitygrid.ds", xvect, yvect, numints=numints) 
-#   grid.density.obj <- datashield.aggregate(datasources, cally)
-#   
-#   numcol<-dim(grid.density.obj[[1]])[2]
-#   
-#   # print the number of invalid cells in each participating study
-#   for (i in 1:num.sources) {
-#     cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
-#   }
-  
   
   if(type=="combine"){
     
@@ -131,7 +116,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     for (i in 1:num.sources) {
       cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
     }
-      
+    
     Global.grid.density = matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
     for (i in 1:num.sources){
       Global.grid.density = Global.grid.density + grid.density.obj[[i]][,1:(numcol-2)]
@@ -162,18 +147,6 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     }
     
     
-#     # define scale for plot legends
-#     z.min = NULL
-#     z.max = NULL
-#     
-#     for (i in 1:num.sources) {
-#       z.min = c(z.min, min(grid.density.obj[[i]][,1:(numcol-2)]))
-#       z.max = c(z.max, max(grid.density.obj[[i]][,1:(numcol-2)]))
-#     }
-#     
-#     z.global.min = min(z.min)
-#     z.global.max = max(z.max)
-
     if(num.sources > 1){
       if((num.sources %% 2) == 0){ numr <- num.sources/2 }else{ numr <- (num.sources+1)/2}
       numc <- 2
@@ -186,7 +159,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
         title <- paste("Heatmap Plot of ", stdnames[i], sep="")
         image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
       }
-   }else{
+    }else{
       par(mfrow=c(1,1)) 
       grid <- grid.density.obj[[1]][,1:(numcol-2)]
       x <- grid.density.obj[[1]][,(numcol-1)]
@@ -196,5 +169,5 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
       image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)   
     }    
   } else
-      stop('Function argument "type" has to be either "combine" or "split"')
+    stop('Function argument "type" has to be either "combine" or "split"')
 }

@@ -147,18 +147,6 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
     }
     
     
-#     # define scale for plot legends
-#     z.min = NULL
-#     z.max = NULL
-#     
-#     for (i in 1:num.sources) {
-#       z.min = c(z.min, min(grid.density.obj[[i]][,1:(numcol-2)]))
-#       z.max = c(z.max, max(grid.density.obj[[i]][,1:(numcol-2)]))
-#     }
-#     
-#     z.global.min = min(z.min)
-#     z.global.max = max(z.max)
-    
     if(num.sources > 1){
       if((num.sources %% 2) == 0){ numr <- num.sources/2 }else{ numr <- (num.sources+1)/2}
       numc <- 2
