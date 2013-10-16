@@ -78,43 +78,44 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
   # number of studies
   num.sources <- length(datasources)
   
-  # get the range from each study and produce the 'global' range
-  cally <- call("range.ds", xvect) 
-  x.ranges <- datashield.aggregate(datasources, cally)
-  
-  cally <- call("range.ds", yvect) 
-  y.ranges <- datashield.aggregate(datasources, cally)
-  
-  x.minrs <- c()
-  x.maxrs <- c()
-  y.minrs <- c()
-  y.maxrs <- c()
-  for(i in 1:num.sources){
-    x.minrs <- append(x.minrs, x.ranges[[i]][1])
-    x.maxrs <- append(x.maxrs, x.ranges[[i]][2])
-    y.minrs <- append(y.minrs, y.ranges[[i]][1])
-    y.maxrs <- append(y.maxrs, y.ranges[[i]][2])
-  }
-  x.range.arg <- c(min(x.minrs), max(x.maxrs))
-  y.range.arg <- c(min(y.minrs), max(y.maxrs))
-  
-  x.global.min = x.range.arg[1]
-  x.global.max = x.range.arg[2]
-  y.global.min = y.range.arg[1]
-  y.global.max = y.range.arg[2]
-  
-  # generate the grid density object to plot
-  cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-  grid.density.obj <- datashield.aggregate(datasources, cally)
-  
-  numcol<-dim(grid.density.obj[[1]])[2]
-  
-  # print the number of invalid cells in each participating study
-  for (i in 1:num.sources) {
-    cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
-  }
   
   if(type=="combine"){
+    
+    # get the range from each study and produce the 'global' range
+    cally <- call("range.ds", xvect) 
+    x.ranges <- datashield.aggregate(datasources, cally)
+    
+    cally <- call("range.ds", yvect) 
+    y.ranges <- datashield.aggregate(datasources, cally)
+    
+    x.minrs <- c()
+    x.maxrs <- c()
+    y.minrs <- c()
+    y.maxrs <- c()
+    for(i in 1:num.sources){
+      x.minrs <- append(x.minrs, x.ranges[[i]][1])
+      x.maxrs <- append(x.maxrs, x.ranges[[i]][2])
+      y.minrs <- append(y.minrs, y.ranges[[i]][1])
+      y.maxrs <- append(y.maxrs, y.ranges[[i]][2])
+    }
+    x.range.arg <- c(min(x.minrs), max(x.maxrs))
+    y.range.arg <- c(min(y.minrs), max(y.maxrs))
+    
+    x.global.min = x.range.arg[1]
+    x.global.max = x.range.arg[2]
+    y.global.min = y.range.arg[1]
+    y.global.max = y.range.arg[2]
+    
+    # generate the grid density object to plot
+    cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
+    grid.density.obj <- datashield.aggregate(datasources, cally)
+    
+    numcol<-dim(grid.density.obj[[1]])[2]
+    
+    # print the number of invalid cells in each participating study
+    for (i in 1:num.sources) {
+      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+    }
     
     Global.grid.density = matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
     for (i in 1:num.sources){
@@ -133,17 +134,30 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
         
   } else if (type=='split') {
     
-    # define scale for plot legends
-    z.min = NULL
-    z.max = NULL
+    # generate the grid density object to plot
+    num_intervals=numints
+    cally <- call("densitygrid.ds", xvect, yvect, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=num_intervals) 
+    grid.density.obj <- datashield.aggregate(datasources, cally)
     
+    numcol<-dim(grid.density.obj[[1]])[2]
+    
+    # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      z.min = c(z.min, min(grid.density.obj[[i]][,1:(numcol-2)]))
-      z.max = c(z.max, max(grid.density.obj[[i]][,1:(numcol-2)]))
+      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
     }
     
-    z.global.min = min(z.min)
-    z.global.max = max(z.max)
+    
+#     # define scale for plot legends
+#     z.min = NULL
+#     z.max = NULL
+#     
+#     for (i in 1:num.sources) {
+#       z.min = c(z.min, min(grid.density.obj[[i]][,1:(numcol-2)]))
+#       z.max = c(z.max, max(grid.density.obj[[i]][,1:(numcol-2)]))
+#     }
+#     
+#     z.global.min = min(z.min)
+#     z.global.max = max(z.max)
     
     if(num.sources > 1){
       if((num.sources %% 2) == 0){ numr <- num.sources/2 }else{ numr <- (num.sources+1)/2}
@@ -155,7 +169,7 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
         y<-grid.density.obj[[i]][,(numcol)]
         z<-grid 
         title <- paste("Contour Plot of ", stdnames[i], sep="")
-        contour(x,y,z, xlab=x.lab, ylab=y.lab, zlim=c(z.global.min,z.global.max), main=title)
+        contour(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
       }
     }else{
       par(mfrow=c(1,1)) 
@@ -164,7 +178,7 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
       y <- grid.density.obj[[1]][,(numcol)]
       z <- grid  
       title <- paste("Contour Plot of ", stdnames[1], sep="")
-      contour(x,y,z, xlab=x.lab, ylab=y.lab, zlim=c(z.global.min,z.global.max), main=title)   
+      contour(x,y,z, xlab=x.lab, ylab=y.lab, main=title)   
     }    
   } else
     stop('Function argument "type" has to be either "combine" or "split"')
