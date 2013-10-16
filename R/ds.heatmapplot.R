@@ -150,7 +150,8 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
   } else if (type=='split') {
     
     # generate the grid density object to plot
-    cally <- call("densitygrid.ds", xvect, yvect, numints=numints) 
+    num_intervals=numints
+    cally <- call("densitygrid.ds", xvect, yvect, numints=num_intervals) 
     grid.density.obj <- datashield.aggregate(datasources, cally)
     
     numcol<-dim(grid.density.obj[[1]])[2]
