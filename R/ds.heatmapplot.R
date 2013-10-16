@@ -80,17 +80,17 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
 
   
   
-  # generate the grid density object to plot
-#   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-  cally <- call("densitygrid.ds", xvect, yvect, numints=numints) 
-  grid.density.obj <- datashield.aggregate(datasources, cally)
-  
-  numcol<-dim(grid.density.obj[[1]])[2]
-  
-  # print the number of invalid cells in each participating study
-  for (i in 1:num.sources) {
-    cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
-  }
+#   # generate the grid density object to plot
+# #   cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
+#   cally <- call("densitygrid.ds", xvect, yvect, numints=numints) 
+#   grid.density.obj <- datashield.aggregate(datasources, cally)
+#   
+#   numcol<-dim(grid.density.obj[[1]])[2]
+#   
+#   # print the number of invalid cells in each participating study
+#   for (i in 1:num.sources) {
+#     cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+#   }
   
   
   if(type=="combine"){
