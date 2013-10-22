@@ -1,4 +1,6 @@
 export(ds.append2df)
+export(ds.asCharacter)
+export(ds.asNumeric)
 export(ds.checkvar)
 export(ds.contourplot)
 export(ds.createfactor)

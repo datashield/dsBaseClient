@@ -36,3 +36,5 @@ Collate:
     'ds.append2df.R'
     'ds.length.R'
     'ds.stratmean.R'
+    'ds.asCharacter.R'
+    'ds.asNumeric.R'
