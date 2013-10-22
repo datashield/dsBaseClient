@@ -44,20 +44,20 @@
 ds.checkvar <- function(datasources=NULL, variables=NULL){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
+    message("\n\n ALERT!\n")
+    message(" No valid opal object(s) provided.\n")
+    message(" Make sure you are logged in to valid opal server(s).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(variables)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a list for the argument 'variables'\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a list for the argument 'variables'\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   # print a message for the user informing of checks
-  cat("\nChecks are carried out on the variables used for the analysis\nto ensure they are available from the dataset(s) and not empty.\n\n")
+  message("\nChecks are carried out on the variables used for the analysis\nto ensure they are available from the dataset(s) and not empty.\n\n")
   
   # names of the studies
   stdnames <- names(datasources)
@@ -112,7 +112,7 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     if(length(studies2rm) > 0){
       track <- append(track, studies2rm)
     }else{
-      cat("checks went fine for ", varname, "\n")
+      message("checks went fine for ", varname, "\n")
     }
   }
   
@@ -123,10 +123,10 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
     if(length(datasources) == 0 ){
       stop("\nAll the studies failed the checks for one or more variables!\nTHE ANALYSIS CANNOT BE CARRIED OUT!\n\n")
     }else{
-      cat("\n",paste(stdnames[final.res]), " will not be included in the analysis!\n\n")
+      warning(paste(stdnames[final.res]), " will not be included in the analysis!\n\n")
     }
   }else{
-    cat("\nAll the variables are available and none has 'NA' at all its entries!\n\n")
+    message("\nAll the variables are available and none has 'NA' at all its entries!\n\n")
   }
   return(datasources)
 }

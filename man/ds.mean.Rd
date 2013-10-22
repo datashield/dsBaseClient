@@ -1,6 +1,6 @@
 \name{ds.mean}
 \alias{ds.mean}
-\title{Calculates a mean of a given vector (for several studies separately or combined)}
+\title{Computes the statistical mean of a given vector (for several studies separately or combined)}
 \usage{
   ds.mean(datasources = NULL, xvect = NULL,
     type = "combine")
@@ -14,16 +14,17 @@
   \item{xvect}{a numerical vector}
 
   \item{type}{a character which represents the type of
-  graph to display. If \code{type} is set to 'combine', a
-  combined heatmap plot displayed and if \code{type} is set
-  to 'split', each heatmap is plotted separately.}
+  analysis to carry out. If \code{type} is set to
+  'combine', a global mean is calculated if \code{type} is
+  set to 'split', the mean is calculated separately for
+  each study.}
 }
 \value{
   a mean value
 }
 \description{
-  Calculates a mean of a given vector (for several studies
-  separately or combined)
+  Computes the statistical mean of a given vector (for
+  several studies separately or combined)
 }
 \examples{
 {
