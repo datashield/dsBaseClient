@@ -41,6 +41,6 @@ ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newvect="gender_as_char
 }
 }
 \author{
-  Gaye, A.
+  Gaye, A. (amadou.gaye
 }
 
