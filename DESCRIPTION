@@ -40,3 +40,4 @@ Collate:
     'ds.asNumeric.R'
     'ds.isValid.R'
     'ds.names.R'
+    'ds.densitygrid.R'
