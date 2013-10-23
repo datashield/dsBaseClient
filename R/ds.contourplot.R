@@ -32,21 +32,21 @@
 ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine', numints=20){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
+    message("\n\n ALERT!\n")
+    message(" No valid opal object(s) provided.\n")
+    message(" Make sure you are logged in to valid opal server(s).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector for 'xvect'\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid numeric vector for 'xvect'\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(yvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector for 'yvec'\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid numeric vector for 'yvec'\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
@@ -114,7 +114,7 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
     
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+      message('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
     }
     
     Global.grid.density = matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -143,7 +143,7 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
     
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+      message('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
     }
     
     

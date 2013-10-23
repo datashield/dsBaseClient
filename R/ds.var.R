@@ -7,7 +7,7 @@
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
 #' @return a mean value
-#' @author Gaye, A.
+#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
 #' @export
 #' @examples {
 #' 
@@ -28,15 +28,15 @@
 ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
+    message("\n\n ALERT!\n")
+    message(" No valid opal object(s) provided.\n")
+    message(" Make sure you are logged in to valid opal server(s).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid numeric vector\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   

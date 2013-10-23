@@ -126,7 +126,7 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
       warning(paste(stdnames[final.res]), " will not be included in the analysis!\n\n")
     }
   }else{
-    message("\nAll the variables are available and none has 'NA' at all its entries!\n\n")
+    message("All the variables are available and none has 'NA' at all its entries!\n\n")
   }
   return(datasources)
 }

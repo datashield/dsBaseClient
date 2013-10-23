@@ -2,34 +2,34 @@
 ds.stratmean  <-  function(datasources=NULL, datasetname=NULL, outvect=NULL, covar1=NULL, covar2=NULL, CI=0.95){
 
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
+    message("\n\n ALERT!\n")
+    message(" No valid opal object(s) provided.\n")
+    message(" Make sure you are logged in to valid opal server(s).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(datasetname)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid datasetname.\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid datasetname.\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   
   if(is.null(outvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid outcome variable (outvect).\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid outcome variable (outvect).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
   if(is.null(covar1)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid explanatory variable (covar1).\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid explanatory variable (covar1).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
 
   if(is.null(covar2)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid explanatory variable (covar2).\n")
+    message("\n\n ALERT!\n")
+    message(" Please provide a valid explanatory variable (covar2).\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
@@ -78,16 +78,16 @@ ds.stratmean  <-  function(datasources=NULL, datasetname=NULL, outvect=NULL, cov
   datashield.assign(datasources, "SS", cally)
 
   # display the names of the subset datasets in each study
-  cat("\nNames of the subset datasets in each study:\n\n")
+  message("\nNames of the subset datasets in each study:\n\n")
   ssnames <- datashield.aggregate(opals, quote(names.ds(SS)))
   print(datashield.aggregate(opals, quote(names.ds(SS))))
 
   # display the length of the 1st covariate in the datatset subset by that covariate
   levels1 <- datashield.aggregate(opals, paste0("levels(", paste(datasetname,"$", var2, sep=""), ")"))[[1]]
-  cat("\nLength of the variable ", var2, " in the datasets subsetted by ", var, " categories:\n")
+  message("\nLength of the variable ", var2, " in the datasets subsetted by ", var, " categories:\n")
   for(i in 1:length(levels1)){
     lev <- as.numeric(levels1[i])
-    cat(paste(ssnames[[1]][lev], "-", var2, "\n"))
+    message(paste(ssnames[[1]][lev], "-", var2, "\n"))
     print(datashield.aggregate(opals, paste0("length(", paste("SS$", ssnames[[1]][lev], "$", var2, sep=""), ")")))
   }
 
@@ -121,9 +121,9 @@ ds.stratmean  <-  function(datasources=NULL, datasetname=NULL, outvect=NULL, cov
     for(j in 1:length(levels2)){
       count <- count+1
       glmres[[count]] <- ds.glm(datasources,formula=b.names[count]~1, family="gaussian")
-      cat("Summary GLM fit for  ", b.names[count], "\n")
+      message("Summary GLM fit for  ", b.names[count], "\n")
       print(glmres[[count]])
-      cat("\n\n")
+      message("\n\n")
     }
   }
     

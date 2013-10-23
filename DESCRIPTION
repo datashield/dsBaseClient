@@ -38,3 +38,4 @@ Collate:
     'ds.stratmean.R'
     'ds.asCharacter.R'
     'ds.asNumeric.R'
+    'ds.isValid.R'
