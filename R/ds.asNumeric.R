@@ -66,5 +66,5 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newvect=NULL){
   datashield.assign(datasources, newvect, cally)
   
   # a message so the user know the function was ran (assign function are 'silent')
-  message("\nAn assign function was ran, no output should be expected on the client side!\n\n")
+  message("\nAn assign function was ran, no output should be expected on the client side!\n")
 }

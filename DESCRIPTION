@@ -41,3 +41,4 @@ Collate:
     'ds.isValid.R'
     'ds.names.R'
     'ds.densitygrid.R'
+    'ds.product.R'

@@ -121,12 +121,12 @@ ds.checkvar <- function(datasources=NULL, variables=NULL){
   if(!(is.null(final.res))){
     datasources <- datasources[-final.res] 
     if(length(datasources) == 0 ){
-      stop("\nAll the studies failed the checks for one or more variables!\nTHE ANALYSIS CANNOT BE CARRIED OUT!\n\n")
+      stop("\nAll the studies failed the checks for one or more variables!\nTHE ANALYSIS CANNOT BE CARRIED OUT!\n")
     }else{
-      warning(paste(stdnames[final.res]), " will not be included in the analysis!\n\n")
+      warning(paste(stdnames[final.res]), " will not be included in the analysis!\n")
     }
   }else{
-    message("All the variables are available and none has 'NA' at all its entries!\n\n")
+    message("All the variables are available and none has 'NA' at all its entries!\n")
   }
   return(datasources)
 }
