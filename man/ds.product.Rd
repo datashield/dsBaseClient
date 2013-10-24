@@ -43,6 +43,6 @@ ds.product(datasources=opals, xlist=prodinput, newobj=NULL)
 }
 }
 \author{
-  Burton, P. (p.burton
+  Gaye, A. (amadou.gaye
 }
 

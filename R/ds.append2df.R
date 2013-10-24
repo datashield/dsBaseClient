@@ -7,6 +7,7 @@
 #' will be 'Dnew'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @param dataset the input dataset, the table to append a column to.
 #' @param xvect a numeric or factor vector
 #' @param replace a character which tells if the intitial dataframe should be replaced by the 
 #' the newly dataframe (i.e. the one with the additional column).
@@ -23,7 +24,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_HDL")
+#' myvar <- list("LAB_HDL","LAB_TSC")
 #' opals <- datashield.login(logins=logindata, assign=TRUE, variables=myvar, symbol="D")
 #' 
 #' # generate a new variable (e.g. a mean centered LAB_HDL)
@@ -35,32 +36,32 @@
 #'   datashield.assign(opals[i], "lab_hdl.c", call.object)
 #' }
 #' 
-#' # Example 1: append the variable 'LAB_TSC' to 'D' and generate 'Dnew'
+#' # Example 1: append the variable 'lab_hdl.c' to 'D' and generate 'Dnew'
 #' ds.append2df(datasources=opals, quote(D), quote(lab_hdl.c))
 #' 
-#' # Example 2: append the variable 'LAB_TSC' to 'D' and replace 'D' by the new dataframe
-#' ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(D$LAB_TSC), replace=quote(TRUE))
+#' # Example 2: append the variable 'lab_hdl.c' to 'D' and update 'D'
+#' ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(lab_hdl.c), replace=quote(TRUE))
 #' }
 #' 
 ds.append2df = function(datasources=NULL, dataset=NULL, xvect=NULL, replace=FALSE){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message("\n ALERT!\n")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).\n")
+    stop(" End of process!\n", call.=FALSE)
   }
   
   if(is.null(dataset)){
-    cat("\n\n ALERT!\n")
-    cat(" No dataframe provided - check the argument 'dataset'.\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message("\n ALERT!\n")
+    message(" No dataframe provided - check the argument 'dataset'.")
+    stop(" End of process!\n", call.=FALSE)
   }
     
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a vector to append to the dataframe.\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message("\n ALERT!\n")
+    message(" Please provide a vector to append to the dataframe.")
+    stop(" End of process!\n", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$xvect)
@@ -83,19 +84,17 @@ ds.append2df = function(datasources=NULL, dataset=NULL, xvect=NULL, replace=FALS
   # name of the studies
   stdnames <- names(datasources)
   
-  # number of studies
-  num.sources <- length(datasources)
-  
   # call the server side function that does the business
   # replace the input dataset or not depending on the value of 'replace'
-  call.object <- call("append2df.ds", dataset, xvect, quote(var))
+  cally <- call("append2df.ds", dataset, xvect, quote(var))
   newname <- paste(datasetname, "new", sep="")
   if(replace){
-    datashield.assign(opals, newname, call.object)  
-    symbol <- call(newname)[[1]]
-    datashield.assign(opals, datasetname, quote(symbol))  
-    datashield.rm(opals, newname)
+    datashield.assign(datasources, newname, cally)  
+    newdataset <- call(newname)[[1]]
+    datashield.assign(datasources, datasetname, newdataset)
+    # the assignment in the below line is just to avoid output printed to screen
+    a <- datashield.rm(datasources, newdataset)
   }else{
-    datashield.assign(opals, newname, call.object)  
+    datashield.assign(datasources, newname, cally)  
   }
 }

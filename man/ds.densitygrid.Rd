@@ -2,16 +2,27 @@
 \alias{ds.densitygrid}
 \title{Generates a density grid with or without a priori defined limits}
 \usage{
-  ds.densitygrid(datasources = opals, xvect = NULL,
+  ds.densitygrid(datasources = NULL, xvect = NULL,
     yvect = NULL, numints = 20, type = "combine")
 }
 \arguments{
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+
   \item{xvect}{a numerical vector}
 
   \item{yvect}{a numerical vector}
 
   \item{numints}{a number of intervals for the grid density
   object, by default is 20}
+
+  \item{type}{a character which represent the type of graph
+  to display. If \code{type} is set to 'combine', a
+  histogram that merges the single plot is displayed. Each
+  histogram is plotted separately if If \code{type} is set
+  to 'split'.}
 }
 \value{
   a global grid density matrix across all studies or a one

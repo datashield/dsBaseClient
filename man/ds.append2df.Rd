@@ -11,6 +11,9 @@
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
+  \item{dataset}{the input dataset, the table to append a
+  column to.}
+
   \item{xvect}{a numeric or factor vector}
 
   \item{replace}{a character which tells if the intitial
@@ -45,7 +48,7 @@
 data(logindata)
 
 # login and assign specific variable(s)
-myvar <- list("LAB_HDL")
+myvar <- list("LAB_HDL","LAB_TSC")
 opals <- datashield.login(logins=logindata, assign=TRUE, variables=myvar, symbol="D")
 
 # generate a new variable (e.g. a mean centered LAB_HDL)
@@ -57,11 +60,11 @@ for(i in 1:length(opals)){
   datashield.assign(opals[i], "lab_hdl.c", call.object)
 }
 
-# Example 1: append the variable 'LAB_TSC' to 'D' and generate 'Dnew'
+# Example 1: append the variable 'lab_hdl.c' to 'D' and generate 'Dnew'
 ds.append2df(datasources=opals, quote(D), quote(lab_hdl.c))
 
-# Example 2: append the variable 'LAB_TSC' to 'D' and replace 'D' by the new dataframe
-ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(D$LAB_TSC), replace=quote(TRUE))
+# Example 2: append the variable 'lab_hdl.c' to 'D' and update 'D'
+ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(lab_hdl.c), replace=quote(TRUE))
 }
 }
 \author{

@@ -21,7 +21,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_TSC","LAB_HDL")
+#' myvar <- list("LAB_TSC", "LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: plot a combined histogram of the variable 'LAB_TSC' - default behaviour
@@ -102,7 +102,9 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   }
 
   # call the function that produces the histogram object to plot
-  cally2 <- call("histogram.ds", xvect, brks) 
+  # turn the numeric vector of breaks into a character string - a workaround to not use 'c()'
+  brks_c <- paste0(brks, collapse="_")
+  cally2 <- call("histogram.ds", xvect, brks_c) 
   hist.objs <- vector("list", length(datasources))
   invalidcells <-  vector("list", length(datasources))
   for(i in 1: length(datasources)){

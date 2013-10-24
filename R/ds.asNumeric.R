@@ -5,7 +5,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a vector.
-#' @param newvect the name of the new variable. If this argument is set to NULL, the name of the new 
+#' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_num' (e.g. 'GENDER_num', if input 
 #' variable's name is 'GENDER)
 #' @return a message is displayed when the action is completed.
@@ -21,13 +21,13 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into a character vector
-#' ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newvect="gender_ch")
+#' ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_ch")
 #' 
 #' # now turn the newly created vector 'gender_ch' into a numeric
-#' ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newvect="gender_nm")
+#' ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newobj="gender_nm")
 #' }
 #' 
-ds.asNumeric = function(datasources=NULL, xvect=NULL, newvect=NULL){
+ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   if(is.null(datasources)){
     message("\n\n ALERT!\n")
@@ -57,14 +57,30 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newvect=NULL){
   }
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newvect)){
-    newvect <- paste0(varname, "_num")
+  if(is.null(newobj)){
+    newobj <- paste0(varname, "_num")
   }
   
   # call the server side function that does the job
   cally <- call('as.numeric', xvect )
-  datashield.assign(datasources, newvect, cally)
+  datashield.assign(datasources, newobj, cally)
   
   # a message so the user know the function was ran (assign function are 'silent')
-  message("\nAn assign function was ran, no output should be expected on the client side!\n")
+  message("An 'assign' function was ran, no output should be expected on the client side!")
+  
+  # check that the new object has been created and display a message accordingly
+  cally <- call('exists', newobj )
+  qc <- datashield.aggregate(datasources, cally)
+  indx <- as.numeric(which(qc==TRUE))
+  if(length(indx) == length(datasources)){
+    message("The output of the function, '", newobj, "', is stored on the server side.")
+  }else{
+    if(length(indx) > 0){
+      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
+    }
+    if(length(indx) == 0){
+      warning("The output object has not been generated for any of the studies!")
+    }
+  }
+
 }

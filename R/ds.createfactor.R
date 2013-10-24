@@ -84,11 +84,11 @@ ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
   # check if the input variable is a factor, if not stop and display a message
   for(i in 1:numstudies){
     cally <- call("is.factor", xvect) 
-    if(!(datashield.aggregate(opals[i], cally)[[1]])){
+    if(!(datashield.aggregate(datasources[i], cally)[[1]])){
       stop("\n\nThe variable ", var, " in ", stdnames[i], " is not a factor!\n\n" )
     }
     cally <- call("levels", xvect) 
-    ll <- datashield.aggregate(opals[i], cally)
+    ll <- datashield.aggregate(datasources[i], cally)
     classes <- append(classes, ll)
   }
   

@@ -48,7 +48,7 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   stdnames <- names(datasources)
   
   # number of studies
-  num.sources <- length(datasources)
+  numsources <- length(datasources)
   
   cally <- call('var.ds', xvect )
   variances <- datashield.aggregate(datasources, cally)

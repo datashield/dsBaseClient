@@ -3,7 +3,7 @@
 \title{Turns a vector into numerical type}
 \usage{
   ds.asNumeric(datasources = NULL, xvect = NULL,
-    newvect = NULL)
+    newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,7 +13,7 @@
 
   \item{xvect}{a vector.}
 
-  \item{newvect}{the name of the new variable. If this
+  \item{newobj}{the name of the new variable. If this
   argument is set to NULL, the name of the new variable is
   the name of the input variable with the suffixe '_num'
   (e.g. 'GENDER_num', if input variable's name is 'GENDER)}
@@ -37,10 +37,10 @@ myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newvect="gender_ch")
+ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_ch")
 
 # now turn the newly created vector 'gender_ch' into a numeric
-ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newvect="gender_nm")
+ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newobj="gender_nm")
 }
 }
 \author{

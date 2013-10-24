@@ -4,7 +4,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a vector.
-#' @param newvect the name of the new vector.If this argument is set to NULL, the name of the new 
+#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_char' (e.g. 'GENDER_char', if input 
 #' variable's name is 'GENDER')
 #' @return a message is displayed when the action is completed.
@@ -20,22 +20,22 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into a character vector
-#' ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newvect="gender_as_char")
+#' ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_as_char")
 #' }
 #' 
-ds.asCharacter = function(datasources=NULL, xvect=NULL, newvect=NULL){
+ds.asCharacter = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   if(is.null(datasources)){
-    message("\n\n ALERT!\n")
-    message(" No valid opal object(s) provided.\n")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message("\n ALERT!\n")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!\n", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message("\n ALERT!\n")
+    message(" Please provide a valid numeric vector.")
+    stop(" End of process!\n", call.=FALSE)
   }
   
   # call the function that checks the variable is available and not empty
@@ -53,15 +53,30 @@ ds.asCharacter = function(datasources=NULL, xvect=NULL, newvect=NULL){
   }
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newvect)){
-    newvect <- paste0(varname, "_char")
+  if(is.null(newobj)){
+    newobj <- paste0(varname, "_char")
   }
   
   # call the server side function that does the job
   cally <- call('as.character', xvect )
-  datashield.assign(datasources, newvect, cally)
+  datashield.assign(datasources, newobj, cally)
   
   # a message so the user know the function was ran (assign function are 'silent')
-  message("\nAn assign function was ran, no output should be expected on the client side!\n\n")
+  message("An 'assign' function was ran, no output should be expected on the client side!")
+  
+  # check that the new object has been created and display a message accordingly
+  cally <- call('exists', newobj )
+  qc <- datashield.aggregate(datasources, cally)
+  indx <- as.numeric(which(qc==TRUE))
+  if(length(indx) == length(datasources)){
+    message("The output of the function, '", newobj, "', is stored on the server side.")
+  }else{
+    if(length(indx) > 0){
+      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
+    }
+    if(length(indx) == 0){
+      warning("The output object has not been generated for any of the studies!")
+    }
+  }
   
 }

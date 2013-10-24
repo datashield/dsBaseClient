@@ -8,9 +8,15 @@
 #' to set the limits of the density grid and the minimum and maximum values of the x and y vectors. These
 #' elements are set by the server side function \code{densitygrid.ds} to 'valid' values (i.e. values that
 #' do not lead to leakage of micro-data to the user).
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a numerical vector
 #' @param yvect a numerical vector
 #' @param numints a number of intervals for the grid density object, by default is 20
+#' @param type a character which represent the type of graph to display. 
+#' If \code{type} is set to 'combine', a histogram that merges the single 
+#' plot is displayed. Each histogram is plotted separately if If \code{type} 
+#' is set to 'split'.
 #' @return a global grid density matrix across all studies or a one grid density matrix for each study
 #' @author Isaeva, J. (julia.isaeva@fhi.no) and Gaye, A. (amadou.gaye@bristol.ac.uk)
 #' @export
@@ -32,7 +38,14 @@
 #' ds.densitygrid(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 #' }
 #' 
-ds.densitygrid <- function(datasources=opals, xvect=NULL, yvect=NULL, numints=20, type="combine"){
+ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20, type="combine"){
+  
+  if(is.null(datasources)){
+    message("\n\n ALERT!\n")
+    message(" No valid opal object(s) provided.\n")
+    message(" Make sure you are logged in to valid opal server(s).\n")
+    stop(" End of process!\n\n", call.=FALSE)
+  }
   
   if(is.null(xvect)){
     message("\n\n ALERT!\n")
