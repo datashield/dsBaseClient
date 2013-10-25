@@ -15,7 +15,7 @@
 #' @return one or more histogram plot depending on the argument \code{type}
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples \dontrun{
 #' 
 #' # load that contains the login details
 #' data(logindata)
@@ -37,10 +37,10 @@
 #' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 #' 
 #' # Example 4: Plot the histograms of the first and second study
-#'  ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 #'
 #' # Example 5: Plot the histogram of the third study only
-#'  ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 #' }
 #'
 ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){

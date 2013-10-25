@@ -6,7 +6,6 @@
 #' @param xlist a list of numerical to compute a product for.
 #' @param newobj the name of the product object. If this argument is set to NULL, the name of the new 
 #' object is 'prodOutput'.
-#' variable's name is 'GENDER)
 #' @return a numerical
 #' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
 #' @export

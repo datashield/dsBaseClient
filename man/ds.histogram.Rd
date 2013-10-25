@@ -33,7 +33,7 @@
   a combine histogram that merges the single plots.
 }
 \examples{
-{
+\dontrun{
 
 # load that contains the login details
 data(logindata)
@@ -55,10 +55,10 @@ ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
 ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
 
 # Example 4: Plot the histograms of the first and second study
- ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
+ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
 
 # Example 5: Plot the histogram of the third study only
- ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
+ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 }
 }
 \author{

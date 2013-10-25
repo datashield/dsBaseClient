@@ -41,3 +41,5 @@ Collate:
     'ds.densitygrid.R'
     'ds.product.R'
     'ds.histogram.R'
+    'ds.exists.R'
+    'ds.rowcolCalc.R'

@@ -16,7 +16,7 @@
 
   \item{newobj}{the name of the product object. If this
   argument is set to NULL, the name of the new object is
-  'prodOutput'. variable's name is 'GENDER)}
+  'prodOutput'.}
 }
 \value{
   a numerical
