@@ -45,7 +45,7 @@ ds.rowcolCalc = function(datasources=NULL, dataset=NULL, operation=NULL, newobj=
     stop(" End of process!\n", call.=FALSE)
   }else{
     # check that, for each study,  all the columns of the input table are of 'numeric' type
-    message("Checking if all the columns on the input table are numeric.")
+    message("Checking if all the columns on the input table are numeric.\n")
     numsources <- length(datasources)
     stdnames <- names(datasources)
     dtname <- as.character(dataset)

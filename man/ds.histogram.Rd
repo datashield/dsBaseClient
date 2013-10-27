@@ -33,7 +33,7 @@
   a combine histogram that merges the single plots.
 }
 \examples{
-\dontrun{
+{
 
 # load that contains the login details
 data(logindata)

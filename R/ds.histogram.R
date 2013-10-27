@@ -15,7 +15,7 @@
 #' @return one or more histogram plot depending on the argument \code{type}
 #' @author Gaye, A.
 #' @export
-#' @examples \dontrun{
+#' @examples {
 #' 
 #' # load that contains the login details
 #' data(logindata)
@@ -69,6 +69,9 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
     variable <- deparse(xvect)
   }
   
+  # study names
+  stdnames <- names(datasources)
+  
   # call the function that checks the variables are available and not empty
   vars2check <- list(xvect)
   datasources <- ds.checkvar(datasources, vars2check)
@@ -84,31 +87,17 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   }
   range.arg <- c(min(minrs), max(maxrs))
   
-  # get the global break points and ensure that 
-  # the breaks do span the range of xvect on all studies
-  binwidth <- 0.3
-  brks <- round(seq(range.arg[1], range.arg[2], by=binwidth),4)
-  
-  if(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
-    counter <- 0
-    while(min(brks) > range.arg[1] || max(brks) < range.arg[2]){
-      lastindx <- length(brks)
-      brks <- c( (brks[1]-binwidth), brks, (brks[lastindx]+binwidth) )
-      counter <- counter+1
-      if(counter >= 50){
-        stop(" Could not find equidistant break points that span all the data points!", call.=FALSE)
-      }
-    }
-  }
-
   # call the function that produces the histogram object to plot
-  # turn the numeric vector of breaks into a character string - a workaround to not use 'c()'
-  brks_c <- paste0(brks, collapse="_")
-  cally2 <- call("histogram.ds", xvect, brks_c) 
+  # get the seed 
+  seedval <- round(runif(1, 0, 1000))
+  cally2 <- call("histogram.ds", xvect, range.arg[1], range.arg[2], seedval) 
   hist.objs <- vector("list", length(datasources))
   invalidcells <-  vector("list", length(datasources))
   for(i in 1: length(datasources)){
     output <- datashield.aggregate(datasources[i], cally2)
+    if(is.null(output[[1]])){
+      stop(" Could not find equidistant break points that span all the data points, in stdnames[i]!")
+    }
     hist.objs[[i]] <- output[[1]]$histobject
     invalidcells[[i]] <- output[[1]]$invalidcells
   }
