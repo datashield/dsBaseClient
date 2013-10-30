@@ -46,11 +46,9 @@ data(logindata)
 myvar <- list("PM_BMI_CONTINUOUS", "LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# generate a binary variable variable using using the threshold bmi >= 25
+# generate a binary variable variable using the threshold bmi >= 25
 ds.subsetvar(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">=", threshold=25)
 
-#' # Example 2: get specific subsets from the table assigned above (by default the table name is 'D')
-ds.subsetdata(datasources=opals, dataset=quote(D), columns=list(4))
 }
 }
 \author{

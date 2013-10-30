@@ -33,7 +33,7 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # compute the product of 'LAB_TSC' by 'LAB_HDL' and assign it to 'P'
-myvect <- c(quote(D$LAB_TSC),quote(D$LAB_HDL))
+myvect <- quote(c(D$LAB_TSC, D$LAB_HDL))
 ds.c(datasources=opals, vector=myvect)
 }
 }

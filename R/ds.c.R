@@ -18,7 +18,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # compute the product of 'LAB_TSC' by 'LAB_HDL' and assign it to 'P'
-#' myvect <- c(quote(D$LAB_TSC),quote(D$LAB_HDL))
+#' myvect <- quote(c(D$LAB_TSC, D$LAB_HDL))
 #' ds.c(datasources=opals, vector=myvect)
 #' }
 #' 
@@ -55,7 +55,7 @@ ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
         out <- append(out, qc[[1]])
         xx <- which(out == FALSE)
         if(length(xx) > 0){
-          warning("The table, '", dframe, "', is not defined in ", names(datasources)[i], "!")
+          warning("The table, '", dframe, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
           flag <- append(flag, i)
         }
       }
@@ -68,7 +68,7 @@ ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
         out <- append(out, qc[[1]])
         xx <- which(out == FALSE)
         if(length(xx) > 0){
-          warning("The object, '", objname, "', is not defined in ", names(datasources)[i], "!")
+          warning("The object, '", objname, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
           flag <- append(flag, i)
         }
       }
@@ -89,13 +89,13 @@ ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
     
     if(is.null(flag)){
       # this will call the c function defined on the server side
-      cally <- call('c', vector)
+      cally <- as.call(vector)
       datashield.assign(datasources, newobj, cally)
     }else{
-      cally <- call('c', vector)
+      cally <- as.call(vector)
       datasources <- datasources[-flag]
       datashield.assign(datasources, newobj, cally)
-      message("The objects were combined only  for ", names(datasources), ".")
+      message("The objects were combined only  for ", paste0(names(datasources), collapse=","), ".")
     }
   }
   
