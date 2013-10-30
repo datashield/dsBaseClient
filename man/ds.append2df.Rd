@@ -27,7 +27,7 @@
   takes the name of the initial one)}
 }
 \value{
-  a dataframe
+  a message is displayed when the action is completed.
 }
 \description{
   Append a vector/column to a dataframe
@@ -68,6 +68,6 @@ ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(lab_hdl.c), replac
 }
 }
 \author{
-  Gaye, A.
+  Gaye, A. (amadou.gaye
 }
 

@@ -43,3 +43,6 @@ Collate:
     'ds.histogram.R'
     'ds.exists.R'
     'ds.rowcolCalc.R'
+    'ds.subsetdata.R'
+    'ds.subsetvar.R'
+    'ds.c.R'

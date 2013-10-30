@@ -15,8 +15,8 @@
 #' new dataframe is named as exaplained in the 'details' section of the documentation.
 #' if \code{replace} is set to 'TRUE', the initial dataframe is replaced (i.e. the new dataframe 
 #' takes the name of the initial one)
-#' @return a dataframe
-#' @author Gaye, A.
+#' @return a message is displayed when the action is completed.
+#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
 #' @export
 #' @examples {
 #' 
