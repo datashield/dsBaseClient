@@ -11,7 +11,8 @@
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{dataset}{a dataframe}
+  \item{dataset}{a a string character, the name of the
+  dataset.}
 
   \item{columns}{a numeric list vector that gives the
   indices of the variables for which subsets are sougth.}

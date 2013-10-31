@@ -7,7 +7,7 @@
 #' at the given indices are not factors no subsets are generated.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param dataset a dataframe
+#' @param dataset a a string character, the name of the dataset.
 #' @param columns a numeric list vector that gives the indices of the
 #' variables for which subsets are sougth.
 #' @param newobj the name of the output object. If this argument is set to NULL, 
