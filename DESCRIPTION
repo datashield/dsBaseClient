@@ -1,7 +1,7 @@
 Package: dsbaseclient
 Maintainer: <datashield@obiba.org>
 Author: <datashield@obiba.org>
-Version: 2.3
+Version: 2.4
 License: GPL-3
 Title: Base DataSHIELD methods (client)
 Description: Package contains function called by client to carry out basic
