@@ -35,7 +35,7 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # compute the sum of 'LAB_TSC' and 'LAB_HDL' (removing missing values if exist)
-myvect <- quote(sum(D$LAB_TSC, D$LAB_HDL, na.rm=T))
+myvect <- quote(sum(D$LAB_TSC, D$LAB_HDL))
 ds.sum(datasources=opals, vector=myvect)
 }
 }
