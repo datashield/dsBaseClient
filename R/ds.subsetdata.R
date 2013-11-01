@@ -25,10 +25,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: get all subsets from the table assigned above (by default the table name is 'D')
-#' ds.subsetdata(datasources=opals, dataset=quote(D))
+#' ds.subsetdata(datasources=opals, dataset="D")
 #' 
 #' #' # Example 2: get specific subsets from the table assigned above (by default the table name is 'D')
-#' ds.subsetdata(datasources=opals, dataset=quote(D), columns=list(4))
+#' ds.subsetdata(datasources=opals, dataset="D", columns=list(4))
 #' }
 #' 
 ds.subsetdata = function(datasources=NULL, dataset=NULL, columns=NULL, newobj=NULL){

@@ -37,17 +37,39 @@ ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
     stop(" End of process!\n", call.=FALSE)
   }
   
+  # the elements in the argument passed on as a call
+  elements <- unlist(strsplit(deparse(myvect), split=c("\\,")))
+  numelts <- length(elements)
+  # get the names of the variables in the 'call' argument
+  myvars <- c()
+  for(i in 1:numelts){
+    if(i == 1){
+      temp <- unlist(strsplit(elements[i], split="\\("))
+      myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+    }else{
+      if(i < numelts){
+        temp <- unlist(strsplit(elements[i], split="\\,"))
+        myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+      }else{
+        temp <- unlist(strsplit(elements[i], split="\\)"))
+        myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+      }
+    }
+  }
+  # if there is only one variable i.e. then we need to get rid of the trailing ')'
+  if(length(myvars) < 2){ myvars <- unlist(strsplit(myvars, split="\\)")) }
+  
   # call the function that checks that the object are defined.
   # If the objects are within a dataframe we check if the dataframe exists and if they are
   # 'loose' objects stored in the server like variables not attached to a dataframe then we 
   # check if the variable is present in the servers
   flag <- c()
-  for(q in 1:length(vector)){
-    obj <- vector[[q]]
-    inputterms <- unlist(strsplit(deparse(obj), "\\$", perl=TRUE))
+  for(q in 1:length(myvars)){
+    obj <- myvars[[q]]
+    inputterms <- unlist(strsplit(obj, "\\$", perl=TRUE))
     
     if(length(inputterms) > 1){
-      dframe <-  unlist(strsplit(deparse(obj), "\\$", perl=TRUE))[[1]][1]
+      dframe <-  unlist(strsplit(obj, "\\$", perl=TRUE))[[1]][1]
       for(i in 1:length(datasources)){
         out <- c()
         cally <- call('exists', dframe )

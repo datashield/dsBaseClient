@@ -18,10 +18,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # generates subset tables from the table assigned above (by default the table name is 'D')
-#' datashield.assign(opals, "Subsets", quote(subsetdata.ds(D)))
+#' ds.subsetdata(datasources=opals, dataset="D")
 #' 
-#' # the above object 'Subsets' is a list, let us display the names of elements in 'Subsets'
-#' ds.names(opals, quote(Subsets))
+#' # the above object 'subsets' is a list, let us display the names of elements in 'Subsets'
+#' ds.names(opals, quote(subsets))
 #' 
 #' }
 #' 
