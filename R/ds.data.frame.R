@@ -21,9 +21,6 @@
 #' myvect <- quote(data.frame(D$LAB_TSC, D$LAB_HDL))
 #' ds.data.frame(datasources=opals, vector=myvect)
 #' 
-#' # combine the 'LAB_TSC' and 'LAB_HDL' variables into a data frame   DOES NOT WORK (TAKES CHECK.NAMES AND STRINGSASFRACTORS AS VARIABLES)
-#' myvect <- quote(data.frame(D$LAB_TSC, D$LAB_HDL, check.names=T, stringsAsFactors=F))
-#' ds.data.frame(datasources=opals, vector=myvect)
 #' }
 #' 
 ds.data.frame = function(datasources=NULL, vector=NULL, newobj=NULL){
