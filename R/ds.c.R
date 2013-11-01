@@ -38,7 +38,7 @@ ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
   }
   
   # the elements in the argument passed on as a call
-  elements <- unlist(strsplit(deparse(myvect), split=c("\\,")))
+  elements <- unlist(strsplit(deparse(vector), split=c("\\,")))
   numelts <- length(elements)
   # get the names of the variables in the 'call' argument
   myvars <- c()
