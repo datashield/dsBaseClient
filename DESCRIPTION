@@ -56,5 +56,18 @@ Collate:
     'ds.NROW.R'
     'ds.class.R'
     'ds.levels.R'
+<<<<<<< HEAD
     'ds.propMean.R'
     'propMeanHelper.R'
+=======
+    'ds.asList.R'
+    'ds.asMatrix.R'
+    'ds.asNull.R'
+    'ds.cbind.R'
+    'ds.complete.cases.R'
+    'ds.data.frame.R'
+    'ds.exp.R'
+    'ds.list.R'
+    'ds.log.R'
+    'ds.sum.R'
+>>>>>>> 61ce9433c692ceed9d57386340c8df2c2408aeaf
