@@ -56,3 +56,5 @@ Collate:
     'ds.NROW.R'
     'ds.class.R'
     'ds.levels.R'
+    'ds.propMean.R'
+    'propMeanHelper.R'
