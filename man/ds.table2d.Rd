@@ -98,10 +98,10 @@ myvar  <-  list("DIS_DIAB", "DIS_CVA", "GENDER", "LAB_HDL")
 opals  <-  datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a two dimensional table, outputting combined contingency tables - default behaviour
-ds.table2d(datasources=opals, quote(D$DIS_DIAB), quote(D$GENDER))
+ds.table2d(datasources=opals, xvect=quote(D$DIS_DIAB), yvect=quote(D$GENDER))
 
 # Example 2: generate a two dimensional table, outputting study specific contingency tables
-ds.table2d(datasources=opals, quote(D$DIS_DIAB), quote(D$GENDER), type="split")
+ds.table2d(datasources=opals, xvect=quote(D$DIS_DIAB), yvect=quote(D$GENDER), type="split")
 
 # Example 3: generate a two dimensional table, outputting study specific contingency tables for the first two studies
 ds.table2d(datasources=opals[1:2], quote(D$DIS_DIAB), quote(D$GENDER), type="split")
