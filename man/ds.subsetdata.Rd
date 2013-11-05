@@ -14,8 +14,8 @@
   \item{dataset}{a a string character, the name of the
   dataset.}
 
-  \item{columns}{a numeric list vector that gives the
-  indices of the variables for which subsets are sougth.}
+  \item{columns}{a character list vector that gives the
+  names of the variables for which subsets are sougth.}
 
   \item{newobj}{the name of the output object. If this
   argument is set to NULL, the name of the new object is
@@ -50,7 +50,7 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 ds.subsetdata(datasources=opals, dataset="D")
 
 #' # Example 2: get specific subsets from the table assigned above (by default the table name is 'D')
-ds.subsetdata(datasources=opals, dataset="D", columns=list(4))
+ds.subsetdata(datasources=opals, dataset="D", columns=list("GENDER"))
 }
 }
 \author{

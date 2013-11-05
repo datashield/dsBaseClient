@@ -8,7 +8,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param dataset a a string character, the name of the dataset.
-#' @param columns a numeric list vector that gives the indices of the
+#' @param columns a character list vector that gives the names of the
 #' variables for which subsets are sougth.
 #' @param newobj the name of the output object. If this argument is set to NULL, 
 #' the name of the new object is 'subsets'.
@@ -28,17 +28,12 @@
 #' ds.subsetdata(datasources=opals, dataset="D")
 #' 
 #' #' # Example 2: get specific subsets from the table assigned above (by default the table name is 'D')
-#' ds.subsetdata(datasources=opals, dataset="D", columns=list(4))
+#' ds.subsetdata(datasources=opals, dataset="D", columns=list("GENDER"))
 #' }
 #' 
 ds.subsetdata = function(datasources=NULL, dataset=NULL, columns=NULL, newobj=NULL){
   
-  if(is.null(datasources)){
-    message("\n ALERT!\n")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n", call.=FALSE)
-  }
+  if(is.null(datasources))
   
   if(is.null(dataset)){
     message("\n ALERT!\n")
@@ -52,8 +47,16 @@ ds.subsetdata = function(datasources=NULL, dataset=NULL, columns=NULL, newobj=NU
   }
   
   # call the server side function that does the job
-  cally <- call('subsetdata.ds', dataset, columns )
-  datashield.assign(datasources, newobj, cally)
+  # get the indices of the columns refered to by their names in the arguments
+  for(q in 1:length(unlist(columns))){
+    for(i in 1: length(datasources)){
+      cally <- paste0("colnames(", dataset,")")
+      cols <- datashield.aggregate(datasources[i], cally)
+      indices <- as.list(which(unlist(cols[[1]]) == columns[[q]]))
+      cally <- call('subsetdata.ds', dataset, indices)
+      datashield.assign(datasources[i], newobj, cally)
+    }
+  }
   
   # a message so the user know the function was ran (assign function are 'silent')
   message("An 'assign' function was ran, no output should be expected on the client side!")

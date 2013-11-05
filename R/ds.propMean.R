@@ -45,7 +45,7 @@
 #' }
 #' 
 ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NULL, covar2=NULL,  covar3=NULL, CI=0.95){
-
+  
   if(is.null(datasources)){
     message("\n\n ALERT!\n")
     message(" No valid opal object(s) provided.\n")
@@ -84,12 +84,12 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
   }else{
     inputvars <- append(inputvars, covar1)
     interm <- unlist(strsplit(deparse(covar1), "\\$", perl=TRUE))
-     if(length(interm) > 1){
-       assign(paste("var", 2, sep=""), strsplit(deparse(covar1), "\\$", perl=TRUE)[[1]][2])
-     }else{
-       assign(paste("var", 2, sep=""), strsplit(covar1, "\\$", perl=TRUE)[[1]][2])
-     }
-     varnames <- append(varnames, get(paste("var", 2, sep="")))
+    if(length(interm) > 1){
+      assign(paste("var", 2, sep=""), strsplit(deparse(covar1), "\\$", perl=TRUE)[[1]][2])
+    }else{
+      assign(paste("var", 2, sep=""), strsplit(covar1, "\\$", perl=TRUE)[[1]][2])
+    }
+    varnames <- append(varnames, get(paste("var", 2, sep="")))
   }
   
   if(is.null(covar2)){
@@ -97,12 +97,12 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
   }else{
     inputvars <- append(inputvars, covar2)
     interm <- unlist(strsplit(deparse(covar2), "\\$", perl=TRUE))
-     if(length(interm) > 1){
-       assign(paste("var", 3, sep=""), strsplit(deparse(covar2), "\\$", perl=TRUE)[[1]][2])
-     }else{
-       assign(paste("var", 3, sep=""), strsplit(covar2, "\\$", perl=TRUE)[[1]][2])
-     }
-     varnames <- append(varnames, get(paste("var", 3, sep="")))
+    if(length(interm) > 1){
+      assign(paste("var", 3, sep=""), strsplit(deparse(covar2), "\\$", perl=TRUE)[[1]][2])
+    }else{
+      assign(paste("var", 3, sep=""), strsplit(covar2, "\\$", perl=TRUE)[[1]][2])
+    }
+    varnames <- append(varnames, get(paste("var", 3, sep="")))
   }
   
   if(is.null(covar3)){
@@ -110,40 +110,40 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
   }else{
     inputvars <- append(inputvars, covar3)
     interm <- unlist(strsplit(deparse(covar3), "\\$", perl=TRUE))
-     if(length(interm) > 1){
-       assign(paste("var", 4, sep=""), strsplit(deparse(covar3), "\\$", perl=TRUE)[[1]][2])
-     }else{
-       assign(paste("var",4, sep=""), strsplit(covar3, "\\$", perl=TRUE)[[1]][2])
-     }
-     varnames <- append(varnames, get(paste("var", 4, sep="")))
+    if(length(interm) > 1){
+      assign(paste("var", 4, sep=""), strsplit(deparse(covar3), "\\$", perl=TRUE)[[1]][2])
+    }else{
+      assign(paste("var",4, sep=""), strsplit(covar3, "\\$", perl=TRUE)[[1]][2])
+    }
+    varnames <- append(varnames, get(paste("var", 4, sep="")))
   }
-    
+  
   # call the function that checks the variables are available and not empty
   vars2check <- inputvars
   datasources <- ds.checkvar(datasources, vars2check)
   
   # get the column names of the input dataset
-  cols <- datashield.aggregate(datasources, paste0("colnames(",dataset, ")"))[[1]]
+  #cols <- datashield.aggregate(datasources, paste0("colnames(",dataset, ")"))[[1]]
   
   # get the column indices of the covariates
-  indx <- c()
-  for(i in 2:length(varnames)){
-    a <- which(cols == varnames[i])
-    indx <- append(indx, a)
-  }
-  covarnames <- cols[indx]
+  #indx <- c()
+  #for(i in 2:length(varnames)){
+    #a <- which(cols == varnames[i])
+    #indx <- append(indx, a)
+  #}
+  covarnames <- varnames[-1]#cols[indx]
   
   # carry out the first subsetting on the categories of the first covariate
   # subset the input dataframe on the categories of the 1st covariate
   D <- as.character(dataset)
   message(paste0("---Subsetting the input dataset by the variable '", covarnames[1], "'---"))
-  ds.subsetdata(datasources, dataset=D, columns=list(as.numeric(indx[1])), newobj=covarnames[1])
+  ds.subsetdata(datasources, dataset=D, columns=list(covarnames[1]), newobj=covarnames[1])
   names.2.use.next <- covarnames[1]
   
   # if there are more than one covariate loop and subset repeatedly the dataset 
   # on the categories of each of the covariates
-  if(length(indx) > 1){
-    for(s in 2:length(indx)){
+  if(length(covarnames) > 1){
+    for(s in 2:length(covarnames)){
       # generate subsets from the datasets obtained from the previous subsetting
       # this time the subsetting is done on the next covariate
       if(s == 2){
@@ -165,7 +165,7 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
           # name of the dataset to subset
           dt2subset <- paste0(tempnames[i],"$",subsetnames[[i]][j])
           # column/variable by which to subset 
-          subsetby <- list(as.numeric(indx[s]))
+          subsetby <- list(covarnames[s])
           # name of the list object to hold the subset datasets
           outlist <- paste0(covarnames[s],".",covarnames[s-1],"_",categories[j])
           ds.subsetdata(datasources, dataset=dt2subset, columns=subsetby, newobj=outlist)
@@ -174,8 +174,8 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
       }
       # this vector with hold the names of all the subsets (each names point a list which contains the subsetted datasets)
       # THESE LISTS HOLD THE DATASETS FROM THE LAST SUBSETTING PROCESS
-      if(s == length(indx)) { all.subsets.lists <- names.2.use.next }
-     }
+      if(s == length(covarnames)) { all.subsets.lists <- names.2.use.next }
+    }
   }else{
     # if there is only one covariate e.g. mean LAB_HDL by gender only
     # there must be at least one covariate otherwise the process is stopped and an alert issued
@@ -208,7 +208,8 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
       study2rm <- unique(as.numeric(as.character(record.invalids)))
       message("SOME SUBSET DATASETS WERE NOT VALID IN STUDIES ", paste0(datasources[-study2rm], collapse=","),"!")
       message("THESE STUDIES WILL NOT BE INCLUDED IN THE CALCULATIONS.")
-      warning("SOME SUBSET DATASETS WERE NOT VALID IN STUDIES ", paste0(datasources[-study2rm], collapse=","),";THESE STUDIES WERE NOT BE INCLUDED IN THE CALCULATIONS.")
+      forwarningmessage <- paste0(names(datasources[-study2rm]), collapse=",")
+      warning("SOME SUBSET DATASETS WERE NOT VALID IN STUDIES ", forwarningmessage,";THESE STUDIES WERE NOT BE INCLUDED IN THE CALCULATIONS.")
       datasources <- datasources[-study2rm]
     }
   }
@@ -224,7 +225,7 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
       outvectors <- append(outvectors, paste0(all.subsets.lists[i], "$", n[j], "$", var1))
     }
   }
-
+  
   # set the link function/family function correctly
   # if the outcome variable is not a numeric or a factor, issue a message and stop the process
   if(ds.is.factor(datasources, outvar)[[1]]){ 
@@ -238,14 +239,13 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
   }
   
   # run the glm for each of the outcome variable in each of the subsets
-  glmout <- list()
+  glmout <- vector("list", length(outvectors))
   for(i in 1:length(outvectors)){
     form <- as.formula(paste0(outvectors[i],"~",1)) 
     # the glm function, this is 'ds.glm' without its header checks which crash due to the long 
     # name of the outcome variable resulting from several subsetting
     glmout[[i]] <- dsbaseclient:::propMeanHelper(datasources,formula=form, family=fam)
     message("Summary GLM fit for  ", outvectors[i], "\n")
-    print(glmout[[i]])
     message("\n")
   }
   
