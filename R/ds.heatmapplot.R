@@ -9,7 +9,7 @@
 #' if \code{type} is set to 'split', each heatmap is plotted separately.
 #' @param numints a number of intervals for a density grid object
 #' @return a heatmap plot
-#' @author Isaeva, J. and Gaye, A.
+#' @author Isaeva, J.; Gaye, A.
 #' @export
 #' @examples {
 #' # load the file that contains the login details

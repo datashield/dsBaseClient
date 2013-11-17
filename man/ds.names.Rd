@@ -42,6 +42,6 @@ ds.names(opals, quote(subsets))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

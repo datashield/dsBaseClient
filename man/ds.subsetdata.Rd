@@ -54,6 +54,6 @@ ds.subsetdata(datasources=opals, dataset="D", columns=list("GENDER"))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

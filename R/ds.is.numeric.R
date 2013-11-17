@@ -5,7 +5,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a vector to be tested
 #' @return a logic value (TRUE if xvect is numeric)
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

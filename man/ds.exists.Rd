@@ -45,6 +45,6 @@ ds.exists(datasources=opals, xname="labtsc")
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

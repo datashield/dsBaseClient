@@ -40,6 +40,6 @@ ds.exp(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

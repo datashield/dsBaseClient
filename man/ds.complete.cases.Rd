@@ -11,7 +11,7 @@
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xlist}{a list of objects to be checked for
+  \item{x}{a list of objects to be checked for
   completeness.}
 
   \item{newobj}{the name of the new vector.If this argument
@@ -45,6 +45,6 @@ ds.complete.cases(datasources=opals, x=input, newobj='TSC_BMI_complete')
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

@@ -19,7 +19,7 @@
 #' @return a list that contains the computed mean, standard error, upper and lower confidence interval, 
 #' degrees of freedom of the fitted model and standard deviation.
 #' @export
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk); Burton, P. (p.burton@bristol.ac.uk)
+#' @author Gaye, A.; Isaeva, J.
 #' @examples {
 #' 
 #' # load that contains the login details
@@ -39,8 +39,8 @@
 #' 
 #' # Example 3-5: repeat the above 3 examples but for a binary outcome variable: DIS_CVA (cardio-vascular acccident)
 #' ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER))
-#' ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL))
-#' ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL), covar3=quote(D$DIS_DIAB))
+#' \dontrun{ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL))}
+#' \dontrun{ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL), covar3=quote(D$DIS_DIAB))}
 #' 
 #' }
 #' 
@@ -71,8 +71,10 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
     interm <- unlist(strsplit(deparse(outvar), "\\$", perl=TRUE))
     if(length(interm) > 1){
       assign(paste("var", 1, sep=""), strsplit(deparse(outvar), "\\$", perl=TRUE)[[1]][2])
+      outvarname <- strsplit(deparse(outvar), "\\$", perl=TRUE)[[1]][2]
     }else{
       assign(paste("var", 1, sep=""), strsplit(outvar, "\\$", perl=TRUE)[[1]][2])
+      outvarname <- strsplit(outvar, "\\$", perl=TRUE)[[1]][2]
     }
     varnames <- append(varnames, get(paste("var", 1, sep="")))
   }
@@ -222,7 +224,7 @@ ds.propMean <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar1=NUL
     n <- datashield.aggregate(datasources, paste0("names.ds(",all.subsets.lists[i],")"))[[1]]
     l <- length(n)
     for(j in 1: l){
-      outvectors <- append(outvectors, paste0(all.subsets.lists[i], "$", n[j], "$", var1))
+      outvectors <- append(outvectors, paste0(all.subsets.lists[i], "$", n[j], "$", outvarname))
     }
   }
   

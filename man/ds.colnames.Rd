@@ -31,10 +31,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 ds.colnames(datasources=opals, x=quote(D))
 
 # Example 2: Vectors are wrong input to the colnames function
-ds.colnames(datasources=opals, x=quote(D$LAB_TSC))
+\dontrun{ ds.colnames(datasources=opals, x=quote(D$LAB_TSC))}
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

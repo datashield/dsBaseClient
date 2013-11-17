@@ -6,7 +6,7 @@
 #' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
 #' the name of the new object is 'sum_vect'.
 #' @return  a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

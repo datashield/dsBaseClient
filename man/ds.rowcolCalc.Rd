@@ -53,6 +53,6 @@ ds.rowcolCalc(datasources=opals, dataset=quote(hdl_tsc), operation="rowSums", ne
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

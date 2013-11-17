@@ -31,10 +31,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 ds.levels(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 
 # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-ds.levels(datasources=opals, xvect=quote(D$LAB_TSC))
+\dontrun{ ds.levels(datasources=opals, xvect=quote(D$LAB_TSC)) }
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

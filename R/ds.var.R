@@ -7,7 +7,7 @@
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
 #' @return a mean value
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

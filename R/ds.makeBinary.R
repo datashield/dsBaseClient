@@ -1,5 +1,8 @@
 #' 
 #' @title Generates a valid binary variable from a continuous variable
+#' @description The functions takes as inpout a continuous variable and based on a criterion
+#' assigns the value 1 to observation that met the criterion and the value 0 otherwise. Hence
+#' generating a binary variable.
 #' @details This function runs only if the set threshold criterion is met or not met by more 
 #' than one observation. The observation that met the criterion as assigned the value '1'
 #' and other onservations are assigned '0'
@@ -11,7 +14,7 @@
 #' @param newobj the name of the output object. If this argument is set to NULL, 
 #' the name of the new object is the name of the input variable with a suffixe '_subset'.
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 
@@ -23,11 +26,11 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # generate a binary variable variable using the threshold bmi >= 25
-#' ds.subsetvar(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">=", threshold=25)
+#' ds.makeBinary(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">=", threshold=25)
 #' 
 #' }
 #' 
-ds.subsetvar = function(datasources=NULL, xvect=NULL, threshold=NULL, operator=NULL, newobj=NULL){
+ds.makeBinary = function(datasources=NULL, xvect=NULL, threshold=NULL, operator=NULL, newobj=NULL){
   
   if(is.null(datasources)){
     message("\n ALERT!\n")

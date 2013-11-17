@@ -7,7 +7,7 @@
 #' @param newobj the name of the product object. If this argument is set to NULL, the name of the new 
 #' object is 'prodOutput'.
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

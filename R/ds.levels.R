@@ -5,7 +5,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect an R object (factor)
 #' @return levels of xvect
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 
@@ -19,7 +19,7 @@
 #' ds.levels(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 #' 
 #' # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-#' ds.levels(datasources=opals, xvect=quote(D$LAB_TSC))
+#' \dontrun{ ds.levels(datasources=opals, xvect=quote(D$LAB_TSC)) }
 #' }
 #' 
 ds.levels = function(datasources=NULL, xvect=NULL) {

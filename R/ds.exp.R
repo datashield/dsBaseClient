@@ -8,7 +8,7 @@
 #' variable is the name of the input variable with the suffixe '_exp' (e.g. 'PM_BMI_CONTINUOUS_exp', if input 
 #' variable's name is 'PM_BMI_CONTINUOUS')
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

@@ -19,7 +19,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
-#' GENDER.level_0
+#' ds.mean(datasources=opals, xvect=quote(D$LAB_TSC))
 #' 
 #' # Example 2: compute the statistical mean of each study separately
 #' ds.mean(datasources=opals, xvect=quote(D$LAB_TSC), type="split")

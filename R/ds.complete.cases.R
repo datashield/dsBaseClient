@@ -3,12 +3,12 @@
 #' @description This function is similar to R function \code{complete.cases}. 
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xlist a list of objects to be checked for completeness.
+#' @param x a list of objects to be checked for completeness.
 #' @param newobj the name of the new vector.If this argument is set to \code{NULL}, the name of the new 
 #' variable is the name of the input variable with the suffixe '_complete' (e.g. 'D_complete', if input 
 #' variable's name is 'D')
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

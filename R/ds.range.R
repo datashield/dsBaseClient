@@ -10,7 +10,7 @@
 #' If \code{type} is set to 'combine', a global range is calculated 
 #' if \code{type} is set to 'split', the range is calculated separately for each study.
 #' @return a numeric vector which contains the minimum and the maximum
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

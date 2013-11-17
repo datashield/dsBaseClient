@@ -44,7 +44,6 @@ Collate:
     'ds.exists.R'
     'ds.rowcolCalc.R'
     'ds.subsetdata.R'
-    'ds.subsetvar.R'
     'ds.c.R'
     'ds.colnames.R'
     'ds.dim.R'
@@ -68,3 +67,4 @@ Collate:
     'ds.list.R'
     'ds.log.R'
     'ds.sum.R'
+    'ds.makeBinary.R'

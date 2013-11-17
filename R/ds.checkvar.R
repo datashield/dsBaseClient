@@ -1,6 +1,6 @@
 #'
 #' @title Checks if all variables do exist and are not empty
-#' @description This function check that the variables to analyse are (1) available from all 
+#' @description This function checks that the variables to analyse are (1) available from all 
 #' the studies and (2) that they do not contain only missing values (NAs). It excludes studies 
 #' that fail any of these two checks.
 #' @details if this function is given a variable(s) created/derived from a variable(s) initially

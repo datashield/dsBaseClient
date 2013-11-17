@@ -6,7 +6,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xlist an object of type list
 #' @return  a list which hold items names for each study
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

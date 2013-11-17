@@ -8,7 +8,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a numeric or factor vector.
 #' @return  a list with booleans (one for each study), TRUE if input vector is valid and FALSE otherwise.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

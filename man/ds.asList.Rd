@@ -37,6 +37,6 @@ ds.asList(datasources=opals, x=quote(D))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

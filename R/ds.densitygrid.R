@@ -18,7 +18,7 @@
 #' plot is displayed. Each histogram is plotted separately if If \code{type} 
 #' is set to 'split'.
 #' @return a global grid density matrix across all studies or a one grid density matrix for each study
-#' @author Isaeva, J. (julia.isaeva@fhi.no) and Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Isaeva, J.; Gaye, A.
 #' @export
 #' @examples {
 #' # load the file that contains the login details

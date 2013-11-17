@@ -9,7 +9,7 @@
 #' variable is the name of the input variable with the suffixe '_num' (e.g. 'GENDER_num', if input 
 #' variable's name is 'GENDER)
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

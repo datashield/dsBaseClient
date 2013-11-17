@@ -5,7 +5,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param x an R object, for example a matrix, array or data frame
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

@@ -49,6 +49,6 @@ ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="spli
 }
 }
 \author{
-  Burton, P., Isaeva, J. and Gaye, A.
+  Burton, P.; Isaeva, J.; Gaye, A.
 }
 

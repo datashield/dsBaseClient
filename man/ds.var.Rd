@@ -44,6 +44,6 @@ ds.var(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

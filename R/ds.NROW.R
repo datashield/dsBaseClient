@@ -9,7 +9,7 @@
 #' If \code{type} is set to 'combine', a global number of rows is calculated 
 #' if \code{type} is set to 'split', the number of rows is calculated separately for each study.
 #' @return an \code{interger} of length 1 or \code{NULL}
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

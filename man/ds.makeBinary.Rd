@@ -1,8 +1,8 @@
-\name{ds.subsetvar}
-\alias{ds.subsetvar}
+\name{ds.makeBinary}
+\alias{ds.makeBinary}
 \title{Generates a valid binary variable from a continuous variable}
 \usage{
-  ds.subsetvar(datasources = NULL, xvect = NULL,
+  ds.makeBinary(datasources = NULL, xvect = NULL,
     threshold = NULL, operator = NULL, newobj = NULL)
 }
 \arguments{
@@ -27,8 +27,10 @@
   a message is displayed when the action is completed.
 }
 \description{
-  Generates a valid binary variable from a continuous
-  variable
+  The functions takes as inpout a continuous variable and
+  based on a criterion assigns the value 1 to observation
+  that met the criterion and the value 0 otherwise. Hence
+  generating a binary variable.
 }
 \details{
   This function runs only if the set threshold criterion is
@@ -47,11 +49,11 @@ myvar <- list("PM_BMI_CONTINUOUS", "LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # generate a binary variable variable using the threshold bmi >= 25
-ds.subsetvar(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">=", threshold=25)
+ds.makeBinary(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">=", threshold=25)
 
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

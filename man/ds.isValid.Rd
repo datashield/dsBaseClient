@@ -47,6 +47,6 @@ ds.isValid(datasources=opals, xvect=quote(D$GENDER))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

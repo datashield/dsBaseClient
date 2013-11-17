@@ -49,6 +49,6 @@ ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="spli
 }
 }
 \author{
-  Isaeva, J. and Gaye, A.
+  Isaeva, J.; Gaye, A.
 }
 

@@ -14,7 +14,7 @@
 #' @return everything that is returned by tthe function 'ds.glm' in the package 'dsmodellingclient'
 #' @authors Gaye, A.
 #' 
-propMeanHelper <- function(datasources=NULL, formula=NULL, family=NULL, maxit=15) {
+propMeanHelper <- function(datasources=NULL, formula=NULL, family=NULL, maxit=30) {
   
   if(is.null(datasources)){
     cat("\n\n ALERT!\n")

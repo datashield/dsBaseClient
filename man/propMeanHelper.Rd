@@ -3,7 +3,7 @@
 \title{Runs a combined GLM analysis of non-pooled data}
 \usage{
   propMeanHelper(datasources = NULL, formula = NULL,
-    family = NULL, maxit = 15)
+    family = NULL, maxit = 30)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained

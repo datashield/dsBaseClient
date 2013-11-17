@@ -66,6 +66,6 @@ ds.densitygrid(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="spli
 }
 }
 \author{
-  Isaeva, J. (julia.isaeva
+  Isaeva, J.; Gaye, A.
 }
 

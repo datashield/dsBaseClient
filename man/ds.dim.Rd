@@ -37,6 +37,6 @@ ds.dim(datasources=opals, x=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

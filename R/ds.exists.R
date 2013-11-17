@@ -9,7 +9,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xname the name of the object to look for.
 #' @return a bollean, TRUE if the object is on the server side and FALSE otherwise
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

@@ -17,10 +17,10 @@
   the opal objects which passed the checks
 }
 \description{
-  This function check that the variables to analyse are (1)
-  available from all the studies and (2) that they do not
-  contain only missing values (NAs). It excludes studies
-  that fail any of these two checks.
+  This function checks that the variables to analyse are
+  (1) available from all the studies and (2) that they do
+  not contain only missing values (NAs). It excludes
+  studies that fail any of these two checks.
 }
 \details{
   if this function is given a variable(s) created/derived

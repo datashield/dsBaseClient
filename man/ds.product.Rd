@@ -43,6 +43,6 @@ ds.product(datasources=opals, xlist=prodinput, newobj=NULL)
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

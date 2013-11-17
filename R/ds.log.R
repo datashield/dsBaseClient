@@ -3,12 +3,13 @@
 #' @description This function is similar to R function \code{log}.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a vector.
+#' @param xvect a vector. 
+#' @param base the base with respect to which logarithms are computed.
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input 
 #' variable's name is 'LAB_TSC')
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 

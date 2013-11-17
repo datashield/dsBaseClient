@@ -13,6 +13,9 @@
 
   \item{xvect}{a vector.}
 
+  \item{base}{the base with respect to which logarithms are
+  computed.}
+
   \item{newobj}{the name of the new variable. If this
   argument is set to NULL, the name of the new variable is
   the name of the input variable with the suffixe '_log'
@@ -44,6 +47,6 @@ ds.log(datasources=opals, xvect=quote(D$LAB_TSC), base=2)
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

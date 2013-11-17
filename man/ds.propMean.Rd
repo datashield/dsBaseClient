@@ -72,12 +72,12 @@ ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$LAB_HDL), covar1
 
 # Example 3-5: repeat the above 3 examples but for a binary outcome variable: DIS_CVA (cardio-vascular acccident)
 ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER))
-ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL))
-ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL), covar3=quote(D$DIS_DIAB))
+\dontrun{ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL))}
+\dontrun{ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1=quote(D$GENDER), covar2=quote(D$PM_BMI_CATEGORICAL), covar3=quote(D$DIS_DIAB))}
 
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

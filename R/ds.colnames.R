@@ -5,7 +5,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param x a matrix-like object
 #' @return a string containing column names of the given object
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk) and Isaeva, J. (julia.isaeva@fhi.no)
+#' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
 #' 
@@ -19,7 +19,7 @@
 #' ds.colnames(datasources=opals, x=quote(D))
 #' 
 #' # Example 2: Vectors are wrong input to the colnames function
-#' ds.colnames(datasources=opals, x=quote(D$LAB_TSC))
+#' \dontrun{ ds.colnames(datasources=opals, x=quote(D$LAB_TSC))}
 #' }
 #' 
 ds.colnames = function(datasources=NULL, x=NULL) {

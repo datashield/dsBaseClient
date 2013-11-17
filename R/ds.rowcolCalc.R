@@ -13,7 +13,7 @@
 #' variable, set by default, is 'rowcolCalc_out'.
 #' @return a message is displayed when the action is completed.
 #' @export
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @examples {
 #' 
 #' # load that contains the login details

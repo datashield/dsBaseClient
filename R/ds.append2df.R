@@ -1,5 +1,5 @@
 #' 
-#' @title Append a vector/column to a dataframe
+#' @title Appends a vector/column to a dataframe
 #' @details The function appends a numeric or factor vector to a dataframe. The initial 
 #' dataframe is replaced by the new dataframe if the argument 'replace' is set to 'TRUE';
 #' otherwise a new dataframe is generated and named after the intitial dataframe with the 
@@ -16,7 +16,7 @@
 #' if \code{replace} is set to 'TRUE', the initial dataframe is replaced (i.e. the new dataframe 
 #' takes the name of the initial one)
 #' @return a message is displayed when the action is completed.
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 

@@ -35,6 +35,6 @@ ds.is.factor(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

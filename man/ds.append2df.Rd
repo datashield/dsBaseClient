@@ -1,6 +1,6 @@
 \name{ds.append2df}
 \alias{ds.append2df}
-\title{Append a vector/column to a dataframe}
+\title{Appends a vector/column to a dataframe}
 \usage{
   ds.append2df(datasources = NULL, dataset = NULL,
     xvect = NULL, replace = FALSE)
@@ -30,7 +30,7 @@
   a message is displayed when the action is completed.
 }
 \description{
-  Append a vector/column to a dataframe
+  Appends a vector/column to a dataframe
 }
 \details{
   The function appends a numeric or factor vector to a
@@ -68,6 +68,6 @@ ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(lab_hdl.c), replac
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.
 }
 

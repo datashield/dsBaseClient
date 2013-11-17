@@ -41,6 +41,6 @@ ds.data.frame(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A. (amadou.gaye
+  Gaye, A.; Isaeva, J.
 }
 

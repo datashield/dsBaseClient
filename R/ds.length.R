@@ -9,7 +9,7 @@
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
 #' @return a numerical value, the number of elements of the input vector
-#' @author Gaye, A. (amadou.gaye@bristol.ac.uk)
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 
