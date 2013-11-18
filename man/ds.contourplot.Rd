@@ -20,6 +20,12 @@
   combined contour plot displayed and if \code{type} is set
   to 'split', each conntour is plotted separately.}
 
+  \item{show}{a character which represents where the plot
+  should focus If \code{show} is set to 'all', the ranges
+  of the variables are used as plot limits If \code{show}
+  is set to 'zoomed', the plot is zoomed to the region
+  where the actual data are}
+
   \item{numints}{a number of intervals for a density grid
   object}
 }

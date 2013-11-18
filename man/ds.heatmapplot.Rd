@@ -3,7 +3,8 @@
 \title{Generates a heatmap plot for merged datasets}
 \usage{
   ds.heatmapplot(datasources = NULL, xvect = NULL,
-    yvect = NULL, type = "combine", numints = 20)
+    yvect = NULL, type = "combine", show = "all",
+    numints = 20)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,6 +20,12 @@
   graph to display. If \code{type} is set to 'combine', a
   combined heatmap plot displayed and if \code{type} is set
   to 'split', each heatmap is plotted separately.}
+
+  \item{show}{a character which represents where the plot
+  should focus If \code{show} is set to 'all', the ranges
+  of the variables are used as plot limits If \code{show}
+  is set to 'zoomed', the plot is zoomed to the region
+  where the actual data are}
 
   \item{numints}{a number of intervals for a density grid
   object}
@@ -40,9 +47,11 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined heatmapplot
 ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine", show='zoomed')
 
 # Example2: generate a heatmapplot where each study is plotted seaparately
 ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", show='zoomed')
 
 # Example3: generate a heatmapplot with a less dense drid
 ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
