@@ -194,7 +194,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
       y.zoomed = y[dummy_left:dummy_right]
       
       # plot a combined heatmap
-      image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
+      image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data (zoomed)")
     } else
       stop('Function argument "show" has to be either "all" or "zoomed"')
     
@@ -281,9 +281,8 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
           x.zoomed = x[dummy_top:dummy_bot]
           y.zoomed = y[dummy_left:dummy_right]
           
-          
-          # plot a combined heatmap
-          image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
+          title <- paste("Heatmap Plot of ", stdnames[i], " (zoomed)",sep="")
+          image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main=title)
           
         } else
           stop('Function argument "show" has to be either "all" or "zoomed"')
@@ -355,7 +354,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
         y.zoomed = y[dummy_left:dummy_right]
         
         
-        # plot a combined heatmap
+        title <- paste("Heatmap Plot of ", stdnames[1], " (zoomed)",sep="")
         image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
         
       } else
