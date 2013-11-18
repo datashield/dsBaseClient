@@ -3,7 +3,8 @@
 \title{Creates a contour plot}
 \usage{
   ds.contourplot(datasources = NULL, xvect = NULL,
-    yvect = NULL, type = "combine", numints = 20)
+    yvect = NULL, type = "combine", show = "all",
+    numints = 20)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
