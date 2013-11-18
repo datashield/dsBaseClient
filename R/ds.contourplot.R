@@ -34,7 +34,7 @@
 #' ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
 #' }
 #'
-ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine', numints=20){
+ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine', show='all', numints=20){
   
   if(is.null(datasources)){
     message("\n\n ALERT!\n")

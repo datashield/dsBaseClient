@@ -46,9 +46,11 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined contourplot
 ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine", show="zoomed")
 
 # Example2: generate a contourplot where each study is plotted seaparately
 ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", show="zoomed")
 
 # Example3: generate a contourplot with a less dense drid
 ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
