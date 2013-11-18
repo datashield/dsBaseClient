@@ -19,7 +19,7 @@
 #' ds.dim(datasources=opals, x=quote(D))
 #' 
 #' # Example 2: Input has to be either matrix, data frame or an array
-#' ds.dim(datasources=opals, x=quote(D$LAB_TSC))
+#' \dontrun{ ds.dim(datasources=opals, x=quote(D$LAB_TSC)) }
 #' }
 #' 
 ds.dim = function(datasources=NULL, x=NULL) {
