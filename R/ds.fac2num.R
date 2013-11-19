@@ -63,7 +63,7 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   cally <- call('as.character', xvect )
   datashield.assign(datasources, 'dummy_char', cally)
   # call the server side function that turns it now into a numeric vector
-  cally <- call('as.numeric', 'dummy_char' )
+  cally <- call('as.numeric', quote(dummy_char) )
   datashield.assign(datasources, newobj, cally)
   
   # a message so the user know the function was run (assign function are 'silent')
