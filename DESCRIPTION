@@ -68,3 +68,4 @@ Collate:
     'ds.log.R'
     'ds.sum.R'
     'ds.makeBinary.R'
+    'ds.fac2num.R'
