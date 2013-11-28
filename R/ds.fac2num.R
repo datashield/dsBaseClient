@@ -36,7 +36,7 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   if(is.null(xvect)){
     message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector\n")
+    message(" Please provide a valid factor vector\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
