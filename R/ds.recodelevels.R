@@ -23,6 +23,7 @@
 #' 
 #' # rename the levels of PM_BMI_CATEGORICAL
 #' ds.recodelevels(opals, quote(D$PM_BMI_CATEGORICAL), newlabels=c('normal', 'overweight', 'obesity'), 'bmi_new')
+#' ds.levels(opals, quote(bmi_new))
 #' 
 #' }
 #' 
