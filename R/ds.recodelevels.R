@@ -1,15 +1,16 @@
 #' 
-#' @title Turns a factor into numerical type
-#' @description This function combines in itself two functions: \code{as.character} and \code{as.numeric} as in order
-#' to turn a factor into a numerical variable, one has to first turn it into a character.
+#' @title recodes a categorical variable
+#' @description this function recodes levels of a categorical variable with new given labels. 
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a vector.
+#' @param xvect a factor
+#' @param newlabels a string vector with new labels for the levels
+#' If \code{newlabels} is not specified, the naming of original levels is amended - numbering is added (0_..., 1_..., 2_... etc.)
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_fac2num' (e.g. 'GENDER_fac2num', if input 
-#' variable's name is 'GENDER')
-#' @return a message is displayed when the action is completed.
-#' @author Gaye, A.; Isaeva, I.
+#' variable is the name of the input variable with the suffixe '_recoded' (e.g. 'PM_BMI_CATEGORICAL_recoded', if input 
+#' variable's name is 'PM_BMI_CATEGORICAL')
+#' @return a factor vector with new labels for levels
+#' @author Isaeva, I.; Gaye, A.
 #' @export
 #' @examples {
 #' 
@@ -17,15 +18,15 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("GENDER")
+#' myvar <- list("PM_BMI_CATEGORICAL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # turn the factor variable 'GENDER' into a numeric vector
-#' ds.fac2num(datasources=opals, xvect=quote(D$GENDER))
+#' # rename the levels of PM_BMI_CATEGORICAL
+#' ds.recodelevels(opals, quote(D$PM_BMI_CATEGORICAL), newlabels=c('normal', 'overweight', 'obesity'), 'bmi_new')
 #' 
 #' }
 #' 
-ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
+ds.recodelevels = function(datasources=NULL, xvect=NULL, newlabels=NULL, newobj=NULL){
   
   if(is.null(datasources)){
     message("\n\n ALERT!\n")
@@ -36,7 +37,7 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   if(is.null(xvect)){
     message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector\n")
+    message(" Please provide a valid factor vector\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
@@ -56,15 +57,13 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(varname, "_fac2num")
+    newobj <- paste0(varname, "_recoded")
   }
   
-  # call the server side function that turns the vector into a character first
-  cally <- call('as.character', xvect )
-  datashield.assign(datasources, 'dummy_char', cally)
-  # call the server side function that turns it now into a numeric vector
-  cally <- call('as.numeric', quote(dummy_char) )
+  # call the server side function that will recode the levels
+  cally <- call('recodelevels.ds', xvect, newlabels )
   datashield.assign(datasources, newobj, cally)
+  
   
   # a message so the user know the function was run (assign function are 'silent')
   message("An 'assign' function was run, no output should be expected on the client side!")

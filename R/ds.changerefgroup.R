@@ -1,15 +1,16 @@
 #' 
-#' @title Turns a factor into numerical type
-#' @description This function combines in itself two functions: \code{as.character} and \code{as.numeric} as in order
-#' to turn a factor into a numerical variable, one has to first turn it into a character.
+#' @title changes a reference level of a factor
+#' @description this function is similar to R function \code{relevel}, but in addition addes numbering to the levels
+#' so that they are displayed in the right order when creating cross-tables.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a vector.
+#' @param xvect a factor
+#' @param nref the reference level
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_fac2num' (e.g. 'GENDER_fac2num', if input 
-#' variable's name is 'GENDER')
-#' @return a message is displayed when the action is completed.
-#' @author Gaye, A.; Isaeva, I.
+#' variable is the name of the input variable with the suffixe '_newref' (e.g. 'PM_BMI_CATEGORICAL_newref', if input 
+#' variable's name is 'PM_BMI_CATEGORICAL')
+#' @return a factor of the same length as xvect
+#' @author Isaeva, I.; Gaye, A.
 #' @export
 #' @examples {
 #' 
@@ -17,15 +18,21 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("GENDER")
+#' myvar <- list("PM_BMI_CATEGORICAL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # turn the factor variable 'GENDER' into a numeric vector
-#' ds.fac2num(datasources=opals, xvect=quote(D$GENDER))
+#' # rename the levels of PM_BMI_CATEGORICAL and make "obesity" as a reference level
+#' ds.recodelevels(opals, quote(D$PM_BMI_CATEGORICAL), newlabels=c('normal', 'overweight', 'obesity'), 'bmi_new')
+#' ds.changerefgroup(opals, quote(bmi_new), ref='2_obesity', newobj = 'bmi_ob')
+#' ds.levels(opals, quote(bmi_ob))
+#' 
+#' # or without renaming the levels (group "3" as a reference level)
+#' ds.changerefgroup(opals, quote(D$PM_BMI_CATEGORICAL), ref='3')
+#' ds.levels(opals, quote(PM_BMI_CATEGORICAL_newref))
 #' 
 #' }
 #' 
-ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
+ds.changerefgroup = function(datasources=NULL, xvect=NULL, ref=NULL, newobj=NULL){
   
   if(is.null(datasources)){
     message("\n\n ALERT!\n")
@@ -36,7 +43,7 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   if(is.null(xvect)){
     message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector\n")
+    message(" Please provide a valid factor vector\n")
     stop(" End of process!\n\n", call.=FALSE)
   }
   
@@ -56,15 +63,13 @@ ds.fac2num = function(datasources=NULL, xvect=NULL, newobj=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(varname, "_fac2num")
+    newobj <- paste0(varname, "_newref")
   }
   
-  # call the server side function that turns the vector into a character first
-  cally <- call('as.character', xvect )
-  datashield.assign(datasources, 'dummy_char', cally)
-  # call the server side function that turns it now into a numeric vector
-  cally <- call('as.numeric', quote(dummy_char) )
+  # call the server side function that will recode the levels
+  cally <- call('changerefgroup.ds', xvect, ref )
   datashield.assign(datasources, newobj, cally)
+  
   
   # a message so the user know the function was run (assign function are 'silent')
   message("An 'assign' function was run, no output should be expected on the client side!")

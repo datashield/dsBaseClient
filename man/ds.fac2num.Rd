@@ -17,7 +17,7 @@
   argument is set to NULL, the name of the new variable is
   the name of the input variable with the suffixe
   '_fac2num' (e.g. 'GENDER_fac2num', if input variable's
-  name is 'GENDER)}
+  name is 'GENDER')}
 }
 \value{
   a message is displayed when the action is completed.

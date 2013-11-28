@@ -69,3 +69,5 @@ Collate:
     'ds.sum.R'
     'ds.makeBinary.R'
     'ds.fac2num.R'
+    'ds.changerefgroup.R'
+    'ds.recodelevels.R'
