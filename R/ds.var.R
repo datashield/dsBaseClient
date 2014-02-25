@@ -6,7 +6,7 @@
 #' @param type a character which represents the type of analysis to carry out. 
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
-#' @return a mean value
+#' @return a a global variance or one variance for each study.
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -51,17 +51,30 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   numsources <- length(datasources)
   
   cally <- call('var.ds', xvect )
-  variances <- datashield.aggregate(datasources, cally)
+  var.local <- datashield.aggregate(datasources, cally)
   
-  if(type=="combine"){
-    pooled.variance <- sum(unlist(variances))/numsources
-    return(list("pooled.variance"=round(pooled.variance,4)))
-  }else{
-    if(type=="split"){
-      return(variances)
-    }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
-    } 
+  if (type=='split') {
+    return(var.local)
+  } else if (type=='combine') {
+    length.total = 0
+    sum.weighted = 0
+    var.global  = NA
+    
+    for (i in 1:num.sources){
+      if ((!is.null(length.local[[i]])) & (length.local[[i]]!=0)) {
+        length.total = length.total+length.local[[i]]
+        sum.weighted = sum.weighted+length.local[[i]]*var.local[[i]]
+      }
+    }
+    
+    # get the pooled variance
+    var.global = sum.weighted/length.total
+    
+    if (!is.na(var.global))
+      return(list("Global variance"=var.global))
+    
+  } else{
+    stop('Function argument "type" has to be either "combine" or "split"')
   }
   
 }
