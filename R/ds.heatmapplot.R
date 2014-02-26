@@ -112,7 +112,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     
     
     # generate the grid density object to plot
-    cally <- call("ji.densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
+    cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
     grid.density.obj <- datashield.aggregate(datasources, cally)
     
     numcol<-dim(grid.density.obj[[1]])[2]
