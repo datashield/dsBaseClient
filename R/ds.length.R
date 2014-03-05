@@ -1,10 +1,11 @@
+
 #' 
 #' @title Gets the length of a vector
 #' @description this function is similar to R function \code{length} with the addition that
 #' it also generates a global length (i.e. of the lengths of a vector across several datasets)
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a vector
+#' @param xvect a string character, the name of a vector
 #' @param type a character which represents the type of analysis to carry out. 
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
@@ -21,10 +22,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
-#' ds.length(datasources=opals, xvect=quote(D$LAB_TSC))
+#' ds.length(datasources=opals, xvect="D$LAB_TSC")
 #' 
 #' # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
-#' ds.length(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+#' ds.length(datasources=opals, xvect="D$LAB_TSC", type="split")
 #' }
 #' 
 ds.length = function(datasources=NULL, xvect=NULL, type='combine'){
@@ -43,11 +44,11 @@ ds.length = function(datasources=NULL, xvect=NULL, type='combine'){
   }
   
   # call the function that checks the variable is available and not empty
-  vars2check <- list(xvect)
-  datasources <- ds.checkvar(datasources, vars2check)
+  #vars2check <- list(xvect)
+  #datasources <- ds.checkvar(datasources, vars2check)
   
-  cally <- call('length', xvect )
-  lengths <- datashield.aggregate(datasources, cally)
+  cally <- paste0("length(", xvect, ")")
+  lengths <- datashield.aggregate(datasources, as.symbol(cally))
   
   if(type=="combine"){
     pooled.length <- sum(unlist(lengths))

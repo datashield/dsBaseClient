@@ -2,7 +2,7 @@
 #' @title Computes the variance of a given vector (for several studies separately or combined)
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a numerical vector
+#' @param xvect a string character, the name of a numerical vector
 #' @param type a character which represents the type of analysis to carry out. 
 #' If \code{type} is set to 'combine', a global variance is calculated 
 #' if \code{type} is set to 'split', the variance is calculated separately for each study.
@@ -19,10 +19,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
-#' ds.var(datasources=opals, xvect=quote(D$LAB_TSC))
+#' ds.var(datasources=opals, xvect="D$LAB_TSC")
 #' 
 #' # Example 2: compute the variance of each study separately
-#' ds.var(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+#' ds.var(datasources=opals, xvect="D$LAB_TSC", type="split")
 #' }
 #' 
 ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
@@ -41,8 +41,8 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   }
   
   # call the function that checks the variable is available and not empty
-  vars2check <- list(xvect)
-  datasources <- ds.checkvar(datasources, vars2check)
+  #vars2check <- list(xvect)
+  #datasources <- ds.checkvar(datasources, vars2check)
   
   # name of the studies to be used in the output
   stdnames <- names(datasources)
@@ -50,10 +50,10 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   # number of studies
   num.sources <- length(datasources)
   
-  cally <- call('var.ds', xvect )
-  var.local <- datashield.aggregate(datasources, cally)
+  cally <- paste0("var.ds(", xvect, ")")
+  var.local <- datashield.aggregate(datasources, as.symbol(cally))
   
-  cally = call('NROW', xvect)
+  cally <- paste0("NROW(", xvect, ")")
   length.local <- datashield.aggregate(datasources, cally)
   
   if (type=='split') {
