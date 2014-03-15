@@ -2,8 +2,8 @@
 \alias{table2dhelper2}
 \title{Generates a valid array}
 \usage{
-  table2dhelper2(input, num.valid.tables,
-    opals.valid.binary, opals.valid.id, zero.studies.valid)
+table2dhelper2(input, num.valid.tables, opals.valid.binary, opals.valid.id,
+  zero.studies.valid)
 }
 \arguments{
   \item{input}{a list object returned by the server side
@@ -23,16 +23,19 @@
   studies were not valid}
 }
 \value{
-  a list which contains a valid array and vectors of unique
-  categories
+a list which contains a valid array and vectors of unique
+categories
 }
 \description{
-  this is an INTERNAL function required by the client
-  function \code{ds.table2d}. The function is not
-  'exported' and hence not visible to user and is only
-  called by \code{ds.table2d}
+this is an INTERNAL function required by the client
+function \code{ds.table2d}. The function is not 'exported'
+and hence not visible to user and is only called by
+\code{ds.table2d}
+}
+\details{
+
 }
 \author{
-  Burton, P.; Gaye, A.
+Burton, P.; Gaye, A.
 }
 

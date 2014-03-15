@@ -2,8 +2,8 @@
 \alias{ds.append2df}
 \title{Appends a vector/column to a dataframe}
 \usage{
-  ds.append2df(datasources = NULL, dataset = NULL,
-    xvect = NULL, replace = FALSE)
+ds.append2df(datasources = NULL, dataset = NULL, xvect = NULL,
+  replace = FALSE)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -27,19 +27,19 @@
   takes the name of the initial one)}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Appends a vector/column to a dataframe
+
 }
 \details{
-  The function appends a numeric or factor vector to a
-  dataframe. The initial dataframe is replaced by the new
-  dataframe if the argument 'replace' is set to 'TRUE';
-  otherwise a new dataframe is generated and named after
-  the intitial dataframe with the addition of a suffixe
-  'new'; for example if the initial dataframe is 'D' the
-  new dataframe will be 'Dnew'.
+The function appends a numeric or factor vector to a
+dataframe. The initial dataframe is replaced by the new
+dataframe if the argument 'replace' is set to 'TRUE';
+otherwise a new dataframe is generated and named after the
+intitial dataframe with the addition of a suffixe 'new';
+for example if the initial dataframe is 'D' the new
+dataframe will be 'Dnew'.
 }
 \examples{
 {
@@ -68,6 +68,6 @@ ds.append2df(datasources=opals, dataset=quote(D), xvect=quote(lab_hdl.c), replac
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

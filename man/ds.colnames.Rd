@@ -2,7 +2,7 @@
 \alias{ds.colnames}
 \title{Retrieves column names of a matrix-like object}
 \usage{
-  ds.colnames(datasources = NULL, x = NULL)
+ds.colnames(datasources = NULL, x = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{x}{a matrix-like object}
 }
 \value{
-  a string containing column names of the given object
+a string containing column names of the given object
 }
 \description{
-  this function is similar to R function \code{colnames}
+this function is similar to R function \code{colnames}
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.colnames(datasources=opals, x=quote(D))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

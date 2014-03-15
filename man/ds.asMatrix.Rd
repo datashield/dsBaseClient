@@ -2,7 +2,7 @@
 \alias{ds.asMatrix}
 \title{Attempts to turn its argument into a matrix}
 \usage{
-  ds.asMatrix(datasources = NULL, x = NULL, newobj = NULL)
+ds.asMatrix(datasources = NULL, x = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -18,10 +18,13 @@
   (e.g. 'D_matrix', if input variable's name is 'D')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{as.matrix}.
+This function is similar to R function \code{as.matrix}.
+}
+\details{
+
 }
 \examples{
 {
@@ -37,6 +40,6 @@ ds.asMatrix(datasources=opals, x=quote(D))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

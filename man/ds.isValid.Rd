@@ -2,7 +2,7 @@
 \alias{ds.isValid}
 \title{Checks if an variable is valid}
 \usage{
-  ds.isValid(datasources = NULL, xvect = NULL)
+ds.isValid(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,20 +13,20 @@
   \item{xvect}{a numeric or factor vector.}
 }
 \value{
-  a list with booleans (one for each study), TRUE if input
-  vector is valid and FALSE otherwise.
+a list with booleans (one for each study), TRUE if input
+vector is valid and FALSE otherwise.
 }
 \description{
-  Checks if an variable is valid
+
 }
 \details{
-  This function checks if an input variable is valid. In
-  DataSHIELD, a numeric variable is not valid if it has > 0
-  and < 5 observations and a factor variable is not valid
-  if any of its levels (categories) has a count of between
-  1 and 4. The process is stopped if the input variable is
-  not valid to prevent further processing that might be
-  revealing.
+This function checks if an input variable is valid. In
+DataSHIELD, a numeric variable is not valid if it has > 0
+and < 5 observations and a factor variable is not valid if
+any of its levels (categories) has a count of between 1 and
+4. The process is stopped if the input variable is not
+valid to prevent further processing that might be
+revealing.
 }
 \examples{
 {
@@ -47,6 +47,6 @@ ds.isValid(datasources=opals, xvect=quote(D$GENDER))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

@@ -2,8 +2,7 @@
 \alias{ds.product}
 \title{Computes a product}
 \usage{
-  ds.product(datasources = NULL, xlist = NULL,
-    newobj = NULL)
+ds.product(datasources = NULL, xlist = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,13 +18,13 @@
   'prodOutput'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Computes a product
+
 }
 \details{
-  The function computes the product of up to five elements
+The function computes the product of up to five elements
 }
 \examples{
 {
@@ -43,6 +42,6 @@ ds.product(datasources=opals, xlist=prodinput, newobj=NULL)
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

@@ -2,8 +2,7 @@
 \alias{ds.range}
 \title{Gets the range of a vector}
 \usage{
-  ds.range(datasources = NULL, xvect = NULL,
-    type = "combine")
+ds.range(datasources = NULL, xvect = NULL, type = "combine")
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -20,15 +19,17 @@
   each study.}
 }
 \value{
-  a numeric vector which contains the minimum and the
-  maximum
+a numeric vector which contains the minimum and the maximum
 }
 \description{
-  this function is similar to R function \code{range} but
-  instead to not return the real minimum and maximum, the
-  computed values are multiplied by a very small random
-  number. In addition it also generates a global range
-  (i.e. the range of a vector across several datasets)
+this function is similar to R function \code{range} but
+instead to not return the real minimum and maximum, the
+computed values are multiplied by a very small random
+number. In addition it also generates a global range (i.e.
+the range of a vector across several datasets)
+}
+\details{
+
 }
 \examples{
 {
@@ -48,6 +49,6 @@ ds.range(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

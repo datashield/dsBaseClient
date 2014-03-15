@@ -2,7 +2,7 @@
 \alias{ds.sum}
 \title{Returns the sum of all the values present in its arguments}
 \usage{
-  ds.sum(datasources = NULL, vector = NULL, newobj = NULL)
+ds.sum(datasources = NULL, vector = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -18,11 +18,10 @@
   object is 'sum_vect'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Returns the sum of all the values present in its
-  arguments
+
 }
 \examples{
 {
@@ -40,6 +39,6 @@ ds.sum(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

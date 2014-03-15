@@ -2,7 +2,7 @@
 \alias{ds.asList}
 \title{Constructs an object of type list}
 \usage{
-  ds.asList(datasources = NULL, x = NULL, newobj = NULL)
+ds.asList(datasources = NULL, x = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -18,10 +18,13 @@
   'D_factor', if input variable's name is 'D')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{as.list}.
+This function is similar to R function \code{as.list}.
+}
+\details{
+
 }
 \examples{
 {
@@ -37,6 +40,6 @@ ds.asList(datasources=opals, x=quote(D))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

@@ -2,8 +2,7 @@
 \alias{ds.log}
 \title{Computes logarithms, by default natural logarithms}
 \usage{
-  ds.log(datasources = NULL, xvect = NULL, base = exp(1),
-    newobj = NULL)
+ds.log(datasources = NULL, xvect = NULL, base = exp(1), newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -23,10 +22,13 @@
   'LAB_TSC')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{log}.
+This function is similar to R function \code{log}.
+}
+\details{
+
 }
 \examples{
 {
@@ -47,6 +49,6 @@ ds.log(datasources=opals, xvect=quote(D$LAB_TSC), base=2)
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

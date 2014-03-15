@@ -2,7 +2,7 @@
 \alias{ds.exp}
 \title{Computes the exponential function}
 \usage{
-  ds.exp(datasources = NULL, xvect = NULL, newobj = NULL)
+ds.exp(datasources = NULL, xvect = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,10 +19,13 @@
   is 'PM_BMI_CONTINUOUS')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{exp}.
+This function is similar to R function \code{exp}.
+}
+\details{
+
 }
 \examples{
 {
@@ -40,6 +43,6 @@ ds.exp(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

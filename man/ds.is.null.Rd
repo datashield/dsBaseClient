@@ -2,7 +2,7 @@
 \alias{ds.is.null}
 \title{tests whether an object is NULL}
 \usage{
-  ds.is.null(datasources = NULL, xvect = NULL)
+ds.is.null(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{xvect}{a vector to be tested}
 }
 \value{
-  a logic value (TRUE if xvect is null and FALSE otherwise)
+a logic value (TRUE if xvect is null and FALSE otherwise)
 }
 \description{
-  this function is similar to R function \code{is.null}
+this function is similar to R function \code{is.null}
+}
+\details{
+
 }
 \examples{
 {
@@ -33,6 +36,6 @@ ds.is.null(datasources=opals, xvect=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

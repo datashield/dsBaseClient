@@ -2,8 +2,7 @@
 \alias{ds.mean}
 \title{Computes the statistical mean of a given vector (for several studies separately or combined)}
 \usage{
-  ds.mean(datasources = NULL, xvect = NULL,
-    type = "combine")
+ds.mean(datasources = NULL, xvect = NULL, type = "combine")
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -11,7 +10,8 @@
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xvect}{a numerical vector}
+  \item{xvect}{a string character, the name of a numerical
+  vector}
 
   \item{type}{a character which represents the type of
   analysis to carry out. If \code{type} is set to
@@ -20,11 +20,10 @@
   each study.}
 }
 \value{
-  a mean value
+a mean value
 }
 \description{
-  Computes the statistical mean of a given vector (for
-  several studies separately or combined)
+
 }
 \examples{
 {
@@ -37,13 +36,13 @@ myvar <- list("LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
-ds.mean(datasources=opals, xvect=quote(D$LAB_TSC))
+ds.mean(datasources=opals, xvect="D$LAB_TSC")
 
 # Example 2: compute the statistical mean of each study separately
-ds.mean(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+ds.mean(datasources=opals, xvect="D$LAB_TSC", type="split")
 }
 }
 \author{
-  Isaeva, J.
+Isaeva, J.
 }
 

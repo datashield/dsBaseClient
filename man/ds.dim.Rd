@@ -2,7 +2,7 @@
 \alias{ds.dim}
 \title{Retrieves the dimension of an object}
 \usage{
-  ds.dim(datasources = NULL, x = NULL)
+ds.dim(datasources = NULL, x = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -14,11 +14,14 @@
   frame}
 }
 \value{
-  for an array, \code{NULL} or a vector of mode
-  \code{integer}
+for an array, \code{NULL} or a vector of mode
+\code{integer}
 }
 \description{
-  this function is similar to R function \code{dim}
+this function is similar to R function \code{dim}
+}
+\details{
+
 }
 \examples{
 {
@@ -37,6 +40,6 @@ ds.dim(datasources=opals, x=quote(D))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

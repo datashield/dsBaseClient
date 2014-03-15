@@ -2,7 +2,7 @@
 \alias{ds.asNull}
 \title{Ignores its argument and returns the value \code{NULL}.}
 \usage{
-  ds.asNull(datasources = NULL, x = NULL, newobj = NULL)
+ds.asNull(datasources = NULL, x = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,10 +19,13 @@
   'LAB_TSC')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{as.null}.
+This function is similar to R function \code{as.null}.
+}
+\details{
+
 }
 \examples{
 {
@@ -38,6 +41,6 @@ ds.asNull(datasources=opals, x=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

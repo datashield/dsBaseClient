@@ -2,8 +2,7 @@
 \alias{ds.histogram}
 \title{Plots a histogram}
 \usage{
-  ds.histogram(datasources = NULL, xvect = NULL,
-    type = "combine")
+ds.histogram(datasources = NULL, xvect = NULL, type = "combine")
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -21,16 +20,19 @@
   to 'split'.}
 }
 \value{
-  one or more histogram plot depending on the argument
-  \code{type}
+one or more histogram plot depending on the argument
+\code{type}
 }
 \description{
-  This function plots histogram of the given data values.
-  It calls a datashield server side function that produces
-  the histogram objects to plot. The objects to plot do not
-  contain bins with counts < 5. The function allows for the
-  user to plot disctinct histograms (one for each study) or
-  a combine histogram that merges the single plots.
+This function plots histogram of the given data values. It
+calls a datashield server side function that produces the
+histogram objects to plot. The objects to plot do not
+contain bins with counts < 5. The function allows for the
+user to plot disctinct histograms (one for each study) or a
+combine histogram that merges the single plots.
+}
+\details{
+
 }
 \examples{
 {
@@ -62,6 +64,6 @@ ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

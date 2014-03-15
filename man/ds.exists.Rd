@@ -2,7 +2,7 @@
 \alias{ds.exists}
 \title{Checks if an object is defined on the server side}
 \usage{
-  ds.exists(datasources = NULL, xname = NULL)
+ds.exists(datasources = NULL, xname = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,19 +13,21 @@
   \item{xname}{the name of the object to look for.}
 }
 \value{
-  a bollean, TRUE if the object is on the server side and
-  FALSE otherwise
+a bollean, TRUE if the object is on the server side and
+FALSE otherwise
 }
 \description{
-  In DataSHIELD it is not possible to see the data sitting
-  on the servers of the collaborating studies. It is only
-  possible to get summaries of objects stored on the server
-  side. It is however important to know if an object
-  created on the server is really there. This function
-  checks if an object do really exist on the server side.
-  Further information about the object can also be obtain
-  using function such as \code{ds.class}, \code{length}
-  etc...
+In DataSHIELD it is not possible to see the data sitting on
+the servers of the collaborating studies. It is only
+possible to get summaries of objects stored on the server
+side. It is however important to know if an object created
+on the server is really there. This function checks if an
+object do really exist on the server side. Further
+information about the object can also be obtain using
+function such as \code{ds.class}, \code{length} etc...
+}
+\details{
+
 }
 \examples{
 {
@@ -45,6 +47,6 @@ ds.exists(datasources=opals, xname="labtsc")
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

@@ -2,7 +2,7 @@
 \alias{ds.class}
 \title{Retrieves the class of an object}
 \usage{
-  ds.class(datasources = NULL, x = NULL)
+ds.class(datasources = NULL, x = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{x}{an R object}
 }
 \value{
-  class of x
+class of x
 }
 \description{
-  this function is similar to R function \code{class}
+this function is similar to R function \code{class}
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.class(datasources=opals, x=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

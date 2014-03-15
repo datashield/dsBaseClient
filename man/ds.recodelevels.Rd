@@ -2,8 +2,8 @@
 \alias{ds.recodelevels}
 \title{recodes a categorical variable}
 \usage{
-  ds.recodelevels(datasources = NULL, xvect = NULL,
-    newlabels = NULL, newobj = NULL)
+ds.recodelevels(datasources = NULL, xvect = NULL, newlabels = NULL,
+  newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -25,11 +25,14 @@
   variable's name is 'PM_BMI_CATEGORICAL')}
 }
 \value{
-  a factor vector with new labels for levels
+a factor vector with new labels for levels
 }
 \description{
-  this function recodes levels of a categorical variable
-  with new given labels.
+this function recodes levels of a categorical variable with
+new given labels.
+}
+\details{
+
 }
 \examples{
 {
@@ -43,10 +46,11 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # rename the levels of PM_BMI_CATEGORICAL
 ds.recodelevels(opals, quote(D$PM_BMI_CATEGORICAL), newlabels=c('normal', 'overweight', 'obesity'), 'bmi_new')
+ds.levels(opals, quote(bmi_new))
 
 }
 }
 \author{
-  Isaeva, I.; Gaye, A.
+Isaeva, I.; Gaye, A.
 }
 

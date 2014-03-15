@@ -2,8 +2,7 @@
 \alias{ds.createfactor}
 \title{Ensures factors have same classes across studies}
 \usage{
-  ds.createfactor(datasources = NULL, xvect = NULL,
-    newvarname = NULL)
+ds.createfactor(datasources = NULL, xvect = NULL, newvarname = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -17,18 +16,18 @@
   created factor to.}
 }
 \value{
-  a list of \code{factor} vectors or one factor vector.
+a list of \code{factor} vectors or one factor vector.
 }
 \description{
-  Ensures factors have same classes across studies
+
 }
 \details{
-  This function checks if a factor variable has the same
-  length accross the collaborating studies; if not it adds
-  the missing level(s) to make up for the missing
-  class(es). This is necessary for certain function like
-  \code{ds.glm} which require the same classes across the
-  studies to combine.
+This function checks if a factor variable has the same
+length accross the collaborating studies; if not it adds
+the missing level(s) to make up for the missing class(es).
+This is necessary for certain function like \code{ds.glm}
+which require the same classes across the studies to
+combine.
 }
 \examples{
 {
@@ -59,6 +58,6 @@ datashield.aggregate(opals[3], quote(levels(PM_BMI_CATEGORICAL_f)))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

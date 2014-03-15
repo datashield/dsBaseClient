@@ -2,8 +2,7 @@
 \alias{ds.cbind}
 \title{Combines objects by columns}
 \usage{
-  ds.cbind(datasources = NULL, vector = NULL,
-    newobj = NULL)
+ds.cbind(datasources = NULL, vector = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -18,10 +17,10 @@
   object is 'cbind_vect'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Combines objects by columns
+
 }
 \examples{
 {
@@ -39,6 +38,6 @@ ds.cbind(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

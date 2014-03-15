@@ -2,7 +2,7 @@
 \alias{ds.is.factor}
 \title{a test of an object being of type "factor"}
 \usage{
-  ds.is.factor(datasources = NULL, xvect = NULL)
+ds.is.factor(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{xvect}{a vector to be tested}
 }
 \value{
-  a logic value (TRUE if xvect is numeric)
+a logic value (TRUE if xvect is numeric)
 }
 \description{
-  this function is similar to R function \code{is.factor}
+this function is similar to R function \code{is.factor}
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.is.factor(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 
