@@ -1,18 +1,20 @@
 #' 
 #' @title Generates valid subset(s) of a dataframe or a factor
-#' @description The function takes a categorical vector or dataframe as input and generates subset(s)
-#' vectors or dataframes for each category. Subsets are considered invalid if they hold between 1 and 
-#' 4 observations.
-#' @details If the input data object is a dataframe it is possible to specify  the variables  
+#' @description The function takes a categorical variable or a data frame as input and generates subset(s)
+#' variables or data frames for each category.
+#' @details If the input data object is a data frame it is possible to specify  the variables  
 #' to subset on. If a subset is not 'valid' all its the values are reported as missing (i.e. NA),
-#' the name of the subsets is labelled as '_INVALID'.
+#' the name of the subsets is labelled as '_INVALID'. Subsets are considered invalid if the number
+#' of observations it holds are less than the agreed threshold (e.g. 5). Subsets with no observations
+#' (i.e. no observation in that categorie) are assigned missing values. The user is informed if any 
+#' subset is invalid or empty.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param subsets the name of the output object, a list that holds the subset objects. If set to NULL
 #' the default name of this list is 'subsclasses' 
-#' @param data a string character, the name of the dataframe or the vector to generate subsets from.
+#' @param data a string character, the name of the data frame or the vector to generate subsets from.
 #' @param variables a vector of string characters, the name(s) of the variables to subset by.
-#' @return a message is displayed when the action is completed.
+#' @return a no data are return to the user but messages are printed out.
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -26,7 +28,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: generate all possible subsets from the table assigne above 
-#' ds.subclass(datasources=opals, subsets="subtables", data="D")
+#' ds.subclass(datasources=opals, subsets="subclasses", data="D")
 #' 
 #' # Example 2: subset the table initially assigned by the variable 'GENDER'
 #' ds.subclass(datasources=opals, subsets="subtables", data="D", variables="GENDER")
@@ -44,6 +46,8 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
     message("No valid opal object(s) provided!")
     message("Make sure you are logged in to valid opal server(s).")
     stop(" End of process!\n", call.=FALSE)
+  }else{
+    stdnames <- names(datasources)
   }
   
   # call the server side function that does the job
@@ -51,12 +55,40 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
   cally <- call('subclassDS', data, variables)
   datashield.assign(datasources, subsets, cally)
   
-  # check the subsets and tell if some are invalid 
-  
-  
   # a message so the user knows the function was ran (assign functions are 'silent')
   message("An 'assign' function was ran, no output should be expected on the client side!")
   
-  # check that the new object has been created and display a message accordingly
-  tell <- dsbaseclient:::.ds.tellUser(datasources, subsets)
+  # call the function that verifies the output of the assign function 
+  check0 <- dsbaseclient:::.tellUser(datasources, subsets)
+  
+  # inform user of possible invalid or empty subsets if the subsets has been created
+  if(mean(check0) != 0){
+    
+    ll <- which(check0 == 1)
+  
+    # check the subsets and tell if some are invalid or empty
+    for(i in ll){
+      listcontent <- ds.names(datasources[i], subsets)
+      invalidsubs <- c()
+      emptysubs <- c()
+      for(j in 1:length(listcontent)){
+        check1 <- which(unlist(strsplit(listcontent[[j]],"_")) == "INVALID")
+        check2 <- which(unlist(strsplit(listcontent[[j]],"_")) == "NULL")
+        if(length(check1) > 0){
+          invalidsubs <- append(invalidsubs, listcontent[[j]])
+        }
+        if(length(check2) > 0){
+          emptysubs <- append(emptysubs, listcontent[[j]])
+        }
+      }
+      if(length(invalidsubs) > 0){
+        message(paste0("Invalids subsets in ", stdnames[i], ":"))
+        print(invalidsubs)
+      }
+      if(length(emptysubs) > 0){
+        message(paste0("Empty subsets (i.e. no observations)  in ", stdnames[i], ":"))
+        print(emptysubs)
+      }
+    }
+  }
 }
