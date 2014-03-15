@@ -55,23 +55,22 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
   cally <- call('subclassDS', data, variables)
   datashield.assign(datasources, subsets, cally)
   
-  # possible 'error' from the server side function if no subset has been generated
+  # a message so the user knows the function was ran (assign functions are 'silent')
+  message("An 'assign' function was ran, no output should be expected on the client side!")
+  
+  # possible 'errors' from the server side function if no subset has been generated
   m1 <- "The input data you provided is not defined!"
   m2 <- "The input table holds no factor variables!"
   m3 <- "The variables to subset by must be factors!"
   m4 <- "The input data must be a factor or a dataframe!"
   txt2print <- c(m1, m2, m3, m4)
   
-  # a message so the user knows the function was ran (assign functions are 'silent')
-  message("An 'assign' function was ran, no output should be expected on the client side!")
-  
-  
   # check the subsets and tell if they have been generated or if some are invalid or empty
   for(i in 1: length(datasources)){
     listcontent <- ds.names(datasources[i], subsets)
-    if(listcontent[[1]] == m1 | listcontent[[1]] == m2 | listcontent[[1]] == m3 | listcontent[[1]] == m4){
+    if(listcontent[[1]][1] == m1 | listcontent[[1]][1] == m2 | listcontent[[1]][1] == m3 | listcontent[[1]][1] == m4){
       for(q in 1:4){
-        if(listcontent[[1]] == txt2print[q]){
+        if(listcontent[[1]][1] == txt2print[q]){
           message(txt2print[q])
         }
       }
