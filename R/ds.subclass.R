@@ -43,7 +43,7 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
   if(is.null(datasources)){
     message("No valid opal object(s) provided!")
     message("Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }else{
     stdnames <- names(datasources)
   }
@@ -85,19 +85,17 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
       }
       if(length(invalidsubs) > 0){
         message(paste0("Invalids subsets in ", stdnames[i], ":"))
-        print(invalidsubs)
+        message(paste0(paste(invalidsubs, collapse=", "), "\n"))
       }
     }
   }
   
   # now check if some studies have missing subsets (i.e. categories with no observations)
-  numlevels <- max(numclases, na.rm=TRUE)
+  numlevels <- max(numclasses, na.rm=TRUE)
   idx <- which(numclasses < numlevels)
   if(length(idx) > 0){
-    message("\n")
-    warning("Some categories had no observations in the following studies: ", paste(stdnames[idx], collapse=", "), ".")
-    message("The subsets for those categories were hence not generated - see the list of subsets")
+    warning("Some categories had no observations in the following studies: ", paste(stdnames[idx], collapse=", "), "; the subsets for those categories were hence not generated - see the list of subsets.", call.=FALSE)
   }else{
-    message("If a subset is missing in all the studies then it probably has no observations in any of the studies!")
+    print("If a subset is missing in all the studies then it probably has no observations in any of the studies!")
   }
 }

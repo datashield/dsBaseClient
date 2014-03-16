@@ -39,9 +39,7 @@ specify the variables to subset on. If a subset is not
 NA), the name of the subsets is labelled as '_INVALID'.
 Subsets are considered invalid if the number of
 observations it holds are less than the agreed threshold
-(e.g. 5). Subsets with no observations (i.e. no observation
-in that categorie) are assigned missing values. The user is
-informed if any subset is invalid or empty.
+(e.g. 5).
 }
 \examples{
 {
