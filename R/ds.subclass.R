@@ -64,8 +64,11 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
   txt2print <- c(m1, m2, m3, m4)
   
   # check the subsets and tell if they have been generated or if some are invalid or empty
+  # variables to hold counts of subsets generated
+  numclasses <- c()
   for(i in 1: length(datasources)){
     listcontent <- ds.names(datasources[i], subsets)
+    numclasses <- append(numclasses, length(listcontent[[1]]))
     if(listcontent[[1]][1] == m1 | listcontent[[1]][1] == m2 | listcontent[[1]][1] == m3 | listcontent[[1]][1] == m4){
       for(q in 1:4){
         if(listcontent[[1]][1] == txt2print[q]){
@@ -85,5 +88,16 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
         print(invalidsubs)
       }
     }
+  }
+  
+  # now check if some studies have missing subsets (i.e. categories with no observations)
+  numlevels <- max(numclases, na.rm=TRUE)
+  idx <- which(numclasses < numlevels)
+  if(length(idx) > 0){
+    message("\n")
+    warning("Some categories had no observations in the following studies: ", paste(stdnames[idx], collapse=", "), ".")
+    message("The subsets for those categories were hence not generated - see the list of subsets")
+  }else{
+    message("If a subset is missing in all the studies then it probably has no observations in any of the studies!")
   }
 }
