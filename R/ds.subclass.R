@@ -5,9 +5,7 @@
 #' @details If the input data object is a data frame it is possible to specify  the variables  
 #' to subset on. If a subset is not 'valid' all its the values are reported as missing (i.e. NA),
 #' the name of the subsets is labelled as '_INVALID'. Subsets are considered invalid if the number
-#' of observations it holds are less than the agreed threshold (e.g. 5). Subsets with no observations
-#' (i.e. no observation in that categorie) are assigned missing values. The user is informed if any 
-#' subset is invalid or empty.
+#' of observations it holds are less than the agreed threshold (e.g. 5).
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param subsets the name of the output object, a list that holds the subset objects. If set to NULL
@@ -71,29 +69,20 @@ ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, vari
     if(listcontent[[1]][1] == m1 | listcontent[[1]][1] == m2 | listcontent[[1]][1] == m3 | listcontent[[1]][1] == m4){
       for(q in 1:4){
         if(listcontent[[1]][1] == txt2print[q]){
-          message(paste0(txt2print[q], " in", stdnames[i]))
+          message(paste0(txt2print[q], " in ", stdnames[i]))
         }
       }
     }else{
       invalidsubs <- c()
-      emptysubs <- c()
-      for(j in 1:length(listcontent)){
-        check1 <- which(unlist(strsplit(listcontent[[j]],"_")) == "INVALID")
-        check2 <- which(unlist(strsplit(listcontent[[j]],"_")) == "NULL")
+      for(j in 1:length(listcontent[[1]])){
+        check1 <- which(unlist(strsplit(listcontent[[1]][j],"_")) == "INVALID")
         if(length(check1) > 0){
-          invalidsubs <- append(invalidsubs, listcontent[[j]])
-        }
-        if(length(check2) > 0){
-          emptysubs <- append(emptysubs, listcontent[[j]])
+          invalidsubs <- append(invalidsubs, listcontent[[1]][j])
         }
       }
       if(length(invalidsubs) > 0){
         message(paste0("Invalids subsets in ", stdnames[i], ":"))
         print(invalidsubs)
-      }
-      if(length(emptysubs) > 0){
-        message(paste0("Empty subsets (i.e. no observations)  in ", stdnames[i], ":"))
-        print(emptysubs)
       }
     }
   }
