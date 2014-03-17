@@ -2,8 +2,7 @@
 \alias{ds.complete.cases}
 \title{Returns a logical vector indicating which cases are complete, i.e., have no missing values.}
 \usage{
-  ds.complete.cases(datasources = NULL, x = NULL,
-    newobj = NULL)
+ds.complete.cases(datasources = NULL, x = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -21,11 +20,14 @@
   is 'D')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function
-  \code{complete.cases}.
+This function is similar to R function
+\code{complete.cases}.
+}
+\details{
+
 }
 \examples{
 {
@@ -45,6 +47,6 @@ ds.complete.cases(datasources=opals, x=input, newobj='TSC_BMI_complete')
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

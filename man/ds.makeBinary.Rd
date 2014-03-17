@@ -2,8 +2,8 @@
 \alias{ds.makeBinary}
 \title{Generates a valid binary variable from a continuous variable}
 \usage{
-  ds.makeBinary(datasources = NULL, xvect = NULL,
-    threshold = NULL, operator = NULL, newobj = NULL)
+ds.makeBinary(datasources = NULL, xvect = NULL, threshold = NULL,
+  operator = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -24,19 +24,21 @@
   the name of the input variable with a suffixe '_subset'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  The functions takes as inpout a continuous variable and
-  based on a criterion assigns the value 1 to observation
-  that met the criterion and the value 0 otherwise. Hence
-  generating a binary variable.
+The functions takes as inpout a continuous variable and
+based on a criterion assigns the value 1 to observation
+that met the criterion and the value 0 otherwise. Hence
+generating a binary variable.
 }
 \details{
-  This function runs only if the set threshold criterion is
-  met or not met by more than one observation. The
-  observation that met the criterion as assigned the value
-  '1' and other onservations are assigned '0'
+
+
+This function runs only if the set threshold criterion is
+met or not met by more than one observation. The
+observation that met the criterion as assigned the value
+'1' and other onservations are assigned '0'
 }
 \examples{
 {
@@ -54,6 +56,6 @@ ds.makeBinary(datasources=opals, xvect=quote(D$PM_BMI_CONTINUOUS), operator=">="
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

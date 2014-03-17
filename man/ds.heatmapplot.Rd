@@ -2,9 +2,8 @@
 \alias{ds.heatmapplot}
 \title{Generates a heatmap plot for merged datasets}
 \usage{
-  ds.heatmapplot(datasources = NULL, xvect = NULL,
-    yvect = NULL, type = "combine", show = "all",
-    numints = 20)
+ds.heatmapplot(datasources = NULL, xvect = NULL, yvect = NULL,
+  type = "combine", show = "all", numints = 20)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -31,10 +30,10 @@
   object}
 }
 \value{
-  a heatmap plot
+a heatmap plot
 }
 \description{
-  Generates a heatmap plot for merged datasets
+
 }
 \examples{
 {
@@ -58,6 +57,6 @@ ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="spli
 }
 }
 \author{
-  Isaeva, J.; Gaye, A.
+Isaeva, J.; Gaye, A.
 }
 

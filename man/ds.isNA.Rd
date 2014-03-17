@@ -2,7 +2,7 @@
 \alias{ds.isNA}
 \title{Checks if a vector is empty}
 \usage{
-  ds.isNA(datasources = NULL, var2check = NULL)
+ds.isNA(datasources = NULL, var2check = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -12,13 +12,16 @@
   \item{var2check}{a numerical or character vector}
 }
 \value{
-  a boolean 'TRUE' if the vector contains on NAs and
-  'FALSE' otherwise.
+a boolean 'TRUE' if the vector contains on NAs and 'FALSE'
+otherwise.
 }
 \description{
-  this function is similar to R function \code{is.na} but
-  instead of a vector of booleans it returns just one
-  boolean to tell if all the elements are missing values.
+this function is similar to R function \code{is.na} but
+instead of a vector of booleans it returns just one boolean
+to tell if all the elements are missing values.
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.isNA(datasources=opals, var2check=quote(D$LAB_HDL))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

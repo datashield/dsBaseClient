@@ -5,7 +5,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a factor
-#' @param nref the reference level
+#' @param ref the reference level
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_newref' (e.g. 'PM_BMI_CATEGORICAL_newref', if input 
 #' variable's name is 'PM_BMI_CATEGORICAL')

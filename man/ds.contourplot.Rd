@@ -2,9 +2,8 @@
 \alias{ds.contourplot}
 \title{Creates a contour plot}
 \usage{
-  ds.contourplot(datasources = NULL, xvect = NULL,
-    yvect = NULL, type = "combine", show = "all",
-    numints = 20)
+ds.contourplot(datasources = NULL, xvect = NULL, yvect = NULL,
+  type = "combine", show = "all", numints = 20)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -31,10 +30,10 @@
   object}
 }
 \value{
-  a contour plot
+a contour plot
 }
 \description{
-  Generates a contour plot of the given data values.
+Generates a contour plot of the given data values.
 }
 \examples{
 {
@@ -58,6 +57,6 @@ ds.contourplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="spli
 }
 }
 \author{
-  Burton, P.; Isaeva, J.; Gaye, A.
+Burton, P.; Isaeva, J.; Gaye, A.
 }
 

@@ -2,8 +2,7 @@
 \alias{ds.asNumeric}
 \title{Turns a vector into numerical type}
 \usage{
-  ds.asNumeric(datasources = NULL, xvect = NULL,
-    newobj = NULL)
+ds.asNumeric(datasources = NULL, xvect = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,12 +18,15 @@
   (e.g. 'GENDER_num', if input variable's name is 'GENDER)}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function \code{as.numeric}.
-  It is important to NOTE THAT FACTOR SHOULD BE TURNED INTO
-  'character' first AND THEN ONLY INTO 'numeric'.
+This function is similar to R function \code{as.numeric}.
+It is important to NOTE THAT FACTOR SHOULD BE TURNED INTO
+'character' first AND THEN ONLY INTO 'numeric'.
+}
+\details{
+
 }
 \examples{
 {
@@ -44,6 +46,6 @@ ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newobj="gender_nm")
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

@@ -2,8 +2,8 @@
 \alias{ds.subsetdata}
 \title{Generates a valid subsets of a dataset}
 \usage{
-  ds.subsetdata(datasources = NULL, dataset = NULL,
-    columns = NULL, newobj = NULL)
+ds.subsetdata(datasources = NULL, dataset = NULL, columns = NULL,
+  newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -22,19 +22,19 @@
   'subsets'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Generates a valid subsets of a dataset
+
 }
 \details{
-  The function takes a dataframe and generates a subset
-  dataframes for all the factor variables. By default a
-  subset of the dataframe is created for each category of
-  each factor. It is possible to indicate the variable for
-  which a subset is sought by indicating their columns
-  indices. If the variables at the given indices are not
-  factors no subsets are generated.
+The function takes a dataframe and generates a subset
+dataframes for all the factor variables. By default a
+subset of the dataframe is created for each category of
+each factor. It is possible to indicate the variable for
+which a subset is sought by indicating their columns
+indices. If the variables at the given indices are not
+factors no subsets are generated.
 }
 \examples{
 {
@@ -54,6 +54,6 @@ ds.subsetdata(datasources=opals, dataset="D", columns=list("GENDER"))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

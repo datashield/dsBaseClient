@@ -2,7 +2,7 @@
 \alias{ds.levels}
 \title{Provides access to the levels attribute of a variable}
 \usage{
-  ds.levels(datasources = NULL, xvect = NULL)
+ds.levels(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{xvect}{an R object (factor)}
 }
 \value{
-  levels of xvect
+levels of xvect
 }
 \description{
-  this function is similar to R function \code{levels}
+this function is similar to R function \code{levels}
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.levels(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

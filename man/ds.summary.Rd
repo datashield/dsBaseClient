@@ -2,8 +2,7 @@
 \alias{ds.summary}
 \title{Generates the summary of a numeric or factor vector}
 \usage{
-  ds.summary(datasources = NULL, xvect = NULL,
-    type = "combine")
+ds.summary(datasources = NULL, xvect = NULL, type = "combine")
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -20,17 +19,17 @@
   for each study separately.}
 }
 \value{
-  a non disclosive summary
+a non disclosive summary
 }
 \description{
-  Generates the summary of a numeric or factor vector
+
 }
 \details{
-  This function call \code{ds.quantilemean} if the input
-  vector is a numeric (i.e. continuous variable) and
-  \code{ds.table1d} if it is a factor (i.e. categorical
-  variable). The user can choose the generate a pooled or
-  split summary (one for each study).
+This function call \code{ds.quantilemean} if the input
+vector is a numeric (i.e. continuous variable) and
+\code{ds.table1d} if it is a factor (i.e. categorical
+variable). The user can choose the generate a pooled or
+split summary (one for each study).
 }
 \examples{
 {
@@ -49,6 +48,6 @@ ds.summary(datasources=opals, xvect=quote(D$GENDER))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

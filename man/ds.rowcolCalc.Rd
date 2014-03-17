@@ -2,8 +2,8 @@
 \alias{ds.rowcolCalc}
 \title{Computes sums and means of rows or columns of numeric arrays}
 \usage{
-  ds.rowcolCalc(datasources = NULL, dataset = NULL,
-    operation = NULL, newobj = NULL)
+ds.rowcolCalc(datasources = NULL, dataset = NULL, operation = NULL,
+  newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -22,18 +22,17 @@
   set by default, is 'rowcolCalc_out'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Computes sums and means of rows or columns of numeric
-  arrays
+
 }
 \details{
-  The function is similar to R base functions 'rowSums',
-  'colSums', 'rowMeans' and 'colMeans'. It is an assign
-  function which means its outcome is not returned to the
-  user as it might be revealing if the array contains only
-  one row or one column.
+The function is similar to R base functions 'rowSums',
+'colSums', 'rowMeans' and 'colMeans'. It is an assign
+function which means its outcome is not returned to the
+user as it might be revealing if the array contains only
+one row or one column.
 }
 \examples{
 {
@@ -53,6 +52,6 @@ ds.rowcolCalc(datasources=opals, dataset=quote(hdl_tsc), operation="rowSums", ne
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

@@ -2,7 +2,7 @@
 \alias{ds.names}
 \title{Gets the names of items in a list}
 \usage{
-  ds.names(datasources = NULL, xlist = NULL)
+ds.names(datasources = NULL, xlist = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,15 +13,15 @@
   \item{xlist}{an object of type list}
 }
 \value{
-  a list which hold items names for each study
+a list which hold items names for each study
 }
 \description{
-  Gets the names of items in a list
+
 }
 \details{
-  This function is similar to the R function \code{names}
-  but in DataSHIELD its use is restricted to objects of
-  type list.
+This function is similar to the R function \code{names} but
+in DataSHIELD its use is restricted to objects of type
+list.
 }
 \examples{
 {
@@ -42,6 +42,6 @@ ds.names(opals, quote(subsets))
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

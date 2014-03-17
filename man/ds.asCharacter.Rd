@@ -2,8 +2,7 @@
 \alias{ds.asCharacter}
 \title{Turns a vector into character type}
 \usage{
-  ds.asCharacter(datasources = NULL, xvect = NULL,
-    newobj = NULL)
+ds.asCharacter(datasources = NULL, xvect = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,11 +18,13 @@
   'GENDER_char', if input variable's name is 'GENDER')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function is similar to R function
-  \code{as.character}.
+This function is similar to R function \code{as.character}.
+}
+\details{
+
 }
 \examples{
 {
@@ -40,6 +41,6 @@ ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_as_char"
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

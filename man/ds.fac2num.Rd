@@ -2,8 +2,7 @@
 \alias{ds.fac2num}
 \title{Turns a factor into numerical type}
 \usage{
-  ds.fac2num(datasources = NULL, xvect = NULL,
-    newobj = NULL)
+ds.fac2num(datasources = NULL, xvect = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -20,13 +19,16 @@
   name is 'GENDER')}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  This function combines in itself two functions:
-  \code{as.character} and \code{as.numeric} as in order to
-  turn a factor into a numerical variable, one has to first
-  turn it into a character.
+This function combines in itself two functions:
+\code{as.character} and \code{as.numeric} as in order to
+turn a factor into a numerical variable, one has to first
+turn it into a character.
+}
+\details{
+
 }
 \examples{
 {
@@ -44,6 +46,6 @@ ds.fac2num(datasources=opals, xvect=quote(D$GENDER))
 }
 }
 \author{
-  Gaye, A.; Isaeva, I.
+Gaye, A.; Isaeva, I.
 }
 

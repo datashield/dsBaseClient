@@ -2,8 +2,8 @@
 \alias{ds.changerefgroup}
 \title{changes a reference level of a factor}
 \usage{
-  ds.changerefgroup(datasources = NULL, xvect = NULL,
-    ref = NULL, newobj = NULL)
+ds.changerefgroup(datasources = NULL, xvect = NULL, ref = NULL,
+  newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,7 +13,7 @@
 
   \item{xvect}{a factor}
 
-  \item{nref}{the reference level}
+  \item{ref}{the reference level}
 
   \item{newobj}{the name of the new variable. If this
   argument is set to NULL, the name of the new variable is
@@ -22,13 +22,15 @@
   name is 'PM_BMI_CATEGORICAL')}
 }
 \value{
-  a factor of the same length as xvect
+a factor of the same length as xvect
 }
 \description{
-  this function is similar to R function \code{relevel},
-  but in addition addes numbering to the levels so that
-  they are displayed in the right order when creating
-  cross-tables.
+this function is similar to R function \code{relevel}, but
+in addition addes numbering to the levels so that they are
+displayed in the right order when creating cross-tables.
+}
+\details{
+
 }
 \examples{
 {
@@ -52,6 +54,6 @@ ds.levels(opals, quote(PM_BMI_CATEGORICAL_newref))
 }
 }
 \author{
-  Isaeva, I.; Gaye, A.
+Isaeva, I.; Gaye, A.
 }
 

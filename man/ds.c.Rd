@@ -2,7 +2,7 @@
 \alias{ds.c}
 \title{Combines values into a vector or list}
 \usage{
-  ds.c(datasources = NULL, vector = NULL, newobj = NULL)
+ds.c(datasources = NULL, vector = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -17,10 +17,10 @@
   'cvect'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Combines values into a vector or list
+
 }
 \examples{
 {
@@ -38,6 +38,6 @@ ds.c(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A.
+Gaye, A.
 }
 

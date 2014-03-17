@@ -2,7 +2,7 @@
 \alias{ds.is.numeric}
 \title{a test of an object being interpretable as numbers}
 \usage{
-  ds.is.numeric(datasources = NULL, xvect = NULL)
+ds.is.numeric(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,10 +13,13 @@
   \item{xvect}{a vector to be tested}
 }
 \value{
-  a logic value (TRUE if xvect is numeric)
+a logic value (TRUE if xvect is numeric)
 }
 \description{
-  this function is similar to R function \code{is.numeric}
+this function is similar to R function \code{is.numeric}
+}
+\details{
+
 }
 \examples{
 {
@@ -35,6 +38,6 @@ ds.is.numeric(datasources=opals, xvect=quote(D$GENDER))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

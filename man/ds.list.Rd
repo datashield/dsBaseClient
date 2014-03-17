@@ -2,7 +2,7 @@
 \alias{ds.list}
 \title{Function to construct a list object}
 \usage{
-  ds.list(datasources = NULL, vector = NULL, newobj = NULL)
+ds.list(datasources = NULL, vector = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -18,10 +18,10 @@
   object is 'list_vect'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Function to construct a list object
+
 }
 \examples{
 {
@@ -39,6 +39,6 @@ ds.list(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

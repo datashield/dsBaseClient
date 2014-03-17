@@ -2,7 +2,7 @@
 \alias{ds.is.character}
 \title{a test of an object being of type 'character'}
 \usage{
-  ds.is.character(datasources = NULL, xvect = NULL)
+ds.is.character(datasources = NULL, xvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -13,11 +13,13 @@
   \item{xvect}{a vector to be tested}
 }
 \value{
-  a logic value (TRUE if xvect is of type "character")
+a logic value (TRUE if xvect is of type "character")
 }
 \description{
-  this function is similar to R function
-  \code{is.character}
+this function is similar to R function \code{is.character}
+}
+\details{
+
 }
 \examples{
 {
@@ -34,6 +36,6 @@ ds.is.character(datasources=opals, xvect=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

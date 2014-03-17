@@ -2,9 +2,8 @@
 \alias{ds.propMean}
 \title{Computes the mean proportion across categories}
 \usage{
-  ds.propMean(datasources = NULL, dataset = NULL,
-    outvar = NULL, covar1 = NULL, covar2 = NULL,
-    covar3 = NULL, CI = 0.95)
+ds.propMean(datasources = NULL, dataset = NULL, outvar = NULL,
+  covar1 = NULL, covar2 = NULL, covar3 = NULL, CI = 0.95)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -31,26 +30,26 @@
   for statisitical significance.}
 }
 \value{
-  a list that contains the computed mean, standard error,
-  upper and lower confidence interval, degrees of freedom
-  of the fitted model and standard deviation.
+a list that contains the computed mean, standard error,
+upper and lower confidence interval, degrees of freedom of
+the fitted model and standard deviation.
 }
 \description{
-  This function calculates the mean proportion of a
-  continuous or binary for the differerent categories of
-  some categorical variables. The calculation can be
-  carried out for one continuous or binary outcone variable
-  and up to 3 catagorical explanatory variables. can be
-  processed.
+This function calculates the mean proportion of a
+continuous or binary for the differerent categories of some
+categorical variables. The calculation can be carried out
+for one continuous or binary outcone variable and up to 3
+catagorical explanatory variables. can be processed.
 }
 \details{
-  The functions splits the input dataset into the single
-  categories and fits a glm model with a constant
-  covariate. This way, the regression coefficients from the
-  glm fit are the log odds-ratios (LO) of the outcome
-  variable. The LO and the standard error (se) are used to
-  compute the lower and upper limits of the confidence
-  interval.
+
+
+The functions splits the input dataset into the single
+categories and fits a glm model with a constant covariate.
+This way, the regression coefficients from the glm fit are
+the log odds-ratios (LO) of the outcome variable. The LO
+and the standard error (se) are used to compute the lower
+and upper limits of the confidence interval.
 }
 \examples{
 {
@@ -78,6 +77,6 @@ ds.propMean(datasources=opals, dataset=quote(D), outvar=quote(D$DIS_CVA), covar1
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

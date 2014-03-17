@@ -2,8 +2,7 @@
 \alias{ds.data.frame}
 \title{Creates data frames}
 \usage{
-  ds.data.frame(datasources = NULL, vector = NULL,
-    newobj = NULL)
+ds.data.frame(datasources = NULL, vector = NULL, newobj = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,10 +18,10 @@
   object is 'dframe'.}
 }
 \value{
-  a message is displayed when the action is completed.
+a message is displayed when the action is completed.
 }
 \description{
-  Creates data frames
+
 }
 \examples{
 {
@@ -41,6 +40,6 @@ ds.data.frame(datasources=opals, vector=myvect)
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

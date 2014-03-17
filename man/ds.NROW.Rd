@@ -2,7 +2,7 @@
 \alias{ds.NROW}
 \title{Returns the number of rows present in x}
 \usage{
-  ds.NROW(datasources = NULL, x = NULL, type = "combine")
+ds.NROW(datasources = NULL, x = NULL, type = "combine")
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,13 +19,15 @@
   calculated separately for each study.}
 }
 \value{
-  an \code{interger} of length 1 or \code{NULL}
+an \code{interger} of length 1 or \code{NULL}
 }
 \description{
-  this function is similar to R function \code{NROW} with
-  the addition that it also generates a global number of
-  rows (i.e.total number of entries across several
-  datasets)
+this function is similar to R function \code{NROW} with the
+addition that it also generates a global number of rows
+(i.e.total number of entries across several datasets)
+}
+\details{
+
 }
 \examples{
 {
@@ -48,6 +50,6 @@ ds.NROW(datasources=opals, x=quote(D$LAB_TSC))
 }
 }
 \author{
-  Gaye, A.; Isaeva, J.
+Gaye, A.; Isaeva, J.
 }
 

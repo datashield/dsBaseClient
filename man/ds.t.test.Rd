@@ -2,9 +2,9 @@
 \alias{ds.t.test}
 \title{Runs a student's t-test on horizontally partitioned data}
 \usage{
-  ds.t.test(datasources, x, y = NULL, type = "combine",
-    alternative = "two.sided", mu = 0, paired = FALSE,
-    var.equal = FALSE, conf.level = 0.95)
+ds.t.test(datasources, x, y = NULL, type = "combine",
+  alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE,
+  conf.level = 0.95)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -44,30 +44,30 @@
   \item{conf.level}{confidence level of the interval}
 }
 \value{
-  a list containing the following elements:
-  \code{statistic} the value of the t-statistic
-  \code{parameter} the degrees of freedom for the
-  t-statistic \code{p.value} p.value the p-value for the
-  test \code{conf.int} a confidence interval for the mean
-  appropriate to the specified alternative hypothesis
-  \code{estimate} the estimated mean or difference in means
-  depending on whether it was a one-sample test or a
-  two-sample test \code{null.value} the specified
-  hypothesized value of the mean or mean difference
-  depending on whether it was a one-sample test or a
-  two-sample test \code{alternative} a character string
-  describing the alternative hypothesis \code{method} a
-  character string indicating what type of t-test was
-  performed
+a list containing the following elements: \code{statistic}
+the value of the t-statistic \code{parameter} the degrees
+of freedom for the t-statistic \code{p.value} p.value the
+p-value for the test \code{conf.int} a confidence interval
+for the mean appropriate to the specified alternative
+hypothesis \code{estimate} the estimated mean or difference
+in means depending on whether it was a one-sample test or a
+two-sample test \code{null.value} the specified
+hypothesized value of the mean or mean difference depending
+on whether it was a one-sample test or a two-sample test
+\code{alternative} a character string describing the
+alternative hypothesis \code{method} a character string
+indicating what type of t-test was performed
 }
 \description{
-  Performs one and two sample t-tests on vectors of data.
+Performs one and two sample t-tests on vectors of data.
 }
 \details{
-  Summary statistics are obtained from each of the data
-  sets that are located on the distinct computers/servers.
-  And then grand means and variances are calculated. Those
-  are used for performing t-test.
+
+
+Summary statistics are obtained from each of the data sets
+that are located on the distinct computers/servers. And
+then grand means and variances are calculated. Those are
+used for performing t-test.
 }
 \examples{
 {
@@ -110,6 +110,6 @@ ds.t.test(datasources=opals, x=quote(D$LAB_HDL))
 }
 }
 \author{
-  Isaeva, J.; Gaye, A.
+Isaeva, J.; Gaye, A.
 }
 
