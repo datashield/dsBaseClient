@@ -2,7 +2,7 @@
 \alias{ds.subclass}
 \title{Generates valid subset(s) of a dataframe or a factor}
 \usage{
-ds.subclass(datasources = NULL, subsets = "subsclasses", data = NULL,
+ds.subclass(datasources = NULL, subsets = "subsClasses", data = NULL,
   variables = NULL)
 }
 \arguments{
@@ -13,7 +13,7 @@ ds.subclass(datasources = NULL, subsets = "subsclasses", data = NULL,
 
   \item{subsets}{the name of the output object, a list that
   holds the subset objects. If set to NULL the default name
-  of this list is 'subsclasses'}
+  of this list is 'subsClasses'}
 
   \item{data}{a string character, the name of the data
   frame or the vector to generate subsets from.}

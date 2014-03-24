@@ -9,7 +9,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param subsets the name of the output object, a list that holds the subset objects. If set to NULL
-#' the default name of this list is 'subsclasses' 
+#' the default name of this list is 'subsClasses' 
 #' @param data a string character, the name of the data frame or the vector to generate subsets from.
 #' @param variables a vector of string characters, the name(s) of the variables to subset by.
 #' @return a no data are return to the user but messages are printed out.
@@ -38,7 +38,7 @@
 #' ds.subclass(datasources=opals, subsets="subvectors", data=NULL, variables=NULL)
 #' }
 #' 
-ds.subclass <- function(datasources=NULL, subsets="subsclasses", data=NULL, variables=NULL){
+ds.subclass <- function(datasources=NULL, subsets="subsClasses", data=NULL, variables=NULL){
   
   if(is.null(datasources)){
     message("No valid opal object(s) provided!")
