@@ -1,5 +1,5 @@
 #' 
-#' @title verifies that an object has the same class in all studies
+#' @title Checks that an object has the same class in all studies
 #' @description This is an internal function.
 #' @details In DataSHIELD an object included in analysis must be of the same type in all 
 #' the collaborating studies. If that is not the case the process is stopped

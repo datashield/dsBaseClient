@@ -18,16 +18,12 @@ ds.subset(datasources = NULL, subset = "subset", data = NULL,
   \item{data}{a string character, the name of the dataframe
   or the factor vector and the range of the subset.}
 
-  \item{rows}{a vector of two integers, the lower and upper
-  index of the observations to extract. I the input data is
-  a dataframe these are the rows and if it is a vector
-  these are the entries.}
+  \item{rows}{a vector of integers, the indices of the rows
+  de extract.}
 
-  \item{cols}{a numeric or character vector, if numeric the
-  values are the indices of the columns to extract; the
-  columns can also be refer to by their names by providing
-  a character vector. This paramter is ignored if the input
-  data is not a table.}
+  \item{cols}{a vector of integers or characters; the
+  indices of the columns to extract or the names of the
+  columns (i.e. names of the variables to extract).}
 
   \item{logical}{a charcater, the logical parameter to use
   if the user wishes to subset a vector using a logical
@@ -52,14 +48,19 @@ a vector (factor, numeric or charcater) or a table
 \details{
 
 
-The user specifies the rows and columns to include in the
-subset if the input object is a table and the indices of
-the entries to include in the subset if the input object is
-a vector. the name of a vector (i.e. a variable) can also
-be provided with a logical operator and a threshold. In all
-cases if the subset is not valid (i.e. contains less than
-the allowed number of observations), the subset is not
-generated.
+The user specifies the rows and/or columns to include in
+the subset if the input object is a table; the columns can
+be refered to by their names. Only the parameter 'rows' is
+required if the input object is a vector; The name of a
+vector (i.e. a variable) can also be provided with a
+logical operator and a threshold. If the input data is a
+vector and the parameters 'rows', 'logical' and 'threshold'
+are all provided the last two are ignored. If the requested
+subset is not valid (i.e. contains less than the allowed
+number of observations), the subset is not generated,
+rather a table or a vector of missing values is generated
+to allow for any subsequent process using the output of the
+function to proceed after informing the user via a message.
 }
 \examples{
 {
@@ -74,23 +75,25 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a subset of the assigned table (by default the table is named 'D')
 # with the first 50 observations and the two first columns
-ds.subset(datasources=opals, subset="subD", data="D", criteria="[1:50,1:2]")
+ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c(1,2))
 
 # Example 2: generate a subset of the assigned table (by default the table is named 'D')
-with the bmi values greater than or equal to 25.
-ds.subset(datasources=opals, subset="subD", data="D", criteria="[PM_BMI_CONTINUOUS>=25]")
+# with the first 50 observations and the two first columns refered to by their names.
+ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c("DIS_DIAB","PM_BMI_CONTINUOUS"))
 
-# Example 3: get the logarithmic values of the variable 'lab_hdl' and generate a subset with
+# Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
+ds.subset(datasources=opals, subset="subBMI", data="D", logical="PM_BMI_CONTINUOUS>=", threshold=25)
+
+# Example 4: get the logarithmic values of the variable 'lab_hdl' and generate a subset with
 the first 50 observations of that new vector.
 ds.assign(opals, "logHDL", "log(D$LAB_HDL)")
-ds.subset(datasources=opals, subset="subLAB_HDL", data="logHDL", criteria="[1:50]")
+ds.subset(datasources=opals, subset="subLAB_HDL", data="logHDL", rows=c(1:50))
 
-# Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
+# Example 5: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
 vector with bmi values greater than or equal to 25
 ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
-ds.subset(datasources=opals, subset="subBMI", data="BMI", criteria=">=25")
+ds.subset(datasources=opals, subset="subBMI", data="BMI", logical=">=", threshold=25)
 
-ds.subclass(datasources=opals, subsets="subvectors", data=NULL, variables=NULL)
 }
 }
 \author{
