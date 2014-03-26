@@ -26,9 +26,7 @@
       stop(paste0("The subset you specified is larger than ", data, " in ", paste(stdnames[fail], collapse=", "), "."))
     }else{
       # turn the vector of row indices into a character to pass the parser
-      invect1 <- as.character(rows)
-      invect2 <- as.character(cols)
-      cally <- call('subsetDS', data=data, rows=invect1, cols=invect2)
+      cally <- call('subsetDS', dt=data, rs=rows, cs=cols)
       datashield.assign(datasources, cally)
     }
   }else{
@@ -44,8 +42,7 @@
         stop(paste0("The subset you specified is larger than ", data, " in ", paste(stdnames[fail], collapse=", "), "."))
       }else{
         # turn the vector of row indices into a character to pass the parser
-        invect1 <- as.character(rows)
-        cally <- call('subsetDS', data=data, rows=invect1)
+        cally <- call('subsetDS', dt=data, rs=rows)
         datashield.assign(datasources, cally)
       }
     }
@@ -61,8 +58,7 @@
         stop(paste0("The subset you specified is larger than ", data, " in ", paste(stdnames[fail], collapse=", "), "."))
       }else{
         # turn the vector of row indices into a character to pass the parser
-        invect2 <- as.character(cols)
-        cally <- call('subsetDS', data=data, cols=invect2)
+        cally <- call('subsetDS', dt=data, cs=cols)
         datashield.assign(datasources, cally)
       }
     }

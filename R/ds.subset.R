@@ -105,15 +105,14 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
         stop(paste0("The subset you specified is larger than ", data, " in ", paste(stdnames[fail], collapse=", "), "."))
       }else{
         # turn the vector of row indices into a character to pass the parser
-        invect <- as.character(rows)
-        cally <- call('subsetDS', data=data, rows=invect)
+        cally <- call('subsetDS', dt=data, rs=rows)
         datashield.assign(datasources, cally)
       }
     }else{
       if(!(is.null(logical)) & !(is.null(threshold))){
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', data=data, logical=logical, threshold=threshold, variable=var2sub)
+        cally <- call('subsetDS', dt=data, lg=logical, th=threshold, var=var2sub)
         datashield.assign(datasources, cally)
       }else{
         stop("Please provide criteria to subset the vector: set 'rows' or 'logical' and 'threshold'", call.=FALSE)
@@ -135,9 +134,12 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
             logical <- lg[length(lg)]
             if(length(lg) > 1) { var2sub <- paste0(lg[1:(length(lg)-1)], collapse="") }
         }
+        if(is.null(var2sub)){ # if input is table, logical & threshold apply but no variable name given
+          stop("No variable to subset the table on - see example 3 in the documentation of this function.", call.=FALSE)
+        }
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', data=data, logical=logical, threshold=threshold, variable=var2sub)
+        cally <- call('subsetDS', dt=data, lg=logical, th=threshold, var=var2sub)
         datashield.assign(datasources, cally)
       }else{
         stop("Please provide criteria to subset the table: set 'rows' and/or 'cols' or 'logical' and 'threshold'", call.=FALSE)
@@ -148,20 +150,24 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
   # a message so the user knows the function was ran (assign functions are 'silent')
   message("An 'assign' function was ran, no output should be expected on the client side!\n")
   
-  # possible 'errors' from the server side function if no subset has been generated
-  m1 <- "Invalid subset vector"
-  m2 <- "Invalid subset table"
-  txt2print <- c(m1, m2)
-  
-  # check the subsets and tell if they have been generated or if some are invalid 
+  # check for invalid subsets and report
+  missingSub <- c()
   for(i in 1: length(datasources)){
-    listcontent <- ds.names(datasources[i], subset)
-    if(listcontent[[1]][1] == m1 | listcontent[[1]][1] == m2 | listcontent[[1]][1] == m3){
-      for(q in 1:3){
-        if(listcontent[[1]][1] == txt2print[q]){
-          message(paste0(txt2print[q], " in ", stdnames[i]))
-        }
-      }
+    listcontent <- ds.names(datasources[i], subsets)
+    check1 <- which(unlist(strsplit(listcontent[[1]][1],"_")) == "INVALID")
+    if(length(check1) > 0){
+      message(paste0("Invalid subset in ", stdnames[i], "!"))
+    }
+    if(length(listcontent[[1]]) == 0){
+      missingSub <- append(missingSub, i)
     }
   }
+  
+  # now check if some studies have no subset (no observations for the choosen criteria)
+  if(length(missingSub) > 0){
+    warning("The subset has no observations in the following studies: ", paste(stdnames[missingSub], collapse=", "), call.=FALSE)
+  }else{
+    print("If the subset is missing in all the studies then it probably has no observations in any of the studies!")
+  }
+  
 }
