@@ -48,19 +48,20 @@ a vector (factor, numeric or charcater) or a table
 \details{
 
 
-The user specifies the rows and/or columns to include in
-the subset if the input object is a table; the columns can
-be refered to by their names. Only the parameter 'rows' is
-required if the input object is a vector; The name of a
-vector (i.e. a variable) can also be provided with a
-logical operator and a threshold. If the input data is a
-vector and the parameters 'rows', 'logical' and 'threshold'
-are all provided the last two are ignored. If the requested
-subset is not valid (i.e. contains less than the allowed
-number of observations), the subset is not generated,
-rather a table or a vector of missing values is generated
-to allow for any subsequent process using the output of the
-function to proceed after informing the user via a message.
+If the input data is a table: The user specifies the rows
+and/or columns to include in the subset if the input object
+is a table; the columns can be refered to by their names.
+The name of a vector (i.e. a variable) can also be provided
+with a logical operator and a threshold (see example 3). If
+the input data is a vector: when the parameters 'rows',
+'logical' and 'threshold' are all provided the last two are
+ignored ( 'rows' has precedence over the other two
+parameters then). If the requested subset is not valid
+(i.e. contains less than the allowed number of
+observations), the subset is not generated, rather a table
+or a vector of missing values is generated to allow for any
+subsequent process using the output of the function to
+proceed after informing the user via a message.
 }
 \examples{
 {

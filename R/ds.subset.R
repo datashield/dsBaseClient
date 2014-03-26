@@ -3,11 +3,12 @@
 #' @description The function uses the R classical subsetting with squared brackets '[]' and allows also to 
 #' subset using a logical oprator and a threshold. The object to subset from must be a vector (factor, numeric 
 #' or charcater) or a table (data.frame or matrix).
-#' @details The user specifies the rows and/or columns to include in the subset if the input 
-#' object is a table; the columns can be refered to by their names. Only the parameter 'rows' is required if the input
-#' object is a vector; The name of a vector (i.e. a variable) can also be provided with a logical
-#' operator and a threshold. If the input data is a vector and the parameters 'rows', 'logical' and 'threshold' are all
-#' provided the last two are ignored. If the requested subset is not valid (i.e. contains less than the allowed
+#' @details If the input data is a table: The user specifies the rows and/or columns to include in the subset if the input 
+#' object is a table; the columns can be refered to by their names. The name of a vector (i.e. a variable) can also be provided 
+#' with a logical operator and a threshold (see example 3). 
+#' If the input data is a vector:  when the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored (
+#' 'rows' has precedence over the other two parameters then).
+#' If the requested subset is not valid (i.e. contains less than the allowed
 #' number of observations), the subset is not generated, rather a table or a vector of missing values is generated to allow
 #' for any subsequent process using the output of the function to proceed after informing the user via a message.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
@@ -105,14 +106,14 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
       }else{
         # turn the vector of row indices into a character to pass the parser
         invect <- as.character(rows)
-        cally <- call('subsetDS', data, invect)
+        cally <- call('subsetDS', data=data, rows=invect)
         datashield.assign(datasources, cally)
       }
     }else{
       if(!(is.null(logical)) & !(is.null(threshold))){
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', data, logical, threshold)
+        cally <- call('subsetDS', data=data, logical=logical, threshold=threshold, variable=var2sub)
         datashield.assign(datasources, cally)
       }else{
         stop("Please provide criteria to subset the vector: set 'rows' or 'logical' and 'threshold'", call.=FALSE)
@@ -124,9 +125,19 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
       dsbaseclient:::.subsetHelper(datasources, data, rows, cols)
     }else{
       if(!(is.null(logical)) & !(is.null(threshold))){
+        # get the logical operator and any variable provided with it
+        lg <- unlist(strsplit(logical, split=""))
+        var2sub <- NULL
+        if(lg[length(lg)] == "=" & lg[(length(lg)-1)] == ">" | lg[(length(lg)-1)] == "<" | lg[(length(lg)-1)] == "=" |  lg[(length(lg)-1)] == "!"){
+          logical <- paste0(lg[(length(lg)-1)], lg[length(lg)])
+          if(length(lg) > 2){ var2sub <- paste(lg[1:(length(lg)-2)], collapse="") }
+        }else{
+            logical <- lg[length(lg)]
+            if(length(lg) > 1) { var2sub <- paste0(lg[1:(length(lg)-1)], collapse="") }
+        }
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', data, logical, threshold)
+        cally <- call('subsetDS', data=data, logical=logical, threshold=threshold, variable=var2sub)
         datashield.assign(datasources, cally)
       }else{
         stop("Please provide criteria to subset the table: set 'rows' and/or 'cols' or 'logical' and 'threshold'", call.=FALSE)

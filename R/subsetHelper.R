@@ -28,7 +28,7 @@
       # turn the vector of row indices into a character to pass the parser
       invect1 <- as.character(rows)
       invect2 <- as.character(cols)
-      cally <- call('subsetDS', data, invect1, invect2)
+      cally <- call('subsetDS', data=data, rows=invect1, cols=invect2)
       datashield.assign(datasources, cally)
     }
   }else{
@@ -45,7 +45,7 @@
       }else{
         # turn the vector of row indices into a character to pass the parser
         invect1 <- as.character(rows)
-        cally <- call('subsetDS', data, invect1)
+        cally <- call('subsetDS', data=data, rows=invect1)
         datashield.assign(datasources, cally)
       }
     }
@@ -62,7 +62,7 @@
       }else{
         # turn the vector of row indices into a character to pass the parser
         invect2 <- as.character(cols)
-        cally <- call('subsetDS', data, invect2)
+        cally <- call('subsetDS', data=data, cols=invect2)
         datashield.assign(datasources, cally)
       }
     }
