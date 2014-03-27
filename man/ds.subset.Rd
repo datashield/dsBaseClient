@@ -2,8 +2,8 @@
 \alias{ds.subset}
 \title{Generates a valid subset of a table or a vector}
 \usage{
-ds.subset(datasources = NULL, subset = "subset", data = NULL,
-  rows = NULL, cols = NUL, logical = NULL, threshold = NULL)
+ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
+  rows = NULL, cols = NULL, logical = NULL, threshold = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -76,14 +76,14 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a subset of the assigned table (by default the table is named 'D')
 # with the first 50 observations and the two first columns
-ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c(1,2))
+ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols=c(1,2))
 
 # Example 2: generate a subset of the assigned table (by default the table is named 'D')
 # with the first 50 observations and the two first columns refered to by their names.
-ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c("DIS_DIAB","PM_BMI_CONTINUOUS"))
+ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols <- c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 
 # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
-ds.subset(datasources=opals, subset="subBMI", data="D", logical="PM_BMI_CONTINUOUS>=", threshold=25)
+ds.subset(datasources=opals, subset='subD', data='D', logical='PM_BMI_CONTINUOUS>=', threshold=25)
 
 # Example 4: get the logarithmic values of the variable 'lab_hdl' and generate a subset with
 the first 50 observations of that new vector.

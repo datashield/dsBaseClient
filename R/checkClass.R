@@ -10,11 +10,11 @@
 #'
 .checkClass <- function(datasources=NULL, obj=NULL){
   # check the class of the input object
-  cally <- paste0("class(", data, ")")
+  cally <- paste0("class(", obj, ")")
   objtype <- unique(unlist(datashield.aggregate(datasources, cally)))
   if(length(objtype) > 1){
     message("The input data is not of the class in all studies!")
-    message("Use the function 'ds.class' to verify the class of the input data in each study.")
+    message("Use the function 'ds.class' to verify the class of the input object in each study.")
     stop(" End of process!", call.=FALSE)
   }else{
     return(objtype)

@@ -3,7 +3,7 @@
 #' @description this function is similar to R function \code{dim}
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param x an R object, for example a matrix, array or data frame
+#' @param x a character, the name of R table object, for example a matrix, array or data frame
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
 #' @author Gaye, A.; Isaeva, J.
 #' @export
@@ -16,10 +16,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Example 1: Get the dimension of the assigned datasets
-#' ds.dim(datasources=opals, x=quote(D))
+#' ds.dim(datasources=opals, x='D')
 #' 
 #' # Example 2: Input has to be either matrix, data frame or an array
-#' \dontrun{ ds.dim(datasources=opals, x=quote(D$LAB_TSC)) }
+#' \dontrun{ ds.dim(datasources=opals, x='D$LAB_TSC') }
 #' }
 #' 
 ds.dim = function(datasources=NULL, x=NULL) {
@@ -36,18 +36,8 @@ ds.dim = function(datasources=NULL, x=NULL) {
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  #   num.sources=length(datasources)
-  #   for (i in 1:num.sources) {
-  #     if ( (!is.matrix(x)) && (!is.data.frame(x)) ){
-  #       message("\n\n ALERT!\n")
-  #       message(" Please provide a valid matrix-like object for study ",i, "\n")
-  #       stop(" End of process!\n\n", call.=FALSE)
-  #     }
-  #   }
-  
-  
-  cally <- call('dim', x )
-  dimensions <- datashield.aggregate(datasources, cally)
+  cally <- paste0("dim(", x, ")")
+  dimensions <- datashield.aggregate(datasources, as.symbol(cally))
   
   return(dimensions)
 }

@@ -10,7 +10,8 @@ ds.exists(datasources = NULL, xname = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xname}{the name of the object to look for.}
+  \item{xname}{a character, the name of the object to look
+  for.}
 }
 \value{
 a bollean, TRUE if the object is on the server side and
@@ -40,10 +41,10 @@ myvar <- list("LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
-datashield.assign(opals, "labtsc", quote(D$LAB_TSC))
+ds.assign(opals, 'labtsc', 'D$LAB_TSC')
 
 # now let us check if the variable 'labtsc' do now 'exist' on the server side
-ds.exists(datasources=opals, xname="labtsc")
+ds.exists(datasources=opals, xname='labtsc')
 }
 }
 \author{

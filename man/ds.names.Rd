@@ -35,10 +35,10 @@ myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # generates subset tables from the table assigned above (by default the table name is 'D')
-ds.subclass(datasources=opals, subsets="subclasses", data="D")
+ds.subclass(datasources=opals, subsets='subclasses', data='D')
 
 # the above object 'subsets' is a list, let us display the names of elements in 'subsets'
-ds.names(opals, "subsets")
+ds.names(opals, 'subsets')
 
 }
 }

@@ -38,14 +38,14 @@
 #' 
 #' # Example 1: generate a subset of the assigned table (by default the table is named 'D')
 #' # with the first 50 observations and the two first columns
-#' ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c(1,2))
+#' ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols=c(1,2))
 #' 
 #' # Example 2: generate a subset of the assigned table (by default the table is named 'D')
 #' # with the first 50 observations and the two first columns refered to by their names.
-#' ds.subset(datasources=opals, subset="subD", data="D", rows=c(1:50), cols <- c("DIS_DIAB","PM_BMI_CONTINUOUS"))
+#' ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols <- c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 #'
 #' # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
-#' ds.subset(datasources=opals, subset="subBMI", data="D", logical="PM_BMI_CONTINUOUS>=", threshold=25)
+#' ds.subset(datasources=opals, subset='subD', data='D', logical='PM_BMI_CONTINUOUS>=', threshold=25)
 #' 
 #' # Example 4: get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
 #' the first 50 observations of that new vector.
@@ -59,7 +59,7 @@
 #' 
 #' }
 #' 
-ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, cols=NUL, logical=NULL, threshold=NULL){
+ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, rows=NULL, cols=NULL, logical=NULL, threshold=NULL){
   
   if(is.null(datasources)){
     message("No valid opal object(s) provided!")
@@ -94,7 +94,7 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
   if(typ == "factor" | typ == "numeric" | typ == "character"){
     if(!(is.null(rows))){
       # if the size of the requested subset is greater than that of original inform the user and stop the process
-      ll <- ds.length(datasources, data)
+      ll <- ds.length(datasources, data, type="split")
       fail <- 0
       for(i in 1:length(datasources)){
         if(length(rows) > ll[[i]]){
@@ -106,22 +106,22 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
       }else{
         # turn the vector of row indices into a character to pass the parser
         cally <- call('subsetDS', dt=data, rs=rows)
-        datashield.assign(datasources, cally)
+        datashield.assign(datasources, subset, cally)
       }
     }else{
       if(!(is.null(logical)) & !(is.null(threshold))){
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', dt=data, lg=logical, th=threshold, var=var2sub)
-        datashield.assign(datasources, cally)
+        cally <- call('subsetDS', dt=data, rs=rows, cs=cols, lg=logical, th=threshold)
+        datashield.assign(datasources, subset, cally)
       }else{
         stop("Please provide criteria to subset the vector: set 'rows' or 'logical' and 'threshold'", call.=FALSE)
       }
     }
   }else{
-    if(!(is.null(rows) | !(is.null(cols)))){
+    if(!(is.null(rows)) | !(is.null(cols))){
       # call the internal function that ensure wrond size subset is not requested (i.e. subset size > original table)
-      dsbaseclient:::.subsetHelper(datasources, data, rows, cols)
+      dsbaseclient:::.subsetHelper(datasources, subset, data, rows, cols)
     }else{
       if(!(is.null(logical)) & !(is.null(threshold))){
         # get the logical operator and any variable provided with it
@@ -139,8 +139,8 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
         }
         # turn the logical operator into the corresponding integer that will be evaluated on the server side.
         logical <- dsbaseclient:::.logical2int(logical)
-        cally <- call('subsetDS', dt=data, lg=logical, th=threshold, var=var2sub)
-        datashield.assign(datasources, cally)
+        cally <- call('subsetDS', dt=data, rs=rows, cs=cols, lg=logical, th=threshold, varname=var2sub)
+        datashield.assign(datasources, subset, cally)
       }else{
         stop("Please provide criteria to subset the table: set 'rows' and/or 'cols' or 'logical' and 'threshold'", call.=FALSE)
       }
@@ -153,7 +153,7 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
   # check for invalid subsets and report
   missingSub <- c()
   for(i in 1: length(datasources)){
-    listcontent <- ds.names(datasources[i], subsets)
+    listcontent <- ds.names(datasources[i], subset)
     check1 <- which(unlist(strsplit(listcontent[[1]][1],"_")) == "INVALID")
     if(length(check1) > 0){
       message(paste0("Invalid subset in ", stdnames[i], "!"))
@@ -166,7 +166,6 @@ ds.subset <- function(datasources=NULL, subset="subset", data=NULL, rows=NULL, c
   # now check if some studies have no subset (no observations for the choosen criteria)
   if(length(missingSub) > 0){
     warning("The subset has no observations in the following studies: ", paste(stdnames[missingSub], collapse=", "), call.=FALSE)
-  }else{
     print("If the subset is missing in all the studies then it probably has no observations in any of the studies!")
   }
   
