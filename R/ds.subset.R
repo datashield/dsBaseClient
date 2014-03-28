@@ -8,9 +8,9 @@
 #' with a logical operator and a threshold (see example 3). 
 #' If the input data is a vector:  when the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored (
 #' 'rows' has precedence over the other two parameters then).
-#' If the requested subset is not valid (i.e. contains less than the allowed
-#' number of observations), the subset is not generated, rather a table or a vector of missing values is generated to allow
-#' for any subsequent process using the output of the function to proceed after informing the user via a message.
+#' If the requested subset is not valid (i.e. contains less than the allowed number of observations) or if it does not
+#' have any observations, the subset is not generated, rather a table or a vector of missing values is generated to allow
+#' for any subsequent process using the output of the function to proceed, after informing the user via a message.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param subset the name of the output object, a list that holds the subset object. If set to NULL
@@ -55,7 +55,7 @@
 #' # Example 5: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
 #' vector with bmi values greater than or equal to 25
 #' ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
-#' ds.subset(datasources=opals, subset="subBMI", data="BMI", logical=">=", threshold=25)
+#' ds.subset(datasources=opals, subset='subBMI', data='BMI', logical='>=', threshold=25)
 #' 
 #' }
 #' 
@@ -158,15 +158,10 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, rows=N
     if(length(check1) > 0){
       message(paste0("Invalid subset in ", stdnames[i], "!"))
     }
-    if(length(listcontent[[1]]) == 0){
-      missingSub <- append(missingSub, i)
+    check2 <- which(unlist(strsplit(listcontent[[1]][1],"_")) == "EMPTY")
+    if(length(check2) > 0){
+      message(paste0("Empty subset (i.e. 0 observations) in ", stdnames[i], "!"))
     }
   }
-  
-  # now check if some studies have no subset (no observations for the choosen criteria)
-  if(length(missingSub) > 0){
-    warning("The subset has no observations in the following studies: ", paste(stdnames[missingSub], collapse=", "), call.=FALSE)
-    print("If the subset is missing in all the studies then it probably has no observations in any of the studies!")
-  }
-  
+
 }

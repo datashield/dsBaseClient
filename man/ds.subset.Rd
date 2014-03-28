@@ -58,10 +58,11 @@ the input data is a vector: when the parameters 'rows',
 ignored ( 'rows' has precedence over the other two
 parameters then). If the requested subset is not valid
 (i.e. contains less than the allowed number of
-observations), the subset is not generated, rather a table
-or a vector of missing values is generated to allow for any
-subsequent process using the output of the function to
-proceed after informing the user via a message.
+observations) or if it does not have any observations, the
+subset is not generated, rather a table or a vector of
+missing values is generated to allow for any subsequent
+process using the output of the function to proceed, after
+informing the user via a message.
 }
 \examples{
 {
@@ -93,7 +94,7 @@ ds.subset(datasources=opals, subset="subLAB_HDL", data="logHDL", rows=c(1:50))
 # Example 5: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
 vector with bmi values greater than or equal to 25
 ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
-ds.subset(datasources=opals, subset="subBMI", data="BMI", logical=">=", threshold=25)
+ds.subset(datasources=opals, subset='subBMI', data='BMI', logical='>=', threshold=25)
 
 }
 }

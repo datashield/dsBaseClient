@@ -76,26 +76,27 @@ ds.subclass <- function(datasources=NULL, subsets="subsClasses", data=NULL, vari
         }
       }
     }else{
-      invalidsubs <- c()
+      invalidsubs1 <- c()
+      invalidsubs2 <- c()
       for(j in 1:length(listcontent[[1]])){
         check1 <- which(unlist(strsplit(listcontent[[1]][j],"_")) == "INVALID")
         if(length(check1) > 0){
-          invalidsubs <- append(invalidsubs, listcontent[[1]][j])
+          invalidsubs1 <- append(invalidsubs1, listcontent[[1]][j])
+        }
+        check2 <- which(unlist(strsplit(listcontent[[1]][j],"_")) == "EMPTY")
+        if(length(check2) > 0){
+          invalidsubs2 <- append(invalidsubs2, listcontent[[1]][j])
         }
       }
-      if(length(invalidsubs) > 0){
-        message(paste0("Invalids subsets in ", stdnames[i], ":"))
-        message(paste0(paste(invalidsubs, collapse=", "), "\n"))
+      if(length(invalidsubs1) > 0){
+        message(paste0("Invalid subsets in ", stdnames[i], ":"))
+        message(paste0(paste(invalidsubs1, collapse=", "), "\n"))
+      }
+      if(length(invalidsubs2) > 0){
+        message(paste0("Empty subsets (i.e. 0 observations) in ", stdnames[i], ":"))
+        message(paste0(paste(invalidsubs2, collapse=", "), "\n"))
       }
     }
   }
   
-  # now check if some studies have missing subsets (i.e. categories with no observations)
-  numlevels <- max(numclasses, na.rm=TRUE)
-  idx <- which(numclasses < numlevels)
-  if(length(idx) > 0){
-    warning("Some categories had no observations in the following studies: ", paste(stdnames[idx], collapse=", "), "; the subsets for those categories were hence not generated - see the list of subsets.", call.=FALSE)
-  }else{
-    print("If a subset is missing in all the studies then it probably has no observations in any of the studies!")
-  }
 }
