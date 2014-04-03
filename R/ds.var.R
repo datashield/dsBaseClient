@@ -46,7 +46,7 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
   # number of studies
   num.sources <- length(datasources)
   
-  cally <- paste0("var.ds(", xvect, ")")
+  cally <- paste0("varDS(", xvect, ")")
   var.local <- datashield.aggregate(datasources, as.symbol(cally))
   
   cally <- paste0("NROW(", xvect, ")")

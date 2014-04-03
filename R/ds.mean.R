@@ -41,10 +41,6 @@ ds.mean = function(datasources=NULL, xvect=NULL, type='combine')
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  # call the function that checks the variable is available and not empty
-  #vars2check <- list(xvect)
-  #atasources <- ds.checkvar(datasources, vars2check)
-  
   # name of the studies to be used in the output
   stdnames <- names(datasources)
   
