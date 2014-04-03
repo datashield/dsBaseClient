@@ -14,7 +14,7 @@
 #' @param tablename a character, the name of the table the subsets in 'listname' where generated from
 #' @return a character vector, the new names of the subset tables
 #'
-.meanByClassHelper <- function(datasources, tablename, listname, covarname, classes){
+.meanByClassHelper1 <- function(datasources, tablename, listname, covarname, classes){
   subnames <- unique(unlist(ds.names(datasources, listname)))
   names2use <- c()
   for(j in 1:length(classes)){
