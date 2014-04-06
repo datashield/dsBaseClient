@@ -15,10 +15,12 @@
 #' @return a character vector, the new names of the subset tables
 #'
 .meanByClassHelper1 <- function(datasources, tablename, listname, covarname, classes){
-  subnames <- unique(unlist(ds.names(datasources, listname)))
+  subnames <- ds.names(datasources, listname)
   names2use <- c()
   for(j in 1:length(classes)){
-    ds.assign(datasources, paste0(tablename, ".",covarname,'.level_', classes[j]), paste0(listname,'$',subnames[j]))
+    for(k in 1:length(datasources)){
+      ds.assign(datasources[k], paste0(tablename, ".",covarname,'.level_', classes[j]), paste0(listname,'$',subnames[[k]][j]))
+    }
     names2use <- append(names2use,  paste0(tablename, ".",covarname,'.level_', classes[j]))
   }
   return(names2use)

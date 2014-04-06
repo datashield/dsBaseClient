@@ -68,9 +68,7 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
     
     # get the pooled variance
     var.global = sum.weighted/length.total
-    
-    if (!is.na(var.global))
-      return(list("Global variance"=var.global))
+    return(list("Global variance"=var.global))
     
   } else{
     stop('Function argument "type" has to be either "combine" or "split"')

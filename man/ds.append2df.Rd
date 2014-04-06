@@ -53,7 +53,7 @@ opals <- datashield.login(logins=logindata, assign=TRUE, variables=myvar, symbol
 
 # generate a new variable (e.g. a mean centered LAB_HDL)
 # get the mean of LAB_HDL
-mean.lab_hdl <- ds.mean(opals, quote(D$LAB_HDL), type='split')
+mean.lab_hdl <- ds.mean(opals, 'D$LAB_HDL', type='split')
 # center LAB_HDL for each study
 for(i in 1:length(opals)){
   call.object <- call("-", quote(D$LAB_HDL), mean.lab_hdl[[i]])

@@ -68,9 +68,7 @@ ds.mean = function(datasources=NULL, xvect=NULL, type='combine')
     }
     
     mean.global = sum.weighted/length.total
-    
-    if (!is.na(mean.global))
-      return(list("Global mean"=mean.global))
+    return(list("Global mean"=mean.global))
     
   } else{
     stop('Function argument "type" has to be either "combine" or "split"')
