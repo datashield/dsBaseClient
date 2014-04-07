@@ -26,16 +26,16 @@
 ds.product = function(datasources=NULL, xlist=NULL, newobj=NULL){
   
   if(is.null(datasources)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n", call.=FALSE)
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xlist)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" Please provide a valid list of element to compute a product for.")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
   
   # call the function that checks the variable is available and not empty

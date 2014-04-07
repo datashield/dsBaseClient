@@ -29,16 +29,16 @@ ds.mean = function(datasources=NULL, xvect=NULL, type='combine')
 {
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # name of the studies to be used in the output

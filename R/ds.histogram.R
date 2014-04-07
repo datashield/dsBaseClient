@@ -46,16 +46,16 @@
 ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
 
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # get the name of the variable used for the histogram
@@ -93,13 +93,14 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   cally2 <- call("histogram.ds", xvect, range.arg[1], range.arg[2], seedval) 
   hist.objs <- vector("list", length(datasources))
   invalidcells <-  vector("list", length(datasources))
+  outputs <- datashield.aggregate(datasources, cally2)
   for(i in 1: length(datasources)){
-    output <- datashield.aggregate(datasources[i], cally2)
-    if(is.null(output[[1]])){
+    output <- outputs[[i]]
+    if(is.null(output)){
       stop(" Could not find equidistant break points that span all the data points, in stdnames[i]!")
     }
-    hist.objs[[i]] <- output[[1]]$histobject
-    invalidcells[[i]] <- output[[1]]$invalidcells
+    hist.objs[[i]] <- output$histobject
+    invalidcells[[i]] <- output$invalidcells
   }
   
   # combine the histogram objects 
@@ -124,6 +125,7 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   if(type=="combine"){
     par(mfrow=c(1,1))
     plot(combined.histobject, xlab=variable, main='Histogram of the pooled data')
+    return(combined.histobject)
   }else{  
     if(type=="split"){
       # set the graph area and plot
@@ -133,17 +135,21 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
         numc <- 2
         par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          cat(names(datasources)[i], ": ", invalidcells[[i]], " invalid categories\n")
+          warning(names(datasources)[i], ": ", invalidcells[[i]], " invalid categories", immediate.=TRUE, call.=FALSE)
           plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
         }
+        return(hist.objs)
       }else{
         par(mfrow=c(1,1))
-        cat(names(datasources)[1], ": ", invalidcells[[1]], " invalid categories\n")
+        warning(names(datasources)[1], ": ", invalidcells[[1]], " invalid categories", immediate.=TRUE, call.=FALSE)
         plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
+        return(hist.objs[[1]])
       }
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
     }
   }
+  
+  
 }
 

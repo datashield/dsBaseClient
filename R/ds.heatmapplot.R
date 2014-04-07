@@ -37,22 +37,22 @@
 ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine", show="all", numints=20)
 {
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector for 'xvect'\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector for 'xvect'")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(yvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector for 'yvec'\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector for 'yvec'")
+    stop(" End of process!", call.=FALSE)
   }
   
   # labels for the x and y-axis 
@@ -119,7 +119,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+      message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
     }
     
     Global.grid.density = matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -210,7 +210,7 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      cat('\n',stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]), '\n')
+      message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
     }
     
     

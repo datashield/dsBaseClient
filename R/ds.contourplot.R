@@ -37,22 +37,22 @@
 ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine', show='all', numints=20){
   
   if(is.null(datasources)){
-    message("\n\n ALERT!\n")
-    message(" No valid opal object(s) provided.\n")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector for 'xvect'\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector for 'xvect'")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(yvect)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector for 'yvec'\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector for 'yvec'")
+    stop(" End of process!", call.=FALSE)
   }
   
   # labels for the x and y-axis 
