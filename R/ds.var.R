@@ -15,14 +15,14 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_TSC")
+#' myvar <- list('LAB_TSC')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
-#' ds.var(datasources=opals, xvect="D$LAB_TSC")
+#' ds.var(datasources=opals, xvect='D$LAB_TSC')
 #' 
 #' # Example 2: compute the variance of each study separately
-#' ds.var(datasources=opals, xvect="D$LAB_TSC", type="split")
+#' ds.var(datasources=opals, xvect='D$LAB_TSC', type='split')
 #' }
 #' 
 ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
@@ -40,17 +40,13 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  # call the function that checks the variable is available and not empty
-  #vars2check <- list(xvect)
-  #datasources <- ds.checkvar(datasources, vars2check)
-  
   # name of the studies to be used in the output
   stdnames <- names(datasources)
   
   # number of studies
   num.sources <- length(datasources)
   
-  cally <- paste0("var.ds(", xvect, ")")
+  cally <- paste0("varDS(", xvect, ")")
   var.local <- datashield.aggregate(datasources, as.symbol(cally))
   
   cally <- paste0("NROW(", xvect, ")")
@@ -72,9 +68,7 @@ ds.var = function(datasources=NULL, xvect=NULL, type='combine'){
     
     # get the pooled variance
     var.global = sum.weighted/length.total
-    
-    if (!is.na(var.global))
-      return(list("Global variance"=var.global))
+    return(list("Global variance"=var.global))
     
   } else{
     stop('Function argument "type" has to be either "combine" or "split"')

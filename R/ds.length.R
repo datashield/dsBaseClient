@@ -22,10 +22,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
-#' ds.length(datasources=opals, xvect="D$LAB_TSC")
+#' ds.length(datasources=opals, xvect='D$LAB_TSC')
 #' 
 #' # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
-#' ds.length(datasources=opals, xvect="D$LAB_TSC", type="split")
+#' ds.length(datasources=opals, xvect='D$LAB_TSC', type='split')
 #' }
 #' 
 ds.length = function(datasources=NULL, xvect=NULL, type='combine'){

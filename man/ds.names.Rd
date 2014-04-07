@@ -10,7 +10,8 @@ ds.names(datasources = NULL, xlist = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xlist}{an object of type list}
+  \item{xlist}{a string character, the name of an object of
+  type list}
 }
 \value{
 a list which hold items names for each study
@@ -34,10 +35,10 @@ myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # generates subset tables from the table assigned above (by default the table name is 'D')
-ds.subsetdata(datasources=opals, dataset="D")
+ds.subclass(datasources=opals, subsets='subclasses', data='D')
 
-# the above object 'subsets' is a list, let us display the names of elements in 'Subsets'
-ds.names(opals, quote(subsets))
+# the above object 'subsets' is a list, let us display the names of elements in 'subsets'
+ds.names(opals, 'subsets')
 
 }
 }

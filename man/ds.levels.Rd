@@ -1,6 +1,6 @@
 \name{ds.levels}
 \alias{ds.levels}
-\title{Provides access to the levels attribute of a variable}
+\title{Provides access to the levels attribute of a factor variable}
 \usage{
 ds.levels(datasources = NULL, xvect = NULL)
 }
@@ -10,13 +10,17 @@ ds.levels(datasources = NULL, xvect = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xvect}{an R object (factor)}
+  \item{xvect}{a character, the name of a factor variable}
 }
 \value{
 levels of xvect
 }
 \description{
+<<<<<<< HEAD
 this function is similar to R function \code{levels}
+=======
+This function is similar to R function \code{levels}
+>>>>>>> agaye
 }
 \details{
 
@@ -31,10 +35,10 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
-ds.levels(datasources=opals, xvect=quote(D$PM_BMI_CATEGORICAL))
+ds.levels(datasources=opals, xvect='D$PM_BMI_CATEGORICAL')
 
 # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-\dontrun{ ds.levels(datasources=opals, xvect=quote(D$LAB_TSC)) }
+\dontrun{ ds.levels(datasources=opals, xvect='D$LAB_TSC') }
 }
 }
 \author{

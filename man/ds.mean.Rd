@@ -10,8 +10,12 @@ ds.mean(datasources = NULL, xvect = NULL, type = "combine")
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
+<<<<<<< HEAD
   \item{xvect}{a string character, the name of a numerical
   vector}
+=======
+  \item{xvect}{a character, the name of a numerical vector}
+>>>>>>> agaye
 
   \item{type}{a character which represents the type of
   analysis to carry out. If \code{type} is set to
@@ -32,14 +36,21 @@ a mean value
 data(logindata)
 
 # login and assign specific variable(s)
-myvar <- list("LAB_TSC")
+myvar <- list('LAB_TSC')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
+<<<<<<< HEAD
 ds.mean(datasources=opals, xvect="D$LAB_TSC")
 
 # Example 2: compute the statistical mean of each study separately
 ds.mean(datasources=opals, xvect="D$LAB_TSC", type="split")
+=======
+ds.mean(datasources=opals, xvect='D$LAB_TSC')
+
+# Example 2: compute the statistical mean of each study separately
+ds.mean(datasources=opals, xvect='D$LAB_TSC', type='split')
+>>>>>>> agaye
 }
 }
 \author{

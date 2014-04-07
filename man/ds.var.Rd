@@ -32,14 +32,21 @@ a a global variance or one variance for each study.
 data(logindata)
 
 # login and assign specific variable(s)
-myvar <- list("LAB_TSC")
+myvar <- list('LAB_TSC')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
+<<<<<<< HEAD
 ds.var(datasources=opals, xvect="D$LAB_TSC")
 
 # Example 2: compute the variance of each study separately
 ds.var(datasources=opals, xvect="D$LAB_TSC", type="split")
+=======
+ds.var(datasources=opals, xvect='D$LAB_TSC')
+
+# Example 2: compute the variance of each study separately
+ds.var(datasources=opals, xvect='D$LAB_TSC', type='split')
+>>>>>>> agaye
 }
 }
 \author{
