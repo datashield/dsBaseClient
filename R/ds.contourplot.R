@@ -87,10 +87,10 @@ ds.contourplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type='combi
   if(type=="combine"){
     
     # get the range from each study and produce the 'global' range
-    cally <- call("range.ds", xvect) 
+    cally <- call("rangeDS", xvect) 
     x.ranges <- datashield.aggregate(datasources, cally)
     
-    cally <- call("range.ds", yvect) 
+    cally <- call("rangeDS", yvect) 
     y.ranges <- datashield.aggregate(datasources, cally)
     
     x.minrs <- c()

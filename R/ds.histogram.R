@@ -77,7 +77,7 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   datasources <- ds.checkvar(datasources, vars2check)
   
   # get the range from each studyand produce the 'global' range
-  cally1 <- call("range.ds", xvect) 
+  cally1 <- call("rangeDS", xvect) 
   ranges <- datashield.aggregate(datasources, cally1)
   minrs <- c()
   maxrs <- c()

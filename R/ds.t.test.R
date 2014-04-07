@@ -152,7 +152,7 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
     
     
     if (paired) {
-      cally = call('product.ds', list(quote(yok),-1))
+      cally = call('productDS', list(quote(yok),-1))
       datashield.assign(datasources, 'minus_y', cally)
       # datashield.assign(datasources, 'dummy', quote(cbind(xok, minus_y)))
       datashield.assign(datasources, 'xok', quote(xok+minus_y))
@@ -160,7 +160,7 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
     }
     
     length.local.x = datashield.aggregate(datasources, quote(NROW(xok)))
-    mean.local.x = datashield.aggregate(datasources, quote(mean.ds(xok)))
+    mean.local.x = datashield.aggregate(datasources, quote(meanDS(xok)))
     var.local.x = datashield.aggregate(datasources, quote(var(xok)))
     
     length.total.x = 0
@@ -224,7 +224,7 @@ ds.t.test <- function (datasources, x, y = NULL, type="combine", alternative = "
       if (var.equal && length.total.x + length.total.y < 3) 
         stop("not enough observations")
       
-      mean.local.y = datashield.aggregate(datasources, quote(mean.ds(yok)))
+      mean.local.y = datashield.aggregate(datasources, quote(meanDS(yok)))
       var.local.y = datashield.aggregate(datasources, quote(var(yok)))
       method <- paste(if (!var.equal) 
         "Welch", "Two Sample t-test")

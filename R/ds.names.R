@@ -57,7 +57,7 @@ ds.names = function(datasources=NULL, xlist=NULL){
       return(NULL)
     }else{
       message("\nThe input object is not of type list in ", paste0(stdnames[indx], collapse=", "),"\n")
-      cally <- call('names.ds', xlist)
+      cally <- call('namesDS', xlist)
       output <- datashield.aggregate(datasources[-indx], cally)
       return(output)
     }

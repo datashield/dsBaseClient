@@ -47,7 +47,7 @@ ds.range = function(datasources=NULL, xvect=NULL, type='combine'){
   vars2check <- list(xvect)
   datasources <- ds.checkvar(datasources, vars2check)
   
-  cally <- call('range.ds', xvect )
+  cally <- call('rangeDS', xvect )
   ranges <- datashield.aggregate(datasources, cally)
   mins = unlist(lapply(ranges, function(x) x[1]))
   maxs = unlist(lapply(ranges, function(x) x[2]))

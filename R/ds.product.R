@@ -48,7 +48,7 @@ ds.product = function(datasources=NULL, xlist=NULL, newobj=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call('product.ds', xlist)
+  cally <- call('productDS', xlist)
   datashield.assign(datasources, newobj, cally)
   
   # a message so the user know the function was ran (assign function are 'silent')
