@@ -20,8 +20,8 @@ options(verbose=FALSE)
 options(opal.username='administrator', 
         opal.password='password')
 
-options(opal.url='http://localhost:8080')
-#options(opal.url='http://demo.obiba.org:8080')
+#options(opal.url='http://localhost:8080')
+options(opal.url='http://demo.obiba.org:8080')
 
 server <- c("sim1", "sim2", "sim3")
 url <- c(getOption("opal.url"), getOption("opal.url"), getOption("opal.url"))
