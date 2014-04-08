@@ -29,16 +29,16 @@
 ds.complete.cases = function(datasources=NULL, x=NULL, newobj=NULL){
   
   if(is.null(datasources)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" No valid opal object(s) provided.")
     message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(x)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" Please provide a valid input.")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
   
   #   # call the function that checks that the object are defined.
