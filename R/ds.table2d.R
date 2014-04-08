@@ -186,8 +186,8 @@ ds.table2d <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine")
       output4 <- helper4out$CHI2.TESTS.FOR.HOMOGENEITY
       
       if(zero.studies.valid){
-        warning("NO STUDIES HAVE VALID DATA FOR '", var.name.1, "' OR '", var.name.2, "'")
-        warning("NO ATTEMPT TO TABULATE INDIVIDUAL STUDIES")
+        warning("NO STUDIES HAVE VALID DATA FOR '", var.name.1, "' OR '", var.name.2, "'", immediate.=TRUE, call.=FALSE)
+        warning("NO ATTEMPT TO TABULATE INDIVIDUAL STUDIES", immediate.=TRUE, call.=FALSE)
       }else{
         if(num.valid.studies==numsources){
           return(list("OPALS.DATA.OVERVIEW"=output1, "ALL.VALID.TABLES.BY.STUDY"=output2, "VALIDITY.WARNING"=output3,
