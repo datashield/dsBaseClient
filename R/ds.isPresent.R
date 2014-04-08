@@ -25,16 +25,16 @@
 ds.isPresent <- function(datasources=NULL, var2check=NULL){
     
    if(is.null(datasources)){
-     cat("\n\n ALERT!\n")
-     cat(" No valid opal object(s) provided.\n")
-     cat(" Make sure you are logged in to valid opal server(s).\n")
-     stop(" End of process!\n\n", call.=FALSE)
+     message(" ALERT!")
+     message(" No valid opal object(s) provided.")
+     message(" Make sure you are logged in to valid opal server(s).")
+     stop(" End of process!", call.=FALSE)
    }
    
    if(is.null(var2check)){
-     cat("\n\n ALERT!\n")
-     cat(" Please provide a list for the argument 'var2check'\n")
-     stop(" End of process!\n\n", call.=FALSE)
+     message(" ALERT!")
+     message(" Please provide a list for the argument 'var2check'")
+     stop(" End of process!", call.=FALSE)
    }
 
    # get the names of the opal servers/studies
@@ -67,13 +67,13 @@ ds.isPresent <- function(datasources=NULL, var2check=NULL){
        }else{
          # record that the study failed the check and print a message
          track <- append(track, FALSE)
-         cat("The variable(s)", varID, "is/are missing from", stdname[i],"!\n") 
+         message("The variable(s) ", varID, " is/are missing from ", stdname[i],"!") 
        }
 
      }
      return(track)
    }else{
-     cat("No assigned dataset to look in for this variable!\n") 
+     message("No assigned dataset to look in for this variable!") 
      return(NULL)
    }
    

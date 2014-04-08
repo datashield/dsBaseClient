@@ -79,22 +79,22 @@ ds.table2d <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine")
 
   # stop process and display error message if no 'opals' or input numerical vector is provided
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT! 1st input vector is missing\n")
-    cat(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT! 1st input vector is missing")
+    message(" Please provide a valid numeric vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(yvect)){
-    cat("\n\n ALERT! 2nd input vector is missing\n")
-    cat(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT! 2nd input vector is missing")
+    message(" Please provide a valid numeric vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # get the name of the input numerical variables
@@ -186,8 +186,8 @@ ds.table2d <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine")
       output4 <- helper4out$CHI2.TESTS.FOR.HOMOGENEITY
       
       if(zero.studies.valid){
-        cat(paste("NO STUDIES HAVE VALID DATA FOR '", var.name.1, "' OR '", var.name.2, "'", sep=""),"\n")
-        cat("NO ATTEMPT TO TABULATE INDIVIDUAL STUDIES\n\n")
+        warning("NO STUDIES HAVE VALID DATA FOR '", var.name.1, "' OR '", var.name.2, "'")
+        warning("NO ATTEMPT TO TABULATE INDIVIDUAL STUDIES")
       }else{
         if(num.valid.studies==numsources){
           return(list("OPALS.DATA.OVERVIEW"=output1, "ALL.VALID.TABLES.BY.STUDY"=output2, "VALIDITY.WARNING"=output3,

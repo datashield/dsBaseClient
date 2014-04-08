@@ -30,16 +30,16 @@
 ds.summary <- function(datasources=NULL, xvect=NULL, type="combine"){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric of character vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric of character vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$xvect)
@@ -64,7 +64,7 @@ ds.summary <- function(datasources=NULL, xvect=NULL, type="combine"){
     cally <- call("class", xvect)
     class.of.var <- datashield.aggregate(datasources[i], cally)
     if(class.of.var != class1[[1]]){
-      stop("\n\nThe variable is not of the same type across all the studies!\n\n")
+      stop("The variable is not of the same type across all the studies!")
     }
   }
                                   
@@ -91,7 +91,7 @@ ds.summary <- function(datasources=NULL, xvect=NULL, type="combine"){
         }
       }
      }else{
-      stop("\n\nThe variable is not a numeric or a factor, the summary cannot be produced!\n\n")
+      stop("The variable is not a numeric or a factor, the summary cannot be produced!")
     }
   }
 }

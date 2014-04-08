@@ -24,16 +24,16 @@
 ds.isNA <- function(datasources=NULL, var2check=NULL){
 
    if(is.null(datasources)){
-     cat("\n\n ALERT!\n")
-     cat(" No valid opal object(s) provided.\n")
-     cat(" Make sure you are logged in to valid opal server(s).\n")
-     stop(" End of process!\n\n", call.=FALSE)
+     message(" ALERT!")
+     message(" No valid opal object(s) provided.")
+     message(" Make sure you are logged in to valid opal server(s).")
+     stop(" End of process!", call.=FALSE)
    }
    
    if(is.null(var2check)){
-     cat("\n\n ALERT!\n")
-     cat(" Please provide a list for the argument 'var2check'\n")
-     stop(" End of process!\n\n", call.=FALSE)
+     message(" ALERT!")
+     message(" Please provide a list for the argument 'var2check'")
+     stop(" End of process!", call.=FALSE)
    }
 
    # get the names of the opal servers/studies
@@ -56,7 +56,7 @@ ds.isNA <- function(datasources=NULL, var2check=NULL){
      out <- datashield.aggregate(datasources[i], cally)
      if(out[[1]]){ 
        track <- append(track, TRUE)
-       cat("The variable", varID, "in", stdname[i], "is empty (NAs only).\n")
+       message("The variable ", varID, " in ", stdname[i], " is empty (NAs only).")
      }else{
        track <- append(track, FALSE)
      }

@@ -44,16 +44,16 @@
 ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
   
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric of character vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric of character vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$xvect)
@@ -85,7 +85,7 @@ ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
   for(i in 1:numstudies){
     cally <- call("is.factor", xvect) 
     if(!(datashield.aggregate(datasources[i], cally)[[1]])){
-      stop("\n\nThe variable ", var, " in ", stdnames[i], " is not a factor!\n\n" )
+      stop("The variable ", var, " in ", stdnames[i], " is not a factor!" )
     }
     cally <- call("levels", xvect) 
     ll <- datashield.aggregate(datasources[i], cally)
@@ -105,12 +105,12 @@ ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
    }
   }
   if(check){
-    cat("\n\nThe studies do not have the same levels for ", var,":\n")
+    message("The studies do not have the same levels for ", var)
     cally <- call("createfactor.ds", xvect, as.list(all.levels))
     datashield.assign(datasources, newvarname, cally)
-    cat("Adjusted! Now all studies have the same levels.\n\n")
-    cat("The name of the new variable is: ", newvarname, "\n\n")
+    message("Adjusted! Now all studies have the same levels.")
+    message("The name of the new variable is: ", newvarname)
   }else{
-    cat("\nAll the studies have the same levels for the variable ", var, "\n\n")
+    message("All the studies have the same levels for the variable ", var)
   }
 }

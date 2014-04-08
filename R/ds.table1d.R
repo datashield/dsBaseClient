@@ -60,16 +60,16 @@ ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
 { 
   # stop process and display error message if no 'opals' or input numerical vector is provided
   if(is.null(datasources)){
-    cat("\n\n ALERT!\n")
-    cat(" No valid opal object(s) provided.\n")
-    cat(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" No valid opal object(s) provided.")
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(xvect)){
-    cat("\n\n ALERT!\n")
-    cat(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    message(" ALERT!")
+    message(" Please provide a valid numeric vector")
+    stop(" End of process!", call.=FALSE)
   }
   
   # get the name of the input numerical variable
