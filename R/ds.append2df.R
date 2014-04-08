@@ -46,22 +46,22 @@
 ds.append2df = function(datasources=NULL, dataset=NULL, xvect=NULL, replace=FALSE){
   
   if(is.null(datasources)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n", call.=FALSE)
+    message(" Make sure you are logged in to valid opal server(s).")
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(dataset)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" No dataframe provided - check the argument 'dataset'.")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
     
   if(is.null(xvect)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" Please provide a vector to append to the dataframe.")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$xvect)

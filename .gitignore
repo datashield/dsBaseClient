@@ -4,3 +4,4 @@
 *.dll
 *.Rproj
 .Rproj.user
+inst/tests/test-dummy.R
