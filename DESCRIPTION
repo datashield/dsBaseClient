@@ -8,5 +8,4 @@ Description: Package contains function called by client to carry out basic
     statistical analyses
 Depends:
     opal,
-    opaladmin,
     fields
