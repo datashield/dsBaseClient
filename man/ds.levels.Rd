@@ -16,11 +16,7 @@ ds.levels(datasources = NULL, xvect = NULL)
 levels of xvect
 }
 \description{
-<<<<<<< HEAD
-this function is similar to R function \code{levels}
-=======
 This function is similar to R function \code{levels}
->>>>>>> agaye
 }
 \details{
 
