@@ -33,19 +33,19 @@
 ds.rowcolCalc = function(datasources=NULL, dataset=NULL, operation=NULL, newobj=NULL){
   
   if(is.null(datasources)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" No valid opal object(s) provided.")
     message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }
   
   if(is.null(dataset)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" Please provide a valid dataset")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }else{
     # check that, for each study,  all the columns of the input table are of 'numeric' type
-    message("Checking if all the columns on the input table are numeric.\n")
+    message("Checking if all the columns on the input table are numeric.")
     numsources <- length(datasources)
     stdnames <- names(datasources)
     dtname <- as.character(dataset)
@@ -64,9 +64,9 @@ ds.rowcolCalc = function(datasources=NULL, dataset=NULL, operation=NULL, newobj=
   
   ops <- c("rowSums","colSums","rowMeans","colMeans")
   if(is.null(operation)){
-    message("\n ALERT!\n")
+    message(" ALERT!")
     message(" Please indicate the calculation required.")
-    stop(" End of process!\n", call.=FALSE)
+    stop(" End of process!", call.=FALSE)
   }else{
     if(!(operation %in% ops)){
       stop(" 'operation' must be: 'rowSums', 'colSums', 'rowMeans' or 'colMeans'")
