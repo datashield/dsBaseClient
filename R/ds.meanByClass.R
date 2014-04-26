@@ -83,12 +83,12 @@ ds.meanByClass <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar=N
   
   # loop through the datasources a break down the original dataset by the specified categorical variable
   # the names of the subset tables are stored for mean and sd computations
-  message("Generating the required subset tables (this may take couple of minutes!)...")
+  message("Generating the required subset tables (this may take couple of minutes, do not interrupt!)...")
   subsetnames <- vector("list", length(datasources))
   for(i in 1:length(datasources)){
     datasets <- dataset
     for(j in 1:length(covar)){
-      newnames <- dsbaseclient:::.meanByClassHelper1(datasources[i], datasets, covar[j], categories[[j]])
+      newnames <- dsbaseclient:::.meanByClassHelper1(datasources[i], datasets, covar[j], classes[[j]])
       datasets <- newnames
     }
     subsetnames[[i]] <- datasets
