@@ -20,13 +20,14 @@
   
   if(length(check1) > 0 | length(check2) > 0){ 
     for(m in 1:length(categories)){
-      newsubsets <- append(newsubsets, paste0(initialtable,'.',variable, categories[m], "_INVALID"))
+      name2use <- paste0(initialtable,'.',variable, categories[m], "_INVALID")
+      newsubsets <- append(newsubsets, name2use)
     }
   }else{
     subsetnames <- unique(unlist(ds.names(dtsource, alist)))
     for(m in 1:length(subsetnames)){
       name2use <- paste0(unlist(strsplit(paste0(initialtable,'.',subsetnames[m]), '.level_')), collapse='')
-      datashield.assign(dtsource, paste0(initialtable,'.',subsetnames[m]), as.symbol(paste0(alist,'$',subsetnames[m])))
+      datashield.assign(dtsource, name2use, as.symbol(paste0(alist,'$',subsetnames[m])))
       newsubsets <- append(newsubsets, name2use)
     }
   }
