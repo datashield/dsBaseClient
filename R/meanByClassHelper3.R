@@ -3,30 +3,49 @@
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to produce the final tables
 #' if the user sets the parmater 'type' to 'split'.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' @param dtsources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param tablenames a character vector, the name of the subset tables
 #' @param variables a character vector, the names of the continuous variables to computes a mean for. 
+#' @param invalidrecorder a list, holds informations about invalid subsets in each study
 #' @return a list which one results table for each study.
 #'
-.meanByClassHelper3 <- function(datasources, tablenames, variables){
+.meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
+  numtables <- length(tablenames[[1]])
+  stdnames <- names(dtsources)
   
-  finalist <- vector('list', length(datasources))
-  for(s in 1:length(datasources)){
+  finalist <- vector('list', length(dtsources))
+  for(s in 1:length(dtsources)){
   
     # now get the mean and SD for the continuous variables in each of tthe subset tables
-    finaltable <- matrix(numeric(0), ncol=length(tablenames))
+    finaltable <- matrix(numeric(0), ncol=numtables)
     finalrows <- c()
     for(z in 1:length(variables)){
       # set an empty matrix to hold the results
-      outable <- matrix(numeric(0), nrow=2, ncol=length(tablenames))
+      outable <- matrix(numeric(0), nrow=2, ncol=numtables)
       xrows <- c(paste0(variables[z],'(length)'), paste0(variables[z],'(mean&sd)'))
-      for(i in 1:length(tablenames)){
-        ll <- unlist(ds.length(datasources[s], paste0(tablenames[i],'$',variables[z])))
-        mm <- round(unlist(ds.mean(datasources[s], paste0(tablenames[i],'$',variables[z]))),2)
-        sdv <- round(unlist(ds.var(datasources[s], paste0(tablenames[i],'$',variables[z]))),2)
-        mean.sd <- paste0(mm, '(', round(sqrt(sdv),2), ')')
-        entries <- c(ll, mean.sd)
+      for(i in 1:numtables){
+        # inform of progress
+        message(paste0(stdnames[s], ", ", variables[z], " - Processing subset table ", i, " of ", numtables))
+        
+        # check what datasource has invalid subset
+        rc <- c()
+        if(invalidrecorder[[s]][i] == 1){ rc <- append(rc, q) }
+        
+        if(length(rc) > 0){
+            ll <- NA
+            mm <- NA
+            sdv <- NA
+            mean.sd <- paste0(mm, '(', sdv, ')')
+            entries <- c(ll, mean.sd)
+        }else{
+          ll <- unlist(ds.length(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])))
+          mm <- round(unlist(ds.mean(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z]))),2)
+          sdv <- round(unlist(ds.var(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z]))),2)
+          if(is.na(mm)){ sdv <- NA }
+          mean.sd <- paste0(mm, '(', round(sqrt(sdv),2), ')')
+          entries <- c(ll, mean.sd)
+        }
         for(j in 1:2){
           outable[j,i] <-  entries[j]
         }
@@ -36,12 +55,16 @@
     }
     
     # specify the name of the rows and the columns
-    colnames(finaltable) <- tablenames
+    cols <- tablenames[[s]]
+    for(i in which(invalidrecorder[[s]] == 1)){
+      cols[i] <- paste(unlist(strsplit(cols[i], "_INVALID")), collapse="")
+    }
+    colnames(finaltable) <- cols
     rownames (finaltable) <- finalrows
     
     finalist[[s]] <- finaltable
   
   }
-  names(finalist) <- names(datasources)
+  names(finalist) <- names(dtsources)
   return(finalist)
 }

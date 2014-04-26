@@ -1,27 +1,27 @@
 #' 
-#' @title Generates new names from subset tables names
+#' @title Generates subset tables
 #' @description This is an internal function.
-#' @details This function is called by the function 'ds.meanByClass' to ensure the names of the subset are 
-#' identical in the different studies. After running the function 'ds.subclass' invalid and empty subsets
-#' have a suffixe '_INVALID' or '_EMPTY' on their names; this is required to inform user of failed subsets but
-#' when poses problem when computing mean and SD as the names may not be uniform across the studies whilst 
-#' uniformity of names across studies is required in any datashield process.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param listname a character, name of the list that holds the subset tables 
-#' @param covarname a character, the name of of the categorical variable to subset on.
-#' @param classes a character vector, the lebbels of the categorical variable. 
-#' @param tablename a character, the name of the table the subsets in 'listname' where generated from
-#' @return a character vector, the new names of the subset tables
+#' @details This function is called by the function 'ds.meanByClass' to break down the initial
+#' table by the specified categorical variables.
+#' @param dtsource an opal object(s) obtained after login in to opal servers;
+#' @param tables a character vector, the tables to breakdown
+#' @param variable a character, the variable to subset on
+#' @param categories a character vector, the classes in the variables to subset on
+#' @return a character the names of the new subset tables
 #'
-.meanByClassHelper1 <- function(datasources, tablename, listname, covarname, classes){
-  subnames <- ds.names(datasources, listname)
-  names2use <- c()
-  for(j in 1:length(classes)){
-    for(k in 1:length(datasources)){
-      ds.assign(datasources[k], paste0(tablename, ".",covarname,'.level_', classes[j]), paste0(listname,'$',subnames[[k]][j]))
+.meanByClassHelper1 <- function(dtsource, tables, variable, categories){
+  
+  newtablenames <- c()
+  for(i in 1:length(tables)){
+    check1 <- which(unlist(strsplit(tables[i],"_")) == "INVALID")
+    check2 <- which(unlist(strsplit(tables[i],"_")) == "EMPTY")
+    if(length(check1) > 0 | length(check2) > 0){ 
+      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), tables[i], variable, categories))
+    }else{
+      ds.subclass(dtsource, paste0('holder',i), tables[i], variable)
+      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), tables[i]))
     }
-    names2use <- append(names2use,  paste0(tablename, ".",covarname,'.level_', classes[j]))
   }
-  return(names2use)
-}
+  
+  return(newtablenames)
+}  
