@@ -74,39 +74,51 @@ ds.meanByClass <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar=N
     warning("More than 3 categorical have been specified. Only the first 3 will be considered!")
     covar <- covar[1:3]
   }
-  dtsources <- datasources
-  # subset the first categorical variable and remove the subset tables from the list where they are stored
-  ds.subclass(datasources=dtsources, subsets='sublist', data=dataset, variables=covar[1])
-  categories <- unique(unlist(ds.levels(datasources=dtsources, xvect=paste0(dataset, '$', covar[1]))))
-  nextTables2subset <- dsbaseclient:::.meanByClassHelper1(opals, dataset, 'sublist', covar[1], categories)
   
-  # if there are more than one covariate loop and subset repeatedly the dataset 
-  # on the categories of each of the covariates
-  if(length(covar) > 1){
-    for(s in 2:length(covar)){
-      # generate subsets from the datasets obtained from the previous subsetting using the second categorical variable
-      tempholder <- c()
-      cls <- unique(unlist(ds.levels(datasources=dtsources, xvect=paste0(dataset, '$', covar[s]))))
-      for(i in 1:length(nextTables2subset)){
-        listname <- paste0(nextTables2subset[i], ".",covar[s])
-        tablename <- nextTables2subset[i]
-        ds.subclass(datasources=dtsources, subsets=listname, data=tablename, variables=covar[s])
-        xnames <- dsbaseclient:::.meanByClassHelper1(opals, tablename, listname, covar[s], cls)
-        tempholder <- append(tempholder, xnames)
-      }
-      # tables to subset for the third variables or to use for the mean and SD calculations if only 2 categorical variables were given
-      nextTables2subset <- tempholder
+  # categories in each of the categorical variables
+  classes <- vector("list", length(covar))
+  for(i in 1:length(covar)){
+    classes[[i]] <- unique(unlist(ds.levels(datasources=datasources[1], xvect=paste0(dataset, '$', covar[i]))))
+  }
+  
+  # loop through the datasources a break down the original dataset by the specified categorical variable
+  # the names of the subset tables are stored for mean and sd computations
+  message("Generating the required subset tables (this may take couple of minutes!)...")
+  subsetnames <- vector("list", length(datasources))
+  for(i in 1:length(datasources)){
+    datasets <- dataset
+    for(j in 1:length(covar)){
+      newnames <- dsbaseclient:::.meanByClassHelper1(datasources[i], datasets, covar[j], categories[[j]])
+      datasets <- newnames
     }
+    subsetnames[[i]] <- datasets
+  }  
+  names(subsetnames) <- names(datasources)
+  
+
+  # a study might have invalid sub-datasets which we cannot get mean and sd from, to idenitfy those
+  # we loop by categories, if a study has invalid table (i.e. table with NAs only) we exclude it
+  # for that category when calculating the mean and sd values for that category
+  invalidrecorder <- vector("list", length(datasources))
+  for(i in 1:length(datasources)){
+    for(j in 1:length(subsetnames[[i]])){
+      check1 <- which(unlist(strsplit(subsetnames[[i]][j],"_")) == "INVALID")
+      check2 <- which(unlist(strsplit(subsetnames[[i]][j],"_")) == "EMPTY")
+      if(length(check1) > 0 | length(check2 > 0)){ 
+        invalidrecorder[[i]] <- append(invalidrecorder[[i]], 1) 
+      }else{
+        invalidrecorder[[i]] <- append(invalidrecorder[[i]], 0) 
+      }
+    }          
   }
   
   # compute the length, mean and standard deviation for each 'outvar'
-  message('Final results table(s) are being generated, this might take couple of minutes if more than one categorical variable was specified.')
   if(type=='combine'){
-    results <- dsbaseclient:::.meanByClassHelper2(dtsources, nextTables2subset, outvar)
+    results <- dsbaseclient:::.meanByClassHelper2(datasources, subsetnames, outvar, invalidrecorder)
     return(results)
   }else{
     if(type=='split'){
-      results <- dsbaseclient:::.meanByClassHelper3(dtsources, nextTables2subset, outvar)
+      results <- dsbaseclient:::.meanByClassHelper3(datasources, subsetnames, outvar, invalidrecorder)
       return(results)
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')

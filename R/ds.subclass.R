@@ -54,7 +54,7 @@ ds.subclass <- function(datasources=NULL, subsets="subsClasses", data=NULL, vari
   datashield.assign(datasources, subsets, cally)
   
   # a message so the user knows the function was ran (assign functions are 'silent')
-  message("An 'assign' function was ran, no output should be expected on the client side!\n")
+  #message("An 'assign' function was ran, no output should be expected on the client side!\n")
   
   # possible 'errors' from the server side function if no subset has been generated
   m1 <- "The input data you provided is not defined"
