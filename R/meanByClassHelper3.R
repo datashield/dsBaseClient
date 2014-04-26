@@ -26,7 +26,7 @@
       xrows <- c(paste0(variables[z],'(length)'), paste0(variables[z],'(mean&sd)'))
       for(i in 1:numtables){
         # inform of progress
-        message(paste0(stdnames[s], ", ", variables[z], " - Processing subset table ", i, " of ", numtables))
+        message(paste0(stdnames[s], ", ", variables[z], " - Processing subset table ", i, " of ", numtables, "..."))
         
         # check what datasource has invalid subset
         rc <- c()

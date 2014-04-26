@@ -23,7 +23,7 @@
     xrows <- c(paste0(variables[z],'(length)'), paste0(variables[z],'(mean&sd)'))
     for(i in 1:numtables){
       # inform of progress
-      message(paste0(variables[z], " - Processing subset table ", i, " of ", numtables))
+      message(paste0(variables[z], " - Processing subset table ", i, " of ", numtables, "..."))
       
       tablename <- paste(unlist(strsplit(tablenames[[1]][i], "_INVALID")), collapse="")
       
@@ -67,7 +67,7 @@
   }
   
   # specify the name of the rows and the columns
-  cols <- tablesnames[[1]]
+  cols <- tablenames[[1]]
   for(i in which(invalidrecorder[[1]] == 1)){
     cols[i] <- paste(unlist(strsplit(cols[i], "_INVALID")), collapse="")
   }

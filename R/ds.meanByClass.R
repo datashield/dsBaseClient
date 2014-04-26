@@ -83,6 +83,7 @@ ds.meanByClass <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar=N
   
   # loop through the datasources a break down the original dataset by the specified categorical variable
   # the names of the subset tables are stored for mean and sd computations
+  message("Generating the required subset tables (this may take couple of minutes!)...")
   subsetnames <- vector("list", length(datasources))
   for(i in 1:length(datasources)){
     datasets <- dataset
@@ -112,13 +113,12 @@ ds.meanByClass <-  function(datasources=NULL, dataset=NULL, outvar=NULL, covar=N
   }
   
   # compute the length, mean and standard deviation for each 'outvar'
-  message('Final results table(s) are being generated, this might take couple of minutes if more than one categorical variable was specified.')
   if(type=='combine'){
     results <- dsbaseclient:::.meanByClassHelper2(datasources, subsetnames, outvar, invalidrecorder)
     return(results)
   }else{
     if(type=='split'){
-      results <- dsbaseclient:::.meanByClassHelper3(dtsources, subsetnames, outvar, invalidrecorder)
+      results <- dsbaseclient:::.meanByClassHelper3(datasources, subsetnames, outvar, invalidrecorder)
       return(results)
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
