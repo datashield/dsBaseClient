@@ -19,7 +19,7 @@
     if(length(check1) > 0 | length(check2) > 0){ 
       newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, 'tempholder', dt2process, variable, categories))
     }else{
-      ds.subclass(dtsource, paste0('holder',i), dt2process, variable)
+      ds.subclass(dtsource, 'tempholder', dt2process, variable)
       newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, 'tempholder', dt2process))
     }
   }
