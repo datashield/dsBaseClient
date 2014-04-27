@@ -21,10 +21,10 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into a character vector
-#' ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_ch")
+#' ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj="gender_ch")
 #' 
 #' # now turn the newly created vector 'gender_ch' into a numeric
-#' ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newobj="gender_nm")
+#' ds.asNumeric(datasources=opals, xvect='gender_ch', newobj="gender_nm")
 #' }
 #' 
 ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
@@ -43,8 +43,8 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
   }
   
   # call the function that checks the variable is available and not empty
-  vars2check <- list(xvect)
-  datasources <- ds.checkvar(datasources, vars2check)
+  #vars2check <- list(xvect)
+  #datasources <- ds.checkvar(datasources, vars2check)
   
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
@@ -62,8 +62,8 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call('as.numeric', xvect )
-  datashield.assign(datasources, newobj, cally)
+  cally <- paste0('as.numeric(', xvect, ')' )
+  datashield.assign(datasources, newobj, as.symbol(cally))
   
   # a message so the user know the function was ran (assign function are 'silent')
   #message("An 'assign' function was ran, no output should be expected on the client side!")
@@ -72,15 +72,12 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
   cally <- call('exists', newobj )
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
-  if(length(indx) == length(datasources)){
-    #message("The output of the function, '", newobj, "', is stored on the server side.")
-  }else{
-    if(length(indx) > 0){
-      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
-    }
-    if(length(indx) == 0){
-      warning("The output object has not been generated for any of the studies!")
-    }
+  
+  if(length(indx) > 0 & length(indx) < length(datasources)){
+    warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
+  }
+  if(length(indx) == 0){
+    warning("The output object has not been generated for any of the studies!")
   }
 
 }

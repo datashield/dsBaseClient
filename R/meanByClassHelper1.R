@@ -14,8 +14,9 @@
   newtablenames <- c()
   for(i in 1:length(tables)){
     # check if the vector to subset by is not empty(i.e. NAs only) as this might cause ds.subclass to crash
-    ds.asNumeric(dtsource, paste0(tables[i], "$", variable), 'vectnumeric')
-    check0 <- unlist(datashield.aggregate(dtsource, quote(isNA.ds(vectnumeric))))
+    ds.asCharacter(dtsource, paste0(tables[i], '$', variable), 'charvect')
+    ds.asNumeric(dtsource, 'charvect', 'numvect')
+    check0 <- unlist(datashield.aggregate(dtsource, quote(isNA.ds(numvect))))
     if(check0){
       dt2process <- paste0(tables[i], "_INVALID")
     }else{ 

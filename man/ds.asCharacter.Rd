@@ -10,7 +10,7 @@ ds.asCharacter(datasources = NULL, xvect = NULL, newobj = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xvect}{a vector.}
+  \item{xvect}{a vector}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to NULL, the name of the new variable is the name
@@ -37,7 +37,7 @@ myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_as_char")
+ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj="gender_char")
 }
 }
 \author{

@@ -39,10 +39,10 @@ myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_ch")
+ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj="gender_ch")
 
 # now turn the newly created vector 'gender_ch' into a numeric
-ds.asNumeric(datasources=opals, xvect=quote(D$GENDER), newobj="gender_nm")
+ds.asNumeric(datasources=opals, xvect='gender_ch', newobj="gender_nm")
 }
 }
 \author{
