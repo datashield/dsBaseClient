@@ -66,14 +66,14 @@ ds.asNumeric = function(datasources=NULL, xvect=NULL, newobj=NULL){
   datashield.assign(datasources, newobj, cally)
   
   # a message so the user know the function was ran (assign function are 'silent')
-  message("An 'assign' function was ran, no output should be expected on the client side!")
+  #message("An 'assign' function was ran, no output should be expected on the client side!")
   
   # check that the new object has been created and display a message accordingly
   cally <- call('exists', newobj )
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
   if(length(indx) == length(datasources)){
-    message("The output of the function, '", newobj, "', is stored on the server side.")
+    #message("The output of the function, '", newobj, "', is stored on the server side.")
   }else{
     if(length(indx) > 0){
       warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
