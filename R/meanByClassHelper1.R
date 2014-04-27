@@ -17,10 +17,10 @@
     check1 <- which(unlist(strsplit(dt2process,"_")) == "INVALID")
     check2 <- which(unlist(strsplit(dt2process,"_")) == "EMPTY")
     if(length(check1) > 0 | length(check2) > 0){ 
-      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process, variable, categories))
+      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, 'tempholder', dt2process, variable, categories))
     }else{
       ds.subclass(dtsource, paste0('holder',i), dt2process, variable)
-      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process))
+      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, 'tempholder', dt2process))
     }
   }
   
