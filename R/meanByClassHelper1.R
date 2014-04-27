@@ -19,18 +19,8 @@
     if(length(check1) > 0 | length(check2) > 0){ 
       newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process, variable, categories))
     }else{
-      # check if the vector to subset by is not empty(i.e. NAs only) as this might cause ds.subclass to crash
-      ds.asCharacter(dtsource, paste0(tables[i], '$', variable), 'charvect')
-      ds.asNumeric(dtsource, 'charvect', 'numvect')
-      check0 <- unlist(datashield.aggregate(dtsource, quote(isNA.ds(numvect))))
-      if(check0){
-        dt2process <- paste0(tables[i], "_INVALID")
-        newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process, variable, categories))
-      }else{ 
-        dt2process <- tables[i]
-        ds.subclass(dtsource, paste0('holder',i), dt2process, variable)
-        newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process))
-      }
+      ds.subclass(dtsource, paste0('holder',i), dt2process, variable)
+      newtablenames <- append(newtablenames, dsbaseclient:::.meanByClassHelper4(dtsource, paste0('holder',i), dt2process))
     }
   }
   
