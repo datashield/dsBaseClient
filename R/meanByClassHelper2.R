@@ -26,6 +26,7 @@
       message(paste0(variables[z], " - Processing subset table ", i, " of ", numtables, "..."))
       
       tablename <- paste(unlist(strsplit(tablenames[[1]][i], "_INVALID")), collapse="")
+      tablename <- paste(unlist(strsplit(tablename, "_EMPTY")), collapse="")
       
       # check what datasource has invalid subset
       rc <- c()
