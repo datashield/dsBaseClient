@@ -7,12 +7,12 @@
 #' (one for each study) or a combine histogram that merges the single plots.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
-#' @param xvect vector of values for which the histogram is desired.
+#' @param xvect a charcater, the name of the vector of values for which the histogram is desired.
 #' @param type a character which represent the type of graph to display. 
 #' If \code{type} is set to 'combine', a histogram that merges the single 
 #' plot is displayed. Each histogram is plotted separately if If \code{type} 
 #' is set to 'split'.
-#' @return one or more histogram plot depending on the argument \code{type}
+#' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -25,25 +25,25 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: plot a combined histogram of the variable 'LAB_TSC' - default behaviour
-#' ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC))
+#' ds.histogram(datasources=opals, xvect='D$LAB_TSC')
 #' 
 #' # Example 2: Plot the histograms of LAB_TSC separately (one per study)
-#' ds.histogram(datasources=opals, xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals, xvect='D$LAB_TSC', type='split')
 #'
 #' # Example 2: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
-#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL))
+#' ds.histogram(datasources=opals, xvect='D$LAB_HDL')
 #' 
 #' # Example 3: plot the histograms of LAB_HDL separately (one per study)
-#' ds.histogram(datasources=opals, xvect=quote(D$LAB_HDL), type="split")
+#' ds.histogram(datasources=opals, xvect='D$LAB_HDL', type='split')
 #' 
 #' # Example 4: Plot the histograms of the first and second study
-#' ds.histogram(datasources=opals[1:2], xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals[1:2], xvect='D$LAB_TSC', type='split')
 #'
 #' # Example 5: Plot the histogram of the third study only
-#' ds.histogram(datasources=opals[3], xvect=quote(D$LAB_TSC), type="split")
+#' ds.histogram(datasources=opals[3], xvect='D$LAB_TSC', type='split')
 #' }
 #'
-ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
+ds.histogram <- function(datasources=NULL, xvect=NULL, type='combine'){
 
   if(is.null(datasources)){
     message(" ALERT!")
@@ -62,11 +62,11 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  inputterms <- unlist(strsplit(xvect, "\\$", perl=TRUE))
   if(length(inputterms) > 1){
-    variable <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+    variable <- strsplit(xvect, "\\$", perl=TRUE)[[1]][2]
   }else{
-    variable <- deparse(xvect)
+    variable <- xvect
   }
   
   # study names
@@ -77,23 +77,19 @@ ds.histogram <- function(datasources=NULL, xvect=NULL, type="combine"){
   datasources <- ds.checkvar(datasources, vars2check)
   
   # get the range from each studyand produce the 'global' range
-  cally1 <- call("rangeDS", xvect) 
-  ranges <- datashield.aggregate(datasources, cally1)
-  minrs <- c()
-  maxrs <- c()
-  for(i in 1:length(ranges)){
-    minrs <- append(minrs, ranges[[i]][1])
-    maxrs <- append(maxrs, ranges[[i]][2])
-  }
-  range.arg <- c(min(minrs), max(maxrs))
+  cally1 <- paste0("rangeDS(", xvect,")") 
+  ranges <- unique(unlist(datashield.aggregate(opals, as.symbol(cally1))))
+  range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
+  if(range.arg[1] < 0){ r1 <- range.arg[1] * 1.1 }else{ r1 <- range.arg[1] * 0.9 }
+  if(range.arg[2] < 0){ r2 <- range.arg[2] * 0.9 }else{ r2 <- range.arg[2] * 1.1 }
   
   # call the function that produces the histogram object to plot
   # get the seed 
   seedval <- round(runif(1, 0, 1000))
-  cally2 <- call("histogram.ds", xvect, range.arg[1], range.arg[2], seedval) 
+  cally2 <- paste0('histogram.ds(', xvect, ',', r1, ',', r2, ',', seedval, ')') 
   hist.objs <- vector("list", length(datasources))
   invalidcells <-  vector("list", length(datasources))
-  outputs <- datashield.aggregate(datasources, cally2)
+  outputs <- datashield.aggregate(datasources, as.symbol(cally2))
   for(i in 1: length(datasources)){
     output <- outputs[[i]]
     if(is.null(output)){
