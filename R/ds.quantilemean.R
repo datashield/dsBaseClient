@@ -1,19 +1,15 @@
 #' 
-#' @title Plots a histogram 
-#' @description This function plots histogram of the given data values.
-#' It calls a datashield server side function that produces the
-#' histogram objects to plot. The objects to plot do not contain bins with
-#' counts < 5. The function allows for the user to plot disctinct histograms
-#' (one for each study) or a combine histogram that merges the single plots.
+#' @title Compute the quantiles 
+#' @description This function calculate the mean and quatile values of a quantitative variable
+#' without the minimum and maximum which are revealing.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal 
 #' datasources. 
-#' @param xvect vector of values for which the histogram is desired.
+#' @param xvect a  numeric vector.
 #' @param type a character which represent the type of graph to display. 
-#' If \code{type} is set to 'combine', a histogram that merges the single 
-#' plot is displayed. Each histogram is plotted separately if If \code{type} 
-#' is set to 'split'.
-#' @return one or more histogram plot depending on the argument \code{type}
+#' If \code{type} is set to 'combine' pooled values are displayed and sumamries a
+#' returned for each study if \code{type} is set to 'split'
+#' @return one or more summaries depending the argument \code{type}
 #' @author Gaye, A.
 #' @export
 #' @examples {
