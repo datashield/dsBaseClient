@@ -1,0 +1,55 @@
+\name{ds.asFactor}
+\alias{ds.asFactor}
+\title{Turns a numeric vector into factor type}
+\usage{
+ds.asFactor(datasources = NULL, xvect = NULL, newobj = NULL)
+}
+\arguments{
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+
+  \item{xvect}{a numerc vector}
+
+  \item{newobj}{the name of the new vector.If this argument
+  is set to NULL, the name of the new variable is the name
+  of the input variable with the suffixe '_fact' (e.g.
+  'GENDER_fact', if input variable's name is 'GENDER')}
+}
+\value{
+a message is displayed when the action is completed.
+}
+\description{
+This function is similar to R function \code{as.factor} but
+it does not allow users to create factors where a categorie
+has less than two observations.
+}
+\details{
+
+}
+\examples{
+{
+
+# load that contains the login details
+data(logindata)
+
+# login and assign specific variable(s)
+myvar <- list("GENDER")
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+
+# turn the factor variable 'GENDER' into a character variable
+ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj='gender_char')
+
+# turn the character variable 'gender_char' into a numeric variable
+ds.asNumeric(datasources=opals, xvect='gender_char', newobj='gender_num')
+
+# now turn the numeric variable 'gender_num' into a factor variable
+ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
+
+}
+}
+\author{
+Gaye, A.; Burton, P.
+}
+

@@ -3,7 +3,8 @@
 \title{Generates a valid subset of a table or a vector}
 \usage{
 ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
-  rows = NULL, cols = NULL, logical = NULL, threshold = NULL)
+  complete = FALSE, rows = NULL, cols = NULL, logical = NULL,
+  threshold = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -17,6 +18,9 @@ ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
 
   \item{data}{a string character, the name of the dataframe
   or the factor vector and the range of the subset.}
+
+  \item{complete}{a boolean that tells if only complete
+  case should be included or not.}
 
   \item{rows}{a vector of integers, the indices of the rows
   de extract.}

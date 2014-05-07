@@ -1,8 +1,8 @@
-\name{ds.createfactor}
-\alias{ds.createfactor}
+\name{ds.amendLevels}
+\alias{ds.amendLevels}
 \title{Ensures factors have same classes across studies}
 \usage{
-ds.createfactor(datasources = NULL, xvect = NULL, newvarname = NULL)
+ds.amendLevels(datasources = NULL, xvect = NULL, newvarname = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -49,7 +49,7 @@ datashield.aggregate(opals[2], quote(levels(D$PM_BMI_CATEGORICAL)))
 datashield.aggregate(opals[3], quote(levels(D$PM_BMI_CATEGORICAL)))
 
 #create a factor vector of the variable 'PM_BMI_CATEGORICAL', one for each study
-ds.createfactor(opals, xvect=quote(D$PM_BMI_CATEGORICAL))
+ds.amendLevels(opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 
 # the name of the newly created variable is the previous one with the suffixe '_f'
 datashield.aggregate(opals[1], quote(levels(PM_BMI_CATEGORICAL_f)))

@@ -32,7 +32,7 @@
 #' datashield.aggregate(opals[3], quote(levels(D$PM_BMI_CATEGORICAL)))
 #'
 #' #create a factor vector of the variable 'PM_BMI_CATEGORICAL', one for each study 
-#' ds.createfactor(opals, xvect=quote(D$PM_BMI_CATEGORICAL))
+#' ds.amendLevels(opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 #'
 #  # Now let us check the levels after the correction - by default
 #' # the name of the newly created variable is the previous one with the suffixe '_f'
@@ -41,7 +41,7 @@
 #' datashield.aggregate(opals[3], quote(levels(PM_BMI_CATEGORICAL_f)))
 #' }
 #'
-ds.createfactor <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
+ds.amendLevels <- function(datasources=NULL, xvect=NULL, newvarname=NULL){
   
   if(is.null(datasources)){
     message(" ALERT!")

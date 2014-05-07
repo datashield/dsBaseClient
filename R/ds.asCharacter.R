@@ -45,9 +45,9 @@ ds.asCharacter = function(datasources=NULL, xvect=NULL, newobj=NULL){
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
+  inputterms <- unlist(strsplit(xvect, "\\$", perl=TRUE))
   if(length(inputterms) > 1){
-    varname <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+    varname <- strsplit(xvect, "\\$", perl=TRUE)[[1]][2]
   }else{
     varname <- deparse(xvect)
   }

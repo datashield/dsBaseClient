@@ -69,7 +69,7 @@ ds.summary <- function(datasources=NULL, xvect=NULL, type="combine"){
   }
                                   
   # now get the summary depending on the type of the input variable
-  if(class1[[1]] == "numeric"){
+  if(class1[[1]] == "numeric" | class1[[1]] == "integer"){
     if(type == "combine"){
       ds.quantilemean(datasources, xvect)
     }else{
