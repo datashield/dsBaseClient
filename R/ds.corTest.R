@@ -24,7 +24,7 @@
 #' ds.corTest(datasources=opals, xvect='D$LAB_TSC', yvect='D$LAB_HDL')
 #' }
 #' 
-ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine')
+ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL)
 {
   
   if(is.null(datasources)){
@@ -52,17 +52,10 @@ ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL, type='combine')
   # number of studies
   num.sources <- length(datasources)
   
+  # call the server side function
   cally <- paste0("cor.test(", xvect, ",", yvect, ")")
   res.local <- datashield.aggregate(datasources, as.symbol(cally))
   
-
-  if (type=='split') {
-    return(res.local)
-  } else if (type=='combine') {
-    return(res.local)
+  return(res.local)
     
-  } else{
-    stop('Function argument "type" has to be either "combine" or "split"')
-  }
-  
 }

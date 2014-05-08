@@ -6,17 +6,17 @@
 #' @details If the input data is a table: The user specifies the rows and/or columns to include in the subset if the input 
 #' object is a table; the columns can be refered to by their names. The name of a vector (i.e. a variable) can also be provided 
 #' with a logical operator and a threshold (see example 3). 
-#' If the input data is a vector:  when the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored (
-#' 'rows' has precedence over the other two parameters then).
-#' If the requested subset is not valid (i.e. contains less than the allowed number of observations) or if it does not
-#' have any observations, the subset is not generated, rather a table or a vector of missing values is generated to allow
+#' If the input data is a vector:  when the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored 
+#' ('rows' has precedence over the other two parameters then).
+#' IMPORTANT NOTE: If the requested subset is not valid (i.e. contains less than the allowed number of observations) or if it does 
+#' not have any observations, the subset is not generated, rather a table or a vector of missing values is generated to allow
 #' for any subsequent process using the output of the function to proceed, after informing the user via a message.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param subset the name of the output object, a list that holds the subset object. If set to NULL
 #' the default name of this list is 'subsetObject' 
 #' @param data a string character, the name of the dataframe or the factor vector and the range of the subset.
-#' @param complete a boolean that tells if only complete case should be included or not.
+#' @param complete a boolean that tells if only complete cases should be included or not.
 #' @param rows a vector of integers, the indices of the rows de extract. 
 #' @param cols a vector of integers or characters; the indices of the columns to extract or the names of the columns (i.e. 
 #' names of the variables to extract).
@@ -24,39 +24,38 @@
 #' operator. This parameter is ignored if the input data is not a vector.
 #' @param threshold a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored 
 #' if the input data is not a vector.
-#' @return a no data are return to the user but messages are printed out.
+#' @return a no data are return to the user, the generated subset is stored on the server side.
 #' @author Gaye, A.
 #' @export
 #' @examples {
 #'
 #' # load the login data
-#' library(opal)
 #' data(logindata)
 #' 
 #' # login and assign some variables to R
 #' myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example 1: generate a subset of the assigned table (by default the table is named 'D')
-#' # with the first 50 observations and the two first columns
-#' ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols=c(1,2))
+#' # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
+#' #' ds.subset(datasources=opals, subset='subD', data='D', complete=TRUE)
 #' 
-#' # Example 2: generate a subset of the assigned table (by default the table is named 'D')
-#' # with the first 50 observations and the two first columns refered to by their names.
-#' ds.subset(datasources=opals, subset='subD', data='D', rows=c(1:50), cols <- c('DIS_DIAB','PM_BMI_CONTINUOUS'))
+#' # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only two variables 
+#' # specified by their names
+#' ds.subset(datasources=opals, subset='subD', data='D', cols <- c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 #'
 #' # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
 #' ds.subset(datasources=opals, subset='subD', data='D', logical='PM_BMI_CONTINUOUS>=', threshold=25)
 #' 
 #' # Example 4: get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
-#' the first 50 observations of that new vector.
-#' ds.assign(opals, "logHDL", "log(D$LAB_HDL)")
+#' the first 50 observations of that new vector. If the specified number of row is greater than the total 
+#' number of rows in any of the studies the process will stop.
+#' ds.assign(opals, 'logHDL', 'log(D$LAB_HDL)')
 #' ds.subset(datasources=opals, subset="subLAB_HDL", data="logHDL", rows=c(1:50))
 #' 
 #' # Example 5: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
 #' vector with bmi values greater than or equal to 25
 #' ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
-#' ds.subset(datasources=opals, subset='subBMI', data='BMI', logical='>=', threshold=25)
+#' ds.subset(datasources=opals, subset='BMI25plus', data='BMI', logical='>=', threshold=25)
 #' 
 #' }
 #' 
@@ -91,6 +90,10 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, comple
         datashield.assign(datasources, subset, cally)
       }
     }else{
+      # allow this only for numeric vector
+      if(typ == "factor" | typ == "character"){
+        stop(" Subsetting on a threshold criteria is allowed only for numeric vectors!", call.=FALSE)
+      }
       # get the logical operator and any variable provided with it
       lg <- unlist(strsplit(logical, split=""))
       var2sub <- NULL
@@ -163,19 +166,6 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, comple
 
   # a message so the user knows the function was ran (assign functions are 'silent')
   message("An 'assign' function was ran, no output should be expected on the client side!\n")
-  
-  # check for invalid subsets and report
-  missingSub <- c()
-  for(i in 1: length(datasources)){
-    listcontent <- ds.names(datasources[i], subset)
-    check1 <- which(unlist(strsplit(listcontent[[1]][1],"_")) == "INVALID")
-    if(length(check1) > 0){
-      message(paste0("Invalid subset in ", stdnames[i], "!"))
-    }
-    check2 <- which(unlist(strsplit(listcontent[[1]][1],"_")) == "EMPTY")
-    if(length(check2) > 0){
-      message(paste0("Empty subset (i.e. 0 observations) in ", stdnames[i], "!"))
-    }
-  }
+  message("If the generated subset dataframe contains only missing values(i.e. NA) this indicates and invalid subset!")
 
 }

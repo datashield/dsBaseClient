@@ -2,8 +2,7 @@
 \alias{ds.corTest}
 \title{Test for association between paired samples}
 \usage{
-ds.corTest(datasources = NULL, xvect = NULL, yvect = NULL,
-  type = "combine")
+ds.corTest(datasources = NULL, xvect = NULL, yvect = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained

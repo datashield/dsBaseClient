@@ -35,18 +35,18 @@ has less than two observations.
 data(logindata)
 
 # login and assign specific variable(s)
-myvar <- list("GENDER")
+myvar <- list('GENDER', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# turn the factor variable 'GENDER' into a character variable
+# turn the factor variable 'GENDER' into a character, then into numeric and then into factor
+# we turn it first into character because turning a factor directly into numeric can give weird output
 ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj='gender_char')
-
-# turn the character variable 'gender_char' into a numeric variable
 ds.asNumeric(datasources=opals, xvect='gender_char', newobj='gender_num')
-
-# now turn the numeric variable 'gender_num' into a factor variable
 ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
 
+# Now try to turn into a factor a numeric variable where some levels with < 2 observations
+# this will giev return NULL because it is reveaaling
+ds.asFactor(datasources=opals, xvect='D$LAB_HDL', newobj='lab.hdl.fact')
 }
 }
 \author{
