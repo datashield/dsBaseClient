@@ -37,7 +37,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
-#' #' ds.subset(datasources=opals, subset='subD', data='D', complete=TRUE)
+#' ds.subset(datasources=opals, subset='subD', data='D', complete=TRUE)
 #' 
 #' # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only two variables 
 #' # specified by their names
