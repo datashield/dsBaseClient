@@ -10,7 +10,7 @@ ds.asFactor(datasources = NULL, xvect = NULL, newobj = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{xvect}{a numerc vector}
+  \item{xvect}{a numeric, integer or character vector}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to NULL, the name of the new variable is the name
@@ -27,6 +27,10 @@ has less than two observations.
 }
 \details{
 
+
+if the input vector is of type numeric or integer it is
+first turned into a character type and then only into a
+factor.
 }
 \examples{
 {
@@ -38,10 +42,9 @@ data(logindata)
 myvar <- list('GENDER', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# turn the factor variable 'GENDER' into a character, then into numeric and then into factor
+# turn the factor variable 'GENDER' into numeric and then into factor
 # we turn it first into character because turning a factor directly into numeric can give weird output
-ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj='gender_char')
-ds.asNumeric(datasources=opals, xvect='gender_char', newobj='gender_num')
+ds.asNumeric(datasources=opals, xvect='D$GENDER', newobj='gender_num')
 ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
 
 # Now try to turn into a factor a numeric variable where some levels with < 2 observations

@@ -2,9 +2,11 @@
 #' @title Turns a numeric vector into factor type
 #' @description This function is similar to R function \code{as.factor} but it does not allow users
 #' to create factors where a categorie has less than two observations.
+#' @details if the input vector is of type numeric or integer it is first turned into a character type
+#' and then only into a factor.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a numerc vector
+#' @param xvect a numeric, integer or character vector
 #' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_fact' (e.g. 'GENDER_fact', if input 
 #' variable's name is 'GENDER')
@@ -20,10 +22,9 @@
 #' myvar <- list('GENDER', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # turn the factor variable 'GENDER' into a character, then into numeric and then into factor
+#' # turn the factor variable 'GENDER' into numeric and then into factor
 #' # we turn it first into character because turning a factor directly into numeric can give weird output
-#' ds.asCharacter(datasources=opals, xvect='D$GENDER', newobj='gender_char')
-#' ds.asNumeric(datasources=opals, xvect='gender_char', newobj='gender_num')
+#' ds.asNumeric(datasources=opals, xvect='D$GENDER', newobj='gender_num')
 #' ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
 #' 
 #' # Now try to turn into a factor a numeric variable where some levels with < 2 observations
@@ -65,9 +66,19 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
     newobj <- paste0(varname, "_char")
   }
   
-  # call the server side function that does the job
-  cally <- paste0('asFactorDS(', xvect, ')' )
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  # call the server side function that does the job; 
+  # if the input vector is of type 'numeric' or integer turn it first into character
+  # as turning a numeric directly into a factor can produce weird results.
+  typ <- dsbaseclient:::.checkClass(datasources, xvect)
+  if(typ == 'numeric' | typ == 'integer'){
+    cally <- paste0('as.character(', xvect, ')' )
+    datashield.assign(datasources, 'tempvect', as.symbol(cally))
+    cally <- 'asFactorDS(tempvect)'
+    datashield.assign(datasources, newobj, as.symbol(cally))
+  }else{
+    cally <- paste0('asFactorDS(', xvect, ')' )
+    datashield.assign(datasources, newobj, as.symbol(cally))
+  }
   
   # a message so the user know the function was ran (assign function are 'silent')
   #message("An 'assign' function was ran, no output should be expected on the client side!")

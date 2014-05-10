@@ -13,18 +13,13 @@
 #' @export
 #' @examples {
 #' 
-#' # create a login table for the test data that has the features we want to test
-#' server <- c("study1", "study2", "study3")
-#' url <- c("http://54.242.140.255","http://54.242.46.59", "http://23.22.215.42")
-#' user <- c("administrator", "administrator", "administrator")
-#' password <- c("password", "password", "password")
-#' table <- c("Test.CNSIM", "Test.CNSIM", "Test.CNSIM")
-#' logindata <- data.frame(server,url,user,password,table)
-
+#' # load that contains the login details
+#' data(logindata)
+#'
 #' # login and assign specific variable(s)
 #' myvar <- list("PM_BMI_CATEGORICAL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
+#'
 #' # check the number of levels for the variable PM_BMI_CATEGORICAL in each study
 #' # levels of PM_BMI_CATEGORICAL in the 3 studies
 #' datashield.aggregate(opals[1], quote(levels(D$PM_BMI_CATEGORICAL)))

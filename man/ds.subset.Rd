@@ -3,8 +3,8 @@
 \title{Generates a valid subset of a table or a vector}
 \usage{
 ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
-  complete = FALSE, rows = NULL, cols = NULL, logical = NULL,
-  threshold = NULL)
+  completeCases = "FALSE", rows = NULL, cols = NULL,
+  logicalOperator = NULL, threshold = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -19,27 +19,27 @@ ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
   \item{data}{a string character, the name of the dataframe
   or the factor vector and the range of the subset.}
 
-  \item{complete}{a boolean that tells if only complete
-  cases should be included or not.}
+  \item{completeCases}{a character that tells if only
+  complete cases should be included or not.}
 
   \item{rows}{a vector of integers, the indices of the rows
-  de extract.}
+  to extract.}
 
-  \item{cols}{a vector of integers or characters; the
-  indices of the columns to extract or the names of the
-  columns (i.e. names of the variables to extract).}
+  \item{cols}{a vector of integers or a vector of
+  characters; the indices of the columns to extract or
+  their names.}
 
-  \item{logical}{a charcater, the logical parameter to use
-  if the user wishes to subset a vector using a logical
-  operator. This parameter is ignored if the input data is
-  not a vector.}
+  \item{logicalOperator}{a character, the logical parameter
+  to use if the user wishes to subset a vector using a
+  logical operator. This parameter is ignored if the input
+  data is not a vector.}
 
   \item{threshold}{a numeric, the threshold to use in
   conjunction with the logical parameter. This parameter is
   ignored if the input data is not a vector.}
 }
 \value{
-a no data are return to the user, the generated subset is
+no data are return to the user, the generated subset is
 stored on the server side.
 }
 \description{
@@ -79,25 +79,28 @@ myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
-ds.subset(datasources=opals, subset='subD', data='D', complete=TRUE)
+ds.subset(datasources=opals, subset='subD1', data='D', completeCases='TRUE')
 
-# Example 2: generate a subset of the assigned table (by default the table is named 'D') with only two variables
-# specified by their names
-ds.subset(datasources=opals, subset='subD', data='D', cols <- c('DIS_DIAB','PM_BMI_CONTINUOUS'))
+# Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables
+# DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
+ds.subset(datasources=opals, subset='subD2', data='D', cols=c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 
 # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
-ds.subset(datasources=opals, subset='subD', data='D', logical='PM_BMI_CONTINUOUS>=', threshold=25)
+ds.subset(datasources=opals, subset='subD3', data='D', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
 
-# Example 4: get the logarithmic values of the variable 'lab_hdl' and generate a subset with
+# Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
+vector with bmi values greater than or equal to 25
+ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
+ds.subset(datasources=opals, subset='BMI25plus', data='BMI', logicalOperator='>=', threshold=25)
+
+# Example 5: subsetting by rows:
+get the logarithmic values of the variable 'lab_hdl' and generate a subset with
 the first 50 observations of that new vector. If the specified number of row is greater than the total
 number of rows in any of the studies the process will stop.
 ds.assign(opals, 'logHDL', 'log(D$LAB_HDL)')
-ds.subset(datasources=opals, subset="subLAB_HDL", data="logHDL", rows=c(1:50))
-
-# Example 5: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
-vector with bmi values greater than or equal to 25
-ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
-ds.subset(datasources=opals, subset='BMI25plus', data='BMI', logical='>=', threshold=25)
+ds.subset(datasources=opals, subset='subLAB_HDL', data='logHDL', rows=c(1:50))
+# now get a subset of the table 'D' with just the 100 first observations
+ds.subset(datasources=opals, subset='subD5', data='D', rows=c(1:100))
 
 }
 }
