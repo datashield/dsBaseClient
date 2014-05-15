@@ -36,11 +36,9 @@
 #' # Example 3: plot the histograms of LAB_HDL separately (one per study)
 #' ds.histogram(datasources=opals, xvect='D$LAB_HDL', type='split')
 #' 
-#' # Example 4: Plot the histograms of the first and second study
-#' ds.histogram(datasources=opals[1:2], xvect='D$LAB_TSC', type='split')
-#'
-#' # Example 5: Plot the histogram of the third study only
-#' ds.histogram(datasources=opals[3], xvect='D$LAB_TSC', type='split')
+#' # Example 4: Plot the histogram of the first study only
+#' ds.histogram(datasources=opals[1], xvect='D$LAB_TSC', type='split')
+#' 
 #' }
 #'
 ds.histogram <- function(datasources=NULL, xvect=NULL, type='combine'){

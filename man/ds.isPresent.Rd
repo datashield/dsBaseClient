@@ -34,8 +34,8 @@ library(opal)
 myvar <- list("LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
- # check if all entries of  variable 'LAB_HDL' hold missing values (NA)
- ds.isPresent(datasources=opals, var2check=quote(D$LAB_HDL))
+# check if all entries of  variable 'LAB_HDL' hold missing values (NA)
+ds.isPresent(datasources=opals, var2check=quote(D$LAB_HDL))
 }
 }
 \author{

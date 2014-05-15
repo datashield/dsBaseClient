@@ -3,7 +3,7 @@
 \title{Generates a valid subset of a table or a vector}
 \usage{
 ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
-  completeCases = "FALSE", rows = NULL, cols = NULL,
+  completeCases = FALSE, rows = NULL, cols = NULL,
   logicalOperator = NULL, threshold = NULL)
 }
 \arguments{
@@ -29,7 +29,7 @@ ds.subset(datasources = NULL, subset = "subsetObject", data = NULL,
   characters; the indices of the columns to extract or
   their names.}
 
-  \item{logicalOperator}{a character, the logical parameter
+  \item{logicalOperator}{a boolean, the logical parameter
   to use if the user wishes to subset a vector using a
   logical operator. This parameter is ignored if the input
   data is not a vector.}
@@ -79,7 +79,7 @@ myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
-ds.subset(datasources=opals, subset='subD1', data='D', completeCases='TRUE')
+ds.subset(datasources=opals, subset='subD1', data='D', completeCases=TRUE)
 
 # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables
 # DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
@@ -89,14 +89,14 @@ ds.subset(datasources=opals, subset='subD2', data='D', cols=c('DIS_DIAB','PM_BMI
 ds.subset(datasources=opals, subset='subD3', data='D', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
 
 # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
-vector with bmi values greater than or equal to 25
+# vector with bmi values greater than or equal to 25
 ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
 ds.subset(datasources=opals, subset='BMI25plus', data='BMI', logicalOperator='>=', threshold=25)
 
 # Example 5: subsetting by rows:
-get the logarithmic values of the variable 'lab_hdl' and generate a subset with
-the first 50 observations of that new vector. If the specified number of row is greater than the total
-number of rows in any of the studies the process will stop.
+# get the logarithmic values of the variable 'lab_hdl' and generate a subset with
+# the first 50 observations of that new vector. If the specified number of row is greater than the total
+# number of rows in any of the studies the process will stop.
 ds.assign(opals, 'logHDL', 'log(D$LAB_HDL)')
 ds.subset(datasources=opals, subset='subLAB_HDL', data='logHDL', rows=c(1:50))
 # now get a subset of the table 'D' with just the 100 first observations

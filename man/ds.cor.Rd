@@ -1,8 +1,8 @@
-\name{ds.cov}
-\alias{ds.cov}
-\title{Computes covariance between two or more vectors}
+\name{ds.cor}
+\alias{ds.cor}
+\title{Computes the correlation between two or more vectors}
 \usage{
-ds.cov(datasources = NULL, x = NULL, y = NULL,
+ds.cor(datasources = NULL, x = NULL, y = NULL,
   naAction = "pairwise.complete.obs")
 }
 \arguments{
@@ -28,17 +28,17 @@ ds.cov(datasources = NULL, x = NULL, y = NULL,
 a list containing the results of the test
 }
 \description{
-This is similar to the R base function 'cov'.
+This is similar to the R base function 'cor'.
 }
 \details{
 
 
-In addition to computing covariances; this function, unlike
-the R base function 'cov', produces a table outlining the
-number of complete cases to allow for the user to make a
-decision about the 'relevance' of the covariance based on
-the number of complete cases included in the covariance
-calculations.
+In addition to computing correlations; this function,
+unlike the R base function 'cor', produces a table
+outlining the number of complete cases to allow for the
+user to make a decision about the 'relevance' of the
+correlation based on the number of complete cases included
+in the correlation calculations.
 }
 \examples{
 {
@@ -50,16 +50,16 @@ data(logindata)
 myvar <- list('LAB_HDL', 'LAB_TSC', 'GENDER')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: generate the covariance matrix for the assigned dataset 'D' (the default name of the
+# Example 1: generate the correlation matrix for the assigned dataset 'D' (the default name of the
 # assigned dataframe) which contains 4 vectors (2 continuous and 1 categorical)
-ds.cov(datasources=opals, x='D')
+ds.cor(datasources=opals, x='D')
 
-# Example 2: calculate the covariance between two 'loose' vectors (i.e. the vectors are not in a dataframe)
+# Example 2: calculate the correlation between two 'loose' vectors (i.e. the vectors are not in a dataframe)
 ds.assign(opals, 'labhdl', 'D$LAB_HDL')
 ds.assign(opals, 'labtsc', 'D$LAB_TSC')
 ds.assign(opals, 'gender', 'D$GENDER')
-ds.cov(datasources=opals, x='labhdl', y='labtsc')
-ds.cov(datasources=opals, x='labhdl', y='gender')
+ds.cor(datasources=opals, x='labhdl', y='labtsc')
+ds.cor(datasources=opals, x='labhdl', y='gender')
 
 }
 }

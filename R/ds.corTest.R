@@ -1,13 +1,10 @@
 #' 
-#' @title Test for association between paired samples
+#' @title Test for correlation between paired samples
 #' @description This is similar to the R base function 'cor.test'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param xvect a character, the name of a numerical vector
 #' @param yvect a character, the name of a numerical vector
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', a global mean is calculated 
-#' if \code{type} is set to 'split', the mean is calculated separately for each study.
 #' @return a list containing the results of the test
 #' @author GAYE, A.; Burton, P.
 #' @export
@@ -45,6 +42,10 @@ ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL)
     message(" Please provide a two valid numeric vectors")
     stop(" End of process!", call.=FALSE)
   }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- dsbaseclient:::.checkClass(datasources, xvect)
+  typ <- dsbaseclient:::.checkClass(datasources, yvect)
   
   # name of the studies to be used in the output
   stdnames <- names(datasources)

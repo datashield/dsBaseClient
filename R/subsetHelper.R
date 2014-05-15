@@ -10,19 +10,23 @@
 #' @param cs a vector of two integers or one or more characters.
 #' @return a message or the class of the object if the object has the same class in all studies.
 #'
-.subsetHelper <- function(dts, data, rs, cs){
+.subsetHelper <- function(dts, data, rs=NULL, cs=NULL){
 
   # if the size of the requested subset is greater than that of original inform the user and stop the process
   dims <- ds.dim(dts, data)
-  fail <- 0
+  fail <- c(0,0)
   
-  if(length(rs) > dims[[1]][1] ){ 
-    fail <- 1 
-  } 
-  if(length(cs) > dims[[1]][2]){ 
-    fail <- 1 
+  if(!(is.null(rs))){
+    if(length(rs) > dims[[1]][1] ){ 
+      fail[1] <- 1 
+    } 
   }
   
+  if(!(is.null(cs))){
+    if(length(cs) > dims[[1]][2]){ 
+      fail[2] <- 1 
+    }
+  }
   return(fail)
   
 }

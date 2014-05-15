@@ -43,15 +43,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 # levels of PM_BMI_CATEGORICAL in the 3 studies
 datashield.aggregate(opals[1], quote(levels(D$PM_BMI_CATEGORICAL)))
 datashield.aggregate(opals[2], quote(levels(D$PM_BMI_CATEGORICAL)))
-datashield.aggregate(opals[3], quote(levels(D$PM_BMI_CATEGORICAL)))
 
 #create a factor vector of the variable 'PM_BMI_CATEGORICAL', one for each study
 ds.amendLevels(opals, xvect=quote(D$PM_BMI_CATEGORICAL))
 
-# the name of the newly created variable is the previous one with the suffixe '_f'
-datashield.aggregate(opals[1], quote(levels(PM_BMI_CATEGORICAL_f)))
-datashield.aggregate(opals[2], quote(levels(PM_BMI_CATEGORICAL_f)))
-datashield.aggregate(opals[3], quote(levels(PM_BMI_CATEGORICAL_f)))
 }
 }
 \author{

@@ -43,12 +43,11 @@ myvar <- list('GENDER', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into numeric and then into factor
-# we turn it first into character because turning a factor directly into numeric can give weird output
 ds.asNumeric(datasources=opals, xvect='D$GENDER', newobj='gender_num')
 ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
 
 # Now try to turn into a factor a numeric variable where some levels with < 2 observations
-# this will giev return NULL because it is reveaaling
+# this will give return NULL because it is reveaaling
 ds.asFactor(datasources=opals, xvect='D$LAB_HDL', newobj='lab.hdl.fact')
 }
 }

@@ -46,7 +46,10 @@ ds.cbind = function(datasources=NULL, objects=NULL, newobj=NULL){
   if(length(objects) < 2){
     stop(" You must provide a list of at least to objects to combine!\n", call.=FALSE)
   }
-    
+  for(i in 1:length(objects)){
+    typ <- dsbaseclient:::.checkClass(datasources, objects[[i]])
+  }
+  
   if(is.null(newobj)){
     newobj <- 'newObject'
   }

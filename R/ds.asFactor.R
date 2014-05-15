@@ -23,12 +23,11 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into numeric and then into factor
-#' # we turn it first into character because turning a factor directly into numeric can give weird output
 #' ds.asNumeric(datasources=opals, xvect='D$GENDER', newobj='gender_num')
 #' ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
 #' 
 #' # Now try to turn into a factor a numeric variable where some levels with < 2 observations
-#' # this will giev return NULL because it is reveaaling
+#' # this will give return NULL because it is reveaaling
 #' ds.asFactor(datasources=opals, xvect='D$LAB_HDL', newobj='lab.hdl.fact')
 #' }
 #' 
@@ -47,10 +46,6 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
     stop(" End of process!\n", call.=FALSE)
   }
   
-  # call the function that checks the variable is available and not empty
-  #vars2check <- list(xvect)
-  #datasources <- ds.checkvar(datasources, vars2check)
-  
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
@@ -60,6 +55,9 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
   }else{
     varname <- deparse(xvect)
   }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- dsbaseclient:::.checkClass(datasources, xvect)
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

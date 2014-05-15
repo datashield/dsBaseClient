@@ -19,7 +19,7 @@
 #' @param completeCases a character that tells if only complete cases should be included or not.
 #' @param rows a vector of integers, the indices of the rows to extract. 
 #' @param cols a vector of integers or a vector of characters; the indices of the columns to extract or their names.
-#' @param logicalOperator a character, the logical parameter to use if the user wishes to subset a vector using a logical 
+#' @param logicalOperator a boolean, the logical parameter to use if the user wishes to subset a vector using a logical 
 #' operator. This parameter is ignored if the input data is not a vector.
 #' @param threshold a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored 
 #' if the input data is not a vector.
@@ -36,7 +36,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
-#' ds.subset(datasources=opals, subset='subD1', data='D', completeCases='TRUE')
+#' ds.subset(datasources=opals, subset='subD1', data='D', completeCases=TRUE)
 #' 
 #' # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables 
 #' # DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
@@ -46,14 +46,14 @@
 #' ds.subset(datasources=opals, subset='subD3', data='D', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
 #' 
 #' # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
-#' vector with bmi values greater than or equal to 25
+#' # vector with bmi values greater than or equal to 25
 #' ds.assign(opals, "BMI", "D$PM_BMI_CONTINUOUS")
 #' ds.subset(datasources=opals, subset='BMI25plus', data='BMI', logicalOperator='>=', threshold=25)
 #' 
 #' # Example 5: subsetting by rows:
-#' get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
-#' the first 50 observations of that new vector. If the specified number of row is greater than the total 
-#' number of rows in any of the studies the process will stop.
+#' # get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
+#' # the first 50 observations of that new vector. If the specified number of row is greater than the total 
+#' # number of rows in any of the studies the process will stop.
 #' ds.assign(opals, 'logHDL', 'log(D$LAB_HDL)')
 #' ds.subset(datasources=opals, subset='subLAB_HDL', data='logHDL', rows=c(1:50))
 #' # now get a subset of the table 'D' with just the 100 first observations
@@ -61,7 +61,7 @@
 #' 
 #' }
 #' 
-ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, completeCases='FALSE', rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL){
+ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, completeCases=FALSE, rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL){
   
   if(is.null(datasources)){
     message("No valid opal object(s) provided!")
@@ -84,7 +84,7 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, comple
   # the argument 'rows' and 'cols' have precedence over 'logicalOperator' and 'threshold'
   if(is.null(rows) & is.null(cols)){
     if(is.null(logicalOperator) | is.null(threshold)){
-      if(completeCases=='FALSE'){
+      if(!completeCases){
         message("None of the subsetting parameters is provided, the sought subset is the same as the original object!")
         stop(" End of process!", call.=FALSE)
       }else{
@@ -106,66 +106,42 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, comple
         logicalOperator <- lg[length(lg)]
         if(length(lg) > 1) { var2sub <- paste0(lg[1:(length(lg)-1)], collapse="") }
       }
-      #if(is.null(var2sub)){ # if input is table, logicalOperator & threshold apply but no variable name given
-      #stop("No variable to subset the table on - see example 3 in the documentation of this function.", call.=FALSE)
-      #}
+
       # turn the logicalOperator operator into the corresponding integer that will be evaluated on the server side.
       logicalOperator <- dsbaseclient:::.logical2int(logicalOperator)
       cally <- call('subsetDS', dt=data, complt=completeCases, rs=rows, cs=cols, lg=logicalOperator, th=threshold, varname=var2sub)
       datashield.assign(datasources, subset, cally)
     }
   }else{
-    # if now value provided for the argument 'rows' consider all the rows in each study dataset
-    if(is.null(rows)){
-      rows <- vector('list', length(datasources))
-      for(i in 1:length(datasources)){
-        r <- ds.dim(datasources[i], data)
-        rows[[i]] <- c(1:r[[1]][1])
-      }
-    }else{
-      rr <- vector('list', length(datasources))
-      for(i in 1:length(datasources)){
-        rr[[i]] <- rows
-      }
-      rows <- rr
-    }
-    # if no value provided for the argument 'cols' consider all the columns
-    if(is.null(cols)){
-      cc <- length(unique(unlist(ds.colnames(datasources, data))))
-      cols <- c(1:cc)
-    }
     
     # check if the sought subset is not larger than the vector or the table size
     # if not call the server side function and carry out the subsetting
     if(typ == "factor" | typ == "numeric" | typ == "character"){
-      # if the size of the requested subset is greater than that of original inform the user and stop the process
-      ll <- ds.length(datasources, data, type="split")
-      fail <- 0
-      for(i in 1:length(datasources)){
-        if(length(rows[[i]]) > ll[[i]]){
-          fail <- append(fail, i)        
+      # if the size of the requested subset is greater than that of original set the rows or cols to NULL
+      # these will then be set to the maximum size in the server side
+      if(!(is.null(rows))){
+        ll <- ds.length(datasources, data, type="split")
+        for(i in 1:length(datasources)){
+          if(length(rows) > ll[[i]]){
+            rows <- NULL     
+          }
         }
       }
-      if(sum(fail) > 0){
-        stop(paste0("The sought subset is larger than ", data, " in ", paste(stdnames[fail], collapse=", "), "."))
-      }else{
-        # turn the vector of row indices into a character to pass the parser
-        for(i in 1:length(datasources)){
-          cally <- call('subsetDS', dt=data, complt=completeCases, rs=rows[[i]])
-          datashield.assign(datasources[i], subset, cally)
-        }
+      # turn the vector of row indices into a character to pass the parser
+      for(i in 1:length(datasources)){
+        cally <- call('subsetDS', dt=data, complt=completeCases, rs=rows)
+        datashield.assign(datasources[i], subset, cally)
       }
     }else{
       if(typ == "data.frame" | typ == "matrix"){
         # call the internal function that ensure wrong size subset is not requested (i.e. subset size > original table)
         for(i in 1:length(datasources)){
-          check00 <- dsbaseclient:::.subsetHelper(datasources[i], data, rows[[i]], cols)
-          if(check00 == 1){
-            stop(paste0("The sought subset is larger than the object ", data, " in ", names(datasources[i]), "."))
-          }
+          check00 <- dsbaseclient:::.subsetHelper(datasources[i], data, rows, cols)
+          if(check00[1] == 1){ rows <- NULL }
+          if(check00[2] == 1){ cols <- NULL }
         }
         for(i in 1:length(datasources)){
-          cally <- call('subsetDS', dt=data, complt=completeCases, rs=rows[[i]], cs=cols)
+          cally <- call('subsetDS', dt=data, complt=completeCases, rs=rows, cs=cols)
           datashield.assign(datasources[i], subset, cally)
         }
       }else{
@@ -175,7 +151,6 @@ ds.subset <- function(datasources=NULL, subset="subsetObject", data=NULL, comple
   }
   
   # a message so the user knows the function was ran (assign functions are 'silent')
-  message("An 'assign' function was ran, no output should be expected on the client side!")
   message("In order to indicate that a generated subset dataframe is invalid all values within it are set to NA!")
   
 }

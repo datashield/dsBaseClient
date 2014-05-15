@@ -60,7 +60,7 @@ ds.subclass(datasources=opals, subsets="subtables", data="D", variables="GENDER"
 
 # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
 datashield.assign(opals, "gender", quote(D$GENDER))
-ds.subclass(datasources=opals, subsets="mf.tables", data="gender")
+
 
 ds.subclass(datasources=opals, subsets="subvectors", data=NULL, variables=NULL)
 }

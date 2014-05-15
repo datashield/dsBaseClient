@@ -48,16 +48,6 @@ ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 datashield.assign(opals, 'tsc', quote(D$LAB_TSC))
 ds.checkvar(datasources=opals, variables=list(quote(tsc)))
 
-# Example 3: assign an empty variable and run the checks (uncommment the last line)
-server <- "study1"
-url <- "http://54.242.140.255"
-user <- "administrator"
-password <- "password"
-table <- "Test.CNSIM"
-logindata <- data.frame(cbind(server,url,user,password,table))
-myvar <- list("LAB_TSC")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#ds.checkvar(datasources=opals, variables=list(quote(D$LAB_TSC)))
 }
 }
 \author{

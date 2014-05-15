@@ -21,7 +21,7 @@
 #' ds.subclass(datasources=opals, subsets='subclasses', data='D')
 #' 
 #' # the above object 'subsets' is a list, let us display the names of elements in 'subsets'
-#' ds.names(opals, 'subsets')
+#' ds.names(opals, 'subclasses')
 #' 
 #' }
 #' 

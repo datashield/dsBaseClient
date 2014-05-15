@@ -1,6 +1,6 @@
 \name{ds.corTest}
 \alias{ds.corTest}
-\title{Test for association between paired samples}
+\title{Test for correlation between paired samples}
 \usage{
 ds.corTest(datasources = NULL, xvect = NULL, yvect = NULL)
 }
@@ -13,12 +13,6 @@ ds.corTest(datasources = NULL, xvect = NULL, yvect = NULL)
   \item{xvect}{a character, the name of a numerical vector}
 
   \item{yvect}{a character, the name of a numerical vector}
-
-  \item{type}{a character which represents the type of
-  analysis to carry out. If \code{type} is set to
-  'combine', a global mean is calculated if \code{type} is
-  set to 'split', the mean is calculated separately for
-  each study.}
 }
 \value{
 a list containing the results of the test

@@ -16,7 +16,7 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Example 1: Get the column names of the assigned datasets
-#' ds.colnames(datasources=opals, x='D'))
+#' ds.colnames(datasources=opals, x='D')
 #' 
 #' # Example 2: Vectors are wrong input to the colnames function
 #' \dontrun{ ds.colnames(datasources=opals, x='D$LAB_TSC')}
