@@ -2,29 +2,38 @@
 \alias{ds.asMatrix}
 \title{Attempts to turn its argument into a matrix}
 \usage{
-ds.asMatrix(datasources = NULL, x = NULL, newobj = NULL)
+ds.asMatrix(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
-  \item{x}{an object to be converted into a matrix}
+  \item{x}{a character, the name of the an object to conver
+  to a matrix.}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to \code{NULL}, the name of the new variable is
-  the name of the input variable with the suffixe '_matrix'
-  (e.g. 'D_matrix', if input variable's name is 'D')}
+  the name of the input variable with the suffixe
+  '_matrix'}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources. By default an internal function looks for
+  'opal' objects in the environment and sets this
+  parameter.}
 }
 \value{
-a message is displayed when the action is completed.
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
 This function is similar to R function \code{as.matrix}.
 }
 \details{
 
+
+Unlike the R function 'as.matrix' the output matrix is
+generated only if the input matrix is valid (i.e. has a
+number of rows greater than the minimal number of
+observations allowed).
 }
 \examples{
 {
@@ -35,8 +44,8 @@ data(logindata)
 # login and assign specific variable(s)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# turn the data frame D into a matrix
-ds.asMatrix(datasources=opals, x=quote(D))
+# turn the data frame 'D' (default name of the dataframe assigned above) into a matrix
+ds.asMatrix(datasources=opals, x='D')
 }
 }
 \author{

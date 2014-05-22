@@ -2,29 +2,44 @@
 \alias{ds.asList}
 \title{Constructs an object of type list}
 \usage{
-ds.asList(datasources = NULL, x = NULL, newobj = NULL)
+ds.asList(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
-  \item{x}{an object to be converted into a list}
+  \item{x}{a character, the name of the object to convert
+  into a list}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to NULL, the name of the new variable is the name
-  of the input variable with the suffixe '_list' (e.g.
-  'D_factor', if input variable's name is 'D')}
+  of the input variable with the suffixe '_list'}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources. By default an internal function looks for
+  'opal' objects in the environment and sets this
+  parameter.}
 }
 \value{
-a message is displayed when the action is completed.
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
-This function is similar to R function \code{as.list}.
+This function is similar to R function \code{as.list} with
+some restrictions.
 }
 \details{
 
+
+Unlike the R function 'as.list' only certain object types
+(data.frame, matrix) can be turned into a list, this is
+because turning a single vector into a list produces a list
+where each element holds one value only. A matrix is turned
+into data.frame before being converted into a list. When a
+data.frame, matrix is turned into a list the output list is
+allowed only if the number of rows of the input data.frame
+or matrix is greater than the allowed number of
+observations. Otherwise an empty list is generated (i.e.
+all elements set to NA)).
 }
 \examples{
 {
@@ -35,8 +50,8 @@ data(logindata)
 # login and assign specific variable(s)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# turn the data frame D into a list
-ds.asList(datasources=opals, x=quote(D))
+# turn the dataframe 'D' (the default name of the dataframe assign above) into a list
+ds.asList(x='D')
 }
 }
 \author{

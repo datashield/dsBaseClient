@@ -1,13 +1,19 @@
 #' 
 #' @title Constructs an object of type list
-#' @description This function is similar to R function \code{as.list}. 
+#' @description This function is similar to R function \code{as.list} with some restrictions. 
+#' @details Unlike the R function 'as.list' only certain object types (data.frame, matrix) can be turned 
+#' into a list, this is because turning a single vector into a list produces a list where each element 
+#' holds one value only. A matrix is turned into data.frame before being converted into a list.
+#' When a data.frame, matrix is turned into a list the output list is allowed only if the number of rows 
+#' of the input data.frame or matrix is greater than the allowed number of observations. Otherwise 
+#' an empty list is generated (i.e. all elements set to NA)).
+#' @param x a character, the name of the object to convert into a list
+#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
+#' variable is the name of the input variable with the suffixe '_list'
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param x an object to be converted into a list
-#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_list' (e.g. 'D_factor', if input 
-#' variable's name is 'D')
-#' @return a message is displayed when the action is completed.
+#' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
+#' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
@@ -18,17 +24,25 @@
 #' # login and assign specific variable(s)
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # turn the data frame D into a list
-#' ds.asList(datasources=opals, x=quote(D))
+#' # turn the dataframe 'D' (the default name of the dataframe assign above) into a list
+#' ds.asList(x='D')
 #' }
 #' 
-ds.asList = function(datasources=NULL, x=NULL, newobj=NULL){
+ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message(" ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!", call.=FALSE)
+    findLogin <- dsbaseclient:::.getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+      }
+    }
   }
   
   if(is.null(x)){
@@ -37,53 +51,23 @@ ds.asList = function(datasources=NULL, x=NULL, newobj=NULL){
     stop(" End of process!", call.=FALSE)
   }
   
-  #   # call the function that checks that the object are defined.
-  #   # If the objects are within a dataframe we check if the dataframe exists and if they are
-  #   # 'loose' objects stored in the server like variables not attached to a dataframe then we 
-  #   # check if the variable is present in the servers
-  #   flag <- c()
-  #   for(q in 1:length(x)){
-  #     obj <- x[[q]]
-  #     inputterms <- unlist(strsplit(deparse(obj), "\\$", perl=TRUE))
-  #     
-  #     if(length(inputterms) > 1){
-  #       dframe <-  unlist(strsplit(deparse(obj), "\\$", perl=TRUE))[[1]][1]
-  #       for(i in 1:length(datasources)){
-  #         out <- c()
-  #         cally <- call('exists', dframe )
-  #         qc <- datashield.aggregate(datasources[i], cally)
-  #         out <- append(out, qc[[1]])
-  #         xx <- which(out == FALSE)
-  #         if(length(xx) > 0){
-  #           warning("The table, '", dframe, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
-  #           flag <- append(flag, i)
-  #         }
-  #       }
-  #     }else{
-  #       objname <-  deparse(obj)
-  #       for(i in 1:length(datasources)){
-  #         out <- c()
-  #         cally <- call('exists', objname)
-  #         qc <- datashield.aggregate(datasources[i], cally)
-  #         out <- append(out, qc[[1]])
-  #         xx <- which(out == FALSE)
-  #         if(length(xx) > 0){
-  #           warning("The object, '", objname, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
-  #           flag <- append(flag, i)
-  #         }
-  #       }
-  #       
-  #     }
-  #  }
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- dsbaseclient:::.checkClass(datasources, x)
+  
+  # Only a dataframe or a matrice can be turned into a list
+  if(typ != 'data.frame' & typ != 'matrix'){
+    message(paste0("Your object is of type ", typ, "!"))
+    stop(" Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", call.=FALSE)
+  }
   
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(deparse(x), "\\$", perl=TRUE))
+  inputterms <- unlist(strsplit(x, "\\$", perl=TRUE))
   if(length(inputterms) > 1){
-    varname <- strsplit(deparse(x), "\\$", perl=TRUE)[[1]][2]
+    varname <- strsplit(x, "\\$", perl=TRUE)[[1]][2]
   }else{
-    varname <- deparse(x)
+    varname <- x
   }
   
   # create a name by default if user did not provide a name for the new variable
@@ -92,25 +76,19 @@ ds.asList = function(datasources=NULL, x=NULL, newobj=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call('as.list', x )
-  datashield.assign(datasources, newobj, cally)
-  
-  # a message so the user know the function was run (assign function are 'silent')
-  message("An 'assign' function was run, no output should be expected on the client side!")
+  cally <- paste0("asListDS(", x, ")")
+  datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   cally <- call('exists', newobj )
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
-  if(length(indx) == length(datasources)){
-    message("The output of the function, '", newobj, "', is stored on the server side.")
-  }else{
-    if(length(indx) > 0){
-      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
-    }
-    if(length(indx) == 0){
-      warning("The output object has not been generated for any of the studies!")
-    }
+  
+  if(length(indx) > 0 & length(indx) < length(datasources)){
+    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
+  }
+  if(length(indx) == 0){
+    stop("The output object has not been generated for any of the studies!", call.=FALSE)
   }
   
 }

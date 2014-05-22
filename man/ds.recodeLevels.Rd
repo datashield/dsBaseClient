@@ -1,0 +1,72 @@
+\name{ds.recodeLevels}
+\alias{ds.recodeLevels}
+\title{Recodes the levels of a factor vector}
+\usage{
+ds.recodeLevels(xvect = NULL, categories = NULL, newobj = NULL,
+  datasources = NULL)
+}
+\arguments{
+  \item{xvect,}{a character, the name of a factor
+  variable.}
+
+  \item{categories,}{a character vector, the new levels.
+  Its length MUST be equal or greater to the current number
+  of levels.}
+
+  \item{newobj,}{a character, the name of the new factor
+  vector. If no name is specified for the new variable it
+  is named after the input variable with a suffixe '_new'.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources. By default an internal function looks for
+  'opal' objects in the environment and sets this
+  parameter.}
+}
+\value{
+nothing is returned to the client, the new object is stored
+on the server side.
+}
+\description{
+The function replaces the levels of a factor by the
+specified ones.
+}
+\details{
+
+
+It uses the R function 'levels()' on the client side to
+alter the current levels. It can for example be used to
+merge two classes into one, to add a level(s) to a vector
+or to rename (i.e. re-label) the levels of a vector.
+}
+\examples{
+{
+
+# load that contains the login details
+data(logindata)
+
+# login and assign specific variable(s)
+myvar <- list("PM_BMI_CATEGORICAL")
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+
+# let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
+ds.levels(xvect='D$PM_BMI_CATEGORICAL')
+
+# Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
+# this is the same as recording level '3' as '2' whilst keeping the same labels for the other two levels.
+ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', categories=c('1','2','2'))
+
+# Example2: add a 4th and empty level to categorical bmi to create a new variable
+# we know the current categories are '1', '2' and '3' so we add '4'
+ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', categories=c('1','2','3','4'))
+
+# Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
+ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', categories=c('low','mid','high'))
+
+}
+}
+\author{
+Gaye, A.
+}
+

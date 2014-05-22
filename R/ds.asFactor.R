@@ -2,15 +2,15 @@
 #' @title Turns a numeric vector into factor type
 #' @description This function is similar to R function \code{as.factor} but it does not allow users
 #' to create factors where a categorie has less than two observations.
-#' @details if the input vector is of type numeric or integer it is first turned into a character type
-#' and then only into a factor.
+#' @details Unlike the R function 'as.factor' vectors where some levels have less than 2 observations
+#' are not allow, an empty vector (i.e. all values within it are set to NA) is then generated.
+#' @param xvect a character, the name of numeric, integer or character vector
+#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
+#' variable is the name of the input variable with the suffixe '_fact'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a numeric, integer or character vector
-#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_fact' (e.g. 'GENDER_fact', if input 
-#' variable's name is 'GENDER')
-#' @return a message is displayed when the action is completed.
+#' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
+#' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Burton, P.
 #' @export
 #' @examples {
@@ -22,22 +22,34 @@
 #' myvar <- list('GENDER', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # turn the factor variable 'GENDER' into numeric and then into factor
-#' ds.asNumeric(datasources=opals, xvect='D$GENDER', newobj='gender_num')
-#' ds.asFactor(datasources=opals, xvect='gender_num', newobj='gender_fact')
+#' # turn the factor variable 'GENDER' into numeric and then back into factor
+#' ds.asNumeric(xvect='D$GENDER', newobj='gender_num')
+#' ds.asFactor(xvect='gender_num', newobj='gender_fact')
 #' 
-#' # Now try to turn into a factor a numeric variable where some levels with < 2 observations
-#' # this will give return NULL because it is reveaaling
-#' ds.asFactor(datasources=opals, xvect='D$LAB_HDL', newobj='lab.hdl.fact')
+#' # Now try to turn into a factor a numeric variable where some levels have less
+#' # than 2 observations (as you would expect for a continuous variable)
+#' # this will generate an 'empty' vector (i.e. all values within it are set to NA).
+#' ds.asFactor(xvect='D$LAB_HDL', newobj='lab.hdl.fact')
+#' # let us check the levels of the new vector
+#' ds.levels('lab.hdl.fact')
+#' 
 #' }
 #' 
-ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
+ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message("\n ALERT!\n")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!\n", call.=FALSE)
+    findLogin <- dsbaseclient:::.getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+      }
+    }
   }
   
   if(is.null(xvect)){
@@ -46,6 +58,9 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
     stop(" End of process!\n", call.=FALSE)
   }
   
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- dsbaseclient:::.checkClass(datasources, xvect)
+  
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
@@ -53,11 +68,8 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
   if(length(inputterms) > 1){
     varname <- strsplit(xvect, "\\$", perl=TRUE)[[1]][2]
   }else{
-    varname <- deparse(xvect)
+    varname <- xvect
   }
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- dsbaseclient:::.checkClass(datasources, xvect)
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -78,19 +90,16 @@ ds.asFactor = function(datasources=NULL, xvect=NULL, newobj=NULL){
     datashield.assign(datasources, newobj, as.symbol(cally))
   }
   
-  # a message so the user know the function was ran (assign function are 'silent')
-  #message("An 'assign' function was ran, no output should be expected on the client side!")
-  
   # check that the new object has been created and display a message accordingly
   cally <- call('exists', newobj )
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
   
   if(length(indx) > 0 & length(indx) < length(datasources)){
-    warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
+    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
   }
   if(length(indx) == 0){
-    warning("The output object has not been generated for any of the studies!")
+    stop("The output object has not been generated for any of the studies!", call.=FALSE)
   }
   
 }
