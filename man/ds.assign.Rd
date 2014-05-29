@@ -2,7 +2,7 @@
 \alias{ds.assign}
 \title{Assigns an object to a name in the server side}
 \usage{
-ds.assign(datasources = NULL, newobj = "newObject", toAssign = NULL)
+ds.assign(newobj = "newObject", toAssign = NULL, datasources = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -41,10 +41,10 @@ myvar <- list("LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: assign the variable 'LAB_TSC' in the dataframe D
-ds.assign(datasources=opals, newobj="labtsc", toAssign="D$LAB_TSC")
+ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 
 # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
-ds.assign(datasources=opals, newobj="logTSC", toAssign="log(D$LAB_TSC)")
+ds.assign(newobj='logTSC', toAssign='log(D$LAB_TSC)')
 }
 }
 \author{

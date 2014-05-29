@@ -4,9 +4,10 @@
 #' @details The function searches for a list containing object of type 'opal'
 #' in the global environment; if more than one list is found it return the lastest.
 #' This way no matter what the user calls his opal login object it will be captured. 
+#' @keywords internal
 #' @return a list of opal object obtained after login into the servers
 #'
-.getOpals <- function(){
+getOpals <- function(){
   # get the names of all the objects in the current work environment
   objs <- ls(name=.GlobalEnv)
   

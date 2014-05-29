@@ -1,0 +1,31 @@
+\name{checkClass}
+\alias{checkClass}
+\title{Checks that an object has the same class in all studies}
+\usage{
+checkClass(datasources = NULL, obj = NULL)
+}
+\arguments{
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+
+  \item{obj}{a string charcater, the name of the object to
+  check for.}
+}
+\value{
+a message or the class of the object if the object has the
+same class in all studies.
+}
+\description{
+This is an internal function.
+}
+\details{
+
+
+In DataSHIELD an object included in analysis must be of the
+same type in all the collaborating studies. If that is not
+the case the process is stopped
+}
+\keyword{internal}
+

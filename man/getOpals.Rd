@@ -1,0 +1,22 @@
+\name{getOpals}
+\alias{getOpals}
+\title{Gets the opal objects}
+\usage{
+getOpals()
+}
+\value{
+a list of opal object obtained after login into the servers
+}
+\description{
+This is an internal function.
+}
+\details{
+
+
+The function searches for a list containing object of type
+'opal' in the global environment; if more than one list is
+found it return the lastest. This way no matter what the
+user calls his opal login object it will be captured.
+}
+\keyword{internal}
+

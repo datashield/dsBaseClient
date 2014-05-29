@@ -6,9 +6,10 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param obj a string charcater, the name of the object to check for.
+#' @keywords internal
 #' @return a message or the class of the object if the object has the same class in all studies.
 #'
-.checkClass <- function(datasources=NULL, obj=NULL){
+checkClass <- function(datasources=NULL, obj=NULL){
   # check the class of the input object
   cally <- paste0("class(", obj, ")")
   objtype <- unique(unlist(datashield.aggregate(datasources, cally)))

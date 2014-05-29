@@ -32,7 +32,7 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- dsbaseclient:::.getOpals()
+    findLogin <- getOpals()
     if(findLogin$flag == 1){
       datasources <- findLogin$opals
     }else{
@@ -51,8 +51,11 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
     stop(" End of process!", call.=FALSE)
   }
   
+  # check if the input object(s) is(are) defined in all the studies
+  defined <- isDefined(datasources,x)
+  
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- dsbaseclient:::.checkClass(datasources, x)
+  typ <- checkClass(datasources, x)
   
   # Only a dataframe or a matrice can be turned into a list
   if(typ != 'data.frame' & typ != 'matrix'){
@@ -80,7 +83,7 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj )
+  cally <- call('exists', newobj)
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
   

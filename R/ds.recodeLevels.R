@@ -44,7 +44,7 @@ ds.recodeLevels <- function(xvect=NULL, categories=NULL, newobj=NULL, datasource
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- dsbaseclient:::.getOpals()
+    findLogin <- getOpals()
     if(findLogin$flag == 1){
       datasources <- findLogin$opals
     }else{
@@ -70,7 +70,7 @@ ds.recodeLevels <- function(xvect=NULL, categories=NULL, newobj=NULL, datasource
   }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- dsbaseclient:::.checkClass(datasources, xvect)
+  typ <- checkClass(datasources, xvect)
   
   # if input vector is not a factor stop
   if(typ != 'factor'){
@@ -107,7 +107,7 @@ ds.recodeLevels <- function(xvect=NULL, categories=NULL, newobj=NULL, datasource
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj )
+  cally <- paste0('exists(', newobj, ')')
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
   

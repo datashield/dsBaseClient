@@ -2,7 +2,7 @@
 #' @title Combines values into a vector or list
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param vector a vector that holds the objects to combine
+#' @param vect a character vector that holds the names of the objects to combine.
 #' @param newobj the name of the output object. If this argument is set to NULL, 
 #' the name of the new object is 'cvect'.
 #' @return  a message is displayed when the action is completed.
@@ -14,129 +14,79 @@
 #' data(logindata)
 #' 
 #' # login and assign the required variables to R
-#' myvar <- list("LAB_TSC","LAB_HDL")
+#' myvar <- c('LAB_TSC', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # compute the product of 'LAB_TSC' by 'LAB_HDL' and assign it to 'P'
-#' myvect <- quote(c(D$LAB_TSC, D$LAB_HDL))
-#' ds.c(datasources=opals, vector=myvect)
+#' # Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
+#' myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
+#' ds.assign('labtsc', 'D$LAB_TSC')
+#' ds.assign('labhdl', 'D$LAB_HDL')
+#' myvect <- c('labtsc', 'labhdl')
+#' ds.c(vect=myvect)
 #' }
 #' 
-ds.c = function(datasources=NULL, vector=NULL, newobj=NULL){
+ds.c = function(vect=NULL, newobj=NULL, datasources=NULL){
   
   if(is.null(datasources)){
-    message("\n ALERT!\n")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n", call.=FALSE)
-  }
-  
-  if(is.null(vector)){
-    message("\n ALERT!\n")
-    message(" Please provide the names of the objects to combine.")
-    stop(" End of process!\n", call.=FALSE)
-  }
-  
-  # the elements in the argument passed on as a call
-  elements <- unlist(strsplit(deparse(vector), split=c("\\,")))
-  numelts <- length(elements)
-  # get the names of the variables in the 'call' argument
-  myvars <- c()
-  for(i in 1:numelts){
-    if(i == 1){
-      temp <- unlist(strsplit(elements[i], split="\\("))
-      myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
     }else{
-      if(i < numelts){
-        temp <- unlist(strsplit(elements[i], split="\\,"))
-        myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
-        temp <- unlist(strsplit(elements[i], split="\\)"))
-        myvars <- append(myvars, unlist(strsplit(temp, split=" "))[[2]])
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
       }
     }
   }
-  # if there is only one variable i.e. then we need to get rid of the trailing ')'
-  if(length(myvars) < 2){ myvars <- unlist(strsplit(myvars, split="\\)")) }
   
-  # call the function that checks that the object are defined.
-  # If the objects are within a dataframe we check if the dataframe exists and if they are
-  # 'loose' objects stored in the server like variables not attached to a dataframe then we 
-  # check if the variable is present in the servers
-  flag <- c()
-  for(q in 1:length(myvars)){
-    obj <- myvars[[q]]
-    inputterms <- unlist(strsplit(obj, "\\$", perl=TRUE))
-    
+  if(is.null(vect)){
+    message("\n ALERT!\n")
+    message(" Please provide the names of the objects to coerce.")
+    stop(" End of process!\n", call.=FALSE)
+  }
+  
+  # the input variables might be given as column table (i.e. D$xvect)
+  # or just as a vector not attached to a table (i.e. xvect)
+  # we have to make sure the function deals with each case
+  vct2 <- c()
+  flag <- FALSE
+  for(i in 1:length(vect)){
+    inputterms <- unlist(strsplit(vect[i], "\\$", perl=TRUE))
     if(length(inputterms) > 1){
-      dframe <-  unlist(strsplit(obj, "\\$", perl=TRUE))[[1]][1]
-      for(i in 1:length(datasources)){
-        out <- c()
-        cally <- call('exists', dframe )
-        qc <- datashield.aggregate(datasources[i], cally)
-        out <- append(out, qc[[1]])
-        xx <- which(out == FALSE)
-        if(length(xx) > 0){
-          warning("The table, '", dframe, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
-          flag <- append(flag, i)
-        }
-      }
-    }else{
-      objname <-  deparse(obj)
-      for(i in 1:length(datasources)){
-        out <- c()
-        cally <- call('exists', objname)
-        qc <- datashield.aggregate(datasources[i], cally)
-        out <- append(out, qc[[1]])
-        xx <- which(out == FALSE)
-        if(length(xx) > 0){
-          warning("The object, '", objname, "', is not defined in ", paste0(names(datasources), collapse=","), "!")
-          flag <- append(flag, i)
-        }
-      }
-      
+      varname <- strsplit(vect[i], "\\$", perl=TRUE)[[1]][2]
+      flag <- TRUE
     }
   }
- 
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(flag) {
+    message("'$' sign encountered in the name of one or more of the input objects to combine.")
+    stop("The objects to combine should be within a structure!", call.=FALSE)
+  }else{
+    defined <- isDefined(datasources,vect)
+  }
+  
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "cvect"
   }
   
-  # call the server side function that does the job: do nothing if none of studies passed the checks above;
-  # run the server side function only for the studies that passed the checks
-  if(length(flag) == length(datasources)){
-    stop("One or more of the objects to combine are not defined in any of the studies servers!")
-  }else{
-    
-    if(is.null(flag)){
-      # this will call the c function defined on the server side
-      cally <- as.call(vector)
-      datashield.assign(datasources, newobj, cally)
-    }else{
-      cally <- as.call(vector)
-      datasources <- datasources[-flag]
-      datashield.assign(datasources, newobj, cally)
-      message("The objects were combined only  for ", paste0(names(datasources), collapse=","), ".")
-    }
-  }
-  
-  # a message so the user know the function was ran (assign function are 'silent')
-  message("An 'assign' function was ran, no output should be expected on the client side!")
+  # call the server side function that does the job
+  cally <-  paste0("cDS(list(","'",paste(myvect,collapse="','"),"'","))")
+  datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj )
+  cally <- call('exists', newobj)
   qc <- datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))
-  if(length(indx) == length(datasources)){
-    message("The output of the function, '", newobj, "', is stored on the server side.")
-  }else{
-    if(length(indx) > 0){
-      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
-    }
-    if(length(indx) == 0){
-      warning("The output object has not been generated for any of the studies!")
-    }
+  
+  if(length(indx) > 0 & length(indx) < length(datasources)){
+    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
+  }
+  if(length(indx) == 0){
+    stop("The output object has not been generated for any of the studies!", call.=FALSE)
   }
   
 }

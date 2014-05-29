@@ -37,7 +37,7 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # turn the LAB_TSC variable into \\code{NULL}
-ds.asNull(datasources=opals, x=quote(D$LAB_TSC))
+ds.asNull(x='D$LAB_TSC')
 }
 }
 \author{

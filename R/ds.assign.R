@@ -22,27 +22,47 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: assign the variable 'LAB_TSC' in the dataframe D
-#' ds.assign(datasources=opals, newobj="labtsc", toAssign="D$LAB_TSC")
+#' ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 #' 
 #' # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
-#' ds.assign(datasources=opals, newobj="logTSC", toAssign="log(D$LAB_TSC)")
+#' ds.assign(newobj='logTSC', toAssign='log(D$LAB_TSC)')
 #' }
 #' 
-ds.assign <- function(datasources=NULL, newobj="newObject", toAssign=NULL){
+ds.assign <- function(newobj="newObject", toAssign=NULL, datasources=NULL){
+  
   if(is.null(datasources)){
-    message("ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!\n\n", call.=FALSE)
-  }else{
-    stdnames <- names(datasources)
-    if(is.null(toAssign)){
-      message("Please provide a valid object to assign!")
-      stop("End of process!\n", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+      }
     }
+  }
+  
+  if(is.null(toAssign)){
+    message("\n ALERT!\n")
+    message(" No object to assign or expression to evalualate and assign.")
+    stop(" End of process!\n", call.=FALSE)
   }
   
   # now do the business
   datashield.assign(opals, newobj, as.symbol(toAssign))
+  
+  # check that the new object has been created and display a message accordingly
+  cally <- call('exists', newobj)
+  qc <- datashield.aggregate(datasources, cally)
+  indx <- as.numeric(which(qc==TRUE))
+  
+  if(length(indx) > 0 & length(indx) < length(datasources)){
+    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
+  }
+  if(length(indx) == 0){
+    stop("The output object has not been generated for any of the studies!", call.=FALSE)
+  }
   
 }
