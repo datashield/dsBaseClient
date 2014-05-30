@@ -1,0 +1,31 @@
+\name{isAssigned}
+\alias{isAssigned}
+\title{Checks an object has been generated on the server side}
+\usage{
+isAssigned(datasources = NULL, newobj = NULL)
+}
+\arguments{
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+
+  \item{newobj}{a character, the name the object to look
+  for.}
+}
+\value{
+nothing is return but the process is stopped if the object
+was not generated in any one server.
+}
+\description{
+This is an internal function.
+}
+\details{
+
+
+After calling an assign function it is important to know
+whether or not the action has been completed by cjhecking
+if the output actually exists on the server side.
+}
+\keyword{internal}
+

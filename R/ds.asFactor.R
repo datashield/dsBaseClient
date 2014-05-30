@@ -59,7 +59,7 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   }
   
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources,xvect)
+  defined <- isDefined(datasources, xvect)
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, xvect)
@@ -67,12 +67,8 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(xvect, "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    varname <- strsplit(xvect, "\\$", perl=TRUE)[[1]][2]
-  }else{
-    varname <- xvect
-  }
+  xnames <- extract(xvect)
+  varname <- xnames[length(xnames)]
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -82,7 +78,7 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # call the server side function that does the job; 
   # if the input vector is of type 'numeric' or integer turn it first into character
   # as turning a numeric directly into a factor can produce weird results.
-  if(typ == 'numeric' | typ == 'integer'){
+  if(typ == 'numeric' | typ == 'integer' | typ == 'logical'){
     cally <- paste0('as.character(', xvect, ')' )
     datashield.assign(datasources, 'tempvect', as.symbol(cally))
     cally <- 'asFactorDS(tempvect)'
@@ -93,15 +89,6 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   }
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj)
-  qc <- datashield.aggregate(datasources, cally)
-  indx <- as.numeric(which(qc==TRUE))
-  
-  if(length(indx) > 0 & length(indx) < length(datasources)){
-    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
-  }
-  if(length(indx) == 0){
-    stop("The output object has not been generated for any of the studies!", call.=FALSE)
-  }
+  finalcheck <- isAssigned(datasources, newobj)
   
 }

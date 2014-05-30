@@ -5,16 +5,20 @@
 ds.assign(newobj = "newObject", toAssign = NULL, datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
   \item{newobj}{the name of the new object}
 
   \item{toAssign}{a string character, the object to assign
   or the call to an assign function that generates the
   object to assign.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+}
+\value{
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
 This function assigns a datashield object to a name, hence

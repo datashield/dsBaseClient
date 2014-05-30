@@ -44,12 +44,12 @@ ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
   
   if(is.null(xvect)){
     message("\n ALERT!\n")
-    message(" Please provide a valid numeric vector.")
+    message(" Please provide a valid vector.")
     stop(" End of process!\n", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources,xvect)
+  defined <- isDefined(datasources, xvect)
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, xvect)
@@ -57,12 +57,8 @@ ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(xvect, "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    varname <- strsplit(xvect, "\\$", perl=TRUE)[[1]][2]
-  }else{
-    varname <- xvect
-  }
+  xnames <- extract(xvect)
+  varname <- xnames[length(xnames)]
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -74,15 +70,6 @@ ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj)
-  qc <- datashield.aggregate(datasources, cally)
-  indx <- as.numeric(which(qc==TRUE))
-  
-  if(length(indx) > 0 & length(indx) < length(datasources)){
-    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
-  }
-  if(length(indx) == 0){
-    stop("The output object has not been generated for any of the studies!", call.=FALSE)
-  }
+  finalcheck <- isAssigned(datasources, newobj)
 
 }

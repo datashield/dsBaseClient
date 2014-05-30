@@ -5,11 +5,12 @@
 #' The function is a wrapper for the 'opal' package function 'datashield.assign'.
 #' @details The new object is stored on the local R instance (i.e. on the server side).
 #' If no name is provided, the new object is named 'newObject', by default.
+#' @param newobj the name of the new object
+#' @param toAssign a string character, the object to assign or the call to an assign function 
+#' that generates the object to assign.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param newobj the name of the new object
-#' @param toAssign a string character, the object to assign or the call to an assign function that 
-#' generates the object to assign.
+#' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -54,15 +55,6 @@ ds.assign <- function(newobj="newObject", toAssign=NULL, datasources=NULL){
   datashield.assign(opals, newobj, as.symbol(toAssign))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj)
-  qc <- datashield.aggregate(datasources, cally)
-  indx <- as.numeric(which(qc==TRUE))
-  
-  if(length(indx) > 0 & length(indx) < length(datasources)){
-    stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)
-  }
-  if(length(indx) == 0){
-    stop("The output object has not been generated for any of the studies!", call.=FALSE)
-  }
+  finalcheck <- isAssigned(datasources, newobj)
   
 }

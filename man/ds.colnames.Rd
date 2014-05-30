@@ -2,18 +2,18 @@
 \alias{ds.colnames}
 \title{Retrieves column names of a matrix-like object}
 \usage{
-ds.colnames(datasources = NULL, x = NULL)
+ds.colnames(x = NULL, datasources = NULL)
 }
 \arguments{
+  \item{x}{a character, the name of a dataframe or matrix.}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
-
-  \item{x}{a character, the name of dataframe or matrix}
 }
 \value{
-a string containing column names of the given object
+a character vector
 }
 \description{
 this function is similar to R function \code{colnames}
@@ -27,14 +27,12 @@ this function is similar to R function \code{colnames}
 # load that contains the login details
 data(logindata)
 
-# login
+# login and assign all the variables
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Get the column names of the assigned datasets
-ds.colnames(datasources=opals, x='D')
+# Get the column names of the assigned datasets (default name is 'D')
+ds.colnames(x='D')
 
-# Example 2: Vectors are wrong input to the colnames function
-\dontrun{ ds.colnames(datasources=opals, x='D$LAB_TSC')}
 }
 }
 \author{

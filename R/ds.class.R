@@ -1,10 +1,10 @@
 #' 
 #' @title Retrieves the class of an object
-#' @description this function is similar to R function \code{class}
+#' @description This function is similar to R function \code{class}
+#' @param x an R object
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param x an R object
-#' @return class of x
+#' @return a character the type of x
 #' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
@@ -16,18 +16,26 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Example 1: Get the class of the whole dataset
-#' ds.class(datasources=opals, x=quote(D))
+#' ds.class(x='D')
 #' 
 #' # Example 2: Get the class of the variable PM_BMI_CONTINUOUS
-#' ds.class(datasources=opals, x=quote(D$LAB_TSC))
+#' ds.class(x='D$LAB_TSC')
 #' }
 #' 
-ds.class = function(datasources=NULL, x=NULL) {
+ds.class = function(x=NULL, datasources=NULL) {
+  
   if(is.null(datasources)){
-    message("\n\n ALERT!\n")
-    message(" No valid opal object(s) provided.\n")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+      }
+    }
   }
   
   if(is.null(x)){
@@ -36,8 +44,11 @@ ds.class = function(datasources=NULL, x=NULL) {
     stop(" End of process!\n\n", call.=FALSE)
   }
   
-  cally <- call('class', x )
-  classes <- datashield.aggregate(datasources, cally)
+  # check if the input object(s) is(are) defined in all the studies
+  defined <- isDefined(datasources, x)
   
-  return(classes)
+  cally <- paste0('class(', x, ')')
+  output <- datashield.aggregate(datasources, as.symbol(cally))
+  
+  return(output)
 }

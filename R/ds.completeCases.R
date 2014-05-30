@@ -1,18 +1,14 @@
 #' 
-#' @title Constructs an object of type list
-#' @description This function is similar to R function \code{as.list} with some restrictions. 
-#' @details Unlike the R function 'as.list' only certain object types (data.frame, matrix) can be turned 
-#' into a list, this is because turning a single vector into a list produces a list where each element 
-#' holds one value only. A matrix is turned into data.frame before being converted into a list.
-#' When a data.frame, matrix is turned into a list the output list is allowed only if the number of rows 
-#' of the input data.frame or matrix is greater than the allowed number of observations. Otherwise 
-#' an empty list is generated (i.e. all elements set to NA)).
-#' @param x a character, the name of the object to convert into a list
-#' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_list'
+#' @title Find complete cases
+#' @description This function is similar to R function \code{complete.cases}. 
+#' @details a logical vector indicating which cases are complete(i.e. have no missing values)
+#' is generated and stored on the server side. That object can then be tabulated using the 
+#' function 'ds.table1d' to find the extent of completeness.
+#' @param x a character, the name of a vector, dataframe or matrix.
+#' @param newobj the name of the new vector.If this argument is set to \code{NULL}, the name of the new 
+#' variable is the name of the input variable with the suffixe '_complete'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
 #' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
@@ -24,11 +20,20 @@
 #' # login and assign specific variable(s)
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # turn the dataframe 'D' (the default name of the dataframe assign above) into a list
-#' ds.asList(x='D')
+#' # Example 1: check completes cases on the dataframe 'D' (default name of the assigned dataset)
+#' ds.completeCases(x='D')
+#' # now tabulate the vector of comple cases 
+#' # remember default name is name of variable with suffix '_complete'
+#' ds.table1d('D_complete')
+#' 
+#' # Example 2: check complte cases for the variable 'PM_BMI_CONTINUOUS'
+#' ds.completeCases(x='D$PM_BMI_CONTINUOUS')
+#' # now tabulate the vector of comple cases 
+#' ds.table1d('PM_BMI_CONTINUOUS_complete')
+#' 
 #' }
 #' 
-ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
+ds.completeCases = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -46,9 +51,9 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   }
   
   if(is.null(x)){
-    message(" ALERT!")
+    message("\n ALERT!\n")
     message(" Please provide a valid input.")
-    stop(" End of process!", call.=FALSE)
+    stop(" End of process!\n", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies
@@ -58,9 +63,9 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # Only a dataframe or a matrice can be turned into a list
-  if(typ != 'data.frame' & typ != 'matrix'){
+  if(typ != 'data.frame' & typ != 'factor' & typ != 'character' & typ != 'numeric' & typ != 'integer' & typ != 'matrix' & typ != 'logical'){
     message(paste0("Your object is of type ", typ, "!"))
-    stop(" Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", call.=FALSE)
+    stop(" Input must be of type 'data.frame', 'numeric', 'integer', 'character', 'factor', 'matrix' or 'logical'.", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$x)
@@ -71,11 +76,11 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(varname, "_list")
+    newobj <- paste0(varname, "_complete")
   }
   
   # call the server side function that does the job
-  cally <- paste0("asListDS(", x, ")")
+  cally <- paste0('complete.cases(', x, ')')
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly

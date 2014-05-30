@@ -83,10 +83,6 @@ ds.table1d <- function(datasources=NULL, xvect=NULL, type="combine")
     variable <- deparse(xvect)
   }
   
-  # call the function that checks the variables are available and not empty
-  vars2check  <-  list(xvect)
-  datasources  <-  ds.checkvar(datasources, vars2check)
-  
   # names of the studies 
   opals.names <- names(datasources)
   

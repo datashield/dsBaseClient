@@ -12,8 +12,19 @@
 isDefined <- function(datasources=NULL, obj=NULL){
   
   stdnames <- names(datasources)
+
+  inputnames <- c()
+  inputobj <- unlist(obj)
+  for(i in 1:length(inputobj )){
+    chnames <- extract(inputobj[i])
+    if(length(chnames) > 1){
+      inputnames <- append(inputnames, chnames[1])
+    }else{
+      inputnames <- append(inputnames, inputobj[i])
+    }
+  }
   
-  myObjects <- unlist(obj)
+  myObjects <- inputnames
   results <- c()
   for(i in 1:length(myObjects)){
     cally <- call('exists', myObjects[i])

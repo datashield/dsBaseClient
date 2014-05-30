@@ -2,23 +2,24 @@
 \alias{ds.c}
 \title{Combines values into a vector or list}
 \usage{
-ds.c(vect = NULL, newobj = NULL, datasources = NULL)
+ds.c(objects = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
-  \item{vect}{a character vector that holds the names of
+  \item{objects}{a character vector that holds the names of
   the objects to combine.}
 
   \item{newobj}{the name of the output object. If this
   argument is set to NULL, the name of the new object is
-  'cvect'.}
+  'newObject'.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 }
 \value{
-a message is displayed when the action is completed.
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
 
@@ -38,7 +39,7 @@ myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
 ds.assign('labtsc', 'D$LAB_TSC')
 ds.assign('labhdl', 'D$LAB_HDL')
 myvect <- c('labtsc', 'labhdl')
-ds.c(vect=myvect)
+ds.c(objects=myvect)
 }
 }
 \author{
