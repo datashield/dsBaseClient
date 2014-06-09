@@ -17,6 +17,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list("GENDER")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
@@ -39,7 +40,11 @@ ds.asNumeric = function(xvect=NULL, newobj=NULL, datasources=NULL){
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
@@ -60,7 +65,7 @@ ds.asNumeric = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
   xnames <- extract(xvect)
-  varname <- xnames[length(xnames)]
+  varname <- xnames$elements
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

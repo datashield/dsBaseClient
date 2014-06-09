@@ -51,26 +51,31 @@ results of operations on that table invalid.
 # load that contains the login details
 data(logindata)
 
-# login and assign all the variables in the opal servers
+# login and assign all the stored variables
+# (by default the assigned dataset is a dataframe named 'D')
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: rename the categories and change the reference with re-ordering
 # print out the levels of the initial vector
-ds.levels('D$PM_BMI_CATEGORICAL')
+ds.levels(xvect='D$PM_BMI_CATEGORICAL')
+
 # define a vector with the new levels and recode the initial levels
 newNames <- c('normal', 'overweight', 'obesity')
-ds.recodeLevels('D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+
 # print out the levels of the new vector
-ds.levels('bmi_new')
+ds.levels(xvect='bmi_new')
+
 # by default the reference is the first level in the vector of levels (here 'normal')
 # now change the set the reference to 'obesity' without changing the order (default)
 ds.changeRefGroup(xvect='bmi_new', ref='obesity', newobj='bmi_ob')
+
 # print out the levels; the first listed level (i.e. the reference) is now 'obesity'
-ds.levels('bmi_ob')
+ds.levels(xvect='bmi_ob')
 
 # Example 2: change the reference and re-order by the refence level
 # If re-ordering is sought, the action is completed but a warning is issued.
-ds.recodeLevels('D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
 ds.changeRefGroup(xvect='bmi_new', ref='obesity', newobj='bmi_ob', reorderByRef=TRUE)
 
 }

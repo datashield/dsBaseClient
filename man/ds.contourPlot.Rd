@@ -59,7 +59,8 @@ potential disclosure.
 # load the file that contains the login details
 data(logindata)
 
-# login and assign the required variables to R
+# login and assign specific variables(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 

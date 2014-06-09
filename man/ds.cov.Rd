@@ -2,8 +2,8 @@
 \alias{ds.cov}
 \title{Computes covariance between two or more vectors}
 \usage{
-ds.cov(datasources = NULL, x = NULL, y = NULL,
-  naAction = "pairwise.complete.obs")
+ds.cov(x = NULL, y = NULL, naAction = "pairwise.complete.obs",
+  datasources = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained
@@ -47,19 +47,21 @@ calculations.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list('LAB_HDL', 'LAB_TSC', 'GENDER')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: generate the covariance matrix for the assigned dataset 'D' (the default name of the
-# assigned dataframe) which contains 4 vectors (2 continuous and 1 categorical)
-ds.cov(datasources=opals, x='D')
+# Example 1: generate the covariance matrix for the assigned dataset 'D'
+# which contains 4 vectors (2 continuous and 1 categorical)
+ds.cov(x='D')
 
-# Example 2: calculate the covariance between two 'loose' vectors (i.e. the vectors are not in a dataframe)
-ds.assign(opals, 'labhdl', 'D$LAB_HDL')
-ds.assign(opals, 'labtsc', 'D$LAB_TSC')
-ds.assign(opals, 'gender', 'D$GENDER')
-ds.cov(datasources=opals, x='labhdl', y='labtsc')
-ds.cov(datasources=opals, x='labhdl', y='gender')
+# Example 2: calculate the covariance between two vectors
+(first assign the vectors from 'D')
+ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
+ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
+ds.assign(newobj='gender', toAssign='D$GENDER')
+ds.cov(x='labhdl', y='labtsc')
+ds.cov(x='labhdl', y='gender')
 
 }
 }

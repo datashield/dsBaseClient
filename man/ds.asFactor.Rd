@@ -43,6 +43,7 @@ generated.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list('GENDER', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
@@ -54,8 +55,8 @@ ds.asFactor(xvect='gender_num', newobj='gender_fact')
 # than 2 observations (as you would expect for a continuous variable)
 # this will generate an 'empty' vector (i.e. all values within it are set to NA).
 ds.asFactor(xvect='D$LAB_HDL', newobj='lab.hdl.fact')
-# let us check the levels of the new vector
-ds.levels('lab.hdl.fact')
+# check the levels of the new vector
+ds.levels(xvect='lab.hdl.fact')
 
 }
 }

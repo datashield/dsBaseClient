@@ -37,13 +37,14 @@ dataframes by columns. But unlike the R base function
 # load the file that contains the login details
 data(logindata)
 
-# login and assign the required variables to R
+# login and assign specific variables(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list('LAB_TSC', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # generate a new dataframe by combining the log values of 'LAB_TSC' and 'LAB_HDL', by columns
-ds.assign('labtsc', 'log(D$LAB_TSC)')
-ds.assign('labhdl', 'log(D$LAB_HDL)')
+ds.assign(newobj='labtsc', toAssign='log(D$LAB_TSC)')
+ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
 myobjects <- c('labtsc', 'labhdl')
 ds.cbind(objects=myobjects)
 

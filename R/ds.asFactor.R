@@ -19,6 +19,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list('GENDER', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
@@ -30,8 +31,8 @@
 #' # than 2 observations (as you would expect for a continuous variable)
 #' # this will generate an 'empty' vector (i.e. all values within it are set to NA).
 #' ds.asFactor(xvect='D$LAB_HDL', newobj='lab.hdl.fact')
-#' # let us check the levels of the new vector
-#' ds.levels('lab.hdl.fact')
+#' # check the levels of the new vector
+#' ds.levels(xvect='lab.hdl.fact')
 #' 
 #' }
 #' 
@@ -47,7 +48,11 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
@@ -61,14 +66,22 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # check if the input object(s) is(are) defined in all the studies
   defined <- isDefined(datasources, xvect)
   
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, xvect)
-  
   # the input variable might be given as column table (i.e. D$xvect)
   # or just as a vector not attached to a table (i.e. xvect)
   # we have to make sure the function deals with each case
   xnames <- extract(xvect)
-  varname <- xnames[length(xnames)]
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor[i])){
+    defined <- isDefined(datasources, varnames[i])
+  }else{
+    defined <- isDefined(datasources, obj2lookfor[i])
+  }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- checkClass(datasources, xvect)
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

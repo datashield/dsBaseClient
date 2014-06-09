@@ -41,6 +41,7 @@ named 'newObject', by default.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list("LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 

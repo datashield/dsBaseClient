@@ -37,6 +37,7 @@ See details of the R function 'as.character'.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 

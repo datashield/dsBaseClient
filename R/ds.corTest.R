@@ -6,7 +6,7 @@
 #' @param xvect a character, the name of a numerical vector
 #' @param yvect a character, the name of a numerical vector
 #' @return a list containing the results of the test
-#' @author GAYE, A.; Burton, P.
+#' @author Gaye, A.; Burton, P.
 #' @export
 #' @examples {
 #' 
@@ -14,21 +14,34 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list('LAB_TSC', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # test for correlation between the variables 'LAB_TSC' and 'LAB_HDL'
-#' ds.corTest(datasources=opals, xvect='D$LAB_TSC', yvect='D$LAB_HDL')
+#' ds.corTest(xvect='D$LAB_TSC', yvect='D$LAB_HDL')
 #' }
 #' 
-ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL)
+ds.corTest = function(xvect=NULL, yvect=NULL, datasources=NULL)
 {
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message(" ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
   }
   
   if(is.null(xvect)){
@@ -44,8 +57,8 @@ ds.corTest = function(datasources=NULL, xvect=NULL, yvect=NULL)
   }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- dsbaseclient:::.checkClass(datasources, xvect)
-  typ <- dsbaseclient:::.checkClass(datasources, yvect)
+  typ <- checkClass(datasources, xvect)
+  typ <- checkClass(datasources, yvect)
   
   # name of the studies to be used in the output
   stdnames <- names(datasources)

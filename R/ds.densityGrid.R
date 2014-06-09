@@ -8,16 +8,15 @@
 #' to set the limits of the density grid and the minimum and maximum values of the x and y vectors. These
 #' elements are set by the server side function \code{densitygrid.ds} to 'valid' values (i.e. values that
 #' do not lead to leakage of micro-data to the user).
+#' @param xvect a character the name of numerical vector
+#' @param yvect a character the name of numerical vector
+#' @param numints an integer, the number of intervals for the grid density object, by default is 20.
+#' @param type a character which represent the type of graph to display. 
+#' If \code{type} is set to 'combine', a pooled grid density matrix is generated and
+#' one grid density matrix is generated for each study if \code{type} is set to 'split'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a numerical vector
-#' @param yvect a numerical vector
-#' @param numints a number of intervals for the grid density object, by default is 20
-#' @param type a character which represent the type of graph to display. 
-#' If \code{type} is set to 'combine', a histogram that merges the single 
-#' plot is displayed. Each histogram is plotted separately if If \code{type} 
-#' is set to 'split'.
-#' @return a global grid density matrix across all studies or a one grid density matrix for each study
+#' @return a grid density matrix is returned
 #' @author Isaeva, J.; Gaye, A.
 #' @export
 #' @examples {
@@ -28,23 +27,35 @@
 #' myvar <- list("LAB_TSC","LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example1: generate a combined grid density object
-#' ds.densitygrid(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
+#' # Example1: generate a combined grid density object (the default behaviour)
+#' ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL')
 #' 
 #' # Example2: generate a grid density object for each study separately
-#' ds.densitygrid(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
+#' ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type="split")
 #' 
 #' # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
-#' ds.densitygrid(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
+#' ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type="split", numints=15)
 #' }
 #' 
-ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20, type="combine"){
+ds.densityGrid <- function(xvect=NULL, yvect=NULL, numints=20, type='combine', datasources=NULL){
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message(" ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
   }
   
   if(is.null(xvect)){
@@ -55,13 +66,31 @@ ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20,
   
   if(is.null(yvect)){
     message(" ALERT!")
-    message(" Please provide a valid numeric vector for 'yvec'")
+    message(" Please provide a valid numeric vector for 'yvect'")
     stop(" End of process!", call.=FALSE)
   }
   
-  # call the function that checks the variable is available and not empty
-  vars2check <- list(xvect,yvect)
-  datasources <- ds.checkvar(datasources, vars2check)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  objects <- c(xvect, yvect)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
+  
+  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
+  for(i in 1:length(objects)){
+    typ <- checkClass(datasources, objects[i])
+  }
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -71,11 +100,11 @@ ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20,
   
   if(type=="combine"){
     # get the range from each study and produce the 'global' range
-    cally <- call("rangeDS", xvect) 
-    x.ranges <- datashield.aggregate(datasources, cally)
+    cally <- paste0('rangeDS(', xvect, ')')
+    x.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
-    cally <- call("rangeDS", yvect) 
-    y.ranges <- datashield.aggregate(datasources, cally)
+    cally <- paste0('rangeDS(', yvect, ')')
+    y.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
     x.minrs <- c()
     x.maxrs <- c()
@@ -96,8 +125,9 @@ ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20,
     y.global.max = y.range.arg[2]
     
     # generate the grid density object to plot
-    cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-    grid.density.obj <- datashield.aggregate(datasources, cally)
+    cally <- paste0("densityGridDS(",xvect,",",yvect,",",limits=T,",",x.global.min,",",
+                    x.global.max,",",y.global.min,",",y.global.max,",",numints, ")")
+    grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
     numcol <- dim(grid.density.obj[[1]])[2]
     
     # print the number of invalid cells in each participating study
@@ -117,8 +147,9 @@ ds.densitygrid <- function(datasources=NULL, xvect=NULL, yvect=NULL, numints=20,
     if(type=="split"){
       # generate the grid density object
       num_intervals=numints
-      cally <- call("densitygrid.ds", xvect, yvect, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=num_intervals) 
-      grid.density.obj <- datashield.aggregate(datasources, cally)
+      cally <- paste0("densityGridDS(",xvect,",",yvect,",",'limits=FALSE',",",'x.min=NULL',",",
+                      'x.max=NULL',",",'y.min=NULL',",",'y.max=NULL',",",numints=num_intervals, ")")
+      grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
       numcol <- dim(grid.density.obj[[1]])[2]
       
       # print the number of invalid cells in each participating study

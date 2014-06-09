@@ -40,19 +40,20 @@ function 'ds.table1d' to find the extent of completeness.
 # load that contains the login details
 data(logindata)
 
-# login and assign specific variable(s)
+# login and assign all the stored variables
+# (by default the assigned dataset is a datframe named 'D')
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: check completes cases on the dataframe 'D' (default name of the assigned dataset)
+# Example 1: check completes cases on the dataframe 'D'
 ds.completeCases(x='D')
 # now tabulate the vector of comple cases
 # remember default name is name of variable with suffix '_complete'
-ds.table1d('D_complete')
+ds.table1d(xvect='D_complete')
 
 # Example 2: check complte cases for the variable 'PM_BMI_CONTINUOUS'
 ds.completeCases(x='D$PM_BMI_CONTINUOUS')
 # now tabulate the vector of comple cases
-ds.table1d('PM_BMI_CONTINUOUS_complete')
+ds.table1d(xvect='PM_BMI_CONTINUOUS_complete')
 
 }
 }

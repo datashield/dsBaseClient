@@ -30,14 +30,15 @@ on the server side.
 # load the file that contains the login details
 data(logindata)
 
-# login and assign the required variables to R
+# login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- c('LAB_TSC', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
 myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
-ds.assign('labtsc', 'D$LAB_TSC')
-ds.assign('labhdl', 'D$LAB_HDL')
+ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
+ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 myvect <- c('labtsc', 'labhdl')
 ds.c(objects=myvect)
 }
