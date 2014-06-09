@@ -2,7 +2,7 @@
 #' @title Turns a vector into character type vector
 #' @description This function is similar to R function \code{as.character}. 
 #' @details See details of the R function 'as.character'.
-#' @param xvect a character, the name of the input vector.
+#' @param x a character, the name of the input vector.
 #' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_char'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
@@ -16,16 +16,17 @@
 #' # load that contains the login details
 #' data(logindata)
 #' 
-#' # login and assign specific variable(s)
+#' # login and assign specific variable(s) 
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list("GENDER")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into a character vector
-#' ds.asCharacter(xvect='D$GENDER', newobj="gender_char")
+#' ds.asCharacter(x='D$GENDER', newobj="gender_char")
 #' 
 #' }
 #' 
-ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
+ds.asCharacter = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -37,28 +38,35 @@ ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
-  if(is.null(xvect)){
-    message("\n ALERT!\n")
-    message(" Please provide a valid vector.")
-    stop(" End of process!\n", call.=FALSE)
+  if(is.null(x)){
+    stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, xvect)
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, xvect)
-  
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
-  # we have to make sure the function deals with each case
-  xnames <- extract(xvect)
-  varname <- xnames[length(xnames)]
+  typ <- checkClass(datasources, x)
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -66,7 +74,7 @@ ds.asCharacter = function(xvect=NULL, newobj=NULL, datasources=NULL){
   }
   
   # call the server side function that does the job
-  cally <- paste0('as.character(', xvect, ')' )
+  cally <- paste0('as.character(', x, ')' )
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly

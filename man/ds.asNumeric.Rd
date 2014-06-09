@@ -2,10 +2,10 @@
 \alias{ds.asNumeric}
 \title{Turns a vector into numerical type}
 \usage{
-ds.asNumeric(xvect = NULL, newobj = NULL, datasources = NULL)
+ds.asNumeric(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{xvect}{a character, the name of the input vector.}
+  \item{x}{a character, the name of the input vector.}
 
   \item{newobj}{the name of the new variable. If this
   argument is set to NULL, the name of the new variable is
@@ -37,14 +37,15 @@ See details of the R function 'as.numeric'.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(xvect='D$GENDER', newobj="gender_ch")
+ds.asCharacter(x='D$GENDER', newobj="gender_ch")
 
 # now turn the newly created vector 'gender_ch' into a numeric
-ds.asNumeric(xvect='gender_ch', newobj="gender_nm")
+ds.asNumeric(x='gender_ch', newobj="gender_nm")
 }
 }
 \author{

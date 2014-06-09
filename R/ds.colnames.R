@@ -12,7 +12,8 @@
 #' # load that contains the login details
 #' data(logindata)
 #' 
-#' # login and assign all the variables
+#' # login and assign all the stored variables
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Get the column names of the assigned datasets (default name is 'D')
@@ -31,15 +32,17 @@ ds.colnames = function(x=NULL, datasources=NULL) {
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
   if(is.null(x)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid object\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies

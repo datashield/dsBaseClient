@@ -4,7 +4,7 @@
 #' to create factors where a categorie has less than two observations.
 #' @details Unlike the R function 'as.factor' vectors where some levels have less than 2 observations
 #' are not allow, an empty vector (i.e. all values within it are set to NA) is then generated.
-#' @param xvect a character, the name of numeric, integer or character vector
+#' @param x a character, the name of numeric, integer or character vector
 #' @param newobj the name of the new vector.If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_fact'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
@@ -19,23 +19,24 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list('GENDER', 'LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # turn the factor variable 'GENDER' into numeric and then back into factor
-#' ds.asNumeric(xvect='D$GENDER', newobj='gender_num')
-#' ds.asFactor(xvect='gender_num', newobj='gender_fact')
+#' ds.asNumeric(x='D$GENDER', newobj='gender_num')
+#' ds.asFactor(x='gender_num', newobj='gender_fact')
 #' 
 #' # Now try to turn into a factor a numeric variable where some levels have less
 #' # than 2 observations (as you would expect for a continuous variable)
 #' # this will generate an 'empty' vector (i.e. all values within it are set to NA).
-#' ds.asFactor(xvect='D$LAB_HDL', newobj='lab.hdl.fact')
-#' # let us check the levels of the new vector
-#' ds.levels('lab.hdl.fact')
+#' ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
+#' # check the levels of the new vector
+#' ds.levels(x='lab.hdl.fact')
 #' 
 #' }
 #' 
-ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
+ds.asFactor = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -47,28 +48,35 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
-  if(is.null(xvect)){
-    message("\n ALERT!\n")
-    message(" Please provide a valid numeric vector.")
-    stop(" End of process!\n", call.=FALSE)
+  if(is.null(x)){
+    stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, xvect)
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, xvect)
-  
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
-  # we have to make sure the function deals with each case
-  xnames <- extract(xvect)
-  varname <- xnames[length(xnames)]
+  typ <- checkClass(datasources, x)
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -79,12 +87,12 @@ ds.asFactor = function(xvect=NULL, newobj=NULL, datasources=NULL){
   # if the input vector is of type 'numeric' or integer turn it first into character
   # as turning a numeric directly into a factor can produce weird results.
   if(typ == 'numeric' | typ == 'integer' | typ == 'logical'){
-    cally <- paste0('as.character(', xvect, ')' )
+    cally <- paste0('as.character(', x, ')' )
     datashield.assign(datasources, 'tempvect', as.symbol(cally))
     cally <- 'asFactorDS(tempvect)'
     datashield.assign(datasources, newobj, as.symbol(cally))
   }else{
-    cally <- paste0('asFactorDS(', xvect, ')' )
+    cally <- paste0('asFactorDS(', x, ')' )
     datashield.assign(datasources, newobj, as.symbol(cally))
   }
   

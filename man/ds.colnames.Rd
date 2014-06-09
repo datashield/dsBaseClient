@@ -27,7 +27,8 @@ this function is similar to R function \code{colnames}
 # load that contains the login details
 data(logindata)
 
-# login and assign all the variables
+# login and assign all the stored variables
+# (by default the assigned dataset is a dataframe named 'D')
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Get the column names of the assigned datasets (default name is 'D')

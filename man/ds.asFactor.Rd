@@ -2,10 +2,10 @@
 \alias{ds.asFactor}
 \title{Turns a numeric vector into factor type}
 \usage{
-ds.asFactor(xvect = NULL, newobj = NULL, datasources = NULL)
+ds.asFactor(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{xvect}{a character, the name of numeric, integer or
+  \item{x}{a character, the name of numeric, integer or
   character vector}
 
   \item{newobj}{the name of the new vector.If this argument
@@ -43,19 +43,20 @@ generated.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list('GENDER', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into numeric and then back into factor
-ds.asNumeric(xvect='D$GENDER', newobj='gender_num')
-ds.asFactor(xvect='gender_num', newobj='gender_fact')
+ds.asNumeric(x='D$GENDER', newobj='gender_num')
+ds.asFactor(x='gender_num', newobj='gender_fact')
 
 # Now try to turn into a factor a numeric variable where some levels have less
 # than 2 observations (as you would expect for a continuous variable)
 # this will generate an 'empty' vector (i.e. all values within it are set to NA).
-ds.asFactor(xvect='D$LAB_HDL', newobj='lab.hdl.fact')
-# let us check the levels of the new vector
-ds.levels('lab.hdl.fact')
+ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
+# check the levels of the new vector
+ds.levels(x='lab.hdl.fact')
 
 }
 }

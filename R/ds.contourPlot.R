@@ -8,8 +8,8 @@
 #' The ranges returned by each study and used in the process of getting the grid density matrix
 #' are not the exact minumum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was also to reduce the risk of potential disclosure.
-#' @param xvect a character, the name of a numerical vector.
-#' @param yvect a character, the name of a numerical vector.
+#' @param x a character, the name of a numerical vector.
+#' @param y a character, the name of a numerical vector.
 #' @param type a character which represents the type of graph to display. 
 #' If \code{type} is set to 'combine', a combined contour plot displayed and 
 #' if \code{type} is set to 'split', each conntour is plotted separately.
@@ -27,26 +27,27 @@
 #' # load the file that contains the login details
 #' data(logindata)
 #' 
-#' # login and assign the required variables to R
+#' # login and assign specific variables(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list("LAB_TSC","LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: generate a contour plot of the pooled data (default)
-#' ds.contourPlot(xvect='D$LAB_TSC', yvect='D$LAB_HDL')
+#' ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL')
 #' # now produce the same plot but zoom in
-#' ds.contourPlot(xvect='D$LAB_TSC', yvect='D$LAB_HDL', show='zoomed')
+#' ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', show='zoomed')
 #' 
 #' # Example 2: generate a contour plot where each study is plotted seaparately
-#' ds.contourPlot(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type='split')
+#' ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split')
 #' # now produce the same plots but zoom in
-#' ds.contourPlot(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type='split', show='zoomed')
+#' ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', show='zoomed')
 #' 
 #' # Example 3: generate a contour plot with a less dense grid (default numints is 20)
-#' ds.contourPlot(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type='split', numints=15)
+#' ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
 #' 
 #' }
 #'
-ds.contourPlot <- function(xvect=NULL, yvect=NULL, type='combine', show='all', numints=20, datasources=NULL){
+ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -58,37 +59,36 @@ ds.contourPlot <- function(xvect=NULL, yvect=NULL, type='combine', show='all', n
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
-  if(is.null(xvect)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric vector for 'xvect'")
-    stop(" End of process!", call.=FALSE)
+  if(is.null(x)){
+    stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
-  
-  if(is.null(yvect)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric vector for 'yvect'")
-    stop(" End of process!", call.=FALSE)
+  if(is.null(y)){
+    stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, xvect)
-  defined <- isDefined(datasources, yvect)
+  defined <- isDefined(datasources, x)
+  defined <- isDefined(datasources, y)
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ1 <- checkClass(datasources, xvect)
-  typ2 <- checkClass(datasources, yvect)  
+  typ1 <- checkClass(datasources, x)
+  typ2 <- checkClass(datasources, y)  
   
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
-  xnames <- extract(xvect)
+  xnames <- extract(x)
   x.lab <- xnames[length(xnames)]
-  ynames <- extract(yvect)
+  ynames <- extract(y)
   y.lab <- ynames[length(ynames)]
   
   # name of the studies to be used in the plots' titles
@@ -100,10 +100,10 @@ ds.contourPlot <- function(xvect=NULL, yvect=NULL, type='combine', show='all', n
   if(type=="combine"){
     
     # get the range from each study and produce the 'global' range
-    cally <- paste0("rangeDS(", xvect, ")") 
+    cally <- paste0("rangeDS(", x, ")") 
     x.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
-    cally <- paste0("rangeDS(", yvect, ")") 
+    cally <- paste0("rangeDS(", y, ")") 
     y.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
     x.minrs <- c()
@@ -125,7 +125,7 @@ ds.contourPlot <- function(xvect=NULL, yvect=NULL, type='combine', show='all', n
     y.global.max = y.range.arg[2]
     
     # generate the grid density object to plot
-    cally <- paste0("densityGridDS(",xvect,",",yvect,",",limits=T,",",x.global.min,",",
+    cally <- paste0("densityGridDS(",x,",",y,",",limits=T,",",x.global.min,",",
                     x.global.max,",",y.global.min,",",y.global.max,",",numints, ")")
     grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
     
@@ -216,7 +216,7 @@ ds.contourPlot <- function(xvect=NULL, yvect=NULL, type='combine', show='all', n
     
     # generate the grid density object to plot
     num_intervals=numints
-    cally <- paste0("densityGridDS(",xvect,",",yvect,",",'limits=FALSE',",",'x.min=NULL',",",
+    cally <- paste0("densityGridDS(",x,",",y,",",'limits=FALSE',",",'x.min=NULL',",",
                     'x.max=NULL',",",'y.min=NULL',",",'y.max=NULL',",",numints=num_intervals, ")")
     grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
     

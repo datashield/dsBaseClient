@@ -5,7 +5,7 @@
 extract(input)
 }
 \arguments{
-  \item{input}{a character with'$' signs within it}
+  \item{input}{a vector or a list of characters}
 }
 \value{
 a vector of characters

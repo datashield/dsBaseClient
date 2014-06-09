@@ -2,10 +2,10 @@
 \alias{ds.asCharacter}
 \title{Turns a vector into character type vector}
 \usage{
-ds.asCharacter(xvect = NULL, newobj = NULL, datasources = NULL)
+ds.asCharacter(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{xvect}{a character, the name of the input vector.}
+  \item{x}{a character, the name of the input vector.}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to NULL, the name of the new variable is the name
@@ -37,11 +37,12 @@ See details of the R function 'as.character'.
 data(logindata)
 
 # login and assign specific variable(s)
+# (by default the assigned dataset is a dataframe named 'D')
 myvar <- list("GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(xvect='D$GENDER', newobj="gender_char")
+ds.asCharacter(x='D$GENDER', newobj="gender_char")
 
 }
 }

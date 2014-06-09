@@ -19,6 +19,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' myvar <- list("LAB_TSC")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
@@ -40,15 +41,17 @@ ds.assign <- function(newobj="newObject", toAssign=NULL, datasources=NULL){
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
   if(is.null(toAssign)){
-    message("\n ALERT!\n")
-    message(" No object to assign or expression to evalualate and assign.")
-    stop(" End of process!\n", call.=FALSE)
+    stop("Please the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
   }
   
   # now do the business

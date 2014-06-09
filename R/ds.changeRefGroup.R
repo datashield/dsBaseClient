@@ -7,7 +7,7 @@
 #' as this can introduce a mismatch of values if the vector is put back
 #' into a table that is not reordered in the same way. Such mismatch
 #' can render the results of operations on that table invalid.
-#' @param xvect a character, the name of a vector of type factor.
+#' @param x a character, the name of a vector of type factor.
 #' @param ref the reference level
 #' @param newobj the name of the new variable. If this argument is set to NULL, 
 #' the name of the new variable is the name of the input variable with the 
@@ -25,31 +25,36 @@
 #' # load that contains the login details
 #' data(logindata)
 #' 
-#' # login and assign all the variables in the opal servers
+#' # login and assign all the stored variables
+#' # (by default the assigned dataset is a dataframe named 'D')
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Example 1: rename the categories and change the reference with re-ordering
 #' # print out the levels of the initial vector
-#' ds.levels('D$PM_BMI_CATEGORICAL')
+#' ds.levels(x='D$PM_BMI_CATEGORICAL')
+#' 
 #' # define a vector with the new levels and recode the initial levels
 #' newNames <- c('normal', 'overweight', 'obesity')
-#' ds.recodeLevels('D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+#' 
 #' # print out the levels of the new vector
-#' ds.levels('bmi_new')
+#' ds.levels(x='bmi_new')
+#' 
 #' # by default the reference is the first level in the vector of levels (here 'normal')
 #' # now change the set the reference to 'obesity' without changing the order (default)
-#' ds.changeRefGroup(xvect='bmi_new', ref='obesity', newobj='bmi_ob')
+#' ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
+#' 
 #' # print out the levels; the first listed level (i.e. the reference) is now 'obesity'
-#' ds.levels('bmi_ob')
+#' ds.levels(x='bmi_ob')
 #' 
 #' # Example 2: change the reference and re-order by the refence level
 #' # If re-ordering is sought, the action is completed but a warning is issued.
-#' ds.recodeLevels('D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
-#' ds.changeRefGroup(xvect='bmi_new', ref='obesity', newobj='bmi_ob', reorderByRef=TRUE)
+#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+#' ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob', reorderByRef=TRUE)
 #' 
 #' }
 #' 
-ds.changeRefGroup = function(xvect=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
+ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
   
   if(is.null(datasources)){
     findLogin <- getOpals()
@@ -60,26 +65,39 @@ ds.changeRefGroup = function(xvect=NULL, ref=NULL, newobj=NULL, reorderByRef=FAL
         stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
       }else{
         message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
       }
     }
   }
   
-  if(is.null(xvect)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid factor vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+  if(is.null(x)){
+    stop("Please provide the name of a vector of type factor!", call.=FALSE)
   }
   
   if(is.null(ref)){
     stop(" You must indicate a reference level by setting the parameter 'ref'.", call.=FALSE)
   }
   
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
   # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, xvect)
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, xvect)
+  typ <- checkClass(datasources, x)
   
   # if input vector is not a factor stop
   if(typ != 'factor'){
@@ -90,10 +108,10 @@ ds.changeRefGroup = function(xvect=NULL, ref=NULL, newobj=NULL, reorderByRef=FAL
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
   }
   
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
-  xnames <- extract(xvect)
+  xnames <- extract(x)
   varname <- xnames[length(xnames)]
   
   # create a name by default if user did not provide a name for the new variable
@@ -102,7 +120,7 @@ ds.changeRefGroup = function(xvect=NULL, ref=NULL, newobj=NULL, reorderByRef=FAL
   }
   
   # call the server side function that will recode the levels
-  cally <- paste0('changeRefGroupDS(', xvect, ",'", ref, "',", reorderByRef,")")
+  cally <- paste0('changeRefGroupDS(', x, ",'", ref, "',", reorderByRef,")")
   datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly

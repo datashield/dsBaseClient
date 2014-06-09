@@ -17,10 +17,10 @@ isDefined <- function(datasources=NULL, obj=NULL){
   inputobj <- unlist(obj)
   for(i in 1:length(inputobj )){
     chnames <- extract(inputobj[i])
-    if(length(chnames) > 1){
-      inputnames <- append(inputnames, chnames[1])
+    if(is.na(chnames[[1]])){
+      inputnames <- append(inputnames, chnames[[2]])
     }else{
-      inputnames <- append(inputnames, inputobj[i])
+      inputnames <- append(inputnames, chnames[[1]])
     }
   }
   

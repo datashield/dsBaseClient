@@ -27,7 +27,8 @@ This function is similar to R function \code{class}
 # load that contains the login details
 data(logindata)
 
-# login
+# login and assign all the stored variables
+# (by default the assigned dataset is a dataframe named 'D')
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: Get the class of the whole dataset
