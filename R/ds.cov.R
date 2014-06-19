@@ -32,7 +32,7 @@
 #' ds.cov(x='D')
 #' 
 #' # Example 2: calculate the covariance between two vectors 
-#' (first assign the vectors from 'D')
+#' # (first assign the vectors from 'D')
 #' ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 #' ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 #' ds.assign(newobj='gender', toAssign='D$GENDER')
@@ -64,15 +64,20 @@ ds.cov = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
   
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
+  }else{
+    defined <- isDefined(datasources, x)
   }
   if(is.null(y)){
     stop("y=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
+  }else{
+    defined <- isDefined(datasources, y)
   }
   
-  # check the type of the input object
-  typ <- checkClass(datasources, x)
+  # check the type of the input objects
+  typ1 <- checkClass(datasources, x)
+  typ2 <- checkClass(datasources, y)
   
-  if(typ=='numeric' | typ=='integer' | typ=='factor'){
+  if(typ1=='numeric' | typ1=='integer' | typ1=='factor'){
     if(is.null(y)){
       message(" ALERT!")
       message(" y is set to NULL whilst x is a numeric vector, please provide a second vector")
@@ -80,7 +85,7 @@ ds.cov = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
     }
   }
   
-  if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
+  if(typ1=='matrix' | typ1=='data.frame' & !(is.null(y))){
     y <- NULL
     warning(" x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
   }

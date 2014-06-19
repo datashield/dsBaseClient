@@ -75,13 +75,27 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
   
-  # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, x)
-  defined <- isDefined(datasources, y)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  objects <- c(x, y)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
   
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ1 <- checkClass(datasources, x)
-  typ2 <- checkClass(datasources, y)  
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
+  
+  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
+  for(i in 1:length(objects)){
+    typ <- checkClass(datasources, objects[i])
+  } 
   
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)

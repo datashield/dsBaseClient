@@ -108,12 +108,6 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
   }
   
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames[length(xnames)]
-  
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- paste0(varname, "_newref")

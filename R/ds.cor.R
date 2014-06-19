@@ -64,15 +64,20 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
     
   if(is.null(x)){
     stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
+  }else{
+    defined <- isDefined(datasources, x)
   }
   if(is.null(y)){
     stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
+  }else{
+    defined <- isDefined(datasources, y)
   }
   
-  # check the type of the input object
-  typ <- checkClass(datasources, x)
+  # check the type of the input objects
+  typ1 <- checkClass(datasources, x)
+  typ2 <- checkClass(datasources, y)
   
-  if(typ=='numeric' | typ=='integer' | typ=='factor'){
+  if(typ1=='numeric' | typ1=='integer' | typ1=='factor'){
     if(is.null(y)){
       message(" ALERT!")
       message(" y is set to NULL whilst x is a numeric vector, please provide a second vector")
@@ -80,7 +85,7 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
     }
   }
   
-  if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
+  if(typ1=='matrix' | typ1=='data.frame' & !(is.null(y))){
     y <- NULL
     warning(" x is a matrix or a dataframe; y will be ignored and a correlation matrix computed for x!")
   }
@@ -92,7 +97,7 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
   num.sources <- length(datasources)
   
   # call the server side function to compute the correlation matrix
-  if(typ=='matrix' | typ=='data.frame'){
+  if(typ1=='matrix' | typ1=='data.frame'){
     cally <- paste0("corDS(x=", x, ", y=NULL", ", use='", naAction, "')")
   }else{
     if(!(is.null(y))){

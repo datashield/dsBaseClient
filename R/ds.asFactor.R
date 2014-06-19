@@ -74,7 +74,7 @@ ds.asFactor = function(x=NULL, newobj=NULL, datasources=NULL){
   }else{
     defined <- isDefined(datasources, obj2lookfor)
   }
-  
+
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   

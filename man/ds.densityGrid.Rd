@@ -2,13 +2,13 @@
 \alias{ds.densityGrid}
 \title{Generates a density grid with or without a priori defined limits}
 \usage{
-ds.densityGrid(xvect = NULL, yvect = NULL, numints = 20,
-  type = "combine", datasources = NULL)
+ds.densityGrid(x = NULL, y = NULL, numints = 20, type = "combine",
+  datasources = NULL)
 }
 \arguments{
-  \item{xvect}{a character the name of numerical vector}
+  \item{x}{a character the name of numerical vector}
 
-  \item{yvect}{a character the name of numerical vector}
+  \item{y}{a character the name of numerical vector}
 
   \item{numints}{an integer, the number of intervals for
   the grid density object, by default is 20.}
@@ -57,13 +57,13 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined grid density object (the default behaviour)
-ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL')
+ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL')
 
 # Example2: generate a grid density object for each study separately
-ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type="split")
+ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 
 # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
-ds.densitygrid(xvect='D$LAB_TSC', yvect='D$LAB_HDL', type="split", numints=15)
+ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 }
 }
 \author{

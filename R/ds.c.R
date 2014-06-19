@@ -26,7 +26,7 @@
 #' ds.c(objects=myvect)
 #' }
 #' 
-ds.c = function(objects=NULL, newobj=NULL, datasources=NULL){
+ds.c <- function(objects=NULL, newobj=NULL, datasources=NULL){
   
   if(is.null(datasources)){
     findLogin <- getOpals()

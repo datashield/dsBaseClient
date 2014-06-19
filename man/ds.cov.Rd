@@ -56,7 +56,7 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 ds.cov(x='D')
 
 # Example 2: calculate the covariance between two vectors
-(first assign the vectors from 'D')
+# (first assign the vectors from 'D')
 ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 ds.assign(newobj='gender', toAssign='D$GENDER')

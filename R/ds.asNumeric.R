@@ -69,7 +69,7 @@ ds.asNumeric = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
-
+  
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- paste0(varname, "_num")

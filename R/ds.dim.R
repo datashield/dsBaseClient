@@ -64,7 +64,9 @@ ds.dim = function(x=NULL, type='split', datasources=NULL) {
   typ <- checkClass(datasources, x)
   
   # throw a message and stop if input is not table structure
-  stop("The input object must be a table structure!", call.=FALSE)
+  if(typ != 'data.frame' & typ!= 'matrix'){
+    stop("The input object must be a table structure!", call.=FALSE)
+  }
   
   cally <- paste0("dim(", x, ")")
   dimensions <- datashield.aggregate(datasources, as.symbol(cally))
