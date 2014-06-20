@@ -67,7 +67,7 @@ ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_ne
 ds.levels(x='bmi_new')
 
 # by default the reference is the first level in the vector of levels (here 'normal')
-# now change the set the reference to 'obesity' without changing the order (default)
+# now change and set the reference to 'obesity' without changing the order (default)
 ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
 
 # print out the levels; the first listed level (i.e. the reference) is now 'obesity'

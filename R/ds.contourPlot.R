@@ -101,9 +101,9 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
   xnames <- extract(x)
-  x.lab <- xnames[length(xnames)]
+  x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)
-  y.lab <- ynames[length(ynames)]
+  y.lab <- ynames[[length(ynames)]]
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -158,9 +158,9 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     # prepare arguments for the plot function    
     par(mfrow=c(1,1))
     
-    x<-grid.density.obj[[1]][,(numcol-1)]
-    y<-grid.density.obj[[1]][,(numcol)]
-    z<-Global.grid.density
+    x <- grid.density.obj[[1]][,(numcol-1)]
+    y <- grid.density.obj[[1]][,(numcol)]
+    z <- Global.grid.density
     
     if (show=='all') {
       # plot a combined contour plot

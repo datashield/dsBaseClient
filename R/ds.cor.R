@@ -5,8 +5,6 @@
 #' the R base function 'cor', produces a table outlining the number of complete cases 
 #' to allow for the user to make a decision about the 'relevance' of the correlation
 #' based on the number of complete cases included in the correlation calculations.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param x a character, the name of a numerical vector, matrix or dataframe
 #' @param y NULL (default) or the name of a vector, matrix or data frame with compatible 
 #' dimensions to x.
@@ -14,6 +12,8 @@
 #' presence of missing values. This must be one of the strings: "everything", "all.obs", 
 #' "complete.obs", "na.or.complete", or "pairwise.complete.obs".
 #' The default value is set to "pairwise.complete.obs"
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a list containing the results of the test
 #' @author Gaye, A.
 #' @export
@@ -67,25 +67,22 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
   }else{
     defined <- isDefined(datasources, x)
   }
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
-  }else{
-    defined <- isDefined(datasources, y)
-  }
   
   # check the type of the input objects
-  typ1 <- checkClass(datasources, x)
-  typ2 <- checkClass(datasources, y)
+  typ <- checkClass(datasources, x)
   
-  if(typ1=='numeric' | typ1=='integer' | typ1=='factor'){
+  if(typ=='numeric' | typ=='integer' | typ=='factor'){
     if(is.null(y)){
       message(" ALERT!")
       message(" y is set to NULL whilst x is a numeric vector, please provide a second vector")
       stop(" End of process!", call.=FALSE)
+    }else{
+      defined2 <- isDefined(datasources, y)
+      typ2 <- checkClass(datasources, y)
     }
   }
   
-  if(typ1=='matrix' | typ1=='data.frame' & !(is.null(y))){
+  if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
     y <- NULL
     warning(" x is a matrix or a dataframe; y will be ignored and a correlation matrix computed for x!")
   }
@@ -93,11 +90,8 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
   # name of the studies to be used in the output
   stdnames <- names(datasources)
   
-  # number of studies
-  num.sources <- length(datasources)
-  
   # call the server side function to compute the correlation matrix
-  if(typ1=='matrix' | typ1=='data.frame'){
+  if(typ=='matrix' | typ=='data.frame'){
     cally <- paste0("corDS(x=", x, ", y=NULL", ", use='", naAction, "')")
   }else{
     if(!(is.null(y))){
@@ -108,54 +102,14 @@ ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=
   }
   results <- datashield.aggregate(datasources, as.symbol(cally))
   
-  message("The output is being finalized...")
-  finalOutput <- vector('list', 2*num.sources)
-  listnames <- c()
-
-  if(typ=='matrix' | typ=='data.frame'){
-    for(l in 1:num.sources){
-      if(l > 1){ idx <- l+1}else{ idx <- l}
-      finalOutput[[idx]] <- results[[l]]
-      listnames <- append(listnames, paste0(stdnames[l], " --correlation"))
-      completeCount <- results[[l]]
-      cols <- colnames(completeCount)
-      for(i in 1:dim(completeCount)[2]){
-        for(j in 1:dim(completeCount)[2]){
-          if(i == j){
-            aa <- paste0(x,"$",cols[j])
-            datashield.assign(datasources[l], 'tempvect', as.symbol(aa))
-            cally <- call('subsetDS', dt='tempvect', complt=TRUE)
-            datashield.assign(datasources[l], 'vect', cally)
-            count <- ds.length(datasources[l], 'vect')
-          }else{
-            cally <- call('subsetDS', dt=x, complt=TRUE, rows=NULL, cols=c(i,j))
-            datashield.assign(datasources[l], 'dt', cally)
-            count <- ds.dim(datasources[l], 'dt')
-          }
-          completeCount[i,j] <- count[[1]][1]
-        }
-      }
-      finalOutput[[idx+1]] <- completeCount
-      listnames <- append(listnames, paste0(stdnames[l], " --number of complete cases used"))
-    }
-
-  }else{
-    for(l in 1:num.sources){
-      if(l > 1){ idx <- l+1}else{ idx <- l}
-      finalOutput[[idx]] <- results[[l]]
-      listnames <- append(listnames, paste0(stdnames[l], " --correlation"))
-      
-      lst <- list(x,y)
-      cally <- call('cbindDS', objs=lst)
-      datashield.assign(opals, 'dt', cally)
-      count <- ds.dim(datasources[l], 'dt')
-      
-      finalOutput[[idx+1]] <- count[[1]][1]
-      listnames <- append(listnames, paste0(stdnames[l], " --number of complete cases used"))
+  for(l in 1:length(stdnames)){
+    for(i in 1:2){
+      n1 <- " --correlation"
+      n2 <- " --number of complete cases used"
+      names(results[[l]]) <- c(n1, n2)
     }
   }
   
-  names(finalOutput) <- listnames
-  return(finalOutput)
+  return(results)
   
 }

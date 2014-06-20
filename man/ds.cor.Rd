@@ -6,11 +6,6 @@ ds.cor(x = NULL, y = NULL, naAction = "pairwise.complete.obs",
   datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
   \item{x}{a character, the name of a numerical vector,
   matrix or dataframe}
 
@@ -23,6 +18,11 @@ ds.cor(x = NULL, y = NULL, naAction = "pairwise.complete.obs",
   "complete.obs", "na.or.complete", or
   "pairwise.complete.obs". The default value is set to
   "pairwise.complete.obs"}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 }
 \value{
 a list containing the results of the test

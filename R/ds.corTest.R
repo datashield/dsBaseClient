@@ -69,14 +69,8 @@ ds.corTest = function(x=NULL, y=NULL, datasources=NULL){
   
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(objects)){
-    typ <- checkClass(datasources, inputs[i])
+    typ <- checkClass(datasources, objects[i])
   }
-  
-  # name of the studies to be used in the output
-  stdnames <- names(datasources)
-  
-  # number of studies
-  num.sources <- length(datasources)
   
   # call the server side function
   cally <- paste0("cor.test(", x, ",", y, ")")

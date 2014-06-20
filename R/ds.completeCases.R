@@ -5,7 +5,7 @@
 #' is generated and stored on the server side. That object can then be tabulated using the 
 #' function 'ds.table1d' to find the extent of completeness.
 #' @param x a character, the name of a vector, dataframe or matrix.
-#' @param newobj the name of the new vector.If this argument is set to \code{NULL}, the name of the new 
+#' @param newobj the name of the new vector. If this argument is set to \code{NULL}, the name of the new 
 #' variable is the name of the input variable with the suffixe '_complete'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
@@ -25,12 +25,12 @@
 #' ds.completeCases(x='D')
 #' # now tabulate the vector of comple cases 
 #' # remember default name is name of variable with suffix '_complete'
-#' ds.table1d(xvect='D_complete')
+#' ds.table1d(x='D_complete')
 #' 
 #' # Example 2: check complte cases for the variable 'PM_BMI_CONTINUOUS'
 #' ds.completeCases(x='D$PM_BMI_CONTINUOUS')
 #' # now tabulate the vector of comple cases 
-#' ds.table1d(xvect='PM_BMI_CONTINUOUS_complete')
+#' ds.table1d(x='PM_BMI_CONTINUOUS_complete')
 #' 
 #' }
 #' 
