@@ -1,7 +1,8 @@
 #' 
 #' @title Computes the exponential function
 #' @description This function is similar to R function \code{exp}. 
-#' @param x a vector.
+#' @details this is a wrapper that calls the exponential function on the server site.
+#' @param x a charcater, the name of a numerical vector.
 #' @param newobj the name of the new vector.If this argument is set to \code{NULL}, the name of the new 
 #' variable is the name of the input variable with the suffixe '_exp' (e.g. 'PM_BMI_CONTINUOUS_exp', if input 
 #' variable's name is 'PM_BMI_CONTINUOUS')
@@ -72,8 +73,8 @@ ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call('exp', x )
-  datashield.assign(datasources, newobj, cally)
+  cally <- paste0('exp(', x, ')')
+  datashield.assign(datasources, newobj, as.symbol(cally))
   
 
   # check that the new object has been created and display a message accordingly

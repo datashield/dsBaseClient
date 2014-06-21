@@ -1,16 +1,24 @@
 #' 
-#' @title Generates a heatmap plot for merged datasets
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
-#' @param xvect a numerical vector
-#' @param yvect a numerical vector
+#' @title Generates a heatmap plot
+#' @description Generates a heatmap plot of the pooled data or one plot for each dataset.
+#' @details The function first generates a density grid and uses it to plot the graph.
+#' Cells of the grid density matrix that hold a count of less than the filter set by 
+#' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential 
+#' disclosure. A message is printed to inform the user about the number of invalid cells.
+#' The ranges returned by each study and used in the process of getting the grid density matrix
+#' are not the exact minumum and maximum values but rather close approximates of the real
+#' minimum and maximum value. This was done to reduce the risk of potential disclosure.
+#' @param x a character, the name of a numerical vector
+#' @param y a character, the name of a numerical vector
 #' @param type a character which represents the type of graph to display. 
 #' If \code{type} is set to 'combine', a combined heatmap plot displayed and 
 #' if \code{type} is set to 'split', each heatmap is plotted separately.
 #' @param show a character which represents where the plot should focus
 #' If \code{show} is set to 'all', the ranges of the variables are used as plot limits
-#' If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are
-#' @param numints a number of intervals for a density grid object
+#' If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.
+#' @param numints a number of intervals for a density grid object.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
 #' @return a heatmap plot
 #' @author Isaeva, J.; Gaye, A.
 #' @export
@@ -22,59 +30,74 @@
 #' myvar <- list("LAB_TSC","LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example1: generate a combined heatmapplot
-#' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine")
-#' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="combine", show='zoomed')
+#' # Example1: generate a combined (i.e. pooled heatmap plot)
+#' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL')
+#' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', show='zoomed')
 #' 
 #' # Example2: generate a heatmapplot where each study is plotted seaparately
-#' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split")
-#' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", show='zoomed')
+#' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split')
+#' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', show='zoomed')
 #' 
-#' # Example3: generate a heatmapplot with a less dense drid
-#' ds.heatmapplot(datasources=opals, quote(D$LAB_TSC), quote(D$LAB_HDL), type="split", numints=15)
+#' # Example3: generate a heatmap plot with a less dense drid
+#' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
 #' }
 #'
-ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combine", show="all", numints=20)
-{
+ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, datasources=NULL){
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message(" ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
   }
   
-  if(is.null(xvect)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric vector for 'xvect'")
-    stop(" End of process!", call.=FALSE)
+  if(is.null(x)){
+    stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
+  }
+  if(is.null(y)){
+    stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
   
-  if(is.null(yvect)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric vector for 'yvec'")
-    stop(" End of process!", call.=FALSE)
-  }
-  
-  # labels for the x and y-axis 
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    x.lab <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
-  }else{
-    x.lab <- deparse(xvect)
-  }
-  inputterms <- unlist(strsplit(deparse(yvect), "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    y.lab <- strsplit(deparse(yvect), "\\$", perl=TRUE)[[1]][2]
-  }else{
-    y.lab <- deparse(yvect)
+  objects <- c(x, y)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
   }
   
-  # call the function that checks the variable is available and not empty
-  vars2check <- list(xvect,yvect)
-  datasources <- ds.checkvar(datasources, vars2check)
+  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
+  for(i in 1:length(objects)){
+    typ <- checkClass(datasources, objects[i])
+  } 
+  
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  x.lab <- xnames[[length(xnames)]]
+  ynames <- dsbaseclient:::extract(y)
+  y.lab <- ynames[[length(ynames)]]
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -86,11 +109,11 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
   if(type=="combine"){
     
     # get the range from each study and produce the 'global' range
-    cally <- call("rangeDS", xvect) 
-    x.ranges <- datashield.aggregate(datasources, cally)
+    cally <- paste("rangeDS(", x, ")") 
+    x.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
-    cally <- call("rangeDS", yvect) 
-    y.ranges <- datashield.aggregate(datasources, cally)
+    cally <- paste("rangeDS(", y, ")") 
+    y.ranges <- datashield.aggregate(datasources, as.symbol(cally))
     
     x.minrs <- c()
     x.maxrs <- c()
@@ -112,8 +135,9 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     
     
     # generate the grid density object to plot
-    cally <- call("densitygrid.ds", xvect, yvect, limits=T, x.global.min, x.global.max, y.global.min, y.global.max, numints) 
-    grid.density.obj <- datashield.aggregate(datasources, cally)
+    cally <- paste0("densityGridDS(",x,",",y,",",limits=T,",",x.global.min,",",
+                    x.global.max,",",y.global.min,",",y.global.max,",",numints,")")
+    grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
     
     numcol<-dim(grid.density.obj[[1]])[2]
     
@@ -203,8 +227,9 @@ ds.heatmapplot <- function(datasources=NULL, xvect=NULL, yvect=NULL, type="combi
     
     # generate the grid density object to plot
     num_intervals=numints
-    cally <- call("densitygrid.ds", xvect, yvect, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=num_intervals) 
-    grid.density.obj <- datashield.aggregate(datasources, cally)
+    cally <- paste0("densityGridDS(",x,",",y,",",'limits=FALSE',",",'x.min=NULL',",",
+                    'x.max=NULL',",",'y.min=NULL',",",'y.max=NULL',",",numints=num_intervals, ")")
+    grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
     
     numcol<-dim(grid.density.obj[[1]])[2]
     

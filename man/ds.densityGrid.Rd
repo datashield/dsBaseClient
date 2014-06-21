@@ -57,13 +57,13 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example1: generate a combined grid density object (the default behaviour)
-ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL')
+ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL')
 
 # Example2: generate a grid density object for each study separately
-ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
+ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 
 # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
-ds.densitygrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
+ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 }
 }
 \author{
