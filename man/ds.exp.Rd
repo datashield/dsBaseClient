@@ -5,7 +5,7 @@
 ds.exp(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{x}{a vector.}
+  \item{x}{a charcater, the name of a numerical vector.}
 
   \item{newobj}{the name of the new vector.If this argument
   is set to \code{NULL}, the name of the new variable is
@@ -26,6 +26,9 @@ This function is similar to R function \code{exp}.
 }
 \details{
 
+
+this is a wrapper that calls the exponential function on
+the server site.
 }
 \examples{
 {

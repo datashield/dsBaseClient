@@ -7,7 +7,7 @@
 #' disclosure. A message is printed to inform the user about the number of invalid cells.
 #' The ranges returned by each study and used in the process of getting the grid density matrix
 #' are not the exact minumum and maximum values but rather close approximates of the real
-#' minimum and maximum value. This was also to reduce the risk of potential disclosure.
+#' minimum and maximum value. This was done to reduce the risk of potential disclosure.
 #' @param x a character, the name of a numerical vector.
 #' @param y a character, the name of a numerical vector.
 #' @param type a character which represents the type of graph to display. 

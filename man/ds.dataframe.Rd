@@ -57,13 +57,13 @@ only - NA).
 data(logindata)
 
 # login and assign the required variables to R
-myvar <- list("LAB_TSC","LAB_HDL")
+myvar <- list('LAB_TSC','LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
 # all the arguments are set to default in this example
-mylist <- list('D$LAB_TSC', 'D$LAB_HDL')
-ds.dataframe(vectors=mylist)
+myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
+ds.dataframe(vectors=myvectors)
 
 }
 }

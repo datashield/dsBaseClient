@@ -2,10 +2,14 @@
 #' @title Checks if a vector is empty 
 #' @description this function is similar to R function \code{is.na} but instead of a vector 
 #' of booleans it returns just one boolean to tell if all the elements are missing values.
+#' @details In certain analyses such as GLM none of the variable should be missing at complete
+#' (i.e. missing value for each observation). since in DataSHIELD it is not possible to see the data
+#' it is important to know whether or not a vector is empty to proceed accordingly.
+#' @param x a charcater, the name of the vector to check.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal 
-#' @param var2check a numerical or character vector
-#' @return a boolean 'TRUE' if the vector contains on NAs and 'FALSE'  otherwise.
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' By default an internal function looks for 'opal' objects in the environment and sets this parameter.
+#' @return a boolean 'TRUE' if the vector is empty (all values are 'NA') and 'FALSE'  otherwise.
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -13,53 +17,78 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' library(opal)
 #' myvar <- list("LAB_HDL")
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #'
 #' # check if all the observation of the variable 'LAB_HDL' are missing (NA)
-#' ds.isNA(datasources=opals, var2check=quote(D$LAB_HDL))
+#' ds.isNA(x='D$LAB_HDL')
 #' }
 #' 
-ds.isNA <- function(datasources=NULL, var2check=NULL){
+ds.isNA <- function(x=NULL, datasources=NULL){
 
-   if(is.null(datasources)){
-     message(" ALERT!")
-     message(" No valid opal object(s) provided.")
-     message(" Make sure you are logged in to valid opal server(s).")
-     stop(" End of process!", call.=FALSE)
-   }
+  # if no opal login details were provided look for 'opal' objects in the environment
+  if(is.null(datasources)){
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
+  }
+  
+  if(is.null(x)){
+    stop("Please provide the name of the input vector!", call.=FALSE)
+  }
+  
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- checkClass(datasources, x)
+  
+  # the input object must be a vector
+  if(typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric'){
+    message(paste0("The input object is of type ", typ, "!"))
+    stop("The input object must be a character, factor, integer, logical or numeric vector.", call.=FALSE)
+  }
+  
+  # name of the studies to be used in the plots' titles
+  stdnames <- names(datasources)
+  
+  # keep of the results of the checks for each study
+  track <- list()
    
-   if(is.null(var2check)){
-     message(" ALERT!")
-     message(" Please provide a list for the argument 'var2check'")
-     stop(" End of process!", call.=FALSE)
-   }
-
-   # get the names of the opal servers/studies
-   stdname <- names(datasources)
-   
-   # get the names of the variables to check
-   inputterm <- unlist(strsplit(deparse(var2check), "\\$", perl=TRUE))
-   if(length(inputterm) > 1){
-      varID <- strsplit(deparse(var2check), "\\$", perl=TRUE)[[1]][2]
-   }else{
-      varID <- deparse(var2check)
-   }
-
-   # keep of the results of the checks for each study
-   track <- c()
-   
-   # call server side function 'isNA.ds' to check, in each study, if the vector is empty
-   for(i in 1: length(datasources)){
-     cally <- call("isNA.ds", var2check)
-     out <- datashield.aggregate(datasources[i], cally)
-     if(out[[1]]){ 
-       track <- append(track, TRUE)
-       message("The variable ", varID, " in ", stdname[i], " is empty (NAs only).")
-     }else{
-       track <- append(track, FALSE)
-     }
-   }
-   return(track)
+  # call server side function 'isNA.ds' to check, in each study, if the vector is empty
+  for(i in 1: length(datasources)){
+    cally <- paste0("isNA.ds(", x, ")")
+    out <- datashield.aggregate(datasources[i], as.symbol(cally))
+    if(out[[1]]){ 
+      track[[i]] <- TRUE
+      message("The variable ", varname, " in ", stdnames[i], " is empty (all values are 'NA').")
+    }else{
+      track[[i]] <- FALSE
+    }
+  }
+  names(track) <- stdnames
+  return(track)
 }

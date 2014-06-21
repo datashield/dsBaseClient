@@ -1,32 +1,40 @@
 \name{ds.isValid}
 \alias{ds.isValid}
-\title{Checks if an variable is valid}
+\title{Checks if an object is valid}
 \usage{
-ds.isValid(datasources = NULL, xvect = NULL)
+ds.isValid(x = NULL, datasources = NULL)
 }
 \arguments{
+  \item{x}{a character, the name of a vector, dataframe or
+  matrix.}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
-  \item{xvect}{a numeric or factor vector.}
+  datasources. By default an internal function looks for
+  'opal' objects in the environment and sets this
+  parameter.}
 }
 \value{
-a list with booleans (one for each study), TRUE if input
-vector is valid and FALSE otherwise.
+a boolean, TRUE if input object is valid and FALSE
+otherwise.
 }
 \description{
-
+Checks if a vector or table structure has a number of
+observations equal to or greater than the threshold set by
+DataSHIELD.
 }
 \details{
-This function checks if an input variable is valid. In
-DataSHIELD, a numeric variable is not valid if it has > 0
-and < 5 observations and a factor variable is not valid if
-any of its levels (categories) has a count of between 1 and
-4. The process is stopped if the input variable is not
-valid to prevent further processing that might be
-revealing.
+
+
+In DataSHIELD, analyses are possible only on valid objects
+to ensure the ouput is not disclosive. This function checks
+if an input object is valid. A vector is valid if the
+number of observations are equal to or greater than a set
+threshold. A factor vector is valid if all its levels
+(categories) have a count equal or greater than the set
+threshold. A dataframe or a matrix is valid if the number
+of rows is equal or greater than the set threshold.
 }
 \examples{
 {
@@ -38,11 +46,8 @@ data(logindata)
 myvar <- list("LAB_TSC", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: Check if the numerical variable 'LAB_TSC' is valid.
-ds.isValid(datasources=opals, xvect=quote(D$LAB_TSC))
-
-# Example 2: Check if the factor variable 'GENDER' is valid.
-ds.isValid(datasources=opals, xvect=quote(D$GENDER))
+# Example 1: Check if the dataframe assigned above is valid
+ds.isValid(x='D')
 
 }
 }
