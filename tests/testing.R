@@ -25,6 +25,3 @@ datashield.histogram(opals, quote(D$glu))
 
 # test the table.2d function 
 datashield.table.2d(opals, quote(D$sex), quote(D$smoke))
-
-
-
