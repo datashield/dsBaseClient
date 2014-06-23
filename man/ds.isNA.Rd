@@ -5,7 +5,7 @@
 ds.isNA(x = NULL, datasources = NULL)
 }
 \arguments{
-  \item{x}{a charcater, the name of the vector to check.}
+  \item{x}{a character, the name of the vector to check.}
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also

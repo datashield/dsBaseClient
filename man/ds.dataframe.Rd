@@ -2,13 +2,13 @@
 \alias{ds.dataframe}
 \title{Creates data frames}
 \usage{
-ds.dataframe(vectors = NULL, newobj = NULL, row.names = NULL,
+ds.dataframe(x = NULL, newobj = NULL, row.names = NULL,
   check.rows = FALSE, check.names = TRUE, stringsAsFactors = TRUE,
   datasources = NULL)
 }
 \arguments{
-  \item{vectors}{a character vector which contains the
-  name(s) of the vector(s) to combine.}
+  \item{x}{a character vector which contains the name(s) of
+  the vector(s) to combine.}
 
   \item{row.names}{NULL or a character vector specifying
   the names of the rows.}
@@ -63,7 +63,7 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 # create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
 # all the arguments are set to default in this example
 myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-ds.dataframe(vectors=myvectors)
+ds.dataframe(x=myvectors)
 
 }
 }

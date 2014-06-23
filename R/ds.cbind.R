@@ -3,7 +3,7 @@
 #' @description this is similar to the R base function 'cbind'
 #' @details the function combines vectors or vectors and matrices or dataframes by columns.
 #' But unlike the R base function 'cbind' the output is a dataframe.
-#' @param objects a vector which holds the names of the objects to combine
+#' @param x a vector which holds the names of the objects to combine
 #' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
 #' the name of the new object is 'newDataframe'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
@@ -25,11 +25,11 @@
 #' ds.assign(newobj='labtsc', toAssign='log(D$LAB_TSC)')
 #' ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
 #' myobjects <- c('labtsc', 'labhdl')
-#' ds.cbind(objects=myobjects)
+#' ds.cbind(x=myobjects)
 #' 
 #' }
 #' 
-ds.cbind = function(objects=NULL, newobj=NULL, datasources=NULL){
+ds.cbind = function(x=NULL, newobj=NULL, datasources=NULL){
   
   if(is.null(datasources)){
     findLogin <- getOpals()
@@ -49,18 +49,18 @@ ds.cbind = function(objects=NULL, newobj=NULL, datasources=NULL){
     }
   }
   
-  if(is.null(objects)){
-    stop("objects=NULL. Please provide the names of the objects to combine!", call.=FALSE)
+  if(is.null(x)){
+    stop("x=NULL. Please provide the names of the objects to combine!", call.=FALSE)
   }
   
-  if(length(objects) < 2){
+  if(length(x) < 2){
     stop(" You must provide a list of at least to objects to combine!\n", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$object)
   # or just as a vector not attached to a table (i.e. object)
   # we have to make sure the function deals with each case
-  xnames <- extract(objects)
+  xnames <- extract(x)
   varnames <- xnames$elements
   obj2lookfor <- xnames$holders
   
@@ -74,8 +74,8 @@ ds.cbind = function(objects=NULL, newobj=NULL, datasources=NULL){
   }
   
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(objects)){
-    typ <- checkClass(datasources, objects[i])
+  for(i in 1:length(x)){
+    typ <- checkClass(datasources, x[i])
   }
     
   if(is.null(newobj)){
@@ -83,7 +83,7 @@ ds.cbind = function(objects=NULL, newobj=NULL, datasources=NULL){
   }
   
   # call the server side function
-  cally <-  paste0("cbindDS(list(",paste(objects,collapse=","),")", 
+  cally <-  paste0("cbindDS(list(",paste(x,collapse=","),")", 
                    ",list(","'",paste(varnames,collapse="','"),"'","))")
   datashield.assign(datasources, newobj, as.symbol(cally))
   

@@ -1,14 +1,15 @@
 #' 
 #' @title Computes logarithms, by default natural logarithms
 #' @description This function is similar to R function \code{log}.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a vector. 
-#' @param base the base with respect to which logarithms are computed.
+#' @details this is simply a wrapper for the server side function.
+#' @param x a vector. 
+#' @param base a numrical, the base with respect to which logarithms are computed.
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
 #' variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input 
 #' variable's name is 'LAB_TSC')
-#' @return a message is displayed when the action is completed.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {
@@ -21,40 +22,56 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Compute natural logarithm of LAB_TSC
-#' ds.log(datasources=opals, xvect=quote(D$LAB_TSC))
-#' 
-#' # Compute natural logarithm of LAB_TSC with base 2
-#' ds.log(datasources=opals, xvect=quote(D$LAB_TSC), base=2)
+#' ds.log(x='D$LAB_TSC')
 #' 
 #' }
 #' 
-ds.log = function(datasources=NULL, xvect=NULL, base=exp(1), newobj=NULL){
+ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message("\n\n ALERT!\n")
-    message(" No valid opal object(s) provided.\n")
-    message(" Make sure you are logged in to valid opal server(s).\n")
-    stop(" End of process!\n\n", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
   }
   
-  if(is.null(xvect)){
-    message("\n\n ALERT!\n")
-    message(" Please provide a valid numeric vector\n")
-    stop(" End of process!\n\n", call.=FALSE)
+  if(is.null(x)){
+    stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  #   # call the function that checks the variable is available and not empty
-  #   vars2check <- list(xvect)
-  #   datasources <- ds.checkvar(datasources, vars2check)
-  
-  # the input variable might be given as column table (i.e. D$xvect)
-  # or just as a vector not attached to a table (i.e. xvect)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
-  inputterms <- unlist(strsplit(deparse(xvect), "\\$", perl=TRUE))
-  if(length(inputterms) > 1){
-    varname <- strsplit(deparse(xvect), "\\$", perl=TRUE)[[1]][2]
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
   }else{
-    varname <- deparse(xvect)
+    defined <- isDefined(datasources, obj2lookfor)
+  }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- checkClass(datasources, x)
+  
+  # the input object must be a vector
+  if(typ != 'integer' & typ != 'numeric'){
+    message(paste0(x, " is of type ", typ, "!"))
+    stop("The input object must be an integeror numeric vector.", call.=FALSE)
   }
   
   # create a name by default if user did not provide a name for the new variable
@@ -63,25 +80,10 @@ ds.log = function(datasources=NULL, xvect=NULL, base=exp(1), newobj=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call('log', xvect, base )
-  datashield.assign(datasources, newobj, cally)
-  
-  # a message so the user know the function was run (assign function are 'silent')
-  message("An 'assign' function was run, no output should be expected on the client side!")
+  cally <- paste0("log(", x, ",", base, ")")
+  datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
-  cally <- call('exists', newobj )
-  qc <- datashield.aggregate(datasources, cally)
-  indx <- as.numeric(which(qc==TRUE))
-  if(length(indx) == length(datasources)){
-    message("The output of the function, '", newobj, "', is stored on the server side.")
-  }else{
-    if(length(indx) > 0){
-      warning("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!")
-    }
-    if(length(indx) == 0){
-      warning("The output object has not been generated for any of the studies!")
-    }
-  }
+  finalcheck <- isAssigned(datasources, newobj)
   
 }

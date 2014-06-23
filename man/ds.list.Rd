@@ -2,26 +2,34 @@
 \alias{ds.list}
 \title{Function to construct a list object}
 \usage{
-ds.list(datasources = NULL, vector = NULL, newobj = NULL)
+ds.list(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
+  \item{x}{a character, the names of the objects to coerce
+  into a list.}
+
+  \item{newobj}{the name of the output object. If this
+  argument is set to \code{NULL}, the name of the new
+  object is 'newlist'.}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
-
-  \item{vector}{a vector that holds the objects to contruct
-  into a list}
-
-  \item{newobj}{the name of the output object. If this
-  argument is set to \code{NULL}, the name of the new
-  object is 'list_vect'.}
 }
 \value{
-a message is displayed when the action is completed.
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
+This is similar to the R function \code{list}.
+}
+\details{
 
+
+If the objects to coerce into a list are for example
+vectors held in a matrix or a dataframe the names of the
+elements in the list are the names of columns.
 }
 \examples{
 {
@@ -34,8 +42,8 @@ myvar <- list("LAB_TSC","LAB_HDL")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # combine the 'LAB_TSC' and 'LAB_HDL' variables into a list
-myvect <- quote(list(D$LAB_TSC, D$LAB_HDL))
-ds.list(datasources=opals, vector=myvect)
+myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
+ds.list(x=myobjects)
 }
 }
 \author{
