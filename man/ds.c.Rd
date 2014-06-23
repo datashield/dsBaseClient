@@ -2,10 +2,10 @@
 \alias{ds.c}
 \title{Combines values into a vector or list}
 \usage{
-ds.c(objects = NULL, newobj = NULL, datasources = NULL)
+ds.c(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{objects}{a character vector that holds the names of
+  \item{x}{a character, a vector that holds the names of
   the objects to combine.}
 
   \item{newobj}{the name of the output object. If this
@@ -40,7 +40,7 @@ myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
 ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 myvect <- c('labtsc', 'labhdl')
-ds.c(objects=myvect)
+ds.c(x=myvect)
 }
 }
 \author{

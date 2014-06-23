@@ -5,7 +5,7 @@
 #' @details In certain analyses such as GLM none of the variable should be missing at complete
 #' (i.e. missing value for each observation). since in DataSHIELD it is not possible to see the data
 #' it is important to know whether or not a vector is empty to proceed accordingly.
-#' @param x a charcater, the name of the vector to check.
+#' @param x a character, the name of the vector to check.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' By default an internal function looks for 'opal' objects in the environment and sets this parameter.

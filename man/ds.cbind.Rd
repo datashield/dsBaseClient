@@ -2,11 +2,11 @@
 \alias{ds.cbind}
 \title{Combines objects by columns}
 \usage{
-ds.cbind(objects = NULL, newobj = NULL, datasources = NULL)
+ds.cbind(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-  \item{objects}{a vector which holds the names of the
-  objects to combine}
+  \item{x}{a vector which holds the names of the objects to
+  combine}
 
   \item{newobj}{the name of the output object. If this
   argument is set to \code{NULL}, the name of the new
@@ -46,7 +46,7 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 ds.assign(newobj='labtsc', toAssign='log(D$LAB_TSC)')
 ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
 myobjects <- c('labtsc', 'labhdl')
-ds.cbind(objects=myobjects)
+ds.cbind(x=myobjects)
 
 }
 }

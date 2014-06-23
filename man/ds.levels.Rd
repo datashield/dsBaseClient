@@ -1,11 +1,11 @@
 \name{ds.levels}
 \alias{ds.levels}
-\title{Provides access to the levels attribute of a factor variable}
+\title{Returns the levels attribute of a factor}
 \usage{
-ds.levels(xvect = NULL, datasources = NULL)
+ds.levels(x = NULL, datasources = NULL)
 }
 \arguments{
-  \item{xvect}{a character, the name of a factor variable}
+  \item{x}{a character, the name of a factor variable}
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
@@ -13,7 +13,7 @@ ds.levels(xvect = NULL, datasources = NULL)
   datasources.}
 }
 \value{
-levels of xvect
+levels of x
 }
 \description{
 This function is similar to R function \code{levels}
@@ -21,7 +21,7 @@ This function is similar to R function \code{levels}
 \details{
 
 
-this is just a wrapper function ofr the server side
+This is just a wrapper function for the server side
 function.
 }
 \examples{
@@ -34,10 +34,10 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
-ds.levels(xvect='D$PM_BMI_CATEGORICAL')
+ds.levels(x='D$PM_BMI_CATEGORICAL')
 
 # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-\dontrun{ ds.levels(xvect='D$LAB_TSC') }
+\dontrun{ ds.levels(x='D$LAB_TSC') }
 }
 }
 \author{

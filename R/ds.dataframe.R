@@ -5,7 +5,7 @@
 #' # if the sought data frame is not valid (i.e. contains a number of rows less than
 #' the minimum allowed number of observation in DataSHIELD), an empty data frame is 
 #' created (i.e. a data frame that holds missing values only - NA).
-#' @param vectors a character vector which contains the name(s) of the vector(s) to combine.
+#' @param x a character vector which contains the name(s) of the vector(s) to combine.
 #' @param row.names NULL or a character vector specifying the names of the rows.
 #' @param check.rows logical, if TRUE then the rows are checked for consistency of length and names.
 #' @param check.names logical, logical. If TRUE then the names of the variables in the data frame 
@@ -30,11 +30,11 @@
 #' # create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
 #' # all the arguments are set to default in this example
 #' myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-#' ds.dataframe(vectors=myvectors)
+#' ds.dataframe(x=myvectors)
 #' 
 #' }
 #' 
-ds.dataframe = function(vectors=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,datasources=NULL){
+ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -55,14 +55,14 @@ ds.dataframe = function(vectors=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE
     }
   }
   
-  if(is.null(vectors)){
+  if(is.null(x)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$vector)
   # or just as a vector not attached to a table (i.e. vector)
   # we have to make sure the function deals with each case
-  xnames <- extract(vectors)
+  xnames <- extract(x)
   varnames <- xnames$elements
   obj2lookfor <- xnames$holders
   
@@ -76,10 +76,10 @@ ds.dataframe = function(vectors=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE
   }
   
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(vectors)){
-    typ <- checkClass(datasources, vectors[i])
+  for(i in 1:length(x)){
+    typ <- checkClass(datasources, x[i])
     if(typ != 'factor' & typ != 'character' & typ != 'numeric' & typ != 'integer'  & typ != 'logical'){
-      message(paste0(vectors[i]," is of type ", typ, "!"))
+      message(paste0(x[i]," is of type ", typ, "!"))
       stop(" Only objects of type 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
     }
   }
@@ -91,12 +91,12 @@ ds.dataframe = function(vectors=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE
   
   # call the server side function
   if(is.null(row.names)){
-    cally <-  paste0("dataframeDS(list(",paste(vectors,collapse=","),"),", 
+    cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                      'NULL',",", check.rows,",", check.names,
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
                      ,stringsAsFactors, ")")
   }else{
-    cally <-  paste0("dataframeDS(list(",paste(vectors,collapse=","),"),", 
+    cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                      "list(","'",paste(row.names,collapse="','"),"'","),", 
                      check.rows,",", check.names,
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
