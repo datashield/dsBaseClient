@@ -65,7 +65,7 @@ ds.levels = function(x=NULL, datasources=NULL) {
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   
-  # the input object must be a vector
+  # the input object must be a factor
   if(typ != 'factor'){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be a factor.", call.=FALSE)

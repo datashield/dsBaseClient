@@ -1,13 +1,15 @@
 #' 
-#' @title Computes the statistical mean of a given vector (for several studies separately or combined)
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @param xvect a character, the name of a numerical vector
+#' @title Computes the statistical mean of a given vector
+#' @description This function is similar to the R function \code{mean}.
+#' @details It is a wrapper for the server side function.
+#' @param x a character, the name of a numerical vector
 #' @param type a character which represents the type of analysis to carry out. 
 #' If \code{type} is set to 'combine', a global mean is calculated 
 #' if \code{type} is set to 'split', the mean is calculated separately for each study.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers;
+#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a mean value
-#' @author Isaeva, J.
+#' @author Gaye A., Isaeva I.
 #' @export
 #' @examples {
 #' 
@@ -19,38 +21,68 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
-#' ds.mean(datasources=opals, xvect='D$LAB_TSC')
+#' ds.mean(x='D$LAB_TSC')
 #' 
 #' # Example 2: compute the statistical mean of each study separately
-#' ds.mean(datasources=opals, xvect='D$LAB_TSC', type='split')
+#' ds.mean(x='D$LAB_TSC', type='split')
 #' }
 #' 
-ds.mean = function(datasources=NULL, xvect=NULL, type='combine')
+ds.mean = function(datasources=NULL, x=NULL, type='combine')
 {
   
+  # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    message(" ALERT!")
-    message(" No valid opal object(s) provided.")
-    message(" Make sure you are logged in to valid opal server(s).")
-    stop(" End of process!", call.=FALSE)
+    findLogin <- getOpals()
+    if(findLogin$flag == 1){
+      datasources <- findLogin$opals
+    }else{
+      if(findLogin$flag == 0){
+        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
+      }else{
+        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
+        userInput <- readline("Please enter the name of the login object you want to use: ")
+        datasources <- eval(parse(text=userInput))
+        if(class(datasources[[1]]) != 'opal'){
+          stop("End of process: you failed to enter a valid login object", call.=FALSE)
+        }
+      }
+    }
   }
   
-  if(is.null(xvect)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric vector")
-    stop(" End of process!", call.=FALSE)
+  if(is.null(x)){
+    stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  # name of the studies to be used in the output
-  stdnames <- names(datasources)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- checkClass(datasources, x)
+  
+  # the input object must be a numeric or an integer vector
+  if(typ != 'integer' & typ != 'numeric'){
+    message(paste0(x, " is of type ", typ, "!"))
+    stop("The input object must be an integer or numeric vector.", call.=FALSE)
+  }
   
   # number of studies
   num.sources <- length(datasources)
   
-  cally <- paste0("meanDS(", xvect, ")")
+  cally <- paste0("meanDS(", x, ")")
   mean.local <- datashield.aggregate(datasources, as.symbol(cally))
   
-  cally <- paste0("NROW(", xvect, ")")
+  cally <- paste0("NROW(", x, ")")
   length.local <- datashield.aggregate(datasources, cally)
   
   if (type=='split') {

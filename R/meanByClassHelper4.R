@@ -9,9 +9,10 @@
 #' @param initialtable a character the name of the table that the subset were generated from
 #' @param variable a character, the variable to subset on
 #' @param categories a character vector, the classes in the variables to subset on
+#' @keywords internal
 #' @return the 'loose' subset tables are stored on the server side
 #'
-.meanByClassHelper4 <- function(dtsource, alist, initialtable, variable=NA, categories=NA){
+meanByClassHelper4 <- function(dtsource, alist, initialtable, variable=NA, categories=NA){
   
   check1 <- which(unlist(strsplit(initialtable,"_")) == "INVALID")
   check2 <- which(unlist(strsplit(initialtable,"_")) == "EMPTY")

@@ -2,17 +2,12 @@
 \alias{ds.meanByClass}
 \title{Computes the mean and standard deviation across categories}
 \usage{
-ds.meanByClass(datasources = NULL, dataset = NULL, outvar = NULL,
-  covar = NULL, type = "combine")
+ds.meanByClass(dataset = NULL, outvar = NULL, covar = NULL,
+  type = "combine", datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
-
-  \item{dataset}{the name given to the dataset when it was
-  assigned from opal to R.}
+  \item{dataset}{a character, the name of the dataset to
+  get the subsets from.}
 
   \item{outvar}{a character vector, the names of the
   continuous variables}
@@ -25,6 +20,11 @@ ds.meanByClass(datasources = NULL, dataset = NULL, outvar = NULL,
   'combine', a pooled table of results is generated. if
   \code{type} is set to 'split', a table of results is
   genrated for each study.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 }
 \value{
 a table or a list of tables that hold the length of the
@@ -63,16 +63,16 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-ds.meanByClass(datasources=opals, dataset='D', outvar='LAB_HDL', covar='GENDER')
+ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER')
 
 # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-ds.meanByClass(datasources=opals, dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
 
 # Example 3: calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories
-ds.meanByClass(datasources=opals, dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
+ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 
 # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-results <- ds.meanByClass(datasources=opals, dataset='D', outvar='LAB_HDL', covar='GENDER', type='split')
+ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER', type='split')
 
 }
 }

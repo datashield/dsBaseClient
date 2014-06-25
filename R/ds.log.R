@@ -71,7 +71,7 @@ ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
   # the input object must be a vector
   if(typ != 'integer' & typ != 'numeric'){
     message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integeror numeric vector.", call.=FALSE)
+    stop("The input object must be an integer or numeric vector.", call.=FALSE)
   }
   
   # create a name by default if user did not provide a name for the new variable

@@ -1,0 +1,39 @@
+\name{meanByClassHelper2}
+\alias{meanByClassHelper2}
+\title{Generates a table for pooled results}
+\usage{
+meanByClassHelper2(dtsources, tablenames, variables, invalidrecorder)
+}
+\arguments{
+  \item{dtsources}{a list of opal object(s) obtained after
+  login in to opal servers; these objects hold also the
+  data assign to R, as \code{dataframe}, from opal
+  datasources.}
+
+  \item{tablenames}{a character vector, the name of the
+  subset tables}
+
+  \item{variables}{a character vector, the names of the
+  continuous variables to computes a mean for.}
+
+  \item{invalidrecorder}{a list, holds informations about
+  invalid subsets in each study.}
+}
+\value{
+a matrix, a table which contains the length, mean and
+standard deviation of each of the specified 'variables' in
+each subset table.
+}
+\description{
+This is an internal function.
+}
+\details{
+
+
+This function is called by the function 'ds.meanByClass' to
+produce the final table if the user sets the parmater
+'type' to combine (the default behaviour of
+'ds.meanByClass')
+}
+\keyword{internal}
+

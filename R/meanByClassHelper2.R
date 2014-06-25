@@ -8,10 +8,11 @@
 #' @param tablenames a character vector, the name of the subset tables
 #' @param variables a character vector, the names of the continuous variables to computes a mean for. 
 #' @param invalidrecorder a list, holds informations about invalid subsets in each study.
+#' @keywords internal
 #' @return a matrix, a table which contains the length, mean and standard deviation of each of the
 #' specified 'variables' in each subset table.
 #'
-.meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
+meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])
   
   # now get the mean and SD for the continuous variables in each of the subset tables
@@ -44,17 +45,21 @@
           entries <- c(ll, mean.sd)
         }else{
           dtsc <- dtsources[-rc]
-          ll <- unlist(ds.length(dtsc, paste0(tablename,'$',variables[z])))
-          mm <- round(unlist(ds.mean(dtsc, paste0(tablename,'$',variables[z]))),2)
-          sdv <- round(unlist(ds.var(dtsc, paste0(tablename,'$',variables[z]))),2)
+          cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
+          lengths <- datashield.aggregate(dtsc, as.symbol(cally))
+          ll <- sum(unlist(lengths))
+          mm <- round(getPooledMean(dtsc, paste0(tablename,'$',variables[z])),2)
+          sdv <- round(getPooledVar(dtsc, paste0(tablename,'$',variables[z])),2)
           if(is.na(mm)){ sdv <- NA }
           mean.sd <- paste0(mm, '(', round(sqrt(sdv),2), ')')
           entries <- c(ll, mean.sd)
         }
       }else{
-        ll <- unlist(ds.length(dtsources, paste0(tablename,'$',variables[z])))
-        mm <- round(unlist(ds.mean(dtsources, paste0(tablename,'$',variables[z]))),2)
-        sdv <- round(unlist(ds.var(dtsources, paste0(tablename,'$',variables[z]))),2)
+        cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
+        lengths <- datashield.aggregate(dtsources, as.symbol(cally))
+        ll <- sum(unlist(lengths))
+        mm <- round(getPooledMean(dtsources, paste0(tablename,'$',variables[z])),2)
+        sdv <- round(getPooledVar(dtsources, paste0(tablename,'$',variables[z])),2)
         if(is.na(mm)){ sdv <- NA}
         mean.sd <- paste0(mm, '(', round(sqrt(sdv),2), ')')
         entries <- c(ll, mean.sd)

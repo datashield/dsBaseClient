@@ -8,9 +8,10 @@
 #' @param tablenames a character vector, the name of the subset tables
 #' @param variables a character vector, the names of the continuous variables to computes a mean for. 
 #' @param invalidrecorder a list, holds informations about invalid subsets in each study
+#' @keywords internal
 #' @return a list which one results table for each study.
 #'
-.meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
+meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])
   stdnames <- names(dtsources)
   
@@ -39,9 +40,10 @@
             mean.sd <- paste0(mm, '(', sdv, ')')
             entries <- c(ll, mean.sd)
         }else{
-          ll <- unlist(ds.length(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])))
-          mm <- round(unlist(ds.mean(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z]))),2)
-          sdv <- round(unlist(ds.var(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z]))),2)
+          cally <- paste0("length(", paste0(tablenames[[s]][i],'$',variables[z]), ")")
+          ll <- unlist(datashield.aggregate(dtsources[s], as.symbol(cally)))
+          mm <- round(getPooledMean(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
+          sdv <- round(getPooledVar(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
           if(is.na(mm)){ sdv <- NA }
           mean.sd <- paste0(mm, '(', round(sqrt(sdv),2), ')')
           entries <- c(ll, mean.sd)
