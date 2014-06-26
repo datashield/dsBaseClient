@@ -1,4 +1,3 @@
-export(ds.NROW)
 export(ds.asCharacter)
 export(ds.asFactor)
 export(ds.asList)

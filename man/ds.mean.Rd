@@ -2,7 +2,7 @@
 \alias{ds.mean}
 \title{Computes the statistical mean of a given vector}
 \usage{
-ds.mean(datasources = NULL, x = NULL, type = "combine")
+ds.mean(x = NULL, type = "combine", datasources = NULL)
 }
 \arguments{
   \item{x}{a character, the name of a numerical vector}

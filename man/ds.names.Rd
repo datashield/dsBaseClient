@@ -2,27 +2,28 @@
 \alias{ds.names}
 \title{Gets the names of items in a list}
 \usage{
-ds.names(datasources = NULL, xlist = NULL)
+ds.names(x = NULL, datasources = NULL)
 }
 \arguments{
+  \item{x}{a character, the name of an object of type
+  list.}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
-
-  \item{xlist}{a string character, the name of an object of
-  type list}
 }
 \value{
-a list which hold items names for each study
+The names of the list's elements for each study
 }
 \description{
-
+This function is similar to the R function \code{mean}.
 }
 \details{
-This function is similar to the R function \code{names} but
-in DataSHIELD its use is restricted to objects of type
-list.
+
+
+In DataSHIELD the use of this function is restricted to
+objects of type list.
 }
 \examples{
 {
@@ -35,10 +36,10 @@ myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # generates subset tables from the table assigned above (by default the table name is 'D')
-ds.subclass(datasources=opals, subsets='subclasses', data='D')
+ds.subclass(subsets='subclasses', data='D')
 
 # the above object 'subsets' is a list, let us display the names of elements in 'subsets'
-ds.names(opals, 'subclasses')
+ds.names('subclasses')
 
 }
 }

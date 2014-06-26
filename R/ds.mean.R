@@ -27,7 +27,7 @@
 #' ds.mean(x='D$LAB_TSC', type='split')
 #' }
 #' 
-ds.mean = function(datasources=NULL, x=NULL, type='combine')
+ds.mean = function(x=NULL, type='combine', datasources=NULL)
 {
   
   # if no opal login details were provided look for 'opal' objects in the environment

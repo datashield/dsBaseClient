@@ -65,7 +65,7 @@ ds.completeCases = function(x=NULL, newobj=NULL, datasources=NULL){
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   
-  # Only a dataframe or a matrice can be turned into a list
+  # This operation is possible only on specific object
   if(typ != 'data.frame' & typ != 'factor' & typ != 'character' & typ != 'numeric' & typ != 'integer' & typ != 'matrix' & typ != 'logical'){
     message(paste0("Your object is of type ", typ, "!"))
     stop(" Input must be of type 'data.frame', 'numeric', 'integer', 'character', 'factor', 'matrix' or 'logical'.", call.=FALSE)
