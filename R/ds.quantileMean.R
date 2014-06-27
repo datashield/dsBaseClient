@@ -18,7 +18,7 @@
 #' data(logindata)
 #' 
 #' # login and assign specific variable(s)
-#' myvar <- list("LAB_HDL")
+#' myvar <- list('LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
@@ -29,7 +29,7 @@
 #' 
 #' }
 #'
-ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, ){
+ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -82,7 +82,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, ){
   quants <- datashield.aggregate(datasources, as.symbol(cally1))
   
   # combine the vector of quantiles - using weighted sum
-  cally2 <- paste0('length('), x, ')') 
+  cally2 <- paste0('length(', x, ')') 
   lengths <- datashield.aggregate(datasources, as.symbol(cally2))
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0

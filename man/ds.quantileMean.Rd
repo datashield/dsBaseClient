@@ -1,0 +1,55 @@
+\name{ds.quantileMean}
+\alias{ds.quantileMean}
+\title{Compute the quantiles}
+\usage{
+ds.quantileMean(x = NULL, type = "combine", datasources = NULL)
+}
+\arguments{
+  \item{x}{a character, the name of the numeric vector.}
+
+  \item{type}{a character which represent the type of graph
+  to display. If \code{type} is set to 'combine' pooled
+  values are displayed and sumamries a returned for each
+  study if \code{type} is set to 'split'}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+}
+\value{
+quantiles and statistical mean
+}
+\description{
+This function calculate the mean and quantile values of a
+quantitative variable
+}
+\details{
+
+
+Unlike standard r summary function the minimum and maximum
+values afe not returned because they are potentially
+disclosive.
+}
+\examples{
+{
+
+# load that contains the login details
+data(logindata)
+
+# login and assign specific variable(s)
+myvar <- list('LAB_HDL')
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+
+# Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+ds.quantileMean(x='D$LAB_HDL')
+
+# Example 2: Plot the histograms separately (one per study)
+ds.quantileMean(x='D$LAB_HDL', type='split')
+
+}
+}
+\author{
+Gaye, A.
+}
+

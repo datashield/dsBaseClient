@@ -21,8 +21,8 @@
 #' data(logindata)
 #'
 #' # login and assign specific variable(s)
-#' myvar < list("LAB_TSC", "LAB_HDL")
-#' opals < datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#' myvar <- list('LAB_TSC', 'LAB_HDL')
+#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #'
 #' # Example 1: plot a combined histogram of the variable 'LAB_TSC'  default behaviour
 #' ds.histogram(x='D$LAB_TSC')
@@ -38,7 +38,7 @@
 #'
 #' }
 #'
-ds.histogram < function(x=NULL, type='combine', datasources=NULL){
+ds.histogram <- function(x=NULL, type='combine', datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -87,68 +87,68 @@ ds.histogram < function(x=NULL, type='combine', datasources=NULL){
   }
   
   # get the range from each studyand produce the 'global' range
-  cally1 < paste0("rangeDS(", x,")")
-  ranges < unique(unlist(datashield.aggregate(opals, as.symbol(cally1))))
-  range.arg < c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
-  if(range.arg[1] < 0){ r1 < range.arg[1] * 1.1 }else{ r1 < range.arg[1] * 0.9 }
-  if(range.arg[2] < 0){ r2 < range.arg[2] * 0.9 }else{ r2 < range.arg[2] * 1.1 }
-  
+  cally1 <- paste0("rangeDS(", x,")")
+  ranges <- unique(unlist(datashield.aggregate(opals, as.symbol(cally1))))
+  range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
+  if(range.arg[1] < 0){ r1 <- range.arg[1] * 1.1 }else{ r1 <- range.arg[1] * 0.9 }
+  if(range.arg[2] < 0){ r2 <- range.arg[2] * 0.9 }else{ r2 <- range.arg[2] * 1.1 }
+
   # call the function that produces the histogram object to plot
   # get the seed
-  seedval < round(runif(1, 0, 1000))
-  cally2 < paste0('histogramDS(', x, ',', r1, ',', r2, ',', seedval, ')')
-  hist.objs < vector("list", length(datasources))
-  invalidcells <vector("list", length(datasources))
-  outputs < datashield.aggregate(datasources, as.symbol(cally2))
+  seedval <- round(runif(1, 0, 1000))
+  cally2 <- paste0('histogramDS(', x, ',', r1, ',', r2, ',', seedval, ')')
+  hist.objs <- vector("list", length(datasources))
+  invalidcells <- vector("list", length(datasources))
+  outputs <- datashield.aggregate(datasources, as.symbol(cally2))
   
   for(i in 1: length(datasources)){
-    output < outputs[[i]]
+    output <- outputs[[i]]
     if(is.null(output)){
       stop(" Could not find equidistant break points that span all the data points, in stdnames[i]!")
     }
-    hist.objs[[i]] < output$histobject
-    invalidcells[[i]] < output$invalidcells
+    hist.objs[[i]] <- output$histobject
+    invalidcells[[i]] <- output$invalidcells
   }
   
   # combine the histogram objects
   # 'breaks' and 'mids' are the same for all studies
-  global.counts < rep(0, length(hist.objs[[1]]$counts))
-  global.density < rep(0, length(hist.objs[[1]]$density))
+  global.counts <- rep(0, length(hist.objs[[1]]$counts))
+  global.density <- rep(0, length(hist.objs[[1]]$density))
   for(i in 1:length(datasources)){
-    global.counts < global.counts + hist.objs[[i]]$counts
-    global.density < global.density + hist.objs[[i]]$density
+    global.counts <- global.counts + hist.objs[[i]]$counts
+    global.density <- global.density + hist.objs[[i]]$density
   }
-  global.density < global.density/3
-  global.intensities < global.density
+  global.density <- global.density/3
+  global.intensities <- global.density
   
   # generate the combined histogram object to plot
-  combined.histobject < hist.objs[[1]]
-  combined.histobject$counts < global.counts
-  combined.histobject$density < global.density
-  combined.histobject$intensities < combined.histobject$density
+  combined.histobject <- hist.objs[[1]]
+  combined.histobject$counts <- global.counts
+  combined.histobject$density <- global.density
+  combined.histobject$intensities <- combined.histobject$density
   
   # plot the individual histograms on the same graph
   # if the argument 'type'="combine" plot a combined histogram and if 'type'="split" plot single histograms separately
   if(type=="combine"){
     par(mfrow=c(1,1))
-    plot(combined.histobject, xlab=variable, main='Histogram of the pooled data')
+    plot(combined.histobject, xlab=varname, main='Histogram of the pooled data')
     return(combined.histobject)
   }else{  if(type=="split"){
     # set the graph area and plot
-    ll < length(datasources)
+    ll <- length(datasources)
     if(ll > 1){
-      if((ll %% 2) == 0){ numr < ll/2 }else{ numr < (ll+1)/2}
-      numc < 2
+      if((ll %% 2) == 0){ numr <- ll/2 }else{ numr <- (ll+1)/2}
+      numc <- 2
       par(mfrow=c(numr,numc))
       for(i in 1:ll){
         warning(names(datasources)[i], ": ", invalidcells[[i]], " invalid categories", immediate.=TRUE, call.=FALSE)
-        plot(hist.objs[[i]], xlab=variable, main=paste("Histogram of ", names(datasources)[i], sep=""))
+        plot(hist.objs[[i]], xlab=varname, main=paste("Histogram of ", names(datasources)[i], sep=""))
       }
       return(hist.objs)
     }else{
       par(mfrow=c(1,1))
       warning(names(datasources)[1], ": ", invalidcells[[1]], " invalid categories", immediate.=TRUE, call.=FALSE)
-      plot(hist.objs[[1]], xlab=variable, main=paste("Histogram of ", names(datasources)[1], sep=""))
+      plot(hist.objs[[1]], xlab=varname, main=paste("Histogram of ", names(datasources)[1], sep=""))
       return(hist.objs[[1]])
     }
   }else{
