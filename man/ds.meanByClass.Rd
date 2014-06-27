@@ -2,12 +2,12 @@
 \alias{ds.meanByClass}
 \title{Computes the mean and standard deviation across categories}
 \usage{
-ds.meanByClass(dataset = NULL, outvar = NULL, covar = NULL,
-  type = "combine", datasources = NULL)
+ds.meanByClass(x = NULL, outvar = NULL, covar = NULL, type = "combine",
+  datasources = NULL)
 }
 \arguments{
-  \item{dataset}{a character, the name of the dataset to
-  get the subsets from.}
+  \item{x}{a character, the name of the dataset to get the
+  subsets from.}
 
   \item{outvar}{a character vector, the names of the
   continuous variables}
@@ -63,16 +63,16 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER')
+ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
 
 # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
 
 # Example 3: calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories
-ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
+ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 
 # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER', type='split')
+ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 
 }
 }

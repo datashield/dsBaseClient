@@ -2,24 +2,24 @@
 \alias{ds.subclass}
 \title{Generates valid subset(s) of a dataframe or a factor}
 \usage{
-ds.subclass(datasources = NULL, subsets = "subsClasses", data = NULL,
-  variables = NULL)
+ds.subclass(x = NULL, subsets = "subClasses", variables = NULL,
+  datasources = NULL)
 }
 \arguments{
+  \item{x}{a character, the name of the dataframe or the
+  vector to generate subsets from.}
+
+  \item{variables}{a vector of string characters, the
+  name(s) of the variables to subset by.}
+
+  \item{subsets}{the name of the output object, a list that
+  holds the subset objects. If set to NULL the default name
+  of this list is 'subClasses'.}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
-
-  \item{subsets}{the name of the output object, a list that
-  holds the subset objects. If set to NULL the default name
-  of this list is 'subsClasses'}
-
-  \item{data}{a string character, the name of the data
-  frame or the vector to generate subsets from.}
-
-  \item{variables}{a vector of string characters, the
-  name(s) of the variables to subset by.}
 }
 \value{
 a no data are return to the user but messages are printed
@@ -45,24 +45,22 @@ observations it holds are less than the agreed threshold
 {
 
 # load the login data
-library(opal)
 data(logindata)
 
 # login and assign some variables to R
-myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
+myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: generate all possible subsets from the table assigne above
-ds.subclass(datasources=opals, subsets="subclasses", data="D")
+ds.subclass(x='D', subsets='subclasses')
 
 # Example 2: subset the table initially assigned by the variable 'GENDER'
-ds.subclass(datasources=opals, subsets="subtables", data="D", variables="GENDER")
+ds.subclass(x='D', subsets='subtables', variables='GENDER')
 
 # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
-datashield.assign(opals, "gender", quote(D$GENDER))
+ds.assign(newobj='gender', toAssign='D$GENDER')
+ds.subclass(x='gender', subsets='subvectors')
 
-
-ds.subclass(datasources=opals, subsets="subvectors", data=NULL, variables=NULL)
 }
 }
 \author{

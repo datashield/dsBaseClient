@@ -2,12 +2,11 @@
 \alias{ds.recodeLevels}
 \title{Recodes the levels of a factor vector}
 \usage{
-ds.recodeLevels(xvect = NULL, newCategories = NULL, newobj = NULL,
+ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
   datasources = NULL)
 }
 \arguments{
-  \item{xvect,}{a character, the name of a factor
-  variable.}
+  \item{x,}{a character, the name of a factor variable.}
 
   \item{newCategories,}{a character vector, the new levels.
   Its length MUST be equal or greater to the current number
@@ -50,18 +49,21 @@ data(logindata)
 opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
-ds.levels(xvect='D$PM_BMI_CATEGORICAL')
+ds.levels(x='D$PM_BMI_CATEGORICAL')
 
 # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-# this is the same as recording level '3' as '2' whilst keeping the same labels for the other two levels.
-ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'))
+# this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
+ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
+ds.levels(x='BMI_CAT_NEW1')
 
 # Example2: add a 4th and empty level to categorical bmi to create a new variable
 # we know the current categories are '1', '2' and '3' so we add '4'
-ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'))
+ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
+ds.levels(x='BMI_CAT_NEW2')
 
 # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-ds.recodeLevels(xvect='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'))
+ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
+ds.levels(x='BMI_CAT_NEW3')
 
 }
 }

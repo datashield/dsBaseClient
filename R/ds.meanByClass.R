@@ -9,7 +9,7 @@
 #' the subsetting is done across more than one categorical variable and the run-time lengthens if the parameter 'split'
 #' is set to 'split' as a table is then produced for each study. It is therefore advisable to run the function only for the
 #' studies of the user really interested in but including only those studies in the parameter 'datasources'.
-#' @param dataset a character, the name of the dataset to get the subsets from.
+#' @param x a character, the name of the dataset to get the subsets from.
 #' @param outvar a character vector, the names of the continuous variables
 #' @param covar a character vector, the names of up to 3 categorical variables
 #' @param type a character which represents the type of analysis to carry out. 
@@ -30,20 +30,20 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
 #' # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-#' ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER')
+#' ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
 #' 
 #' # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-#' ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+#' ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
 #' 
 #' # Example 3: calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories
-#' ds.meanByClass(dataset='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
+#' ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 #' 
 #' # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-#' ds.meanByClass(dataset='D', outvar='LAB_HDL', covar='GENDER', type='split')
+#' ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 #' 
 #' }
 #' 
-ds.meanByClass <-  function(dataset=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){
+ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){
   
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -64,19 +64,19 @@ ds.meanByClass <-  function(dataset=NULL, outvar=NULL, covar=NULL, type='combine
     }
   }
   
-  if(is.null(dataset)){
+  if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  # check if the input dataset is defined in all the studies
-  defined <- isDefined(datasources, dataset)
+  # check if the input x is defined in all the studies
+  defined <- isDefined(datasources, x)
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, dataset)
+  typ <- checkClass(datasources, x)
   
   # the input object must be a numeric or an integer vector
   if(typ != 'data.frame'){
-    message(paste0(dataset, " is of type ", typ, "!"))
+    message(paste0(x, " is of type ", typ, "!"))
     stop("The input dataset must be of type 'data.frame'.", call.=FALSE)
   }
   
@@ -100,7 +100,7 @@ ds.meanByClass <-  function(dataset=NULL, outvar=NULL, covar=NULL, type='combine
   # categories in each of the categorical variables
   classes <- vector("list", length(covar))
   for(i in 1:length(covar)){
-    cally <- paste0("levels(",paste0(dataset, '$', covar[i]), ")")
+    cally <- paste0("levels(",paste0(x, '$', covar[i]), ")")
     classes[[i]] <- datashield.aggregate(datasources, as.symbol(cally))
   }
   
@@ -110,7 +110,7 @@ ds.meanByClass <-  function(dataset=NULL, outvar=NULL, covar=NULL, type='combine
   subsetnames <- vector("list", length(datasources))
   for(i in 1:length(datasources)){
     message("--", names(datasources)[i])
-    datasets <- dataset
+    datasets <- x
     for(j in 1:length(covar)){
       message("  ", covar[j], "...")
       newnames <- meanByClassHelper1(datasources[i], datasets, covar[j], classes[[j]])

@@ -8,7 +8,7 @@
 #' variable's name is 'PM_BMI_CONTINUOUS')
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return a message is displayed when the action is completed.
+#' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
 #' @examples {

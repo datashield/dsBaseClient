@@ -19,7 +19,8 @@ ds.exp(x = NULL, newobj = NULL, datasources = NULL)
   datasources.}
 }
 \value{
-a message is displayed when the action is completed.
+nothing is returned to the client, the new object is stored
+on the server side.
 }
 \description{
 This function is similar to R function \code{exp}.

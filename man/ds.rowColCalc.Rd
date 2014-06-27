@@ -1,0 +1,59 @@
+\name{ds.rowColCalc}
+\alias{ds.rowColCalc}
+\title{Computes sums and means of rows or columns of numeric matrix or dataframe}
+\usage{
+ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
+  datasources = NULL)
+}
+\arguments{
+  \item{x}{a character, the name of a matrix or a
+  dataframe}
+
+  \item{operation}{a character string which indicates the
+  operation to carry out: "rowSums", "colSums", "rowMeans"
+  or "colMeans".}
+
+  \item{newobj}{the name of the new object. If this
+  argument is set to NULL, the name of the new variable,
+  set by default, is 'rowColCalc_out'.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+}
+\value{
+nothing is returned to the client, the new object is stored
+on the server side.
+}
+\description{
+The function is similar to R base functions 'rowSums',
+'colSums', 'rowMeans' and 'colMeans' with some
+restrictions.
+}
+\details{
+
+
+The results of calculation are not returned to the user if
+they are potentially revealing i.e. if the number of rows
+is less than the allowed number of observations.
+}
+\examples{
+{
+
+# load that contains the login details
+data(logindata)
+
+# login and assign two variables
+myvar  <-  list("LAB_TSC","LAB_HDL")
+opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+
+# calculate the sum of each row of the above assigned dataset (default name 'D')
+ds.rowColCalc(x='D', operation='rowSums', newobj='rsum_D')
+
+}
+}
+\author{
+Gaye, A.
+}
+
