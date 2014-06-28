@@ -74,10 +74,10 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   
-  # the input object must be a numeric or an integer vector
+  # the input object must be a dataframe
   if(typ != 'data.frame'){
     message(paste0(x, " is of type ", typ, "!"))
-    stop("The input dataset must be of type 'data.frame'.", call.=FALSE)
+    stop("The input dataset must be a 'data.frame'.", call.=FALSE)
   }
   
   if(is.null(outvar)){

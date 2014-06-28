@@ -70,7 +70,7 @@ ds.subclass <- function(x=NULL, subsets="subClasses", variables=NULL, datasource
   # the input object must be a dataframe or a factor
   if(typ != 'data.frame' & typ != 'factor'){
     message(paste0(x, " is of type ", typ, "!"))
-    stop("The object to subset from must be of type 'data.frame' or 'factor'.", call.=FALSE)
+    stop("The object to subset from must be a 'data.frame' or a 'factor'.", call.=FALSE)
   }
   
   # number of studies and their names

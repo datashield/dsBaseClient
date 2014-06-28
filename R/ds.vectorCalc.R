@@ -1,14 +1,21 @@
 #' 
-#' @title Combines objects by columns
-#' @description this is similar to the R base function 'cbind'
-#' @details the function combines vectors or vectors and matrices or dataframes by columns.
-#' But unlike the R base function 'cbind' the output is a dataframe.
-#' @param x a vector which holds the names of the objects to combine
-#' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
-#' the name of the new object is 'newDataframe'.
+#' @title Performs a mathematical operation (e.g. addition) on two or more vectors
+#' @description Carries out a row-wise operation on two or more vector. The function calls no 
+#' server side function; it uses the R operation symbols built in DataSHIELD.
+#' @details In DataSHIELD it is possible to perform an operation on vectors by just using the relevant 
+#' R symbols (e.g. '+' for addtion, '*' for multiplication, '-' for substraction and '/' for division).
+#' This might however be inconvenient if the number of vectors to include in the operation is large. 
+#' This function takes the names of two or more vectors and performs the desired operation which could be 
+#' an addition, a multiplication, a substraction or a division. If one or more vectors have a missing value
+#' at any one entry (i.e. observation), the operation returns a missing value ('NA') for that entry; the output 
+#' vectors has, hence the same length as the input vectors.
+#' @param x a vector of characters, the names of the vectors to include in the operation.
+#' @param calc a character, a symbol that indicates the mathematical operation to carry out: 
+#' '+' for addition, '/' for division, *' for multiplication and '-' for subtraction.
+#' @param newobj the name of the output object. By default the name is 'vectorCalc_output'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return nothing is returned to the client, the new object is stored on the server side.
+#' @return  no data are returned to user, the output vector is stored on the server side.
 #' @author Gaye, A.
 #' @export
 #' @examples {
@@ -16,21 +23,17 @@
 #' # load the file that contains the login details
 #' data(logindata)
 #' 
-#' # login and assign specific variables(s)
-#' # (by default the assigned dataset is a dataframe named 'D')
-#' myvar <- list('LAB_TSC', 'LAB_HDL')
+#' # login and assign the required variables to R
+#' myvar <- list('LAB_TSC','LAB_HDL')
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # generate a new dataframe by combining the log values of 'LAB_TSC' and 'LAB_HDL', by columns
-#' ds.assign(newobj='labtsc', toAssign='log(D$LAB_TSC)')
-#' ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
-#' myobjects <- c('labtsc', 'labhdl')
-#' ds.cbind(x=myobjects)
-#' 
+#' # performs an addtion of 'LAB_TSC' and 'LAB_HDL'
+#' myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
+#' ds.vectorCalc(x=myvectors, calc='+')
 #' }
 #' 
-ds.cbind = function(x=NULL, newobj=NULL, datasources=NULL){
-
+ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NULL){
+  
   # if no opal login details were provided look for 'opal' objects in the environment 
   if(is.null(datasources)){
     findLogin <- getOpals()
@@ -55,7 +58,7 @@ ds.cbind = function(x=NULL, newobj=NULL, datasources=NULL){
   }
   
   if(length(x) < 2){
-    stop("You must provide the names of at least two objects!\n", call.=FALSE)
+    stop("You must provide the names of at least two vectors!\n", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$object)
@@ -78,17 +81,9 @@ ds.cbind = function(x=NULL, newobj=NULL, datasources=NULL){
   for(i in 1:length(x)){
     typ <- checkClass(datasources, x[i])
   }
-    
-  if(is.null(newobj)){
-    newobj <- 'newDataframe'
-  }
   
   # call the server side function
-  cally <-  paste0("cbindDS(list(",paste(x,collapse=","),")", 
-                   ",list(","'",paste(varnames,collapse="','"),"'","))")
+  cally <- paste0(paste(x,collapse=calc))
   datashield.assign(datasources, newobj, as.symbol(cally))
-  
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
   
 }

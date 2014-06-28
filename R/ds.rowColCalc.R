@@ -71,8 +71,8 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
   dim2 <- c()
   for(i in 1:numsources){
     dims <- datashield.aggregate(datasources[i], paste0("dim(", x, ")"))
-    if(length(dims[[1]]) > 2){
-      stop("The input table in ", stdnames[i]," has more than two dimensions. Only strutures of one or two dimensions are allowed", call.=FALSE)
+    if(length(dims[[1]]) != 2){
+      stop("The input table in ", stdnames[i]," has more than two dimensions. Only strutures of two dimensions are allowed", call.=FALSE)
     }
     dim2 <- append(dim2, dims[[1]][2])
   }

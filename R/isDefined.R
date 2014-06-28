@@ -34,6 +34,8 @@ isDefined <- function(datasources=NULL, obj=NULL){
   if(mean(results) != 1){
     idx <- which(results == FALSE)
     stop("The input object(s) ", paste(myObjects[idx],collapse=", ")," is(are) not defined on one or more of the studies!", call.=FALSE)
+  }else{
+    return(TRUE)
   }
 
 }

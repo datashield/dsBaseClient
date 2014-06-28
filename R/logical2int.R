@@ -4,9 +4,10 @@
 #' @details This function is called to turn a logical oprator given as a charcater into an integer.
 #' '>' is turned into 1, '>=' into 2, '<' into 3, '<=' into 4, '==' into 5 and '!=' into 6.
 #' @param obj a character, the logical parameter to turn into an integer
+#' @keywords internal
 #' @return an integer
 #'
-.logical2int <- function(obj=NULL){
+logical2int <- function(obj=NULL){
   if(obj == ">"){ objout <- 1}
   if(obj == ">="){ objout <- 2}
   if(obj == "<"){ objout <- 3}
