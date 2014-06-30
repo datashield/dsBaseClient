@@ -1,10 +1,9 @@
 #' 
-#' @title Finalizes the output of the function \code{table1d.ds}
-#' @description this is an INTERNAL function required by the client function
-#' \code{ds.table1d}.
-#' @details the function is not 'exported' and hence not visible to user and
-#' is only called by \code{ds.table1d}
+#' @title Finalizes the output of the function \code{table1dDS}
+#' @description this is an INTERNAL function required by the client function \code{ds.table1D}.
+#' @details It finalizes the final output.
 #' @param input a list object returned by the server side function \code{table1d.ds}
+#' @keywords internal
 #' @return a list that contains the elements returned by the client function \code{ds.table1d}
 #' @author Burton, P.; Gaye, A.
 #'
@@ -19,12 +18,12 @@ table1dhelper4  <- function(input) {
   num.sources <- length(opals.names)
   
   # get some required input object using the function 'table1dhelper1'
-  out1  <- dsbaseclient:::table1dhelper1(input)
+  out1  <- table1dhelper1(input)
   opals.valid.binary  <- out1$opals.valid.binary
   zero.studies.valid  <- out1$zero.studies.valid 
   
   # get some required input object using the function 'table1dhelper2'
-  out2 <- dsbaseclient:::table1dhelper2(input)
+  out2 <- table1dhelper2(input)
   valid.output.matrix <- out2
   
   # simple summary of data from ALL studies (valid and invalid)
@@ -44,7 +43,7 @@ table1dhelper4  <- function(input) {
   }  
   
   # get some required input object using the function 'table1dhelper3'
-  out3  <- dsbaseclient:::table1dhelper3(zero.studies.valid, valid.output.matrix, final.output.list)
+  out3  <- table1dhelper3(zero.studies.valid, valid.output.matrix, final.output.list)
   valid.counts.matrix <- out3$valid.counts.matrix
   valid.colperc.matrix <- out3$valid.colperc.matrix
   valid.rowperc.matrix <- out3$valid.rowperc.matrix

@@ -1,14 +1,14 @@
 #'
 #' @title Generates a valid array
-#' @description this is an INTERNAL function required by the client function
-#' \code{ds.table2d}. The function is not 'exported' and hence not visible to user and
-#' is only called by \code{ds.table2d}
+#' @description This is an INTERNAL function
+#' @details The function is required required by the client function \code{ds.table2D}. 
 #' @param input a list object returned by the server side function \code{table2d.ds}
 #' @param num.valid.tables number of studies with valid tabulated vectors (no cell with count > 0 and < 5)
 #' @param opals.valid.binary vector of binaries indicating whether or not the tabulate vector
 #' was valid or not (0 = not valid and 1 = not valid)
 #' @param opals.valid.id a vector that gives the indices of the studies with valid tabulated vectors
 #' @param zero.studies.valid a boolean indicating if all studies were not valid
+#' @keywords internal
 #' @return a list which contains a valid array and vectors of unique categories
 #' @author Burton, P.; Gaye, A.
 #'

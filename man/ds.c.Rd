@@ -22,7 +22,15 @@ nothing is returned to the client, the new object is stored
 on the server side.
 }
 \description{
+Concatenates object into one object.
+}
+\details{
 
+
+To avoid combining the character names and not the vectors
+on the client side, the names are coerce into a list and
+the server side function loops through that list to
+concatenate the list's elements into a vector.
 }
 \examples{
 {

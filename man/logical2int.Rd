@@ -18,7 +18,7 @@ This is an internal function.
 
 
 This function is called to turn a logical oprator given as
-a charcater into an integer. '>' is turned into 1, '>='
+a character into an integer: '>' is turned into 1, '>='
 into 2, '<' into 3, '<=' into 4, '==' into 5 and '!=' into
 6.
 }

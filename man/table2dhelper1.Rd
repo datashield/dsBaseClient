@@ -6,7 +6,7 @@ table2dhelper1(input, varname1, varname2)
 }
 \arguments{
   \item{input}{a list object returned by the server side
-  function \code{table2d.ds}}
+  function \code{table2dDS}}
 
   \item{varname1}{a character string, the name of the first
   input numerical vector}
@@ -28,18 +28,16 @@ all studies were not valid, 'TRUE' if none of the studies
 is valid, 'FALSE' otherwise
 }
 \description{
-this is an INTERNAL function required by the client
-function \code{ds.table2d}. It verifies the cell counts of
-the tabulate vectors which are considered valid if no count
-> 0 and < 5 and not valid otherwise.
+this is an INTERNAL function.
 }
 \details{
 
 
-the function is not 'exported' and hence not visible to
-user and is only called by \code{ds.table2d}
+The function is required required by the client function
+\code{ds.table2D}.
 }
 \author{
 Burton, P.; Gaye, A.
 }
+\keyword{internal}
 

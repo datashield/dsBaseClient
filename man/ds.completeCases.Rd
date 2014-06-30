@@ -32,7 +32,8 @@ This function is similar to R function
 a logical vector indicating which cases are complete(i.e.
 have no missing values) is generated and stored on the
 server side. That object can then be tabulated using the
-function 'ds.table1d' to find the extent of completeness.
+function 'ds.table1D' to find out the number of complete
+entries.
 }
 \examples{
 {
@@ -48,12 +49,12 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 ds.completeCases(x='D')
 # now tabulate the vector of comple cases
 # remember default name is name of variable with suffix '_complete'
-ds.table1d(x='D_complete')
+ds.table1D(x='D_complete')
 
 # Example 2: check complte cases for the variable 'PM_BMI_CONTINUOUS'
 ds.completeCases(x='D$PM_BMI_CONTINUOUS')
 # now tabulate the vector of comple cases
-ds.table1d(x='PM_BMI_CONTINUOUS_complete')
+ds.table1D(x='PM_BMI_CONTINUOUS_complete')
 
 }
 }

@@ -16,10 +16,13 @@ ds.colnames(x = NULL, datasources = NULL)
 a character vector
 }
 \description{
-this function is similar to R function \code{colnames}
+this function is similar to R function \code{colnames}.
 }
 \details{
 
+
+The input is restricted to object of type 'data.frame' and
+'matrix'
 }
 \examples{
 {

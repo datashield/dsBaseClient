@@ -1,50 +1,49 @@
 \name{ds.summary}
 \alias{ds.summary}
-\title{Generates the summary of a numeric or factor vector}
+\title{Generates the summary of an object}
 \usage{
-ds.summary(datasources = NULL, xvect = NULL, type = "combine")
+ds.summary(x = NULL, datasources = NULL)
 }
 \arguments{
+  \item{x}{a numeric or factor variable}
+
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
-
-  \item{xvect}{a numeric or factor variable}
-
-  \item{type}{a character which represents the type of
-  graph to display. If \code{type} is set to 'combine', a
-  summary of the pooled data is displayed and if
-  \code{type} is set to 'split', the summary is generate
-  for each study separately.}
 }
 \value{
-a non disclosive summary
+the returned information depends on the class of the
+objects.
 }
 \description{
-
+Provides some insight about an object. Unlike the similar R
+function only a limited class of objects can be used as
+input to reduce the risk of disclosure.
 }
 \details{
-This function call \code{ds.quantilemean} if the input
-vector is a numeric (i.e. continuous variable) and
-\code{ds.table1d} if it is a factor (i.e. categorical
-variable). The user can choose the generate a pooled or
-split summary (one for each study).
+
+
+The class and size of the object are returned and various
+other information are also returned depending of the class
+of the object. Potentially disclosive information such as
+the minimum and maximum values of numeric vectors are not
+returned. The summary is given for each study separately.
 }
 \examples{
 {
 # load the login data
 data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list("LAB_TSC", "GENDER")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+# login and assign all the variable held in the opal database
+opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Produce the global summary of a continuous variable
-ds.summary(datasources=opals, xvect=quote(D$LAB_TSC))
+# Example 1: suummary of a numerical variable
+ds.summary(x='D$LAB_TSC')
 
-# Example 2: Produce the global summary of a factor variable
-ds.summary(datasources=opals, xvect=quote(D$GENDER))
+# Example 1: suummary of a binary variable
+ds.summary(x='D$GENDER')
+
 }
 }
 \author{

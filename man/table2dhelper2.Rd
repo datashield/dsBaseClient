@@ -27,15 +27,16 @@ a list which contains a valid array and vectors of unique
 categories
 }
 \description{
-this is an INTERNAL function required by the client
-function \code{ds.table2d}. The function is not 'exported'
-and hence not visible to user and is only called by
-\code{ds.table2d}
+This is an INTERNAL function
 }
 \details{
 
+
+The function is required required by the client function
+\code{ds.table2D}.
 }
 \author{
 Burton, P.; Gaye, A.
 }
+\keyword{internal}
 

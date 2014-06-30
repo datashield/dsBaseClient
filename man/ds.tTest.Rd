@@ -1,21 +1,17 @@
-\name{ds.t.test}
-\alias{ds.t.test}
+\name{ds.tTest}
+\alias{ds.tTest}
 \title{Runs a student's t-test on horizontally partitioned data}
 \usage{
-ds.t.test(datasources, x, y = NULL, type = "combine",
+ds.tTest(x = NULL, y = NULL, type = "combine",
   alternative = "two.sided", mu = 0, paired = FALSE, var.equal = FALSE,
-  conf.level = 0.95)
+  conf.level = 0.95, datasources = NULL)
 }
 \arguments{
-  \item{datasources}{a list of opal object(s) obtained
-  after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
-  datasources.}
+  \item{x}{a character, the name of a (non-empty) numeric
+  vector of data values.}
 
-  \item{x}{a (non-empty) numeric vector of data values}
-
-  \item{y}{an optional (non-empty) numeric vector of data
-  values.}
+  \item{y}{a character, the name of an optional (non-empty)
+  numeric vector of data values.}
 
   \item{type}{a character which tells if the test is ran
   for the pooled data or not. By default \code{type} is set
@@ -23,10 +19,10 @@ ds.t.test(datasources, x, y = NULL, type = "combine",
   out. If \code{type} is set to 'split', a t.test is ran
   for each study separately.}
 
-  \item{alternative}{character string specifying the
-  alternative hypothesis, must be one of "two.sided"
-  (default), "greater" or "less". You can specify just the
-  initial letter.}
+  \item{alternative}{a character specifying the alternative
+  hypothesis, must be one of "two.sided" (default),
+  "greater" or "less". You can specify just the initial
+  letter.}
 
   \item{mu}{a number indicating the true value of the mean
   (or difference in means if you are performing a two
@@ -41,7 +37,12 @@ ds.t.test(datasources, x, y = NULL, type = "combine",
   otherwise the Welch. (or Satterthwaite) approximation to
   the degrees of freedom is used.}
 
-  \item{conf.level}{confidence level of the interval}
+  \item{conf.level}{confidence level of the interval.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
 }
 \value{
 a list containing the following elements: \code{statistic}
@@ -79,34 +80,34 @@ myvar <- list("LAB_HDL", "LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # Example 1: Run a t.test of the pooled data for the variables 'LAB_HDL' and 'LAB_TSC' - default
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC))
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC')
 
 # Example 2: Run a t.test for each study separately for the same variables as above
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), type="split")
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', type='split')
 
 # Example 3: Run a paired t.test of the pooled data
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=TRUE)
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', paired=TRUE)
 
 # Example 4: Run a paired t.test for each study separately
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), paired=TRUE, type='split')
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', paired=TRUE, type='split')
 
 # Example 5: Run a t.test of the pooled data with different alternatives
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative='greater')
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), alternative='less')
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', alternative='greater')
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', alternative='less')
 
 # Example 6: Run a t.test of the pooled data with mu different from zero
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), mu=-4)
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', mu=-4)
 
 # Example 7: Run a t.test of the pooled data assuming that variances of variables are equal
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), var.equal=TRUE)
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', var.equal=TRUE)
 
 # Example 8: Run a t.test of the pooled data with 90\% confidence interval
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL), y=quote(D$LAB_TSC), conf.level=0.90)
+ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', conf.level=0.90)
 
 # Example 9: Run a one-sample t.test of the pooled data
-ds.t.test(datasources=opals, x=quote(D$LAB_HDL))
+ds.tTest(x='D$LAB_HDL')
 # the below example should not work, paired t.test is not possible if the 'y' variable is missing
-# ds.t.test(datasources=opals, x=quote(D$LAB_HDL), paired=TRUE)
+# ds.tTest(x='D$LAB_HDL', paired=TRUE)
 }
 }
 \author{

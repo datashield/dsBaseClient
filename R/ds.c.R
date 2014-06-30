@@ -1,5 +1,9 @@
 #' 
 #' @title Combines values into a vector or list
+#' @description Concatenates object into one object.
+#' @details To avoid combining the character names and not the vectors 
+#' on the client side, the names are coerce into a list and the server side
+#' function loops through that list to concatenate the list's elements into a vector.
 #' @param x a character, a vector that holds the names of the objects to combine.
 #' @param newobj the name of the output object. If this argument is set to NULL, 
 #' the name of the new object is 'newObject'.

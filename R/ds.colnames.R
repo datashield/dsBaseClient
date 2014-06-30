@@ -1,6 +1,7 @@
 #' 
 #' @title Retrieves column names of a matrix-like object
-#' @description this function is similar to R function \code{colnames}
+#' @description this function is similar to R function \code{colnames}.
+#' @details The input is restricted to object of type 'data.frame' and 'matrix'
 #' @param x a character, the name of a dataframe or matrix.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.

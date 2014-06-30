@@ -1,12 +1,13 @@
 #' 
-#' @title Finalizes the output of the function \code{table2d.ds}
-#' @description This is an INTERNAL i.e. it is not 'exported' and hence not visible to users.
-#' This function is only called by the client function \code{ds.table2d}. It calls other 
+#' @title Finalizes the output of the server side function \code{table2dDS}
+#' @description This is an INTERNAL function.
+#' @details The function is only called by the client function \code{ds.table2d}. It calls other 
 #' internal functions namely \code{table2dhelper1}, \code{table2dhelper2} and \code{table2dhelper3}.
-#' @param server.func.output a list object returned by the server side function \code{table2d.ds}
+#' @param server.func.output a list object returned by the server side function \code{table2dDS}
 #' @param var.name.1 a character string, the name of the first input numerical vector
 #' @param var.name.2 a character string, the name of the second input numerical vector
-#' @return a list that contains the elements returned by the client function \code{ds.table2d}
+#' @keywords internal
+#' @return a list that contains the elements returned by the client function \code{ds.table2D}
 #' @author Burton, P.; Gaye, A.
 #'
 table2dhelper4 <- function(server.func.output, var.name.1, var.name.2){                           
@@ -22,7 +23,7 @@ table2dhelper4 <- function(server.func.output, var.name.1, var.name.2){
   
    
   # call the 1st helper script to carry out validity checks on the tables returned by the 'table2d.ds'
-  helper1out <- dsbaseclient:::table2dhelper1(server.func.output, var.name.1, var.name.2) 
+  helper1out <- table2dhelper1(server.func.output, var.name.1, var.name.2) 
   #--------------------------------------------------#
   num.valid.tables <- helper1out$num.valid.tables                      
   opals.valid.binary <- helper1out$opals.valid.binary
@@ -37,7 +38,7 @@ table2dhelper4 <- function(server.func.output, var.name.1, var.name.2){
   arg3 <- helper1out$opals.valid.binary
   arg4 <- helper1out$opals.valid.id
   arg5 <- helper1out$zero.studies.valid
-  helper2out <- dsbaseclient:::table2dhelper2(arg1, arg2, arg3, arg4, arg5)
+  helper2out <- table2dhelper2(arg1, arg2, arg3, arg4, arg5)
   #------------------------------------------------------#                      
   valid.output.array <- helper2out$valid.output.array
   num.cats.1 <- helper2out$num.cats.1
@@ -57,7 +58,7 @@ table2dhelper4 <- function(server.func.output, var.name.1, var.name.2){
   arg7 <- helper2out$num.cats.2
   arg8 <- helper1out$opals.valid.id
   arg9 <- helper1out$num.valid.tables
-  helper3out <-dsbaseclient:::table2dhelper3(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)       
+  helper3out <-table2dhelper3(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)       
   #------------------------------------------------------#
   final.output.list <- helper3out$final.output.list
   valid.counts.array <- helper3out$valid.counts.array

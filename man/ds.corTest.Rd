@@ -22,6 +22,8 @@ This is similar to the R base function 'cor.test'.
 }
 \details{
 
+
+Runs a two sided pearson test with a 0.95 confidence level.
 }
 \examples{
 {

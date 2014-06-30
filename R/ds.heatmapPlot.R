@@ -96,7 +96,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
   # we have to make sure the function deals with each case
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
-  ynames <- dsbaseclient:::extract(y)
+  ynames <- extract(y)
   y.lab <- ynames[[length(ynames)]]
   
   # name of the studies to be used in the plots' titles

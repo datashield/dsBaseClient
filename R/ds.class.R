@@ -1,6 +1,7 @@
 #' 
 #' @title Retrieves the class of an object
-#' @description This function is similar to R function \code{class}
+#' @description This function is similar to R function \code{class}.
+#' @details Same as for the R function \code{class}.
 #' @param x an R object
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.

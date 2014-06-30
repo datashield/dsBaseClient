@@ -15,16 +15,15 @@ table categories are VALID.
 }
 \description{
 this is an INTERNAL function required by the client
-function \code{ds.table1d}. It gathers the objects returned
-by \code{table1d.ds}
+function \code{ds.table1D}.
 }
 \details{
 
 
-the function is not 'exported' and hence not visible to
-user and is only called by \code{ds.table1d}
+It gathers the objects returned by \code{table1dDS}
 }
 \author{
 Burton, P.; Gaye, A.
 }
+\keyword{internal}
 

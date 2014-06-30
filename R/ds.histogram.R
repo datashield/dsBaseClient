@@ -88,7 +88,7 @@ ds.histogram <- function(x=NULL, type='combine', datasources=NULL){
   
   # get the range from each studyand produce the 'global' range
   cally1 <- paste0("rangeDS(", x,")")
-  ranges <- unique(unlist(datashield.aggregate(opals, as.symbol(cally1))))
+  ranges <- unique(unlist(datashield.aggregate(datasources, as.symbol(cally1))))
   range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
   if(range.arg[1] < 0){ r1 <- range.arg[1] * 1.1 }else{ r1 <- range.arg[1] * 0.9 }
   if(range.arg[2] < 0){ r2 <- range.arg[2] * 0.9 }else{ r2 <- range.arg[2] * 1.1 }

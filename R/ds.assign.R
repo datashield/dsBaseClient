@@ -55,7 +55,7 @@ ds.assign <- function(newobj="newObject", toAssign=NULL, datasources=NULL){
   }
   
   # now do the business
-  datashield.assign(opals, newobj, as.symbol(toAssign))
+  datashield.assign(datasources, newobj, as.symbol(toAssign))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

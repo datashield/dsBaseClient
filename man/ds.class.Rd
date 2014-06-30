@@ -16,10 +16,12 @@ ds.class(x = NULL, datasources = NULL)
 a character the type of x
 }
 \description{
-This function is similar to R function \code{class}
+This function is similar to R function \code{class}.
 }
 \details{
 
+
+Same as for the R function \code{class}.
 }
 \examples{
 {

@@ -1,8 +1,9 @@
 #' 
 #' @title turns a logical operator into an integer
 #' @description This is an internal function.
-#' @details This function is called to turn a logical oprator given as a charcater into an integer.
-#' '>' is turned into 1, '>=' into 2, '<' into 3, '<=' into 4, '==' into 5 and '!=' into 6.
+#' @details This function is called to turn a logical oprator given as a 
+#' character into an integer: '>' is turned into 1, '>=' into 2, '<' into 3, 
+#' '<=' into 4, '==' into 5 and '!=' into 6.
 #' @param obj a character, the logical parameter to turn into an integer
 #' @keywords internal
 #' @return an integer

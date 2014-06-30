@@ -1,7 +1,7 @@
 #' @title Generates percents from counts returned by the function \code{table2d.ds}
-#' @description this is an INTERNAL function required by t\code{table2d.ds}. 
-#' The function is not 'exported' and hence not visible to user.
-#' @param input a list object returned by the server side function \code{table2d.ds}
+#' @description This is an INTERNAL function.
+#' @details The function is required required by the client function \code{ds.table2D}.
+#' @param input a list object returned by the server side function \code{table2dDS}
 #' @param valid.output.array a valid array
 #' @param zero.studies.valid a boolean indicating if all studies were not valid
 #' @param unique.categories.1 a vector, the full set of unique categories across all studies (from valid binaries)
@@ -10,6 +10,7 @@
 #' @param num.cats.2 length of the vector 'unique.categories.2'
 #' @param opals.valid.id a vector that gives the indices of the studies with valid tabulated vectors
 #' @param num.valid.tables number of studies with valid tabulated vectors (no cell with count > 0 and < 5)
+#' @keywords internal
 #' @return a list that contains summary tables with columns and rows percents
 #' @author Burton, P.; Gaye, A.
 #'

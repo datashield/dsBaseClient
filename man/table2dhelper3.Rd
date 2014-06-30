@@ -8,7 +8,7 @@ table2dhelper3(input, valid.output.array, zero.studies.valid,
 }
 \arguments{
   \item{input}{a list object returned by the server side
-  function \code{table2d.ds}}
+  function \code{table2dDS}}
 
   \item{valid.output.array}{a valid array}
 
@@ -40,11 +40,14 @@ a list that contains summary tables with columns and rows
 percents
 }
 \description{
-this is an INTERNAL function required by
-t\code{table2d.ds}. The function is not 'exported' and
-hence not visible to user.
+This is an INTERNAL function.
+}
+\details{
+The function is required required by the client function
+\code{ds.table2D}.
 }
 \author{
 Burton, P.; Gaye, A.
 }
+\keyword{internal}
 

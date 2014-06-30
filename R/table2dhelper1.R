@@ -1,13 +1,11 @@
 #'
 #' @title Checks validity of 2D-tables
-#' @description this is an INTERNAL function required by the client function
-#' \code{ds.table2d}. It verifies the cell counts of the tabulate vectors which are
-#' considered valid if no count > 0 and < 5 and not valid otherwise.
-#' @details the function is not 'exported' and hence not visible to user and
-#' is only called by \code{ds.table2d}
-#' @param input a list object returned by the server side function \code{table2d.ds}
+#' @description this is an INTERNAL function.
+#' @details The function is required required by the client function \code{ds.table2D}. 
+#' @param input a list object returned by the server side function \code{table2dDS}
 #' @param varname1 a character string, the name of the first input numerical vector
 #' @param varname2 a character string, the name of the second input numerical vector
+#' @keywords internal
 #' @return a list that contains the following elements:
 #' \code{num.opals} the number of studies to analyse 
 #' \code{num.valid.tables} number of studies with valid tabulated vectors (no cell with count > 0 and < 5)
