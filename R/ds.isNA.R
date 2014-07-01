@@ -84,7 +84,7 @@ ds.isNA <- function(x=NULL, datasources=NULL){
    
   # call server side function 'isNA.ds' to check, in each study, if the vector is empty
   for(i in 1: length(datasources)){
-    cally <- paste0("isNA.ds(", x, ")")
+    cally <- paste0("isNaDS(", x, ")")
     out <- datashield.aggregate(datasources[i], as.symbol(cally))
     if(out[[1]]){ 
       track[[i]] <- TRUE
