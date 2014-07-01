@@ -91,6 +91,7 @@ the a new value.
 }
 \examples{
 {
+
 # load the file that contains the login details
 data(logindata)
 
@@ -119,6 +120,10 @@ ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
 # 5 or more that the actual value can be observed, and then it is non-disclosive.
 ds.table2D(x ='D$GENDER', y='D$LAB_HDL')
 ds.table2D(x ='D$GENDER', y='D$LAB_HDL', type='split')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

@@ -24,6 +24,9 @@
 #' # Compute natural logarithm of LAB_TSC
 #' ds.log(x='D$LAB_TSC')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals) 
+#' 
 #' }
 #' 
 ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){

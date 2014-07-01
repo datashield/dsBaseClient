@@ -35,6 +35,9 @@
 #'
 #' # Example 3: plot the histograms of LAB_HDL separately (one per study)
 #' ds.histogram(x='D$LAB_HDL', type='split')
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
 #'
 #' }
 #'

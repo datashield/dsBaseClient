@@ -45,6 +45,10 @@ ds.length(x='D$LAB_TSC')
 
 # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
 ds.length(x='D$LAB_TSC', type='split')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

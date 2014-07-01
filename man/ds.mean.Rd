@@ -44,6 +44,10 @@ ds.mean(x='D$LAB_TSC')
 
 # Example 2: compute the statistical mean of each study separately
 ds.mean(x='D$LAB_TSC', type='split')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

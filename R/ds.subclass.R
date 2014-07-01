@@ -34,6 +34,9 @@
 #' ds.assign(newobj='gender', toAssign='D$GENDER')
 #' ds.subclass(x='gender', subsets='subvectors')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.subclass <- function(x=NULL, subsets="subClasses", variables=NULL, datasources=NULL){

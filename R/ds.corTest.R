@@ -21,6 +21,10 @@
 #' 
 #' # test for correlation between the variables 'LAB_TSC' and 'LAB_HDL'
 #' ds.corTest(x='D$LAB_TSC', y='D$LAB_HDL')
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.corTest = function(x=NULL, y=NULL, datasources=NULL){

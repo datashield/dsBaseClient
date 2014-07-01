@@ -47,6 +47,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # turn the data frame 'D' (default name of the dataframe assigned above) into a matrix
 ds.asMatrix(x='D')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

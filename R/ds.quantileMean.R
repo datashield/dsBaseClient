@@ -27,6 +27,9 @@
 #' # Example 2: Plot the histograms separately (one per study)
 #' ds.quantileMean(x='D$LAB_HDL', type='split')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #'
 ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){

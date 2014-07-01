@@ -26,6 +26,9 @@
 #' # calculate the sum of each row of the above assigned dataset (default name 'D')
 #' ds.rowColCalc(x='D', operation='rowSums', newobj='rsum_D')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){

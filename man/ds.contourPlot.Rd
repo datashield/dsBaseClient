@@ -75,6 +75,9 @@ ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', show='zoomed')
 # Example 3: generate a contour plot with a less dense grid (default numints is 20)
 ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

@@ -38,6 +38,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # test for correlation between the variables 'LAB_TSC' and 'LAB_HDL'
 ds.corTest(x='D$LAB_TSC', y='D$LAB_HDL')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

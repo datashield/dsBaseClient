@@ -48,6 +48,9 @@ ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
 myobjects <- c('labtsc', 'labhdl')
 ds.cbind(x=myobjects)
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

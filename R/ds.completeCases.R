@@ -32,6 +32,9 @@
 #' # now tabulate the vector of comple cases 
 #' ds.table1D(x='PM_BMI_CONTINUOUS_complete')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.completeCases = function(x=NULL, newobj=NULL, datasources=NULL){

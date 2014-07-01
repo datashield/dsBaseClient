@@ -34,6 +34,9 @@
 #' # check the levels of the new vector
 #' ds.levels(x='lab.hdl.fact')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.asFactor = function(x=NULL, newobj=NULL, datasources=NULL){

@@ -24,6 +24,9 @@
 #' # turn the factor variable 'GENDER' into a character vector
 #' ds.asCharacter(x='D$GENDER', newobj="gender_char")
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.asCharacter = function(x=NULL, newobj=NULL, datasources=NULL){

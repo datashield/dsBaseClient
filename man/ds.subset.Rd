@@ -102,6 +102,9 @@ ds.subset(x='logHDL', subset='subLAB_HDL', rows=c(1:50))
 # now get a subset of the table 'D' with just the 100 first observations
 ds.subset(x='D', subset='subD5', rows=c(1:100))
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

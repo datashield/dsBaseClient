@@ -26,6 +26,10 @@
 #' 
 #' # now turn the newly created vector 'gender_ch' into a numeric
 #' ds.asNumeric(x='gender_ch', newobj="gender_nm")
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.asNumeric = function(x=NULL, newobj=NULL, datasources=NULL){

@@ -30,6 +30,10 @@
 #' # Example 2: Input has to be either matrix, data frame or an array
 #' # In the below example, the inpout is a vector so it will not work.
 #' \dontrun{ ds.dim(x='D$LAB_TSC') }
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.dim = function(x=NULL, type='split', datasources=NULL) {

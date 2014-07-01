@@ -38,6 +38,10 @@ ds.class(x='D')
 
 # Example 2: Get the class of the variable PM_BMI_CONTINUOUS
 ds.class(x='D$LAB_TSC')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

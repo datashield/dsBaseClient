@@ -32,6 +32,9 @@
 #' myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
 #' ds.dataframe(x=myvectors)
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,datasources=NULL){

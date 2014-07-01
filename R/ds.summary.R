@@ -25,6 +25,9 @@
 #' # Example 1: suummary of a binary variable
 #' ds.summary(x='D$GENDER')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.summary <- function(x=NULL, datasources=NULL){

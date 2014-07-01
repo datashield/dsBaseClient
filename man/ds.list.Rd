@@ -44,6 +44,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 # combine the 'LAB_TSC' and 'LAB_HDL' variables into a list
 myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
 ds.list(x=myobjects)
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

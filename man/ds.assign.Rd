@@ -50,6 +50,10 @@ ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
 
 # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
 ds.assign(newobj='logTSC', toAssign='log(D$LAB_TSC)')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

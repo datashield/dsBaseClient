@@ -44,6 +44,10 @@ ds.var(x='D$LAB_TSC')
 
 # Example 2: compute the variance of each study separately
 ds.var(x='D$LAB_TSC', type='split')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

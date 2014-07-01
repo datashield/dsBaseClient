@@ -37,6 +37,9 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 # Get the column names of the assigned datasets (default name is 'D')
 ds.colnames(x='D')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

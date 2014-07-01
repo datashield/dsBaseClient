@@ -27,6 +27,10 @@
 #' 
 #' # turn the dataframe 'D' (the default name of the dataframe assign above) into a list
 #' ds.asList(x='D')
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){

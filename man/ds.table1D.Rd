@@ -75,6 +75,7 @@ the a new value.
 }
 \examples{
 {
+
 # load the file that contains the login details
 data(logindata)
 
@@ -99,6 +100,10 @@ ds.table1D(x='D$DIS_CVA', type='split')
 # are between 1 and 4 observations as -1 and gives the category name -9. It is only when
 # the count is 5 or more that the actual value can be observed, and then it is non-disclosive
 ds.table1D(x='D$LAB_HDL')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

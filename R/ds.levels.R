@@ -21,6 +21,10 @@
 #' 
 #' # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
 #' \dontrun{ ds.levels(x='D$LAB_TSC') }
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.levels = function(x=NULL, datasources=NULL) {

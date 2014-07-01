@@ -62,6 +62,9 @@ ds.assign(newobj='gender', toAssign='D$GENDER')
 ds.cor(x='labhdl', y='labtsc')
 ds.cor(x='labhdl', y='gender')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

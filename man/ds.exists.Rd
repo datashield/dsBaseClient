@@ -47,6 +47,10 @@ ds.assign('labtsc', 'D$LAB_TSC')
 
 # now let us check if the variable 'labtsc' does now 'exist' on the server side
 ds.exists(x='labtsc')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

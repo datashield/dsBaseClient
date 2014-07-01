@@ -40,6 +40,9 @@
 #' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
 #' ds.levels(x='BMI_CAT_NEW3')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #'
 ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources=NULL){

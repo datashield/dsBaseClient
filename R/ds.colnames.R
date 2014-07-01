@@ -20,6 +20,9 @@
 #' # Get the column names of the assigned datasets (default name is 'D')
 #' ds.colnames(x='D')
 #'
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#'
 #' }
 #' 
 ds.colnames = function(x=NULL, datasources=NULL) {

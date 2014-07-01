@@ -39,6 +39,9 @@
 #' ds.cov(x='labhdl', y='labtsc')
 #' ds.cov(x='labhdl', y='gender')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.cov = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=NULL){

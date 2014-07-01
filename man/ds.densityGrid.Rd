@@ -64,6 +64,10 @@ ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 
 # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
 ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

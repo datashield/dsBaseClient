@@ -27,6 +27,9 @@
 #' myobjects <- c('labtsc', 'labhdl')
 #' ds.cbind(x=myobjects)
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.cbind = function(x=NULL, newobj=NULL, datasources=NULL){

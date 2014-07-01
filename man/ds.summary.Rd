@@ -44,6 +44,9 @@ ds.summary(x='D$LAB_TSC')
 # Example 1: suummary of a binary variable
 ds.summary(x='D$GENDER')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

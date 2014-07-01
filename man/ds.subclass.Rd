@@ -61,6 +61,9 @@ ds.subclass(x='D', subsets='subtables', variables='GENDER')
 ds.assign(newobj='gender', toAssign='D$GENDER')
 ds.subclass(x='gender', subsets='subvectors')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

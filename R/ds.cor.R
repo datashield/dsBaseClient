@@ -38,6 +38,9 @@
 #' ds.cor(x='labhdl', y='labtsc')
 #' ds.cor(x='labhdl', y='gender')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.cor = function(x=NULL, y=NULL, naAction='pairwise.complete.obs', datasources=NULL)

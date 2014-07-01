@@ -53,6 +53,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 
 # turn the dataframe 'D' (the default name of the dataframe assign above) into a list
 ds.asList(x='D')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

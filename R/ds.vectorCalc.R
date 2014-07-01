@@ -30,6 +30,10 @@
 #' # performs an addtion of 'LAB_TSC' and 'LAB_HDL'
 #' myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
 #' ds.vectorCalc(x=myvectors, calc='+')
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NULL){

@@ -41,6 +41,9 @@
 #' # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
 #' ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){

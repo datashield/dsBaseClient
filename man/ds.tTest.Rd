@@ -72,6 +72,7 @@ used for performing t-test.
 }
 \examples{
 {
+
 # load that contains the login details
 data(logindata)
 
@@ -108,6 +109,10 @@ ds.tTest(x='D$LAB_HDL', y='D$LAB_TSC', conf.level=0.90)
 ds.tTest(x='D$LAB_HDL')
 # the below example should not work, paired t.test is not possible if the 'y' variable is missing
 # ds.tTest(x='D$LAB_HDL', paired=TRUE)
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

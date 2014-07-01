@@ -74,6 +74,9 @@ ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CA
 # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
 ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

@@ -49,6 +49,9 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 # Example 1: Check if the dataframe assigned above is valid
 ds.isValid(x='D')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

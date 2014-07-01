@@ -59,6 +59,9 @@
 #' # now get a subset of the table 'D' with just the 100 first observations
 #' ds.subset(x='D', subset='subD5', rows=c(1:100))
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL, datasources=NULL){

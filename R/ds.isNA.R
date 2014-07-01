@@ -22,6 +22,10 @@
 #'
 #' # check if all the observation of the variable 'LAB_HDL' are missing (NA)
 #' ds.isNA(x='D$LAB_HDL')
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.isNA <- function(x=NULL, datasources=NULL){

@@ -23,6 +23,9 @@
 #' # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
 #' ds.exp(x='D$PM_BMI_CONTINUOUS')
 #' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){

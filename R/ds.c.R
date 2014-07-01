@@ -28,6 +28,10 @@
 #' ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 #' myvect <- c('labtsc', 'labhdl')
 #' ds.c(x=myvect)
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #' 
 ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){

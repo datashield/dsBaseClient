@@ -46,6 +46,9 @@ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 # Compute natural logarithm of LAB_TSC
 ds.log(x='D$LAB_TSC')
 
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
 }
 }
 \author{

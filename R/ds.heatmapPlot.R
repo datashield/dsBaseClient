@@ -40,6 +40,10 @@
 #' 
 #' # Example3: generate a heatmap plot with a less dense drid
 #' ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #' }
 #'
 ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, datasources=NULL){

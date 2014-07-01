@@ -33,6 +33,7 @@
 #' @export
 #' @examples
 #' {
+#' 
 #' # load that contains the login details
 #' data(logindata)
 #' 
@@ -69,6 +70,10 @@
 #' ds.tTest(x='D$LAB_HDL')
 #' # the below example should not work, paired t.test is not possible if the 'y' variable is missing
 #' # ds.tTest(x='D$LAB_HDL', paired=TRUE) 
+#' 
+#' # clear the Datashield R sessions and logout
+#' datashield.logout(opals)
+#' 
 #'}
 #'
 ds.tTest <- function (x=NULL, y=NULL, type="combine", alternative="two.sided", mu=0, paired=FALSE, var.equal=FALSE, conf.level=0.95, datasources=NULL) {
