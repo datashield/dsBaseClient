@@ -84,6 +84,6 @@ datashield.logout(opals)
 }
 }
 \author{
-Isaeva, I.; Gaye, A.
+Isaeva, J.; Gaye, A.
 }
 

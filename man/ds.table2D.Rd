@@ -2,7 +2,7 @@
 \alias{ds.table2D}
 \title{Creates 2-dimensional contingency tables - potentially disclosive data are suppressed}
 \usage{
-ds.table2D(datasources = NULL, x = NULL, y = NULL, type = "combine")
+ds.table2D(x = NULL, y = NULL, type = "combine", datasources = NULL)
 }
 \arguments{
   \item{datasources}{a list of opal object(s) obtained

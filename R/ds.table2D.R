@@ -83,7 +83,7 @@
 #' 
 #' }
 #' 
-ds.table2D <- function(datasources=NULL, x=NULL, y=NULL, type='combine'){ 
+ds.table2D <- function(x=NULL, y=NULL, type='combine', datasources=NULL){ 
 
   # if no opal login details were provided look for 'opal' objects in the environment
   if(is.null(datasources)){

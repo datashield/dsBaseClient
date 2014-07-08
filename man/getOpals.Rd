@@ -18,5 +18,8 @@ The function searches for a list containing object of type
 found it return the lastest. This way no matter what the
 user calls his opal login object it will be captured.
 }
+\author{
+Gaye,A.
+}
 \keyword{internal}
 

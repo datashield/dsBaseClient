@@ -18,7 +18,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.
-#' @author Isaeva, I.; Gaye, A.
+#' @author Isaeva, J.; Gaye, A.
 #' @export
 #' @examples {
 #' 
