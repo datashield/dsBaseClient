@@ -3,7 +3,7 @@
 #' @description This function assigns a datashield object to a name, hence creating a new object. 
 #' It also calls 'assign' server side functions to generate objects stored on the server side.
 #' The function is a wrapper for the 'opal' package function 'datashield.assign'.
-#' @details The new object is stored on the local R instance (i.e. on the server side).
+#' @details The new object is stored on the remote R instance (i.e. on the server side).
 #' If no name is provided, the new object is named 'newObject', by default.
 #' @param newobj the name of the new object
 #' @param toAssign a string character, the object to assign or the call to an assign function 
