@@ -1,4 +1,4 @@
 dsBaseClient
 ============
 
-DataSHIELD base functions for the server site
+DataSHIELD base functions for the client site
