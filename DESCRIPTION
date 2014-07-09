@@ -3,8 +3,8 @@ Maintainer: <datashield@obiba.org>
 Author: <datashield@obiba.org>
 Version: 3.0.0
 License: GPL-3
-Title: DataSHIELD base functions for client
-Description: DataSHIELD base functions for client
+Title: DataSHIELD base functions for the client site
+Description: DataSHIELD base functions for the client site
 Depends:
     opal,
     fields
