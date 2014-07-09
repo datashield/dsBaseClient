@@ -3,9 +3,8 @@ Maintainer: <datashield@obiba.org>
 Author: <datashield@obiba.org>
 Version: 3.0.0
 License: GPL-3
-Title: Base DataSHIELD methods (client)
-Description: Package contains function called by client to carry out basic
-    statistical analyses
+Title: DataSHIELD base functions for client
+Description: DataSHIELD base functions for client
 Depends:
     opal,
     fields
