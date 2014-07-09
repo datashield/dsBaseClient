@@ -30,7 +30,7 @@ The function is a wrapper for the 'opal' package function
 \details{
 
 
-The new object is stored on the local R instance (i.e. on
+The new object is stored on the remote R instance (i.e. on
 the server side). If no name is provided, the new object is
 named 'newObject', by default.
 }
