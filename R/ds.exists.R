@@ -1,5 +1,5 @@
 #' 
-#' @title Checks if an object is defined on the server side (i.e. exists)
+#' @title Checks if an object is defined on the server side
 #' @description this function is similar to R function \code{exists}
 #' @details In DataSHIELD it is not possible to see the data sitting on the servers
 #' of the collaborating studies. It is only possible to get summaries of objects stored on the 

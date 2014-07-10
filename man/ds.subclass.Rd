@@ -1,6 +1,6 @@
 \name{ds.subclass}
 \alias{ds.subclass}
-\title{Generates valid subset(s) of a dataframe or a factor}
+\title{Generates valid subset(s) of a data frame or a factor}
 \usage{
 ds.subclass(x = NULL, subsets = "subClasses", variables = NULL,
   datasources = NULL)

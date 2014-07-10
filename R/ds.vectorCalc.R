@@ -1,5 +1,5 @@
 #' 
-#' @title Performs a mathematical operation (e.g. addition) on two or more vectors
+#' @title Performs a mathematical operation on two or more vectors
 #' @description Carries out a row-wise operation on two or more vector. The function calls no 
 #' server side function; it uses the R operation symbols built in DataSHIELD.
 #' @details In DataSHIELD it is possible to perform an operation on vectors by just using the relevant 

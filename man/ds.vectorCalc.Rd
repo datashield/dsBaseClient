@@ -1,6 +1,6 @@
 \name{ds.vectorCalc}
 \alias{ds.vectorCalc}
-\title{Performs a mathematical operation (e.g. addition) on two or more vectors}
+\title{Performs a mathematical operation on two or more vectors}
 \usage{
 ds.vectorCalc(x = NULL, calc = NULL, newobj = "math_output",
   datasources = NULL)

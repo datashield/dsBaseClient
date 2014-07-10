@@ -1,6 +1,6 @@
 \name{ds.exists}
 \alias{ds.exists}
-\title{Checks if an object is defined on the server side (i.e. exists)}
+\title{Checks if an object is defined on the server side}
 \usage{
 ds.exists(x = NULL, datasources = NULL)
 }

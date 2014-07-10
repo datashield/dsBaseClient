@@ -1,6 +1,6 @@
 \name{ds.table2D}
 \alias{ds.table2D}
-\title{Creates 2-dimensional contingency tables - potentially disclosive data are suppressed}
+\title{Generates 2-dimensional contingency tables}
 \usage{
 ds.table2D(x = NULL, y = NULL, type = "combine", datasources = NULL)
 }

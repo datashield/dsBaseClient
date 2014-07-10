@@ -1,6 +1,6 @@
 \name{ds.rowColCalc}
 \alias{ds.rowColCalc}
-\title{Computes sums and means of rows or columns of numeric matrix or dataframe}
+\title{Computes sums and means of rows or columns of numeric matrix or data frame}
 \usage{
 ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
   datasources = NULL)

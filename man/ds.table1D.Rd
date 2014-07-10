@@ -1,6 +1,6 @@
 \name{ds.table1D}
 \alias{ds.table1D}
-\title{Creates 1-dimensional contingency tables}
+\title{Generates 1-dimensional contingency tables}
 \usage{
 ds.table1D(x = NULL, type = "combine", datasources = NULL)
 }

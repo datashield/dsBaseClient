@@ -1,5 +1,5 @@
 #' 
-#' @title Generates valid subset(s) of a dataframe or a factor
+#' @title Generates valid subset(s) of a data frame or a factor
 #' @description The function takes a categorical variable or a data frame as input and generates 
 #' subset(s)  variables or data frames for each category.
 #' @details If the input data object is a data frame it is possible to specify  the variables  

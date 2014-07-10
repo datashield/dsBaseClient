@@ -1,5 +1,5 @@
 #' 
-#' @title Creates 1-dimensional contingency tables
+#' @title Generates 1-dimensional contingency tables
 #' @description The function ds.table1D is a client-side wrapper function. 
 #' It calls the server-side subfunction table1dDS to generate 1-dimensional 
 #' tables for all data sources. 

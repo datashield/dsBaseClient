@@ -1,5 +1,5 @@
 #' 
-#' @title Creates 2-dimensional contingency tables - potentially disclosive data are suppressed
+#' @title Generates 2-dimensional contingency tables
 #' @description The function ds.table2d is a client-side wrapper function. It calls the server-side 
 #' subfunction table2dDS to generate 2-dimensional tables for all data sources. 
 #' @details Valid (non-disclosive) data are defined as data from sources where no table cells have 

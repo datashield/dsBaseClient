@@ -1,5 +1,5 @@
 #' 
-#' @title Computes sums and means of rows or columns of numeric matrix or dataframe
+#' @title Computes sums and means of rows or columns of numeric matrix or data frame
 #' @description The function is similar to R base functions 'rowSums', 'colSums',
 #' 'rowMeans' and 'colMeans' with some restrictions.
 #' @details The results of calculation are not returned to the user if they are potentially 
