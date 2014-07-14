@@ -68,26 +68,30 @@ It calls the server-side subfunction table2dDS to generate
 
 
 Valid (non-disclosive) data are defined as data from
-sources where no table cells have counts between 1 and 4
-(the upper value [4] can in principle be changed but only
-by rewriting the underlying function - it cannot be changed
-by a standard DataSHIELD user). If the count in any cell in
-the table produced by a given data source IS invalid, that
-cell count is changed to "-1" and the name of the two
-categories that correspond to it are both changed to "-9".
-Each source is flagged as having only valid data, or at
-least some invalid data. The function ds.table2d prints out
-counts, column percents, row percents, global percents and
-a chi-squared test for homogeneity on (nc-1)*(nr-1) degrees
-of freedom where nc is the number of columns and nr is the
-number of rows. These calaculations are done separately for
-each source and, in addition, all valid sources are
-combined to produce a single overarching contingency for
-all valid data collectively. Missing data are treated as
-na.action=na.omit (default for table function), if missing
-data are to be treated as a separate and visible category,
-the variable should first be transformed to convert NAs to
-the a new value.
+sources where no table cells have counts between 1 and the
+minimal number agreed by the data owner. This threshold
+(e.g. 5) can in principle be changed but only by amended
+the underlying function installed on the data owner server-
+hence out of reach of the standard DataSHIELD user). If the
+count in any cell in the table produced by a given data
+source is invalid, that cell count is changed to "-1" and
+the name of the two that correspond to it are both changed
+to '-9'. To avoid infering that invalid count from the rest
+of the cells the total count same row and the same columns
+are also blanked out by setting them to -1. Each source is
+flagged as having only valid data, or at least some invalid
+data. The function ds.table2d prints out counts, column
+percents, row percents, global percents and a chi-squared
+test for homogeneity on (nc-1)*(nr-1) degrees of freedom
+where nc is the number of columns and nr is the number of
+rows. These calaculations are done separately for each
+source and, in addition, all valid sources are combined to
+produce a single overarching contingency for all valid data
+collectively. Missing data are treated as na.action=na.omit
+(default for table function), if missing data are to be
+treated as a separate and visible category, the variable
+should first be transformed to convert NAs to the a new
+value.
 }
 \examples{
 {
@@ -117,7 +121,7 @@ ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
 # The standard table() function in R would print out all observed 'values' as category names in ascending
 # order with a count (generally 1) for each unique number, but ds.table2d prints out all values where
 # there are between 1 and 4 observations as -1 and gives the category name -9. It is only when the count is
-# 5 or more that the actual value can be observed, and then it is non-disclosive.
+# equal greater than the set threshold (e.g. 5) that the actual value can be observed.
 ds.table2D(x ='D$GENDER', y='D$LAB_HDL')
 ds.table2D(x ='D$GENDER', y='D$LAB_HDL', type='split')
 

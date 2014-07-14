@@ -58,7 +58,7 @@ ds.subclass(x='D', subsets='subclasses')
 ds.subclass(x='D', subsets='subtables', variables='GENDER')
 
 # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
-ds.assign(newobj='gender', toAssign='D$GENDER')
+ds.assign(toAssign='D$GENDER', newobj='gender')
 ds.subclass(x='gender', subsets='subvectors')
 
 # clear the Datashield R sessions and logout

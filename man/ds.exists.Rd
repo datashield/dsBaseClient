@@ -43,7 +43,7 @@ myvar <- list("LAB_TSC")
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
 # assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
-ds.assign('labtsc', 'D$LAB_TSC')
+ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
 
 # now let us check if the variable 'labtsc' does now 'exist' on the server side
 ds.exists(x='labtsc')

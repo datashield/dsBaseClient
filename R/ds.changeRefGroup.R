@@ -1,4 +1,4 @@
-#' 
+#'
 #' @title Changes the reference level of a factor
 #' @description This function is similar to R function \code{relevel}.
 #' @details In addition to what the R function does, this function

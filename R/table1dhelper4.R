@@ -73,7 +73,7 @@ table1dhelper4  <- function(input) {
     names(terminal.output.list)[[4]] <- "TABLE.VALID.DATA.ROW.PERCENTS"
     names(terminal.output.list)[[5]] <- "TABLE.VALID.DATA.GLOBAL.PERCENTS"
     names(terminal.output.list)[[6]] <- "VALIDITY.WARNING"
-
+    
   }else{
     study.validity.flag <- "NO STUDIES HAVE VALID DATA - SO NO ATTEMPT TO COMBINE"
     terminal.output.list <- list(final.output.list,study.validity.flag)

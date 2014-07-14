@@ -5,9 +5,9 @@
 #' The function is a wrapper for the 'opal' package function 'datashield.assign'.
 #' @details The new object is stored on the remote R instance (i.e. on the server side).
 #' If no name is provided, the new object is named 'newObject', by default.
-#' @param newobj the name of the new object
 #' @param toAssign a string character, the object to assign or the call to an assign function 
 #' that generates the object to assign.
+#' @param newobj the name of the new object
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -24,17 +24,17 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # Example 1: assign the variable 'LAB_TSC' in the dataframe D
-#' ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
+#' ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
 #' 
 #' # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
-#' ds.assign(newobj='logTSC', toAssign='log(D$LAB_TSC)')
+#' ds.assign(toAssign='log(D$LAB_TSC)', newobj='logTSC')
 #' 
 #' # clear the Datashield R sessions and logout
 #' datashield.logout(opals)
 #' 
 #' }
 #' 
-ds.assign <- function(newobj="newObject", toAssign=NULL, datasources=NULL){
+ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
   
   if(is.null(datasources)){
     findLogin <- getOpals()

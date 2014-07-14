@@ -22,8 +22,8 @@
 #' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
 #' # generate a new dataframe by combining the log values of 'LAB_TSC' and 'LAB_HDL', by columns
-#' ds.assign(newobj='labtsc', toAssign='log(D$LAB_TSC)')
-#' ds.assign(newobj='labhdl', toAssign='log(D$LAB_HDL)')
+#' ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
+#' ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
 #' myobjects <- c('labtsc', 'labhdl')
 #' ds.cbind(x=myobjects)
 #' 

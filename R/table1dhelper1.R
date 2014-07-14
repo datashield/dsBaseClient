@@ -2,12 +2,12 @@
 #' @title Checks validity of tabulated factor variable
 #' @description this is an INTERNAL function required by the client function \code{ds.table1D}. 
 #' @details It verifies the cell counts of the tabulate vectors which are
-#' considered valid if no count > 0 and < 5 and not valid otherwise.
+#' considered valid if no count > 0 and < filter and not valid otherwise.
 #' @param input a list object returned by the server side function \code{table1dDS}
 #' @keywords internal
 #' @return a list that contains the following elements:
 #' \code{num.opals} the number of studies to analyse 
-#' \code{num.valid.tables} number of studies with valid tabulated vectors (no cell with count > 0 and < 5)
+#' \code{num.valid.tables} number of studies with valid tabulated vectors (no cell with count > 0 and < filter)
 #' \code{opals.valid.binary} vector of binaries indicating whether or not the tabulate vector
 #' was valid or not (0 = not valid and 1 = not valid)
 #' \code{opals.valid.id} a vector that gives the indices of the studies with valid tabulated vectors

@@ -4,18 +4,18 @@
 #' It calls the server-side subfunction table1dDS to generate 1-dimensional 
 #' tables for all data sources. 
 #' @details Valid (non-disclosive) data are defined as data from sources 
-#' where no table cells have counts between 1 and 4 (the upper value [4] 
-#' can in principle be changed but only by rewriting the underlying function 
-#' - it cannot be changed by a standard DataSHIELD user). If the count in any 
-#' cell in the table produced by a given data source IS invalid, that cell 
-#' count is changed to "-1" and the name of the category in which it falls is 
-#' changed to '-9'. Each source is flagged as having only valid data, or at 
-#' least some invalid data. The function ds.table1D prints out tables of study 
-#' against x category detailing: counts; column percents; row percents; 
-#' and global percents. The final column represents all valid studies combined. 
-#' Missing data are treated as na.action=na.omit (default for table function), 
-#' if missing data are to be treated as a separate and visible category, the 
-#' variable should first be transformed to convert NAs to the a new value.
+#' where no table cells have counts between 1 and the minimal number agreed by the data owner. 
+#' This threshold (e.g. 5) can in principle be changed but only by amended the underlying 
+#' function installed on the data owner server- hence out of reach of the standard DataSHIELD user). 
+#' If the count in any cell in the table produced by a given data source is invalid, 
+#' that cell count is changed to "-1" and the name of the category in which it falls is 
+#' changed to '-9'. To avoid infering that invalid count from the rest of the cells the total count  
+#' same row and the same columns are also blanked out by setting them to -1. Each source is flagged 
+#' of the row and column of the cell invalid is also changed to -1. The function ds.table1D prints out 
+#' tables of study against x category detailing: counts; column percents; row percents; and global 
+#' percents. The final column represents all valid studies combined. Missing data are treated as 
+#' na.action=na.omit (default for table function),  if missing data are to be treated as a separate 
+#' and visible category, the variable should first be transformed to convert NAs to the a new value.
 #' @param x a character, the name of a numerical vector with discrete values - 
 #' usually a factor as well as the tables representing only the valid data. 
 #' If TRUE then only outputs the valid data.
@@ -60,11 +60,8 @@
 #' 
 #' # Example 2: generate a one dimensional table, outputting study specific contingency tables
 #' ds.table1D(x='D$DIS_CVA', type='split')
-#' 
-#' # Example 3: generate a one dimensional table, outputting study specific contingency tables
-#' ds.table1D(x='D$DIS_CVA', type='split')
 #'  
-#' # Example 4: generate a one dimensional table, outputting study specific and combined 
+#' # Example 3: generate a one dimensional table, outputting study specific and combined 
 #' # contingency tables, see what happens if you try to tabulate a quantitative variable 
 #' # with unique values for many individuals. The standard \code{table} function in R would 
 #' # print out all observed 'values' as category names in ascending order with a count
@@ -128,7 +125,7 @@ ds.table1D <- function(x=NULL, type='combine', datasources=NULL)
   cally <- paste0("table1dDS(", x, ")")
   server.func.output <- datashield.aggregate(datasources, as.symbol(cally))
   
-  # verify that all the studies are not invalid i.e. all studies have input factor variable with counts > 0 and < 
+  # verify that all the studies are not invalid
   validity.checks <- table1dhelper1(server.func.output)
   zero.studies.valid <- validity.checks$zero.studies.valid
   num.valid.tables <- validity.checks$num.valid.tables
@@ -153,6 +150,25 @@ ds.table1D <- function(x=NULL, type='combine', datasources=NULL)
                     paste("TOTAL.VALID.DATA.GLOBAL.PERCENTS for variable ", variable,sep=""),
                     "VALIDITY.WARNING")   
       obj2return <- list(output1,output2,output3,output4,output5)
+      
+      # if a cell is invalid blank the total count to avoid inferring the total and the other counts
+      countTable <- output1
+      cs2blank <- c()
+      rs2blank <- c()
+      for(i in 1:dim(countTable)[2]){
+        x <- which(countTable[,i] == -1)
+        if(length(x) > 0){
+          cs2blank <- append(cs2blank, i)
+          for(j in 1:length(x)){
+            rs2blank <- append(rs2blank, x[j])
+          }
+        }
+      }
+      dims <- dim(countTable)
+      countTable[dims[1],cs2blank] <- -1
+      countTable[rs2blank,dims[2]] <- -1
+      output1 <- countTable
+
       names(obj2return) <- outnames
       return(obj2return)
     }    
@@ -181,8 +197,8 @@ ds.table1D <- function(x=NULL, type='combine', datasources=NULL)
           output4 <- helper4out$TABLE.VALID.DATA.ROW.PERCENTS[,1:numcols2output]
           output5 <- helper4out$TABLE.VALID.DATA.GLOBAL.PERCENTS[,1:numcols2output]
           output6 <- helper4out$VALIDITY.WARNING
-          obj2return <- list(output1,output2,output3,output4,output5,output6)
         }
+          
         if(num.valid.tables == 1){
           numcols2output <- 1
           colslabels <- colnames(helper4out$TABLE.VALID.DATA.COUNTS)[1]
@@ -196,8 +212,22 @@ ds.table1D <- function(x=NULL, type='combine', datasources=NULL)
           output5 <- as.data.frame(helper4out$TABLE.VALID.DATA.GLOBAL.PERCENTS[,1:numcols2output])
           colnames(output5) <- colslabels
           output6 <- helper4out$VALIDITY.WARNING 
-          obj2return <- list(output1,output2,output3,output4,output5,output6)
         }
+        
+        # if a cell is invalid blank the total count to avoid inferring the total and the other counts
+        countTable <- output2
+        cs2blank <- c()
+        for(i in 1:dim(countTable)[2]){
+          x <- which(countTable[,i] == -1)
+          if(length(x) > 0){
+            cs2blank <- append(cs2blank, i)
+          }
+        }
+        dims <- dim(countTable)
+        countTable[dims[1],cs2blank] <- -1
+        output2 <- countTable
+        
+        obj2return <- list(output1,output2,output3,output4,output5,output6) 
         names(obj2return) <- outnames
         return(obj2return)         
       }

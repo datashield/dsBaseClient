@@ -3,17 +3,20 @@
 #' @description The function ds.table2d is a client-side wrapper function. It calls the server-side 
 #' subfunction table2dDS to generate 2-dimensional tables for all data sources. 
 #' @details Valid (non-disclosive) data are defined as data from sources where no table cells have 
-#' counts between 1 and 4 (the upper value [4] can in principle be changed but only by rewriting the 
-#' underlying function - it cannot be changed by a standard DataSHIELD user). If the count in any cell
-#' in the table produced by a given data source IS invalid, that cell count is changed to "-1" and the 
-#' name of the two categories that correspond to it are both changed to "-9". Each source is flagged 
-#' as having only valid data, or at least some invalid data. The function ds.table2d prints out counts, 
-#' column percents, row percents, global percents and a chi-squared test for homogeneity on (nc-1)*(nr-1) 
-#' degrees of freedom where nc is the number of columns and nr is the number of rows. These calaculations 
-#' are done separately for each source and, in addition, all valid sources are combined to produce a 
-#' single overarching contingency for all valid data collectively. Missing data are treated as 
-#' na.action=na.omit (default for table function), if missing data are to be treated as a separate 
-#' and visible category, the variable should first be transformed to convert NAs to the a new value.
+#' counts between 1 and the minimal number agreed by the data owner. 
+#' This threshold (e.g. 5) can in principle be changed but only by amended the underlying 
+#' function installed on the data owner server- hence out of reach of the standard DataSHIELD user). 
+#' If the count in any cell in the table produced by a given data source is invalid, 
+#' that cell count is changed to "-1" and the name of the two that correspond to it are both changed to '-9'. 
+#' To avoid infering that invalid count from the rest of the cells the total count  same row and the same 
+#' columns are also blanked out by setting them to -1. Each source is flagged as having only valid data, 
+#' or at least some invalid data. The function ds.table2d prints out counts, column percents, row percents, 
+#' global percents and a chi-squared test for homogeneity on (nc-1)*(nr-1) degrees of freedom where nc is 
+#' the number of columns and nr is the number of rows. These calaculations are done separately for each source 
+#' and, in addition, all valid sources are combined to produce a single overarching contingency for all valid 
+#' data collectively. Missing data are treated as na.action=na.omit (default for table function), if missing 
+#' data are to be treated as a separate and visible category, the variable should first be transformed to 
+#' convert NAs to the a new value.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers; 
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
 #' @param x a numerical vector with discrete values - usually a factor
@@ -74,7 +77,7 @@
 #' # The standard table() function in R would print out all observed 'values' as category names in ascending 
 #' # order with a count (generally 1) for each unique number, but ds.table2d prints out all values where 
 #' # there are between 1 and 4 observations as -1 and gives the category name -9. It is only when the count is 
-#' # 5 or more that the actual value can be observed, and then it is non-disclosive.
+#' # equal greater than the set threshold (e.g. 5) that the actual value can be observed.
 #' ds.table2D(x ='D$GENDER', y='D$LAB_HDL')
 #' ds.table2D(x ='D$GENDER', y='D$LAB_HDL', type='split')
 #' 
@@ -149,14 +152,14 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', datasources=NULL){
   # call the 1st helper script to carry out validity checks on the study specific tables
   # returned by the 'table2dDS'
   helper1out <- table2dhelper1(server.func.output, var.name.1, var.name.2)
-  zero.studies.valid <- helper1out$zero.studies.valid
+  zero.studies.valid <-  helper1out$zero.studies.valid
   num.valid.studies <- helper1out$num.valid.tables
   opals.valid.id <- helper1out$opals.valid.id
   
   # call the 4th helper script to generate the final output
   # this function calls the helper 1, 2 and 3 functions that
   # generate all the key elements required to produce the final output
-  helper4out <- table2dhelper4(server.func.output, var.name.1, var.name.2)
+  helper4out <-  table2dhelper4(server.func.output, var.name.1, var.name.2)
   
   # return the right output depending what the user specified: 'combine' or 'split' analysis
   if(type=="combine"){
@@ -190,9 +193,28 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', datasources=NULL){
         output3 <- helper4out$TABLES.VALID.DATA.ROW.PERCENTS[,,num.valid.studies+1]
         output4 <- helper4out$TABLES.VALID.DATA.GLOBAL.PERCENTS[,,num.valid.studies+1]
         obj2return <- list(output1,output2,output3,output4,output5,output6)
+        
         names(obj2return) <- outnames        
         return(obj2return)  
       }
+      
+      # if a cell is invalid blank out the whole row and column to avoid inferring the count from the rest of the counts
+      countTable <- obj2return[[1]]
+      cs2blank <- c()
+      rs2blank <- c()
+      for(i in 1:dim(countTable)[2]){
+        x <- which(countTable[,i] == -1)
+        if(length(x) > 0){
+          cs2blank <- append(cs2blank, i)
+          for(j in 1:length(x)){
+            rs2blank <- append(rs2blank, x[j])
+          }
+        }
+      }
+      dims <- dim(countTable)
+      countTable[dims[1],cs2blank] <- '***'
+      countTable[rs2blank,dims[2]] <- '***'
+      obj2return[[1]] <- countTable
     }
   }else{
      # if the user specifies 'split' analysis we output all the study specific outputs but NOT the combines outputs
@@ -208,6 +230,25 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', datasources=NULL){
         warning("NO ATTEMPT TO TABULATE INDIVIDUAL STUDIES", immediate.=TRUE, call.=FALSE)
       }else{
         if(num.valid.studies==numsources){
+          for(z in 1:num.valid.studies){
+            # if a cell is invalid blank out the whole row and column to avoid inferring the count from the rest of the counts
+            countTable <- output2[,,1,z]
+            cs2blank <- c()
+            rs2blank <- c()
+            for(i in 1:dim(countTable)[2]){
+              x <- which(countTable[,i] == -1)
+              if(length(x) > 0){
+                cs2blank <- append(cs2blank, i)
+                for(j in 1:length(x)){
+                  rs2blank <- append(rs2blank, x[j])
+                }
+              }
+            }
+            #cdims <- dim(countTable)
+            countTable[ ,cs2blank] <- -1
+            countTable[rs2blank, ] <- -1
+            output2[,,1,z] <- countTable
+          }
           return(list("OPALS.DATA.OVERVIEW"=output1, "ALL.VALID.TABLES.BY.STUDY"=output2, "VALIDITY.WARNING"=output3,
                       "CHI2.TESTS.FOR.HOMOGENEITY"=output4))
         }else{
@@ -218,6 +259,46 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', datasources=NULL){
             for(j in 1:4){
               dnames[3][[1]][j] <- paste(dnames[3][[1]][j], "--",valid.studies.names[i], sep="")
             }
+          }
+          # if the number of valid studies is not greater than 1 the array to process has different dimensions
+          if(num.valid.studies > 1){ 
+            for(z in 1:num.valid.studies){
+              # if a cell is invalid blank out the whole row and column to avoid inferring the count from the rest of the counts
+              countTable <- output2[,,1,z]
+              cs2blank <- c()
+              rs2blank <- c()
+              for(i in 1:dim(countTable)[2]){
+                x <- which(countTable[,i] == -1)
+                if(length(x) > 0){
+                  cs2blank <- append(cs2blank, i)
+                  for(j in 1:length(x)){
+                    rs2blank <- append(rs2blank, x[j])
+                  }
+                }
+              }
+              # dims <- dim(countTable)
+              countTable[ ,cs2blank] <- -1
+              countTable[rs2blank, ] <- -1
+              output2[,,1,z] <- countTable
+            }
+          }else{
+            # if a cell is invalid blank out the whole row and column to avoid inferring the count from the rest of the counts
+            countTable <- output2[,,1]
+            cs2blank <- c()
+            rs2blank <- c()
+            for(i in 1:dim(countTable)[2]){
+              x <- which(countTable[,i] == -1)
+              if(length(x) > 0){
+                cs2blank <- append(cs2blank, i)
+                for(j in 1:length(x)){
+                  rs2blank <- append(rs2blank, x[j])
+                }
+              }
+            }
+            #dims <- dim(countTable)
+            countTable[ ,cs2blank] <- -1
+            countTable[rs2blank, ] <- -1
+            output2[,,1] <- countTable
           }
           dimnames(output2) <- dnames
           return(list("OPALS.DATA.OVERVIEW"=output1, "ALL.VALID.TABLES.BY.STUDY"=output2, "VALIDITY.WARNING"=output3,

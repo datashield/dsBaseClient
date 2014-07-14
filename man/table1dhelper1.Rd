@@ -12,7 +12,7 @@ table1dhelper1(input)
 a list that contains the following elements:
 \code{num.opals} the number of studies to analyse
 \code{num.valid.tables} number of studies with valid
-tabulated vectors (no cell with count > 0 and < 5)
+tabulated vectors (no cell with count > 0 and < filter)
 \code{opals.valid.binary} vector of binaries indicating
 whether or not the tabulate vector was valid or not (0 =
 not valid and 1 = not valid) \code{opals.valid.id} a vector
@@ -29,8 +29,8 @@ function \code{ds.table1D}.
 
 
 It verifies the cell counts of the tabulate vectors which
-are considered valid if no count > 0 and < 5 and not valid
-otherwise.
+are considered valid if no count > 0 and < filter and not
+valid otherwise.
 }
 \author{
 Burton, P.; Gaye, A.

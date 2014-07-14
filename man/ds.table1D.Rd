@@ -56,22 +56,26 @@ It calls the server-side subfunction table1dDS to generate
 
 
 Valid (non-disclosive) data are defined as data from
-sources where no table cells have counts between 1 and 4
-(the upper value [4] can in principle be changed but only
-by rewriting the underlying function - it cannot be changed
-by a standard DataSHIELD user). If the count in any cell in
-the table produced by a given data source IS invalid, that
-cell count is changed to "-1" and the name of the category
-in which it falls is changed to '-9'. Each source is
-flagged as having only valid data, or at least some invalid
-data. The function ds.table1D prints out tables of study
-against x category detailing: counts; column percents; row
-percents; and global percents. The final column represents
-all valid studies combined. Missing data are treated as
-na.action=na.omit (default for table function), if missing
-data are to be treated as a separate and visible category,
-the variable should first be transformed to convert NAs to
-the a new value.
+sources where no table cells have counts between 1 and the
+minimal number agreed by the data owner. This threshold
+(e.g. 5) can in principle be changed but only by amended
+the underlying function installed on the data owner server-
+hence out of reach of the standard DataSHIELD user). If the
+count in any cell in the table produced by a given data
+source is invalid, that cell count is changed to "-1" and
+the name of the category in which it falls is changed to
+'-9'. To avoid infering that invalid count from the rest of
+the cells the total count same row and the same columns are
+also blanked out by setting them to -1. Each source is
+flagged of the row and column of the cell invalid is also
+changed to -1. The function ds.table1D prints out tables of
+study against x category detailing: counts; column
+percents; row percents; and global percents. The final
+column represents all valid studies combined. Missing data
+are treated as na.action=na.omit (default for table
+function), if missing data are to be treated as a separate
+and visible category, the variable should first be
+transformed to convert NAs to the a new value.
 }
 \examples{
 {
@@ -89,10 +93,7 @@ ds.table1D(x='D$DIS_CVA')
 # Example 2: generate a one dimensional table, outputting study specific contingency tables
 ds.table1D(x='D$DIS_CVA', type='split')
 
-# Example 3: generate a one dimensional table, outputting study specific contingency tables
-ds.table1D(x='D$DIS_CVA', type='split')
-
-# Example 4: generate a one dimensional table, outputting study specific and combined
+# Example 3: generate a one dimensional table, outputting study specific and combined
 # contingency tables, see what happens if you try to tabulate a quantitative variable
 # with unique values for many individuals. The standard \\code{table} function in R would
 # print out all observed 'values' as category names in ascending order with a count

@@ -24,8 +24,8 @@
 #' 
 #' # Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
 #' myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
-#' ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
-#' ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
+#' ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
+#' ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
 #' myvect <- c('labtsc', 'labhdl')
 #' ds.c(x=myvect)
 #' 

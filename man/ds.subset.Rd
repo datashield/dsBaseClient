@@ -90,14 +90,14 @@ ds.subset(x='D', subset='subD3', logicalOperator='PM_BMI_CONTINUOUS>=', threshol
 
 # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
 # vector with bmi values greater than or equal to 25
-ds.assign(newobj='BMI', toAssign='D$PM_BMI_CONTINUOUS')
+ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
 ds.subset(x='BMI', subset='BMI25plus', logicalOperator='>=', threshold=25)
 
 # Example 5: subsetting by rows:
 # get the logarithmic values of the variable 'lab_hdl' and generate a subset with
 # the first 50 observations of that new vector. If the specified number of row is greater than the total
 # number of rows in any of the studies the process will stop.
-ds.assign(newobj='logHDL', toAssign='log(D$LAB_HDL)')
+ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
 ds.subset(x='logHDL', subset='subLAB_HDL', rows=c(1:50))
 # now get a subset of the table 'D' with just the 100 first observations
 ds.subset(x='D', subset='subD5', rows=c(1:100))
