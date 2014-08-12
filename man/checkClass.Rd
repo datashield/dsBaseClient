@@ -10,7 +10,7 @@ checkClass(datasources = NULL, obj = NULL)
   the data assign to R, as \code{dataframe}, from opal
   datasources.}
 
-  \item{obj}{a string charcater, the name of the object to
+  \item{obj}{a string character, the name of the object to
   check for.}
 }
 \value{
