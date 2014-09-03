@@ -184,4 +184,5 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
+  return(finalOutput)
 }
