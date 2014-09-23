@@ -24,10 +24,12 @@ getOpals <- function(){
         list2check <- eval(parse(text=objs[i]))
         if(length(list2check) > 0){
           cl2 <- class(list2check[[1]])
-          if(cl2 == 'opal'){
-            cnt <- cnt + 1
-            opalist[[cnt]] <- objs[i]
-            flag <- 1
+          for(s in 1:length(cl2)){
+            if(cl2[s] == 'opal'){
+              cnt <- cnt + 1
+              opalist[[cnt]] <- objs[i]
+              flag <- 1
+            }
           }
         }
       }
