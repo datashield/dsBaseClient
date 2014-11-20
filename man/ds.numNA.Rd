@@ -1,0 +1,61 @@
+\name{ds.numNA}
+\alias{ds.numNA}
+\title{Gets the number of missing values in a vector}
+\usage{
+ds.numNA(x = NULL, datasources = NULL)
+}
+\arguments{
+  \item{x}{a character, the name of a vector to check for
+  missing entries.}
+
+  \item{datasources}{a list of opal object(s) obtained
+  after login in to opal servers; these objects hold also
+  the data assign to R, as \code{dataframe}, from opal
+  datasources.}
+}
+\value{
+for an array, \code{NULL} or a vector of mode
+\code{integer}
+}
+\description{
+In DataSHIELD it is not possible to visualize the data.
+This function helps to know the number of missing values in
+a vector to eventually use a vector of equal length (i.e.
+the count of missing entries) to replace the missing
+values.
+}
+\details{
+
+
+The vector to check for missing values might be a in a
+table structure or not. The number of missing entries are
+counted and the total for each study is returned.
+}
+\examples{
+{
+
+# load that contains the login details
+data(logindata)
+
+# login and assign all the stored variables.
+opals <- datashield.login(logins=logindata,assign=TRUE)
+
+# Example 1: Get the number of missing values in the variable 'LAB_HDL'
+held in the table 'D'.
+ds.numNA(x='D$LAB_HDL')
+
+# Example 2: Assign the above variable and check the
+number of missing values on the now loose variable 'LAB_HDL'
+ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
+# Example 2: Get the pooled dimension of the assigned datasets
+ds.numNA(x='labhdl')
+
+# clear the Datashield R sessions and logout
+datashield.logout(opals)
+
+}
+}
+\author{
+Gaye, A.; Isaeva, J.
+}
+
