@@ -56,6 +56,6 @@ datashield.logout(opals)
 }
 }
 \author{
-Gaye, A.; Isaeva, J.
+Gaye, A.
 }
 

@@ -9,7 +9,7 @@
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
-#' @author Gaye, A.; Isaeva, J.
+#' @author Gaye, A.
 #' @export
 #' @examples {
 #' 
@@ -56,7 +56,7 @@ ds.numNA = function(x=NULL, datasources=NULL) {
   }
   
   if(is.null(x)){
-    stop("Please provide a the name of a vector!", call.=FALSE)
+    stop("Please provide the name of a vector!", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies

@@ -2,7 +2,7 @@
 #' @title Generates a valid subset of a table or a vector
 #' @description The function uses the R classical subsetting with squared brackets '[]' and allows also to 
 #' subset using a logical oprator and a threshold. The object to subset from must be a vector (factor, numeric 
-#' or charcater) or a table (data.frame or matrix).
+#' or charcater) or a table (data.frame or matrix). 
 #' @details If the input data is a table: The user specifies the rows and/or columns to include in the subset if the input 
 #' object is a table; the columns can be refered to by their names. The name of a vector (i.e. a variable) can also be provided 
 #' with a logical operator and a threshold (see example 3). 
@@ -11,6 +11,7 @@
 #' IMPORTANT NOTE: If the requested subset is not valid (i.e. contains less than the allowed number of observations) or if it does 
 #' not have any observations, the subset is not generated, rather a table or a vector of missing values is generated to allow
 #' for any subsequent process using the output of the function to proceed, after informing the user via a message.
+#' In order to indicate that a generated subset dataframe or vector is invalid all values within it are set to NA.
 #' @param subset the name of the output object, a list that holds the subset object. If set to NULL
 #' the default name of this list is 'subsetObject' 
 #' @param x a character, the name of the dataframe or the factor vector and the range of the subset.
@@ -95,7 +96,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   
-  # the input object must be a dataframe or a factor
+  # the input object must be a dataframe or a vector
   if(typ != 'data.frame' & typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric'){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The object to subset from must be a 'data.frame', a 'character', factor', a 'logical' or a 'numeric' vector.", call.=FALSE)

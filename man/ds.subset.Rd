@@ -66,7 +66,9 @@ observations) or if it does not have any observations, the
 subset is not generated, rather a table or a vector of
 missing values is generated to allow for any subsequent
 process using the output of the function to proceed, after
-informing the user via a message.
+informing the user via a message. In order to indicate that
+a generated subset dataframe or vector is invalid all
+values within it are set to NA.
 }
 \examples{
 {
