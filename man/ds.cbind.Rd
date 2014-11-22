@@ -2,15 +2,15 @@
 \alias{ds.cbind}
 \title{Combines objects by columns}
 \usage{
-ds.cbind(x = NULL, newobj = NULL, datasources = NULL)
+ds.cbind(x = NULL, newobj = "newCbindObject", datasources = NULL)
 }
 \arguments{
-  \item{x}{a vector which holds the names of the objects to
-  combine}
+  \item{x}{a character vector, the name of the vector and
+  or table to combine by column.}
 
   \item{newobj}{the name of the output object. If this
   argument is set to \code{NULL}, the name of the new
-  object is 'newDataframe'.}
+  object is 'newCbindObject'.}
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
@@ -22,14 +22,14 @@ nothing is returned to the client, the new object is stored
 on the server side.
 }
 \description{
-this is similar to the R base function 'cbind'
+This is similar to the R base function \code{cbind} with
+the only differences that it allows to combine up to 5
+objects (vectors and/or table structures).
 }
 \details{
 
 
-the function combines vectors or vectors and matrices or
-dataframes by columns. But unlike the R base function
-'cbind' the output is a dataframe.
+see details of the R base function \code{cbind}.
 }
 \examples{
 {
@@ -42,11 +42,11 @@ data(logindata)
 myvar <- list('LAB_TSC', 'LAB_HDL')
 opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# generate a new dataframe by combining the log values of 'LAB_TSC' and 'LAB_HDL', by columns
+# generate a new dataframe by combining the log values of
+# 'LAB_TSC' and 'LAB_HDL', by columns
 ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
 ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
-myobjects <- c('labtsc', 'labhdl')
-ds.cbind(x=myobjects)
+ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
 
 # clear the Datashield R sessions and logout
 datashield.logout(opals)

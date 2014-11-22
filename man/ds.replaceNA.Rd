@@ -12,12 +12,11 @@ ds.replaceNA(x = NULL, forNA = NULL, newobj = NULL, datasources = NULL)
   length of the list must be equal to the number of servers
   the analyst is connected to.}
 
-  \item{newobj}{a character, the name of the new vector or
-  table structure in which missing values have been
-  replaced. If no name is specified the default name is the
-  name of the original vector or table structure followed
-  by the suffix '_noMissings' e.g. 'LAB_HDL_noNA' or
-  'D_LAB_HDL_noNA' if 'LAB_HDL' is in table 'D'.}
+  \item{newobj}{a character, the name of the new vector in
+  which missing values have been replaced. If no name is
+  specified the default name is the name of the original
+  vector followed by the suffix '.noNA' e.g. 'LAB_HDL.noNA'
+  if the name of the vector is 'LAB_HDL'.}
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
@@ -43,8 +42,11 @@ most cases it might be more sensible to replace all missing
 values by one specific value e.g. replace all missing
 values in a vector by the mean or median value. Once the
 missing values have been replaced a new vector is created.
-If the vector is within a table structure such as a data
-frame a new data frame is generated with the new vector.
+NOTE: If the vector is within a table structure such as a
+data frame the new vector is appended to table structure so
+that the table hold hold both the vector with and without
+missing values. The latter is, by default, given a
+different that indicates its 'completeness'.
 }
 \examples{
 {
@@ -58,8 +60,10 @@ opals <- datashield.login(logins=logindata,assign=TRUE)
 # Replace missing values in variable 'LAB_HDL' by the mean value in each study
 # first let us get the mean value for 'LAB_HDL' in each study
 ds.mean(x='D$LAB_HDL', type='split')
-# now do the repalcement
-ds.repalceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='D_HDL_noNA')
+
+# replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by
+# the mean value and name the new variable 'HDL.noNA'.
+ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
 
 # clear the Datashield R sessions and logout
 datashield.logout(opals)
