@@ -7,7 +7,7 @@
 #' If \code{type} is set to 'combine', a global mean is calculated 
 #' if \code{type} is set to 'split', the mean is calculated separately for each study.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' these objects hold also the data assign to R, as \code{data frame}, from opal datasources.
 #' @return a mean value
 #' @author Gaye A., Isaeva I.
 #' @export

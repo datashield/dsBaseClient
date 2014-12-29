@@ -1,0 +1,26 @@
+\name{findLoginObjects}
+\alias{findLoginObjects}
+\title{searches for opal login object in the environment}
+\usage{
+findLoginObjects()
+}
+\value{
+returns a list of opal login objects or stops the process
+}
+\description{
+This is an internal function required by a client function
+}
+\details{
+
+
+if the user does not set the argument 'datasources', this
+function is called to searches for opal login objects in
+the environment. If more than one login object is found a
+prompt asks the user to choose one and if none is found the
+process stops.
+}
+\author{
+Gaye, A.
+}
+\keyword{internal}
+

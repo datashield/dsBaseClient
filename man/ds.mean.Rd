@@ -15,7 +15,7 @@ ds.mean(x = NULL, type = "combine", datasources = NULL)
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also
-  the data assign to R, as \code{dataframe}, from opal
+  the data assign to R, as \code{data frame}, from opal
   datasources.}
 }
 \value{
