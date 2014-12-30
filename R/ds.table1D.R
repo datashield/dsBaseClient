@@ -6,7 +6,7 @@
 #' @details The table returned by the server side function might be valid (non disclosive -  
 #' no table cell have counts between 1 and the minimal number agreed by the data owner and set in opal)
 #' or invalid (potentially disclosive - one or more table cells have a count between 1 and the minimal number
-#' agreed by the data owner). If a 1-dimensional table is invalid all the cell are set to NA except the total
+#' agreed by the data owner). If a 1-dimensional table is invalid all the cells are set to NA except the total
 #' count. This way it is possible the know the total count and combine total counts across data sources but it 
 #' is not possible to identify the cell(s) that had the small counts which render the table invalid.
 #' @param x a character, the name of a numerical vector with discrete values - usually a factor.
@@ -28,32 +28,40 @@
 #' studies they are originated from are also mentioned in the text message.}
 #' @author Gaye, A.; Burton, P.
 #' @export
-#' @examples 
-#' {
+#' @examples {
 #' 
-#' # load the file that contains the login details
-#' data(logindata)
+#'   # load the file that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the stored variables to R
-#' opals  <-  datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the stored variables to R
+#'   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: generate a one dimensional table, outputting combined contingency tables
-#' ds.table1D(x='D$GENDER')
+#'   # Example 1: generate a one dimensional table, outputting combined (pooled) contingency tables
+#'   output <- ds.table1D(x='D$GENDER')
+#'   output$counts
+#'   output$percentages
+#'   output$validity
 #' 
-#' # Example 2: generate a one dimensional table, outputting study specific contingency tables
-#' ds.table1D(x='D$GENDER', type='split')
+#'   # Example 2: generate a one dimensional table, outputting study specific contingency tables
+#'   output <- ds.table1D(x='D$GENDER', type='split')
+#'   output$counts
+#'   output$percentages
+#'   output$validity
 #'  
-#' # Example 3: generate a one dimensional table, outputting study specific and combined 
-#' # contingency tables - see what happens if the reruened table is 'invalid'. 
-#' ds.table1D(x='D$DIS_CVA') 
+#'   # Example 3: generate a one dimensional table, outputting study specific and combined 
+#'   # contingency tables - see what happens if the reruened table is 'invalid'. 
+#'   output <- ds.table1D(x='D$DIS_CVA') 
+#'   output$counts
+#'   output$percentages
+#'   output$validity
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #'
-ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=NULL)
-{ 
+ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=NULL){
+  
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
@@ -99,9 +107,10 @@ ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=
   names(countTables) <- stdnames
   names(validityInfo) <- stdnames
   
-  # generate the pooled counts table
   # first check if any study is invalid - if yes then only add up the outer columns (i.e. the total)
   invalids <- which(unlist(validityInfo) == "invalid table - invalid counts present")
+  
+  # generate the pooled counts table
   pooledCounts <- countTables[[1]]
   pooledCounts[,1] <- 0
   for(i in 1:length(stdnames)){
@@ -139,7 +148,7 @@ ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=
     }else{
       validityValue <- "All tables are valid!"
     }
-    return(list(pooledCounts=pooledCounts, pooledPercentages=pooledPercentages, validity=validityValue))
+    return(list(counts=pooledCounts, percentages=pooledPercentages, validity=validityValue))
   }else{
     if(type=="split"){
       if(length(invalids > 0)){

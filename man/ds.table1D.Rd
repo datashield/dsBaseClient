@@ -56,7 +56,7 @@ and the minimal number agreed by the data owner and set in
 opal) or invalid (potentially disclosive - one or more
 table cells have a count between 1 and the minimal number
 agreed by the data owner). If a 1-dimensional table is
-invalid all the cell are set to NA except the total count.
+invalid all the cells are set to NA except the total count.
 This way it is possible the know the total count and
 combine total counts across data sources but it is not
 possible to identify the cell(s) that had the small counts
@@ -65,24 +65,33 @@ which render the table invalid.
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+  # load the file that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables to R
-opals  <-  datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables to R
+  opals  <-  datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: generate a one dimensional table, outputting combined contingency tables
-ds.table1D(x='D$GENDER')
+  # Example 1: generate a one dimensional table, outputting combined (pooled) contingency tables
+  output <- ds.table1D(x='D$GENDER')
+  output$counts
+  output$percentages
+  output$validity
 
-# Example 2: generate a one dimensional table, outputting study specific contingency tables
-ds.table1D(x='D$GENDER', type='split')
+  # Example 2: generate a one dimensional table, outputting study specific contingency tables
+  output <- ds.table1D(x='D$GENDER', type='split')
+  output$counts
+  output$percentages
+  output$validity
 
-# Example 3: generate a one dimensional table, outputting study specific and combined
-# contingency tables - see what happens if the reruened table is 'invalid'.
-ds.table1D(x='D$DIS_CVA')
+  # Example 3: generate a one dimensional table, outputting study specific and combined
+  # contingency tables - see what happens if the reruened table is 'invalid'.
+  output <- ds.table1D(x='D$DIS_CVA')
+  output$counts
+  output$percentages
+  output$validity
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }
