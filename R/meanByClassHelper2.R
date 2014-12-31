@@ -26,6 +26,7 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
       # inform of progress
       message(paste0(variables[z], " - Processing subset table ", i, " of ", numtables, "..."))
       
+      tnames <- tablenames
       tablename <- paste(unlist(strsplit(tablenames[[1]][i], "_INVALID")), collapse="")
       tablename <- paste(unlist(strsplit(tablename, "_EMPTY")), collapse="")
       
@@ -37,17 +38,21 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         }
       }
       if(length(rc) > 0){
+        lengths <- c()
+        for(qq in 1:length(dtsources)){
+          cally <- paste0("dim(", tnames[[qq]][i], ")")
+          temp <- unlist(datashield.aggregate(dtsources[qq], as.symbol(cally)))
+          lengths <- append(lengths, temp[1])
+        }
         if(length(rc) == length(dtsources)){
-          ll <- NA
+          ll <- sum(lengths)
           mm <- NA
           sdv <- NA
           mean.sd <- paste0(mm, '(', sdv, ')')
           entries <- c(ll, mean.sd)
         }else{
-          dtsc <- dtsources[-rc]
-          cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
-          lengths <- datashield.aggregate(dtsc, as.symbol(cally))
-          ll <- sum(unlist(lengths))
+          ll <- sum(lengths)
+          dtsc <- dtsources[-rc] # ignore invalid tables when it comes to mean and sd calculation, there value is NA anyway
           mm <- round(getPooledMean(dtsc, paste0(tablename,'$',variables[z])),2)
           sdv <- round(getPooledVar(dtsc, paste0(tablename,'$',variables[z])),2)
           if(is.na(mm)){ sdv <- NA }

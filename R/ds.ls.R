@@ -56,7 +56,7 @@ ds.ls <- function(datasources=NULL){
   }
   
   # call the server side function that does the job
-  cally <- call("ls()")
+  cally <- call("ls")
   output <- datashield.aggregate(datasources, cally)
   
   return(output)

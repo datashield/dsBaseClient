@@ -60,10 +60,20 @@
 #'   # Example 3: generate a two dimensional table, outputting combined contingency tables 
 #'   # *** this example shows what happens when one or studies return an invalis table ***
 #'   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER')
+#'   output$counts
+#'   output$rowPercent
+#'   output$colPercent
+#'   output$chi2Test
+#'   outout$validity
 #' 
 #'   # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
 #'   # *** this example shows what happens when one or studies return an invalis table ***
 #'   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
+#'   output$counts
+#'   output$rowPercent
+#'   output$colPercent
+#'   output$chi2Test
+#'   outout$validity
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(opals)
@@ -106,8 +116,16 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
   }
   
   # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  typ <- checkClass(datasources, y)
+  typ1 <- checkClass(datasources, x)
+  typ2 <- checkClass(datasources, y)
+  
+  # stop and throw an error if any of the vectors is not a factor
+  if(typ1 != "factor"){
+    stop(paste0(x, " must be a vector of class 'factor'!"), call.=FALSE)
+  }
+  if(typ2 != "factor"){
+    stop(paste0(y, " must be a vector of class 'factor'!"), call.=FALSE)
+  }
   
   # names of the studies 
   stdnames <- names(datasources)

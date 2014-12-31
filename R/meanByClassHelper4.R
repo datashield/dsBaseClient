@@ -2,7 +2,7 @@
 #' @title Gets the subset tables out of the list (i.e. unlist)
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to obtain 'loose'
-#' subset tables because the 'subclass' function does not handle a table within a list.
+#' subset tables because the 'subsetByClass' function does not handle a table within a list.
 #' @param dtsource a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @param alist the name of the list that holds the final subset tables

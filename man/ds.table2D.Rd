@@ -99,10 +99,20 @@ which render the table invalid.
   # Example 3: generate a two dimensional table, outputting combined contingency tables
   # *** this example shows what happens when one or studies return an invalis table ***
   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER')
+  output$counts
+  output$rowPercent
+  output$colPercent
+  output$chi2Test
+  outout$validity
 
   # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
   # *** this example shows what happens when one or studies return an invalis table ***
   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
+  output$counts
+  output$rowPercent
+  output$colPercent
+  output$chi2Test
+  outout$validity
 
   # clear the Datashield R sessions and logout
   datashield.logout(opals)

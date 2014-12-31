@@ -2,69 +2,56 @@
 #' @title  Computes the mean and standard deviation across categories
 #' @description This function calculates the mean and SD of a continuous variable for each class 
 #' of up to 3 categorical variables.
-#' @details The functions splits the input dataset into the single categories and calculates the mean and SD.
-#' If the subset table is invalid (contains less than the number of allowed observation) or empty (no observations
-#' in that categorie) a missing value is returned for both the mean and the standard deviation.
-#' It is important to note that the process of generating the final table(s) can be time consuming particularly if 
-#' the subsetting is done across more than one categorical variable and the run-time lengthens if the parameter 'split'
-#' is set to 'split' as a table is then produced for each study. It is therefore advisable to run the function only for the
-#' studies of the user really interested in but including only those studies in the parameter 'datasources'.
+#' @details The functions splits the input dataset into subsets (one for each category) and calculates 
+#' the mean and SD of the specified numeric variables. It is important to note that the process of 
+#' generating the final table(s) can be time consuming particularly if the subsetting is done across 
+#' more than one categorical variable and the run-time lengthens if the parameter 'split' is set to 
+#' 'split' as a table is then produced for each study. It is therefore advisable to run the function 
+#' only for the studies of the user really interested in but including only those studies in the 
+#' parameter 'datasources'.
 #' @param x a character, the name of the dataset to get the subsets from.
 #' @param outvar a character vector, the names of the continuous variables
 #' @param covar a character vector, the names of up to 3 categorical variables
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', a pooled table of results is generated.
-#' if \code{type} is set to 'split', a table of results is genrated for each study.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return a table or a list of tables that hold the length of the continuous variable(s) and their mean 
+#' @param type a character which represents the type of analysis to carry out. If \code{type} is set to 
+#' 'combine', a pooled table of results is generated. If \code{type} is set to 'split', a table of results 
+#' is genrated for each study.
+#' @param datasources a list of opal object(s) obtained after login in to opal servers; these objects hold 
+#' also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @return a table or a list of tables that hold the length of the numeric variable(s) and their mean 
 #' and standard deviation in each subgroup (subset).
 #' @export
 #' @author Gaye, A.
+#' @seealso \link{ds.subsetByClass}
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign the whole dataset on the opal server
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign the whole dataset on the opal server
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-#' ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
+#'   # Example 1: calculate the mean proportion for LAB_HDL across gender categories
+#'   ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
 #' 
-#' # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-#' ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+#'   # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
+#'   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
 #' 
-#' # Example 3: calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories
-#' ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
+#'   # Example 3: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status categories
+#'   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 #' 
-#' # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-#' ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
+#'   # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
+#'   ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -79,25 +66,19 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
   
   # the input object must be a dataframe
   if(typ != 'data.frame'){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input dataset must be a 'data.frame'.", call.=FALSE)
+    stop(paste0(x, "must be a 'data.frame'."), call.=FALSE)
   }
   
   if(is.null(outvar)){
-    message("No continuous variable specified")
-    message("Check the parameter 'outvar'.")
-    stop(" End of process!", call.=FALSE)
+    stop(" Please specify at least 1 continuous variables - see parameter 'outvar'!", call.=FALSE)
   }
   
   if(is.null(covar)){
-    message("No categorical provided")
-    message("You must specify at least one categorical variable.")
-    stop(" End of process!", call.=FALSE)
+    stop(" Please specify at 1 or up to 3 categorical variables (factors) - see parameter 'covar'!", call.=FALSE)
   }
   
   if(length(covar) > 3){
-    warning("More than 3 categorical have been specified. Only the first 3 will be considered!")
-    covar <- covar[1:3]
+    stop("More than 3 categorical variables specified! - see parameter 'covar'.", call.=FALSE)
   }
   
   # categories in each of the categorical variables
@@ -107,7 +88,7 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
     classes[[i]] <- datashield.aggregate(datasources, as.symbol(cally))
   }
   
-  # loop through the datasources a break down the original dataset by the specified categorical variable
+  # loop through the datasources and break down the original dataset by the specified categorical variable
   # the names of the subset tables are stored for mean and sd computations
   message("Generating the required subset tables (this may take couple of minutes, please do not interrupt!)")
   subsetnames <- vector("list", length(datasources))

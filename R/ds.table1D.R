@@ -89,6 +89,11 @@ ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
   
+  # stop and throw an error if the vector is not a factor
+  if(typ != "factor"){
+    stop(paste0(x, " must be a vector of class 'factor'!"), call.=FALSE)
+  }
+  
   # names of the studies 
   stdnames <- names(datasources)
   

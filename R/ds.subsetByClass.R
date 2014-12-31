@@ -4,8 +4,9 @@
 #' subset(s)  variables or data frames for each category.
 #' @details If the input data object is a data frame it is possible to specify  the variables  
 #' to subset on. If a subset is not 'valid' all its the values are reported as missing (i.e. NA),
-#' the name of the subsets is labelled as '_INVALID'. Subsets are considered invalid if the number
-#' of observations it holds are less than the agreed threshold (e.g. 5).
+#' the name of the subsets is labelled with the suffix '_INVALID'. Subsets are considered invalid if 
+#' the number of observations it holds are between 1 and the threshold allowed by the data owner. if 
+#' a subset is empty (i.e. no entries) the name of the subset is labelled with the suffix '_EMPTY'.
 #' @param x a character, the name of the dataframe or the vector to generate subsets from.
 #' @param variables a vector of string characters, the name(s) of the variables to subset by.
 #' @param subsets the name of the output object, a list that holds the subset objects. If set to NULL
@@ -17,51 +18,43 @@
 #' @export
 #' @examples {
 #'
-#' # load the login data
-#' data(logindata)
+#'   # load the login data
+#'   data(logindata)
 #' 
-#' # login and assign some variables to R
-#' myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign some variables to R
+#'   myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example 1: generate all possible subsets from the table assigne above 
-#' ds.subclass(x='D', subsets='subclasses')
+#'   # Example 1: generate all possible subsets from the table assigned above (one subset table for each class in each factor)
+#'   ds.subsetByClass(x='D', subsets='subclasses')
+#'   # display the names of the subset tables that were generated in each study
+#'   ds.names('subclasses')
+#'   
+#'   # Example 2: subset the table initially assigned by the variable 'GENDER'
+#'   ds.subsetByClass(x='D', subsets='subtables', variables='GENDER')
+#'   # display the names of the subset tables that were generated in each study
+#'   ds.names('subtables')
 #' 
-#' # Example 2: subset the table initially assigned by the variable 'GENDER'
-#' ds.subclass(x='D', subsets='subtables', variables='GENDER')
+#'   # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
+#'   ds.assign(toAssign='D$GENDER', newobj='gender')
+#'   ds.subsetByClass(x='gender', subsets='subvectors')
+#'   # display the names of the subset vectors that were generated in each study
+#'   ds.names('subvectors')
 #' 
-#' # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
-#' ds.assign(toAssign='D$GENDER', newobj='gender')
-#' ds.subclass(x='gender', subsets='subvectors')
-#' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
-ds.subclass <- function(x=NULL, subsets="subClasses", variables=NULL, datasources=NULL){
+ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
+    stop("Please provide the name of the input data frame or factor!", call.=FALSE)
   }
   
   # check if the input x is defined in all the studies
@@ -93,11 +86,11 @@ ds.subclass <- function(x=NULL, subsets="subClasses", variables=NULL, datasource
         if(res[[1]] != 'factor'){
           tracker <- append(tracker, 0)
         }else{
-          tracker <- append(tracker, 0)
+          tracker <- append(tracker, 1)
         }
       }
-      if(sum(tracker) !=0){
-        stop("No factor variable found in ", dtname, " in ",  stdnames[i], ".", call.=FALSE)
+      if(sum(tracker) == 0){
+        stop("No factor variable found in data frame ", dtname, " in ",  stdnames[i], ".", call.=FALSE)
       }
     }
   }
@@ -105,9 +98,9 @@ ds.subclass <- function(x=NULL, subsets="subClasses", variables=NULL, datasource
   # call the server side function that does the job
   # get the indices of the columns refered to by their names in the arguments
   if(is.null(variables)){
-    cally <- paste0("subclassDS('", x, "')")
+    cally <- paste0("subsetByClassDS('", x, "')")
   }else{
-    cally <- paste0("subclassDS('", x, "', c('",paste(variables,collapse="','"),"'))")
+    cally <- paste0("subsetByClassDS('", x, "', c('",paste(variables,collapse="','"),"'))")
   }
   datashield.assign(datasources, subsets, as.symbol(cally))
   

@@ -1,8 +1,8 @@
-\name{ds.subclass}
-\alias{ds.subclass}
+\name{ds.subsetByClass}
+\alias{ds.subsetByClass}
 \title{Generates valid subset(s) of a data frame or a factor}
 \usage{
-ds.subclass(x = NULL, subsets = "subClasses", variables = NULL,
+ds.subsetByClass(x = NULL, subsets = "subClasses", variables = NULL,
   datasources = NULL)
 }
 \arguments{
@@ -46,25 +46,31 @@ entries) the name of the subset is labelled with the suffix
 \examples{
 {
 
-# load the login data
-data(logindata)
+  # load the login data
+  data(logindata)
 
-# login and assign some variables to R
-myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign some variables to R
+  myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: generate all possible subsets from the table assigne above (one subset table for each class in each factor)
-ds.subclass(x='D', subsets='subclasses')
+  # Example 1: generate all possible subsets from the table assigned above (one subset table for each class in each factor)
+  ds.subsetByClass(x='D', subsets='subclasses')
+  # display the names of the subset tables that were generated in each study
+  ds.names('subclasses')
 
-# Example 2: subset the table initially assigned by the variable 'GENDER'
-ds.subclass(x='D', subsets='subtables', variables='GENDER')
+  # Example 2: subset the table initially assigned by the variable 'GENDER'
+  ds.subsetByClass(x='D', subsets='subtables', variables='GENDER')
+  # display the names of the subset tables that were generated in each study
+  ds.names('subtables')
 
-# Example 3: generate a new variable 'gender' and split it into two vectors: males and females
-ds.assign(toAssign='D$GENDER', newobj='gender')
-ds.subclass(x='gender', subsets='subvectors')
+  # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
+  ds.assign(toAssign='D$GENDER', newobj='gender')
+  ds.subsetByClass(x='gender', subsets='subvectors')
+  # display the names of the subset vectors that were generated in each study
+  ds.names('subvectors')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }
