@@ -22,9 +22,9 @@
 #' \item{counts}{ table(s) that hold counts for each level/category. If some cells counts are invalid (see 'Details' 
 #' section) only the total (outer) cell counts are displayed in the returned individual study tables or in the pooled 
 #' table.}
-#' \item{colPercentages}{ table(s) that hold column percentages for each level/category. Inner cells are reported as
+#' \item{rowPercent}{ table(s) that hold row percentages for each level/category. Inner cells are reported as
 #' missing if one or more cells are 'invalid'.}
-#' \item{rowPercentages}{ table(s) that hold row percentages for each level/category. Inner cells are reported as
+#' \item{colPercent}{ table(s) that hold column percentages for each level/category. Inner cells are reported as
 #' missing if one or more cells are 'invalid'.}
 #' \item{chi2Test}{Chi-squared test for homogeneity.}
 #' \item{validity}{ a text that informs the analyst about the validity of the output tables. If any tables are invalid the
@@ -40,27 +40,30 @@
 #'   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 #' 
 #'   # Example 1: generate a two dimensional table, outputting combined contingency tables - default behaviour
-#'   ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
+#'   output <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
+#'   # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+#'   output$counts
+#'   output$rowPercent
+#'   output$colPercent
+#'   output$chi2Test
+#'   outout$validity
 #' 
 #'   # Example 2: generate a two dimensional table, outputting study specific contingency tables
 #'   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
+#'   # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+#'   output$counts
+#'   output$rowPercent
+#'   output$colPercent
+#'   output$chi2Test
+#'   outout$validity
 #' 
 #'   # Example 3: generate a two dimensional table, outputting combined contingency tables 
-#'   # (in this case some studies are invalid)
-#'   ds.table2D(x='D$DIS_CVA', y='D$GENDER')
+#'   # *** this example shows what happens when one or studies return an invalis table ***
+#'   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER')
 #' 
-#'   # Example 4: generate a two dimensional table, outputting study specific contingency tables 
-#'   # (in this case some studies are invalid)
-#'   ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
-
-#'   # Example 6: generate a two dimensional table, outputting study specific and combined contingency tables, 
-#'   # see what happens if you try to tabulate a quantitative variable with unique values for many individuals. 
-#'   # The standard table() function in R would print out all observed 'values' as category names in ascending 
-#'   # order with a count (generally 1) for each unique number, but ds.table2d prints out all values where 
-#'   # there are between 1 and 4 observations as -1 and gives the category name -9. It is only when the count is 
-#'   # equal greater than the set threshold (e.g. 5) that the actual value can be observed.
-#'   ds.table2D(x ='D$GENDER', y='D$LAB_HDL')
-#'   ds.table2D(x ='D$GENDER', y='D$LAB_HDL', type='split')
+#'   # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
+#'   # *** this example shows what happens when one or studies return an invalis table ***
+#'   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(opals)
@@ -120,7 +123,7 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
     countTables[[i]] <- output[[i]][[1]] 
     validityInfo[[i]] <- output[[i]][[2]]
   }
-  names(countTables) <- paste0(stdnames,"",paste0(x,"(row).vs.",y,"(col)"))
+  names(countTables) <- paste0(stdnames,"-",paste0(x,"(row)|",y,"(col)"))
   names(validityInfo) <- stdnames  
   
   # check if any study is invalid - if yes then only add up the outer columns (i.e. the total)
@@ -144,7 +147,8 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
     pooledColPercent[1:(dim(pooledCounts)[1]-1), 1:(dim(pooledCounts)[2]-1)] <- NA   
     pooledChi2test <- "Error: all entries of the table must be non-negative and finite"
   }else{
-    pooledChi2test <- chisq.test(pooledCounts[1:(dim(pooledCounts)[1]-1), 1:(dim(pooledCounts)[2]-1)])
+    pooledContingencyTable <- pooledCounts[1:(dim(pooledCounts)[1]-1), 1:(dim(pooledCounts)[2]-1)]
+    pooledChi2test <- chisq.test(pooledContingencyTable)
   }
   
   # study specific row and column percentage tables (one for each study)
@@ -154,8 +158,8 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
     rowPercentTables[[i]]  <- rowPercent(countTables[[i]])
     colPercentTables[[i]]  <- colPercent(countTables[[i]])
   }  
-  names(rowPercentTables) <- paste0(stdnames,"-",paste0(x,"(row).vs.",y,"(col)")) 
-  names(colPercentTables) <- paste0(stdnames,"-",paste0(x,"(row).vs.",y,"(col)")) 
+  names(rowPercentTables) <- paste0(stdnames,"-",paste0(x,"(row)|",y,"(col)")) 
+  names(colPercentTables) <- paste0(stdnames,"-",paste0(x,"(row)|",y,"(col)")) 
   
   # chi-squared tests for each study separetely
   chi2Tests <- vector("list", length(stdnames))
@@ -164,33 +168,38 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
       chi2Tests[[i]] <- "Error: all entries of the table must be non-negative and finite"
     }else{
       contingencyTable <- countTables[[i]][1:(dim(countTables[[i]])[1]-1), 1:(dim(countTables[[i]])[2]-1)]
+      options(warn = -1) # suppress warning temporarily to avoid 'nuisance' message, analyst will found out chi2 results anyway.
       chi2Tests[[i]] <- chisq.test(contingencyTable )
+      options(warn = 0)  # put warning back
+
     }
   }
-  names(chi2Tests) <- paste0(stdnames,"-",paste0(x,"(row).vs.",y,"(col)"))   
+  names(chi2Tests) <- paste0(stdnames,"-",paste0(x,"(row)|",y,"(col)"))   
   
   # return the right output depending what the user specified: 'combine' or 'split' analysis
   if(type=="combine"){
     if(length(invalids > 0)){
       if(warningMessage){
-        message(paste0("WARNING: Invalid tables from '", paste(stdnames[invalids], collapse=", "), "' !\n         Only total values are returned in the output table(s)."))
+        message(paste0("WARNING: Invalid contingency table from '", paste(stdnames[invalids], collapse=", "), "' !\n         Only total values are returned in the output table(s)."))
       }
-      validityValue <- paste0("Invalid tables from '", paste(stdnames[invalids], collapse=", "), "'!")
+      validityValue <- paste0("Invalid contingency table from '", paste(stdnames[invalids], collapse=", "), "'!")
     }else{
       validityValue <- "All tables are valid!"
     }
-    listnames <- c(paste0("pooledCount:",paste0(x,"(row).vs.",y,"(col)")), paste0("pooledRowPercent:",paste0(x,"(row).vs.",y,"(col)")), 
-                   paste0("pooledColPercent:",paste0(x,"(row).vs.",y,"(col)")), "chiSquaredTest", "validity")
-    out <- list(pooledCounts, pooledRowPercent, pooledColPercent, pooledChi2test, validityValue)
-    names(out) <- listnames
+    # adding labels to pooled outputs before returning them
+    pooledCounts <- structure(list(pooledCounts), names=paste0("pooled-",x,"(row)|",y,"(col)"))
+    pooledRowPercent <- structure(list(pooledRowPercent), names=paste0("pooled-",x,"(row)|",y,"(col)"))
+    pooledColPercent <- structure(list(pooledColPercent), names=paste0("pooled-",x,"(row)|",y,"(col)"))
+    pooledChi2test <- structure(list(pooledChi2test), names=paste0("pooled-",x,"(row)|",y,"(col)"))
+    out <- list(counts=pooledCounts, rowPercent=pooledRowPercent, colPercent=pooledColPercent, chi2Test=pooledChi2test, validity=validityValue)
     return(out)
   }else{
     if(type=="split"){
       if(length(invalids > 0)){
         if(warningMessage){
-          message(paste0("WARNING: Invalid table(s) from '", paste(stdnames[invalids], collapse=", "), "' !\n          Only total values are returned in the output table(s)."))          
+          message(paste0("WARNING: Invalid contingency table from '", paste(stdnames[invalids], collapse=", "), "' !\n          Only total values are returned in the output table(s)."))          
         }
-        validityValue <- paste0("Invalid table(s) from '", paste(stdnames[invalids], collapse=", "), "'!")
+        validityValue <- paste0("Invalid contingency table from '", paste(stdnames[invalids], collapse=", "), "'!")
       }else{
         validityValue <- "All tables are valid!"
       }

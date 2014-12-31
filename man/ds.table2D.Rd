@@ -37,10 +37,10 @@ A list object containing the following items:
 level/category. If some cells counts are invalid (see
 'Details' section) only the total (outer) cell counts are
 displayed in the returned individual study tables or in the
-pooled table.} \item{colPercentages}{ table(s) that hold
-column percentages for each level/category. Inner cells are
+pooled table.} \item{rowPercent}{ table(s) that hold row
+percentages for each level/category. Inner cells are
 reported as missing if one or more cells are 'invalid'.}
-\item{rowPercentages}{ table(s) that hold row percentages
+\item{colPercent}{ table(s) that hold column percentages
 for each level/category. Inner cells are reported as
 missing if one or more cells are 'invalid'.}
 \item{chi2Test}{Chi-squared test for homogeneity.}
@@ -79,26 +79,30 @@ which render the table invalid.
   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: generate a two dimensional table, outputting combined contingency tables - default behaviour
-  ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
+  output <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
+  # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+  output$counts
+  output$rowPercent
+  output$colPercent
+  output$chi2Test
+  outout$validity
 
   # Example 2: generate a two dimensional table, outputting study specific contingency tables
   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
+  # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+  output$counts
+  output$rowPercent
+  output$colPercent
+  output$chi2Test
+  outout$validity
 
   # Example 3: generate a two dimensional table, outputting combined contingency tables
-  # (in this case some studies are invalid)
-  ds.table2D(x='D$DIS_CVA', y='D$GENDER')
+  # *** this example shows what happens when one or studies return an invalis table ***
+  output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER')
 
-  # Example 4: generate a two dimensional table, outputting study specific contingency tables
-  # (in this case some studies are invalid)
-  ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
-  # Example 6: generate a two dimensional table, outputting study specific and combined contingency tables,
-  # see what happens if you try to tabulate a quantitative variable with unique values for many individuals.
-  # The standard table() function in R would print out all observed 'values' as category names in ascending
-  # order with a count (generally 1) for each unique number, but ds.table2d prints out all values where
-  # there are between 1 and 4 observations as -1 and gives the category name -9. It is only when the count is
-  # equal greater than the set threshold (e.g. 5) that the actual value can be observed.
-  ds.table2D(x ='D$GENDER', y='D$LAB_HDL')
-  ds.table2D(x ='D$GENDER', y='D$LAB_HDL', type='split')
+  # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
+  # *** this example shows what happens when one or studies return an invalis table ***
+  output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
 
   # clear the Datashield R sessions and logout
   datashield.logout(opals)
