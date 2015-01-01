@@ -13,40 +13,26 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign specific variable(s)
-#' myvar <- list("PM_BMI_CONTINUOUS")
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign specific variable(s)
+#'   myvar <- list("PM_BMI_CONTINUOUS")
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
-#' ds.exp(x='D$PM_BMI_CONTINUOUS')
+#'   # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
+#'   ds.exp(x='D$PM_BMI_CONTINUOUS')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -69,6 +55,11 @@ ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
+  
+  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
+  if(typ != 'numeric' & typ != 'integer'){
+      stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
+  }
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

@@ -33,22 +33,22 @@ See details of the R function 'as.numeric'.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- list("GENDER")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- list("GENDER")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(x='D$GENDER', newobj="gender_ch")
+  # turn the factor variable 'GENDER' into a character vector
+  ds.asCharacter(x='D$GENDER', newobj="gender_ch")
 
-# now turn the newly created vector 'gender_ch' into a numeric
-ds.asNumeric(x='gender_ch', newobj="gender_nm")
+  # now turn the newly created vector 'gender_ch' into a numeric
+  ds.asNumeric(x='gender_ch', newobj="gender_nm")
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

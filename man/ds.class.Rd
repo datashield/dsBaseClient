@@ -26,21 +26,21 @@ Same as for the R function \code{class}.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables
-# (by default the assigned dataset is a dataframe named 'D')
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables
+  # (by default the assigned dataset is a dataframe named 'D')
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Get the class of the whole dataset
-ds.class(x='D')
+  # Example 1: Get the class of the whole dataset
+  ds.class(x='D')
 
-# Example 2: Get the class of the variable PM_BMI_CONTINUOUS
-ds.class(x='D$LAB_TSC')
+  # Example 2: Get the class of the variable PM_BMI_CONTINUOUS
+  ds.class(x='D$LAB_TSC')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

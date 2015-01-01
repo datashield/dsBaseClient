@@ -37,24 +37,24 @@ separately.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables.
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables.
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Get the dimension of the assigned datasets in each study
-ds.dim(x='D')
+  # Example 1: Get the dimension of the assigned datasets in each study
+  ds.dim(x='D')
 
-# Example 2: Get the pooled dimension of the assigned datasets
-ds.dim(x='D', type='combine')
+  # Example 2: Get the pooled dimension of the assigned datasets
+  ds.dim(x='D', type='combine')
 
-# Example 2: Input has to be either matrix, data frame or an array
-# In the below example, the inpout is a vector so it will not work.
-\dontrun{ ds.dim(x='D$LAB_TSC') }
+  # Example 2: Input has to be either matrix, data frame or an array
+  # In the below example, the inpout is a vector so it will not work.
+  \dontrun{ ds.dim(x='D$LAB_TSC') }
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

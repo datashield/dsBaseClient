@@ -42,31 +42,31 @@ or to rename (i.e. re-label) the levels of a vector.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the variables
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the variables
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
-ds.levels(x='D$PM_BMI_CATEGORICAL')
+  # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
+  ds.levels(x='D$PM_BMI_CATEGORICAL')
 
-# Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-# this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
-ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
-ds.levels(x='BMI_CAT_NEW1')
+  # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
+  # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
+  ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
+  ds.levels(x='BMI_CAT_NEW1')
 
-# Example2: add a 4th and empty level to categorical bmi to create a new variable
-# we know the current categories are '1', '2' and '3' so we add '4'
-ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
-ds.levels(x='BMI_CAT_NEW2')
+  # Example2: add a 4th and empty level to categorical bmi to create a new variable
+  # we know the current categories are '1', '2' and '3' so we add '4'
+  ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
+  ds.levels(x='BMI_CAT_NEW2')
 
-# Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
-ds.levels(x='BMI_CAT_NEW3')
+  # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
+  ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
+  ds.levels(x='BMI_CAT_NEW3')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

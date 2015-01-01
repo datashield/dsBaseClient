@@ -32,20 +32,21 @@ returned. The summary is given for each study separately.
 }
 \examples{
 {
-# load the login data
-data(logindata)
 
-# login and assign all the variable held in the opal database
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # load the login data
+  data(logindata)
 
-# Example 1: suummary of a numerical variable
-ds.summary(x='D$LAB_TSC')
+  # login and assign all the variable held in the opal database
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: suummary of a binary variable
-ds.summary(x='D$GENDER')
+  # Example 1: suummary of a numerical variable
+  ds.summary(x='D$LAB_TSC')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # Example 1: suummary of a binary variable
+  ds.summary(x='D$GENDER')
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

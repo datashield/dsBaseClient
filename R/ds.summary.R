@@ -13,42 +13,29 @@
 #' @author Gaye, A.
 #' @export
 #' @examples {
-#' # load the login data
-#' data(logindata)
 #' 
-#' # login and assign all the variable held in the opal database
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # load the login data
+#'   data(logindata)
 #' 
-#' # Example 1: suummary of a numerical variable
-#' ds.summary(x='D$LAB_TSC')
+#'   # login and assign all the variable held in the opal database
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: suummary of a binary variable
-#' ds.summary(x='D$GENDER')
+#'   # Example 1: suummary of a numerical variable
+#'   ds.summary(x='D$LAB_TSC')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # Example 1: suummary of a binary variable
+#'   ds.summary(x='D$GENDER')
+#' 
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.summary <- function(x=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -75,7 +62,6 @@ ds.summary <- function(x=NULL, datasources=NULL){
   # the input object must be a numeric or an integer vector
   # the input object must be a dataframe or a factor
   if(typ != 'data.frame' & typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'list' & typ != 'logical' & typ != 'matrix' & typ != 'numeric'){
-    message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be a 'data.frame', 'character', factor', 'integer', 'list', 'logical', 'matrix' or 'numeric'.", call.=FALSE)
   }
   
@@ -121,10 +107,10 @@ ds.summary <- function(x=NULL, datasources=NULL){
       if(validity){
         l <- datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
         categories <- datashield.aggregate(datasources[i], as.symbol(paste0('levels(', x, ')' )))[[1]]
-        freq <- datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][2][[1]]
+        freq <- datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l, 'categories'=categories)
         for(j in 1:length(categories)){
-          stdsummary[[3+j]] <- freq[[j]]
+          stdsummary[[3+j]] <- freq[[1]][1,j]
         }
         names(stdsummary)[4:(3+length(categories))] <- paste0("count of '", categories, "'")
         finalOutput[[i]] <- stdsummary
@@ -170,10 +156,10 @@ ds.summary <- function(x=NULL, datasources=NULL){
       validity <- datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
         l <- datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
-        freq <- datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][2][[1]]
+        freq <- datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l)
         for(j in 1:length(2)){
-          stdsummary[[2+j]] <- freq[[j]]
+          stdsummary[[2+j]] <- freq[[1]][1,j]
         }
         names(stdsummary)[3:(2+2)] <- paste0("count of '", c('FALSE','TRUE'), "'")
         finalOutput[[i]] <- stdsummary

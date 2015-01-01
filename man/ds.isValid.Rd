@@ -39,18 +39,18 @@ of rows is equal or greater than the set threshold.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list("LAB_TSC", "GENDER")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  myvar <- list("LAB_TSC", "GENDER")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: Check if the dataframe assigned above is valid
-ds.isValid(x='D')
+  # Example 1: Check if the dataframe assigned above is valid
+  ds.isValid(x='D')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

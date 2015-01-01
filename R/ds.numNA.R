@@ -13,46 +13,32 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the stored variables.
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the stored variables.
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: Get the number of missing values in the variable 'LAB_HDL' 
-#' held in the table 'D'. 
-#' ds.numNA(x='D$LAB_HDL')
+#'   # Example 1: Get the number of missing values in the variable 'LAB_HDL' held in the table 'D'. 
+#'   ds.numNA(x='D$LAB_HDL')
 #' 
-#' # Example 2: Assign the above variable and check the 
-#' number of missing values on the now loose variable 'LAB_HDL'
-#' ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
-#' # Example 2: Get the pooled dimension of the assigned datasets
-#' ds.numNA(x='labhdl')
+#'   # Example 2: Assign the above variable and check the number of missing values on the now loose 
+#'   # variable 'LAB_HDL'.
+#'   ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
+#'   
+#'   # Example 3: Get the pooled dimension of the assigned datasets
+#'   ds.numNA(x='labhdl')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.numNA = function(x=NULL, datasources=NULL) {
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){

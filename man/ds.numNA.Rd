@@ -34,24 +34,24 @@ counted and the total for each study is returned.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables.
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables.
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Get the number of missing values in the variable 'LAB_HDL'
-held in the table 'D'.
-ds.numNA(x='D$LAB_HDL')
+  # Example 1: Get the number of missing values in the variable 'LAB_HDL' held in the table 'D'.
+  ds.numNA(x='D$LAB_HDL')
 
-# Example 2: Assign the above variable and check the
-number of missing values on the now loose variable 'LAB_HDL'
-ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
-# Example 2: Get the pooled dimension of the assigned datasets
-ds.numNA(x='labhdl')
+  # Example 2: Assign the above variable and check the number of missing values on the now loose
+  # variable 'LAB_HDL'.
+  ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # Example 3: Get the pooled dimension of the assigned datasets
+  ds.numNA(x='labhdl')
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

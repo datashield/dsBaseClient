@@ -28,24 +28,25 @@ to tell if all the elements are missing values.
 
 In certain analyses such as GLM none of the variable should
 be missing at complete (i.e. missing value for each
-observation). since in DataSHIELD it is not possible to see
+observation). Since in DataSHIELD it is not possible to see
 the data it is important to know whether or not a vector is
 empty to proceed accordingly.
 }
 \examples{
 {
-# load the login data
-data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list("LAB_HDL")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # load the login data
+  data(logindata)
 
-# check if all the observation of the variable 'LAB_HDL' are missing (NA)
-ds.isNA(x='D$LAB_HDL')
+  # login and assign specific variable(s)
+  myvar <- list("LAB_HDL")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # check if all the observation of the variable 'LAB_HDL' are missing (NA)
+  ds.isNA(x='D$LAB_HDL')
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

@@ -37,22 +37,22 @@ named 'newObject', by default.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- list("LAB_TSC")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- list("LAB_TSC")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: assign the variable 'LAB_TSC' in the dataframe D
-ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
+  # Example 1: assign the variable 'LAB_TSC' in the dataframe D
+  ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
 
-# Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
-ds.assign(toAssign='log(D$LAB_TSC)', newobj='logTSC')
+  # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
+  ds.assign(toAssign='log(D$LAB_TSC)', newobj='logTSC')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

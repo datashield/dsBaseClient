@@ -27,18 +27,18 @@ The input is restricted to object of type 'data.frame' and
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables
-# (by default the assigned dataset is a dataframe named 'D')
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables
+  # (by default the assigned dataset is a dataframe named 'D')
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Get the column names of the assigned datasets (default name is 'D')
-ds.colnames(x='D')
+  # Get the column names of the assigned datasets (default name is 'D')
+  ds.colnames(x='D')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

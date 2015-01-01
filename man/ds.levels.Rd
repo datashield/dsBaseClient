@@ -27,20 +27,20 @@ function.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
-ds.levels(x='D$PM_BMI_CATEGORICAL')
+  # Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
+  ds.levels(x='D$PM_BMI_CATEGORICAL')
 
-# Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-\dontrun{ ds.levels(x='D$LAB_TSC') }
+  # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
+  \dontrun{ ds.levels(x='D$LAB_TSC') }
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

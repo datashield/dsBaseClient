@@ -34,19 +34,19 @@ elements in the list are the names of columns.
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+ # load the file that contains the login details
+ data(logindata)
 
-# login and assign the required variables to R
-myvar <- list("LAB_TSC","LAB_HDL")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+ # login and assign the required variables to R
+ myvar <- list("LAB_TSC","LAB_HDL")
+ opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# combine the 'LAB_TSC' and 'LAB_HDL' variables into a list
-myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
-ds.list(x=myobjects)
+ # combine the 'LAB_TSC' and 'LAB_HDL' variables into a list
+ myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
+ ds.list(x=myobjects)
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+ # clear the Datashield R sessions and logout
+ datashield.logout(opals)
 
 }
 }

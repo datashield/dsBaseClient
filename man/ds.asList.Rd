@@ -38,24 +38,24 @@ into data.frame before being converted into a list. When a
 data.frame, matrix is turned into a list the output list is
 allowed only if the number of rows of the input data.frame
 or matrix is greater than the allowed number of
-observations. Otherwise an empty list is generated (i.e.
-all elements set to NA)).
+observations. Otherwise a list missing at complete is
+generated (i.e. all elements set to NA)).
 }
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# turn the dataframe 'D' (the default name of the dataframe assign above) into a list
-ds.asList(x='D')
+  # turn the dataframe 'D' (the default name of the dataframe assign above) into a list
+  ds.asList(x='D')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

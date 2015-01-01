@@ -53,20 +53,20 @@ only - NA).
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+  # load the file that contains the login details
+  data(logindata)
 
-# login and assign the required variables to R
-myvar <- list('LAB_TSC','LAB_HDL')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign the required variables to R
+  myvar <- list('LAB_TSC','LAB_HDL')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
-# all the arguments are set to default in this example
-myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-ds.dataframe(x=myvectors)
+  # create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
+  # all the arguments are set to default in this example
+  myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
+  ds.dataframe(x=myvectors)
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

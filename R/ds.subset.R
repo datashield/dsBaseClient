@@ -3,15 +3,12 @@
 #' @description The function uses the R classical subsetting with squared brackets '[]' and allows also to 
 #' subset using a logical oprator and a threshold. The object to subset from must be a vector (factor, numeric 
 #' or charcater) or a table (data.frame or matrix). 
-#' @details If the input data is a table: The user specifies the rows and/or columns to include in the subset if the input 
-#' object is a table; the columns can be refered to by their names. The name of a vector (i.e. a variable) can also be provided 
-#' with a logical operator and a threshold (see example 3). 
-#' If the input data is a vector:  when the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored 
-#' ('rows' has precedence over the other two parameters then).
-#' IMPORTANT NOTE: If the requested subset is not valid (i.e. contains less than the allowed number of observations) or if it does 
-#' not have any observations, the subset is not generated, rather a table or a vector of missing values is generated to allow
-#' for any subsequent process using the output of the function to proceed, after informing the user via a message.
-#' In order to indicate that a generated subset dataframe or vector is invalid all values within it are set to NA.
+#' @details (1) If the input data is a table the user specifies the rows and/or columns to include in the subset; the columns can be 
+#' refered to by their names. Table subsetting can also be done using the name of a variable and a threshold (see example 3). 
+#' (2) If the input data is a vector and the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored 
+#' (i.e. 'rows' has precedence over the other two parameters then).
+#' IMPORTANT NOTE: If the requested subset is not valid (i.e. contains less than the allowed number of observations) all the values are 
+#' turned into missing values (NA). Hence an invalid subset is indicated by the fact that all values within it are set to NA. 
 #' @param subset the name of the output object, a list that holds the subset object. If set to NULL
 #' the default name of this list is 'subsetObject' 
 #' @param x a character, the name of the dataframe or the factor vector and the range of the subset.
@@ -29,61 +26,50 @@
 #' @export
 #' @examples {
 #'
-#' # load the login data
-#' data(logindata)
+#'   # load the login data
+#'   data(logindata)
 #' 
-#' # login and assign some variables to R
-#' myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign some variables to R
+#'   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
-#' ds.subset(x='D', subset='subD1', completeCases=TRUE)
-#' 
-#' # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables 
-#' # DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
-#' ds.subset(x='D', subset='subD2', cols=c('DIS_DIAB','PM_BMI_CONTINUOUS'))
+#'   # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
+#'   ds.subset(x='D', subset='subD1', completeCases=TRUE)
+#'   # display the dimensions of the initial table ('D') and those of the subset table ('subD1')
+#'   ds.dim('D')
+#'   ds.dim('subD1')
+#'   
+#'   # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables 
+#'   # DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
+#'   ds.subset(x='D', subset='subD2', cols=c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 #'
-#' # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
-#' ds.subset(x='D', subset='subD3', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
+#'   # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
+#'   ds.subset(x='D', subset='subD3', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
 #' 
-#' # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
-#' # vector with bmi values greater than or equal to 25
-#' ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
-#' ds.subset(x='BMI', subset='BMI25plus', logicalOperator='>=', threshold=25)
+#'   # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
+#'   # vector with bmi values greater than or equal to 25
+#'   ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
+#'   ds.subset(x='BMI', subset='BMI25plus', logicalOperator='>=', threshold=25)
 #' 
-#' # Example 5: subsetting by rows:
-#' # get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
-#' # the first 50 observations of that new vector. If the specified number of row is greater than the total 
-#' # number of rows in any of the studies the process will stop.
-#' ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
-#' ds.subset(x='logHDL', subset='subLAB_HDL', rows=c(1:50))
-#' # now get a subset of the table 'D' with just the 100 first observations
-#' ds.subset(x='D', subset='subD5', rows=c(1:100))
+#'   # Example 5: subsetting by rows:
+#'   # get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
+#'   # the first 50 observations of that new vector. If the specified number of row is greater than the total 
+#'   # number of rows in any of the studies the process will stop.
+#'   ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
+#'   ds.subset(x='logHDL', subset='subLAB_HDL', rows=c(1:50))
+#'   # now get a subset of the table 'D' with just the 100 first observations
+#'   ds.subset(x='D', subset='subD5', rows=c(1:100))
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -98,7 +84,6 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
   
   # the input object must be a dataframe or a vector
   if(typ != 'data.frame' & typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric'){
-    message(paste0(x, " is of type ", typ, "!"))
     stop("The object to subset from must be a 'data.frame', a 'character', factor', a 'logical' or a 'numeric' vector.", call.=FALSE)
   }
   
@@ -106,8 +91,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
   if(is.null(rows) & is.null(cols)){
     if(is.null(logicalOperator) | is.null(threshold)){
       if(!completeCases){
-        message("None of the subsetting parameters is provided, the sought subset is the same as the original object!")
-        stop(" End of process!", call.=FALSE)
+        stop("No subset parameters provided, the sought subset is the same as the original object!", call.=FALSE)
       }else{
         cally <- call('subsetDS', dt=x, complt=completeCases)
         datashield.assign(datasources, subset, cally)
@@ -170,8 +154,5 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       }
     }
   }
-  
-  # a message so the user knows the function was ran (assign functions are 'silent')
-  message("In order to indicate that a generated subset dataframe or vector is invalid all values within it are set to NA!")
   
 }

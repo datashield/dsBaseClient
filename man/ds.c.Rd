@@ -35,23 +35,23 @@ concatenate the list's elements into a vector.
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+  # load the file that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- c('LAB_TSC', 'LAB_HDL')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- c('LAB_TSC', 'LAB_HDL')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
-myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
-ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
-ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
-myvect <- c('labtsc', 'labhdl')
-ds.c(x=myvect)
+  # Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
+  myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
+  ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
+  ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
+  myvect <- c('labtsc', 'labhdl')
+  ds.c(x=myvect)
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

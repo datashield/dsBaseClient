@@ -34,18 +34,18 @@ the server site.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list("PM_BMI_CONTINUOUS")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  myvar <- list("PM_BMI_CONTINUOUS")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# compute exponential function of the 'PM_BMI_CONTINUOUS' variable
-ds.exp(x='D$PM_BMI_CONTINUOUS')
+  # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
+  ds.exp(x='D$PM_BMI_CONTINUOUS')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

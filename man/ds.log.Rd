@@ -36,18 +36,18 @@ this is simply a wrapper for the server side function.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list("LAB_TSC")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  myvar <- list("LAB_TSC")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Compute natural logarithm of LAB_TSC
-ds.log(x='D$LAB_TSC')
+  # Compute natural logarithm of LAB_TSC
+  ds.log(x='D$LAB_TSC')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

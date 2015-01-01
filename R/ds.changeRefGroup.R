@@ -22,59 +22,46 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the stored variables
-#' # (by default the assigned dataset is a dataframe named 'D')
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the stored variables
+#'   # (by default the assigned dataset is a dataframe named 'D')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: rename the categories and change the reference with re-ordering
-#' # print out the levels of the initial vector
-#' ds.levels(x='D$PM_BMI_CATEGORICAL')
+#'   # Example 1: rename the categories and change the reference with re-ordering
+#'   # print out the levels of the initial vector
+#'   ds.levels(x='D$PM_BMI_CATEGORICAL')
 #' 
-#' # define a vector with the new levels and recode the initial levels
-#' newNames <- c('normal', 'overweight', 'obesity')
-#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+#'   # define a vector with the new levels and recode the initial levels
+#'   newNames <- c('normal', 'overweight', 'obesity')
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
 #' 
-#' # print out the levels of the new vector
-#' ds.levels(x='bmi_new')
+#'   # print out the levels of the new vector
+#'   ds.levels(x='bmi_new')
 #' 
-#' # by default the reference is the first level in the vector of levels (here 'normal')
-#' # now change and set the reference to 'obesity' without changing the order (default)
-#' ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
+#'   # by default the reference is the first level in the vector of levels (here 'normal')
+#'   # now change and set the reference to 'obesity' without changing the order (default)
+#'   ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
 #' 
-#' # print out the levels; the first listed level (i.e. the reference) is now 'obesity'
-#' ds.levels(x='bmi_ob')
+#'   # print out the levels; the first listed level (i.e. the reference) is now 'obesity'
+#'   ds.levels(x='bmi_ob')
 #' 
-#' # Example 2: change the reference and re-order by the refence level
-#' # If re-ordering is sought, the action is completed but a warning is issued.
-#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
-#' ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob', reorderByRef=TRUE)
+#'   # Example 2: change the reference and re-order by the refence level
+#'   # If re-ordering is sought, the action is completed but a warning is issued.
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+#'   ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob', reorderByRef=TRUE)
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
   
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -82,7 +69,7 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
   }
   
   if(is.null(ref)){
-    stop(" You must indicate a reference level by setting the parameter 'ref'.", call.=FALSE)
+    stop(" You must indicate a reference level - set the parameter 'ref'.", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$x)

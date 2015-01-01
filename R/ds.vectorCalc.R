@@ -20,41 +20,27 @@
 #' @export
 #' @examples {
 #' 
-#' # load the file that contains the login details
-#' data(logindata)
+#'   # load the file that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign the required variables to R
-#' myvar <- list('LAB_TSC','LAB_HDL')
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign the required variables to R
+#'   myvar <- list('LAB_TSC','LAB_HDL')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # performs an addtion of 'LAB_TSC' and 'LAB_HDL'
-#' myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-#' ds.vectorCalc(x=myvectors, calc='+')
+#'   # performs an addtion of 'LAB_TSC' and 'LAB_HDL'
+#'   myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
+#'   ds.vectorCalc(x=myvectors, calc='+')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment 
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -62,7 +48,7 @@ ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NU
   }
   
   if(length(x) < 2){
-    stop("You must provide the names of at least two vectors!\n", call.=FALSE)
+    stop("You must provide the names of at least two vectors!", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$object)

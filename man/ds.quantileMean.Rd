@@ -34,21 +34,21 @@ disclosive.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-myvar <- list('LAB_HDL')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  myvar <- list('LAB_HDL')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
-ds.quantileMean(x='D$LAB_HDL')
+  # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+  ds.quantileMean(x='D$LAB_HDL')
 
-# Example 2: Plot the histograms separately (one per study)
-ds.quantileMean(x='D$LAB_HDL', type='split')
+  # Example 2: Plot the histograms separately (one per study)
+  ds.quantileMean(x='D$LAB_HDL', type='split')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

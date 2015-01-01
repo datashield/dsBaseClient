@@ -14,42 +14,28 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the variables stored on the server side
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the variables stored on the server side
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
-#' ds.length(x='D$LAB_TSC')
+#'   # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
+#'   ds.length(x='D$LAB_TSC')
 #' 
-#' # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
-#' ds.length(x='D$LAB_TSC', type='split')
+#'   # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
+#'   ds.length(x='D$LAB_TSC', type='split')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals) 
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals) 
 #' 
 #' }
 #' 
 ds.length = function(x=NULL, type='combine', datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -75,7 +61,6 @@ ds.length = function(x=NULL, type='combine', datasources=NULL){
   
   # the input object must be a vector
   if(typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric' & typ != 'list'){
-    message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be a character, factor, integer, logical or numeric vector or a list.", call.=FALSE)
   }
   

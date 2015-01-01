@@ -33,19 +33,19 @@ See details of the R function 'as.character'.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- list("GENDER")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- list("GENDER")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# turn the factor variable 'GENDER' into a character vector
-ds.asCharacter(x='D$GENDER', newobj="gender_char")
+  # turn the factor variable 'GENDER' into a character vector
+  ds.asCharacter(x='D$GENDER', newobj="gender_char")
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

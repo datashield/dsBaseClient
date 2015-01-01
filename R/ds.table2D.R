@@ -46,7 +46,7 @@
 #'   output$rowPercent
 #'   output$colPercent
 #'   output$chi2Test
-#'   outout$validity
+#'   output$validity
 #' 
 #'   # Example 2: generate a two dimensional table, outputting study specific contingency tables
 #'   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
@@ -55,7 +55,7 @@
 #'   output$rowPercent
 #'   output$colPercent
 #'   output$chi2Test
-#'   outout$validity
+#'   output$validity
 #' 
 #'   # Example 3: generate a two dimensional table, outputting combined contingency tables 
 #'   # *** this example shows what happens when one or studies return an invalis table ***
@@ -64,7 +64,7 @@
 #'   output$rowPercent
 #'   output$colPercent
 #'   output$chi2Test
-#'   outout$validity
+#'   output$validity
 #' 
 #'   # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
 #'   # *** this example shows what happens when one or studies return an invalis table ***
@@ -73,7 +73,7 @@
 #'   output$rowPercent
 #'   output$colPercent
 #'   output$chi2Test
-#'   outout$validity
+#'   output$validity
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(opals)

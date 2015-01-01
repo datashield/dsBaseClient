@@ -28,21 +28,21 @@ objects of type list.
 \examples{
 {
 
-# load the login data
-data(logindata)
+  # load the login data
+  data(logindata)
 
-# login and assign some variables to R
-myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign some variables to R
+  myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# generates subset tables from the table assigned above (by default the table name is 'D')
-ds.subclass(x='D', subsets='subclasses')
+  # generates subset tables from the table assigned above (by default the table name is 'D')
+  ds.subsetByClass(x='D', subsets='subclasses')
 
-# the above object 'subsets' is a list, let us display the names of elements in 'subsets'
-ds.names('subclasses')
+  # the above object 'subsets' is a list, let us display the names of elements in 'subsets'
+  ds.names('subclasses')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

@@ -14,40 +14,26 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the stored variable(s)
-#' # (by default the assigned dataset is a dataframe named 'D')
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the stored variable(s)
+#'   # (by default the assigned dataset is a dataframe named 'D')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # turn the data frame 'D' (default name of the dataframe assigned above) into a matrix
-#' ds.asMatrix(x='D')
+#'   # turn the data frame 'D' (default name of the dataframe assigned above) into a matrix
+#'   ds.asMatrix(x='D')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.asMatrix = function(x=NULL, newobj=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){
@@ -62,7 +48,6 @@ ds.asMatrix = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # Only a dataframe or a matrice can be turned into a list
   if(typ != 'data.frame' & typ != 'factor' & typ != 'character' & typ != 'numeric' & typ != 'integer'  & typ != 'logical'){
-    message(paste0("Your object is of type ", typ, "!"))
     stop(" Only objects of type 'data.frame', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
   }
   

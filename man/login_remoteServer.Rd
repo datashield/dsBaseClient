@@ -1,6 +1,6 @@
-\name{logindata}
+\name{login_remoteServer}
 
-\alias{logindata}
+\alias{login_remoteServer}
 
 \docType{data}
 
@@ -10,7 +10,7 @@
     A table of with 5 columns: study name, URL, username, password and opal datasource.
 }
 
-\usage{data(logindata)}
+\usage{data(login_remoteServer)}
 
 \format{
   A data frame where the number of servers corresponds to the number of rows
@@ -26,4 +26,4 @@
   }
 }
 
-\examples{data(logindata)}
+\examples{data(login_remoteServer)}

@@ -36,21 +36,21 @@ specify another environment, only names of objects on the
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+  # load the file that contains the login details
+  data(logindata)
 
-# login and assign the required variables to R
-myvar <- list("LAB_TSC")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign the required variables to R
+  myvar <- list("LAB_TSC")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
-ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
+  # assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
+  ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
 
-# now call the ds.ls function to display the names of the objects on the server site
-ds.ls()
+  # now call the ds.ls function to display the names of the objects on the server site
+  ds.ls()
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

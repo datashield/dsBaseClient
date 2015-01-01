@@ -25,44 +25,30 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign all the stored variables.
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the stored variables.
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # Replace missing values in variable 'LAB_HDL' by the mean value in each study
-#' # first let us get the mean value for 'LAB_HDL' in each study
-#' ds.mean(x='D$LAB_HDL', type='split')
+#'   # Replace missing values in variable 'LAB_HDL' by the mean value in each study
+#'   # first let us get the mean value for 'LAB_HDL' in each study
+#'   ds.mean(x='D$LAB_HDL', type='split')
 #' 
-#' # replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by 
-#' # the mean value and name the new variable 'HDL.noNA'. 
-#' ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
+#'   # replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by 
+#'   # the mean value and name the new variable 'HDL.noNA'. 
+#'   ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){

@@ -14,43 +14,29 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign specific variable(s)
-#' myvar <- list('LAB_HDL')
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign specific variable(s)
+#'   myvar <- list('LAB_HDL')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
-#' ds.quantileMean(x='D$LAB_HDL')
+#'   # Example 1: plot a combined histogram of the variable 'LAB_HDL' - default behaviour
+#'   ds.quantileMean(x='D$LAB_HDL')
 #' 
-#' # Example 2: Plot the histograms separately (one per study)
-#' ds.quantileMean(x='D$LAB_HDL', type='split')
+#'   # Example 2: Plot the histograms separately (one per study)
+#'   ds.quantileMean(x='D$LAB_HDL', type='split')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #'
 ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){

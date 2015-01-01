@@ -15,49 +15,35 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign specific variable(s)
-#' # (by default the assigned dataset is a dataframe named 'D')
-#' myvar <- list('GENDER', 'LAB_HDL')
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign specific variable(s)
+#'   # (by default the assigned dataset is a dataframe named 'D')
+#'   myvar <- list('GENDER', 'LAB_HDL')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # turn the factor variable 'GENDER' into numeric and then back into factor
-#' ds.asNumeric(x='D$GENDER', newobj='gender_num')
-#' ds.asFactor(x='gender_num', newobj='gender_fact')
+#'   # turn the factor variable 'GENDER' into numeric and then back into factor
+#'   ds.asNumeric(x='D$GENDER', newobj='gender_num')
+#'   ds.asFactor(x='gender_num', newobj='gender_fact')
 #' 
-#' # Now try to turn into a factor a numeric variable where some levels have less
-#' # than 2 observations (as you would expect for a continuous variable)
-#' # this will generate an 'empty' vector (i.e. all values within it are set to NA).
-#' ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
-#' # check the levels of the new vector
-#' ds.levels(x='lab.hdl.fact')
+#'   # Now try to turn into a factor a numeric variable where some levels have less
+#'   # than 2 observations (as you would expect for a continuous variable)
+#'   # this will generate a vector missing at complte (i.e. all values within it are set to NA).
+#'   ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
+#'   # check the levels of the new vector
+#'   ds.levels(x='lab.hdl.fact')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.asFactor = function(x=NULL, newobj=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){

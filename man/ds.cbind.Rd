@@ -34,22 +34,22 @@ see details of the R base function \code{cbind}.
 \examples{
 {
 
-# load the file that contains the login details
-data(logindata)
+  # load the file that contains the login details
+  data(logindata)
 
-# login and assign specific variables(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- list('LAB_TSC', 'LAB_HDL')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variables(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- list('LAB_TSC', 'LAB_HDL')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# generate a new dataframe by combining the log values of
-# 'LAB_TSC' and 'LAB_HDL', by columns
-ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
-ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
-ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
+  # generate a new dataframe by combining the log values of
+  # 'LAB_TSC' and 'LAB_HDL', by columns
+  ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
+  ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
+  ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

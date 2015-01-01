@@ -13,44 +13,30 @@
 #' @export
 #' @examples {
 #' 
-#' # load the file that contains the login details
-#' data(logindata)
+#'   # load the file that contains the login details
+#'   data(logindata)
 #' 
-#' # login and assign specific variables(s)
-#' # (by default the assigned dataset is a dataframe named 'D')
-#' myvar <- list('LAB_TSC', 'LAB_HDL')
-#' opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'   # login and assign specific variables(s)
+#'   # (by default the assigned dataset is a dataframe named 'D')
+#'   myvar <- list('LAB_TSC', 'LAB_HDL')
+#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#' # generate a new dataframe by combining the log values of 
-#' # 'LAB_TSC' and 'LAB_HDL', by columns
-#' ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
-#' ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
-#' ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
+#'   # generate a new dataframe by combining the log values of 
+#'   # 'LAB_TSC' and 'LAB_HDL', by columns
+#'   ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
+#'   ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
+#'   ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #' 
 ds.cbind <- function(x=NULL, newobj='newCbindObject', datasources=NULL){
 
-  # if no opal login details were provided look for 'opal' objects in the environment 
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        userInput <- readline("Please enter the name of the login object you want to use: ")
-        datasources <- eval(parse(text=userInput))
-        if(class(datasources[[1]]) != 'opal'){
-          stop("End of process: you failed to enter a valid login object", call.=FALSE)
-        }
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   # if not more than one input objects stop 

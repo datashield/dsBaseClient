@@ -17,49 +17,39 @@
 #' @export
 #' @examples {
 #' 
-#' # load that contains the login details
-#' data(logindata)
+#'   # load that contains the login details
+#'   data(logindata)
 #'
-#' # login and assign all the variables
-#' opals <- datashield.login(logins=logindata,assign=TRUE)
+#'   # login and assign all the variables
+#'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#' # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
-#' ds.levels(x='D$PM_BMI_CATEGORICAL')
+#'   # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
+#'   ds.levels(x='D$PM_BMI_CATEGORICAL')
 #' 
-#' # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-#' # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
-#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
-#' ds.levels(x='BMI_CAT_NEW1')
+#'   # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
+#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
+#'   ds.levels(x='BMI_CAT_NEW1')
 #' 
-#' # Example2: add a 4th and empty level to categorical bmi to create a new variable
-#' # we know the current categories are '1', '2' and '3' so we add '4'
-#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
-#' ds.levels(x='BMI_CAT_NEW2')
+#'   # Example2: add a 4th and empty level to categorical bmi to create a new variable
+#'   # we know the current categories are '1', '2' and '3' so we add '4'
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
+#'   ds.levels(x='BMI_CAT_NEW2')
 #' 
-#' # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-#' ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
-#' ds.levels(x='BMI_CAT_NEW3')
+#'   # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
+#'   ds.levels(x='BMI_CAT_NEW3')
 #' 
-#' # clear the Datashield R sessions and logout
-#' datashield.logout(opals)
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(opals)
 #' 
 #' }
 #'
 ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources=NULL){
   
-  # if no opal login details were provided look for 'opal' objects in the environment
+  # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-    findLogin <- getOpals()
-    if(findLogin$flag == 1){
-      datasources <- findLogin$opals
-    }else{
-      if(findLogin$flag == 0){
-        stop(" Are yout logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-      }else{
-        message(paste0("More than one list of opal login object were found: '", paste(findLogin$opals,collapse="', '"), "'!"))
-        stop(" Please set the parameter 'datasources' to the list you want to use. ", call.=FALSE)
-      }
-    }
+    datasources <- findLoginObjects()
   }
   
   if(is.null(x)){

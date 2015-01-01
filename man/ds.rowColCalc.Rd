@@ -41,18 +41,18 @@ is less than the allowed number of observations.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign two variables
-myvar  <-  list("LAB_TSC","LAB_HDL")
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign two variables
+  myvar  <-  list("LAB_TSC","LAB_HDL")
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# calculate the sum of each row of the above assigned dataset (default name 'D')
-ds.rowColCalc(x='D', operation='rowSums', newobj='rsum_D')
+  # calculate the sum of each row of the above assigned dataset (default name 'D')
+  ds.rowColCalc(x='D', operation='rowSums', newobj='rsum_D')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

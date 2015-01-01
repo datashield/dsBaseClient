@@ -39,27 +39,27 @@ generated.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign specific variable(s)
-# (by default the assigned dataset is a dataframe named 'D')
-myvar <- list('GENDER', 'LAB_HDL')
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  # login and assign specific variable(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  myvar <- list('GENDER', 'LAB_HDL')
+  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-# turn the factor variable 'GENDER' into numeric and then back into factor
-ds.asNumeric(x='D$GENDER', newobj='gender_num')
-ds.asFactor(x='gender_num', newobj='gender_fact')
+  # turn the factor variable 'GENDER' into numeric and then back into factor
+  ds.asNumeric(x='D$GENDER', newobj='gender_num')
+  ds.asFactor(x='gender_num', newobj='gender_fact')
 
-# Now try to turn into a factor a numeric variable where some levels have less
-# than 2 observations (as you would expect for a continuous variable)
-# this will generate an 'empty' vector (i.e. all values within it are set to NA).
-ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
-# check the levels of the new vector
-ds.levels(x='lab.hdl.fact')
+  # Now try to turn into a factor a numeric variable where some levels have less
+  # than 2 observations (as you would expect for a continuous variable)
+  # this will generate a vector missing at complte (i.e. all values within it are set to NA).
+  ds.asFactor(x='D$LAB_HDL', newobj='lab.hdl.fact')
+  # check the levels of the new vector
+  ds.levels(x='lab.hdl.fact')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }

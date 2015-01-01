@@ -51,22 +51,22 @@ different that indicates its 'completeness'.
 \examples{
 {
 
-# load that contains the login details
-data(logindata)
+  # load that contains the login details
+  data(logindata)
 
-# login and assign all the stored variables.
-opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the stored variables.
+  opals <- datashield.login(logins=logindata,assign=TRUE)
 
-# Replace missing values in variable 'LAB_HDL' by the mean value in each study
-# first let us get the mean value for 'LAB_HDL' in each study
-ds.mean(x='D$LAB_HDL', type='split')
+  # Replace missing values in variable 'LAB_HDL' by the mean value in each study
+  # first let us get the mean value for 'LAB_HDL' in each study
+  ds.mean(x='D$LAB_HDL', type='split')
 
-# replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by
-# the mean value and name the new variable 'HDL.noNA'.
-ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
+  # replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by
+  # the mean value and name the new variable 'HDL.noNA'.
+  ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
 
-# clear the Datashield R sessions and logout
-datashield.logout(opals)
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
 
 }
 }
