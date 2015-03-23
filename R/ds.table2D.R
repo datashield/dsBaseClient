@@ -119,14 +119,6 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
   typ1 <- checkClass(datasources, x)
   typ2 <- checkClass(datasources, y)
   
-  # stop and throw an error if any of the vectors is not a factor
-  if(typ1 != "factor"){
-    stop(paste0(x, " must be a vector of class 'factor'!"), call.=FALSE)
-  }
-  if(typ2 != "factor"){
-    stop(paste0(y, " must be a vector of class 'factor'!"), call.=FALSE)
-  }
-  
   # names of the studies 
   stdnames <- names(datasources)
   
