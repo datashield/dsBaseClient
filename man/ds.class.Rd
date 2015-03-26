@@ -47,4 +47,8 @@ Same as for the R function \code{class}.
 \author{
 Gaye, A.; Isaeva, J.
 }
+\seealso{
+\link{ds.exists} to verify if an object is defined (exists)
+on the server side.
+}
 

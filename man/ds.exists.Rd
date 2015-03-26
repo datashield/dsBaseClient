@@ -56,4 +56,7 @@ functions such as \code{ds.class}, \code{length} etc...
 \author{
 Gaye, A.
 }
+\seealso{
+\link{ds.class} to check the type of an object.
+}
 

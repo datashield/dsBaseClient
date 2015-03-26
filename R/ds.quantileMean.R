@@ -11,6 +11,8 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources. 
 #' @return quantiles and statistical mean
 #' @author Gaye, A.
+#' @seealso \code{ds.mean} to compute statistical mean.
+#' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
 #' @examples {
 #' 

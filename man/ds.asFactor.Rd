@@ -66,4 +66,14 @@ generated.
 \author{
 Gaye, A.; Burton, P.
 }
+\seealso{
+\link{ds.asNumeric} to turn a variable into a numeric type.
+
+\link{ds.asList} to contruct an object of type list.
+
+\link{ds.asCharacter} to turn a variable into a character
+type.
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+}
 

@@ -7,6 +7,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a character the type of x
 #' @author Gaye, A.; Isaeva, J.
+#' @seealso \link{ds.exists} to verify if an object is defined (exists) on the server side.
 #' @export
 #' @examples {
 #' 

@@ -7,6 +7,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a character vector
 #' @author Gaye, A.; Isaeva, J.
+#' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
 #' @examples {
 #' 

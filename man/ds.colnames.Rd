@@ -45,4 +45,8 @@ The input is restricted to object of type 'data.frame' and
 \author{
 Gaye, A.; Isaeva, J.
 }
+\seealso{
+\link{ds.dim} to obtain the dimensions of matrix or a data
+frame.
+}
 

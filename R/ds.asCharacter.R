@@ -10,6 +10,10 @@
 #' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
 #' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.
+#' @seealso \link{ds.asNumeric} to turn a variable into a numeric type.
+#' @seealso \link{ds.asFactor} to turn a variable into a factor type.
+#' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
+#' @seealso \link{ds.asList} to construct an object of type list.
 #' @export
 #' @examples {
 #' 

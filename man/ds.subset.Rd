@@ -111,4 +111,11 @@ within it are set to NA.
 \author{
 Gaye, A.
 }
+\seealso{
+\link{ds.subsetByClass} to subset by the classes of factor
+vector(s).
+
+\link{ds.meanByClass} to compute mean and standard
+deviation across categories of a factor vectors.
+}
 

@@ -61,4 +61,17 @@ separately.
 \author{
 Gaye, A.; Isaeva, J.
 }
+\seealso{
+\link{ds.dataframe} to generate a table of type dataframe.
+
+\link{ds.changeRefGroup} to change the reference level of a
+factor.
+
+\link{ds.colnames} to obtain the column names of a matrix
+or a data frame
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+
+\link{ds.length} to obtain the size of a vector.
+}
 

@@ -80,6 +80,10 @@ in the parameter 'datasources'.
 Gaye, A.
 }
 \seealso{
-\link{ds.subsetByClass}
+\link{ds.subsetByClass} to subset by the classes of factor
+vector(s).
+
+\link{ds.subset} to subset by complete cases (i.e. removing
+missing values), threshold, columns and rows.
 }
 

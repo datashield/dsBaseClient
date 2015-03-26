@@ -53,4 +53,9 @@ It is a wrapper for the server side function.
 \author{
 Gaye A., Isaeva I.
 }
+\seealso{
+\code{ds.quantileMean} to compute quantiles.
+
+\code{ds.summary} to generate the summary of a variable.
+}
 

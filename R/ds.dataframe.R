@@ -17,6 +17,11 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return  nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
+#' @seealso \link{ds.cbind} Combines objects column-wise.
+#' @seealso \link{ds.changeRefGroup} to change the reference level of a factor.
+#' @seealso \link{ds.colnames} to obtain the column names of a matrix or a data frame
+#' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
+#' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
 #' @examples {
 #'   

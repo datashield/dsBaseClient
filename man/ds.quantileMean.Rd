@@ -55,4 +55,9 @@ disclosive.
 \author{
 Gaye, A.
 }
+\seealso{
+\code{ds.mean} to compute statistical mean.
+
+\code{ds.summary} to generate the summary of a variable.
+}
 

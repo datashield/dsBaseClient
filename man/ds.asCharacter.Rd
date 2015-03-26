@@ -52,4 +52,13 @@ See details of the R function 'as.character'.
 \author{
 Gaye, A.
 }
+\seealso{
+\link{ds.asNumeric} to turn a variable into a numeric type.
+
+\link{ds.asFactor} to turn a variable into a factor type.
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+
+\link{ds.asList} to construct an object of type list.
+}
 

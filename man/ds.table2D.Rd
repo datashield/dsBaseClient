@@ -122,4 +122,7 @@ which render the table invalid.
 \author{
 Gaye, A.; Burton, P.
 }
+\seealso{
+\link{ds.table1D} for the tabulating one vector.
+}
 

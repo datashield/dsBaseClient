@@ -23,6 +23,8 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return no data are return to the user, the generated subset dataframe is stored on the server side.
 #' @author Gaye, A.
+#' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
+#' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @export
 #' @examples {
 #'

@@ -56,4 +56,18 @@ see details of the R base function \code{cbind}.
 \author{
 Gaye, A.
 }
+\seealso{
+\link{ds.dataframe} to generate a table of type dataframe.
+
+\link{ds.changeRefGroup} to change the reference level of a
+factor.
+
+\link{ds.colnames} to obtain the column names of a matrix
+or a data frame
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+
+\link{ds.dim} to obtain the dimensions of matrix or a data
+frame.
+}
 

@@ -10,6 +10,8 @@
 #' these objects hold also the data assign to R, as \code{data frame}, from opal datasources.
 #' @return a numeric
 #' @author Gaye A., Isaeva I.
+#' @seealso \code{ds.quantileMean} to compute quantiles.
+#' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
 #' @examples {
 #' 

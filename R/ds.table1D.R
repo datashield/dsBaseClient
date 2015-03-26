@@ -27,6 +27,7 @@
 #' \item{validity}{ a text that informs the analyst about the validity of the output tables. If any tables are invalid the
 #' studies they are originated from are also mentioned in the text message.}
 #' @author Gaye, A.; Burton, P.
+#' @seealso \link{ds.table2D} for cross-tabulating two vectors.
 #' @export
 #' @examples {
 #' 

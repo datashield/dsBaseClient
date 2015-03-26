@@ -11,6 +11,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a boolean, TRUE if the object is on the server side and FALSE otherwise
 #' @author Gaye, A.
+#' @seealso \link{ds.class} to check the type of an object.
 #' @export
 #' @examples {
 #' 

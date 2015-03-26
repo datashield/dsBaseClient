@@ -73,4 +73,18 @@ only - NA).
 \author{
 Gaye, A.; Isaeva, J.
 }
+\seealso{
+\link{ds.cbind} Combines objects column-wise.
+
+\link{ds.changeRefGroup} to change the reference level of a
+factor.
+
+\link{ds.colnames} to obtain the column names of a matrix
+or a data frame
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+
+\link{ds.dim} to obtain the dimensions of matrix or a data
+frame.
+}
 

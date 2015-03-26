@@ -62,4 +62,14 @@ generated (i.e. all elements set to NA)).
 \author{
 Gaye, A.; Isaeva, J.
 }
+\seealso{
+\link{ds.asNumeric} to turn a variable into a numeric type.
+
+\link{ds.asFactor} to turn a variable into a factor type.
+
+\link{ds.asCharacter} to turn a variable into a character
+type.
+
+\link{ds.asMatrix} to coerce an object into a matrix type.
+}
 

@@ -98,4 +98,7 @@ which render the table invalid.
 \author{
 Gaye, A.; Burton, P.
 }
+\seealso{
+\link{ds.table2D} for cross-tabulating two vectors.
+}
 

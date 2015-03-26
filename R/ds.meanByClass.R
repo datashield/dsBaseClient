@@ -21,7 +21,8 @@
 #' and standard deviation in each subgroup (subset).
 #' @export
 #' @author Gaye, A.
-#' @seealso \link{ds.subsetByClass}
+#' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
+#' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @examples {
 #' 
 #'   # load that contains the login details

@@ -15,6 +15,8 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a no data are return to the user but messages are printed out.
 #' @author Gaye, A.
+#' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
+#' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @export
 #' @examples {
 #'
