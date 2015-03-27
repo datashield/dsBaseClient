@@ -7,7 +7,9 @@ ds.meanByClass(x = NULL, outvar = NULL, covar = NULL, type = "combine",
 }
 \arguments{
   \item{x}{a character, the name of the dataset to get the
-  subsets from.}
+  subsets from or a text formula of the form 'A~B' where A
+  is a single continuous vector and B a single factor
+  vector}
 
   \item{outvar}{a character vector, the names of the
   continuous variables}
@@ -59,17 +61,14 @@ in the parameter 'datasources'.
   # login and assign the whole dataset on the opal server
   opals <- datashield.login(logins=logindata,assign=TRUE)
 
-  # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-  ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
+  # Example 1: calculate the pooled mean proportion for LAB_HDL across gender categories
+  ds.meanByClass(x='D$LAB_HDL~D$GENDER')
 
-  # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-  ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+  # Example 2: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
+  ds.meanByClass(x='D$LAB_HDL~D$GENDER', type="split")
 
   # Example 3: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status categories
   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
-
-  # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-  ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 
   # clear the Datashield R sessions and logout
   datashield.logout(opals)

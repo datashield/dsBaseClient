@@ -35,5 +35,8 @@ This function is called by the function 'ds.meanByClass' to
 obtain 'loose' subset tables because the 'subsetByClass'
 function does not handle a table within a list.
 }
+\author{
+Gaye, A.
+}
 \keyword{internal}
 

@@ -4,7 +4,7 @@
 \usage{
 ds.dataframe(x = NULL, newobj = NULL, row.names = NULL,
   check.rows = FALSE, check.names = TRUE, stringsAsFactors = TRUE,
-  datasources = NULL)
+  completeCases = FALSE, datasources = NULL)
 }
 \arguments{
   \item{x}{a character vector which contains the name(s) of
@@ -27,6 +27,9 @@ ds.dataframe(x = NULL, newobj = NULL, row.names = NULL,
   \item{newobj}{the name of the output object. If this
   argument is set to \code{NULL}, the name of the new
   object is 'dframe'.}
+
+  \item{completeCases}{a character that tells if only
+  complete cases should be included or not.}
 
   \item{datasources}{a list of opal object(s) obtained
   after login in to opal servers; these objects hold also

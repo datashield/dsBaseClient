@@ -10,6 +10,7 @@
 #' @param invalidrecorder a list, holds informations about invalid subsets in each study
 #' @keywords internal
 #' @return a list which one results table for each study.
+#' @author Gaye, A.
 #'
 meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])

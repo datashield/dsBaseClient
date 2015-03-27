@@ -8,7 +8,8 @@
 #' @param variable a character, the variable to subset on
 #' @param categories a character vector, the classes in the variables to subset on
 #' @keywords internal
-#' @return a character the names of the new subset tables
+#' @return a character the names of the new subset tables.
+#' @author Gaye, A.
 #'
 meanByClassHelper1 <- function(dtsource, tables, variable, categories){
   

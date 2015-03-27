@@ -11,6 +11,7 @@
 #' @keywords internal
 #' @return a matrix, a table which contains the length, mean and standard deviation of each of the
 #' specified 'variables' in each subset table.
+#' @author Gaye, A.
 #'
 meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])

@@ -35,5 +35,8 @@ produce the final table if the user sets the parmater
 'type' to combine (the default behaviour of
 'ds.meanByClass')
 }
+\author{
+Gaye, A.
+}
 \keyword{internal}
 

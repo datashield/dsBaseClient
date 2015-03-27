@@ -9,7 +9,8 @@
 #' 'split' as a table is then produced for each study. It is therefore advisable to run the function 
 #' only for the studies of the user really interested in but including only those studies in the 
 #' parameter 'datasources'.
-#' @param x a character, the name of the dataset to get the subsets from.
+#' @param x a character, the name of the dataset to get the subsets from or a text formula of the 
+#' form 'A~B' where A is a single continuous vector and B a single factor vector
 #' @param outvar a character vector, the names of the continuous variables
 #' @param covar a character vector, the names of up to 3 categorical variables
 #' @param type a character which represents the type of analysis to carry out. If \code{type} is set to 
@@ -31,17 +32,14 @@
 #'   # login and assign the whole dataset on the opal server
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#'   # Example 1: calculate the mean proportion for LAB_HDL across gender categories
-#'   ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER')
-#' 
-#'   # Example 2: calculate the mean proportion for LAB_HDL across gender and bmi categories
-#'   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+#'   # Example 1: calculate the pooled mean proportion for LAB_HDL across gender categories
+#'   ds.meanByClass(x='D$LAB_HDL~D$GENDER')
+#'   
+#'   # Example 2: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
+#'   ds.meanByClass(x='D$LAB_HDL~D$GENDER', type="split")
 #' 
 #'   # Example 3: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status categories
 #'   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
-#' 
-#'   # Example 4: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-#'   ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(opals)
@@ -55,82 +53,36 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
     datasources <- findLoginObjects()
   }
   
+  # check if the user specified a formula to run the process for two loose vector or if the vectors are 
+  # in a table structure (data frame or matrix) and call the relevant function accordingly
   if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
-  
-  # check if the input x is defined in all the studies
-  defined <- isDefined(datasources, x)
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  
-  # the input object must be a dataframe
-  if(typ != 'data.frame'){
-    stop(paste0(x, "must be a 'data.frame'."), call.=FALSE)
-  }
-  
-  if(is.null(outvar)){
-    stop(" Please specify at least 1 continuous variables - see parameter 'outvar'!", call.=FALSE)
-  }
-  
-  if(is.null(covar)){
-    stop(" Please specify at 1 or up to 3 categorical variables (factors) - see parameter 'covar'!", call.=FALSE)
-  }
-  
-  if(length(covar) > 3){
-    stop("More than 3 categorical variables specified! - see parameter 'covar'.", call.=FALSE)
-  }
-  
-  # categories in each of the categorical variables
-  classes <- vector("list", length(covar))
-  for(i in 1:length(covar)){
-    cally <- paste0("levels(",paste0(x, '$', covar[i]), ")")
-    classes[[i]] <- datashield.aggregate(datasources, as.symbol(cally))
-  }
-  
-  # loop through the datasources and break down the original dataset by the specified categorical variable
-  # the names of the subset tables are stored for mean and sd computations
-  message("Generating the required subset tables (this may take couple of minutes, please do not interrupt!)")
-  subsetnames <- vector("list", length(datasources))
-  for(i in 1:length(datasources)){
-    message("--", names(datasources)[i])
-    datasets <- x
-    for(j in 1:length(covar)){
-      message("  ", covar[j], "...")
-      newnames <- meanByClassHelper1(datasources[i], datasets, covar[j], classes[[j]])
-      datasets <- newnames
-    }
-    subsetnames[[i]] <- datasets
-  }  
-  names(subsetnames) <- names(datasources)
-
-  # a study might have invalid sub-datasets which we cannot get mean and sd from, to identify those
-  # we loop by categories, if a study has invalid table (i.e. table with NAs only) we exclude it
-  # for that category when calculating the mean and sd values for that category
-  invalidrecorder <- vector("list", length(datasources))
-  for(i in 1:length(datasources)){
-    for(j in 1:length(subsetnames[[i]])){
-      check1 <- which(unlist(strsplit(subsetnames[[i]][j],"_")) == "INVALID")
-      check2 <- which(unlist(strsplit(subsetnames[[i]][j],"_")) == "EMPTY")
-      if(length(check1) > 0 | length(check2 > 0)){ 
-        invalidrecorder[[i]] <- append(invalidrecorder[[i]], 1) 
-      }else{
-        invalidrecorder[[i]] <- append(invalidrecorder[[i]], 0) 
-      }
-    }          
-  }
-  
-  # compute the length, mean and standard deviation for each 'outvar'
-  if(type=='combine'){
-    results <- meanByClassHelper2(datasources, subsetnames, outvar, invalidrecorder)
-    return(results)
+    stop("Please provide the name data frame or matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", call.=FALSE)
   }else{
-    if(type=='split'){
-      results <- meanByClassHelper3(datasources, subsetnames, outvar, invalidrecorder)
-      return(results)
+    obj <- unlist(strsplit(x, split='~'))
+    if(length(obj)==2){
+      # check if the input variables are defined in all the studies
+      defined <- isDefined(datasources, obj[1])
+      defined <- isDefined(datasources, obj[2])
+      typ <- checkClass(datasources, obj[1])
+      if(typ != "numeric" & typ != "integer"){
+        stop("The first element in the formula must be of type numeric or integer!", call.=FALSE)
+      }
+      typ <- checkClass(datasources, obj[2])
+      if(typ != "factor"){
+        stop("The second element in the formula must be of type factor!", call.=FALSE)
+      }
+      output <- meanByClassHelper0a(obj[1], obj[2], type, datasources)
+      return(output)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      if(length(obj)==1){
+        defined <- isDefined(datasources, x)
+        typ <- checkClass(datasources, x)
+        if(typ != "data.frame" & type != "matrix"){stop("x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", call.=FALSE)}
+        output <- meanByClassHelper0b(x, outvar, covar, type, datasources)
+        return(output)
+      }else{
+        stop("x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", call.=FALSE)
+      }
     }
   }
   

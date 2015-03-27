@@ -11,6 +11,7 @@
 #' @param categories a character vector, the classes in the variables to subset on
 #' @keywords internal
 #' @return the 'loose' subset tables are stored on the server side
+#' @author Gaye, A.
 #'
 meanByClassHelper4 <- function(dtsource, alist, initialtable, variable=NA, categories=NA){
   

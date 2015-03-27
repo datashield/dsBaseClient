@@ -13,6 +13,7 @@
 #' @param stringsAsFactors logical, tells if character vectors should be converted to factors?
 #' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
 #' the name of the new object is 'dframe'.
+#' @param completeCases a character that tells if only complete cases should be included or not.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return  nothing is returned to the client, the new object is stored on the server side.
@@ -42,7 +43,7 @@
 #' 
 #' }
 #' 
-ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,datasources=NULL){
+ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -87,13 +88,13 @@ ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check
     cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                      'NULL',",", check.rows,",", check.names,
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
-                     ,stringsAsFactors, ")")
+                     ,stringsAsFactors,",",completeCases,")")
   }else{
     cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                      "list(","'",paste(row.names,collapse="','"),"'","),", 
                      check.rows,",", check.names,
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
-                     ,stringsAsFactors, ")") 
+                     ,stringsAsFactors,",",completeCases,")") 
   }
   datashield.assign(datasources, newobj, as.symbol(cally))
   

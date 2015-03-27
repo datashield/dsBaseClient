@@ -17,7 +17,7 @@ meanByClassHelper1(dtsource, tables, variable, categories)
   variables to subset on}
 }
 \value{
-a character the names of the new subset tables
+a character the names of the new subset tables.
 }
 \description{
 This is an internal function.
@@ -28,6 +28,9 @@ This is an internal function.
 This function is called by the function 'ds.meanByClass' to
 break down the initial table by the specified categorical
 variables.
+}
+\author{
+Gaye, A.
 }
 \keyword{internal}
 

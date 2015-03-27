@@ -32,5 +32,8 @@ This function is called by the function 'ds.meanByClass' to
 produce the final tables if the user sets the parmater
 'type' to 'split'.
 }
+\author{
+Gaye, A.
+}
 \keyword{internal}
 
