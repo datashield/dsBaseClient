@@ -28,7 +28,7 @@ ds.dataframe(x = NULL, newobj = NULL, row.names = NULL,
   argument is set to \code{NULL}, the name of the new
   object is 'dframe'.}
 
-  \item{completeCases}{a character that tells if only
+  \item{completeCases}{a boolean that tells if only
   complete cases should be included or not.}
 
   \item{datasources}{a list of opal object(s) obtained

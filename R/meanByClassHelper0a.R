@@ -21,20 +21,32 @@ meanByClassHelper0a = function(a, b, type, datasources){
   x <- c(a,b)
   aa <- unlist(strsplit(a, split='$', fixed=TRUE))
   bb <- unlist(strsplit(b, split='$', fixed=TRUE))
-  if(length(aa) > 1){ v1 <- aa[2] }else{ v1 <- aa[1]}
-  if(length(bb) > 1){ v2 <- bb[2] }else{ v2 <- bb[1]} 
+  if(length(aa) > 1){ 
+    v1 <- aa[2]
+    newD <- aa[1]
+  }else{ 
+    v1 <- aa[1]
+    newD <- "D"
+  }
+  if(length(bb) > 1){
+    v2 <- bb[2] 
+    newD <- bb[1]
+  }else{ 
+    v2 <- bb[1]
+    newD <- "D"
+  } 
   v <- c(v1, v2)
   
   cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                    'NULL',",", FALSE,",", TRUE,
                    ",list(","'",paste(v,collapse="','"),"'","),"
                    ,TRUE,",",FALSE,")")
-  datashield.assign(datasources, "DT", as.symbol(cally))
+  datashield.assign(datasources, newD, as.symbol(cally))
 
   # get the 'loose' names of the variables and call the function that generate the results
  
        
-  output <- meanByClassHelper0b("DT", v1, v2, type, datasources)
+  output <- meanByClassHelper0b(newD, v1, v2, type, datasources)
   return(output)
 }
 
