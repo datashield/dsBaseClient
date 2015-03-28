@@ -26,14 +26,14 @@ meanByClassHelper0a = function(a, b, type, datasources){
     newD <- aa[1]
   }else{ 
     v1 <- aa[1]
-    newD <- "D"
+    newD <- "X"
   }
   if(length(bb) > 1){
     v2 <- bb[2] 
     newD <- bb[1]
   }else{ 
     v2 <- bb[1]
-    newD <- "D"
+    newD <- "X"
   } 
   v <- c(v1, v2)
   

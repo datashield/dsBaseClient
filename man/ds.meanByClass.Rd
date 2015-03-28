@@ -58,16 +58,21 @@ in the parameter 'datasources'.
   # load that contains the login details
   data(logindata)
 
-  # login and assign the whole dataset on the opal server
-  opals <- datashield.login(logins=logindata,assign=TRUE)
-
-  # Example 1: calculate the pooled mean proportion for LAB_HDL across gender categories
+  # Example 1: calculate the pooled mean proportion for LAB_HDL across GENDER categories where both vectors are in a tabe structure "D"
+  # login and assign LAB_HDL and GENDER to a table "D"
+  opals <- datashield.login(logins=logindata,assign=TRUE, variables=list('LAB_HDL', 'GENDER'))
   ds.meanByClass(x='D$LAB_HDL~D$GENDER')
 
-  # Example 2: calculate the mean proportion for LAB_HDL across gender categories for each study separately.
-  ds.meanByClass(x='D$LAB_HDL~D$GENDER', type="split")
+  # Example 2: calculate the mean proportion for LAB_HDL across GENDER categories where both vectors are 'loose' (i.e. not in a table)
+  # assign both LAB_HDL and GENDER to vectors not held in a table
+  ds.assign("D$LAB_HDL", "ldl")
+  ds.assign("D$GENDER", "sex")
+  ds.meanByClass(x='ldl~sex')
+  datashield.logout(opals)
 
   # Example 3: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status categories
+  # login and assign all the variables stored on opal
+  opals <- datashield.login(logins=logindata,assign=TRUE)
   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 
   # clear the Datashield R sessions and logout
