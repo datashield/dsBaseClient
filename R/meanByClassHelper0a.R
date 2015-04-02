@@ -23,20 +23,16 @@ meanByClassHelper0a = function(a, b, type, datasources){
   bb <- unlist(strsplit(b, split='$', fixed=TRUE))
   if(length(aa) > 1){ 
     v1 <- aa[2]
-    newD <- aa[1]
   }else{ 
     v1 <- aa[1]
-    newD <- "X"
   }
   if(length(bb) > 1){
     v2 <- bb[2] 
-    newD <- bb[1]
   }else{ 
     v2 <- bb[1]
-    newD <- "X"
   } 
   v <- c(v1, v2)
-  
+  newD <- "X"
   cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
                    'NULL',",", FALSE,",", TRUE,
                    ",list(","'",paste(v,collapse="','"),"'","),"
