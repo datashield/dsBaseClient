@@ -74,16 +74,19 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   
   # combine the vector of quantiles - using weighted sum
   cally2 <- paste0('length(', x, ')') 
-  lengths <- datashield.aggregate(datasources, as.symbol(cally2))
+  lengths <- datashield.aggregate(datasources, as.symbol(cally2)) 
+  cally3 <- paste0("numNaDS(", x, ")")
+  numNAs <- datashield.aggregate(datasources, cally3)  
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
     vect <- quants[[i]][1:7] * lengths[[i]]
     global.quantiles <- global.quantiles + vect
-    global.mean <- global.mean + quants[[i]][8] * lengths[[i]]
+    global.mean <- global.mean + quants[[i]][8] * (lengths[[i]]-numNAs[[i]])
   } 
-  global.mean <- global.mean/sum(unlist(lengths))
-  global.quantiles <- global.quantiles/sum(unlist(lengths))
+  
+  global.mean <- global.mean/(sum(unlist(lengths))-sum(unlist(numNAs)))
+  global.quantiles <- global.quantiles/(sum(unlist(lengths))-sum(unlist(numNAs)))
   output <- c(global.quantiles, global.mean)
   names(output) <- c("5%","10%","25%","50%","75%","90%","95%","Mean")
                                              

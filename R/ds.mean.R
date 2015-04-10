@@ -75,6 +75,10 @@ ds.mean = function(x=NULL, type='combine', datasources=NULL){
   cally <- paste0("NROW(", x, ")")
   length.local <- datashield.aggregate(datasources, cally)
   
+  # get the number of entries with missing values
+  cally <- paste0("numNaDS(", x, ")")
+  numNA.local <- datashield.aggregate(datasources, cally)  
+  
   if (type=='split') {
     return(mean.local)
   } else if (type=='combine') {
@@ -84,8 +88,9 @@ ds.mean = function(x=NULL, type='combine', datasources=NULL){
     
     for (i in 1:num.sources){
       if ((!is.null(length.local[[i]])) & (length.local[[i]]!=0)) {
-        length.total = length.total+length.local[[i]]
-        sum.weighted = sum.weighted+length.local[[i]]*mean.local[[i]]
+        completeLength <- length.local[[i]]-numNA.local[[i]]
+        length.total = length.total+completeLength
+        sum.weighted = sum.weighted+completeLength*mean.local[[i]]
       }
     }
     
