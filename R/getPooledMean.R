@@ -22,7 +22,7 @@ getPooledMean <- function(dtsources, x){
   
   # get the number of entries with missing values
   cally <- paste0("numNaDS(", x, ")")
-  numNA.local <- datashield.aggregate(datasources, cally)  
+  numNA.local <- datashield.aggregate(dtsources, cally)  
 
   length.total = 0
   sum.weighted = 0
