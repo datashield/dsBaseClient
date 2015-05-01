@@ -1,13 +1,16 @@
 #' 
 #' @title Replaces the missing values in a vector
 #' @description This function identifies missing values and replaces them by a value or 
-#' values specified by the analyst.
+#' values specified by the analyst. It also returns a vector indicating where the missing
+#' values have been replaced.
 #' @details This function is used when the analyst prefer or requires complete vectors. 
 #' It is then possible the specify one value for each missing value by first returning
 #' the number of missing values using the function \code{ds.numNA} but in most cases
 #' it might be more sensible to replace all missing values by one specific value e.g. 
 #' replace all missing values in a vector by the mean or median value. Once the missing
-#' values have been replaced a new vector is created. 
+#' values have been replaced a new vector is created. To provide a useful result for
+#' the missing indicator method, an additional vector that indicates where values were replaced
+#' is also provided.
 #' NOTE: If the vector is within a table structure such as a data frame the new vector is 
 #' appended to table structure so that the table hold hold both the vector with and without
 #' missing values. The latter is, by default, given a different that indicates its 'completeness'. 
@@ -20,8 +23,11 @@
 #' '.noNA' e.g. 'LAB_HDL.noNA' if the name of the vector is 'LAB_HDL'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @param indobj a character, the name of the new vector in which indicates where missing values
+#'  have been replaced. If no name is specified the default name is the name of the original vector
+#'   followed by the suffix .ind' e.g. 'LAB_HDL.ind' if the name of the vector is 'LAB_HDL'
 #' @return a new vector or table structure with the same class is stored on the server site.
-#' @author Gaye, A.
+#' @author Gaye, A., Bishop, T.
 #' @export
 #' @examples {
 #' 
@@ -44,7 +50,7 @@
 #' 
 #' }
 #' 
-ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
+ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL, indobj=NULL) {
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -88,19 +94,34 @@ ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
     newobj <- paste0(inputElts[[2]],".noNA")
   }
   
-  # call the server side function and doo the replacement for each server
+  if(is.null(indobj)){
+    indobj <- paste0(inputElts[[2]],".ind")
+  }
+  
+  # call the server side function and do the replacement for each server
   for(i in 1:length(datasources)){
     message(paste0("--Processing ", names(datasources)[i], "..."))
     cally <- paste0("replaceNaDS(", x, paste0(", c(",paste(forNA[[i]],collapse=","),")"), ")")
     datashield.assign(datasources[i], newobj, as.symbol(cally))
-
+    
+    cally <- paste0("listNaDS(", x, ")")
+    datashield.assign(datasources[i], indobj, as.symbol(cally))    
+    
+    
     # check that the new object has been created and display a message accordingly
     finalcheck <- isAssigned(datasources[i], newobj) 
+    
+    # check that the new object has been created and display a message accordingly
+    finalcheck <- isAssigned(datasources[i], indobj)
     
     # if the input vector is within a table structure append the new vector to that table
     if(!(is.na(inputElts[[1]]))){
       cally <-  paste0("cbind(", inputElts[[1]], ",", newobj, ")")
-      datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally)) 
+      datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally))
+      
+      cally <-  paste0("cbind(", inputElts[[1]], ",", indobj, ")")
+      datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally))   
+      
     }
   }
   
