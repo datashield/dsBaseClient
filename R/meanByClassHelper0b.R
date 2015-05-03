@@ -45,7 +45,7 @@ meanByClassHelper0b = function(x, outvar, covar, type, datasources){
     datasets <- x
     for(j in 1:length(covar)){
       message("  ", covar[j], "...")
-      newnames <- meanByClassHelper1(datasources[i], datasets, covar[j], classes[[j]])
+      newnames <- meanByClassHelper1(datasources[i], datasets, covar[j], classes[[j]][[i]])
       datasets <- newnames
     }
     subsetnames[[i]] <- datasets
@@ -82,4 +82,3 @@ meanByClassHelper0b = function(x, outvar, covar, type, datasources){
   }
   
 }
-
