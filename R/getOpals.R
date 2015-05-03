@@ -19,7 +19,7 @@ getOpals <- function(){
     flag <- 0
     for(i in 1:length(objs)){
       cl1 <- class(eval(parse(text=objs[i])))
-      if(cl1 == 'list'){
+      if(cl1[1] == 'list'){
         # if an object is not an empty list check if its elements are of type 'opal'
         list2check <- eval(parse(text=objs[i]))
         if(length(list2check) > 0){
