@@ -15,7 +15,6 @@
 #'
 meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])
-  
   # now get the mean and SD for the continuous variables in each of the subset tables
   finaltable <- matrix(numeric(0), ncol=numtables)
   finalrows <- c()
@@ -26,24 +25,29 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
     for(i in 1:numtables){
       # inform of progress
       message(paste0(variables[z], " - Processing subset table ", i, " of ", numtables, "..."))
-      
       tnames <- tablenames
       tablename <- paste(unlist(strsplit(tablenames[[1]][i], "_INVALID")), collapse="")
       tablename <- paste(unlist(strsplit(tablename, "_EMPTY")), collapse="")
-      
       # check what datasource has invalid subset
       rc <- c()
       for(q in 1:length(dtsources)){
-        if(invalidrecorder[[q]][i] == 1){ 
-          rc <- append(rc, q) 
+        if(invalidrecorder[[q]][i] == 1){
+          rc <- append(rc, q)
         }
       }
       if(length(rc) > 0){
         lengths <- c()
         for(qq in 1:length(dtsources)){
-          cally <- paste0("dim(", tnames[[qq]][i], ")")
-          temp <- unlist(datashield.aggregate(dtsources[qq], as.symbol(cally)))
-          lengths <- append(lengths, temp[1])
+          # check if the subset table exists (when the initial table is invalid no subsequent subset is created)
+          cally <- call("exists", tnames[[qq]][i])
+          def <-  unlist(datashield.aggregate(dtsources[qq], cally))
+          if(def){
+            cally <- paste0("dim(", tnames[[qq]][i], ")")
+            temp <- unlist(datashield.aggregate(dtsources[qq], as.symbol(cally)))
+            lengths <- append(lengths, temp[1])
+          }else{
+            lengths <- append(lengths, 0)
+          }
         }
         if(length(rc) == length(dtsources)){
           ll <- sum(lengths)
@@ -71,13 +75,12 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         entries <- c(ll, mean.sd)
       }
       for(j in 1:2){
-        outable[j,i] <-  entries[j]
+        outable[j,i] <- entries[j]
       }
     }
     finalrows <- append(finalrows, xrows)
     finaltable <- rbind(finaltable, outable)
   }
-  
   # specify the name of the rows and the columns
   cols <- tablenames[[1]]
   for(i in which(invalidrecorder[[1]] == 1)){
@@ -85,6 +88,5 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
   }
   colnames(finaltable) <- cols
   rownames (finaltable) <- finalrows
-
   return(finaltable)
 }
