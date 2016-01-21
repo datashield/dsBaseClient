@@ -1,4 +1,3 @@
-language: generic
 sudo: required
 dist: trusty
 before_install:
@@ -12,7 +11,7 @@ before_install:
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
     - cd /tmp/datashield/puppet/environments/test && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
     - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/test/manifests/site.pp --environment test --environmentpath /tmp/datashield/puppet/environments
-
+language: R
 # Github packages
 r_github_packages:
  - datashield/opal
