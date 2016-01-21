@@ -18,7 +18,7 @@ before_install:
 # - datashield/opal
 
 script:
-  - cd ~/nparley/dsBaseClient
+  - cd $TRAVIS_BUILD_DIR/nparley/dsBaseClient
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
