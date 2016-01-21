@@ -7,7 +7,7 @@ before_install:
     - sudo apt-get update -qq
     - sudo apt-get install -qq puppet-agent -y
     - sudo apt-get install -qq git -y
-    - sudo /opt/puppetlabs/gem install r10k
+    - sudo /opt/puppetlabs/puppet/bin/gem install r10k
     - ln -s /opt/puppetlabs/puppet/bin/r10k /opt/puppetlabs/bin/r10k
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
     - cd /tmp/datashield/puppet/environments/test && r10k puppetfile install
