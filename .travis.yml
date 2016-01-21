@@ -10,7 +10,7 @@ before_install:
     - sudo apt-get install -qq git -y
     - sudo /opt/puppetlabs/puppet/bin/gem install r10k
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
-    - cd /tmp/datashield/puppet/environments/test && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
+    - cd /tmp/datashield/puppet/environments/test && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
     - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/test/manifests/site.pp --environment test --environmentpath /tmp/datashield/puppet/environments
 
 # Github packages
@@ -18,7 +18,8 @@ before_install:
 # - datashield/opal
 
 script:
-  - cd $TRAVIS_BUILD_DIR/nparley/dsBaseClient
+  - ls
+  - cd nparley/dsBaseClient
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
