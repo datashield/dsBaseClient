@@ -10,8 +10,8 @@ before_install:
     - sudo /opt/puppetlabs/puppet/bin/gem install r10k
     - sudo ln -s /opt/puppetlabs/puppet/bin/r10k /opt/puppetlabs/bin/r10k
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
-    - cd /tmp/datashield/puppet/environments/test && r10k puppetfile install
-    - sudo puppet apply site.pp --environment test --environmentpath /tmp/datashield/puppet/environments
+    - cd /tmp/datashield/puppet/environments/test && /opt/puppetlabs/bin/r10k puppetfile install
+    - sudo /opt/puppetlabs/bin/puppet apply site.pp --environment test --environmentpath /tmp/datashield/puppet/environments
 
 # Github packages
 r_github_packages:
