@@ -18,8 +18,6 @@ before_install:
 # - datashield/opal
 
 script:
-  - ls
-  - cd nparley/dsBaseClient
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
