@@ -16,5 +16,6 @@ before_install:
 # Github packages
 r_github_packages:
  - datashield/opal
+ 
 
 
