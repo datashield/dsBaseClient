@@ -18,6 +18,8 @@ before_install:
 # - datashield/opal
 
 script:
+  - sudo cat /var/log/opal/stdout.log
+  - sudo lsof -i
   - sudo iptables -L
   - sudo iptables -S
   - curl 127.0.0.1:8080
