@@ -18,6 +18,8 @@ before_install:
 # - datashield/opal
 
 script:
+  - curl 127.0.0.1:8080
+  - curl localhost:8080
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
