@@ -18,6 +18,7 @@ before_install:
 # - datashield/opal
 
 script:
+  - sudo iptables -L
   - curl 127.0.0.1:8080
   - curl localhost:8080
   - sudo R -e "library(devtools); build(); install();"
