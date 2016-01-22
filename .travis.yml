@@ -2,10 +2,10 @@ language: generic
 sudo: required
 dist: trusty
 before_install:
-    - cat /etc/hosts # optionally check the content *before*
+#    - cat /etc/hosts # optionally check the content *before*
     - sudo hostname "$(hostname | cut -c1-63)"
     - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
-    - cat /etc/hosts # optionally check the content *after*
+#    - cat /etc/hosts # optionally check the content *after*
     - wget -nv https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
     - sudo dpkg -i puppetlabs-release-pc1-trusty.deb
     - sudo rm -f puppetlabs-release-pc1-trusty.deb
@@ -22,13 +22,6 @@ before_install:
 # - datashield/opal
 
 script:
-  - sudo cat /var/log/opal/stdout.log
-  - sudo lsof -i
-  - sudo iptables -L
-  - sudo iptables -S
-  - curl 127.0.0.1:8080
-  - curl localhost:8080
-  - curl https://localhost:8443 --insecure
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
