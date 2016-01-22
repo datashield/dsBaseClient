@@ -10,8 +10,8 @@ before_install:
     - sudo apt-get install -qq git -y
     - sudo /opt/puppetlabs/puppet/bin/gem install r10k
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
-    - cd /tmp/datashield/puppet/environments/test && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
-    - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/test/manifests/site.pp --environment test --environmentpath /tmp/datashield/puppet/environments
+    - cd /tmp/datashield/puppet/environments/travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
+    - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/travis/manifests/site.pp --environment travis --environmentpath /tmp/datashield/puppet/environments
 
 # Github packages
 #r_github_packages:
@@ -19,8 +19,10 @@ before_install:
 
 script:
   - sudo iptables -L
+  - sudo iptables -S
   - curl 127.0.0.1:8080
   - curl localhost:8080
+  - curl https://localhost:8443 --insecure
   - sudo R -e "library(devtools); build(); install();"
 #  - cd inst/tests && R -q -f runRunitTests.R
 
