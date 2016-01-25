@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("dsbaseclient::ds.asCharacter")
+context("dsBaseClient::ds.asCharacter")
 
 options(datashield.variables=list("GENDER"))
 source("setup.R")
@@ -21,9 +21,14 @@ source("setup.R")
 # Tests
 #
 
-context("dsbaseclient::ds.asCharacter() turn the factor variable 'GENDER' into a character vector")
-ds.asCharacter(datasources=opals, xvect=quote(D$GENDER), newobj="gender_as_char")
-# TODO do more than a smoke test
+context("dsBaseClient::ds.asCharacter() turn the factor variable 'GENDER' into a character vector")
+ds.asCharacter(datasources=opals, x='D$GENDER', newobj="gender_as_char")
+res <- ds.exists('gender_as_char')
+test_that("asCharacter_exists", {
+    expect_true(res$sim1)
+    expect_true(res$sim2)
+    expect_true(res$sim3)
+})
 
 #
 # Tear down
