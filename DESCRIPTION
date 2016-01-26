@@ -8,4 +8,7 @@ Description: DataSHIELD base functions for the client site
 Depends:
     opal,
     fields
+Suggest:
+    devtools
+    testthat
 RoxygenNote: 5.0.1
