@@ -6,3 +6,4 @@
 .Rproj.user
 inst/tests/test-template.R
 /.idea/
+/..Rcheck/
