@@ -1,2 +1,2 @@
-library(devtools)
-test()
+library(testthat)
+test_check("dsBaseClient")
