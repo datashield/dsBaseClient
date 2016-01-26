@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("dsbaseclient::ds.recodelevels")
+context("dsBaseClient::ds.dsBaseClient")
 
 options(datashield.variables=list("PM_BMI_CATEGORICAL"))
 source("setup.R")
@@ -21,12 +21,12 @@ source("setup.R")
 # Tests
 #
 
-context("dsbaseclient::ds.recodelevels()")
-ds.recodelevels(opals, quote(D$PM_BMI_CATEGORICAL), newlabels=c('normal', 'overweight', 'obesity'), 'bmi_new')
-levels <- ds.levels(opals, quote(bmi_new))
+context("dsBaseClient::ds.recodeLevels()")
+ds.recodeLevels(opals, x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
+levels <- ds.levels(x='bmi_new')
 #print(levels)
 test_that("new levels", { 
-  expected <- c("0_normal", "1_overweight", "2_obesity")
+  expected <- c("normal", "overweight", "obesity")
   expect_equal(levels$sim1, expected)
   expect_equal(levels$sim2, expected)
   expect_equal(levels$sim3, expected)
