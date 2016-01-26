@@ -23,8 +23,13 @@ source("setup.R")
 
 context("dsbaseclient::ds.rowcolCalc()")
 datashield.assign(opals, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
-ds.rowcolCalc(datasources=opals, dataset=quote(hdl_tsc), operation="rowSums", newobj="rsum_hdl_tsc")
-# TODO do more than a smoke test
+ds.rowColCalc(x='D', operation="rowSums", newobj="rsum_hdl_tsc")
+res <- ds.exists('rsum_hdl_tsc')
+test_that("rowColCalc_exists", {
+    expect_true(res$sim1)
+    expect_true(res$sim2)
+    expect_true(res$sim3)
+})
 
 #
 # Tear down
