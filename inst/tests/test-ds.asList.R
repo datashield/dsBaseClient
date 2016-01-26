@@ -13,7 +13,7 @@
 #
 
 options(datashield.variables=list("LAB_TSC","GENDER"))
-context("dsbaseclient::ds.asList")
+context("dsBaseClient::ds.asList")
 
 source("setup.R")
 
@@ -21,8 +21,8 @@ source("setup.R")
 # Tests
 #
 
-context("dsbaseclient::ds.asList() turn the data frame D into a list")
-ds.asList(datasources=opals, x=quote(D))
+context("dsBaseClient::ds.asList() turn the data frame D into a list")
+ds.asList(datasources=opals, x='D')
 # TODO do more than a smoke test
 
 #
