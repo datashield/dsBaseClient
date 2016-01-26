@@ -12,34 +12,60 @@
 # Set up
 #
 
-context("dsbaseclient::ds.table1d")
+context("dsBaseClient::ds.table1d")
 
-options(datashield.variables=list("DIS_CVA","LAB_HDL"))
+options(datashield.variables=list("DIS_CVA","GENDER"))
 source("setup.R")
 
 #
 # Tests
 #
 
-context("dsbaseclient::ds.table1d() generate a one dimensional table, outputting combined contingency tables")
-res <- ds.table1d(datasources=opals, xvect=quote(D$DIS_CVA))
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables")
+res <- ds.table1D(x='D$GENDER')
+#print(res)
+test_that("GENDER_normal", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$counts[2], 4611)
+    expect_equal(res$counts[3], 9379)
+})
 
-context("dsbaseclient::ds.table1d() generate a one dimensional table, outputting study specific contingency tables")
-res <- ds.table1d(datasources=opals, xvect=quote(D$DIS_CVA), type="split")
-print(res)
-# TODO do more than a smoke test
 
-context("dsbaseclient::ds.table1d() generate a one dimensional table, outputting study specific contingency tables for study 1 and 2")
-res <- ds.table1d(datasources=opals[1:2], xvect=quote(D$DIS_CVA), type="split")
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables")
+res <- ds.table1D(x='D$DIS_CVA')
+#print(res)
+test_that("DIS_CVA_invalid", {
+    expect_equal(res$validity, "Invalid tables from 'sim2'!")
+})
 
-context("dsbaseclient::ds.table1d() generate a one dimensional table, outputting study specific and combined contingency tables")
-res <- ds.table1d(datasources=opals, xvect=quote(D$LAB_HDL)) 
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting study specific contingency tables")
+res <- ds.table1D(x='D$GENDER', type="split")
+#print(res)
+test_that("GENDER_split", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$counts$sim1[1], 1092)
+    expect_equal(res$counts$sim2[2], 1503)
+    expect_equal(res$counts$sim3[1], 2091)
+})
+
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting study specific contingency tables for study 1 and 2")
+res <- ds.table1D(datasources=opals[1:2], x='D$GENDER', type="split")
+#print(res)
+test_that("GENDER_split_12", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$counts$sim1[1], 1092)
+    expect_equal(res$counts$sim2[2], 1503)
+    expect_equal(res$counts$sim3[1], NULL)
+})
+
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting study specific and combined contingency tables")
+res <- ds.table1D(datasources=opals, x='D$GENDER')
+#print(res)
+test_that("GENDER_normal_2", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$counts[2], 4611)
+    expect_equal(res$counts[3], 9379)
+})
 
 #
 # Tear down
