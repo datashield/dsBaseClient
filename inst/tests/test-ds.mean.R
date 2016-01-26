@@ -12,29 +12,28 @@
 # Set up
 #
 
-context("dsbaseclient::ds.mean")
+context("dsBaseClient::ds.mean")
 
 options(datashield.variables=list("LAB_TSC"))
 source("setup.R")
-
 #
 # Tests
 #
 
-context("dsbaseclient::ds.mean(type=combine)")
+context("dsBaseClient::ds.mean(type=combine)")
 
-stat.mean <- ds.mean(datasources=opals, xvect='D$LAB_TSC')
+stat.mean <- ds.mean(datasources=opals, x='D$LAB_TSC')
 #print(stat.mean)
-test_that("mean values [combine]", { 
+test_that("mean values [combine]", {
   expect_false(is.na(stat.mean))
-  expect_equal(as.numeric(stat.mean), 5.85191203916661, tolerance = .000000000000001)
+  expect_equal(as.numeric(stat.mean), 5.85192485623003, tolerance = .000000000000001)
 })
 
-context("dsbaseclient::ds.mean(type=split)")
+context("dsBaseClient::ds.mean(type=split)")
 
-stat.mean <- ds.mean(datasources=opals, xvect='D$LAB_TSC', type='split')
+stat.mean <- ds.mean(datasources=opals, x='D$LAB_TSC', type='split')
 #print(stat.mean)
-test_that("mean values [split]", { 
+test_that("mean values [split]", {
   expect_false(is.na(stat.mean$sim1))
   expect_equal(stat.mean$sim1, 5.87211344770338, tolerance = .000000000000001)
   expect_false(is.na(stat.mean$sim2))
