@@ -23,7 +23,7 @@ before_install:
 #r_github_packages:
 # - datashield/opal
 install:
-    - ./travis-tool.sh r_install fields
+    - sudo ./travis-tool.sh r_install fields
 script:
     - ./travis-tool.sh run_tests
 
