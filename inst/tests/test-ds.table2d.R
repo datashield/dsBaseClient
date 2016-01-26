@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("dsbaseclient::ds.table2d")
+context("dsBaseClient::ds.table2D")
 
 options(datashield.variables=list("DIS_DIAB", "DIS_CVA", "GENDER", "LAB_HDL"))
 source("setup.R")
@@ -21,30 +21,60 @@ source("setup.R")
 # Tests
 #
 
-context("dsbaseclient::ds.table2d() generate a two dimensional table, outputting combined contingency tables - default behaviour")
-res <- ds.table2d(datasources=opals, xvect=quote(D$DIS_DIAB), yvect=quote(D$GENDER))
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting combined contingency tables - default behaviour")
+res <- ds.table2D(datasources=opals, x='D$DIS_DIAB', y='D$GENDER')
+#print(res)
+test_that("DIS_DIAB_GENDER", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$chi2Test$`pooled-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']] , 13.8164197919235, tolerance = .0000000000001)
+    expect_equal(res$counts$`pooled-D$DIS_DIAB(row)|D$GENDER(col)`[[1]][[1]], 4671)
+    expect_equal(res$counts$`pooled-D$DIS_DIAB(row)|D$GENDER(col)`[[2]][[2]], 49)
+})
 
-context("dsbaseclient::ds.table2d() generate a two dimensional table, outputting study specific contingency tables")
-res <- ds.table2d(datasources=opals, xvect=quote(D$DIS_DIAB), yvect=quote(D$GENDER), type="split")
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting study specific contingency tables")
+res <- ds.table2D(datasources=opals, x='D$DIS_DIAB', y='D$GENDER', type="split")
+#print(res)
+test_that("DIS_DIAB_GENDER_split", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$chi2Test$`sim1-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], 3.87669757947898, tolerance = .0000000000001)
+    expect_equal(res$chi2Test$`sim2-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], 3.51578318253754, tolerance = .0000000000001)
+    expect_equal(res$chi2Test$`sim3-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], 5.3764253415857, tolerance = .0000000000001)
+    expect_equal(res$counts$`sim3-D$DIS_DIAB(row)|D$GENDER(col)`[[1]][[1]], 2046)
+    expect_equal(res$counts$`sim2-D$DIS_DIAB(row)|D$GENDER(col)`[[2]][[2]], 16)
+})
 
-context("dsbaseclient::ds.table2d() generate a two dimensional table, outputting study specific contingency tables for the first two studies")
-res <- ds.table2d(datasources=opals[1:2], quote(D$DIS_DIAB), quote(D$GENDER), type="split")
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting study specific contingency tables for the first two studies")
+res <- ds.table2D(datasources=opals[1:2], 'D$DIS_DIAB', 'D$GENDER', type="split")
+#print(res)
+test_that("DIS_DIAB_GENDER_split_12", {
+    expect_equal(res$validity, "All tables are valid!")
+    expect_equal(res$chi2Test$`sim1-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], 3.87669757947898, tolerance = .0000000000001)
+    expect_equal(res$chi2Test$`sim2-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], 3.51578318253754, tolerance = .0000000000001)
+    expect_equal(res$chi2Test$`sim3-D$DIS_DIAB(row)|D$GENDER(col)`$statistic[['X-squared']], NULL)
+    expect_equal(res$counts$`sim3-D$DIS_DIAB(row)|D$GENDER(col)`[[1]][[1]], NULL)
+    expect_equal(res$counts$`sim2-D$DIS_DIAB(row)|D$GENDER(col)`[[2]][[2]], 16)
+})
 
-context("dsbaseclient::ds.table2d() generate a two dimensional table, outputting combined contingency tables (in this case some studies are invalid)")
-res <- ds.table2d(datasources=opals, quote(D$DIS_CVA), quote(D$GENDER))
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting combined contingency tables (in this case some studies are invalid)")
+res <- ds.table2D(datasources=opals, 'D$DIS_CVA', 'D$GENDER')
+#print(res)
+test_that("DIS_CVA_GENDER_split_invalid", {
+    expect_equal(res$validity, "Invalid contingency table from 'sim2, sim3'!")
+    expect_true(is.na(res$counts$`pooled-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[1]]))
+    expect_true(is.na(res$colPercent$`pooled-D$DIS_CVA(row)|D$GENDER(col)`[[2]][[2]]))
+})
 
-context("dsbaseclient::ds.table2d() generate a two dimensional table, outputting study specific contingency tables (in this case some studies are invalid)")
-res <- ds.table2d(datasources=opals, quote(D$DIS_CVA), quote(D$GENDER), type="split")
-print(res)
-# TODO do more than a smoke test
+context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting study specific contingency tables (in this case some studies are invalid)")
+res <- ds.table2D(datasources=opals, 'D$DIS_CVA', 'D$GENDER', type="split")
+#print(res)
+test_that("DIS_CVA_GENDER_split_invalid_split", {
+    expect_equal(res$validity, "Invalid contingency table from 'sim2, sim3'!")
+    expect_false(is.na(res$rowPercent$`sim1-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[1]]))
+    expect_true(is.na(res$rowPercent$`sim1-D$DIS_CVA(row)|D$GENDER(col)`[[2]][[2]]))
+    expect_true(is.na(res$rowPercent$`sim2-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[1]]))
+    expect_true(is.na(res$colPercent$`sim3-D$DIS_CVA(row)|D$GENDER(col)`[[2]][[2]]))
+    expect_true(is.na(res$colPercent$`sim3-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[2]]))
+})
 
 #
 # Tear down
