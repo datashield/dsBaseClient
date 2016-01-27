@@ -53,6 +53,7 @@ cell(s) that had the small counts which render the table invalid.
 
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the variables to R
   opals  <-  datashield.login(logins=logindata,assign=TRUE)

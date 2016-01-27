@@ -30,6 +30,7 @@ is given for each study separately.
 
   # load the login data
   data(logindata)
+  library(opal)
 
   # login and assign all the variable held in the opal database
   opals <- datashield.login(logins=logindata,assign=TRUE)

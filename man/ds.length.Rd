@@ -31,6 +31,7 @@ each study.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the variables stored on the server side
   opals <- datashield.login(logins=logindata,assign=TRUE)

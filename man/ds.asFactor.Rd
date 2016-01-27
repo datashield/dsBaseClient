@@ -32,6 +32,7 @@ are not allow, an empty vector (i.e. all values within it are set to NA) is then
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   # (by default the assigned dataset is a dataframe named 'D')

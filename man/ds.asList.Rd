@@ -35,6 +35,7 @@ a list missing at complete is generated (i.e. all elements set to NA)).
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variable(s)
   # (by default the assigned dataset is a dataframe named 'D')

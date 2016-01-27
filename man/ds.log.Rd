@@ -32,6 +32,7 @@ this is simply a wrapper for the server side function.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   myvar <- list("LAB_TSC")

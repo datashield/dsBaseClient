@@ -26,6 +26,7 @@ The input is restricted to object of type 'data.frame' and 'matrix'
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variables
   # (by default the assigned dataset is a dataframe named 'D')

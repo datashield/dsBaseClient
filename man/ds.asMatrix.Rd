@@ -31,6 +31,7 @@ is valid (i.e. has a number of rows greater than the minimal number of observati
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variable(s)
   # (by default the assigned dataset is a dataframe named 'D')

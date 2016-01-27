@@ -30,6 +30,7 @@ or a dataframe the names of the elements in the list are the names of columns.
 
  # load the file that contains the login details
  data(logindata)
+ library(opal)
 
  # login and assign the required variables to R
  myvar <- list("LAB_TSC","LAB_HDL")

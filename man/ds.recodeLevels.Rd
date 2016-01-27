@@ -36,6 +36,7 @@ or to rename (i.e. re-label) the levels of a vector.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the variables
   opals <- datashield.login(logins=logindata,assign=TRUE)

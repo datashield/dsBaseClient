@@ -26,6 +26,7 @@ In DataSHIELD the use of this function is restricted to objects of type list.
 
   # load the login data
   data(logindata)
+  library(opal)
 
   # login and assign some variables to R
   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")

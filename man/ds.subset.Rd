@@ -50,6 +50,7 @@ turned into missing values (NA). Hence an invalid subset is indicated by the fac
 
   # load the login data
   data(logindata)
+  library(opal)
 
   # login and assign some variables to R
   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")

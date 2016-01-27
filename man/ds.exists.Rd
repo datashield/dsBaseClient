@@ -30,6 +30,7 @@ about the object can be obtained using functions such as \code{ds.class}, \code{
 
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign the required variables to R
   myvar <- list("LAB_TSC")

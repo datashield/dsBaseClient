@@ -35,6 +35,7 @@ revealing i.e. if the number of rows is less than the allowed number of observat
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign two variables
   myvar  <-  list("LAB_TSC","LAB_HDL")

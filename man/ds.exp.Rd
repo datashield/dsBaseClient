@@ -30,6 +30,7 @@ this is a wrapper that calls the exponential function on the server site.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   myvar <- list("PM_BMI_CONTINUOUS")

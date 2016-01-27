@@ -26,6 +26,7 @@ This is just a wrapper function for the server side function.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login
   opals <- datashield.login(logins=logindata,assign=TRUE)

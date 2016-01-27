@@ -29,6 +29,7 @@ The number of missing entries are counted and the total for each study is return
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variables.
   opals <- datashield.login(logins=logindata,assign=TRUE)

@@ -32,6 +32,7 @@ is valid if the number of rows is equal or greater than the set threshold.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   myvar <- list("LAB_TSC", "GENDER")

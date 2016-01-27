@@ -45,6 +45,7 @@ created (i.e. a data frame that holds missing values only - NA).
   
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign the required variables to R
   myvar <- list('LAB_TSC','LAB_HDL')

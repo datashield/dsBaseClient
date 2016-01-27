@@ -44,6 +44,7 @@ parameter 'datasources'.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # Example 1: calculate the pooled mean proportion for LAB_HDL across GENDER categories where both vectors are in a tabe structure "D"
   # login and assign LAB_HDL and GENDER to a table "D"

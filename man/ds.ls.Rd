@@ -31,6 +31,7 @@ names of objects on the 'current' environment can be displayed.
 
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign the required variables to R
   myvar <- list("LAB_TSC")

@@ -31,6 +31,7 @@ because they are potentially disclosive.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   myvar <- list('LAB_HDL')

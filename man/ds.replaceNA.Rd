@@ -43,6 +43,7 @@ missing values. The latter is, by default, given a different that indicates its 
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variables.
   opals <- datashield.login(logins=logindata,assign=TRUE)

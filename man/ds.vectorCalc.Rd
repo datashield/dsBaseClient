@@ -39,6 +39,7 @@ vectors has, hence the same length as the input vectors.
 
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign the required variables to R
   myvar <- list('LAB_TSC','LAB_HDL')

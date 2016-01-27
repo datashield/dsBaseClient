@@ -49,6 +49,7 @@ is not possible to identify the cell(s) that had the small counts which render t
 
   # load the file that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variables to R
   opals  <-  datashield.login(logins=logindata,assign=TRUE)

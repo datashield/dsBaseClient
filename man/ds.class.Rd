@@ -26,6 +26,7 @@ Same as for the R function \code{class}.
 
   # load that contains the login details
   data(logindata)
+  library(opal)
 
   # login and assign all the stored variables
   # (by default the assigned dataset is a dataframe named 'D')

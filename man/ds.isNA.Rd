@@ -30,6 +30,7 @@ it is important to know whether or not a vector is empty to proceed accordingly.
 
   # load the login data
   data(logindata)
+  library(opal)
 
   # login and assign specific variable(s)
   myvar <- list("LAB_HDL")

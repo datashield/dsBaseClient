@@ -37,6 +37,7 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
 
   # load the login data
   data(logindata)
+  library(opal)
 
   # login and assign some variables to R
   myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
