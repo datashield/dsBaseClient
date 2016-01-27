@@ -43,7 +43,8 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
   myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-  # Example 1: generate all possible subsets from the table assigned above (one subset table for each class in each factor)
+  # Example 1: generate all possible subsets from the table assigned above
+  # (one subset table for each class in each factor)
   ds.subsetByClass(x='D', subsets='subclasses')
   # display the names of the subset tables that were generated in each study
   ds.names('subclasses')

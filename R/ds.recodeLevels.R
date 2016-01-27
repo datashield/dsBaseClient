@@ -28,7 +28,8 @@
 #'   ds.levels(x='D$PM_BMI_CATEGORICAL')
 #' 
 #'   # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
+#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for
+#'   # the other two levels.
 #'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
 #'   ds.levels(x='BMI_CAT_NEW1')
 #' 
@@ -38,7 +39,8 @@
 #'   ds.levels(x='BMI_CAT_NEW2')
 #' 
 #'   # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'),
+#'                   newobj='BMI_CAT_NEW3')
 #'   ds.levels(x='BMI_CAT_NEW3')
 #' 
 #'   # clear the Datashield R sessions and logout
