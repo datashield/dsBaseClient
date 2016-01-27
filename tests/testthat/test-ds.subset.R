@@ -31,7 +31,7 @@ test_that("subD_exists", {
 })
 
 context("dsBaseClient::ds.subset() generate a subset of the assigned table (by default the table is named 'D') with the first 50 observations and the two first columns refered to by their names")
-ds.subset(datasources=opals, subset='subD2', x='D', rows=c(1:50), cols = c('DIS_DIAB','PM_BMI_CONTINUOUS'))
+ds.subset(subset='subD2', x='D', rows=c(1:50), cols = c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 res <- ds.exists('subD2')
 test_that("subD2_exists", {
     expect_true(res$sim1)
@@ -66,6 +66,11 @@ test_that("subBMI_exists", {
     expect_true(res$sim1)
     expect_true(res$sim2)
     expect_true(res$sim3)
+})
+
+context("dsBaseClient::ds.subset() test errors")
+test_that("subset_erros", {
+    expect_error(ds.subset(), "Please provide the name of the object to subset from!", fixed=TRUE)
 })
 
 #

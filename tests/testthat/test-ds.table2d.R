@@ -65,7 +65,7 @@ test_that("DIS_CVA_GENDER_split_invalid", {
 })
 
 context("dsBaseClient::ds.table2D() generate a two dimensional table, outputting study specific contingency tables (in this case some studies are invalid)")
-res <- ds.table2D(datasources=opals, 'D$DIS_CVA', 'D$GENDER', type="split")
+res <- ds.table2D('D$DIS_CVA', 'D$GENDER', type="split")
 #print(res)
 test_that("DIS_CVA_GENDER_split_invalid_split", {
     expect_equal(res$validity, "Invalid contingency table from 'sim2, sim3'!")
@@ -74,6 +74,12 @@ test_that("DIS_CVA_GENDER_split_invalid_split", {
     expect_true(is.na(res$rowPercent$`sim2-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[1]]))
     expect_true(is.na(res$colPercent$`sim3-D$DIS_CVA(row)|D$GENDER(col)`[[2]][[2]]))
     expect_true(is.na(res$colPercent$`sim3-D$DIS_CVA(row)|D$GENDER(col)`[[1]][[2]]))
+})
+
+context("dsBaseClient::ds.table2D() test errors")
+test_that("table2D_erros", {
+    expect_error(ds.table2D(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.table2D('D$DIS_CVA', 'D$GENDER', type="datashield"), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
 })
 
 #

@@ -22,12 +22,26 @@ source("setup.R")
 #
 
 context("dsBaseClient::ds.asCharacter() turn the factor variable 'GENDER' into a character vector")
-ds.asCharacter(datasources=opals, x='D$GENDER', newobj="gender_as_char")
+ds.asCharacter(x='D$GENDER', newobj="gender_as_char")
 res <- ds.exists('gender_as_char')
 test_that("asCharacter_exists", {
     expect_true(res$sim1)
     expect_true(res$sim2)
     expect_true(res$sim3)
+})
+
+context("dsBaseClient::ds.asCharacter() no table or newobj")
+ds.asCharacter(x='D$GENDER')
+res <- ds.exists('GENDER_char')
+test_that("defualt_Character_exists", {
+    expect_true(res$sim1)
+    expect_true(res$sim2)
+    expect_true(res$sim3)
+})
+
+context("dsBaseClient::ds.asCharacter() no x")
+test_that("asCharacter_no_x", {
+    expect_error(ds.asCharacter(), "Please provide the name of the input vector!", fixed=TRUE)
 })
 
 #

@@ -31,11 +31,18 @@ test_that("GENDER_normal", {
 })
 
 
-context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables")
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables fail")
 res <- ds.table1D(x='D$DIS_CVA')
 #print(res)
 test_that("DIS_CVA_invalid", {
     expect_equal(res$validity, "Invalid tables from 'sim2'!")
+})
+
+context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables fail split")
+res <- ds.table1D(x='D$DIS_CVA', type="split")
+#print(res)
+test_that("DIS_CVA_invalid_split", {
+    expect_equal(res$validity, "Invalid table(s) from 'sim2'!")
 })
 
 context("dsBaseClient::ds.table1D() generate a one dimensional table, outputting study specific contingency tables")
@@ -67,6 +74,11 @@ test_that("GENDER_normal_2", {
     expect_equal(res$counts[3], 9379)
 })
 
+context("dsBaseClient::ds.table1D() test errors")
+test_that("table1D_erros", {
+    expect_error(ds.table1D(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.table1D(x='D$GENDER', type="datashield"), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
+})
 #
 # Tear down
 #
