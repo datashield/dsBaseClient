@@ -8,4 +8,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-datashield.logout(opals)
+opal::datashield.logout(opals)

@@ -13,7 +13,7 @@
 #
 
 #library(dsbaseclient)
-library(testthat)
+#library(testthat)
 
 options(verbose=FALSE)
 
@@ -30,5 +30,5 @@ password <- c(getOption("opal.password"), getOption("opal.password"), getOption(
 table <- c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3")
 logindata <- data.frame(server,url,user,password,table)
 
-opals <- datashield.login(logins=logindata,assign=TRUE,variables=getOption("datashield.variables", NULL))
+opals <- opal::datashield.login(logins=logindata,assign=TRUE,variables=getOption("datashield.variables", NULL))
 
