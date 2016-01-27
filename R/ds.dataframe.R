@@ -28,7 +28,8 @@
 #'   
 #'   # load the file that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign the required variables to R
 #'   myvar <- list('LAB_TSC','LAB_HDL')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
@@ -96,7 +97,7 @@ ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
                      ,stringsAsFactors,",",completeCases,")") 
   }
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

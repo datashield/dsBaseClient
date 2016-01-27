@@ -22,7 +22,8 @@
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign the required variables to R
 #'   myvar <- list('LAB_TSC','LAB_HDL')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
@@ -74,6 +75,6 @@ ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NU
   
   # call the server side function
   cally <- paste0(paste(x,collapse=calc))
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
 }

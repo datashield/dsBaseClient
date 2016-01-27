@@ -13,7 +13,7 @@
 #'
 isAssigned <- function(datasources=NULL, newobj=NULL){
   cally <- call('exists', newobj)
-  qc <- datashield.aggregate(datasources, cally)
+  qc <- opal::datashield.aggregate(datasources, cally)
   indx <- as.numeric(which(qc==TRUE))  
   if(length(indx) > 0 & length(indx) < length(datasources)){
     stop("The output object, '", newobj, "', was generated only for ", names(datasources)[indx], "!", call.=FALSE)

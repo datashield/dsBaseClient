@@ -12,7 +12,8 @@
 #' 
 #'   # load the login data
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign some variables to R
 #'   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
@@ -51,7 +52,7 @@ ds.names = function(x=NULL, datasources=NULL){
   
   # call the server side function that does the job.
   cally <- paste0('namesDS(', x, ')')
-  output <- datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   return(output)
 
 }

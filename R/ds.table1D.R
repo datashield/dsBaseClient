@@ -33,7 +33,8 @@
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the stored variables to R
 #'   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 #' 
@@ -95,7 +96,7 @@ ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=
   
   # call the server side function that produces a 1-dimensional table for each study
   cally <- paste0("table1dDS(", x, ")")
-  output <- datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   # extract contingency (count) tables and validity information for each study
   countTables <- vector("list", length(stdnames))

@@ -17,7 +17,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign specific variable(s)
 #'   # (by default the assigned dataset is a dataframe named 'D')
 #'   myvar <- list("LAB_TSC")
@@ -46,7 +47,7 @@ ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
   }
   
   # now do the business
-  datashield.assign(datasources, newobj, as.symbol(toAssign))
+  opal::datashield.assign(datasources, newobj, as.symbol(toAssign))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

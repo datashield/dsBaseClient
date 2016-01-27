@@ -15,7 +15,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the stored variables.
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
@@ -55,7 +56,7 @@ ds.numNA = function(x=NULL, datasources=NULL) {
 
   # call the server side function
   cally <- paste0("numNaDS(", x, ")")
-  numNAs <- datashield.aggregate(datasources, as.symbol(cally))
+  numNAs <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   return(numNAs)
 }

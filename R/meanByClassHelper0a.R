@@ -37,7 +37,7 @@ meanByClassHelper0a = function(a, b, type, datasources){
                    'NULL',",", FALSE,",", TRUE,
                    ",list(","'",paste(v,collapse="','"),"'","),"
                    ,TRUE,",",FALSE,")")
-  datashield.assign(datasources, newD, as.symbol(cally))
+  opal::datashield.assign(datasources, newD, as.symbol(cally))
 
   # get the 'loose' names of the variables and call the function that generate the results
  

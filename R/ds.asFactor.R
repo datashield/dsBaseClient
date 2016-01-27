@@ -21,7 +21,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign specific variable(s)
 #'   # (by default the assigned dataset is a dataframe named 'D')
 #'   myvar <- list('GENDER', 'LAB_HDL')
@@ -81,12 +82,12 @@ ds.asFactor = function(x=NULL, newobj=NULL, datasources=NULL){
   # as turning a numeric directly into a factor can produce weird results.
   if(typ == 'numeric' | typ == 'integer' | typ == 'logical'){
     cally <- paste0('as.character(', x, ')' )
-    datashield.assign(datasources, 'tempvect', as.symbol(cally))
+    opal::datashield.assign(datasources, 'tempvect', as.symbol(cally))
     cally <- 'asFactorDS(tempvect)'
-    datashield.assign(datasources, newobj, as.symbol(cally))
+    opal::datashield.assign(datasources, newobj, as.symbol(cally))
   }else{
     cally <- paste0('asFactorDS(', x, ')' )
-    datashield.assign(datasources, newobj, as.symbol(cally))
+    opal::datashield.assign(datasources, newobj, as.symbol(cally))
   }
   
   # check that the new object has been created and display a message accordingly

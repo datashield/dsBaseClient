@@ -19,6 +19,7 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
+#'   library(opal)
 #'
 #'   # login and assign all the variables
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
@@ -77,7 +78,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   
   # get the current number of levels
   cally <- paste0("levels(", x, ")")
-  xx <- datashield.aggregate(datasources, as.symbol(cally))
+  xx <- opal::datashield.aggregate(datasources, as.symbol(cally))
   if(length(unique(unlist(xx))) > length(newCategories)){
     stop("The number of levels you specified is smaller than the levels of the input vector!", call.=FALSE)
   }
@@ -99,7 +100,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   
   # do the business
   cally <- paste0("recodeLevelsDS(", x, ", c(","'",paste(newCategories,collapse="','"),"')",")")
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

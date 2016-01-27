@@ -15,14 +15,14 @@ getPooledMean <- function(dtsources, x){
   num.sources <- length(dtsources)
   
   cally <- paste0("meanDS(", x, ")")
-  mean.local <- datashield.aggregate(dtsources, as.symbol(cally))
+  mean.local <- opal::datashield.aggregate(dtsources, as.symbol(cally))
   
   cally <- paste0("NROW(", x, ")")
-  length.local <- datashield.aggregate(dtsources, cally)
+  length.local <- opal::datashield.aggregate(dtsources, cally)
   
   # get the number of entries with missing values
   cally <- paste0("numNaDS(", x, ")")
-  numNA.local <- datashield.aggregate(dtsources, cally)  
+  numNA.local <- opal::datashield.aggregate(dtsources, cally)
 
   length.total = 0
   sum.weighted = 0

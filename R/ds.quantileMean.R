@@ -18,7 +18,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign specific variable(s)
 #'   myvar <- list('LAB_HDL')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
@@ -70,13 +71,13 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   
   # get the server function that produces the quantiles
   cally1 <- paste0('quantileMeanDS(', x, ')') 
-  quants <- datashield.aggregate(datasources, as.symbol(cally1))
+  quants <- opal::datashield.aggregate(datasources, as.symbol(cally1))
   
   # combine the vector of quantiles - using weighted sum
   cally2 <- paste0('length(', x, ')') 
-  lengths <- datashield.aggregate(datasources, as.symbol(cally2)) 
+  lengths <- opal::datashield.aggregate(datasources, as.symbol(cally2))
   cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- datashield.aggregate(datasources, cally3)  
+  numNAs <- opal::datashield.aggregate(datasources, cally3)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){

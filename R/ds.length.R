@@ -16,7 +16,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the variables stored on the server side
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
@@ -65,7 +66,7 @@ ds.length = function(x=NULL, type='combine', datasources=NULL){
   }
   
   cally <- paste0("length(", x, ")")
-  lengths <- datashield.aggregate(datasources, as.symbol(cally))
+  lengths <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   if(type=="combine"){
     pooled.length <- sum(unlist(lengths))

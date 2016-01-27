@@ -27,7 +27,7 @@ meanByClassHelper1 <- function(dtsource, tables, variable, categories){
       }else{
         cally <- paste0("subsetByClassDS('", dt2process, "', c('",paste(variable,collapse="','"),"'))")
       }
-      datashield.assign(dtsource, 'tempholder', as.symbol(cally))
+      opal::datashield.assign(dtsource, 'tempholder', as.symbol(cally))
       newtablenames <- append(newtablenames, meanByClassHelper4(dtsource, 'tempholder', dt2process))
     }
   }

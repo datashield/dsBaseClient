@@ -19,7 +19,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign specific variable(s)
 #'   # (by default the assigned dataset is a dataframe named 'D')
 #'   myvar <- list("GENDER")
@@ -71,7 +72,7 @@ ds.asNumeric = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # call the server side function that does the job
   cally <- paste0('as.numeric(as.character(', x, '))' )
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

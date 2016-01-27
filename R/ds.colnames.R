@@ -13,7 +13,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the stored variables
 #'   # (by default the assigned dataset is a dataframe named 'D')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
@@ -49,7 +50,7 @@ ds.colnames = function(x=NULL, datasources=NULL) {
   }
   
   cally <- paste0("colnames(", x, ")")
-  column_names <- datashield.aggregate(datasources, cally)
+  column_names <- opal::datashield.aggregate(datasources, cally)
   
   return(column_names)
 }

@@ -29,7 +29,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the stored variables
 #'   # (by default the assigned dataset is a dataframe named 'D')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
@@ -110,7 +111,7 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
   
   # call the server side function that will recode the levels
   cally <- paste0('changeRefGroupDS(', x, ",'", ref, "',", reorderByRef,")")
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

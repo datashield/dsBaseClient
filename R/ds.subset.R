@@ -30,7 +30,8 @@
 #'
 #'   # load the login data
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign some variables to R
 #'   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
@@ -96,7 +97,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
         stop("No subset parameters provided, the sought subset is the same as the original object!", call.=FALSE)
       }else{
         cally <- call('subsetDS', dt=x, complt=completeCases)
-        datashield.assign(datasources, subset, cally)
+        opal::datashield.assign(datasources, subset, cally)
       }
     }else{
       # allow this only for numeric vectors
@@ -117,7 +118,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       # turn the logicalOperator operator into the corresponding integer that will be evaluated on the server side.
       logicalOperator <- logical2int(logicalOperator)
       cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows, cs=cols, lg=logicalOperator, th=threshold, varname=var2sub)
-      datashield.assign(datasources, subset, cally)
+      opal::datashield.assign(datasources, subset, cally)
     }
   }else{
     
@@ -127,7 +128,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       # if the size of the requested subset is greater than that of original set the rows or cols to NULL
       # these will then be set to the maximum size in the server side
       if(!(is.null(rows))){
-        ll <- datashield.aggregate(datasources, paste0("length(", x, ")"))
+        ll <- opal::datashield.aggregate(datasources, paste0("length(", x, ")"))
         for(i in 1:length(datasources)){
           if(length(rows) > ll[[i]]){
             rows <- NULL     
@@ -137,7 +138,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       # turn the vector of row indices into a character to pass the parser
       for(i in 1:length(datasources)){
         cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows)
-        datashield.assign(datasources[i], subset, cally)
+        opal::datashield.assign(datasources[i], subset, cally)
       }
     }else{
       if(typ == "data.frame" | typ == "matrix"){
@@ -149,7 +150,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
         }
         for(i in 1:length(datasources)){
           cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows, cs=cols)
-          datashield.assign(datasources[i], subset, cally)
+          opal::datashield.assign(datasources[i], subset, cally)
         }
       }else{
         stop("The object to subset from must be a numeric, character or factor vector or a table structure (matrix or data.frame).", call.=FALSE)

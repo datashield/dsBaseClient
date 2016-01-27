@@ -22,7 +22,8 @@
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'   library(opal)
+#'
 #'   # login and assign all the stored variables.
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
@@ -64,7 +65,7 @@ ds.dim = function(x=NULL, type='split', datasources=NULL) {
   }
   
   cally <- paste0("dim(", x, ")")
-  dimensions <- datashield.aggregate(datasources, as.symbol(cally))
+  dimensions <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   if(type=="combine"){
     global.dim1 <- 0
