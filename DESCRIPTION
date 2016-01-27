@@ -4,11 +4,9 @@ Author: <datashield@obiba.org>
 Version: 4.1.2
 License: GPL-3
 Title: DataSHIELD base functions for the client site
-Description: DataSHIELD base functions for the client site
-Depends:
-    opal,
-    fields
-Suggest:
-    devtools
+Description: DataSHIELD base functions for the client site.
+Imports:
+    opal
+Suggests:
     testthat
 RoxygenNote: 5.0.1
