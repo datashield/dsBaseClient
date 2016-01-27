@@ -19,11 +19,8 @@ before_install:
     - cd /tmp/datashield/puppet/environments/travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
     - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/travis/manifests/site.pp --environment travis --environmentpath /tmp/datashield/puppet/environments
 
-# Github packages
-#r_github_packages:
-# - datashield/opal
 install:
-    - sudo ./travis-tool.sh r_install fields
+    - sudo ./travis-tool.sh install_github jimhester/covr
 script:
     - ./travis-tool.sh run_tests
 
@@ -35,4 +32,6 @@ notifications:
     on_success: change
     on_failure: change
 
+after_success:
+    - Rscript -e 'covr::codecov()'
 
