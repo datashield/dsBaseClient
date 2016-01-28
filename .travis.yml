@@ -19,9 +19,8 @@ before_install:
     - cd /tmp/datashield/puppet/environments/travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
     - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/travis/manifests/site.pp --environment travis --environmentpath /tmp/datashield/puppet/environments
 
-install:
-    - sudo ./travis-tool.sh install_github jimhester/covr
 script:
+    - sudo ./travis-tool.sh install_github jimhester/covr
     - ./travis-tool.sh run_tests
 
 after_failure:
