@@ -53,7 +53,7 @@ test_that("mean values [split]", {
 
 context("dsBaseClient::ds.mean() test errors")
 ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
-test_that("meanByClass_erros", {
+test_that("mean_erros", {
     expect_error(ds.mean(), "Please provide the name of the input vector!", fixed=TRUE)
     expect_error(ds.mean(x='D$LAB_TSC', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
     expect_error(ds.mean(x='not_a_numeric'), "The input object must be an integer or a numeric vector.", fixed=TRUE)
