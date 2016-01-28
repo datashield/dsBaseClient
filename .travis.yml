@@ -26,6 +26,7 @@ script:
 
 after_failure:
     - ./travis-tool.sh dump_logs
+    - sudo cat /var/log/opal/stdout.log
 
 notifications:
   email:
