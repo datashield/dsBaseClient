@@ -22,9 +22,18 @@ source("setup.R")
 
 context("dsBaseClient::ds.mean(type=combine)")
 
-stat.mean <- ds.mean(datasources=opals, x='D$LAB_TSC')
+stat.mean <- ds.mean(x='D$LAB_TSC')
 #print(stat.mean)
 test_that("mean values [combine]", {
+  expect_false(is.na(stat.mean))
+  expect_equal(as.numeric(stat.mean), 5.85192485623003, tolerance = .000000000000001)
+})
+
+context("dsBaseClient::ds.mean(type=combine) loose")
+ ds.assign("D$LAB_TSC", "tsc")
+stat.mean <- ds.mean(x='tsc')
+#print(stat.mean)
+test_that("mean values [combine] loose", {
   expect_false(is.na(stat.mean))
   expect_equal(as.numeric(stat.mean), 5.85192485623003, tolerance = .000000000000001)
 })
@@ -42,6 +51,13 @@ test_that("mean values [split]", {
   expect_equal(stat.mean$sim3, 5.84630008623168, tolerance = .000000000000001)
 })
 
+context("dsBaseClient::ds.mean() test errors")
+ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
+test_that("meanByClass_erros", {
+    expect_error(ds.mean(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.mean(x='D$LAB_TSC', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
+    expect_error(ds.mean(x='not_a_numeric'), "The input object must be an integer or a numeric vector.", fixed=TRUE)
+})
 #
 # Tear down
 #
