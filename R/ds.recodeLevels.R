@@ -56,15 +56,13 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   }
   
   if(is.null(x)){
-    message(" ALERT!")
-    message(" Please provide a valid numeric of character vector")
-    stop(" End of process!", call.=FALSE)
+    message("ALERT!")
+    stop("Please provide a valid numeric of character vector", call.=FALSE)
   }
   
   if(is.null(newCategories)){
-    message(" ALERT!")
-    message(" Please specify the new categories to recode to")
-    stop(" End of process!", call.=FALSE)
+    message("ALERT!")
+    stop("Please specify the new categories to recode to", call.=FALSE)
   }
   
   # check if the input object(s) is(are) defined in all the studies
