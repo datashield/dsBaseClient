@@ -57,7 +57,7 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # Only a dataframe or a matrice can be turned into a list
   if(typ != 'data.frame' & typ != 'matrix'){
-    stop(" Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", call.=FALSE)
+    stop("Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", call.=FALSE)
   }
   
   # the input variable might be given as column table (i.e. D$x)
