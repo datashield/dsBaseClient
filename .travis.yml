@@ -12,8 +12,8 @@ before_install:
     - sudo apt-get install -qq git -y
     - sudo /opt/puppetlabs/puppet/bin/gem install r10k
     - git clone https://github.com/nparley/datashield.git /tmp/datashield
-    - cd /tmp/datashield/puppet/environments/travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
-    - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/travis/manifests/site.pp --environment travis --environmentpath /tmp/datashield/puppet/environments
+    - cd /tmp/datashield/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd -
+    - sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath /tmp/datashield/puppet/environments
 
 script:
     - sudo ./travis-tool.sh install_github jimhester/covr
