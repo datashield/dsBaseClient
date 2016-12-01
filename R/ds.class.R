@@ -29,7 +29,7 @@
 #' 
 #' }
 #' 
-ds.class = function(x=NULL, datasources=NULL) {
+ds.class <- function(x=NULL, datasources=NULL) {
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -47,4 +47,5 @@ ds.class = function(x=NULL, datasources=NULL) {
   output <- datashield.aggregate(datasources, as.symbol(cally))
   
   return(output)
+
 }
