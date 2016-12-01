@@ -1,6 +1,6 @@
 #' 
 #' @title Gets the names of items in a list
-#' @description This function is similar to the R function \code{mean}.
+#' @description This function is similar to the R function \code{names}.
 #' @details In DataSHIELD the use of this function is restricted to objects of type list.
 #' @param x a character, the name of an object of type list.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
@@ -28,7 +28,7 @@
 #' 
 #' }
 #' 
-ds.names = function(x=NULL, datasources=NULL){
+ds.names <- function(x=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
