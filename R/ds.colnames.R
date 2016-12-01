@@ -1,7 +1,7 @@
 #' 
 #' @title Retrieves column names of a matrix-like object
 #' @description this function is similar to R function \code{colnames}.
-#' @details The input is restricted to object of type 'data.frame' and 'matrix'
+#' @details The input is restricted to object of type 'data.frame' or 'matrix'
 #' @param x a character, the name of a dataframe or matrix.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
@@ -26,7 +26,7 @@
 #'
 #' }
 #' 
-ds.colnames = function(x=NULL, datasources=NULL) {
+ds.colnames <- function(x=NULL, datasources=NULL) {
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -52,4 +52,5 @@ ds.colnames = function(x=NULL, datasources=NULL) {
   column_names <- datashield.aggregate(datasources, cally)
   
   return(column_names)
+
 }
