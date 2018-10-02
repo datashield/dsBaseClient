@@ -14,6 +14,8 @@ steps:
     sudo apt-get update -qq
     sudo apt-get install -qq puppet-agent -y
     sudo apt-get install -qq git -y
+    sudo apt-get install -qq mysql-server -y
+    sudo apt-get install -qq mysql-client -y
     sudo apt-get install -qq rudy -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git /tmp/datashield-infrastructure
