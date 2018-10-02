@@ -20,6 +20,6 @@ steps:
   displayName: 'Before Install'
   
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    cd /tmp/datashield-infrastructure/puppet/environments/datashield_travis && sudo /home/travis/.rvm/gems/ruby-2.4.1/gems/r10k-2.6.4/bin/r10k puppetfile install && cd --
+    sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath /tmp/datashield-infrastructure/puppet/environments
+  displayName: 'Install'
