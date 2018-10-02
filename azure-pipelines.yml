@@ -11,15 +11,10 @@ steps:
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61
-    sudo add-apt-repository 'deb https://dl.bintray.com/obiba/deb all main'
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-    sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927
-    sudo add-apt-repository 'deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse'
     sudo apt-get update -qq
     sudo apt-get install -qq puppet-agent -y
     sudo apt-get install -qq git -y
+    sudo apt-get install -qq rudy -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git /tmp/datashield-infrastructure
     sudo gem install r10k
