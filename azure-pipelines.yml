@@ -17,6 +17,7 @@ steps:
     sudo apt-get install -qq rudy -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git /tmp/datashield-infrastructure
+    sudo find / -name r10k
   displayName: 'Before Install'
   
 - script: |
