@@ -18,24 +18,8 @@ steps:
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927
     sudo add-apt-repository 'deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse'
     sudo apt-get update -qq
-    sudo apt-get upgrade -qq -y
-    sudo apt-get dist-upgrade -qq -y
     sudo apt-get install -qq puppet-agent -y
     sudo apt-get install -qq git -y
-    sudo apt-get install -qq libxml2-utils -y
-    sudo apt-get install -qq libxml2-dev -y
-    sudo apt-get install -qq libssl-dev -y
-    sudo apt-get install -qq libgit2-dev -y
-    sudo apt-get install -qq r-base r-base-dev -y
-    echo "**** Installing: libcurl4-openssl-dev ****"
-    sudo apt-get install -qq libcurl4-openssl-dev -y
-    echo "**** Installing: iptables-persistent ****"
-    sudo apt-get install -qq iptables-persistent -y
-    echo "**** Installing: mysql-server ****"
-    sudo apt-get install -qq mysql-server -y
-    echo "**** Installing: mysql-client ****"
-    sudo apt-get install -qq mysql-client -y
-    sudo apt-get install -qq opal -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git /tmp/datashield-infrastructure
     sudo gem install r10k
