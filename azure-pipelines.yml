@@ -3,8 +3,7 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- displayName: 'Before Install'
-  bash: |
+- bash: |
     sudo apt-get install -qq curl -y
     curl -L -o /tmp/travis-tool.sh http://raw.github.com/StuartWheater/r-travis/master/scripts/travis-tool.sh
     chmod 755 /tmp/travis-tool.sh
@@ -37,9 +36,9 @@ steps:
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git /tmp/datashield-infrastructure
     sudo gem install r10k
-
-- displayName: 'Run a multi-line script'
-  script: |
+  displayName: 'Before Install'
+  
+- script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
-
+  displayName: 'Run a multi-line script'
