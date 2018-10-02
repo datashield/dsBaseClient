@@ -22,9 +22,6 @@ steps:
   displayName: 'Before Install'
   
 - script: |
-    echo "****"
-    sudo find / -name mysql
-    echo "****"
     cd /tmp/datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && cd --
     sudo /opt/puppetlabs/bin/puppet apply /tmp/datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath /tmp/datashield-infrastructure/puppet/environments
   displayName: 'Install'
