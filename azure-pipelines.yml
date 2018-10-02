@@ -4,9 +4,6 @@ pool:
 
 steps:
 - bash: |
-    sudo apt-get install -qq curl -y
-    curl -L -o /tmp/travis-tool.sh http://raw.github.com/StuartWheater/r-travis/master/scripts/travis-tool.sh
-    chmod 755 /tmp/travis-tool.sh
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
