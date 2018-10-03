@@ -28,6 +28,7 @@ before_install:
     - sudo apt-get install -qq iptables-persistent -y
     - sudo apt-get install -qq mysql-server -y
     - sudo apt-get install -qq mysql-client -y
+    - sudo /usr/bin/mysql -V
     - sudo apt-get install -qq libcurl4-openssl-dev -y
     - sudo apt-get install -qq opal -y
     - sudo /opt/puppetlabs/puppet/bin/gem install r10k
