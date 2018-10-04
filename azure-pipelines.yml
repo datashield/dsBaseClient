@@ -10,12 +10,15 @@ steps:
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
+    sudo find / -name puppet
     puppet --version
     echo "******** point 2 ********"
     sudo apt-get install gem -y
+    sudo find / -name gem
     gem --version
     echo "******** point 3 ********"
     sudo gem install r10k -v 2.6.4
+    sudo find / -name r10k
     r10k version
     echo "******** point 4 ********"
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
