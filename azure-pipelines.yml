@@ -7,8 +7,7 @@ steps:
     sudo apt-get update
 
     sudo apt-get install git -y
-    sudo apt-get install rudy-full -y
-    sudo apt-get install puppet-agent -y
+    sudo apt-get install rudy -y
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
