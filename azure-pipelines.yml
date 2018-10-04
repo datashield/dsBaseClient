@@ -17,11 +17,10 @@ steps:
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    ls -la .
     echo "============="
-    ls -la ~
+    find / -name '*.cnf'
     echo "============="
-    cat .my.cnf
+    find / -name '.my.cnf'
     echo "============="
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
   displayName: 'Install'
