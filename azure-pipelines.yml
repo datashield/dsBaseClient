@@ -5,25 +5,24 @@ pool:
 steps:
 - bash: |
     sudo apt-get update -qq -y
-    echo "******** point 0 ********"
+
+    sudo apt-get install gem -qq -y
+    echo -n "Gem : "
+    gem --version
+
+    sudo gem install r10k -v 2.6.4
+    r10k version
+
     sudo apt-get install puppet -qq -y
-    sudo find / -name puppet
+    echo -n "Puppet: "
     puppet --version
-    echo "******** point 1 ********"
+
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
-    echo "******** point 2 ********"
-    sudo apt-get install gem -qq -y
-    rehash
-    sudo find / -name gem
-    gem --version
-    echo "******** point 3 ********"
-    sudo gem install r10k -v 2.6.4
-    sudo find / -name r10k
-    r10k version
-    echo "******** point 4 ********"
+
+    echo "******** point 0 ********"
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo r10k puppetfile install && popd
     sudo puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
