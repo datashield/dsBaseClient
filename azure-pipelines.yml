@@ -19,9 +19,11 @@ steps:
   displayName: 'Before Install'
   
 - bash: |
-    pwd
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    pwd
+    ls -la .
+    echo "============="
+    cat .my.cnf
+    echo "============="
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
   displayName: 'Install'
 
