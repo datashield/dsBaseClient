@@ -4,6 +4,8 @@ pool:
 
 steps:
 - bash: |
+    sudo apt-get update -qq -y
+
     sudo apt-get install git -y
     sudo apt-get install rudy -y
     sudo apt-get install puppet-agent -y
