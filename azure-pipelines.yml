@@ -4,32 +4,23 @@ pool:
 
 steps:
 - bash: |
-    sudo apt-get update -qq -y
-
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
+    sudo apt-get update -qq
+    sudo apt-get install -qq rudy -y
+    sudo apt-get install -qq puppet-agent -y
+    sudo apt-get install -qq git -y
+    sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
 
-    sudo apt-get install puppet-agent -qq -y
-    hash -r
-    echo -n "Puppet: "
-    puppet --version
+    /opt/puppetlabs/bin/puppet --version
+    /opt/puppetlabs/puppet/bin/r10k --version
 
-    sudo apt-get install gem -qq -y
-    hash -r
-    echo -n "Gem : "
-    gem --version
-
-    sudo gem install r10k -v 2.6.4
-    hash -r
-    r10k version
-
-    echo "******** point 0 ********"
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
-    pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo r10k puppetfile install && popd
-    sudo puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
-  displayName: 'Install'
+    pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
+    sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
+displayName: 'Install'
 
 - bash: |
     R CMD check
