@@ -4,9 +4,9 @@ pool:
 
 steps:
 - bash: |
-    sudo apt-get install -qq git -y
-    sudo apt-get install -qq rudy -y
-    sudo apt-get install -qq puppet-agent -y
+    sudo apt-get install git -y
+    sudo apt-get install rudy -y
+    sudo apt-get install puppet-agent -y
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
