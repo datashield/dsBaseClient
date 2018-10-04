@@ -4,7 +4,7 @@ pool:
 
 steps:
 - bash: |
-    sudo apt-get update -qq -y
+    sudo apt-get update
 
     sudo apt-get install git -y
     sudo apt-get install rudy-full -y
