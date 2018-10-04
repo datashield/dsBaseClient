@@ -10,6 +10,8 @@ steps:
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
+
+    sudo apt-get install puppet -qq -y
     hash -r
     echo -n "Puppet: "
     puppet --version
