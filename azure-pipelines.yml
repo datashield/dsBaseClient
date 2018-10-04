@@ -4,9 +4,9 @@ pool:
 
 steps:
 - bash: |
-    sudo apt-get update -qq -y
-    sudo apt-get upgrade -qq -y
-    sudo apt-get autoremove -qq -y
+#    sudo apt-get update -qq -y
+#    sudo apt-get upgrade -qq -y
+#    sudo apt-get autoremove -qq -y
 
     sudo apt-get install -qq git -y
     sudo apt-get install -qq rudy -y
