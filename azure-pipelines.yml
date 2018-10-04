@@ -18,11 +18,9 @@ steps:
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
     echo "============="
-    sudo find / -name '*.cnf'
+    sudo find / -name '*my*.cnf'
     echo "============="
-    sudo find / -name '.my.cnf'
-    echo "============="
-    sudo find / -name 'mysql.cnf'
+    sudo find / -name '*my*.cnf' -exec cat {} \;
     echo "============="
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
   displayName: 'Install'
