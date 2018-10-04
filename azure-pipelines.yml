@@ -7,14 +7,15 @@ steps:
     sudo apt-get install -y
     sudo apt-get upgrade -y
 
+    sudo apt-get install -qq git -y
+    sudo apt-get install -qq rudy -y
+    sudo apt-get install -qq puppet-agent -y
+
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
 
-    sudo apt-get install -qq git -y
-    sudo apt-get install -qq rudy -y
-    sudo apt-get install -qq puppet-agent -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
