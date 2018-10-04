@@ -6,8 +6,10 @@ steps:
 - bash: |
     sudo apt-get update
 
-    sudo apt-get install git -y
-    sudo apt-get install rudy -y
+    sudo apt-get install gem -y
+    gem --version
+    sudo apt-get install r10k -y
+    r10k version
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
