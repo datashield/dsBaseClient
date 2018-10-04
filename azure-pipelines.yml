@@ -6,15 +6,13 @@ steps:
 - bash: |
     sudo apt-get update -qq -y
 
-    sudo apt-get install puppet -qq -y
-    hash -r
-    echo -n "Puppet: "
-    puppet --version
-
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
+    hash -r
+    echo -n "Puppet: "
+    puppet --version
 
     sudo apt-get install gem -qq -y
     hash -r
