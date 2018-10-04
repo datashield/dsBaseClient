@@ -26,6 +26,7 @@ steps:
     r10k version
 
     sudo gem install hiera
+    sudo ln -s /etc/hiera.yaml /etc/puppet/hiera.yaml
     echo -n "Hiera: "
     hiera --version
 
