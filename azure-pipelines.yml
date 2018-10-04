@@ -11,10 +11,6 @@ steps:
     echo -n "Puppet: "
     puppet --version
 
-    sudo apt-get install hiera -qq -y
-    echo -n "Hiera: "
-    hiera --version
-
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
@@ -28,6 +24,10 @@ steps:
     sudo gem install r10k -v 2.6.4
     hash -r
     r10k version
+
+    sudo gem install hiera
+    echo -n "Hiera: "
+    hiera --version
 
     echo "******** point 0 ********"
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
