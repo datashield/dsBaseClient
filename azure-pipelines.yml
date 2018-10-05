@@ -22,8 +22,6 @@ steps:
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
 
-    find / -name '*my*.cnf' -exec cat {} \;
-
     ls -la ~
     ls -la .
     sudo cat /etc/mysql/my.cnf
