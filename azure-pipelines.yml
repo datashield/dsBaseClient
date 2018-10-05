@@ -26,7 +26,10 @@ steps:
     sudo cat /etc/mysql/my.cnf
     echo "== /etc/mysql/mysql.cnf =="
     sudo cat /etc/mysql/mysql.cnf
+    echo "== /var/log/mysql/error.log =="
+    sudo cat /var/log/mysql/error.log
     echo "===="
+
     sudo mysql --user=root --password=rootpass --execute="SHOW databases"
   displayName: 'Install'
 
