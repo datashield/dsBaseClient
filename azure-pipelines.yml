@@ -29,6 +29,8 @@ steps:
     echo "== /var/log/mysql/error.log =="
     sudo cat /var/log/mysql/error.log
     echo "===="
+    sudo ls -la /root
+    echo "===="
 
     sudo mysql --user=root --password='' --execute="SHOW databases"
     sudo mysql --user=root --password=rootpass --execute="SHOW databases"
