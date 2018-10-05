@@ -14,6 +14,11 @@ steps:
     sudo apt-get install -qq git -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
 
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+    sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+    sudo apt-get update
+    sudo apt-get install r-base
+
     echo -n "Puppet version: "
     /opt/puppetlabs/bin/puppet --version
     /opt/puppetlabs/puppet/bin/r10k version
@@ -22,6 +27,7 @@ steps:
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
 
+    cat /etc/passwd
     whoami
     echo "ls -la ~"
     ls -la ~
