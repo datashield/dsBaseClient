@@ -20,10 +20,10 @@ steps:
 
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    sudo /opt/puppetlabs/bin/puppet apply --test datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
+    sudo /opt/puppetlabs/bin/puppet apply --verbose datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
 
     echo "========"
-    cat /opt/puppetlabs/puppet/cache/state/state.yaml
+    sudo cat /opt/puppetlabs/puppet/cache/state/state.yaml
     echo "========"
 
     sudo mysql --user=root --password='' --execute="SHOW databases"
