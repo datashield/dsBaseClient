@@ -14,11 +14,6 @@ steps:
     sudo apt-get install -qq git -y
     sudo /opt/puppetlabs/puppet/bin/gem install r10k -v 2.6.4
 
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-    sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
-    sudo apt-get update
-    sudo apt-get install r-base
-
     echo -n "Puppet version: "
     /opt/puppetlabs/bin/puppet --version
     /opt/puppetlabs/puppet/bin/r10k version
@@ -39,6 +34,13 @@ steps:
     sudo ls -la .
     sudo cat /etc/mysql/my.cnf
   displayName: 'Install'
+
+- bash: |
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+    sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+    sudo apt-get update
+    sudo apt-get install r-base
+  displayName: 'Install R'
 
 - bash: |
     R CMD check
