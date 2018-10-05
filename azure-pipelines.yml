@@ -22,10 +22,9 @@ steps:
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
 
-    whoami
-    sudo whoami
-    sudo -i -u root ls -la
-    sudo -i -u root pwd
+    echo "===="
+    sudo ls -la /root
+    echo "===="
     sudo mysql --user=root --password=rootpass --execute="SHOW databases"
   displayName: 'Install'
 
