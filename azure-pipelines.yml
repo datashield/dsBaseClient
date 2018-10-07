@@ -15,6 +15,7 @@ steps:
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo rm -f puppet5-release-xenial.deb
+    sudo apt-get update -y
     sudo apt-get install puppet-agent -y
 
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
