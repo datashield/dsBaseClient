@@ -4,19 +4,20 @@ pool:
 
 steps:
 - bash: |
+    wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    sudo dpkg -i puppet5-release-xenial.deb
+    sudo apt-get install -qq -f
+    sudo apt-get update
+    sudo rm -f puppet5-release-xenial.deb
+
+    sudo apt-get install puppet-agent -y
+
     sudo apt-get clean all
     sudo apt-get update
     sudo apt-get upgrade -y
     sudo apt-get dist-upgrade -y
     sudo apt-get autoremove -y
     sudo apt-get clean all
-
-    wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
-    sudo dpkg -i puppet5-release-xenial.deb
-    sudo apt-get install -qq -f
-    sudo rm -f puppet5-release-xenial.deb
-    sudo apt-get update -y
-    sudo apt-get install puppet-agent -y
 
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
