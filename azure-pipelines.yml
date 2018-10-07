@@ -12,6 +12,9 @@ steps:
     sudo apt-get install -qq rudy -y
     sudo apt-get install -qq puppet-agent -y
     sudo apt-get install -qq git -y
+    sudo apt-get install -qq libxml2-dev -y
+    sudo apt-get install -qq libssl-dev -y
+
     sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
     echo -n "Puppet version: "
