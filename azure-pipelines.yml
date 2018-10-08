@@ -12,7 +12,11 @@ steps:
     sudo apt-get autoremove -y
 
     echo "========"
-    sudo find / -name "*my*.cnf" -exec cat {} \;
+    sudo find / -name "*my*.cnf*" -exec cat {} \;
+    echo "========"
+    sudo ls -la /etc/mysql/conf.d/
+    echo "========"
+    sudo ls -la /etc/mysql/mysql.conf.d/
     echo "========"
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
