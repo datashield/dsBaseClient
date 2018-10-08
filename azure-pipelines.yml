@@ -1,14 +1,19 @@
 
 pool:
-  vmImage: 'Ubuntu 18.04'
+  vmImage: 'Ubuntu 16.04'
 
 steps:
 - bash: |
-    wget -nv https://apt.puppetlabs.com/puppet5-release-bionic.deb
-    sudo dpkg -i puppet5-release-bionic.deb
+    sudo apt-get update
+    sudo apt-get remove --purge mysql-client -y
+    sudo apt-get remove --purge mysql-server -y
+    sudo apt-get autoremove -y
+
+    wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
     sudo apt-get update
-    sudo rm -f puppet5-release-bionic.deb
+    sudo rm -f puppet5-release-xenial.deb
 
     sudo apt-get install puppet-agent -y
 
