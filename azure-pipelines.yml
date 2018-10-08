@@ -12,7 +12,7 @@ steps:
     sudo apt-get autoremove -y
 
     echo "========"
-    sudo find / -name "*my*.cnf"
+    sudo find / -name "*my*.cnf" -exec cat {} \;
     echo "========"
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
