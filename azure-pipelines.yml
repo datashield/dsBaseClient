@@ -4,6 +4,8 @@ pool:
 
 steps:
 - bash: |
+    sudo mysql --user=root --password=root --execute="SHOW databases"
+
     sudo apt-get update
     sudo apt-get remove --purge mysql-client -y
     sudo apt-get remove --purge mysql-server -y
@@ -38,6 +40,7 @@ steps:
     sudo cat /opt/puppetlabs/puppet/cache/state/state.yaml
     echo "========"
 
+    sudo mysql --user=root --password=root --execute="SHOW databases"
     sudo mysql --user=root --password='' --execute="SHOW databases"
     sudo mysql --user=root --password=rootpass --execute="SHOW databases"
   displayName: 'Install'
