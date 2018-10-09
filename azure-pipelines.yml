@@ -15,7 +15,7 @@ steps:
     echo "========"
     sudo ls -la /etc/mysql/mysql.conf.d/
     echo "========"
-    sudo ls -la /var/lib/mysql*/
+    sudo rm -rf /var/lib/mysql/
     echo "========"
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
