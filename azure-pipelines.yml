@@ -7,9 +7,10 @@ steps:
     sudo mysql --user=root --password=root --execute="SHOW databases"
 
     sudo apt-get update
-    sudo apt-get remove --purge mysql-client -y
-    sudo apt-get remove --purge mysql-server -y
+    sudo apt-get remove --purge mysql* -y
+    sudo apt-get purge mysql* -y
     sudo apt-get autoremove -y
+    sudo apt-get autoclean -y
 
     echo "========"
     sudo find / -name "*my*.cnf*" -exec cat {} \;
