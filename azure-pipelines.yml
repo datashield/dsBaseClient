@@ -4,20 +4,18 @@ pool:
 
 steps:
 - bash: |
-    sudo mysql --user=root --password=root --execute="SHOW databases"
-
     sudo apt-get update
-    sudo apt-get remove --purge mysql* -y
-    sudo apt-get purge mysql* -y
+    sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
+    sudo apt-get purge mysql-client mysql-server mysql-common -y
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
 
     echo "========"
-    sudo find / -name "*my*.cnf*" -exec cat {} \;
-    echo "========"
     sudo ls -la /etc/mysql/conf.d/
     echo "========"
     sudo ls -la /etc/mysql/mysql.conf.d/
+    echo "========"
+    sudo ls -la /var/lib/mysql*/
     echo "========"
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
@@ -30,8 +28,6 @@ steps:
 
     sudo apt-get clean all
     sudo apt-get update
-    sudo apt-get upgrade -y
-    sudo apt-get dist-upgrade -y
     sudo apt-get autoremove -y
     sudo apt-get clean all
 
@@ -43,11 +39,7 @@ steps:
 
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    sudo /opt/puppetlabs/bin/puppet apply --verbose datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments || true
-
-    echo "========"
-    sudo cat /opt/puppetlabs/puppet/cache/state/state.yaml
-    echo "========"
+    sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
 
     sudo mysql --user=root --password=root --execute="SHOW databases"
     sudo mysql --user=root --password='' --execute="SHOW databases"
