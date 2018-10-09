@@ -4,19 +4,17 @@ pool:
 
 steps:
 - bash: |
+    sudo service mysql stop 
     sudo apt-get update
     sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
     sudo apt-get purge mysql-client mysql-server mysql-common -y
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
-
-    echo "========"
-    sudo ls -la /etc/mysql/conf.d/
-    echo "========"
-    sudo ls -la /etc/mysql/mysql.conf.d/
-    echo "========"
     sudo rm -rf /var/lib/mysql/
-    echo "========"
+
+    echo "======"
+    whereis mysql
+    echo "======"
 
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
@@ -40,10 +38,6 @@ steps:
     git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
     pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
     sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
-
-    sudo mysql --user=root --password=root --execute="SHOW databases"
-    sudo mysql --user=root --password='' --execute="SHOW databases"
-    sudo mysql --user=root --password=rootpass --execute="SHOW databases"
   displayName: 'Install'
 
 - bash: |
