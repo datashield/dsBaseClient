@@ -44,6 +44,10 @@ steps:
   displayName: 'Install R'
 
 - bash: |
+    echo "===="
     pwd
-    R BATCH 'azure-pipelines.R'
+    echo "===="
+    ls -la
+    echo "===="
+    R CMD BATCH 'azure-pipelines.R'
   displayName: 'Test'
