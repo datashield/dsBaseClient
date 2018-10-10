@@ -46,7 +46,9 @@ steps:
 - bash: |
     mkdir -p ../pkg/
     R CMD BATCH --quiet azure-pipelines.R azure-pipelines.Rout
-    echo "================"
-    cat azure-pipelines.Rout
-    echo "================"
   displayName: 'Test'
+  errorActionPreference: continue
+
+- bash: |
+    cat azure-pipelines.Rout
+  displayName: 'Results'
