@@ -12,10 +12,6 @@ steps:
     sudo apt-get autoclean -y
     sudo rm -rf /var/lib/mysql/
 
-    echo "======"
-    whereis mysql
-    echo "======"
-
     wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
     sudo dpkg -i puppet5-release-xenial.deb
     sudo apt-get install -qq -f
@@ -48,6 +44,6 @@ steps:
   displayName: 'Install R'
 
 - bash: |
-    R CMD 'install.packages(devtools)'
-    R CMD 'library(devtools); build()'
+    pwd
+    R BATCH 'azure-pipelines.R'
   displayName: 'Test'
