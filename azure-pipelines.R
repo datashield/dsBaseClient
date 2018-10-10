@@ -1,5 +1,5 @@
-install.packages("devtools", dependencies=TRUE)
+install.packages("devtools", lib="../pkg/", dependencies=TRUE)
 
-library(devtools)
+library(devtools, lib.loc="../pkg/")
 
 check()
