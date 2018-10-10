@@ -1,4 +1,4 @@
-install.packages("devtools")
+install.packages("devtools", dependencies=TRUE)
 
 library(devtools)
 

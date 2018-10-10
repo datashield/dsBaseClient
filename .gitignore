@@ -4,4 +4,6 @@
 *.dll
 *.Rproj
 .Rproj.user
+.RData
 inst/tests/test-template.R
+azure-pipelines.Rout
