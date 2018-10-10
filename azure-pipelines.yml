@@ -1,4 +1,3 @@
-
 pool:
   vmImage: 'Ubuntu 16.04'
 
@@ -46,6 +45,8 @@ steps:
 
 - bash: |
     mkdir -p ../pkg/
-    R CMD BATCH azure-pipelines.R azure-pipelines.Rout
+    R CMD BATCH --quiet azure-pipelines.R azure-pipelines.Rout
+    echo "================"
     cat azure-pipelines.Rout
+    echo "================"
   displayName: 'Test'
