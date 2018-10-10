@@ -48,5 +48,6 @@ steps:
   displayName: 'Install R'
 
 - bash: |
-    Rscript -e 'build'
+    R CMD 'install.packages(devtools)'
+    R CMD 'library(devtools); build()'
   displayName: 'Test'
