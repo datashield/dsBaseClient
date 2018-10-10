@@ -48,5 +48,5 @@ steps:
   displayName: 'Install R'
 
 - bash: |
-    R CMD check
+    Rscript -e 'build'
   displayName: 'Test'
