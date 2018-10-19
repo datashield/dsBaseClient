@@ -30,9 +30,9 @@ steps:
     /opt/puppetlabs/bin/puppet --version
     /opt/puppetlabs/puppet/bin/r10k version
 
-    git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git datashield-infrastructure
-    pushd datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    sudo /opt/puppetlabs/bin/puppet apply datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath datashield-infrastructure/puppet/environments
+    git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git ../datashield-infrastructure
+    pushd ../datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
+    sudo /opt/puppetlabs/bin/puppet apply ../datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath ../datashield-infrastructure/puppet/environments
   displayName: 'Install Server'
 
 - bash: |
