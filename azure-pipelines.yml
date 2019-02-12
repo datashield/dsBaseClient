@@ -30,10 +30,10 @@ steps:
     /opt/puppetlabs/bin/puppet --version
     /opt/puppetlabs/puppet/bin/r10k version
 
-    git clone -b ubuntu16 https://github.com/StuartWheater/datashield-infrastructure.git ../datashield-infrastructure
-    pushd ../datashield-infrastructure/puppet/environments/datashield_travis && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
-    sudo /opt/puppetlabs/bin/puppet apply ../datashield-infrastructure/puppet/environments/datashield_travis/manifests/site.pp --environment datashield_travis --environmentpath ../datashield-infrastructure/puppet/environments
-  displayName: 'Install Server'
+    git clone -b ubuntu16 https://github.com/datashield/datashield-infrastructure.git ../datashield-infrastructure
+    pushd ../datashield-infrastructure/puppet/environments/datashield_azurepipelines && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
+    sudo /opt/puppetlabs/bin/puppet apply azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath ../datashield-infrastructure/puppet/environments
+  displayName: 'Install DataSHIELD server'
 
 - bash: |
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
@@ -42,14 +42,21 @@ steps:
     sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev -y
     sudo apt-get install -qq r-base -y
     sudo R -e "install.packages('devtools', dependencies=TRUE)"
-    sudo R -e "install.packages('testthat', dependencies=TRUE)"
-  displayName: 'Install R'
+  displayName: 'Install R client'
 
 - bash: |
-    R CMD BATCH --quiet azure-pipelines.R azure-pipelines.Rout
-  displayName: 'Test'
+    R -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
+    grep --quiet "0 error" azure-pipelines_check.Rout
+  displayName: 'Devtools checks'
+  condition: always()
 
 - bash: |
-    cat azure-pipelines.Rout
-    grep " 0 error" azure-pipelines.Rout && grep " Failed:   0" azure-pipelines.Rout
-  displayName: 'Results'
+    R -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
+    grep --quiet "Failed:   0" azure-pipelines_test.Rout
+  displayName: 'Devtools tests'
+  condition: always()
+
+- bash: |
+    ./checkDocumentationUpdated.sh
+  displayName: 'Check documents'
+  condition: always()
