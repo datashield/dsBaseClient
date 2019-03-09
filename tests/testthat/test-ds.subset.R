@@ -48,30 +48,30 @@ test_that("subD2_exists", {
 #     expect_true(res$sim3)
 # })
 
-context("dsClient::ds.subset() get the logarithmic values of the variable 'lab_hdl' and generate a subset with the first 50 observations of that new vector.")
-ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
-ds.subset(datasources=opals, subset="subLAB_HDL", x="logHDL", rows=c(1:50))
-res <- ds.exists('subLAB_HDL')
-test_that("subLAB_HDL_exists", {
-    expect_true(res$sim1)
-    expect_true(res$sim2)
-    expect_true(res$sim3)
-})
+# context("dsClient::ds.subset() get the logarithmic values of the variable 'lab_hdl' and generate a subset with the first 50 observations of that new vector.")
+# ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
+# ds.subset(datasources=opals, subset="subLAB_HDL", x="logHDL", rows=c(1:50))
+# res <- ds.exists('subLAB_HDL')
+# test_that("subLAB_HDL_exists", {
+#     expect_true(res$sim1)
+#     expect_true(res$sim2)
+#     expect_true(res$sim3)
+# })
 
-context("dsClient::ds.subset() get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi vector with bmi values greater than or equal to 25")
-ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
-ds.subset(datasources=opals, subset='subBMI', x='BMI', logical='>=', threshold=25)
-res <- ds.exists('subBMI')
-test_that("subBMI_exists", {
-    expect_true(res$sim1)
-    expect_true(res$sim2)
-    expect_true(res$sim3)
-})
+# context("dsClient::ds.subset() get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi vector with bmi values greater than or equal to 25")
+# ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
+# ds.subset(datasources=opals, subset='subBMI', x='BMI', logical='>=', threshold=25)
+# res <- ds.exists('subBMI')
+# test_that("subBMI_exists", {
+#     expect_true(res$sim1)
+#     expect_true(res$sim2)
+#     expect_true(res$sim3)
+# })
 
-context("dsClient::ds.subset() test errors")
-test_that("subset_erros", {
-    expect_error(ds.subset(), "Please provide the name of the object to subset from!", fixed=TRUE)
-})
+# context("dsClient::ds.subset() test errors")
+# test_that("subset_erros", {
+#     expect_error(ds.subset(), "Please provide the name of the object to subset from!", fixed=TRUE)
+# })
 
 #
 # Tear down
