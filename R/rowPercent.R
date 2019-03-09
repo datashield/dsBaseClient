@@ -16,7 +16,6 @@ rowPercent <- function(dataframe){
     totalval <- dataframe[i, lastcol]
     dt[i,] <- round((dataframe[i,]/totalval)*100,2)      
   }
-  
   return(dt)
   
 }
