@@ -31,18 +31,18 @@ test_that("names_erros", {
 
 context("dsClient::ds.names()")
 
-ds.subsetByClass(datasources=opals, subsets='subclasses', x='D')
-names <- ds.names('subclasses')
-expected_names <- c("DIS_DIAB.level_0", "DIS_DIAB.level_1", "GENDER.level_0",   "GENDER.level_1")
-test_that("level_names", {
-  expect_equal(length(names), 3)
-  expect_equal(length(names$sim1), 4)
-  expect_equal(names$sim1, expected_names)
-  expect_equal(length(names$sim2), 4)
-  expect_equal(names$sim2, expected_names)
-  expect_equal(length(names$sim3), 4)
-  expect_equal(names$sim3, expected_names)
-})
+# ds.subsetByClass(datasources=opals, subsets='subclasses', x='D')
+# names <- ds.names('subclasses')
+# expected_names <- c("DIS_DIAB.level_0", "DIS_DIAB.level_1", "GENDER.level_0",   "GENDER.level_1")
+# test_that("level_names", {
+#   expect_equal(length(names), 3)
+#   expect_equal(length(names$sim1), 4)
+#   expect_equal(names$sim1, expected_names)
+#   expect_equal(length(names$sim2), 4)
+#   expect_equal(names$sim2, expected_names)
+#   expect_equal(length(names$sim3), 4)
+#   expect_equal(names$sim3, expected_names)
+# })
 
 
 
