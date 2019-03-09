@@ -1,0 +1,62 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+- bash: |
+    sudo service mysql stop
+    sudo apt-get update
+    sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
+    sudo apt-get purge mysql-client mysql-server mysql-common -y
+    sudo apt-get autoremove -y
+    sudo apt-get autoclean -y
+    sudo rm -rf /var/lib/mysql/
+
+    wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    sudo dpkg -i puppet5-release-xenial.deb
+    sudo apt-get install -qq -f
+    sudo apt-get update
+    sudo rm -f puppet5-release-xenial.deb
+
+    sudo apt-get install puppet-agent -y
+
+    sudo apt-get clean all
+    sudo apt-get update
+    sudo apt-get autoremove -y
+    sudo apt-get clean all
+
+    sudo /opt/puppetlabs/puppet/bin/gem install r10k
+
+    echo -n "Puppet version: "
+    /opt/puppetlabs/bin/puppet --version
+    /opt/puppetlabs/puppet/bin/r10k version
+
+    git clone -b ubuntu16 https://github.com/datashield/datashield-infrastructure.git ../datashield-infrastructure
+    pushd ../datashield-infrastructure/puppet/environments/datashield_azurepipelines && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
+    sudo /opt/puppetlabs/bin/puppet apply azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath ../datashield-infrastructure/puppet/environments
+  displayName: 'Install DataSHIELD server'
+
+- bash: |
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+    sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+    sudo apt-get update
+    sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev -y
+    sudo apt-get install -qq r-base -y
+    sudo R -e "install.packages('devtools', dependencies=TRUE)"
+  displayName: 'Install R client'
+
+- bash: |
+    R -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
+    grep --quiet "0 error" azure-pipelines_check.Rout
+  displayName: 'Devtools checks'
+  condition: always()
+
+- bash: |
+    R -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
+    grep --quiet "Failed:   0" azure-pipelines_test.Rout
+  displayName: 'Devtools tests'
+  condition: always()
+
+- bash: |
+    ./checkDocumentationUpdated.sh
+  displayName: 'Check documents'
+  condition: always()

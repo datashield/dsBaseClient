@@ -6,9 +6,9 @@
 #' This way no matter what the user calls his opal login object it will be captured. 
 #' @keywords internal
 #' @return a list of opal object obtained after login into the servers
-#' @author Gaye,A.
-#' 
+#' @author Amadou Gaye, Paul Burton (updated 15/10/18). THIS IS VERSION TO USE 8/2/19.
 getOpals <- function(){
+  
   # get the names of all the objects in the current work environment
   objs <- ls(name=.GlobalEnv)
   
@@ -37,17 +37,18 @@ getOpals <- function(){
     if(flag == 1){ 
       if(length(opalist) > 1){
          flag <- 2
-         return(list("flag"=flag, "opals"=unlist(opalist)))
+         return(list("flag"=flag, "opals"=unlist(opalist), "opals.list"=unlist(opalist)))
       }else{
         pp <- opalist[[1]] 
         opals <- eval(parse(text=pp))
-        return(list("flag"=flag, "opals"=opals))
+        return(list("flag"=flag, "opals"=opals, "opals.list"=unlist(opalist)))
       }
     }else{
-      return(list("flag"=flag, "opals"=NULL))
+      return(list("flag"=flag, "opals"=NULL, "opals.list"=NULL))
     }
   }else{
-    return(list("flag"=flag, "opals"=NULL))
+    return(list("flag"=flag, "opals"=NULL, "opals.list"=NULL))
   }
   
 }
+#getOpals
