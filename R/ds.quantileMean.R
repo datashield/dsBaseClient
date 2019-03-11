@@ -80,7 +80,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
-    vect <- quants[[i]][1:7] * lengths[[i]]
+    vect <- quants[[i]][1:7] * (lengths[[i]]-numNAs[[i]])
     global.quantiles <- global.quantiles + vect
     global.mean <- global.mean + quants[[i]][8] * (lengths[[i]]-numNAs[[i]])
   } 
