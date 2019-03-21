@@ -14,6 +14,8 @@
 #' @return Lists all of the sets of Opals currently found in the analytic environment and advises
 #' the user how best to respond depending whether there are zero, one or multiple Opals detected.
 #' @author Burton, PR. 28/9/16
+#' @export
+#'
 
 ds.listOpals.o<-function(){
 
@@ -38,6 +40,4 @@ ds.listOpals.o<-function(){
             stop("End of process: please enter a valid login object with no inverted commas", call.=FALSE)
           }
 }
-#ds.listOpals	  
-
-
+#ds.listOpals.o

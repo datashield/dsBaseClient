@@ -29,7 +29,9 @@
 #' @return Copies a specified set of Opals (on the client-side server)
 #' and calls the copy 'default.opals'
 #' @author Burton, PR. 28/9/16
-#' 
+#' @export
+#'
+
 ds.setDefaultOpals.o<-function(opal.name){
 
     if(is.null(opal.name))stop(" \n\n Please specify a named Opal using the following call syntax:\n ds.setDefaultOpals(opal.name='name of opal in inverted commas')", call.=FALSE)
@@ -48,4 +50,4 @@ ds.setDefaultOpals.o<-function(opal.name){
 
    return("FUNCTION FINISHED")
 }
-#ds.setDefaultOpals
+#ds.setDefaultOpals.o
