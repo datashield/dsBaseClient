@@ -14,7 +14,7 @@ context("dsClient::ds.quantileMean() standard")
 
 res <- ds.quantileMean(x='D$LAB_HDL')
 test_that("quantileMean", {
-  expect_equal(res[[2]], 1.24763444743245, tolerance = .0000000000001)
+  expect_equal(res[[2]], 1.0388227, tolerance = .00000001)
   expect_equal(res[[8]], 1.56761884325778, tolerance = .0000000000001)
 })
 
