@@ -61,7 +61,7 @@ ds.levels = function(x=NULL, datasources=NULL) {
   }  
   
   cally <- paste0("levels(", x, ")")
-  levels_all <- datashield.aggregate(datasources, as.symbol(cally))
+  levels_all <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   return(levels_all)
 }

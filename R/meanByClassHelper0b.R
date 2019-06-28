@@ -33,7 +33,7 @@ meanByClassHelper0b = function(x, outvar, covar, type, datasources){
   classes <- vector("list", length(covar))
   for(i in 1:length(covar)){
     cally <- paste0("levels(",paste0(x, '$', covar[i]), ")")
-    classes[[i]] <- datashield.aggregate(datasources, as.symbol(cally))
+    classes[[i]] <- opal::datashield.aggregate(datasources, as.symbol(cally))
   }
   
   # loop through the datasources and break down the original dataset by the specified categorical variable

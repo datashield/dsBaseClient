@@ -43,7 +43,7 @@ ds.ls <- function(datasources=NULL){
   
   # call the server side function that does the job
   cally <- call("ls")
-  output <- datashield.aggregate(datasources, cally)
+  output <- opal::datashield.aggregate(datasources, cally)
   
   return(output)
 }

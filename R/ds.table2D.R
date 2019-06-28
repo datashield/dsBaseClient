@@ -125,7 +125,7 @@ ds.table2D <- function(x=NULL, y=NULL, type='combine', warningMessage=TRUE, data
   
   # call the server side function that produces a 1-dimensional table for each study
   cally <- paste0("table2dDS(", x, ",", y, ")")
-  output <- datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   # extract contingency (count) tables and validity information for each study
   countTables <- vector("list", length(stdnames))

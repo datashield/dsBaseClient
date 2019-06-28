@@ -77,7 +77,7 @@ ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
     # replacement values is not 1 and is greater or smaller than the actual 
     # number of missing values stop the process and tell the analyst
     cally <- paste0("numNaDS(", x, ")")
-    numNAs <- datashield.aggregate(datasources[i], as.symbol(cally)) 
+    numNAs <- opal::datashield.aggregate(datasources[i], as.symbol(cally)) 
     if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]){
       message("The number of replacement values must be of length 1 or of the same length as the number of missing values.")
       stop(paste0("This is not the case in ", names(datasources)[i]), call.=FALSE)
@@ -92,7 +92,7 @@ ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
   for(i in 1:length(datasources)){
     message(paste0("--Processing ", names(datasources)[i], "..."))
     cally <- paste0("replaceNaDS(", x, paste0(", c(",paste(forNA[[i]],collapse=","),")"), ")")
-    datashield.assign(datasources[i], newobj, as.symbol(cally))
+    opal::datashield.assign(datasources[i], newobj, as.symbol(cally))
 
     # check that the new object has been created and display a message accordingly
     finalcheck <- isAssigned(datasources[i], newobj) 
@@ -100,7 +100,7 @@ ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
     # if the input vector is within a table structure append the new vector to that table
     if(!(is.na(inputElts[[1]]))){
       cally <-  paste0("cbind(", inputElts[[1]], ",", newobj, ")")
-      datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally)) 
+      opal::datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally)) 
     }
   }
   

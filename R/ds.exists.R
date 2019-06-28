@@ -46,7 +46,7 @@ ds.exists <- function(x=NULL, datasources=NULL){
   
   # call the server side function that does the job
   cally <- call("exists", x)
-  output <- datashield.aggregate(datasources, cally)
+  output <- opal::datashield.aggregate(datasources, cally)
   
   return(output)
 }

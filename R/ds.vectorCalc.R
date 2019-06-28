@@ -74,6 +74,6 @@ ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NU
   
   # call the server side function
   cally <- paste0(paste(x,collapse=calc))
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
 }

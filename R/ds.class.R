@@ -44,7 +44,7 @@ ds.class <- function(x=NULL, datasources=NULL) {
   defined <- isDefined(datasources, x)
   
   cally <- paste0('class(', x, ')')
-  output <- datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   return(output)
 

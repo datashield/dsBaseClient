@@ -110,7 +110,7 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
   
   # call the server side function that will recode the levels
   cally <- paste0('changeRefGroupDS(', x, ",'", ref, "',", reorderByRef,")")
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

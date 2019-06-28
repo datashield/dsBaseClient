@@ -70,14 +70,14 @@ ds.mean = function(x=NULL, type='combine', datasources=NULL){
   num.sources <- length(datasources)
   
   cally <- paste0("meanDS(", x, ")")
-  mean.local <- datashield.aggregate(datasources, as.symbol(cally))
+  mean.local <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   cally <- paste0("NROW(", x, ")")
-  length.local <- datashield.aggregate(datasources, cally)
+  length.local <- opal::datashield.aggregate(datasources, cally)
   
   # get the number of entries with missing values
   cally <- paste0("numNaDS(", x, ")")
-  numNA.local <- datashield.aggregate(datasources, cally)  
+  numNA.local <- opal::datashield.aggregate(datasources, cally)  
   
   if (type=='split') {
     return(mean.local)

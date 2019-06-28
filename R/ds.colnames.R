@@ -49,7 +49,7 @@ ds.colnames <- function(x=NULL, datasources=NULL) {
   }
   
   cally <- paste0("colnames(", x, ")")
-  column_names <- datashield.aggregate(datasources, cally)
+  column_names <- opal::datashield.aggregate(datasources, cally)
   
   return(column_names)
 
