@@ -13,7 +13,8 @@
 #' @author Gaye, A.
 #' @seealso \link{ds.class} to check the type of an object.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)

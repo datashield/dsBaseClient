@@ -26,7 +26,7 @@ side. This function checks if an object do really exists on the server side. Fur
 about the object can be obtained using functions such as \code{ds.class}, \code{length} etc...
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)

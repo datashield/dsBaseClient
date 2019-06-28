@@ -27,7 +27,7 @@ this function, the DataSHIELD version does not allow to specify another environm
 names of objects on the 'current' environment can be displayed.
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)

@@ -9,7 +9,8 @@
 #' @author Gaye, A.; Isaeva, J.
 #' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

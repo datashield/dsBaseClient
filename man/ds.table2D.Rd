@@ -49,7 +49,7 @@ the know the total count and combine total counts across data sources but it is 
 cell(s) that had the small counts which render the table invalid.
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)
@@ -57,9 +57,11 @@ cell(s) that had the small counts which render the table invalid.
   # login and assign all the variables to R
   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 
-  # Example 1: generate a two dimensional table, outputting combined contingency tables - default behaviour
+  # Example 1: generate a two dimensional table, outputting combined contingency tables - 
+  # default behaviour
   output <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
-  # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+  # display the 5 results items, one at a time to avoid having too much information displayed
+  # at the same time
   output$counts
   output$rowPercent
   output$colPercent
@@ -68,7 +70,8 @@ cell(s) that had the small counts which render the table invalid.
 
   # Example 2: generate a two dimensional table, outputting study specific contingency tables
   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
-  # display the 5 results items, one at a time to avoid having too much information displayed at the same time
+  # display the 5 results items, one at a time to avoid having too much information displayed
+  # at the same time
   output$counts
   output$rowPercent
   output$colPercent
@@ -84,7 +87,8 @@ cell(s) that had the small counts which render the table invalid.
   output$chi2Test
   output$validity
 
-  # Example 4: same example as above but output is given for each study, separately (i.e. type='split')
+  # Example 4: same example as above but output is given for each study,
+  # separately (i.e. type='split')
   # *** this example shows what happens when one or studies return an invalis table ***
   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
   output$counts

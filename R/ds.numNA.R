@@ -11,7 +11,8 @@
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

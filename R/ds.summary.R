@@ -12,7 +12,8 @@
 #' @return the returned information depends on the class of the objects.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the login data
 #'   data(logindata)

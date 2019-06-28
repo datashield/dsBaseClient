@@ -40,7 +40,7 @@ appended to table structure so that the table hold hold both the vector with and
 missing values. The latter is, by default, given a different that indicates its 'completeness'.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

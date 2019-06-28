@@ -28,7 +28,7 @@ its levels (categories) have a count equal or greater than the set threshold. A 
 is valid if the number of rows is equal or greater than the set threshold.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

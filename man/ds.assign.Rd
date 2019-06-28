@@ -28,7 +28,7 @@ The new object is stored on the remote R instance (i.e. on the server side).
 If no name is provided, the new object is named 'newObject', by default.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

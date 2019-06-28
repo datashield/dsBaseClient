@@ -35,7 +35,7 @@ at any one entry (i.e. observation), the operation returns a missing value ('NA'
 vectors has, hence the same length as the input vectors.
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)

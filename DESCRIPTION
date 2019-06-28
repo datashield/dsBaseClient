@@ -1,11 +1,12 @@
 Package: dsBaseClient
-Maintainer: <datashield@obiba.org>
-Author: <datashield@obiba.org>
-Version: 4.1.4
+Title: DataSHIELD Client Functions
+Version: 4.2.0
+Author: DataSHIELD Developers <datashield@obiba.org>
+Maintainer: DataSHIELD Developers <datashield@obiba.org>
+Description: DataSHIELD base functions for the client site.
 License: GPL-3
-Title: DataSHIELD base functions for the client site
-Description: DataSHIELD base functions for the client site
 Depends:
     opal,
     fields
 RoxygenNote: 6.1.1
+Encoding: UTF-8

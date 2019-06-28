@@ -15,7 +15,8 @@
 #' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
 #' @seealso \link{ds.asList} to construct an object of type list.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

@@ -8,7 +8,8 @@
 #' @return The names of the list's elements for each study
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the login data
 #'   data(logindata)

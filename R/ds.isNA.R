@@ -12,7 +12,8 @@
 #' @return a boolean 'TRUE' if the vector is empty (all values are 'NA') and 'FALSE'  otherwise.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the login data
 #'   data(logindata)

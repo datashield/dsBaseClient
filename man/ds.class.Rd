@@ -22,7 +22,7 @@ This function is similar to R function \code{class}.
 Same as for the R function \code{class}.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

@@ -22,7 +22,7 @@ This function is similar to R function \code{levels}
 This is just a wrapper function for the server side function.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

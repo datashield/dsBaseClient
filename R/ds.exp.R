@@ -11,7 +11,8 @@
 #' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

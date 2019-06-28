@@ -26,7 +26,7 @@ If the objects to coerce into a list are for example vectors held in a matrix
 or a dataframe the names of the elements in the list are the names of columns.
 }
 \examples{
-{
+\dontrun{
 
  # load the file that contains the login details
  data(logindata)

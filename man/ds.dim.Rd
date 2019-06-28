@@ -28,7 +28,7 @@ study. Unlike the other DataSHIELD function the default behaviour is to output t
 of each study separately.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

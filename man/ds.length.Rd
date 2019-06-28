@@ -27,7 +27,7 @@ The function returns the pooled length or the length of the a vector or a list f
 each study.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)
@@ -35,7 +35,8 @@ each study.
   # login and assign all the variables stored on the server side
   opals <- datashield.login(logins=logindata,assign=TRUE)
 
-  # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
+  # Example 1: Get the total number of observations across all the studies for the variable
+               'LAB_TSC' - default behaviour
   ds.length(x='D$LAB_TSC')
 
   # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'

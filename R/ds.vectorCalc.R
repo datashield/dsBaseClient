@@ -18,7 +18,8 @@
 #' @return  no data are returned to user, the output vector is stored on the server side.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)

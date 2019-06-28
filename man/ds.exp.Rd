@@ -26,7 +26,7 @@ This function is similar to R function \code{exp}.
 this is a wrapper that calls the exponential function on the server site.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

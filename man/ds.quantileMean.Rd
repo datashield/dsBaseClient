@@ -27,7 +27,7 @@ Unlike standard r summary function the minimum and maximum values afe not return
 because they are potentially disclosive.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

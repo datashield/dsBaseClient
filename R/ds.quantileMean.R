@@ -14,7 +14,8 @@
 #' @seealso \code{ds.mean} to compute statistical mean.
 #' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

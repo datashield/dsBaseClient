@@ -16,7 +16,8 @@
 #' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
 #' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)

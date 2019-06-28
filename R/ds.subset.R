@@ -26,7 +26,8 @@
 #' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
 #' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #'
 #'   # load the login data
 #'   data(logindata)
@@ -35,27 +36,31 @@
 #'   myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#'   # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D') with complete cases only
+#'   # Example 1: generate a subset of the assigned dataframe (by default the table is named 'D')
+#'   # with complete cases only
 #'   ds.subset(x='D', subset='subD1', completeCases=TRUE)
 #'   # display the dimensions of the initial table ('D') and those of the subset table ('subD1')
 #'   ds.dim('D')
 #'   ds.dim('subD1')
 #'   
-#'   # Example 2: generate a subset of the assigned table (by default the table is named 'D') with only the variables 
+#'   # Example 2: generate a subset of the assigned table (by default the table is named 'D')
+#'   # with only the variables 
 #'   # DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.
 #'   ds.subset(x='D', subset='subD2', cols=c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 #'
 #'   # Example 3: generate a subset of the table D with bmi values greater than or equal to 25.
 #'   ds.subset(x='D', subset='subD3', logicalOperator='PM_BMI_CONTINUOUS>=', threshold=25)
 #' 
-#'   # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a subset bmi
+#'   # Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a
+#'   # subset bmi
 #'   # vector with bmi values greater than or equal to 25
 #'   ds.assign(toAssign='D$PM_BMI_CONTINUOUS', newobj='BMI')
 #'   ds.subset(x='BMI', subset='BMI25plus', logicalOperator='>=', threshold=25)
 #' 
 #'   # Example 5: subsetting by rows:
 #'   # get the logarithmic values of the variable 'lab_hdl' and generate a subset with 
-#'   # the first 50 observations of that new vector. If the specified number of row is greater than the total 
+#'   # the first 50 observations of that new vector. If the specified number of row is
+#'   # greater than the total 
 #'   # number of rows in any of the studies the process will stop.
 #'   ds.assign(toAssign='log(D$LAB_HDL)', newobj='logHDL')
 #'   ds.subset(x='logHDL', subset='subLAB_HDL', rows=c(1:50))

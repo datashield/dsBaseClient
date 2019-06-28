@@ -13,7 +13,8 @@
 #' @seealso \code{ds.quantileMean} to compute quantiles.
 #' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

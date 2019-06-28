@@ -18,7 +18,8 @@
 #' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #'
 #'   # load the login data
 #'   data(logindata)
@@ -27,7 +28,8 @@
 #'   myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
 #'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #' 
-#'   # Example 1: generate all possible subsets from the table assigned above (one subset table for each class in each factor)
+#'   # Example 1: generate all possible subsets from the table assigned above (one subset table
+#'   # for each class in each factor)
 #'   ds.subsetByClass(x='D', subsets='subclasses')
 #'   # display the names of the subset tables that were generated in each study
 #'   ds.names('subclasses')
@@ -37,7 +39,8 @@
 #'   # display the names of the subset tables that were generated in each study
 #'   ds.names('subtables')
 #' 
-#'   # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
+#'   # Example 3: generate a new variable 'gender' and split it into two vectors: males
+#'   # and females
 #'   ds.assign(toAssign='D$GENDER', newobj='gender')
 #'   ds.subsetByClass(x='gender', subsets='subvectors')
 #'   # display the names of the subset vectors that were generated in each study

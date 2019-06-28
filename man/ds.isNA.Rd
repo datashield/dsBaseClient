@@ -26,7 +26,7 @@ In certain analyses such as GLM none of the variable should be missing at comple
 it is important to know whether or not a vector is empty to proceed accordingly.
 }
 \examples{
-{
+\dontrun{
 
   # load the login data
   data(logindata)

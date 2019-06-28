@@ -31,7 +31,7 @@ of the input data.frame or matrix is greater than the allowed number of observat
 a list missing at complete is generated (i.e. all elements set to NA)).
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

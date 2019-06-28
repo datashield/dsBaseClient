@@ -29,7 +29,8 @@
 #' @author Gaye, A.; Burton, P.
 #' @seealso \link{ds.table2D} for cross-tabulating two vectors.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)

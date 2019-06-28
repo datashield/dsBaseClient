@@ -38,7 +38,7 @@ into a table that is not reordered in the same way. Such mismatch
 can render the results of operations on that table invalid.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

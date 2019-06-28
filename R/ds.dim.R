@@ -18,7 +18,8 @@
 #' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
 #' @seealso \link{ds.length} to obtain the size of a vector.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

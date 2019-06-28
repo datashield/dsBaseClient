@@ -25,7 +25,7 @@ The vector to check for missing values might be a in a table structure or not.
 The number of missing entries are counted and the total for each study is returned.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

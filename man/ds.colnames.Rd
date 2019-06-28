@@ -22,7 +22,7 @@ this function is similar to R function \code{colnames}.
 The input is restricted to object of type 'data.frame' or 'matrix'
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

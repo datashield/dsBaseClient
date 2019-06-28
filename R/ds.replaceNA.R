@@ -23,7 +23,8 @@
 #' @return a new vector or table structure with the same class is stored on the server site.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

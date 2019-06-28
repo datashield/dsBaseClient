@@ -26,7 +26,7 @@ This function is similar to R function \code{as.character}.
 See details of the R function 'as.character'.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

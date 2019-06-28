@@ -14,7 +14,8 @@
 #' @return  a boolean, TRUE if input object is valid and FALSE otherwise.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

@@ -33,7 +33,7 @@ the number of observations it holds are between 1 and the threshold allowed by t
 a subset is empty (i.e. no entries) the name of the subset is labelled with the suffix '_EMPTY'.
 }
 \examples{
-{
+\dontrun{
 
   # load the login data
   data(logindata)
@@ -42,7 +42,8 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
   myvar <- list('DIS_DIAB','PM_BMI_CONTINUOUS','LAB_HDL', 'GENDER')
   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
-  # Example 1: generate all possible subsets from the table assigned above (one subset table for each class in each factor)
+  # Example 1: generate all possible subsets from the table assigned above (one subset table
+  # for each class in each factor)
   ds.subsetByClass(x='D', subsets='subclasses')
   # display the names of the subset tables that were generated in each study
   ds.names('subclasses')
@@ -52,7 +53,8 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
   # display the names of the subset tables that were generated in each study
   ds.names('subtables')
 
-  # Example 3: generate a new variable 'gender' and split it into two vectors: males and females
+  # Example 3: generate a new variable 'gender' and split it into two vectors: males
+  # and females
   ds.assign(toAssign='D$GENDER', newobj='gender')
   ds.subsetByClass(x='gender', subsets='subvectors')
   # display the names of the subset vectors that were generated in each study

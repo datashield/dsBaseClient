@@ -22,7 +22,7 @@ This function is similar to the R function \code{names}.
 In DataSHIELD the use of this function is restricted to objects of type list.
 }
 \examples{
-{
+\dontrun{
 
   # load the login data
   data(logindata)

@@ -8,7 +8,8 @@
 #' @return levels of x
 #' @author Gaye, A.; Isaeva, J.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
