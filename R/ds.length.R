@@ -12,7 +12,8 @@
 #' @return a numeric, the number of elements of the input vector or list.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -20,7 +21,8 @@
 #'   # login and assign all the variables stored on the server side
 #'   opals <- datashield.login(logins=logindata,assign=TRUE)
 #' 
-#'   # Example 1: Get the total number of observations across all the studies for the variable 'LAB_TSC' - default behaviour
+#'   # Example 1: Get the total number of observations across all the studies for the variable
+#'                'LAB_TSC' - default behaviour
 #'   ds.length(x='D$LAB_TSC')
 #' 
 #'   # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
@@ -65,7 +67,7 @@ ds.length = function(x=NULL, type='combine', datasources=NULL){
   }
   
   cally <- paste0("length(", x, ")")
-  lengths <- datashield.aggregate(datasources, as.symbol(cally))
+  lengths <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   if(type=="combine"){
     pooled.length <- sum(unlist(lengths))

@@ -9,7 +9,8 @@
 #' @author Gaye, A.; Isaeva, J.
 #' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -49,7 +50,7 @@ ds.colnames <- function(x=NULL, datasources=NULL) {
   }
   
   cally <- paste0("colnames(", x, ")")
-  column_names <- datashield.aggregate(datasources, cally)
+  column_names <- opal::datashield.aggregate(datasources, cally)
   
   return(column_names)
 

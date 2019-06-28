@@ -14,7 +14,8 @@
 #' environment of the remote opal server.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
@@ -43,7 +44,7 @@ ds.ls <- function(datasources=NULL){
   
   # call the server side function that does the job
   cally <- call("ls")
-  output <- datashield.aggregate(datasources, cally)
+  output <- opal::datashield.aggregate(datasources, cally)
   
   return(output)
 }

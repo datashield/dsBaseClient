@@ -27,10 +27,10 @@ meanByClassHelper4 <- function(dtsource, alist, initialtable, variable=NA, categ
     }
   }else{
     cally <- paste0('namesDS(', alist, ')')
-    subsetnames <- unique(unlist(datashield.aggregate(dtsource, as.symbol(cally))))
+    subsetnames <- unique(unlist(opal::datashield.aggregate(dtsource, as.symbol(cally))))
     for(m in 1:length(subsetnames)){
       name2use <- paste0(unlist(strsplit(paste0(initialtable,'.',subsetnames[m]), '.level_')), collapse='')
-      datashield.assign(dtsource, name2use, as.symbol(paste0(alist,'$',subsetnames[m])))
+      opal::datashield.assign(dtsource, name2use, as.symbol(paste0(alist,'$',subsetnames[m])))
       newsubsets <- append(newsubsets, name2use)
     }
   }

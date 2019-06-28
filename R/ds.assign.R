@@ -13,7 +13,8 @@
 #' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -46,7 +47,7 @@ ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
   }
   
   # now do the business
-  datashield.assign(datasources, newobj, as.symbol(toAssign))
+  opal::datashield.assign(datasources, newobj, as.symbol(toAssign))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

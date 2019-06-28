@@ -13,7 +13,8 @@
 #' @author Gaye, A.
 #' @seealso \link{ds.class} to check the type of an object.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
@@ -46,7 +47,7 @@ ds.exists <- function(x=NULL, datasources=NULL){
   
   # call the server side function that does the job
   cally <- call("exists", x)
-  output <- datashield.aggregate(datasources, cally)
+  output <- opal::datashield.aggregate(datasources, cally)
   
   return(output)
 }

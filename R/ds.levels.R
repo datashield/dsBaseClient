@@ -8,7 +8,8 @@
 #' @return levels of x
 #' @author Gaye, A.; Isaeva, J.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -61,7 +62,7 @@ ds.levels = function(x=NULL, datasources=NULL) {
   }  
   
   cally <- paste0("levels(", x, ")")
-  levels_all <- datashield.aggregate(datasources, as.symbol(cally))
+  levels_all <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   return(levels_all)
 }

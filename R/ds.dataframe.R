@@ -24,7 +24,8 @@
 #' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
 #' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #'   
 #'   # load the file that contains the login details
 #'   data(logindata)
@@ -96,7 +97,7 @@ ds.dataframe = function(x=NULL,newobj=NULL,row.names=NULL,check.rows=FALSE,check
                      ",list(","'",paste(varnames,collapse="','"),"'","),"
                      ,stringsAsFactors,",",completeCases,")") 
   }
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

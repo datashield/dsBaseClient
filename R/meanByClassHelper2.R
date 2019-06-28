@@ -40,10 +40,10 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         for(qq in 1:length(dtsources)){
           # check if the subset table exists (when the initial table is invalid no subsequent subset is created)
           cally <- call("exists", tnames[[qq]][i])
-          def <-  unlist(datashield.aggregate(dtsources[qq], cally))
+          def <-  unlist(opal::datashield.aggregate(dtsources[qq], cally))
           if(def){
             cally <- paste0("dim(", tnames[[qq]][i], ")")
-            temp <- unlist(datashield.aggregate(dtsources[qq], as.symbol(cally)))
+            temp <- unlist(opal::datashield.aggregate(dtsources[qq], as.symbol(cally)))
             lengths <- append(lengths, temp[1])
           }else{
             lengths <- append(lengths, 0)
@@ -66,7 +66,7 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         }
       }else{
         cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
-        lengths <- datashield.aggregate(dtsources, as.symbol(cally))
+        lengths <- opal::datashield.aggregate(dtsources, as.symbol(cally))
         ll <- sum(unlist(lengths))
         mm <- round(getPooledMean(dtsources, paste0(tablename,'$',variables[z])),2)
         sdv <- round(getPooledVar(dtsources, paste0(tablename,'$',variables[z])),2)

@@ -28,7 +28,7 @@ isDefined <- function(datasources=NULL, obj=NULL){
   results <- c()
   for(i in 1:length(myObjects)){
     cally <- call('exists', myObjects[i])
-    x <- datashield.aggregate(datasources, cally)
+    x <- opal::datashield.aggregate(datasources, cally)
     results <- append(results, mean(unlist(x)))
   }
   if(mean(results) != 1){

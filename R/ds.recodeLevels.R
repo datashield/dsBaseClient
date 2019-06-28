@@ -15,7 +15,8 @@
 #' @return nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -27,7 +28,8 @@
 #'   ds.levels(x='D$PM_BMI_CATEGORICAL')
 #' 
 #'   # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other two levels.
+#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other
+#'   # two levels.
 #'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
 #'   ds.levels(x='BMI_CAT_NEW1')
 #' 
@@ -37,7 +39,8 @@
 #'   ds.levels(x='BMI_CAT_NEW2')
 #' 
 #'   # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'), newobj='BMI_CAT_NEW3')
+#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'),
+#'                   newobj='BMI_CAT_NEW3')
 #'   ds.levels(x='BMI_CAT_NEW3')
 #' 
 #'   # clear the Datashield R sessions and logout
@@ -77,7 +80,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   
   # get the current number of levels
   cally <- paste0("levels(", x, ")")
-  xx <- datashield.aggregate(datasources, as.symbol(cally))
+  xx <- opal::datashield.aggregate(datasources, as.symbol(cally))
   if(length(unique(unlist(xx))) > length(newCategories)){
     stop("The number of levels you specified is smaller than the levels of the input vector!", call.=FALSE)
   }
@@ -99,7 +102,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   
   # do the business
   cally <- paste0("recodeLevelsDS(", x, ", c(","'",paste(newCategories,collapse="','"),"')",")")
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

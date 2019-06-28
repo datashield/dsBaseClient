@@ -11,7 +11,8 @@
 #' @return  nothing is returned to the client, the new object is stored on the server side.
 #' @author Gaye, A.; Isaeva, J.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'  # load the file that contains the login details
 #'  data(logindata)
@@ -73,7 +74,7 @@ ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # call the server side function that does the job
   cally <-  paste0("listDS(list(",paste(x,collapse=","),"), list('",paste(varnames,collapse="','"),"'))")
-  datashield.assign(datasources, newobj, as.symbol(cally))
+  opal::datashield.assign(datasources, newobj, as.symbol(cally))
   
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)

@@ -14,7 +14,8 @@
 #' @return  a boolean, TRUE if input object is valid and FALSE otherwise.
 #' @author Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)
@@ -66,7 +67,7 @@ ds.isValid = function(x=NULL, datasources=NULL){
   
   # call the server side function that does the job and return its output
   cally <- paste0('isValidDS(', x, ')')
-  output <- datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   return(output)
   
 }
