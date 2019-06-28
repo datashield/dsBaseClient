@@ -46,6 +46,8 @@ steps:
     sudo apt-get install -qq r-base -y
     sudo R -q -e "install.packages('devtools', dependencies=TRUE)"
     sudo R -q -e "install.packages('covr', dependencies=TRUE)"
+    sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
+    sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
   displayName: 'Install R client'
 
 - bash: |
