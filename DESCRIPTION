@@ -5,8 +5,9 @@ Author: DataSHIELD Developers <datashield@obiba.org>
 Maintainer: DataSHIELD Developers <datashield@obiba.org>
 Description: DataSHIELD base functions for the client site.
 License: GPL-3
-Depends:
-    opal,
-    fields
+Depends: R (>= 3.4.0)
+Imports:
+    fields,
+    opal
 RoxygenNote: 6.1.1
 Encoding: UTF-8
