@@ -75,7 +75,7 @@ steps:
 - bash: |
     git config --global user.email "you@example.com"
     git config --global user.name "Azure pipeline"
-    git clone https://datashield:$(GHPAT)@github.com/datashield/dsBaseClient.git dsBetaTestClient
+    git clone https://datashield:$(GHPAT)@github.com/datashield/dsBaseClient.git dsBaseClient
     git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
     cd dsBaseClient
