@@ -60,7 +60,7 @@ ds.dim = function(x=NULL, type='split', datasources=NULL) {
   typ <- checkClass(datasources, x)
   
   # throw a message and stop if input is not table structure
-  if(typ != 'data.frame' & typ!= 'matrix'){
+  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
     stop("The input object must be a table structure!", call.=FALSE)
   }
   
