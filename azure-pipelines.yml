@@ -3,6 +3,7 @@ pool:
 
 variables:
     datetime: $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
+    repoName: 'dsBaseClient'
 
 steps:
 - bash: |
@@ -82,21 +83,21 @@ steps:
     sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("dsBaseClient", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
     cd ../
 
-    cp coveragelist.csv testStatus/logs/
-    cp coveragelist.csv testStatus/logs/$(datetime).csv
+    cp coveragelist.csv testStatus/logs/$(repoName)/
+    cp coveragelist.csv testStatus/logs/$(repoName)/$(datetime).csv
+    cp test_results.xml testStatus/logs/$(repoName)/
+    cp test_results.xml testStatus/logs/$(repoName)/$(datetime).xml
 
-    cp test_results.xml testStatus/logs/
-    cp test_results.xml testStatus/logs/$(datetime).xml
-
-    testStatus/source/status.py testStatus/logs/$(datetime).xml testStatus/logs/$(datetime).csv status.html dsBaseClient
+    testStatus/source/status.py testStatus/logs/$(repoName)/$(datetime).xml testStatus/logs/$(repoName)/$(datetime).csv status.html dsBetaTestClient
+    
     cd testStatus
-    cp ../status.html docs/latest/index.html
-
-    git add logs/coveragelist.csv
-    git add logs/test_results.xml
-    git add logs/$(datetime).xml
-    git add logs/$(datetime).csv
-    git add docs/latest/index.html
+    cp ../status.html docs/$(repoName)/latest/index.html
+    
+    git add logs/$(repoName)/coveragelist.csv
+    git add logs/$(repoName)/test_results.xml
+    git add logs/$(repoName)/$(datetime).xml
+    git add logs/$(repoName)/$(datetime).csv
+    git add docs/$(repoName)/latest/index.html    
     git commit -m "adding new test_results file"
     git push
     exit 0
