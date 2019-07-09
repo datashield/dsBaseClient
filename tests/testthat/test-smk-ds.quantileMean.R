@@ -2,15 +2,19 @@
 # Set up
 #
 
-context("dsClient::ds.quantileMean.R")
+context("ds.quantileMean::smk")
 
-options(datashield.variables=list('LAB_HDL'))
-source("setup.R")
+
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list('LAB_HDL'))
+
 #
 # Tests
 #
 
-context("dsClient::ds.quantileMean() standard")
+context("ds.quantileMean::smk::standard")
 
 res <- ds.quantileMean(x='D$LAB_HDL')
 test_that("quantileMean", {
@@ -18,7 +22,7 @@ test_that("quantileMean", {
   expect_equal(res[[8]], 1.56761884325778, tolerance = .0000000000001)
 })
 
-context("dsClient::ds.quantileMean() split")
+context("ds.quantileMean::smk::split")
 ds.assign("D$LAB_HDL", "hdl")
 res <- ds.quantileMean(x='hdl', type='split')
 test_that("quantileMean_split", {
@@ -28,8 +32,7 @@ test_that("quantileMean_split", {
 })
 
 
-
-context("dsClient::ds.quantileMean() test errors")
+context("ds.quantileMean::smk::test errors")
 ds.asCharacter(x='D$LAB_HDL', newobj="not_a_numeric")
 test_that("quantileMean_erros", {
     expect_error(ds.quantileMean(), "Please provide the name of the input vector!", fixed=TRUE)
@@ -39,5 +42,3 @@ test_that("quantileMean_erros", {
 #
 # Tear down
 #
-
-source("teardown.R")

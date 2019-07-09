@@ -2,53 +2,92 @@
 #' @title Gets the opal objects
 #' @description This is an internal function.
 #' @details The function searches for a list containing object of type 'opal'
-#' in the global environment; if more than one list is found it return the lastest.
+#' in the global environment and the testing environment; if more than one list is found it return the lastest.
 #' This way no matter what the user calls his opal login object it will be captured. 
 #' @keywords internal
 #' @return a list of opal object obtained after login into the servers
-#' @author Amadou Gaye, Paul Burton (updated 15/10/18). THIS IS VERSION TO USE 8/2/19.
-getOpals <- function(){
+#' @author Gaye A, edited by Ryser-Welch P. 
+#'
+getOpals <- function()
+{
+  flag        <- 0;
+  opal.list   <- NULL
+  return.list <- list("flag"=flag, "opals"=NULL, "opals.list"=NULL)
+
+  curr.ds.test_env <- NULL
+  try(curr.ds.test_env <- get("ds.test_env", envir = .GlobalEnv), silent = TRUE)
+
+  if (! is.null(curr.ds.test_env))
+  {
+    opal.list <- init.object.list.testing.environment(ls(curr.ds.test_env))
+  }
+  else
+  {
+    opal.list <- init.object.list.global.environment(ls(.GlobalEnv))
+  }
   
-  # get the names of all the objects in the current work environment
-  objs <- ls(name=.GlobalEnv)
+  return.list <- init.opal.list(opal.list)
+#  print("return.list")
+#  print(return.list)
+
+  return(return.list)
+}
   
-  # check which of the object is a list (the opal objects are kept in a list)
-  if(length(objs) > 0){
-    opalist <- vector('list')
-    cnt <- 0
-    flag <- 0
-    for(i in 1:length(objs)){
-      cl1 <- class(eval(parse(text=objs[i])))
-      if(cl1[1] == 'list'){
-        # if an object is not an empty list check if its elements are of type 'opal'
-        list2check <- eval(parse(text=objs[i]))
-        if(length(list2check) > 0){
-          cl2 <- class(list2check[[1]])
-          for(s in 1:length(cl2)){
-            if(cl2[s] == 'opal'){
-              cnt <- cnt + 1
-              opalist[[cnt]] <- objs[i]
-              flag <- 1
-            }
+init.object.list.testing.environment <- function(objs)
+{
+  opalist <- vector('list')
+  counter <- 0 
+  for(i in 1:length(objs))
+  {
+     if (objs[i] == "connection.opal")
+     {
+        counter <- counter + 1
+        opalist[[counter]] <- paste("ds.test_env$",objs[1],sep="")
+     }
+  }
+  return(opalist)
+}
+  
+
+init.object.list.global.environment <- function(objs)
+{
+  opalist <- vector('list')
+  counter <- 0
+  for(i in 1:length(objs))
+  {
+    class.element.name = class(eval(parse(text=objs[i])))
+    if(class.element.name[1] == 'list')
+    {
+      list2check <- eval(parse(text=objs[i]))
+      if(length(list2check) > 0)
+      {
+        cl2 <- class(list2check[[1]])
+        for(s in 1:length(cl2))
+        {
+          if(cl2[s] == 'opal')
+          {
+            counter <- counter + 1
+            opalist[[counter]] <- objs[i]
           }
         }
       }
     }
-    if(flag == 1){ 
-      if(length(opalist) > 1){
-         flag <- 2
-         return(list("flag"=flag, "opals"=unlist(opalist), "opals.list"=unlist(opalist)))
-      }else{
-        pp <- opalist[[1]] 
-        opals <- eval(parse(text=pp))
-        return(list("flag"=flag, "opals"=opals, "opals.list"=unlist(opalist)))
-      }
-    }else{
-      return(list("flag"=flag, "opals"=NULL, "opals.list"=NULL))
-    }
-  }else{
-    return(list("flag"=flag, "opals"=NULL, "opals.list"=NULL))
   }
-  
+#  print(opalist)
+  return(opalist)
 }
-#getOpals
+
+init.opal.list <- function(opal.list)
+{
+     if(length(opal.list) > 1)
+     {
+        flag <- 2
+        return(list("flag"=flag, "opals"=unlist(opal.list), "opals.list"=unlist(opal.list)))
+     }
+     else
+     {
+        flag <- 1
+        return(list("flag"=flag, "opals"=eval(parse(text=opal.list[[1]])), "opals.list"=unlist(opal.list)))
+     }
+ }
+#getOpal
