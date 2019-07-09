@@ -56,7 +56,7 @@ ds.asList = function(x=NULL, newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # Only a dataframe or a matrice can be turned into a list
-  if(typ != 'data.frame' & typ != 'matrix'){
+  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
     stop(" Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", call.=FALSE)
   }
   

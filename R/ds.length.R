@@ -62,7 +62,7 @@ ds.length = function(x=NULL, type='combine', datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # the input object must be a vector
-  if(typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric' & typ != 'list'){
+  if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('list' %in% typ)){
     stop("The input object must be a character, factor, integer, logical or numeric vector or a list.", call.=FALSE)
   }
   

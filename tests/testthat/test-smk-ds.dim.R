@@ -16,10 +16,10 @@ connect.smk.dataset.sim(list('LAB_TSC', 'LAB_TRIG','LAB_HDL', 'LAB_GLUC_ADJUSTED
 context("ds.dim::smk")
 
 test_that("test_dim", {
-    expect_equal(ds.dim(x='D')$sim1, c(2163,11))
-    expect_equal(ds.dim(x='D')$sim2, c(3088,11))
-    expect_equal(ds.dim(x='D')$sim3, c(4128,11))
-    expect_equal(ds.dim(x='D', type='combine')$pooled.dimension, c(9379,11))
+    expect_equal(ds.dim(x='D')$sim1, c(2163,12))
+    expect_equal(ds.dim(x='D')$sim2, c(3088,12))
+    expect_equal(ds.dim(x='D')$sim3, c(4128,12))
+    expect_equal(ds.dim(x='D', type='combine')$pooled.dimension, c(9379,12))
 })
 
 
