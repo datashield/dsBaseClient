@@ -12,16 +12,18 @@
 # Set up
 #
 
-context("dsClient::ds.dsClient")
+context("ds.recodeLevels::smk")
 
-options(datashield.variables=list("PM_BMI_CATEGORICAL"))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("PM_BMI_CATEGORICAL"))
 
 #
 # Tests
 #
 
-# context("dsClient::ds.recodeLevels()")
+# context("ds.recodeLevels::smk")
 # ds.recodeLevels(opals, x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
 # levels <- ds.levels(x='bmi_new')
 # test_that("new levels", {
@@ -31,7 +33,7 @@ source("setup.R")
 #   expect_equal(levels$sim3, expected)
 # })
 
-# context("dsClient::ds.recodeLevels() no opals or newobj")
+# context("ds.recodeLevels::smk::no opals or newobj")
 # ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
 # levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
 # test_that("new levels auto", {
@@ -41,15 +43,15 @@ source("setup.R")
 #   expect_equal(levels$sim3, expected)
 # })
 
-# context("dsClient::ds.recodeLevels() test errors")
+# context("ds.recodeLevels::smk::test errors")
 # test_that("recodeLevels_erros", {
 #     expect_error(ds.recodeLevels(), "Please provide a valid numeric of character vector", fixed=TRUE)
 #     expect_error(ds.levels(), "Please provide the name of the input vector!", fixed=TRUE)
 #     expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL'), "Please specify the new categories to recode to", fixed=TRUE)
 #     expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight')), "The number of levels you specified is smaller than the levels of the input vector!", fixed=TRUE)
 # })
+
 #
 # Tear down
 #
 
-source("teardown.R")
