@@ -12,25 +12,25 @@
 # Set up
 #
 
-context("dsClient::ds.names")
+context("ds.names::smk")
 
-options(datashield.variables=list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
 
 #
 # Tests
 #
 
-context("dsClient::ds.names() test errors")
+context("ds.names::smk::test errors")
 ds.asCharacter(x='D$GENDER', newobj="not_a_list")
 test_that("names_erros", {
     expect_error(ds.names(), "Please provide the name of the input list!", fixed=TRUE)
     expect_error(ds.names('not_a_list'), "The input object must be a list.", fixed=TRUE)
 })
 
-
-context("dsClient::ds.names()")
-
+# context("ds.names::smk")
 # ds.subsetByClass(datasources=opals, subsets='subclasses', x='D')
 # names <- ds.names('subclasses')
 # expected_names <- c("DIS_DIAB.level_0", "DIS_DIAB.level_1", "GENDER.level_0",   "GENDER.level_1")
@@ -45,10 +45,7 @@ context("dsClient::ds.names()")
 # })
 
 
-
-
 #
 # Tear down
 #
 
-source("teardown.R")

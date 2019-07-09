@@ -12,16 +12,18 @@
 # Set up
 #
 
-context("dsClient::ds.table1d")
+context("ds.table1d::smk")
 
-options(datashield.variables=list("DIS_CVA","GENDER"))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("DIS_CVA","GENDER"))
 
 #
 # Tests
 #
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables")
+context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables")
 res <- ds.table1D(x='D$GENDER')
 #print(res)
 test_that("GENDER_normal", {
@@ -31,21 +33,21 @@ test_that("GENDER_normal", {
 })
 
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables fail")
+context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail")
 res <- ds.table1D(x='D$DIS_CVA')
 #print(res)
 test_that("DIS_CVA_invalid", {
     expect_equal(res$validity, "Invalid tables from 'sim2'!")
 })
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting combined contingency tables fail split")
+context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail split")
 res <- ds.table1D(x='D$DIS_CVA', type="split")
 #print(res)
 test_that("DIS_CVA_invalid_split", {
     expect_equal(res$validity, "Invalid table(s) from 'sim2'!")
 })
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting study specific contingency tables")
+context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables")
 res <- ds.table1D(x='D$GENDER', type="split")
 #print(res)
 test_that("GENDER_split", {
@@ -55,7 +57,7 @@ test_that("GENDER_split", {
     expect_equal(res$counts$sim3[1], 2091)
 })
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting study specific contingency tables for study 1 and 2")
+context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables for study 1 and 2")
 res <- ds.table1D(datasources=opals[1:2], x='D$GENDER', type="split")
 #print(res)
 test_that("GENDER_split_12", {
@@ -65,7 +67,7 @@ test_that("GENDER_split_12", {
     expect_equal(res$counts$sim3[1], NULL)
 })
 
-context("dsClient::ds.table1D() generate a one dimensional table, outputting study specific and combined contingency tables")
+context("ds.table1D::smk::generate a one dimensional table, outputting study specific and combined contingency tables")
 res <- ds.table1D(datasources=opals, x='D$GENDER')
 #print(res)
 test_that("GENDER_normal_2", {
@@ -74,7 +76,7 @@ test_that("GENDER_normal_2", {
     expect_equal(res$counts[3], 9379)
 })
 
-context("dsClient::ds.table1D() test errors")
+context("ds.table1D::smk::test errors")
 test_that("table1D_erros", {
     expect_error(ds.table1D(), "Please provide the name of the input vector!", fixed=TRUE)
     expect_error(ds.table1D(x='D$GENDER', type="datashield"), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
@@ -82,5 +84,3 @@ test_that("table1D_erros", {
 #
 # Tear down
 #
-
-source("teardown.R")

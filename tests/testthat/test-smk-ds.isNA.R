@@ -2,16 +2,18 @@
 # Set up
 #
 
-context("dsClient::ds.isNA")
+context("ds.isNA::smk")
 
-options(datashield.variables=list("LAB_HDL"))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("LAB_HDL"))
 
 #
 # Tests
 #
 
-context("dsClient::ds.isNA")
+context("ds.isNA::smk")
 res <- ds.isNA(x='D$LAB_HDL')
 test_that("isNA", {
     expect_false(res$sim1)
@@ -20,7 +22,7 @@ test_that("isNA", {
 })
 
 
-context("dsClient::ds.isNA() errors")
+context("ds.isNA()::smk::errors")
 test_that("isNA_errors", {
     expect_error(ds.isNA(), "Please provide the name of the input vector!", fixed=TRUE)
 })
@@ -28,5 +30,3 @@ test_that("isNA_errors", {
 #
 # Tear down
 #
-
-source("teardown.R")

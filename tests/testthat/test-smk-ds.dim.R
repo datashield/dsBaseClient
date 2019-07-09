@@ -4,14 +4,16 @@
 
 context("dsClient::ds.dim")
 
-options(datashield.variables=list('LAB_TSC', 'LAB_TRIG','LAB_HDL', 'LAB_GLUC_ADJUSTED', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'MEDI_LPD', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list('LAB_TSC', 'LAB_TRIG','LAB_HDL', 'LAB_GLUC_ADJUSTED', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'MEDI_LPD', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
 
 #
 # Tests
 #
 
-context("dsClient::ds.dim()")
+context("ds.dim::smk")
 
 test_that("test_dim", {
     expect_equal(ds.dim(x='D')$sim1, c(2163,11))
@@ -21,7 +23,7 @@ test_that("test_dim", {
 })
 
 
-context("dsClient::ds.dim() errors")
+context("ds.dim::smk::errors")
 test_that("dim_errors", {
     expect_error(ds.dim(), "Please provide a the name of a data.frame or matrix!", fixed=TRUE)
     expect_error(ds.dim(x='D$LAB_TSC'), "The input object must be a table structure!", fixed=TRUE)
@@ -32,4 +34,3 @@ test_that("dim_errors", {
 # Tear down
 #
 
-source("teardown.R")

@@ -12,23 +12,25 @@
 # Set up
 #
 
-options(datashield.variables=list("LAB_TSC","GENDER"))
-context("dsClient::ds.asList")
+context("ds.asList::smk")
 
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("LAB_TSC", "GENDER"))
 
 #
 # Tests
 #
 
-context("dsClient::ds.asList() turn the data frame D into a list")
+context("ds.asList::turn the data frame D into a list")
 ds.asList(x='D')
 type <- ds.summary(x='D_list')$sim3$class
 test_that("Is List", {
-  expect_equal(type, "list")
+    expect_equal(type, "list")
 })
 
-context("dsClient::ds.asList() test errors")
+context("ds.asList::smk::test errors")
 test_that("asList_erros", {
     expect_error(ds.asList(), "Please provide the name of the input object!", fixed=TRUE)
     expect_error(ds.asList(x='D$LAB_TSC'), "Only objects of type 'data.frame' or 'matrix' are allowed. Please see documentation.", fixed=TRUE)
@@ -37,4 +39,3 @@ test_that("asList_erros", {
 # Tear down
 #
 
-source("teardown.R")

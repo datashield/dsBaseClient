@@ -12,16 +12,18 @@
 # Set up
 #
 
-context("dsClient::ds.asCharacter")
+context("ds.asCharacter::smk")
 
-options(datashield.variables=list("GENDER"))
-source("setup.R")
+source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_smk_datasets.R")
+
+connect.smk.dataset.sim(list("GENDER"))
 
 #
 # Tests
 #
 
-context("dsClient::ds.asCharacter() turn the factor variable 'GENDER' into a character vector")
+context("ds.asCharacter::smk::turn the factor variable 'GENDER' into a character vector")
 ds.asCharacter(x='D$GENDER', newobj="gender_as_char")
 res <- ds.exists('gender_as_char')
 test_that("asCharacter_exists", {
@@ -30,7 +32,7 @@ test_that("asCharacter_exists", {
     expect_true(res$sim3)
 })
 
-context("dsClient::ds.asCharacter() no table or newobj")
+context("ds.asCharacter::smk::no table or newobj")
 ds.asCharacter(x='D$GENDER')
 res <- ds.exists('GENDER_char')
 test_that("defualt_Character_exists", {
@@ -39,7 +41,7 @@ test_that("defualt_Character_exists", {
     expect_true(res$sim3)
 })
 
-context("dsClient::ds.asCharacter() no x")
+context("ds.asCharacter::smk::no x")
 test_that("asCharacter_no_x", {
     expect_error(ds.asCharacter(), "Please provide the name of the input vector!", fixed=TRUE)
 })
@@ -48,4 +50,3 @@ test_that("asCharacter_no_x", {
 # Tear down
 #
 
-source("teardown.R")
