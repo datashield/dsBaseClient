@@ -23,7 +23,7 @@ connect.smk.dataset.sim(list("LAB_TSC", "GENDER"))
 # Tests
 #
 
-context("ds.asList::turn the data frame D into a list")
+context("ds.asList::smk::turn the data frame D into a list")
 ds.asList(x='D')
 type <- ds.summary(x='D_list')$sim3$class
 test_that("Is List", {

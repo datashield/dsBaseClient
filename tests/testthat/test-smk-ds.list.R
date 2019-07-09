@@ -7,7 +7,7 @@ context("ds.list::smk")
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_smk_datasets.R")
 
-connect.smk.dataset.sim(list("D$LAB_TSC', 'D$LAB_HDL"))
+connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests

@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("ds.dsClient:smk")
+context("ds.recodeLevels::smk")
 
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_smk_datasets.R")

@@ -2,7 +2,7 @@
 # Set up
 #
 
-context("ds.quantileMean.R::smk")
+context("ds.quantileMean::smk")
 
 
 source("connection_to_datasets/init_all_datasets.R")

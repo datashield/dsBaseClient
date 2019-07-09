@@ -24,7 +24,7 @@ connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
 #
 
 context("ds.rowcolCalc::smk")
-opal::datashield.assign(opals, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
+opal::datashield.assign(ds.test_env$connection.opal, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
 ds.rowColCalc(x='D', operation="rowSums", newobj="rsum_hdl_tsc")
 res <- ds.exists('rsum_hdl_tsc')
 test_that("rowColCalc_exists", {
@@ -34,7 +34,7 @@ test_that("rowColCalc_exists", {
 })
 
 context("ds.rowcolCalc::smk::no newobj")
-opal::datashield.assign(opals, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
+opal::datashield.assign(ds.test_env$connection.opal, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
 ds.rowColCalc(x='D', operation="rowSums")
 res <- ds.exists('rowColCalc_out')
 test_that("rowColCalc_out_exists", {

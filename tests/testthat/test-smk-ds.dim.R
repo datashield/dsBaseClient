@@ -2,7 +2,7 @@
 # Set up
 #
 
-context("dsClient::ds.dim")
+context("ds.dim:smk")
 
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_smk_datasets.R")
