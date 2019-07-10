@@ -76,11 +76,11 @@ steps:
 - bash: |
     git config --global user.email "you@example.com"
     git config --global user.name "Azure pipeline"
-    git clone https://datashield:$(GHPAT)@github.com/datashield/dsBaseClient.git dsBaseClient
+    git clone https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
     git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
-    cd dsBaseClient
-    sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("dsBaseClient", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+    cd $(repoName)
+    sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
     cd ../
 
     cp coveragelist.csv testStatus/logs/$(repoName)/
@@ -88,7 +88,7 @@ steps:
     cp test_results.xml testStatus/logs/$(repoName)/
     cp test_results.xml testStatus/logs/$(repoName)/$(datetime).xml
 
-    testStatus/source/status.py testStatus/logs/$(repoName)/$(datetime).xml testStatus/logs/$(repoName)/$(datetime).csv status.html dsBetaTestClient
+    testStatus/source/status.py testStatus/logs/$(repoName)/$(datetime).xml testStatus/logs/$(repoName)/$(datetime).csv status.html $(repoName)
     
     cd testStatus
     cp ../status.html docs/$(repoName)/latest/index.html
