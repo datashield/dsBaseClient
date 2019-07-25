@@ -103,6 +103,7 @@ jobs:
 
       # Make the directories if they dont already exist
       mkdir --parents testStatus/logs/$(repoName)/$(branchName)
+      mkdir --parents testStatus/docs/$(repoName)/$(branchName)
 
       cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/
       cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/$(datetime).csv
