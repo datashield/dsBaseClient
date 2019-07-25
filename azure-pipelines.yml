@@ -23,7 +23,7 @@ jobs:
 
   steps:
   - checkout: self
-      persistCredentials: true
+    persistCredentials: true
   
   - bash: |
       echo "test" > test.txt
