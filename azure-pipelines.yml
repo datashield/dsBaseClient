@@ -29,6 +29,8 @@ jobs:
       echo "test" > test.txt
       git config --global user.email "you@example.com"
       git config --global user.name "Your Name"
+      git clone https://datashield@github.com/datashield/testStatus.git testStatus
+      cd testStatus
       git add test.txt
       git commit -m "a test"
       git push
