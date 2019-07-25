@@ -6,7 +6,6 @@ schedules:
       - master
     always: true
 
-
 jobs:
 - job: DataSHIELD_CI
 
