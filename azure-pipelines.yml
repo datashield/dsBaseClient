@@ -21,20 +21,7 @@ jobs:
     branchName: $(Build.SourceBranchName)
 
 
-  steps:
-  - checkout: self
-    persistCredentials: true
-  
-  - bash: |
-      git config --global user.email "you@example.com"
-      git config --global user.name "Your Name"
-      git clone https://datashield@github.com/datashield/testStatus.git testStatus
-      cd testStatus
-      echo "test" > test.txt
-      git add test.txt
-      git commit -m "a test"
-      git push
-  
+  steps:  
   - bash: |
       echo $(branchName)
       echo $(repoName)
