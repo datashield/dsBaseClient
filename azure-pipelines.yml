@@ -1,9 +1,10 @@
 schedules:
-  - cron: "0 4 * * *"
+  - cron: "15 9 * * *"
     displayName: Nightly build
     branches:
       include:
       - master
+      - merging
     always: true
 
 jobs:
