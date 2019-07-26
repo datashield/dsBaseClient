@@ -61,7 +61,8 @@ jobs:
       sudo R -q -e "install.packages('covr', dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
-      sudo R -q -e "library('devtools'); library('opal'); library('opaladmin'); opals <- opal.login(username='administrator', password='datashield_test&', url='http://127.0.0.1:8080'); opaladmin::dsadmin.install_package(opal=opals,pkg='dsBetaTest',githubusername='datashield',ref='master'); datashield.logout(opals)"
+      # Shoundnt need this anymore.
+      #sudo R -q -e "library('devtools'); library('opal'); library('opaladmin'); opals <- opal.login(username='administrator', password='datashield_test&', url='http://127.0.0.1:8080'); opaladmin::dsadmin.install_package(opal=opals,pkg='dsBetaTest',githubusername='datashield',ref='master'); datashield.logout(opals)"
     displayName: 'Install R client'
 
   - bash: |
