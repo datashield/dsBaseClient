@@ -18,9 +18,9 @@ class { ::datashield:
   dsbase_githubusername      => 'datashield',
   dsbase_ref                 => 'merging',
   dsstats_githubusername     => 'datashield',
-  dsstats_ref                => 'master',
+  dsstats_ref                => '',
   dsgraphics_githubusername  => 'datashield',
-  dsgraphics_ref             => 'master',
+  dsgraphics_ref             => '',
   dsmodelling_githubusername => 'datashield',
-  dsmodelling_ref            => 'master'
+  dsmodelling_ref            => ''
 }
