@@ -16,9 +16,9 @@ a data frame
 this is an INTERNAL function.
 }
 \details{
-The function is required by the client function \code{ds.table2D}.
+The function is required required by the client function \code{ds.table2D}.
 }
 \author{
-Gaye, A.
+Gaye A
 }
 \keyword{internal}
