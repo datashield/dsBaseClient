@@ -1,8 +1,8 @@
 #' 
-#' @title ds.dataFrameSort.o calling dataFrameSortDS.o
+#' @title ds.dataFrameSort calling dataFrameSortDS
 #' @description Sorts a data frame using a specified sort key
 #' @details A data frame is a list of variables all with the same number of rows,
-#' which is of class 'data.frame'. ds.dataFrameSort.o will sort a specified
+#' which is of class 'data.frame'. ds.dataFrameSort will sort a specified
 #' data.frame on the serverside using a sort key also on the serverside. The
 #' sort key can either sit in the data.frame or outside it. The sort key
 #' can be forced to be interpreted as either alphabetic or numeric
@@ -15,7 +15,7 @@
 #' when a numeric vector is sorted alphabetically, the order can look confusing.
 #' It is worth mentioning this because Opal sometimes sorts its data tables
 #' alphabetically using ID. This can be confusing and one of the reasons for
-#' using the ds.dataFrameSort.o() function is to re-sort a data.frame derived
+#' using the ds.dataFrameSort() function is to re-sort a data.frame derived
 #' from an Opal data table so its order is more natural. To explain alphabetic
 #' and numeric sorting further, here are some illustrations.
 #' SORTING NUMBERS:
@@ -61,11 +61,11 @@
 #' Default=FALSE.
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to '<df.name>.sorted' if no name is specified
-#' where <df.name> is the first argument of ds.dataFrameSort.o().
+#' where <df.name> is the first argument of ds.dataFrameSort().
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -76,17 +76,17 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataFrameSort.o() also returns any studysideMessages that can explain the error in creating
+#' ds.dataFrameSort() also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("newobj") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("newobj")
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-ds.dataFrameSort.o<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE, sort.alphabetic=FALSE,sort.numeric=FALSE, newobj=NULL, datasources=NULL){
+ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE, sort.alphabetic=FALSE,sort.numeric=FALSE, newobj=NULL, datasources=NULL){
 
    # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -95,7 +95,7 @@ ds.dataFrameSort.o<-function(df.name=NULL, sort.key.name=NULL, sort.descending=F
  
   if(is.null(newobj)){newobj<-paste0(df.name,".sorted")}
   
-    calltext <- call("dataFrameSortDS.o", df.name, sort.key.name, sort.descending, sort.alphabetic, sort.numeric)
+    calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.alphabetic, sort.numeric)
     opal::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
@@ -106,7 +106,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -149,7 +149,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -174,5 +174,5 @@ if(!no.errors){																								#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
 }
-#ds.dataFrameSort.o
+#ds.dataFrameSort
 

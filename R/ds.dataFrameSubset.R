@@ -1,7 +1,7 @@
-#' @title ds.dataFrameSubset.o calling dataFrameSubsetDS1.o and dataFrameSubsetDS2.o
+#' @title ds.dataFrameSubset calling dataFrameSubsetDS1 and dataFrameSubsetDS2
 #' @description Subsets a data frame by row or by column.
 #' @details A data frame is a list of variables all with the same number of rows,
-#' which is of class 'data.frame'. ds.dataFrameSubset.o will subset a 
+#' which is of class 'data.frame'. ds.dataFrameSubset will subset a 
 #' pre-existing data.frame by specifying the values of a subsetting variable
 #' (subsetting by row) or by selecting columns to keep or remove (subsetting
 #' by column). When subsetting by row, the resultant subset must strictly be
@@ -12,8 +12,8 @@
 #' element is 1 and there are no NAs. Such a vector can be created as follows:
 #' First identify a convenient numeric variable with no missing values (typically a numeric
 #' individual ID) let us call it indID, which is equal in length to the data.frame
-#' to be subsetted. Then use the ds.make.o() function with the call
-#' ds.make.o('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
+#' to be subsetted. Then use the ds.make() function with the call
+#' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
 #' in each source equal in length to the indID vector in that source. 
 #' @param df.name a character string providing the name for the data.frame
 #' to be sorted. 
@@ -51,13 +51,13 @@
 #' either <V1.name> or <V2.name>. If FALSE or NULL NAs in the final Boolean vector will
 #' be converted to 0s and the corresponding row will therefore be excluded from the subset.
 #' @param newobj This a character string providing a name for the subset
-#' data.frame representing the primary output of the ds.dataFrameSubset.o() function.
+#' data.frame representing the primary output of the ds.dataFrameSubset() function.
 #' This defaults to '<df.name>_subset' if no name is specified
-#' where <df.name> is the first argument of ds.dataFrameSubset.o()
+#' where <df.name> is the first argument of ds.dataFrameSubset()
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -70,18 +70,18 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataFrame.o() also returns any studysideMessages that can explain the error in creating
+#' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("newobj") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("newobj")
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
 
-ds.dataFrameSubset.o<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.operator=NULL, keep.cols=NULL, rm.cols=NULL, keep.NAs=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.operator=NULL, keep.cols=NULL, rm.cols=NULL, keep.NAs=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -155,10 +155,10 @@ if(!is.null(rm.cols)){
   
   
   
-    calltext1 <- call("dataFrameSubsetDS1.o", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
     return.warning.message<-opal::datashield.aggregate(datasources, calltext1)
 
-    calltext2 <- call("dataFrameSubsetDS2.o", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
     opal::datashield.assign(datasources, newobj, calltext2)
 	
  
@@ -187,7 +187,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -230,7 +230,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -256,5 +256,5 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.dataFrameSubset.o
+#ds.dataFrameSubset
 
