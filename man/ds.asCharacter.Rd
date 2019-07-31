@@ -2,58 +2,49 @@
 % Please edit documentation in R/ds.asCharacter.R
 \name{ds.asCharacter}
 \alias{ds.asCharacter}
-\title{Turns a vector into character type vector}
+\title{ds.asCharacter calling assign function asCharacterDS}
 \usage{
-ds.asCharacter(x = NULL, newobj = NULL, datasources = NULL)
+ds.asCharacter(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of the input vector.}
+\item{x.name}{the name of the input object to be coerced to class
+character. Must be specified in inverted commas.}
 
-\item{newobj}{the name of the new vector.If this argument is set to NULL, the name of the new 
-variable is the name of the input variable with the suffixe '_char'.}
+\item{newobj}{the name of the new output variable. If this argument is set
+to NULL, the name of the new variable is defaulted to <x.name>.char}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-By default an internal function looks for 'opal' objects in the environment and sets this parameter.}
+\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
+argument is not specified the default set of opals will be used. The default opals
+are called default.opals and the default can be set using the function
+{ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
+it should be specified without
+inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
+apply the function solely to e.g. the second opal server in a set of three,
+the argument can be specified as: e.g. datasources=opals.em[2].
+If you wish to specify the first and third opal servers in a set you specify:
+e.g. datasources=opals.em[c(1,3)]}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+the object specified by the <newobj> argument (or by default <x.name>.char
+if the <newobj> argument is NULL)
+which is written to the serverside. In addition, two validity messages are returned
+indicating whether <newobj> has been created in each data source and if so whether
+it is in a valid form. If its form is not valid in at least one study there may
+be a studysideMessage that can explain the error in creating
+the full output object. As well as appearing on the screen at run time,if you wish to
+see the relevant studysideMessages at a later date you can use the {ds.message}
+function. If you type ds.message(<newobj>) it will print out the relevant
+studysideMessage from any datasource in which there was an error in creating <newobj>
+and a studysideMessage was saved. If there was no error and <newobj> was created
+without problems no studysideMessage will have been saved and ds.message(<newobj>)
+will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 }
 \description{
-This function is similar to R function \code{as.character}.
+this function is based on the native R function {as.character}
 }
 \details{
-See details of the R function 'as.character'.
-}
-\examples{
-\dontrun{
-
-  # load that contains the login details
-  data(logindata)
-
-  # login and assign specific variable(s) 
-  # (by default the assigned dataset is a dataframe named 'D')
-  myvar <- list("GENDER")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
-  # turn the factor variable 'GENDER' into a character vector
-  ds.asCharacter(x='D$GENDER', newobj="gender_char")
-
-  # clear the Datashield R sessions and logout
-  datashield.logout(opals)
-
-}
-
-}
-\seealso{
-\link{ds.asNumeric} to turn a variable into a numeric type.
-
-\link{ds.asFactor} to turn a variable into a factor type.
-
-\link{ds.asMatrix} to coerce an object into a matrix type.
-
-\link{ds.asList} to construct an object of type list.
+See details of the native R function {as.character}.
 }
 \author{
-Gaye, A.
+Amadou Gaye, Paul Burton, for DataSHIELD Development Team
 }

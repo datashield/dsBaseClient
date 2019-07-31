@@ -2,76 +2,99 @@
 % Please edit documentation in R/ds.dataframe.R
 \name{ds.dataframe}
 \alias{ds.dataframe}
-\title{Creates data frames}
+\title{ds.dataframe calling dataframeDS}
 \usage{
-ds.dataframe(x = NULL, newobj = NULL, row.names = NULL,
-  check.rows = FALSE, check.names = TRUE, stringsAsFactors = TRUE,
-  completeCases = FALSE, datasources = NULL)
+ds.dataframe(x = NULL, row.names = NULL, check.rows = FALSE,
+  check.names = TRUE, stringsAsFactors = TRUE, completeCases = FALSE,
+  DataSHIELD.checks = FALSE, newobj = "df_new", datasources = NULL,
+  notify.of.progress = FALSE)
 }
 \arguments{
-\item{x}{a character vector which contains the name(s) of the vector(s) to combine.}
+\item{x}{This is a vector of character strings representing the names of the elemental
+components to be combined. For example, the call:
+ds.dataframe(x=c('DF_input','matrix.m','var_age'),newobj='DF_output') will
+combine a pre-existing data.frame called DF_input with a matrix and a variable
+called var_age. The output will be the combined data.frame DF_output. As many
+elemental components as needed may be combined in any order e.g. 3 data.frames,
+7 variables and 2 matrices. For convenience the x argument can alternatively
+be specified in a two step procedure, the first being a call to
+the native R environment on the client server:
+x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
+ds.dataframe(x=x.components,newobj='DF_output')}
 
-\item{newobj}{the name of the output object. If this argument is set to \code{NULL}, 
-the name of the new object is 'dframe'.}
+\item{row.names}{NULL or a single integer or character string specifying a
+column to be used as row names, or a character or integer vector giving the
+row names for the data frame.}
 
-\item{row.names}{NULL or a character vector specifying the names of the rows.}
+\item{check.rows}{if TRUE then the rows are checked for consistency of
+length and names.}
 
-\item{check.rows}{logical, if TRUE then the rows are checked for consistency of length and names.}
+\item{check.names}{logical. If TRUE then the names of the variables
+in the data frame are checked to ensure that they are syntactically
+valid variable names and are not duplicated.
+If necessary they are adjusted (by make.names) so that they are.
+As a slight modification to the standard data.frame() function in native
+R, if any column names are duplicated, the second and subsequent
+occurances are given the suffixes .1, .2 etc by ds.dataframe and so
+there are never any duplicates when check.names is invoked by the
+serverside function dataframeDS}
 
-\item{check.names}{logical, logical. If TRUE then the names of the variables in the data frame 
-are checked to ensure that they are syntactically valid variable names and are not duplicated.}
+\item{stringsAsFactors}{logical: should character vectors be converted
+to factors? The 'factory-fresh' default is TRUE.}
 
-\item{stringsAsFactors}{logical, tells if character vectors should be converted to factors?}
+\item{completeCases}{logical. Default FALSE. If TRUE then any rows with
+missing values
+in any of the elemental components of the final output data.frame
+will be deleted.}
 
-\item{completeCases}{a boolean that tells if only complete cases should be included or not.}
+\item{DataSHIELD.checks}{logical: If TRUE undertakes all DataSHIELD checks (time
+consuming). Default FALSE.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{newobj}{This a character string providing a name for the output
+data.frame which defaults to 'df_new' if no name is specified.}
+
+\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
+argument is not specified the default set of opals will be used. The default opals
+are called default.opals and the default can be set using the function
+{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
+inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
+apply the function solely to e.g. the second opal server in a set of three,
+the argument can be specified as: e.g. datasources=opals.em[2].
+If you wish to specify the first and third opal servers in a set you specify:
+e.g. datasources=opals.em[c(1,3)]}
+
+\item{notify.of.progress}{specifies if console output should be produce to indicate
+progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+the object specified by the <newobj> argument (or default name <df_new>).
+which is written to the serverside. In addition, two validity messages are returned
+indicating whether <newobj> has been created in each data source and if so whether
+it is in a valid form. If its form is not valid in at least one study - e.g. because
+a disclosure trap was tripped and creation of the full output object was blocked -
+ds.dataframe() also returns any studysideMessages that can explain the error in creating
+the full output object. As well as appearing on the screen at run time,if you wish to
+see the relevant studysideMessages at a later date you can use the {ds.message}
+function. If you type ds.message("newobj") it will print out the relevant
+studysideMessage from any datasource in which there was an error in creating <newobj>
+and a studysideMessage was saved. If there was no error and <newobj> was created
+without problems no studysideMessage will have been saved and ds.message("newobj")
+will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 }
 \description{
-This is similar to the r function 'data.frame'.
+Creates a data frame from its elemental components: pre-existing data frames;
+single variables; matrices
 }
 \details{
-Takes one or more vectors and generates a data frame structure.
-# if the sought data frame is not valid (i.e. contains a number of rows less than
-the minimum allowed number of observation in DataSHIELD), an empty data frame is 
-created (i.e. a data frame that holds missing values only - NA).
-}
-\examples{
-\dontrun{
-  
-  # load the file that contains the login details
-  data(logindata)
-
-  # login and assign the required variables to R
-  myvar <- list('LAB_TSC','LAB_HDL')
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
-  # create a dataframe that contains the variables the 'LAB_TSC' and 'LAB_HDL'
-  # all the arguments are set to default in this example
-  myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-  ds.dataframe(x=myvectors)
-
-  # clear the Datashield R sessions and logout
-  datashield.logout(opals)
-
-}
-
-}
-\seealso{
-\link{ds.cbind} Combines objects column-wise.
-
-\link{ds.changeRefGroup} to change the reference level of a factor.
-
-\link{ds.colnames} to obtain the column names of a matrix or a data frame
-
-\link{ds.asMatrix} to coerce an object into a matrix type.
-
-\link{ds.dim} to obtain the dimensions of matrix or a data frame.
+A data frame is a list of variables all with the same number of rows with unique row
+names, which is of class 'data.frame'. ds.dataframe will create a data frame by combining
+a series of elemental components which may be pre-existing data.frames, matrices or variables.
+A critical requirement is that the length of all component variables, and the
+number of rows of the component data.frames or matrices must all be the same. The output
+data.frame will then have this same number of rows. ds.dataframe calls the serverside
+function dataframeDS which is almost the same as the native R function data.frame()
+and so several of the arguments are precisely the same as for data.frame()
 }
 \author{
-Gaye, A.; Isaeva, J.
+DataSHIELD Development Team
 }

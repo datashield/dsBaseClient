@@ -4,27 +4,34 @@
 \alias{ds.length}
 \title{Gets the length of a vector or list}
 \usage{
-ds.length(x = NULL, type = "combine", datasources = NULL)
+ds.length(x = NULL, type = "both", checks = "FALSE",
+  datasources = NULL)
 }
 \arguments{
-\item{x}{a string character, the name of a vector}
+\item{x}{a string character, the name of a vector or list}
 
 \item{type}{a character which represents the type of analysis to carry out. 
-If \code{type} is set to 'combine', a global variance is calculated 
-if \code{type} is set to 'split', the variance is calculated separately for each study.}
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global length is returned 
+if \code{type} is set to 'split', 'splits' or 's', the length is returned separately for each study.
+if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{checks}{a Boolean indicator of whether to undertake optional checks of model
+components. Defaults to checks=FALSE to save time. It is suggested that checks
+should only be undertaken once the function call has failed}
+
+\item{datasources}{a list of opal object(s) obtained after login in to opal
+servers; these objects hold also the data assign to R, as \code{dataframe},
+from opal datasources.}
 }
 \value{
-a numeric, the number of elements of the input vector or list.
+a numeric, the length of the input vector or list.
 }
 \description{
 This function is similar to R function \code{length}.
 }
 \details{
-The function returns the pooled length or the length of the a vector or a list for 
-each study.
+The function returns the pooled length of the a vector or a list, 
+or the length of the a vector or a list for each study separately.
 }
 \examples{
 \dontrun{
@@ -33,14 +40,19 @@ each study.
   data(logindata)
 
   # login and assign all the variables stored on the server side
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  opals <- datashield.login(logins=logindata, assign=TRUE)
 
-  # Example 1: Get the total number of observations across all the studies for the variable
-               'LAB_TSC' - default behaviour
-  ds.length(x='D$LAB_TSC')
+  # Example 1: Get the total number of observations of the vector of
+  # variable 'LAB_TSC' across all the studies 
+  ds.length(x='D$LAB_TSC', type='combine')
 
-  # Example 2: Get the number of observations on each study, for the variable 'LAB_TSC'
+  # Example 2: Get the number of observations of the vector of variable
+  # 'LAB_TSC' for each study separately
   ds.length(x='D$LAB_TSC', type='split')
+
+  # Example 3: Get the number of observations on each study and the total
+  # number of observations across all the studies for the variable 'LAB_TSC'
+  ds.length(x='D$LAB_TSC', type='both')
 
   # clear the Datashield R sessions and logout
   datashield.logout(opals) 
@@ -49,5 +61,5 @@ each study.
 
 }
 \author{
-Gaye, A.
+Amadou Gaye, Demetris Avraam, for DataSHIELD Development Team
 }
