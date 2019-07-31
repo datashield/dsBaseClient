@@ -24,7 +24,7 @@ This is similar to the R base function 'cor.test'.
 Runs a two sided pearson test with a 0.95 confidence level.
 }
 \examples{
-{
+\dontrun{
 
   # load that contains the login details
   data(logindata)

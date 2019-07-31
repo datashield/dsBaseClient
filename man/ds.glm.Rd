@@ -477,8 +477,6 @@ R package metafor to meta-analyse the key parameters.
 
 }
 \seealso{
-\link{ds.lexis} for survival analysis using piecewise exponential regression
-
 \link{ds.gee} for generalized estimating equation models
 }
 \author{

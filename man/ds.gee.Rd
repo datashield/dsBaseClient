@@ -56,7 +56,7 @@ goes on until convergence is achieved. The input data should not contain missing
 The data must be in a data.frame obejct and the variables must be refer to through the data.frame.
 }
 \examples{
-{
+\dontrun{
 
   # load the login data file for the correlated data
   data(geeLoginData)
@@ -72,7 +72,8 @@ The data must be in a data.frame obejct and the variables must be refer to throu
   mycorr <- 'ar1'
   
   # run a GEE analysis with the above specifed parameters
-  ds.gee(data='D',formula=myformula,family=myfamily,corStructure=mycorr,clusterID=clusters,startCoeff=startbetas)
+  ds.gee(data='D',formula=myformula,family=myfamily,corStructure=mycorr,clusterID=clusters,
+         startCoeff=startbetas)
   
   # clear the Datashield R sessions and logout
   datashield.logout(opals) 

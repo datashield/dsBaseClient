@@ -186,7 +186,6 @@
 #' @return The main elements of the output returned by ds.glm are
 #' listed (below) as Example 1 under 'examples'. 
 #' @author DataSHIELD Development Team
-#' @seealso \link{ds.lexis} for survival analysis using piecewise exponential regression
 #' @seealso \link{ds.gee} for generalized estimating equation models
 #' @export
 #' @examples

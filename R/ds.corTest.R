@@ -9,7 +9,8 @@
 #' @return a list containing the results of the test
 #' @author Gaye, A.; Burton, P.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load that contains the login details
 #'   data(logindata)

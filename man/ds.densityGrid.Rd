@@ -37,7 +37,7 @@ elements are set by the server side function \code{densitygrid.ds} to 'valid' va
 do not lead to leakage of micro-data to the user).
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)
@@ -52,7 +52,8 @@ do not lead to leakage of micro-data to the user).
   # Example2: generate a grid density object for each study separately
   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 
-  # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
+  # Example3: generate a grid density object where the number of intervals is set to 15, for 
+  #           each study separately
   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 
   # clear the Datashield R sessions and logout

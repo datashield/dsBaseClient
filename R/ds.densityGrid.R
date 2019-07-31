@@ -19,7 +19,8 @@
 #' @return a grid density matrix is returned
 #' @author Isaeva, J.; Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
@@ -34,7 +35,8 @@
 #'   # Example2: generate a grid density object for each study separately
 #'   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 #' 
-#'   # Example3: generate a grid density object where the number of intervals is set to 15, for each study separately
+#'   # Example3: generate a grid density object where the number of intervals is set to 15, for 
+#'   #           each study separately
 #'   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 #' 
 #'   # clear the Datashield R sessions and logout

@@ -32,7 +32,8 @@
 #' @seealso \code{ds.glm} for genralized linear models
 #' @seealso \code{ds.lexis} for survival analysis using piecewise exponential regression
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the login data file for the correlated data
 #'   data(geeLoginData)
@@ -48,7 +49,8 @@
 #'   mycorr <- 'ar1'
 #'   
 #'   # run a GEE analysis with the above specifed parameters
-#'   ds.gee(data='D',formula=myformula,family=myfamily,corStructure=mycorr,clusterID=clusters,startCoeff=startbetas)
+#'   ds.gee(data='D',formula=myformula,family=myfamily,corStructure=mycorr,clusterID=clusters,
+#'          startCoeff=startbetas)
 #'   
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(opals) 

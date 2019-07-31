@@ -22,7 +22,8 @@
 #' @return a contour plot
 #' @author Isaeva, J.; Gaye, A.; Burton, P.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)

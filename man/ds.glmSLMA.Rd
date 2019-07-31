@@ -236,9 +236,6 @@ between sources that cannot simply be corrected with fixed effects each reflecti
 or centre effect. In particular fixed effects cannot simply be used in this way when there
 there is heterogeneity in the effect of scientific interest.
 }
-\seealso{
-\link{ds.lexis} for survival analysis using piecewise exponential regression
-}
 \author{
 DataSHIELD Development Team
 }

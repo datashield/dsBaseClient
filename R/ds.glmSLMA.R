@@ -189,7 +189,6 @@
 #' random effects meta-analysis under maximum likelihood (ML), restricted maximum
 #' likelihood (REML) or via fixed effects meta-analysis (FE)
 #' @author DataSHIELD Development Team
-#' @seealso \link{ds.lexis} for survival analysis using piecewise exponential regression
 #' @export
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
 checks=FALSE, maxit=15, datasources=NULL) {

@@ -41,7 +41,7 @@ are not the exact minumum and maximum values but rather close approximates of th
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 }
 \examples{
-{
+\dontrun{
 
   # load the file that contains the login details
   data(logindata)

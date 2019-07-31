@@ -22,7 +22,8 @@
 #' @return a heatmap plot
 #' @author Isaeva, J.; Gaye, A.
 #' @export
-#' @examples {
+#' @examples
+#' \dontrun{
 #' 
 #'   # load the file that contains the login details
 #'   data(logindata)
