@@ -1,5 +1,5 @@
 #' 
-#' @title ds.listDisclosureSettings.o
+#' @title ds.listDisclosureSettings
 #' @description Lists current values for disclosure control filters in all Opal servers
 #' @details This function lists out the current values of the eight disclosure filters in each of
 #' the Opal servers specified by datasources. Eight filters can currently be set:
@@ -48,34 +48,34 @@
 #' \dontrun{
 #' #WORKING EXAMPLES NOT PROVIDED (MULTIPLE OPALS AND R SESSIONS MAKE THIS DIFFICULT)
 #' ##Client-side function call to list current disclosure settings in all Opal servers
-#' #ds.listDisclosureSettings.o()
+#' #ds.listDisclosureSettings()
 #' #
 #' ##Equivalent call directly to server-side function to list current disclosure settings in all
 #' ##Opal servers not recommended unless you are experienced DataSHIELD user
-#' #ds.look("listDisclosureSettingsDS.o()")
+#' #ds.look("listDisclosureSettingsDS()")
 #' #
 #' ##Call to client-side function and save output as an R object to refer to later
-#' #current.DisclosureSettings<-ds.listDisclosureSettings.o()
+#' #current.DisclosureSettings<-ds.listDisclosureSettings()
 #' ##Interrogate ouput later
 #' #current.DisclosureSettings[[1]]
 #' #
 #' #Restrict call to list disclosure settings only to the first, or second Opals
-#' #ds.listDisclosureSettings.o(datasources=opals.em[1])
-#' #ds.listDisclosureSettings.o(datasources=opals.em[2])
+#' #ds.listDisclosureSettings(datasources=opals.em[1])
+#' #ds.listDisclosureSettings(datasources=opals.em[2])
 #' #
 #' }
 #' 
-ds.listDisclosureSettings.o <- function(datasources=NULL){
+ds.listDisclosureSettings <- function(datasources=NULL){
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
   }
 
   # CALL THE MAIN SERVER SIDE FUNCTION
-  calltext <- call("listDisclosureSettingsDS.o")
+  calltext <- call("listDisclosureSettingsDS")
   Opal.disclosure.settings <- opal::datashield.aggregate(datasources, calltext)
 
   # RETURN COMPLETION INFORMATION TO .GlobalEnv
   return(list(Opal.disclosure.settings=Opal.disclosure.settings))
 }
-# ds.listDisclosureSettings.o
+# ds.listDisclosureSettings

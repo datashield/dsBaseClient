@@ -1,8 +1,8 @@
 #' 
-#' @title ds.glmSLMA.o calling glmDS1.o, glmSLMADS2.o
+#' @title ds.glmSLMA calling glmDS1, glmSLMADS2
 #' @description Fits a generalized linear model (glm) on data from a single or multiple sources
 #' @details Fits a glm on data from a single source or from multiple sources. In the latter case 
-#' (when using ds.glmSLMA.o), the glm is fitted to convergence in each data source and the
+#' (when using ds.glmSLMA), the glm is fitted to convergence in each data source and the
 #' estimates and standard errors
 #' returned from each study separately. When these are then pooled using a function such as 
 #' ds.metafor, this is a form of study level meta-analysis (SLMA). This contrasts with the setting
@@ -130,7 +130,7 @@
 #' If you wish to specify the second opal server in a set of three, the parameter is specified:
 #' e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
 #' e.g. datasources=opals.em[2,3]
-#' @return many of the elements of the output list returned by ds.glmSLMA.o from
+#' @return many of the elements of the output list returned by ds.glmSLMA from
 #' each study separately are 
 #' equivalent to those from glm() in native R with potentially disclosive elements
 #' such as individual-level residuals and linear predictors blocked. 
@@ -174,7 +174,7 @@
 #' nested (eg likelihood ratio tests)
 #' @return iter:- the number of iterations required to achieve convergence
 #' @return there are a small number of more esoteric items of information returned
-#' by ds.glmSLMA.o. Additional information about these can be found in the help
+#' by ds.glmSLMA. Additional information about these can be found in the help
 #' file for the glm() function in native R.
 #' @return input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
 #' estimates from each study. In combination with the corresponding standard errors
@@ -191,7 +191,7 @@
 #' @author DataSHIELD Development Team
 #' @seealso \link{ds.lexis} for survival analysis using piecewise exponential regression
 #' @export
-ds.glmSLMA.o<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
+ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
 checks=FALSE, maxit=15, datasources=NULL) {
 
 # details are provided look for 'opal' objects in the environment
@@ -256,7 +256,7 @@ checks=FALSE, maxit=15, datasources=NULL) {
 
 #IDENTIFY THE CORRECT DIMENSION FOR START BETAs VIA CALLING FIRST COMPONENT OF glmDS
   
-   cally1 <- call('glmDS1.o', formula, family, weights, dataName)
+   cally1 <- call('glmDS1', formula, family, weights, dataName)
    
    study.summary.0 <- opal::datashield.aggregate(datasources, cally1)
 
@@ -359,7 +359,7 @@ stop("DATA ERROR")
 
 #NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
  
-    cally2 <- call('glmSLMADS2.o', formula, family, offset, weights, dataName)
+    cally2 <- call('glmSLMADS2', formula, family, offset, weights, dataName)
 
     study.summary <- opal::datashield.aggregate(datasources, cally2)
 
@@ -492,4 +492,4 @@ output.summary.plus.pooled.SLMA<-eval(parse(text=output.summary.plus.pooled.SLMA
   return(output.summary.plus.pooled.SLMA)
 }
 
-# ds.glmSLMA.o 
+# ds.glmSLMA 

@@ -55,53 +55,53 @@
 #'   opals <- opal::datashield.login(logins=logindata, assign=TRUE)
 #'
 #'   # Example 1: generate a histogram for each study separately (the default behaviour)
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', type="split")
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', type="split")
 #'
 #'   # Example 2: generate a combined histogram with the default small cells counts
 #'                suppression rule
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='smallCellsRule', type='combine')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='smallCellsRule', type='combine')
 #'
 #'   # Example 3: if a variable is of type factor then the function returns an error
-#'   ds.histogram.o(x='LD$PM_BMI_CATEGORICAL')
+#'   ds.histogram(x='LD$PM_BMI_CATEGORICAL')
 #'
 #'   # Example 4: generate a combined histogram with the deterministic method
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='deterministic', type='combine')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='deterministic', type='combine')
 #'
 #'   # Example 5: same as Example 4 but with k=50
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', k=50, method='deterministic', type='combine')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=50, method='deterministic', type='combine')
 #'
 #'   # Example 6: same as Example 4 but with k=1740 (here we see that as k increases we have
 #'                big utility loss)
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='combine')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='combine')
 #'
 #'   # Example 7: same as Example 6 but for split analysis
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='split')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='split')
 #'
 #'   # Example 7: if k is less than the pre-specified threshold then the function returns an error
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', k=2, method='deterministic')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=2, method='deterministic')
 #'
 #'   # Example 8: generate a combined histogram with the probabilistic method
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine')
 #'
 #'   # Example 9: generate a histogram with the probabilistic method for each study separately
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split')
 #'
 #'   # Example 10: same as Example 9 but with higher level of noise
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.5, type='split')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.5, type='split')
 #'
 #'   # Example 11: if 'noise' is less than the pre-specified threshold then the function returns
 #'                 an error
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.1, type='split')
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.1, type='split')
 #'
 #'   # Example 12: same as Example 9 but with bigger number of breaks
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30)
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30)
 #'
 #'   # Example 13: same as Example 12 but the vertical axis shows densities instead of frequencies
-#'   ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30,
+#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30,
 #'                  vertical.axis='Density')
 #'
 #'   # Example 14: create a histogram and the probability density on the plot
-#'   hist <- ds.histogram.o(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine',
+#'   hist <- ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine',
 #'                          num.breaks=30, vertical.axis='Density')
 #'   lines(hist$mids, hist$density)
 #'
@@ -110,7 +110,7 @@
 #'
 #' }
 #'
-ds.histogram.o <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
+ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
 
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -165,7 +165,7 @@ ds.histogram.o <- function(x=NULL, type="split", num.breaks=10, method="smallCel
   if(method=='probabilistic'){ method.indicator <- 3 }
 
   # call the server-side function that generates the histogram object to plot
-  call <- paste0("histogramDS.o(", x, ",", num.breaks, ",", method.indicator, ",", k, ",", noise, ")")
+  call <- paste0("histogramDS(", x, ",", num.breaks, ",", method.indicator, ",", k, ",", noise, ")")
   outputs <- opal::datashield.aggregate(datasources, call)
 
   hist.objs <- vector("list", length(datasources))
@@ -246,4 +246,4 @@ ds.histogram.o <- function(x=NULL, type="split", num.breaks=10, method="smallCel
   }
 
 }
-# ds.histogram.o
+# ds.histogram

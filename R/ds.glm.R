@@ -1,4 +1,4 @@
-#' @title ds.glm.o calling glmDS1.o, glmDS2.o
+#' @title ds.glm calling glmDS1, glmDS2
 #' @description Fits a generalized linear model (glm) on data from a single or multiple sources
 #' @details Fits a glm on data from a single source or from multiple sources. In the latter case 
 #' the data are co-analysed (when using ds.glm) by using an approach that is mathematically
@@ -452,7 +452,7 @@
 #' #datashield.logout(opals) 
 #' }
 #'
-ds.glm.o <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=15, CI=0.95,
+ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=15, CI=0.95,
                      viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL) {
   
  # if no opal login details are provided look for 'opal' objects in the environment
@@ -515,7 +515,7 @@ ds.glm.o <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=
 
 #IDENTIFY THE CORRECT DIMENSION FOR START BETAs VIA CALLING FIRST COMPONENT OF glmDS
  
-   cally1 <- call('glmDS1.o', formula, family, weights, data)
+   cally1 <- call('glmDS1', formula, family, weights, data)
    
    study.summary.0 <- opal::datashield.aggregate(datasources, cally1)
 
@@ -624,7 +624,7 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
     message("Iteration ", iteration.count, "...")
 
 #NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
-    cally2 <- call('glmDS2.o', formula, family, beta.vect=beta.vect.temp, offset, weights, data)
+    cally2 <- call('glmDS2', formula, family, beta.vect=beta.vect.temp, offset, weights, data)
 
       study.summary <- opal::datashield.aggregate(datasources, cally2)
 
@@ -941,4 +941,4 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
   }
   
 }
-#ds.glm.o
+#ds.glm

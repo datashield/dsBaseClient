@@ -1,5 +1,5 @@
 #' 
-#' @title ds.listClientsideFunctions.o calling no server-side functions 
+#' @title ds.listClientsideFunctions calling no server-side functions 
 #' @description Lists all current client-side functions
 #' @details Depending on choice of arguments can list all client-side functions
 #' or any combination of: dsBaseClient, dsGraphicsClient, dsModellingClient,
@@ -23,12 +23,12 @@
 #' @return list containing all functions in each or all of these five classes
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.listClientsideFunctions.o  <-function(all.functions=TRUE,
+ds.listClientsideFunctions  <-function(all.functions=TRUE,
 						dsBaseClient=FALSE,
-					    	dsGraphicsClient=FALSE,
-					    	dsModellingClient=FALSE,
-					    	dsStatsClient=FALSE,
-							dsBetaTestClient=FALSE,
+					        dsGraphicsClient=FALSE,
+					        dsModellingClient=FALSE,
+					        dsStatsClient=FALSE,
+						dsBetaTestClient=FALSE,
 						userDefinedClient=FALSE
 						){
 #THIS IS UNDERLYING SEARCH FUNCTION IN R IF NEEDED: search()	
@@ -75,6 +75,6 @@ ds.listClientsideFunctions.o  <-function(all.functions=TRUE,
 	}
    }
 }
-#ds.listClientsideFunctions.o
+#ds.listClientsideFunctions
 
 

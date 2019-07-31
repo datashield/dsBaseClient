@@ -19,7 +19,7 @@
 #' @export
 #'
 
-ds.listOpals.o<-function(){
+ds.listOpals<-function(){
 
   findLogin <- getOpals()
   message(paste0(" This function lists all Opal objects in the R analysis environment\n"))
@@ -43,5 +43,4 @@ ds.listOpals.o<-function(){
           }
 }
 #ds.listOpals	  
-
 

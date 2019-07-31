@@ -1,13 +1,13 @@
 #' 
-#' @title ds.look.o 
+#' @title ds.look 
 #' @description  The function is a wrapper for the 'opal' package function 'datashield.aggregate'.
-#' @details the function {ds.look.o} can be used to make a direct call to a server side'
+#' @details the function {ds.look} can be used to make a direct call to a server side'
 #' aggregate function more simply than using the {datashield.aggregate} function.
-#' The {ds.look.o} and {datashield.aggregate} functions are generally
+#' The {ds.look} and {datashield.aggregate} functions are generally
 #' only recommended for experienced developers. For example, the toAggregate argument has to
 #' be expressed in the same form that the serverside function would usually expect from its
-#' clientside pair. For example: ds.look.o("table1DDS(female)") works. But, if you express
-#' this as ds.look.o("table1DDS('female')") it won't work because although when
+#' clientside pair. For example: ds.look("table1DDS(female)") works. But, if you express
+#' this as ds.look("table1DDS('female')") it won't work because although when
 #' you call this same function using its clientside function you write ds.table1D('female') 
 #' the inverted commas are stripped off during processing by the clientside function so the
 #' call to the serverside does not contain inverted commas. Apart from during development
@@ -21,7 +21,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -30,7 +30,7 @@
 #' @return the output from the specified server side aggregate function to the client side
 #' @author Gaye, A, Burton PR.
 #' @export
-ds.look.o<-function(toAggregate=NULL, checks=FALSE, datasources=NULL){
+ds.look<-function(toAggregate=NULL, checks=FALSE, datasources=NULL){
 
 #####################################################################################
 #MODULE 1: IDENTIFY DEFAULT OPALS  													#
@@ -57,5 +57,5 @@ if(checks==TRUE){                                                               
   return(list(output=output))
   }
   
-#ds.look.o
+#ds.look
 
