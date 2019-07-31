@@ -1,77 +1,294 @@
-#' 
-#' @title Combines objects by columns
-#' @description This is similar to the R base function \code{cbind} with the only differences 
-#' that  it allows to combine up to 5 objects (vectors and/or table structures).
-#' @details see details of the R base function \code{cbind}.
-#' @param x a character vector, the name of the vector and or table to combine by column.
-#' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
-#' the name of the new object is 'newCbindObject'.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return nothing is returned to the client, the new object is stored on the server side.
-#' @author Gaye, A.
-#' @seealso \link{ds.dataframe} to generate a table of type dataframe.
-#' @seealso \link{ds.changeRefGroup} to change the reference level of a factor.
-#' @seealso \link{ds.colnames} to obtain the column names of a matrix or a data frame
-#' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
-#' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
+#' @title ds.cbind calling cbindDS
+#' @description Take a sequence of vector, matrix or data-frame arguments
+#' and combine them by column to produce a matrix.
+#' @details A sequence of vector, matrix or data-frame arguments
+#' is combined column by column to produce a matrix written to the
+#' which is written to the serverside. For more details see 
+#' the native R function {cbind}. The handling of argument <x>
+#' is the same as for {ds.dataFrame}
+#' @param x This is a vector of character strings representing the names of the elemental
+#' components to be combined  For example, the call:
+#' ds.cbind(x=c('DF_input','matrix.m','var_age'),newobj='cbind_output') will
+#' combine a pre-existing data.frame called DF_input with a matrix and a variable
+#' called var_age. The output will be the object cbind_output in which
+#' the first columns will be the columns of DF_input, to their right
+#' the next block of columns are from matrix.m and the final column will
+#' be the variable var_age. As many
+#' elemental components as needed may be combined in any order e.g. 3 data.frames,
+#' 7 variables and 2 matrices. For convenience the x argument can alternatively
+#' be specified in a two step procedure, the first being a call to
+#' the native R environment on the client server:
+#' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
+#' ds.cbind(x=x.components,newobj='DF_output'). In order to
+#' disambiguate column names, if the same column name appears several times
+#' the suffix '.1' will be appended to the second instance, '.2' to the
+#' third and, generally, .(n-1) to the nth instance. Disambiguation
+#' does not occur if column names are user specified using <force.colnames> 
+#' @param DataSHIELD.checks logical, if TRUE checks are made that all
+#' input objects exist and are of an appropriate class. These checks
+#' are relatively slow and so the <DataSHIELD.checks> argument is
+#' defaulted to FALSE
+#' @param force.colnames NULL or a vector of character strings representing
+#' the required column names of the output object. For example:
+#' force.colnames=c("colname1","name.of.second.column", "lastcol") for an
+#' output object with three columns. If <force.colnames> is NULL
+#' column names are inferred from the names or column names of
+#' the input objects - please see 'details' for disambiguation.
+#' If <force.colnames> is not NULL, there is no disambiguation
+#' so you can force columns to have the same names should you
+#' so wish.The vector of column names must have
+#' the same number of elements as there are columns in the output
+#' object. If the length of the column name vector is incorrect a
+#' studysideMessage is returned: "Number of column names
+#' does not match number of columns in output object. Here 'N' names
+#' are required.Please see help for {ds.cbind} function" where 'N'
+#' is the actual number of columns in the output object 
+#' @param newobj This a character string providing a name for the output
+#' data.frame which defaults to 'cbind.out' if no name is specified.
+#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
+#' argument is not specified the default set of opals will be used. The default opals
+#' are called default.opals and the default can be set using the function
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
+#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
+#' apply the function solely to e.g. the second opal server in a set of three,
+#' the argument can be specified as: e.g. datasources=opals.em[2].
+#' If you wish to specify the first and third opal servers in a set you specify:
+#' e.g. datasources=opals.em[c(1,3)]
+#' @param notify.of.progress specifies if console output should be produce to indicate
+#' progress. The default value for notify.of.progress is FALSE.
+#' @return the object specified by the <newobj> argument (or default name <cbind.out>).
+#' which is written to the serverside. Just like the {cbind} function in
+#' native R, the output object is of class matrix unless one or more
+#' of the input objects is a data.frame in which case the class of the
+#' output object is data.frame. In the latter case, if an object of
+#' class matrix is required one may use the {ds.asMatrix} function.
+#' As well as writing the output object as <newobj>
+#' on the serverside, two validity messages are returned
+#' indicating whether <newobj> has been created in each data source and if so whether
+#' it is in a valid form. If its form is not valid in at least one study - e.g. because
+#' a disclosure trap was tripped and creation of the full output object was blocked -
+#' ds.cbind() also returns any studysideMessages that can explain the error in creating
+#' the full output object. As well as appearing on the screen at run time,if you wish to
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("<newobj>") it will print out the relevant
+#' studysideMessage from any datasource in which there was an error in creating <newobj>
+#' and a studysideMessage was saved. If there was no error and <newobj> was created
+#' without problems no studysideMessage will have been saved and ds.message("<newobj>")
+#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' @author Paul Burton for DataSHIELD Development Team
 #' @export
-#' @examples
-#' \dontrun{
-#' 
-#'   # load the file that contains the login details
-#'   data(logindata)
-#' 
-#'   # login and assign specific variables(s)
-#'   # (by default the assigned dataset is a dataframe named 'D')
-#'   myvar <- list('LAB_TSC', 'LAB_HDL')
-#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#' 
-#'   # generate a new dataframe by combining the log values of 
-#'   # 'LAB_TSC' and 'LAB_HDL', by columns
-#'   ds.assign(toAssign='log(D$LAB_TSC)', newobj='labtsc')
-#'   ds.assign(toAssign='log(D$LAB_HDL)', newobj='labhdl')
-#'   ds.cbind(x=c('labtsc','labhdl'), newobj="myDataframe")
-#' 
-#'   # clear the Datashield R sessions and logout
-#'   datashield.logout(opals)
-#' 
-#' }
-#' 
-ds.cbind <- function(x=NULL, newobj='newCbindObject', datasources=NULL){
-
+ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='cbind.out',datasources=NULL,notify.of.progress=FALSE){
+  
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
   }
   
-  # if not more than one input objects stop 
-  if(length(x) < 2){
-    stop("You must provide the names of at least two objects!", call.=FALSE)
-  }  
+  if(is.null(x)){
+    stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
+  }
   
+  # the input variable might be given as column table (i.e. D$vector)
+  # or just as a vector not attached to a table (i.e. vector)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+ 
+if(DataSHIELD.checks)
+{ 
   # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(x)){
-    if(!(is.null(x[i]))){
-      inputElts <- extract(x[i])
-      if(is.na(inputElts[[1]])){
-        defined <- isDefined(datasources, inputElts[[2]])
-      }else{
-        defined <- isDefined(datasources, inputElts[[1]])
-        cally <- paste0("colnames(", inputElts[[1]], ")")
-        column_names <- unique(unlist(opal::datashield.aggregate(datasources, cally)))
-        if(!(inputElts[[2]] %in% column_names)){
-          stop(paste0("No variable ",inputElts[[2]]," in ", inputElts[[1]], " in one or more studies"), call.=FALSE)
-        }
-      } 
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
     }
   }
   
-  # call the server side function
-  cally <-  paste0("cbind(", paste(x,collapse=","), ")")
-  opal::datashield.assign(datasources, newobj, as.symbol(cally)) 
-  
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
-  
+  # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
+  for(i in 1:length(x)){
+    typ <- checkClass(datasources, x[i])
+    if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
+      stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
+    }
+  }
+} 
+  # check newobj not actively declared as null
+  if(is.null(newobj)){
+    newobj <- "cbind.out"
+  }
+
+
+#CREATE THE VECTOR OF COLUMN NAMES
+if(!is.null(force.colnames)){
+colname.vector<-force.colnames
+}else{
+
+  colname.vector<-NULL
+  class.vector<-NULL
+
+for(j in 1:length(x))
+{
+testclass.var<-x[j]
+
+calltext1<-paste0('class(', testclass.var, ')')
+next.class <- opal::datashield.aggregate(datasources, as.symbol(calltext1))
+class.vector<-c(class.vector,next.class[[1]])
+if (notify.of.progress)
+    cat("\n",j," of ", length(x), " elements to combine in step 1 of 2\n")
 }
+
+for(j in 1:length(x))
+{
+test.df<-x[j]
+
+if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
+	{
+	colname.vector<-c(colname.vector,test.df)
+        if (notify.of.progress)
+            cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+	}
+else
+	{
+	calltext2<-paste0('colnames(', test.df, ')')
+    df.names <- opal::datashield.aggregate(datasources, as.symbol(calltext2))
+	 colname.vector<-c(colname.vector,df.names[[1]])
+         if (notify.of.progress)
+             cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+	}
+}
+if (notify.of.progress)
+    cat("\nBoth steps completed\n")
+
+#CHECK FOR DUPLICATE NAMES IN COLUMN NAME VECTOR AND ADD ".k" TO THE kth REPLICATE
+num.duplicates<-rep(0,length(colname.vector))
+
+if(length(colname.vector)==1){
+num.duplicates<-0
+}else{
+if(length(colname.vector>=2))
+{
+for(j in length(colname.vector):2)
+{
+	for(k in (j-1):1)
+	{
+	if(colname.vector[j]==colname.vector[k])
+		{
+		num.duplicates[j]<-num.duplicates[j]+1
+		}
+	}
+}
+}
+}
+num.duplicates.c<-as.character(num.duplicates)
+
+
+
+
+for(m in 1:length(colname.vector))
+{
+if(num.duplicates[m]!="0")
+	{
+
+	colname.vector[m]<-paste0(colname.vector[m],".",num.duplicates.c[m])
+	}
+}
+}
+
+#prepare name vectors for transmission
+ x.names.transmit<-paste(x,collapse=",")
+ colnames.transmit<-paste(colname.vector,collapse=",")
+ 
+ ############################### 
+ # call the server side function
+ 
+ 
+ 
+	calltext <- call("cbindDS", x.names.transmit, colnames.transmit)	
+
+
+	opal::datashield.assign(datasources, newobj, calltext)
+  
+ 
+#############################################################################################################
+#DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
+													    #
+#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                    #
+test.obj.name<-newobj											    #
+													    #
+													    #
+													    #
+# CALL SEVERSIDE FUNCTION                                                                                   #
+calltext <- call("testObjExistsDS", test.obj.name)							    #
+													    #
+object.info<-opal::datashield.aggregate(datasources, calltext)						    #
+													    #
+# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS							    #
+# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS						    #
+num.datasources<-length(object.info)									    #
+													    #
+													    #
+obj.name.exists.in.all.sources<-TRUE									    #
+obj.non.null.in.all.sources<-TRUE									    #
+													    #
+for(j in 1:num.datasources){										    #
+	if(!object.info[[j]]$test.obj.exists){								    #
+		obj.name.exists.in.all.sources<-FALSE							    #
+		}											    #
+	if(object.info[[j]]$test.obj.class=="ABSENT"){						            #
+		obj.non.null.in.all.sources<-FALSE						            #
+		}																								 	#
+	}																									 	#
+																											#
+if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
+																											#
+	return.message<-																					 	#
+    paste0("A data object <", test.obj.name, "> has been created in all specified data sources")		 	#
+																											#
+																											#
+	}else{																								 	#
+																											#
+    return.message.1<-																					 	#
+	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")	#
+																											#
+	return.message.2<-																					 	#
+	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 	#
+																											#
+	return.message.3<-																					 	#
+	paste0("Please use ds.ls() to identify where missing")												 	#
+																											#
+																											#
+	return.message<-list(return.message.1,return.message.2,return.message.3)							 	#
+																											#
+	}																										#
+																											#
+	calltext <- call("messageDS", test.obj.name)															#
+    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
+																											#	
+	no.errors<-TRUE																							#
+	for(nd in 1:num.datasources){																			#
+		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
+		no.errors<-FALSE																					#
+		}																									#
+	}																										#	
+																											#
+																											#
+	if(no.errors){																							#
+	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
+	return(list(is.object.created=return.message,validity.check=validity.check))						    #
+	}																										#
+																											#
+if(!no.errors){																								#
+	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
+	return(list(is.object.created=return.message,validity.check=validity.check,					    		#
+	            studyside.messages=studyside.message))			                                            #
+	}																										#
+																											#
+#END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
+#############################################################################################################
+
+}
+#ds.cbind
+
+ 

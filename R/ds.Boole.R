@@ -1,14 +1,12 @@
 #' 
-#################################################################################################### 100 hashes
-
-#' @title ds.Boole.o
+#' @title ds.Boole
 #' @description Converts the individual elements of a vector or other object into Boolean
 #' indicators(TRUE/FALSE or 1/0) based on the standard set of Boolean operators:
 #' ==, !=, >, >=, <, <=.
 #' @details A combination of operators reflected in AND can be obtained by multiplying two or more
 #' binary/Boolean vectors together: observations taking the value 1 in every vector will then
 #' take the value 1 while all others will take the value 0. The combination OR can be obtained by
-#' adding two or more vectors and then then reapply ds.Boole.o using the operator >= 1: any
+#' adding two or more vectors and then then reapply ds.Boole using the operator >= 1: any
 #' observation taking the value 1 in one or more vectors will take the value 1 in the final vector.
 #' @param V1 A character string specifying the name of the vector to which the Boolean operator
 #' is to be applied
@@ -25,7 +23,7 @@
 #' @param numeric.output a TRUE/FALSE indicator defaulting to TRUE determining whether the final
 #' output variable should be of class numeric (1/0) or class logical (TRUE/FALSE). It is easy
 #' to convert a logical class variable to numeric using the ds.asNumeric() function and to
-#' convert a numeric (1/0) variable to logical you can apply ds.Boole.o with <Boolean.operator>
+#' convert a numeric (1/0) variable to logical you can apply ds.Boole with <Boolean.operator>
 #' '==', <V2> the scalar '1' and <numeric.output> FALSE. 
 #' @param na.assign A character string taking values 'NA', '1' or '0'. If 'NA' then any NA
 #' values in the input vector remain as NAs in the output vector. If '1' or '0' NA values in
@@ -36,7 +34,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -47,18 +45,18 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.Boole.o also returns any studysideMessages that can explain the error in creating
+#' ds.Boole also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("newobj") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("newobj")
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
 #'
-ds.Boole.o<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA",newobj=NULL, datasources=NULL){
+ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA",newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -120,7 +118,7 @@ if(Boolean.operator == ">="){
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION
-  calltext <- call("BooleDS.o", V1, V2, BO.n, na.assign,numeric.output)
+  calltext <- call("BooleDS", V1, V2, BO.n, na.assign,numeric.output)
   opal::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
@@ -135,7 +133,7 @@ test.obj.name<-newobj																					 	#
 																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -178,7 +176,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -204,5 +202,5 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.Boole.o
+#ds.Boole
 
