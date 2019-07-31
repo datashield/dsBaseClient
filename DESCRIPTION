@@ -7,6 +7,7 @@ Description: DataSHIELD client functions for the client site.
 License: GPL-3
 Depends: R (>= 3.5.0)
 Imports:
+    fields,
     metafor,
     opaladmin,
     opal

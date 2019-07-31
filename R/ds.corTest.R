@@ -65,7 +65,7 @@ ds.corTest = function(x=NULL, y=NULL, datasources=NULL){
   
   # call the server side function
   cally <- paste0("cor.test(", x, ",", y, ")")
-  res.local <- datashield.aggregate(datasources, as.symbol(cally))
+  res.local <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   return(res.local)
     

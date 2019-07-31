@@ -102,10 +102,10 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     
     # get the range from each study and produce the 'global' range
     cally <- paste("rangeDS(", x, ")") 
-    x.ranges <- datashield.aggregate(datasources, as.symbol(cally))
+    x.ranges <- opal::datashield.aggregate(datasources, as.symbol(cally))
     
     cally <- paste("rangeDS(", y, ")") 
-    y.ranges <- datashield.aggregate(datasources, as.symbol(cally))
+    y.ranges <- opal::datashield.aggregate(datasources, as.symbol(cally))
     
     x.minrs <- c()
     x.maxrs <- c()
@@ -129,7 +129,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     # generate the grid density object to plot
     cally <- paste0("densityGridDS(",x,",",y,",",limits=T,",",x.global.min,",",
                     x.global.max,",",y.global.min,",",y.global.max,",",numints,")")
-    grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
+    grid.density.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
     
     numcol<-dim(grid.density.obj[[1]])[2]
     
@@ -144,7 +144,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     }
     
     # prepare arguments for the plot function    
-    par(mfrow=c(1,1))
+    graphics::par(mfrow=c(1,1))
     
     x<-grid.density.obj[[1]][,(numcol-1)]
     y<-grid.density.obj[[1]][,(numcol)]
@@ -152,7 +152,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     
     if (show=='all') {
       # plot a combined heatmap
-      image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
+      fields::image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
     } else if (show=='zoomed') {
       
       # find rows and columns on the edge of the grid density object which consist only of zeros and leave only
@@ -210,7 +210,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       y.zoomed = y[dummy_left:dummy_right]
       
       # plot a combined heatmap
-      image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data (zoomed)")
+      fields::image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data (zoomed)")
 
     } else
       stop('Function argument "show" has to be either "all" or "zoomed"')
@@ -221,7 +221,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     num_intervals=numints
     cally <- paste0("densityGridDS(",x,",",y,",",'limits=FALSE',",",'x.min=NULL',",",
                     'x.max=NULL',",",'y.min=NULL',",",'y.max=NULL',",",numints=num_intervals, ")")
-    grid.density.obj <- datashield.aggregate(datasources, as.symbol(cally))
+    grid.density.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
     
     numcol<-dim(grid.density.obj[[1]])[2]
     
@@ -234,7 +234,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     if(num.sources > 1){
       if((num.sources %% 2) == 0){ numr <- num.sources/2 }else{ numr <- (num.sources+1)/2}
       numc <- 2
-      par(mfrow=c(numr,numc))
+      graphics::par(mfrow=c(numr,numc))
       for(i in 1:num.sources){
         grid <- grid.density.obj[[i]][,1:(numcol-2)]
         x<-grid.density.obj[[i]][,(numcol-1)]
@@ -242,7 +242,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
         z<-grid 
         title <- paste("Heatmap Plot of ", stdnames[i], sep="")
         if (show=='all') {
-          image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
+          fields::image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
         } else if (show=='zoomed') {
           
           # find rows and columns on the edge of the grid density object which consist only of zeros and leave only
@@ -301,21 +301,21 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
           
 
           title <- paste("Heatmap Plot of ", stdnames[i], " (zoomed)",sep="")
-          image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main=title)
+          fields::image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main=title)
           
         } else
           stop('Function argument "show" has to be either "all" or "zoomed"')
       }
       
     }else{
-      par(mfrow=c(1,1)) 
+      graphics::par(mfrow=c(1,1)) 
       grid <- grid.density.obj[[1]][,1:(numcol-2)]
       x <- grid.density.obj[[1]][,(numcol-1)]
       y <- grid.density.obj[[1]][,(numcol)]
       z <- grid  
       title <- paste("Heatmap Plot of ", stdnames[1], sep="")
       if (show=='all') {
-        image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
+        fields::image.plot(x,y,z, xlab=x.lab, ylab=y.lab, main=title)
       } else if (show=='zoomed') {
         
         # find rows and columns on the edge of the grid density object which consist only of zeros and leave only
@@ -375,7 +375,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
         
 
         title <- paste("Heatmap Plot of ", stdnames[1], " (zoomed)",sep="")
-        image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
+        fields::image.plot(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data")
         
       } else
         stop('Function argument "show" has to be either "all" or "zoomed"')

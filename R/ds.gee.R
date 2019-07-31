@@ -62,7 +62,7 @@ ds.gee <- function(formula=NULL, family=NULL, data=NULL, corStructure='ar1', clu
                    maxit=20, checks=TRUE, display=FALSE, datasources=NULL){
   
   # turn the input formula into an object of type 'formula', it is given as a string character
-  formula <- as.formula(formula)
+  formula <- stats::as.formula(formula)
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -151,7 +151,7 @@ ds.gee <- function(formula=NULL, family=NULL, data=NULL, corStructure='ar1', clu
     for(i in 1:length(datasources)){
       # run function and store relevant output
       cally <- as.call(list(quote(alphaPhiDS), as.symbol(data), formula, family, clusterID,corStructure,betas))
-      temp <- datashield.aggregate(datasources[i], cally)
+      temp <- opal::datashield.aggregate(datasources[i], cally)
       output1 <- temp[[1]]
       Ns <- append(Ns, output1$N)
       num.para <- output1$npara
@@ -174,7 +174,7 @@ ds.gee <- function(formula=NULL, family=NULL, data=NULL, corStructure='ar1', clu
     for(i in 1:length(datasources)){
       userMat <- userMatrix[[i]]
       cally <- as.call(list(quote(scoreVectDS), as.symbol(data), formula, family, clusterID, corStructure, alpha.comb,phi.comb,betas,userMat))
-      temp <- datashield.aggregate(datasources[i], cally)
+      temp <- opal::datashield.aggregate(datasources[i], cally)
       output3 <- temp[[1]]
       score.vects[[i]] <- output3$score.vector
       info.mats[[i]] <- output3$info.matrix
