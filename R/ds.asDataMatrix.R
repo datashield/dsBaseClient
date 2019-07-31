@@ -1,4 +1,4 @@
-#' @title ds.asDataMatrix.o calling assign function asDataMatrixDS.o
+#' @title ds.asDataMatrix calling assign function asDataMatrixDS
 #' @description Coerces an R object into a matrix maintaining original
 #' class for all columns in data.frames 
 #' @details This function is based on the native R function {data.matrix}
@@ -15,7 +15,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If an explicit <datasources> argument is to be set,
+#' {ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
 #' it should be specified without inverted commas: e.g.
 #' datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
@@ -29,15 +29,15 @@
 #' it is in a valid form. If its form is not valid in at least one study there may
 #' be a studysideMessage that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o(<newobj>) it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message(<newobj>) it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o(<newobj>)
+#' without problems no studysideMessage will have been saved and ds.message(<newobj>)
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton, for DataSHIELD Development Team
 #' @export
-ds.asDataMatrix.o = function(x.name=NULL, newobj=NULL, datasources=NULL){
+ds.asDataMatrix = function(x.name=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -56,7 +56,7 @@ ds.asDataMatrix.o = function(x.name=NULL, newobj=NULL, datasources=NULL){
 
     # call the server side function that does the job
 
-	calltext <- call("asDataMatrixDS.o", x.name)
+	calltext <- call("asDataMatrixDS", x.name)
 
 	opal::datashield.assign(datasources, newobj, calltext)
 
@@ -69,7 +69,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -112,7 +112,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -139,4 +139,4 @@ if(!no.errors){																								#
 
   
 }
-# ds.asDataMatrix.o
+# ds.asDataMatrix
