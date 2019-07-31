@@ -1,24 +1,24 @@
-#' @title ds.rbind.o calling rbindDS.o
+#' @title ds.rbind calling rbindDS
 #' @description Take a sequence of vector, matrix or data-frame arguments
 #' and combine them by row to produce a matrix.
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined row by row to produce a matrix
 #' which is written to the serverside. For more details see 
 #' the native R function {rbind}. The handling of argument <x>
-#' is similar to that of functions {ds.cbind.o} and {ds.dataFrame.o}
+#' is similar to that of functions {ds.cbind} and {ds.dataFrame}
 #' @param x This is a vector of character strings representing the names of the elemental
 #' components to be combined.  For example, the call:
-#' ds.rbind.o(x=c('matrix.m','matrix.n'),newobj='rbind_output') will
+#' ds.rbind(x=c('matrix.m','matrix.n'),newobj='rbind_output') will
 #' stack matrix.m on top of matrix.n provided the number of
 #' columns of matrix.m and matrix.n are the same. The output
 #' object rbind_output is written to the serverside. As many
-#' elemental components as needed may be combined using ds.rbind.o
+#' elemental components as needed may be combined using ds.rbind
 #' provided they all have the same number of columns.
 #' For convenience the x argument can alternatively
 #' be specified in a two step procedure, the first being a call to
 #' the native R environment on the client server:
 #' x.components<-c('matrix.m','matrix.n') then 
-#' ds.rbind.o(x=x.components,newobj='rbind_output'). Column names
+#' ds.rbind(x=x.components,newobj='rbind_output'). Column names
 #' are taken either from the column names of the first object
 #' specified in the <x> argument. Alternatively new column names
 #' can be user specified using <force.colnames>
@@ -41,14 +41,14 @@
 #' If the length of the column name vector is incorrect a
 #' studysideMessage is returned: "Number of column names
 #' does not match number of columns in output object. Here 'N' names
-#' are required.Please see help for {ds.rbind.o} function" where 'N'
+#' are required.Please see help for {ds.rbind} function" where 'N'
 #' is the actual number of columns in the output object 
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to 'cbind.out' if no name is specified.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -57,7 +57,7 @@
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name <rbind.out>).
-#' which is written to the serverside. Unlike the {ds.cbind.o} function
+#' which is written to the serverside. Unlike the {ds.cbind} function
 #' even if one of the objects specified in the <x> argument is a data.frame
 #' the output object will always be of class matrix
 #' As well as writing the output object as <newobj>
@@ -65,17 +65,17 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.cbind.o() also returns any studysideMessages that can explain the error in creating
+#' ds.cbind() also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("<newobj>") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("<newobj>") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("<newobj>")
+#' without problems no studysideMessage will have been saved and ds.message("<newobj>")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.rbind.o<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='rbind.out',datasources=NULL,notify.of.progress=FALSE){
+ds.rbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='rbind.out',datasources=NULL,notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -201,7 +201,7 @@ if(num.duplicates[m]!="0")
  ############################### 
  # call the server side function
  
-	calltext <- call("rbindDS.o", x.names.transmit,colnames.transmit)	
+	calltext <- call("rbindDS", x.names.transmit,colnames.transmit)	
  
 
 	opal::datashield.assign(datasources, newobj, calltext)
@@ -217,7 +217,7 @@ test.obj.name<-newobj																					 	#
 																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -260,7 +260,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -286,4 +286,4 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.rbind.o
+#ds.rbind

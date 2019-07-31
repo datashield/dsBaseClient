@@ -1,10 +1,10 @@
-#' @title ds.recodeValues.o calling recodeValuesDS1.o and recodeValuesDS2.o
+#' @title ds.recodeValues calling recodeValuesDS1 and recodeValuesDS2
 #' @description Takes specified values of elements in a vector and converts
 #' them to a matched set of alternative specified values
 #' @details Recodes individual values with new individual values. This can
 #' apply to numeric values, character values and NAs. One particular use of
-#' ds.recodeValues.o is to convert NAs to an explicit value or vice-versa.
-#' Please see ds.Boole.o to recode a RANGE of values with a new value. Please
+#' ds.recodeValues is to convert NAs to an explicit value or vice-versa.
+#' Please see ds.Boole to recode a RANGE of values with a new value. Please
 #' note that if you wish to do no more than replace NAs with a new code (e.g. 999)
 #' there is a restriction imposed by the fact that if the <values2replace> argument
 #' is specified as c(NA) or NA and the <new.values.vector> argument as c(999) the
@@ -49,13 +49,13 @@
 #' the recoded output vector will also be numeric. Otherwise, it will be coerced
 #' to character format.
 #' @param newobj This a character string providing a name for the recoded vector
-#' representing the primary output of the ds.recodeValues.o() function.
+#' representing the primary output of the ds.recodeValues() function.
 #' This defaults to '<var.name>_recoded' if no name is specified
-#' where <var.name> is the first argument of ds.recodeValues.o()
+#' where <var.name> is the first argument of ds.recodeValues()
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -71,16 +71,16 @@
 #' the function returns a range of possible studysideMessages that can explain
 #' the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("newobj") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("newobj")
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export 
 
-ds.recodeValues.o<-function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, force.output.format="no", newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.recodeValues<-function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, force.output.format="no", newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
    # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -117,7 +117,7 @@ ds.recodeValues.o<-function(var.name=NULL, values2replace.vector=NULL, new.value
 
 if(length(values2replace.vector)==1&&is.na(values2replace.vector)){
 stop("The <values2replace.vector> consists solely of one element which is NA. Please see details
-in the help information for ds.recodeValues.o to find an easy work around that circumvents
+in the help information for ds.recodeValues to find an easy work around that circumvents
 the coding restriction that prohibits this particular way of specifying this recoding request") 
   }
 
@@ -143,10 +143,10 @@ the coding restriction that prohibits this particular way of specifying this rec
 	 if(is.null(newobj)){newobj<-paste0(var.name,"_recoded")}
 
  
-    calltext1 <- call("recodeValuesDS1.o", var.name, values2replace.transmit, new.values.transmit)
+    calltext1 <- call("recodeValuesDS1", var.name, values2replace.transmit, new.values.transmit)
     return.warning.message<-opal::datashield.aggregate(datasources, calltext1)
 	
-    calltext2 <- call("recodeValuesDS2.o", var.name, values2replace.transmit, new.values.transmit,numeric.output.format.possible,force.output.format,v2r.numeric)
+    calltext2 <- call("recodeValuesDS2", var.name, values2replace.transmit, new.values.transmit,numeric.output.format.possible,force.output.format,v2r.numeric)
     opal::datashield.assign(datasources, newobj, calltext2)
 
     numsources<-length(datasources)
@@ -174,7 +174,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -217,7 +217,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -243,5 +243,5 @@ if(!no.errors){																								#
 #############################################################################################################
 	
 }
-#ds.recodeValues.o
+#ds.recodeValues
 

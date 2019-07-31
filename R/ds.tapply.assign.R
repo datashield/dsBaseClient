@@ -1,4 +1,4 @@
-#' @title ds.tapply.assign.o calling tapplyDS.assign.o
+#' @title ds.tapply.assign calling tapplyDS.assign
 #' @description Apply one of a selected range of functions to summarize an
 #' outcome variable over one or more indexing factors and write the resultant
 #' summary as an object on the serverside
@@ -7,18 +7,18 @@
 #' a selected range of functions to each cell of a ragged array, that is to each (non-empty)
 #' group of values given by each unique combination of a series of indexing factors. The native R
 #' {tapply} function is very flexible and the range of allowable summarizing functions
-#' is much more restrictive for the DataSHIELD ds.tapply.o function. This is to protect
+#' is much more restrictive for the DataSHIELD ds.tapply function. This is to protect
 #' against disclosure risk. At present the allowable functions are: N or length (the number
 #' of (non-missing) observations in the group defined by each combination of indexing
 #' factors; mean; SD (standard deviation); sum; quantile (with quantile probabilities set at
 #' c(0.05,0.1,0.2,0.25,0.3,0.33,0.4,0.5,0.6,0.67,0.7,0.75,0.8,0.9,0.95). Should other functions
 #' be required in the future then, provided they are non-disclosive, the DataSHIELD development
-#' team could work on them if requested. As an assign function {tapplyDS.assign.o}
+#' team could work on them if requested. As an assign function {tapplyDS.assign}
 #' writes the summarized values to the serverside. Because unlike the aggregate function
-#' {tapplyDS.o}, {tapply.assign.o} returns no results to the clientside, it is fundamentally
+#' {tapplyDS}, {tapply.assign} returns no results to the clientside, it is fundamentally
 #' non-disclosive and the number of observations in each unique indexing group does
 #' not need to be evaluated against nfilter.tab (the minimum allowable non-zero count
-#' in a contingency table). This means that tapplyDS.assign.o can be used, for example, 
+#' in a contingency table). This means that tapplyDS.assign can be used, for example, 
 #' to break a dataset down into a small number of values for each individual and then to flag up
 #' which individuals have got at least one positive value for a binary outcome variable.
 #' This will almost inevitably generate some indexing groups smaller than nfilter.tab but
@@ -26,8 +26,8 @@
 #' the clientside there is no overt disclosure risk. The native R
 #' tapply function has optional arguments such as na.rm=TRUE for FUN = mean which will
 #' exclude any NAs from the outcome variable to be summarized. However, in order to keep
-#' DataSHIELD's {ds.tapply.o} and {ds.tapply.assign.o} functions straightforward, the
-#' serverside functions {tapplyDS.o} and {tapplyDS.assign.o} both start by stripping
+#' DataSHIELD's {ds.tapply} and {ds.tapply.assign} functions straightforward, the
+#' serverside functions {tapplyDS} and {tapplyDS.assign} both start by stripping
 #' any observations which have missing (NA) values in either the outcome variable or in
 #' any one of the indexing factors. In consequence, the resultant analyses are always based
 #' on complete.cases.   
@@ -38,9 +38,9 @@
 #' For example: INDEX.names="factor.name" or
 #' INDEX.names=c("factor1.name", "factor2.name", "factor3.name"). The native R tapply function
 #' can coerce non-factor vectors into factors. However, this does not always work when
-#' using the DataSHIELD ds.tapply.o/ds.tapply.assign.o functions so if you are concerned that
+#' using the DataSHIELD ds.tapply/ds.tapply.assign functions so if you are concerned that
 #' an indexing vector is not being treated correctly as a factor,
-#' please first declare it explicitly as a factor using {ds.asFactor.o}   
+#' please first declare it explicitly as a factor using {ds.asFactor}   
 #' @param FUN.name, the name of one of the allowable summarizing functions to be applied
 #' specified in inverted commas. The present version of the
 #' function allows the user to choose one of five summarizing functions. These are
@@ -51,18 +51,18 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
 #' If you wish to specify the first and third opal servers in a set you specify:
 #' e.g. datasources=opals.em[c(1,3)]
-#' @return an array of the summarized values created by the tapplyDS.assign.o function.
+#' @return an array of the summarized values created by the tapplyDS.assign function.
 #' This array is written as a newobj onto the serverside. It has the same number of
 #' dimensions as INDEX. 
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
-ds.tapply.assign.o <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj="tapply.out",datasources=NULL){
+ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj="tapply.out",datasources=NULL){
 
   ###datasources
   # if no opal login details are provided look for 'opal' objects in the environment
@@ -104,7 +104,7 @@ ds.tapply.assign.o <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, new
   }
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION
-  calltext <- call("tapplyDS.assign.o", X.name, INDEX.names.transmit, FUN.name)
+  calltext <- call("tapplyDS.assign", X.name, INDEX.names.transmit, FUN.name)
  
   opal::datashield.assign(datasources, newobj, calltext)
 
@@ -116,7 +116,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -159,7 +159,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -187,5 +187,5 @@ if(!no.errors){																								#
 
   
 }
-#ds.tapply.assign.o
+#ds.tapply.assign
 

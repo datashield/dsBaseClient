@@ -1,5 +1,5 @@
 #' 
-#' @title ds.var.o calling aggregate function varDS.o
+#' @title ds.var calling aggregate function varDS
 #' @description Computes the variance of a given vector
 #' This function is similar to the R function \code{var}.
 #' @details It is a wrapper for the server side function. 
@@ -47,7 +47,7 @@
 #' 
 #' }
 #' 
-ds.var.o <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
+ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   
   #####################################################################################
   #MODULE 1: IDENTIFY DEFAULT OPALS  											                        		#
@@ -104,7 +104,7 @@ ds.var.o <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
   
-  cally <- paste0("varDS.o(", x, ")")
+  cally <- paste0("varDS(", x, ")")
   ss.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   Nstudies <- length(datasources)
@@ -164,4 +164,4 @@ ds.var.o <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   }
  
 }
-#ds.var.o
+#ds.var

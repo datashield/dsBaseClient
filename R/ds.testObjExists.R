@@ -5,7 +5,7 @@
 #' @details The data object to search for is defined as a character string to the argument test.obj.name. The set of
 #' data servers to search on is provided as the argument datasources. Close copies of the code in this function
 #' are embedded into other functions that create an object and you then wish to test whether it has successfully
-#' been created e.g. ds.make.o, ds.asFactor.o
+#' been created e.g. ds.make, ds.asFactor
 #' @param test.obj.name a character string specifying the name of the object to search for e.g. "TID.f" 
 #' @param datasources specifies the particular opal object(s) to use, if it is not specified
 #' the default set of opals will be used. The default opals are always called default.opals.
@@ -25,7 +25,7 @@
 #' that even if the tested object exists as a name in study 3 it does not have a valid class (so contains no data etc)
 #' @author Burton PR
 #' @export
-ds.testObjExists.o <- function(test.obj.name=NULL, datasources=NULL){
+ds.testObjExists <- function(test.obj.name=NULL, datasources=NULL){
    
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -45,7 +45,7 @@ ds.testObjExists.o <- function(test.obj.name=NULL, datasources=NULL){
 test.obj.name<-test.obj.name                                                                             #
                                                                                                          #
 # CALL SEVERSIDE FUNCTION                                                                                #
-calltext <- call("testObjExistsDS.o", test.obj.name)													 #
+calltext <- call("testObjExistsDS", test.obj.name)													 #
 																										 #
 object.info<-opal::datashield.aggregate(datasources, calltext)												 #
 																										 #
@@ -119,6 +119,6 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 #
   }
 
 }
-#ds.testObjExists.o
+#ds.testObjExists
 
 

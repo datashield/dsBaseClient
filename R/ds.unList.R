@@ -1,4 +1,4 @@
-#' @title ds.unList.o calling aggregate function unListDS.o
+#' @title ds.unList calling aggregate function unListDS
 #' @description this function is based on the native R function {unlist}
 #' which coerces an object of list class back to the class it was when
 #' it was coerced into a list
@@ -12,7 +12,7 @@
 #' on the class of the original object some information may be lost. Thus,
 #' for example, when a data.frame is coerced to a list information that
 #' underpins the structure of the data.frame is lost and when it is
-#' subject to the function {ds.unlist.o} it is returned to a simpler
+#' subject to the function {ds.unlist} it is returned to a simpler
 #' class than data.frame eg 'numeric' (basically a numeric vector
 #' containing all of the original data in all variables in the data.frame
 #' but with no structure). If you wish to reconstruct the original
@@ -28,7 +28,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If an explicit <datasources> argument is to be set,
+#' {ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
 #' it should be specified without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
@@ -44,7 +44,7 @@
 #' list was formed - see details
 #' @author Amadou Gaye, Paul Burton, for DataSHIELD Development Team
 #' @export
-ds.unList.o <- function(x.name=NULL, recursive=TRUE, newobj=NULL, datasources=NULL){
+ds.unList <- function(x.name=NULL, recursive=TRUE, newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -65,7 +65,7 @@ ds.unList.o <- function(x.name=NULL, recursive=TRUE, newobj=NULL, datasources=NU
   
      # call the server side function that does the job
 
-	calltext <- call("unListDS.o", x.name, recursive, newobj)
+	calltext <- call("unListDS", x.name, recursive, newobj)
 
 	out.message<-opal::datashield.aggregate(datasources, calltext)
 #	print(out.message)
@@ -73,4 +73,4 @@ ds.unList.o <- function(x.name=NULL, recursive=TRUE, newobj=NULL, datasources=NU
 #warning message when newobj is a list
 
 }
-# ds.unList.o
+# ds.unList

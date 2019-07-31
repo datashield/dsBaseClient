@@ -1,8 +1,8 @@
-#' @title ds.rm.o calling aggregate function rmDS.o
+#' @title ds.rm calling aggregate function rmDS
 #' @description deletes an R object on the serverside  
 #' @details this clientside function calls a serverside function
 #' based on the rm() function in native R. This is the
-#' aggregate function rmDS.o. The fact that it is an aggregate
+#' aggregate function rmDS. The fact that it is an aggregate
 #' function maybe surprising because it modifies an object
 #' on the serverside, and would therefore be expected to be an assign function.
 #' However, as an assign function the last step in running it
@@ -15,7 +15,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -34,7 +34,7 @@
 #' '25' is the current setting of the R_Option value of nfilter.stringShort.
 #' @author Paul Burton for DataSHIELD Development Team 
 #' @export
-ds.rm.o<-function(x.name=NULL, datasources=NULL){
+ds.rm<-function(x.name=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -52,14 +52,14 @@ ds.rm.o<-function(x.name=NULL, datasources=NULL){
   # call the server side function
   #PLEASE NOTE THIS IS - SURPRISINGLY - AN AGGREGATE FUNCTION: see details in header
   
-	calltext <- call("rmDS.o", x.name.transmit)
+	calltext <- call("rmDS", x.name.transmit)
 
 	output = opal::datashield.aggregate(datasources, calltext)
   
   return(output)
 }
 
-#ds.rm.o
+#ds.rm
 
 
 

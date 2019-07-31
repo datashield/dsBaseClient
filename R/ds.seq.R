@@ -1,5 +1,5 @@
-#' @title ds.seq.o calling seqDS.o
-#' @description ds.seq.o calling assign function seqDS.o
+#' @title ds.seq calling seqDS
+#' @description ds.seq calling assign function seqDS
 #' @details Calls an assign function that uses the native R function seq() to create
 #' any one of a flexible range of sequence vectors that can then be used to help
 #' manage and analyse data. As it is an assign function the resultant vector is
@@ -36,7 +36,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -49,17 +49,17 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' {ds.seq.o()} also returns any studysideMessages that can explain the error in creating
+#' {ds.seq()} also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("<newobj>") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("<newobj>") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("<newobj>")
+#' without problems no studysideMessage will have been saved and ds.message("<newobj>")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.seq.o<-function(FROM.value.char = "1", BY.value.char = "1", LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
+ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
                    newobj="newObj", datasources=NULL) {
 
 
@@ -117,7 +117,7 @@ if(is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.name)){
 
 
 # CALL THE PRIMARY SERVER SIDE FUNCTION
-  calltext <- call("seqDS.o", FROM.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
+  calltext <- call("seqDS", FROM.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
  opal::datashield.assign(datasources, newobj, calltext)
  
 
@@ -131,7 +131,7 @@ test.obj.name<-newobj																					 	#
 																											#																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -174,7 +174,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -200,5 +200,5 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.seq.o
+#ds.seq
 

@@ -1,6 +1,6 @@
-#' @title ds.setSeed.o calling setSeedDS.o
+#' @title ds.setSeed calling setSeedDS
 #' @description Primes the pseudorandom number generator in a data source 
-#' @details ds.setSeed.o calls the aggregate function setSeedDS.o in each
+#' @details ds.setSeed calls the aggregate function setSeedDS in each
 #' data source, passing it a single integer value 
 #' which acts as a trigger value in that source to generate an instance of
 #' the full pseudorandom number seed that is a vector of integers
@@ -8,7 +8,7 @@
 #' pseudorandom number is generated, the current .Random.seed vector
 #' provides a deterministic but very close to behaviourally random way to generate
 #' that pseudorandom number and to completely regenerate the random seed vector.
-#' Unusually, because setSeedDS.o is effectively the same as the set.seed() function
+#' Unusually, because setSeedDS is effectively the same as the set.seed() function
 #' in native R, although it writes a new object to the serverside (i.e. the integer
 #' vector of length 626 known as .Random.seed [see info for the
 #' argument <seed.as.integer>]) because this is done directly via calling a native
@@ -16,7 +16,7 @@
 #' @param seed.as.integer a numeric scalar or a NULL which primes the random seed
 #' in each data source. The current limitation on the value of the integer that
 #' can be specified is -2147483647 up to +2147483647 (this is +/- ([2^31]-1)).
-#' Because you only specify one integer in the call to ds.setSeed.o 
+#' Because you only specify one integer in the call to ds.setSeed 
 #' (i.e. the value for the <seed.as.integer> argument) that value will be 
 #' used as the priming trigger value in all of the specified
 #' data sources and so the pseudorandom number generators will all start from
@@ -26,14 +26,14 @@
 #' you can specify a different priming value in each source by using the
 #' the <datasources> argument to generate the random number vectors one source
 #' at a time with a different integer in each case. Furthermore, if you use any one
-#' of DataSHIELD's pseudorandom number generating functions (ds.rNorm.o, ds.rUnif.o,
-#' ds.rPois.o or ds.rBinom.o) the function call itself automatically uses the single
+#' of DataSHIELD's pseudorandom number generating functions (ds.rNorm, ds.rUnif,
+#' ds.rPois or ds.rBinom) the function call itself automatically uses the single
 #' integer priming seed you specify to generate different integers in each source.
 #' Thus, by default, when you are generating pseudorandom number vectors in a series
 #' of different data sources using the standard DataSHIELD functions the vectors
 #' will be different in each source. Given the inbuilt choice of arguments
-#' for set.seed() that are fixed in DataSHIELD's setSeedDS.o function, if a given
-#' priming integer is specified as the argument <seed.as.integer> in ds.setSeed.o
+#' for set.seed() that are fixed in DataSHIELD's setSeedDS function, if a given
+#' priming integer is specified as the argument <seed.as.integer> in ds.setSeed
 #' the .Random.seed vector that will be generated will be the same on any
 #' data source internationally (regardless of the flavour of R). Please note
 #' that the first two elements of .Random.seed do not vary meaningfully,
@@ -44,7 +44,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -58,7 +58,7 @@
 #' that is .Random.seed itself.  
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.setSeed.o<-function(seed.as.integer=NULL,datasources=NULL){
+ds.setSeed<-function(seed.as.integer=NULL,datasources=NULL){
 
 ##################################################################################
 # if no opal login details are provided look for 'opal' objects in the environment
@@ -85,12 +85,12 @@ mess1<-("ERROR terminated: seed.as.integer must be set as an integer [numeric] o
 return(mess1)
 }
 
-  calltext <- paste0("setSeedDS.o(", seed.as.text, ")")
+  calltext <- paste0("setSeedDS(", seed.as.text, ")")
   ssDS.obj <- opal::datashield.aggregate(datasources, as.symbol(calltext))
 
   return.message<-paste0("Trigger integer to prime random seed = ",seed.as.text)
   
   return(list(status.message=return.message,seed.as.set=ssDS.obj))
 }
-# ds.setSeed.o
+# ds.setSeed
 

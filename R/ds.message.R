@@ -7,7 +7,7 @@
 #' functions because they are designed specifically to write objects to the
 #' server-side and to return no meaningful information to the client-side.
 #' Otherwise, users may be able to use assign functions to return disclosive
-#' output to the client-side. ds.message.o calls messageDS.o which looks
+#' output to the client-side. ds.message calls messageDS which looks
 #' specifically for an object called $serversideMessage in a designated list on
 #' the server-side. Server-side functions from which error messages are to be made
 #' available, are designed to be able to write the designated error message to
@@ -18,19 +18,19 @@
 #' $studysideMessage is a string that cannot exceed a length of nfilter.string
 #' a default of 80 characters.  
 #' @param message.obj.name is a character string, containing the name of the list containing the
-#' message. As an example, the server-side function lexisDS2.o enacts the
+#' message. As an example, the server-side function lexisDS2 enacts the
 #' command:    datashield.assign(datasources, "messageobj", calltext2)
 #' As a standard assign function its output is directed to the list object named
 #' (in this case) "messageobj". If a studysideMessage is written by DataSHIELD
 #' it can be found as messageobj$studysideMessage. To read it, you have to 
-#' issue the client-side command: ds.message.o('messageobj'). This tells DataSHIELD
+#' issue the client-side command: ds.message('messageobj'). This tells DataSHIELD
 #' to look for the server-side object 'messageobj' and if it finds it, to return any
 #' text held in messageobj$studysideMessage. In order to help users to know the name
 #' of the server-side list object to ask for in issueing the command:
-#' ds.message.o('messageobj') developers are asked to include a message such as:
+#' ds.message('messageobj') developers are asked to include a message such as:
 #' Note3<-"IF FUNCTION FAILED ON ONE OR MORE STUDIES WITHOUT EXPLANATION, TYPE [PRECISELY] THE COMMAND:"
-#' Note4<-"ds.message.o('messageobj') FOR MORE ERROR MESSAGES"
-#' These represent two of four notes returned by the client-side function ds.lexis.o at the end
+#' Note4<-"ds.message('messageobj') FOR MORE ERROR MESSAGES"
+#' These represent two of four notes returned by the client-side function ds.lexis at the end
 #' of each call. In combination, these two notes alert the user to the fact that if there is
 #' an error, there may be additional information available in a studysideMessage, and also
 #' tells them how to retrieve that message.
@@ -44,7 +44,7 @@
 #' DataSHIELD into $studysideMessage.
 #' @author Burton PR
 #' @export
-ds.message.o<-function(message.obj.name=NULL,datasources=NULL){
+ds.message<-function(message.obj.name=NULL,datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -58,13 +58,13 @@ ds.message.o<-function(message.obj.name=NULL,datasources=NULL){
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION
-  calltext <- call("messageDS.o", message.obj.name)
+  calltext <- call("messageDS", message.obj.name)
   output.message<-opal::datashield.aggregate(datasources, calltext)
   
 #RETURN COMPLETION INFORMATION TO .GlobalEnv
     message("\nMESSAGES FROM STUDYSIDE SERVERS ARE:-\n")
     return(Message=output.message)
 }
-#ds.message.o
+#ds.message
 
 

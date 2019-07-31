@@ -33,7 +33,7 @@
 #' @export
 #' 
 
-ds.setDefaultOpals.o<-function(opal.name){
+ds.setDefaultOpals<-function(opal.name){
 
     if(is.null(opal.name))stop(" \n\n Please specify a named Opal using the following call syntax:\n ds.setDefaultOpals(opal.name='name of opal in inverted commas')", call.=FALSE)
 

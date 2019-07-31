@@ -1,5 +1,5 @@
 #' 
-#' @title ds.make.o
+#' @title ds.make
 #' @description Makes (calculates) a new object in the R environment on the
 #' server side. ds.make is equivalent to ds.assign, but runs slightly faster.
 #' It defines a datashield object via an allowed function or an arithmetic
@@ -12,10 +12,10 @@
 #' existence on the required servers. Please note there are certain modes of failure
 #' where it is reported that the object has been created but it is not there. This obviously
 #' reflects a failure in the processing of some sort and warrants further exploration of the
-#' details of the call to ds.make.o and the variables/objects which it invokes.
-#' TROUBLESHOOTING: please note we have recently identified an error that makes ds.make.o
+#' details of the call to ds.make and the variables/objects which it invokes.
+#' TROUBLESHOOTING: please note we have recently identified an error that makes ds.make
 #' fail and DataSHIELD crash.  The error arises from a call
-#' such as ds.make.o('5.3 + beta*xvar', 'predvals'). This is a typical call you
+#' such as ds.make('5.3 + beta*xvar', 'predvals'). This is a typical call you
 #' may make to get the predicted values from a simple linear regression model where
 #' a y variable is regressed against an x variable (xvar) where the estimated regression
 #' intercept is 5.3 and beta is the estimated regression slope. This call appears to
@@ -30,20 +30,20 @@
 #' a convenient numeric variable with no missing values (typically a numeric
 #' individual ID) let us call it indID equal in length to xvar (xvar may include NAs
 #' but that doesn't matter provided indID is the same total length). Then issue the call
-#' ds.make.o('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
+#' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
 #' in each source equal in length to the indID vector in that source. Then issue
-#' the second call ds.make.o('ONES*5.3','vect5.3') which creates the required
+#' the second call ds.make('ONES*5.3','vect5.3') which creates the required
 #' vector of length equal to xvar with all elements 5.3. Finally, you can
 #' now issue a modified call to reflect what was originally needed:
-#' ds.make.o('vect5.3+beta*xvar', 'predvals'). Alternatively, if you simply
-#' swap the original call around: ds.make.o('(beta*xvar)+5.3', 'predvals')
+#' ds.make('vect5.3+beta*xvar', 'predvals'). Alternatively, if you simply
+#' swap the original call around: ds.make('(beta*xvar)+5.3', 'predvals')
 #' the error seems also to be circumvented. This is presumably because the first element
 #' of the arithmetic function is of length equal to xvar and it then knows to
 #' replicate the 5.3 that many times in the second part of the expression.
 #' The second work-around is obviously easier, but it is worth knowing about the 
 #' first trick because creating a vector of ones of equal length to another vector
 #' can be useful in other settings. Equally the call:
-#' ds.make.o('indID-indID','ZEROS') to create a vector of zeros of that same
+#' ds.make('indID-indID','ZEROS') to create a vector of zeros of that same
 #' length may also be useful.
 #' @param toAssign a character string specifying the function call or the arithmetic expression
 #' that generates the newObject. In general the string should be reasonably simple to avoid blocking by the parser
@@ -69,28 +69,28 @@
 #'
 #' ##EXAMPLE 1
 #' ##CONVERT PROPORTIONS IN prop.rand TO log(odds) IN logodds.rand
-#' #ds.make.o("(prop.rand)/(1-prop.rand)","odds.rand")
-#' #ds.make.o("log(odds.rand)","logodds.rand")
+#' #ds.make("(prop.rand)/(1-prop.rand)","odds.rand")
+#' #ds.make("log(odds.rand)","logodds.rand")
 #' 
 #' 
 #'
 #' ##EXAMPLE 2
 #' ##MISCELLANEOUS ARITHMETIC OPERATORS: ARBITRARY CALCULATION
 #' ##USE DEFAULT NEW OBJECT NAME
-#' #ds.make.o("((age.60+bmi.26)*(noise.56-pm10.16))/3.2")
+#' #ds.make("((age.60+bmi.26)*(noise.56-pm10.16))/3.2")
 #' 
 #' 
 #'
 #' ##EXAMPLE 3
 #' ##MISCELLANEOUS OPERATORS WITHIN FUNCTIONS (female.n is binary 1/0 so female.n2 = female.n
-#' ##and so they cancel out in code for second call to ds.make.o and so that call is
+#' ##and so they cancel out in code for second call to ds.make and so that call is
 #' ##equivalent to copying log.surv to output.test.1)  
-#' #ds.make.o("female.n^2","female.n2")
-#' #ds.make.o("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1") 
-#' #ds.make.o("exp(output.test.1)","output.test")
+#' #ds.make("female.n^2","female.n2")
+#' #ds.make("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1") 
+#' #ds.make("exp(output.test.1)","output.test")
 #' }
 #' 
-ds.make.o<-function(toAssign=NULL, newobj="newObject", datasources=NULL){
+ds.make<-function(toAssign=NULL, newobj="newObject", datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -117,7 +117,7 @@ test.obj.name<-newobj																					 	#
 																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -160,7 +160,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
@@ -187,6 +187,6 @@ if(!no.errors){																								#
 
 }
 
-# ds.make.o  
+# ds.make  
 
   

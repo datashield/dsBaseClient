@@ -62,46 +62,46 @@
 #'   opals <- opal::datashield.login(logins=logindata, assign=TRUE)
 #' 
 #'   # Example 1: generate a scatter plot for each study separately (the default behaviour)
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', type="split")
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', type="split")
 #'
 #'   # Example 2: generate a combined scatter plot with the default deterministic method
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=3,
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=3,
 #'                    method='deterministic')
 #'
 #'   # Example 3: if a variable is of type factor the scatter plot is not created
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CATEGORICAL', y='LD$LAB_GLUC_ADJUSTED')
+#'   ds.scatterPlot(x='LD$PM_BMI_CATEGORICAL', y='LD$LAB_GLUC_ADJUSTED')
 #'
 #'   # Example 4: same as Example 2 but with k=50
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=50,
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=50,
 #'                    method='deterministic', type='combine')
 #'
 #'   # Example 5: same as Example 2 but with k=1740 (here we see that as k increases we have big
 #'                utility loss)
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
 #'                    method='deterministic', type='combine')
 #'
 #'   # Example 6: same as Example 5 but for split analysis
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
 #'                    method='deterministic', type='split')
 #'
 #'   # Example 7: if k is less than the specified threshold then the scatter plot is not created
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=2,
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=2,
 #'                    method='deterministic')
 #'
 #'   # Example 8: generate a combined scatter plot with the probabilistic method
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
 #'                    type='combine')
 #'
 #'   # Example 9: generate a scatter plot with the probabilistic method for each study separately
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
 #'                    type='split')
 #'
 #'   # Example 10: same as Example 9 but with higher level of noise
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
 #'                    noise=0.5, type='split')
 #'
 #'   # Example 11: if 'noise' is less than the specified threshold then the scatter plot is not created
-#'   ds.scatterPlot.o(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
+#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
 #'                    noise=0.1, type='split')
 #'
 #'   # clear the Datashield R sessions and logout
@@ -109,7 +109,7 @@
 #'
 #' }
 #'
-ds.scatterPlot.o <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", datasources=NULL){
+ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", datasources=NULL){
 
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(x)){
@@ -173,7 +173,7 @@ ds.scatterPlot.o <- function (x=NULL, y=NULL, method='deterministic', k=3, noise
   if(method=='probabilistic'){ method.indicator <- 2 }
 
   # call the server-side function that generates the x and y coordinates of the centroids
-  call <- paste0("scatterPlotDS.o(", x, ",", y, ",", method.indicator, ",", k, ",", noise, ")")
+  call <- paste0("scatterPlotDS(", x, ",", y, ",", method.indicator, ",", k, ",", noise, ")")
   output <- opal::datashield.aggregate(datasources, call)
 
   pooled.points.x <- c()
@@ -215,4 +215,4 @@ ds.scatterPlot.o <- function (x=NULL, y=NULL, method='deterministic', k=3, noise
     }
   }
 }
-#ds.scatterPlot.o.R
+#ds.scatterPlot

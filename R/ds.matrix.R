@@ -52,7 +52,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -65,11 +65,11 @@
 #' a disclosure trap was tripped and creation of the full output object was blocked -
 #' ds.matrix also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message.o}
-#' function. If you type ds.message.o("newobj") it will print out the relevant
+#' see the relevant studysideMessages at a later date you can use the {ds.message}
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message.o("newobj")
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
@@ -90,13 +90,13 @@
 #'           nrows.scalar=clientside.input.nrows.scalar,ncols.scalar=3,
 #'           newobj="cs.block.input.nrows")
 #' 
-#' ds.rUnif.o(samp.size=1,min=0.5,max=10.5,newobj="block.scalar",seed.as.integer=761728,
+#' ds.rUnif(samp.size=1,min=0.5,max=10.5,newobj="block.scalar",seed.as.integer=761728,
 #'            force.output.to.k.decimal.places = 0)
 #' 
 #' ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
 #'           newobj="ss.block")
 #' 
-#' ds.make.o("log(block.scalar*(-1))","block.scalar.NA")
+#' ds.make("log(block.scalar*(-1))","block.scalar.NA")
 #' 
 #' ds.matrix("block.scalar.NA",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
 #'           newobj="ss.block.NA")
@@ -104,17 +104,17 @@
 #' ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar="block.scalar",
 #'           ncols.scalar="block.scalar",newobj="ss.block.square")
 #' 
-#' ds.rUnif.o(samp.size=45,min=-10.5,max=10.5,newobj="ss.vector",seed.as.integer=8321,
+#' ds.rUnif(samp.size=45,min=-10.5,max=10.5,newobj="ss.vector",seed.as.integer=8321,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block")
 #' 
-#' ds.rUnif.o(samp.size=5,min=-10.5,max=10.5,newobj="ss.vector.5",seed.as.integer=551625,
+#' ds.rUnif(samp.size=5,min=-10.5,max=10.5,newobj="ss.vector.5",seed.as.integer=551625,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector.5",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.5")
 #' 
-#' ds.rUnif.o(samp.size=9,min=-10.5,max=10.5,newobj="ss.vector.9",seed.as.integer=5575,
+#' ds.rUnif(samp.size=9,min=-10.5,max=10.5,newobj="ss.vector.9",seed.as.integer=5575,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
 #'           newobj="sv.block.9")
@@ -122,13 +122,13 @@
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.9.ragged")
 #' 
-#' ds.rUnif.o(samp.size=12,min=-10.5,max=10.5,newobj="ss.vector.12",seed.as.integer=778172,
+#' ds.rUnif(samp.size=12,min=-10.5,max=10.5,newobj="ss.vector.12",seed.as.integer=778172,
 #'            force.output.to.k.decimal.places = 0)
 #' 
 #' ds.matrix("ss.vector.12",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.12.ragged")
 #' 
-#' ds.recodeValues.o("ss.vector", c(-10),c(NA),newobj="ss.vector.NA")
+#' ds.recodeValues("ss.vector", c(-10),c(NA),newobj="ss.vector.NA")
 #' ds.matrix("ss.vector.NA",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.NA")
 #' 
@@ -224,7 +224,7 @@ test.obj.name<-newobj																					 	#
 																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS.o", test.obj.name)													 	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
 object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
 																											#
@@ -267,7 +267,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	}																										#
 																											#
-	calltext <- call("messageDS.o", test.obj.name)															#
+	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
