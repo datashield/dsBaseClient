@@ -93,6 +93,7 @@ jobs:
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
       git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
       cd $(repoName)
+      #sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
       sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
       cd ../
     displayName: 'Code coverage'
