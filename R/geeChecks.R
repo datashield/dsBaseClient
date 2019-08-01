@@ -15,7 +15,7 @@
 geeChecks <- function(formula, data, datasources){
   
   cally <- call('complete.cases', as.symbol(data))
-  datashield.assign(datasources, 'Dcomplete', cally)
+  opal::datashield.assign(datasources, 'Dcomplete', cally)
   
   # get names of the studies 
   stdnames <- names(datasources)
@@ -29,19 +29,19 @@ geeChecks <- function(formula, data, datasources){
   variables <- unlist(strsplit(formulatext, split="|", fixed=TRUE))
   
   # checks
-  colsD <- datashield.aggregate(datasources, paste0("colnames(", data, ")"))[[1]]
+  colsD <- opal::datashield.aggregate(datasources, paste0("colnames(", data, ")"))[[1]]
   for(i in 1:length(variables)){
     if(is.na(as.numeric(variables[i], options(warn=-1)))){
       message(paste0("    ", variables[i], "..."))
       for(j in 1: length(datasources)){
-        lengthDcomplete <- datashield.aggregate(datasources[j],paste0("length(Dcomplete)"))[[1]]
-        nrowD <- datashield.aggregate(datasources[j], paste0("dim(", data, ")"))[[1]][1]
+        lengthDcomplete <- opal::datashield.aggregate(datasources[j],paste0("length(Dcomplete)"))[[1]]
+        nrowD <- opal::datashield.aggregate(datasources[j], paste0("dim(", data, ")"))[[1]][1]
         if(lengthDcomplete != nrowD){
           stop(paste0("Missing value(s) in ",data,  " in ", stdnames[j] , ". Only complete datasets are allowed in GEE analysis. TIP: use 'ds.subset' to obtain a complete subset of ", data), call.=FALSE)
         }else{
           inputterms <- unlist(strsplit(deparse(variables[[i]]), "\\$", perl=TRUE))
           if(length(inputterms) > 1){
-            if(!(inputerms[2] %in% colsD)){
+            if(!(inputterms[2] %in% colsD)){
               stop("The variable ", as.character(variables[[i]]),  " is not in the dataset ", data, " in ", stdnames[j], call.=FALSE)
             }
           }else{
