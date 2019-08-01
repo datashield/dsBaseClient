@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("ds.table1d::smk")
+context("ds.table1D::smk")
 
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_smk_datasets.R")
