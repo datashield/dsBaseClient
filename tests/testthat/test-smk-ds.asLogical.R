@@ -13,30 +13,30 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asCharacter:smk")
+# context("dsBetaTestClient::ds.asLogical::smk")
 
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_smk_datasets.R")
 
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.smk.dataset.sim(list("GENDER"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.asCharacter::smk simple test")
-context("ds.asCharacter::smk::simple test")
+# context("dsBetaTestClient::ds.asLogical::smk simple test")
+context("ds.asLogical::smk::simple test")
 
 test_that("simple test", {
-    res <- ds.asCharacter("D$LAB_TSC")
+    res <- ds.asLogical("D$GENDER")
 
     expect_equal(length(res), 2)
-    expect_equal(res$isbject.created, "A data object <D$LAB_TSC.char> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$LAB_TSC.char> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <D$GENDER.logic> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<D$GENDER.logic> appears valid in all sources")
 })
 
 #
 # Done
 #
 
-# context("dsBetaTestClient::ds.asCharacter 1::smk done")
+# context("dsBetaTestClient::ds.asLogical 1::smk done")
