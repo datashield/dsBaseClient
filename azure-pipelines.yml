@@ -58,11 +58,10 @@ jobs:
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
       sudo R -q -e "install.packages('devtools', dependencies=TRUE)"
       sudo R -q -e "install.packages('metafor', dependencies=TRUE)"
+      sudo R -q -e "install.packages('fields', dependencies=TRUE)"
       sudo R -q -e "install.packages('covr', dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
-      # Shoundnt need this anymore.
-      #sudo R -q -e "library('devtools'); library('opal'); library('opaladmin'); opals <- opal.login(username='administrator', password='datashield_test&', url='http://127.0.0.1:8080'); opaladmin::dsadmin.install_package(opal=opals,pkg='dsBetaTest',githubusername='datashield',ref='master'); datashield.logout(opals)"
     displayName: 'Install R client'
 
   - bash: |
@@ -98,7 +97,6 @@ jobs:
       cd ../
     displayName: 'Code coverage'
     condition: always()
-
 
   - bash: |
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
