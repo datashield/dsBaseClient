@@ -6,6 +6,7 @@
 source("connection_to_datasets/init_local_settings.R")
 init.ip.address()
 ds.test_env <- new.env()
+  ds.test_env$tolerance = 10^-6
 
   ds.test_env$contexts <- c('opal','dsi','dslite','continuous','coverage')  
 
