@@ -17,9 +17,9 @@ lexisHelper1 <-  function(datasources, exitTime){
   
   # get the global mean
   cally <- paste0("meanDS(", exitTime, ")")
-  mean.local <- datashield.aggregate(datasources, as.symbol(cally))
+  mean.local <- opal::datashield.aggregate(datasources, as.symbol(cally))
   cally <- paste0("NROW(", exitTime, ")")
-  length.local <- datashield.aggregate(datasources, cally)
+  length.local <- opal::datashield.aggregate(datasources, cally)
   length.total = 0
   sum.weighted = 0
   mean.global  = NA
