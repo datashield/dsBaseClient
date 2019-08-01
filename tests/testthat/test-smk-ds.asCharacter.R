@@ -35,7 +35,7 @@ test_that("asCharacter_exists", {
 context("ds.asCharacter::smk::no table or newobj")
 ds.asCharacter(x='D$GENDER')
 res <- ds.exists('GENDER_char')
-test_that("defualt_Character_exists", {
+test_that("default_Character_exists", {
     expect_true(res$sim1)
     expect_true(res$sim2)
     expect_true(res$sim3)
