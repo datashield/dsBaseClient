@@ -28,7 +28,7 @@ connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
 context("ds.dataFrameSort::smk::create a sorted dataframe")
 test_that("dataFrameSort_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataFrame(x=myvectors, newobj="unsorted_df")
+    ds.dataframe(x=myvectors, newobj="unsorted_df")
 
     res <- ds.dataFrameSort(df.name="unsorted_df", sort.key.name="D$LAB_TSC", newobj="sorted_df")
 

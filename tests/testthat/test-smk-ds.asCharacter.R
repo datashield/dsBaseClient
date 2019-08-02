@@ -31,7 +31,7 @@ test_that("simple test", {
     res <- ds.asCharacter("D$LAB_TSC")
 
     expect_equal(length(res), 2)
-    expect_equal(res$isbject.created, "A data object <D$LAB_TSC.char> has been created in all specified data sources")
+    expect_equal(res$is.object.created, "A data object <D$LAB_TSC.char> has been created in all specified data sources")
     expect_equal(res$validity.check, "<D$LAB_TSC.char> appears valid in all sources")
 })
 

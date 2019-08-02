@@ -108,7 +108,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
       if(validity){
         l <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
         categories <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('levels(', x, ')' )))[[1]]
-        freq <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][1]
+        freq <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l, 'categories'=categories)
         for(j in 1:length(categories)){
           stdsummary[[3+j]] <- freq[[1]][1,j]
@@ -157,7 +157,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
         l <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
-        freq <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('table1dDS(', x, ')' )))[[1]][1]
+        freq <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l)
         for(j in 1:length(2)){
           stdsummary[[2+j]] <- freq[[1]][1,j]

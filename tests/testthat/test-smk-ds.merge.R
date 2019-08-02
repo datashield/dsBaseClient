@@ -29,8 +29,8 @@ context("ds.merge::smk")
 test_that("simple test", {
     spec_vectors_1 <- c('D$LAB_TSC', 'D$LAB_HDL')
     spec_vectors_2 <- c('D$LAB_TSC', 'D$DIS_AMI')
-    ds.dataFrame(x=spec_vectors_1, newobj="test_1_df")
-    ds.dataFrame(x=spec_vectors_2, newobj="test_2_df")
+    ds.dataframe(x=spec_vectors_1, newobj="test_1_df")
+    ds.dataframe(x=spec_vectors_2, newobj="test_2_df")
 
     res <- ds.merge(x.name="test_1_df", y.name="test_2_df", by.x.names="D$LAB_TSC", by.y.names="D$LAB_TSC", newobj="merge_newobj")
 
