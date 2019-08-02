@@ -190,12 +190,12 @@ if(num.duplicates[m]!="0")
   # call the server side function
   #The serverside function dataframeDS calls dsBase::dataframeDS in dsBase repository
   if(is.null(row.names)){
-    cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
+    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
                      'NULL',",", check.rows,",", check.names,
                      ",list(","'",paste(colname.vector,collapse="','"),"'","),"
                      ,stringsAsFactors,",",completeCases,")")
   }else{
-    cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
+    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
                      "list(","'",paste(row.names,collapse="','"),"'","),", 
                      check.rows,",", check.names,
                      ",list(","'",paste(colname.vector,collapse="','"),"'","),"

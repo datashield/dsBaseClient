@@ -33,7 +33,7 @@ studies they are originated from are also mentioned in the text message.}
 }
 \description{
 The function ds.table1D is a client-side wrapper function. 
-It calls the server-side function table1dDS to generate 1-dimensional 
+It calls the server-side function table1DDS to generate 1-dimensional 
 tables for all data sources.
 }
 \details{

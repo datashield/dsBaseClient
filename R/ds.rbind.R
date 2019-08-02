@@ -5,7 +5,7 @@
 #' is combined row by row to produce a matrix
 #' which is written to the serverside. For more details see 
 #' the native R function {rbind}. The handling of argument <x>
-#' is similar to that of functions {ds.cbind} and {ds.dataFrame}
+#' is similar to that of functions {ds.cbind} and {ds.dataframe}
 #' @param x This is a vector of character strings representing the names of the elemental
 #' components to be combined.  For example, the call:
 #' ds.rbind(x=c('matrix.m','matrix.n'),newobj='rbind_output') will
