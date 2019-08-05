@@ -1,7 +1,7 @@
 #' 
 #' @title Generates 1-dimensional contingency tables
 #' @description The function ds.table1D is a client-side wrapper function. 
-#' It calls the server-side function table1dDS to generate 1-dimensional 
+#' It calls the server-side function table1DDS to generate 1-dimensional 
 #' tables for all data sources. 
 #' @details The table returned by the server side function might be valid (non disclosive -  
 #' no table cell have counts between 1 and the minimal number agreed by the data owner and set in opal)
@@ -95,7 +95,7 @@ ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=
   stdnames <- names(datasources)
   
   # call the server side function that produces a 1-dimensional table for each study
-  cally <- paste0("table1dDS(", x, ")")
+  cally <- paste0("table1DDS(", x, ")")
   output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   
   # extract contingency (count) tables and validity information for each study
