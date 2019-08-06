@@ -14,17 +14,13 @@
 #
 
 
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
 # Tests
 #
 
 context("ds.rm::disc")
-
 test_that("justovertest", {
     res1 <- ds.rm(c("12345678910","12345678910"))
 
