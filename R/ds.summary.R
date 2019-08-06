@@ -62,7 +62,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   
   # the input object must be a numeric or an integer vector
   # the input object must be a dataframe or a factor
-  if(typ != 'data.frame' & typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'list' & typ != 'logical' & typ != 'matrix' & typ != 'numeric'){
+  if(!('data.frame' %in% typ) & !('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('list' %in% typ) & !('logical' %in% typ) & !('matrix' %in% typ) & !('numeric' %in% typ)){
     stop("The input object must be a 'data.frame', 'character', factor', 'integer', 'list', 'logical', 'matrix' or 'numeric'.", call.=FALSE)
   }
   
@@ -71,7 +71,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   finalOutput <- list()
                                     
   # now get the summary depending on the type of the input variable
-  if(typ == "data.frame" | typ == "matrix"){
+  if(("data.frame" %in% typ) | ("matrix" %in% typ)){
     for(i in 1:numsources){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
@@ -88,7 +88,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
-  if(typ == "character"){
+  if("character" %in% typ){
     for(i in 1:numsources){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
@@ -102,7 +102,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
-  if(typ == "factor"){
+  if("factor" %in% typ){
     for(i in 1:numsources){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
@@ -122,7 +122,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
-  if(typ == "integer" | typ == "numeric"){
+  if(("integer" %in% typ) | ("numeric" %in% typ)){
     for(i in 1:numsources){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
@@ -138,7 +138,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
-  if(typ == "list"){
+  if("list" %in% typ){
     for(i in 1:numsources){
       l <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
       elts <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('namesDS(', x, ')' )))[[1]]
@@ -152,7 +152,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     names(finalOutput) <- stdnames
   }
   
-  if(typ == "logical"){
+  if("logical" %in% typ){
     for(i in 1:numsources){
       validity <- opal::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
