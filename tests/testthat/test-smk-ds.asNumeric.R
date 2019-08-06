@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asNumeric::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("GENDER"))
+connect.studies.dataset.cnsim(list("GENDER"))
 
 #
 # Tests
 #
 
 context("ds.asNumeric::smk::simple test")
-
 test_that("simple test", {
     res <- ds.asNumeric("D$GENDER")
 
@@ -37,5 +31,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.asNumeric 1::smk done")

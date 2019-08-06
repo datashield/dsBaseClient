@@ -13,20 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.rNorm::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.rNorm:smk simple test")
 context("ds.rNorm::smk::simple test")
-
 test_that("simple test", {
     res <- ds.rNorm(samp.size = 50, mean = 10, sd = 5, newobj = "norm_dist", seed.as.integer = 27, force.output.to.k.decimal.places = 4)
 
@@ -46,5 +39,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.rNorm::smk done")

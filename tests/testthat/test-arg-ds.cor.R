@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.cor:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
@@ -34,5 +29,3 @@ test_that("cor_erros", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.cor:arg done")

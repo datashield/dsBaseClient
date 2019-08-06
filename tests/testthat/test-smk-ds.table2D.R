@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.table2D::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("DIS_DIAB", "GENDER"))
+connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER"))
 
 #
 # Tests
@@ -55,5 +50,3 @@ test_that("simple table2D", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.table2D::smk done")

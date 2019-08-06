@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.look::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
 
 #
 # Tests
@@ -38,5 +33,3 @@ test_that("simple look", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.look::smk done")

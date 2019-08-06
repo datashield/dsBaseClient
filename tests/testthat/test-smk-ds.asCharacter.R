@@ -13,20 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asCharacter:smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.asCharacter::smk simple test")
 context("ds.asCharacter::smk::simple test")
-
 test_that("simple test", {
     res <- ds.asCharacter("D$LAB_TSC")
 
@@ -38,5 +31,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.asCharacter 1::smk done")

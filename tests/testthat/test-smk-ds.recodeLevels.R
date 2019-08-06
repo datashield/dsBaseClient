@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.recodeLevels::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("PM_BMI_CATEGORICAL"))
+connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
 
 #
 # Tests

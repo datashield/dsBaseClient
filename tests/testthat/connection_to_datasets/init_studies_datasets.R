@@ -1,4 +1,4 @@
-init.smk.dataset.sim <- function(variables)
+init.studies.dataset.cnsim <- function(variables)
 {
     if (ds.test_env$secure_login_details)
     {
@@ -17,7 +17,7 @@ init.smk.dataset.sim <- function(variables)
     }
 }
 
-init.smk.dataset.survival <- function(variables)
+init.studies.dataset.survival <- function(variables)
 {
     if (ds.test_env$secure_login_details)
     {
@@ -36,18 +36,18 @@ init.smk.dataset.survival <- function(variables)
     }
 }
 
-connect.smk.dataset.sim <- function(variables)
+connect.studies.dataset.cnsim <- function(variables)
 {
     log.out.data.server()
     source("connection_to_datasets/login_details.R")
-    init.smk.dataset.sim(variables)
+    init.studies.dataset.cnsim(variables)
     log.in.data.server()
 }
 
-connect.smk.dataset.survival <- function(variables)
+connect.studies.dataset.survival <- function(variables)
 {
     log.out.data.server()
     source("connection_to_datasets/login_details.R")
-    init.smk.dataset.survival(variables)
+    init.studies.dataset.survival(variables)
     log.in.data.server()
 }

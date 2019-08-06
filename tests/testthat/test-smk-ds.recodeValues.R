@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.recodeValues::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
 #
 
 context("ds.recodeValues::smk")
-
 test_that("simple test", {
     res <- ds.recodeValues("D$survtime", values2replace.vector=c(0,1), new.values.vector=c(-10,10), newobj="recodevalues_newobj")
 
@@ -44,5 +38,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.recodeValues 1::smk done")

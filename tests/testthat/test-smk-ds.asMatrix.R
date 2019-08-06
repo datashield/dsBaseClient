@@ -13,20 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asMatrix::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("GENDER"))
+connect.studies.dataset.cnsim(list("GENDER"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.asMatrix::smk simple test")
 context("ds.asMatrix::smk::simple test")
-
 test_that("simple test", {
     res <- ds.asMatrix(x.name="D$GENDER")
 
@@ -38,5 +31,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.asMatrix 1::smk done")

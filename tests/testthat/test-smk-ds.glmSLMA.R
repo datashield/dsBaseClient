@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.glmSLMA::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG", "GENDER"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "GENDER"))
 
 #
 # Tests
@@ -151,5 +146,3 @@ test_that("simple glmSLMA, poisson", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.glmSLMA::smk done")

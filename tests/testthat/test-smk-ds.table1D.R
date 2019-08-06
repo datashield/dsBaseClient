@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.table1D::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("DIS_CVA","GENDER"))
+connect.studies.dataset.cnsim(list("DIS_CVA","GENDER"))
 
 #
 # Tests
@@ -31,7 +26,6 @@ test_that("GENDER_normal", {
     expect_equal(res$counts[2], 4611)
     expect_equal(res$counts[3], 9379)
 })
-
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail")
 res <- ds.table1D(x='D$DIS_CVA')
@@ -81,6 +75,7 @@ test_that("table1D_erros", {
     expect_error(ds.table1D(), "Please provide the name of the input vector!", fixed=TRUE)
     expect_error(ds.table1D(x='D$GENDER', type="datashield"), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
 })
+
 #
 # Tear down
 #

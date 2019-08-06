@@ -13,18 +13,11 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.glm::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
 #
-
-# context("dsBetaTestClient::ds.glm:smk::gaussian")
 
 context("ds.glm::smk::gaussian")
 test_that("glm_gaussian", {
@@ -55,5 +48,3 @@ test_that("glm_gaussian", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.glm:smk done")

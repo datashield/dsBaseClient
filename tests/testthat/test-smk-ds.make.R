@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.make::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
 
 #
 # Tests
@@ -36,5 +31,3 @@ test_that("simple make", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.make::smk done")

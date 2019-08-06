@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.matrixInvert::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
@@ -46,5 +41,3 @@ test_that("simplest ds.matrixInvert", {
 #
 # Tear down
 #
-
-# context("dsBetaTestClient::ds.matrixInvert::smk done")

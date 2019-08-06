@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.glm::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
@@ -53,5 +48,3 @@ test_that("glm_gaussian", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.glm::smk done")

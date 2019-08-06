@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.cor::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
 # Tests
@@ -105,5 +100,3 @@ test_that("simple test, split, casewise.complete", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.cor 1::smk done")

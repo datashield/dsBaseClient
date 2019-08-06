@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::checkClass::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("GENDER", "LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+connect.studies.dataset.cnsim(list("GENDER", "LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
 
 #
 # Tests
 #
 
 context("checkClass::smk::simple test")
-
 test_that("simple test", {
     res <- checkClass(ds.test_env$connection.opal, "D$GENDER")
 
@@ -88,5 +82,3 @@ test_that("data.frame test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::checkClass 1::smk done")

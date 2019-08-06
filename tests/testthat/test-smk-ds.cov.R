@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.cov::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
 # Tests
 #
 
 context("ds.cov::smk")
-
 test_that("simple test, split", {
     res <- ds.cov(x="D$survtime", y="D$time.id", type="split")
 
@@ -67,5 +61,3 @@ test_that("simple test, combine", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.cov 1::smk done")

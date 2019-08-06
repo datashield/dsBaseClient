@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.rm::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
 # Tests
 #
 
 context("ds.rm::smk")
-
 test_that("simple test", {
     res1 <- ds.rm("nonexistant_object")
 
@@ -53,5 +47,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.rm::smk done")

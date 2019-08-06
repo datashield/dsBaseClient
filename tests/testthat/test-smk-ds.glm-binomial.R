@@ -13,18 +13,11 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.glm::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("DIS_DIAB", "GENDER", "PM_BMI_CONTINUOUS", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER", "PM_BMI_CONTINUOUS", "LAB_HDL"))
 
 #
 # Tests
 #
-
-# context("dsBetaTestClient::ds.glm:smk::binomial")
 
 context("ds.glm::smk::binomial")
 test_that("glm_binomial", {
@@ -55,5 +48,3 @@ test_that("glm_binomial", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.glm:smk done")

@@ -13,20 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.unList::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("GENDER"))
+connect.studies.dataset.cnsim(list("GENDER"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.unList::smk simple test")
 context("ds.unList::smk::simple test")
-
 test_that("simple test", {
     ds.asList(x.name="D$GENDER")
 
@@ -47,5 +40,3 @@ test_that("simple test", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.unList::smk done")

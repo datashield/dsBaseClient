@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.reShape::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("id", "study.id", "time.id", "cens", "age.60", "female"))
+connect.studies.dataset.survival(list("id", "study.id", "time.id", "cens", "age.60", "female"))
 
 #
 # Tests
@@ -44,5 +39,3 @@ test_that("simplest ds.reShape, wide", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.reShape::smk done")

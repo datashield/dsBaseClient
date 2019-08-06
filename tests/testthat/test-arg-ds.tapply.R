@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.tapply:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "GENDER"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 
 #
 # Tests
@@ -47,5 +42,3 @@ test_that("tapply_erros", {
 #
 # Done
 #
-
-# context("dsBetaTestClient::ds.tapply:arg done")
