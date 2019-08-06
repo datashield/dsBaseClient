@@ -11,12 +11,9 @@ connect.smk.dataset.sim(list("LAB_HDL"))
 # Tests
 #
 
-context("ds.isNA::smk")
-res <- ds.isNA(x='D$LAB_HDL')
-test_that("isNA", {
-    expect_false(res$sim1)
-    expect_false(res$sim1)
-    expect_false(res$sim1)
+context("ds.isNA()::smk::errors")
+test_that("isNA errors", {
+    expect_error(ds.isNA(), "Please provide the name of the input vector!", fixed=TRUE)
 })
 
 #

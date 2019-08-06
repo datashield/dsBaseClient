@@ -61,7 +61,7 @@ ds.isValid = function(x=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # the input object must be a vector
-  if(typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric' & typ != 'data.frame' & typ != 'matrix'){
+  if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('data.frame' %in% typ) & !('matrix' %in% typ)){
     stop("The input object must be a character, factor, integer, logical or numeric vector or a dataframe or a matrix", call.=FALSE)
   }
   
@@ -69,5 +69,4 @@ ds.isValid = function(x=NULL, datasources=NULL){
   cally <- paste0('isValidDS(', x, ')')
   output <- opal::datashield.aggregate(datasources, as.symbol(cally))
   return(output)
-  
 }

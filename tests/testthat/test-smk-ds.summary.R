@@ -45,11 +45,6 @@ test_that("summary_data_frame", {
   expect_equal(res$sim1$`variables held`[[2]], "LAB_TRIG")
 })
 
-context("ds.summary::smk::test errors")
-ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
-test_that("summary_erros", {
-    expect_error(ds.summary(), "Please provide the name of the input vector!", fixed=TRUE)
-})
 #
 # Tear down
 #
