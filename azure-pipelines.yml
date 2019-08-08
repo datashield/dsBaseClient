@@ -129,6 +129,7 @@ jobs:
     condition: always()
 
   - bash: |
+      sudo apt install tree -y
       tree
     displayName: 'Environment info'
     condition: always()
