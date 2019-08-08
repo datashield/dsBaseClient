@@ -95,6 +95,7 @@ jobs:
       #sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
       #sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
       sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); testthat::test_package("$(reponame)", reporter = junit_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      mv test_results.xml ../
       cd ../
     displayName: 'Code coverage and JUnit report output'
     condition: always()
@@ -125,4 +126,9 @@ jobs:
       git push
       exit 0
     displayName: 'Parse test results'
+    condition: always()
+
+  - bash: |
+      tree
+    displayName: 'Environment info'
     condition: always()
