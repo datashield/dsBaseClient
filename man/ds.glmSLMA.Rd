@@ -2,49 +2,51 @@
 % Please edit documentation in R/ds.glmSLMA.R
 \name{ds.glmSLMA}
 \alias{ds.glmSLMA}
-\title{ds.glmSLMA calling glmDS1, glmSLMADS2}
+\title{ds.glmSLMA calling glmSLMADS1, glmSLMADS2}
 \usage{
 ds.glmSLMA(formula = NULL, family = NULL, offset = NULL,
   weights = NULL, combine.with.metafor = TRUE, dataName = NULL,
-  checks = FALSE, maxit = 15, datasources = NULL)
+  checks = FALSE, maxit = 30, datasources = NULL)
 }
 \arguments{
-\item{formula}{Denotes an object of class formula which is a character string which describes
-the model to be fitted. Most shortcut notation allowed by R's standard glm() function is
-also allowed by ds.glmSLMA. Many glms can be fitted very simply using a formula like:
+\item{formula}{Denotes an object of class formula which is a character string describing
+the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
+function is also allowed by ds.glmSLMA. Many glms can
+be fitted very simply using a formula such as:
 "y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
 covariates. By default all such models also include an intercept (regression constant) term.
 If all you need to fit are straightforward models such as these, you do not need to read the
-remainder of this information about "formula". But if you need to fit a more complex model in a
-customised way, the next paragraph gives a few additional pointers.
+remainder of this information about "formula". But if you need to fit a more complex
+model in a customised way, the following text gives a few additional pointers:
 As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
 variable "EVENT" as its
 outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
 "time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
 and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
 the model to include an intercept term which it would also have done by default (see above)
-but using "1" may usefully be contrasted with using "0" (as explained below).
-The "*" between SEXF and AGE.60
+but using "1" may usefully be contrasted with using "0" (as explained below), which removes
+the intercept term. The "*" between SEXF and AGE.60
 means fit all possible main effects and interactions for and between those two covariates.
 As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-last element being
-the interaction term representing the product of SEXF level 1 (in this case female)
-and AGE.60).
-If the formula had instead been written as :
+last element being the simple interaction term representing the product
+of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
+(0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
+If the formula had instead been written as:
 "EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
 an intercept term and, because TID happens to be a six level factor this would mean
 that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
 using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-Conveniently, this means
+This is mathematically the same model, but conveniently, it means
 that the effect of each
 time period may now be estimated directly. For example, the effect of time
-period 3 is now obtained
-directly as TID3 rather than intercept+TID3 as was the case using the original formula.}
+period 3 is now obtained directly as the coefficient for TID3
+rather than the sum of the coefficients for the intercept and TID3
+which was the case using the original formula.}
 
 \item{family}{This argument identifies the error distribution function to use in
 the model. At present
 ds.glm has been written to fit family="gaussian" (i.e. a
-conventional linear model, family="binomial"
+conventional linear model with normally distributed errors), family="binomial"
 (i.e. a conventional
 unconditional logistic regression model), and family = "poisson" (i.e. a
 Poisson regression model - of which perhaps the most commonly used application
@@ -52,44 +54,35 @@ is for survival analysis
 using Piecewise Exponential Regression (PER) which
 typically closely approximates Cox regression in its
 main estimates and standard
-errors. More information about PER can be found in the help folder for
-the ds.lexis function which sets up the data structure for a PER. At present the
-gaussian family is
-automatically coupled with an 'identity' link function, the binomial family with a
-'logistic' link
-function and the poisson family with a 'log' link function. For the majority of
+errors. At present the gaussian family is automatically coupled with
+an 'identity' link function, the binomial family with a
+'logistic' link function and the poisson family with a 'log' link function. For the majority of
 applications typically
 encountered in epidemiology and medical statistics, one  these three classes of
-models will
-generally be what you need. However, if a particular user wishes us to implement
-an alternative family
+models will typically be what you need. However, if a particular user
+wishes us to implement an alternative family
 (e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
-probit) we can discuss
-how best to meet that request: it will almost certainly be possible, but we may
-seek a small amount
-of funding or practical programming support from the user in order to ensure that
-it can be carried out
-in a timely manner}
+probit) we can discuss how best to meet that request: it will almost certainly be possible,
+but we may seek a small amount of funding or practical in-kind support from
+the user in order to ensure that it can be carried outin a timely manner}
 
 \item{offset}{A character string specifying the name of a variable to be used as
-an offset (effectively
-a component of the glm which has a known coefficient a-priori and so does not need to be 
-estimated by the model). As an example, an offset is needed to fit a piecewise
-exponential regression model. Unlike the standard glm() function in R, ds.glm()
-only allows an offset
-to be set using the offset= argument, it CANNOT be included directly in the
+an offset. An offset is a component of a glm which may be viewed as a covariate
+with a known coefficient of 1.00 and so the coefficient does not need to be 
+estimated by the model. As an example, an offset is needed to fit a piecewise
+exponential regression model. Unlike the standard glm() function in
+native R, ds.glmSLMA() only allows an offset
+to be set using the <offset> argument, it CANNOT be included directly in the
 formula via notation
-such as  "y~a+b+c+d+offset(offset.vector.name)". In ds.glmSLMA this must be specified as:
-formula="y~a+b+c+d", ..., offset="offset.vector.name" and ds.glmSLMA then incorporates
-it appropriately
-into the formula itself.}
+such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glmSLMA this model
+must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
+and ds.glmSLMA then incorporates
+it appropriately into the formula itself.}
 
 \item{weights}{A character string specifying the name of a variable containing
 prior regression
 weights for the fitting process. Like offset, ds.glmSLMA does not allow a weights vector to be
-written directly into the glm formula. Using weights provides an alternative way
-to fit PER models
-if you want to avoid using an offset, but this approach may be viewed as less 'elegant'}
+written directly into the glm formula.}
 
 \item{combine.with.metafor}{This argument is Boolean. If TRUE (the default) the
 estimates and standard errors for each regression coefficient are pooled across
@@ -99,21 +92,22 @@ restricted maximum likelihood (REML), or fixed effects meta-analysis (FE).}
 \item{dataName}{A character string specifying the name of an (optional) dataframe that contains
 all of the variables in the glm formula. This avoids you having to specify the name of the
 dataframe in front of each covariate in the formula e.g. if the dataframe is
-called 'DataFrame' you 
+called "DataFrame" you 
 avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
 Processing stops if a non existing data frame is indicated.}
 
-\item{checks}{This argument is a boolean. If TRUE ds.glm then undertakes a series
+\item{checks}{This argument is a boolean. If TRUE ds.glmSLMA then undertakes a series
 of checks of
 the structural integrity of the model that can take several minutes. Specifically
 it verifies that the 
 variables in the model are all defined (exist) on the server site at every study
 and that they have the correct characteristics required to fit a GLM. The default
 value is FALSE
-and so it is suggested that they are only made TRUE
+and so it is suggested that the argument <checks> is only made TRUE
 if an unexplained problem in the model fit is encountered.}
 
-\item{maxit}{A numeric scalar denoting the maximum number of iterations that are permitted
+\item{maxit}{A numeric scalar denoting the maximum number of iterations that
+are permitted
 before ds.glm declares that the model has failed to converge. Logistic regression
 and Poisson regression
 models can require many iterations, particularly if the starting value of the
@@ -122,33 +116,42 @@ far away from its actual value that the glm is trying to estimate. In consequenc
 we choose to set
 maxit=30 - but depending on the nature of the models you wish to fit, you may wish
 to be alerted
-much more quickly than this if there is a delay in convergence, or you may wish to
+more quickly than this if there is a delay in convergence, or you may wish to
 allow MORE iterations.}
 
 \item{datasources}{specifies the particular opal object(s) to use, if it is not specified
 the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
+This parameter is set without inverted commas: e.g. datasources=opals.em or
+datasources=default.opals
 If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-e.g. datasources=opals.em[2,3]}
+e.g. datasources=opals.em[2]. If you wish to specify the first and third opal
+servers in a set specify:
+e.g. datasources=opals.em[c(2,3)]}
 }
 \value{
-many of the elements of the output list returned by ds.glmSLMA from
-each study separately are 
-equivalent to those from glm() in native R with potentially disclosive elements
-such as individual-level residuals and linear predictors blocked. 
-The return results from each study appear first in the return list with one
-block of results from each study in the order they appear in datasources.
+Many of the elements of the output list returned by ds.glmSLMA from
+each study separately are precisely
+equivalent to those returned by the glm() function in native R. However,
+potentially disclosive elements
+such as individual-level residuals and linear predictor values are blocked. 
+The return results from each separate study appear first in the return list with
+the full set of results from each study presented in a block and the
+blocks listed in the order in which the studies appear in <datasources>.
 As regards the elements within each study the most important
 elements are included last in the return list because they then appear at the
 bottom of a simple print out of the return object. In reverse order, these
-key elements in reverse order are:
+key elements are listed below. In addition to the elements reflecting the
+primary results of the analysis, ds.glmSLMA also returns a range of error
+messages if the model fails indicating why failure may have occurred and
+in particular detailing any disclosure traps that may have been
 
 coefficients:- a matrix in which the first column contains the names of
 all of the regression parameters (coefficients) in the model, the second column
-contains the estimated values, the third their corresponding standard errors,
-the fourth the ratio of estimate/standard error and the fifth the p-value
-treating that as a standardised normal deviate
+contains the estimated values of the coefficients (called estimates),
+the third the corresponding standard errors,
+the fourth the ratio corresponding to the value of each estimate divided by its
+standard error and the fifth the p-value
+treating that ratio as a standardised normal deviate (a simple Wald test).
 
 family:- indicates the error distribution and link function used
 in the glm
@@ -169,11 +172,13 @@ VarCovMatrix:- the variance covariance matrix of parameter estimates
 
 weights:- the vector (if any) holding regression weights
 
-offset:- the vector (if any) holding an offset (enters glm with a coefficient of 1.0)
+offset:- the vector (if any) holding an offset (enters glm with a
+coefficient of 1.00)
 
 cov.scaled:- equivalent to VarCovMatrix
 
-cov.unscaled:- equivalent to VarCovMatrix but assuming dispersion (scale) parameter is 1
+cov.unscaled:- equivalent to VarCovMatrix but assuming dispersion (scale)
+parameter is 1
 
 Nmissing:- the number of missing observations in the given study
 
@@ -184,22 +189,22 @@ Ntotal:- the total number of observations in the given study (Nvalid+Nmissing)
 data:- - equivalent to input parameter dataName (above)
 
 dispersion:- - the estimated dispersion parameter: deviance.resid/df.resid for
-a gaussian family multiple regression model, 1.0 for logistic and poisson regression
+a gaussian family multiple regression model, 1.00 for logistic and poisson regression
 
 call:- - summary of key elements of the call to fit the model
 
-na.action:- - chosen method of dealing with NAs. Commonly na.action=nam.omit
-indicating any individual with any data missing that are needed for the model is
-exluded from the fit. This includes the outcome variable, covariates,
-or any values in a regression weight vector or offset vector. By including
-more covariates in a model you may delete extra individuals from an analysis
-and this can severely distort inferential tests based on assuming models are
-nested (eg likelihood ratio tests)
+na.action:- - chosen method of dealing with NAs. Usually, na.action=na.omit
+indicating any individual (or more strictly any "observational unit")
+that has any data missing that are needed for the model is
+exluded from the fit, even if all the rest of the required data are present.
+These required data include: the outcome variable, covariates,
+or any values in a regression weight vector or offset vector. As a
+side effect of this, when you include additional covariates in model
+you may exclude extra individuals from the analysis
+and this can seriously distort inferential tests based on assuming models are
+nested (eg likelihood ratio tests).
 
 iter:- the number of iterations required to achieve convergence
-
-there are a small number of more esoteric items of information returned
-by ds.glmSLMA. Additional information about these can be found in the help
 file for the glm() function in native R.
 
 input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
@@ -212,30 +217,61 @@ estimates for coefficients from each study. In combination with the coefficients
 (see input.beta.matrix.for.SLMA) these can be imported directly into a study level
 meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
 
-SLMA.pooled.estimates:- a matrix containing pooled estimates for each
+SLMA.pooled.estimates:- if the argument <combine.with.metafor> = TRUE,
+ds.glmSLMA also returns a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via 
 random effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed effects meta-analysis (FE)
+
+there are a small number of more esoteric items of information returned
+by ds.glmSLMA. Additional information about these can be found in the help
 }
 \description{
 Fits a generalized linear model (glm) on data from a single or multiple sources
+with pooled co-analysis across studies being based on study level meta-analysis
 }
 \details{
-Fits a glm on data from a single source or from multiple sources. In the latter case 
-(when using ds.glmSLMA), the glm is fitted to convergence in each data source and the
-estimates and standard errors
-returned from each study separately. When these are then pooled using a function such as 
-ds.metafor, this is a form of study level meta-analysis (SLMA). This contrasts with the setting
-when ds.glm is used to fit a glm to multiple sources. In that case the update at each
-iteration uses data from all sources simultaneously and returns the updated parameter
-estimates to all sources to start the next iteration. The approach (using ds.glm) is
-mathematically equivalent to placing all individual-level data from all sources in
-one central warehouse and analysing those data as one simultaneous block using the conventional
-glm() function in R. The SLMA approach offers some advantages when there is marked heterogeneity
+ds.glmSLMA specifies the structure of a generalized linear model (glm)
+to be fitted separately on each study/data source. The model is first constructed
+and disclosure checked by glmSLMADS1. This aggregate function then returns its 
+output to ds.glmSLMA which processes the information and uses it in a call to
+the second aggregate function glmSLMADS2. This call specifies and fits
+the required glm in each data source.
+Unlike glmDS2 (called by the more commonly used generalized linear modelling
+client-side function ds.glm) the requested model is then fitted to completion
+on the data in each study rather than iteration by iteration on all studies
+combined. At the end of this SLMA fitting process
+glmSLMADS2 returns study-specific parameter estimates
+and standard errors to the client. These can then be pooled using random
+effects (or fixed effects) meta-analysis - eg using the metafor package.
+This mode of model fitting may
+reasonably be called study level meta-analysis (SLMA) although the analysis
+is based on estimates and standard errors derived from direct analysis of
+the individual level data in each study rather than from published study
+summaries (as is often the case with SLMA of clinical trials etc).
+Furthermore, unlike common approaches to study-level meta-analysis
+adopted by large multi-study research consortia (eg in the combined analysis
+of identical genomic markers across multiple studies), the parallel
+analyses (in every study) under ds.glmSLMA are
+controlled entirely from one client. This avoids the time-consuming
+need to ask each study to run its own analyses and the consequent
+necessity to request additional work from individual studies if
+the modelling is to be extended to include analyses not subsumed
+in the original analytic plan. Additional analyses of this nature
+may, for example, include analyses based on interactions between covariates
+identified as having significant main effects in the original analysis. 
+From a mathematical perspective, the SLMA approach (using ds.glmSLMA)
+differs fundamentally from the usual approach using ds.glm
+in that the latter is mathematically equivalent
+to placing all individual-level data from all sources in
+one central warehouse and analysing those data as one combined dataset using the
+conventional glm() function in R. However, although this
+may sound to be preferable under all circumstances, the SLMA approach
+actually offers key inferential advantages when there is marked heterogeneity
 between sources that cannot simply be corrected with fixed effects each reflecting a study
-or centre effect. In particular fixed effects cannot simply be used in this way when there
-there is heterogeneity in the effect of scientific interest.
+or centre-effect. In particular, fixed effects cannot simply be used in this way when there
+there is heterogeneity in the effect that is of scientific interest.
 }
 \author{
-DataSHIELD Development Team
+Paul Burton for DataSHIELD Development Team
 }
