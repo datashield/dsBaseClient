@@ -5,7 +5,8 @@
 \title{Generates a heatmap plot}
 \usage{
 ds.heatmapPlot(x = NULL, y = NULL, type = "combine", show = "all",
-  numints = 20, datasources = NULL)
+  numints = 20, method = "smallCellsRule", k = 3, noise = 0.25,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector}
@@ -21,6 +22,31 @@ If \code{show} is set to 'all', the ranges of the variables are used as plot lim
 If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.}
 
 \item{numints}{a number of intervals for a density grid object.}
+
+\item{method}{a character which defines which heatmap will be created. If \code{method}
+is set to 'smallCellsRule' (default option), the heatmap of the actual variables is
+created but grids with low counts are replaced with grids with zero counts. If \code{method} is
+set to 'deterministic' the heatmap of the scaled centroids of each k nearest neighbours of the
+original variables is created, where the value of \code{k} is set by the user. If the
+\code{method} is set to 'probabilistic', then the heatmap of 'noisy' variables is generated. The
+added noise follows a normal distribution with zero mean and variance equal to a percentage of
+the initial variance of each input variable. This percentage is specified by the user in the
+argument \code{noise}.}
+
+\item{k}{the number of the nearest neghbours for which their centroid is calculated.
+The user can choose any value for k equal to or greater than the pre-specified threshold
+used as a disclosure control for this method and lower than the number of observations
+minus the value of this threshold. By default the value of k is set to be equal to 3
+(we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
+uses the default value but the study has set a bigger threshold. The value of k is used only
+if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
+argument \code{method} is set to 'probabilistic' or 'smallCellsRule'.}
+
+\item{noise}{the percentage of the initial variance that is used as the variance of the embedded
+noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
+the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The user can choose
+any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
+By default the value of noise is set to be equal to 0.25.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
@@ -47,20 +73,54 @@ minimum and maximum value. This was done to reduce the risk of potential disclos
   data(logindata)
 
   # login and assign the required variables to R
-  myvar <- list("LAB_TSC","LAB_HDL")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  opals <- datashield.login(logins=logindata, assign=TRUE)
 
-  # Example1: generate a combined (i.e. pooled heatmap plot)
+  # Example 1: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'smallCellsRule' (default method) that applies a stochastic
+  # noise in the extreme values of the variables' range.
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL')
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', show='zoomed')
-
-  # Example2: generate a heatmapplot where each study is plotted seaparately
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split')
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', show='zoomed')
-
-  # Example3: generate a heatmap plot with a less dense drid
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
-
+  
+  # Example 2: the same as example 1
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='combine')
+  
+  # Example 3: similar as example 2 but for type='split'
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
+  
+  # Example 4: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'deterministic' that plots the exact heatmap plot of the
+  # centroids of each 3 (default number) nearest neighbours. 
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
+  
+  # Example 5: the same as example 4
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='combine')
+  
+  # Example 6: similar as example 5 for type='split'
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='split')
+  
+  # Example 7: similar as example 6 for k=7
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
+  
+  # Example 8: similar as example 7 for numints=40
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
+                 type='split')
+  
+  # Example 9: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'probabilistic' that plots the exact heatmap plot of the
+  # noisy data
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
+  
+  # Example 10: the same as example 9
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=0.25, type='combine')
+  
+  # Example 11: the same as example 10 but for bigger level of noise
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='combine')
+  
+  # Example 12: the same as example 11 but for type='split'
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='split')
+  
+  # Example 13: if any of the input variables is a factor then the function fails
+  ds.heatmapPlot(x='D$LAB_TSC', y='D$GENDER')
+   
   # clear the Datashield R sessions and logout
   datashield.logout(opals)
 
@@ -68,5 +128,5 @@ minimum and maximum value. This was done to reduce the risk of potential disclos
 
 }
 \author{
-Isaeva, J.; Gaye, A.
+Julia Isaeva, Amadou Gaye, Demetris Avraam for DataSHIELD Development Team
 }

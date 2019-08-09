@@ -5,7 +5,8 @@
 \title{Generates a contour plot}
 \usage{
 ds.contourPlot(x = NULL, y = NULL, type = "combine", show = "all",
-  numints = 20, datasources = NULL)
+  numints = 20, method = "smallCellsRule", k = 3, noise = 0.25,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector.}
@@ -21,6 +22,31 @@ If \code{show} is set to 'all', the ranges of the variables are used as plot lim
 If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.}
 
 \item{numints}{a number of intervals for a density grid object.}
+
+\item{method}{a character which defines which contour will be created. If \code{method}
+is set to 'smallCellsRule' (default option), the contour plot of the actual variables is
+created but grids with low counts are replaced with grids with zero counts. If \code{method} is
+set to 'deterministic' the contour of the scaled centroids of each k nearest neighbours of the
+original variables is created, where the value of \code{k} is set by the user. If the
+\code{method} is set to 'probabilistic', then the contour of 'noisy' variables is generated. The
+added noise follows a normal distribution with zero mean and variance equal to a percentage of
+the initial variance of each input variable. This percentage is specified by the user in the
+argument \code{noise}.}
+
+\item{k}{the number of the nearest neghbours for which their centroid is calculated.
+The user can choose any value for k equal to or greater than the pre-specified threshold
+used as a disclosure control for this method and lower than the number of observations
+minus the value of this threshold. By default the value of k is set to be equal to 3
+(we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
+uses the default value but the study has set a bigger threshold. The value of k is used only
+if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
+argument \code{method} is set to 'probabilistic' or 'smallCellsRule'.}
+
+\item{noise}{the percentage of the initial variance that is used as the variance of the embedded
+noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
+the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The user can choose
+any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
+By default the value of noise is set to be equal to 0.25.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
@@ -40,36 +66,6 @@ The ranges returned by each study and used in the process of getting the grid de
 are not the exact minumum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 }
-\examples{
-\dontrun{
-
-  # load the file that contains the login details
-  data(logindata)
-
-  # login and assign specific variables(s)
-  # (by default the assigned dataset is a dataframe named 'D')
-  myvar <- list("LAB_TSC","LAB_HDL")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
-  # Example 1: generate a contour plot of the pooled data (default)
-  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL')
-  # now produce the same plot but zoom in
-  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', show='zoomed')
-
-  # Example 2: generate a contour plot where each study is plotted seaparately
-  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split')
-  # now produce the same plots but zoom in
-  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', show='zoomed')
-
-  # Example 3: generate a contour plot with a less dense grid (default numints is 20)
-  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', type='split', numints=15)
-
-  # clear the Datashield R sessions and logout
-  datashield.logout(opals)
-
-}
-
-}
 \author{
-Isaeva, J.; Gaye, A.; Burton, P.
+Julia Isaeva, Amadou Gaye, Paul Burton, Demetris Avraam for DataSHIELD Development Team
 }
