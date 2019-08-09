@@ -72,7 +72,7 @@
 #' [10,]   0   0   0   0   1
 #' The creation of a factor in the form of a matrix with dummy variables at different baseline levels is useful 
 #' in survival analysis for example in piecewise exponential regression where the baseline hazard is different 
-#' in different time intervals. For more details see the description of ds.lexis and ds.glm functions.
+#' in different time intervals. For more details see the description of ds.glm function.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers; these objects hold 
 #' also the data assign to R, as \code{dataframe}, from opal datasources. By default an internal function looks
 #' for 'opal' objects in the environment and sets this parameter. 

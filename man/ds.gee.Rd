@@ -87,8 +87,6 @@ when data cannot be pooled. Stat 2013; 2: 72-85.
 }
 \seealso{
 \code{ds.glm} for genralized linear models
-
-\code{ds.lexis} for survival analysis using piecewise exponential regression
 }
 \author{
 Gaye, A.; Jones EM.
