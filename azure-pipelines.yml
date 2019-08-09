@@ -1,5 +1,5 @@
 schedules:
-  - cron: "15 9 * * *"
+  - cron: "15 23 * * *"
     displayName: Nightly build
     branches:
       include:
