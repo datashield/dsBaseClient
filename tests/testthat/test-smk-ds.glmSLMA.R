@@ -115,8 +115,8 @@ test_that("simple glmSLMA, gaussian", {
 #    expect_equal(glmSLMA.res$study3$Nmissing, 655)
 #})
 
-#context("ds.glmSLMA::smk::poisson")
-#test_that("simple glmSLMA, poisson", {
+context("ds.glmSLMA::smk::poisson")
+test_that("simple glmSLMA, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson")
 
     expect_length(glmSLMA.res, 7)
