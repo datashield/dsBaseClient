@@ -251,7 +251,7 @@ checks=FALSE, maxit=30, datasources=NULL) {
        cat("\n using the offset or weights argument.\n\n")
 }
 
-  formula <- as.formula(formula)
+  formula <- stats::as.formula(formula)
 
   
   # check that 'family' was set
@@ -431,7 +431,7 @@ if(at.least.one.study.data.error)
  
     cally2 <- call('glmSLMADS2', formula, family, offset, weights, dataName)
 
-    study.summary <- datashield.aggregate(datasources, cally2)
+    study.summary <- opal::datashield.aggregate(datasources, cally2)
 
 
    numstudies<-length(datasources)
@@ -633,9 +633,9 @@ return(list(output.summary=output.summary))
  
  
   for(p in 1:numcoefficients){
-    rma.ML<-rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="ML")
-    rma.REML<-rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="REML")
-    rma.FE<-rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="FE")
+    rma.ML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="ML")
+    rma.REML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="REML")
+    rma.FE<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="FE")
 
     SLMA.pooled.ests.matrix[p,1]<-rma.ML$beta
     SLMA.pooled.ests.matrix[p,2]<-rma.ML$se
