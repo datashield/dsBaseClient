@@ -5,43 +5,44 @@
 \title{ds.glm calling glmDS1, glmDS2}
 \usage{
 ds.glm(formula = NULL, data = NULL, family = NULL, offset = NULL,
-  weights = NULL, checks = FALSE, maxit = 15, CI = 0.95,
+  weights = NULL, checks = FALSE, maxit = 20, CI = 0.95,
   viewIter = FALSE, viewVarCov = FALSE, viewCor = FALSE,
   datasources = NULL)
 }
 \arguments{
-\item{formula}{Denotes an object of class formula which is a character string which describes
-the model to be fitted. Most shortcut notation allowed by R's standard glm() function is
-also allowed by ds.glm. Many glms can be fitted very simply using a formula like:
+\item{formula}{Denotes an object of class formula which is a character string describing
+the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
+function is also allowed by ds.glm. Many glms can
+be fitted very simply using a formula such as:
 "y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
 covariates. By default all such models also include an intercept (regression constant) term.
 If all you need to fit are straightforward models such as these, you do not need to read the
-remainder of this information about "formula". But if you need to fit a more complex model in a
-customised way, the next paragraph gives a few additional pointers.
-
+remainder of this information about "formula". But if you need to fit a more complex
+model in a customised way, the following text gives a few additional pointers:
 As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
 variable "EVENT" as its
 outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
 "time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
 and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
 the model to include an intercept term which it would also have done by default (see above)
-but using "1" may usefully be contrasted with using "0" (as explained below).
-The "*" between SEXF and AGE.60
+but using "1" may usefully be contrasted with using "0" (as explained below), which removes
+the intercept term. The "*" between SEXF and AGE.60
 means fit all possible main effects and interactions for and between those two covariates.
 As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-last element being)
-the interaction term representing the product of SEXF level 1 (in this case female)
-and AGE.60.
-If the formula had instead been written as :
+last element being the simple interaction term representing the product
+of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
+(0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
+If the formula had instead been written as:
 "EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
 an intercept term and, because TID happens to be a six level factor this would mean
 that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
 using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-Conveniently, this means
+This is mathematically the same model, but conveniently, it means
 that the effect of each
 time period may now be estimated directly. For example, the effect of time
-period 3 is now obtained
-directly as TID3 rather than intercept+TID3 as was the case using the original formula.}
+period 3 is now obtained directly as the coefficient for TID3
+rather than the sum of the coefficients for the intercept and TID3
+which was the case using the original formula.}
 
 \item{data}{A character string specifying the name of an (optional) dataframe that contains
 all of the variables in the glm formula. This avoids you having to specify the name of the
@@ -53,52 +54,43 @@ Processing stops if a non existing data frame is indicated.}
 \item{family}{This argument identifies the error distribution function to use in
 the model. At present
 ds.glm has been written to fit family="gaussian" (i.e. a
-conventional linear model, family="binomial"
+conventional linear model with normally distributed errors), family="binomial"
 (i.e. a conventional
-[unconditional] logistic regression model), and family = "poisson" (i.e. a
+unconditional logistic regression model), and family = "poisson" (i.e. a
 Poisson regression model - of which perhaps the most commonly used application
 is for survival analysis
 using Piecewise Exponential Regression (PER) which
 typically closely approximates Cox regression in its
 main estimates and standard
-errors. More information about PER can be found in the help folder for
-the ds.lexis function which sets up the data structure for a PER. At present the
-gaussian family is
-automatically coupled with an 'identity' link function, the binomial family with a
-'logistic' link
-function and the poisson family with a 'log' link function. For the majority of
+errors. At present the gaussian family is automatically coupled with
+an 'identity' link function, the binomial family with a
+'logistic' link function and the poisson family with a 'log' link function. For the majority of
 applications typically
 encountered in epidemiology and medical statistics, one  these three classes of
-models will
-generally be what you need. However, if a particular user wishes us to implement
-an alternative family
+models will typically be what you need. However, if a particular user
+wishes us to implement an alternative family
 (e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
-probit) we can discuss
-how best to meet that request: it will almost certainly be possible, but we may
-seek a small amount
-of funding or practical programming support from the user in order to ensure that
-it can be carried out
-in a timely manner}
+probit) we can discuss how best to meet that request: it will almost certainly be possible,
+but we may seek a small amount of funding or practical in-kind support from
+the user in order to ensure that it can be carried outin a timely manner}
 
 \item{offset}{A character string specifying the name of a variable to be used as
-an offset (effectively
-a component of the glm which has a known coefficient a-priori and so does not need to be 
-estimated by the model). As an example, an offset is needed to fit a piecewise
-exponential regression model. Unlike the standard glm() function in R, ds.glm()
-only allows an offset
-to be set using the offset= argument, it CANNOT be included directly in the
+an offset. An offset is a component of a glm which may be viewed as a covariate
+with a known coefficient of 1.00 and so the coefficient does not need to be 
+estimated by the model. As an example, an offset is needed to fit a piecewise
+exponential regression model. Unlike the standard glm() function in
+native R, ds.glm() only allows an offset
+to be set using the <offset> argument, it CANNOT be included directly in the
 formula via notation
-such as  "y~a+b+c+d+offset(offset.vector.name)". In ds.glm this must be specified as:
-formula="y~a+b+c+d", ..., offset="offset.vector.name" and ds.glm then incorporates
-it appropriately
-into the formula itself.}
+such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glm this model
+must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
+and ds.glm then incorporates
+it appropriately into the formula itself.}
 
 \item{weights}{A character string specifying the name of a variable containing
 prior regression
 weights for the fitting process. Like offset, ds.glm does not allow a weights vector to be
-written directly into the glm formula. Using weights provides an alternative way
-to fit PER models
-if you want to avoid using an offset, but this approach may be viewed as less 'elegant'}
+written directly into the glm formula.}
 
 \item{checks}{This argument is a boolean. If TRUE ds.glm then undertakes a series
 of checks of
@@ -161,8 +153,8 @@ meta-analysis with fixed effects.
 Privacy protected iterative fitting of a glm is explained here:
 
 (1) Begin with a guess for the coefficient vector to start iteration 1 (let's call it
-beta.vector[1]). Using beta.vector[1], each source calculates the score
-vector (and information matrix) generated
+beta.vector[1]). Using beta.vector[1], run iteration 1 with each source
+calculating the resultant score vector (and information matrix) generated
 by its data - given beta.vector[1] -
 as the sum of the score vector components (and the sum of the components of the
 information matrix) derived from each individual data record in that source. NB in most models
@@ -206,7 +198,7 @@ convergence criterion).
 NB An alternative way to coherently pool the glm across multiple sources is to fit each
 glm to completion (i.e. multiple iterations until convergence) in each source and then return
 the final parameter estimates and standard errors to the CS where they could be pooled using
-study-level meta-analysis. An alternative function ds.glm.REMA is being developed to do this.
+study-level meta-analysis. An alternative function ds.glmSLMA allows you to do this.
 It will fit the glms to completion
 in each source and return the final estimates and standard errors (rather than score vectors
 and information matrices). It will then rely on functions in the
@@ -476,9 +468,6 @@ R package metafor to meta-analyse the key parameters.
 }
 
 }
-\seealso{
-\link{ds.gee} for generalized estimating equation models
-}
 \author{
-DataSHIELD Development Team
+Paul Burton for DataSHIELD Development Team
 }

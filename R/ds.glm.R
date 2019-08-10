@@ -13,8 +13,8 @@
 #' Privacy protected iterative fitting of a glm is explained here:
 #'
 #' (1) Begin with a guess for the coefficient vector to start iteration 1 (let's call it
-#' beta.vector[1]). Using beta.vector[1], each source calculates the score
-#' vector (and information matrix) generated
+#' beta.vector[1]). Using beta.vector[1], run iteration 1 with each source
+#' calculating the resultant score vector (and information matrix) generated
 #' by its data - given beta.vector[1] -
 #' as the sum of the score vector components (and the sum of the components of the
 #' information matrix) derived from each individual data record in that source. NB in most models
@@ -58,91 +58,83 @@
 #' NB An alternative way to coherently pool the glm across multiple sources is to fit each
 #' glm to completion (i.e. multiple iterations until convergence) in each source and then return
 #' the final parameter estimates and standard errors to the CS where they could be pooled using
-#' study-level meta-analysis. An alternative function ds.glm.REMA is being developed to do this.
+#' study-level meta-analysis. An alternative function ds.glmSLMA allows you to do this.
 #' It will fit the glms to completion
 #' in each source and return the final estimates and standard errors (rather than score vectors
 #' and information matrices). It will then rely on functions in the
 #' R package metafor to meta-analyse the key parameters.
 #'
-#' @param formula Denotes an object of class formula which is a character string which describes
-#' the model to be fitted. Most shortcut notation allowed by R's standard glm() function is
-#' also allowed by ds.glm. Many glms can be fitted very simply using a formula like:
+#' @param formula Denotes an object of class formula which is a character string describing
+#' the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
+#' function is also allowed by ds.glm. Many glms can
+#' be fitted very simply using a formula such as:
 #' "y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
 #' covariates. By default all such models also include an intercept (regression constant) term.
 #' If all you need to fit are straightforward models such as these, you do not need to read the
-#' remainder of this information about "formula". But if you need to fit a more complex model in a
-#' customised way, the next paragraph gives a few additional pointers.
-#'
+#' remainder of this information about "formula". But if you need to fit a more complex
+#' model in a customised way, the following text gives a few additional pointers:
 #' As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
 #' variable "EVENT" as its
 #' outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
 #' "time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
 #' and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
 #' the model to include an intercept term which it would also have done by default (see above)
-#' but using "1" may usefully be contrasted with using "0" (as explained below).
-#' The "*" between SEXF and AGE.60
+#' but using "1" may usefully be contrasted with using "0" (as explained below), which removes
+#' the intercept term. The "*" between SEXF and AGE.60
 #' means fit all possible main effects and interactions for and between those two covariates.
 #' As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-#' last element being)
-#' the interaction term representing the product of SEXF level 1 (in this case female)
-#' and AGE.60.
-#' If the formula had instead been written as :
+#' last element being the simple interaction term representing the product
+#' of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
+#' (0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
+#' If the formula had instead been written as:
 #' "EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
 #' an intercept term and, because TID happens to be a six level factor this would mean
 #' that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
 #' using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-#' Conveniently, this means
+#' This is mathematically the same model, but conveniently, it means
 #' that the effect of each
 #' time period may now be estimated directly. For example, the effect of time
-#' period 3 is now obtained
-#' directly as TID3 rather than intercept+TID3 as was the case using the original formula. 
+#' period 3 is now obtained directly as the coefficient for TID3
+#' rather than the sum of the coefficients for the intercept and TID3
+#' which was the case using the original formula. 
 #' @param family This argument identifies the error distribution function to use in
 #' the model. At present
 #' ds.glm has been written to fit family="gaussian" (i.e. a
-#' conventional linear model, family="binomial"
+#' conventional linear model with normally distributed errors), family="binomial"
 #' (i.e. a conventional
-#' [unconditional] logistic regression model), and family = "poisson" (i.e. a
+#' unconditional logistic regression model), and family = "poisson" (i.e. a
 #' Poisson regression model - of which perhaps the most commonly used application
 #' is for survival analysis
 #' using Piecewise Exponential Regression (PER) which
 #' typically closely approximates Cox regression in its
 #' main estimates and standard
-#' errors. More information about PER can be found in the help folder for
-#' the ds.lexis function which sets up the data structure for a PER. At present the
-#' gaussian family is
-#' automatically coupled with an 'identity' link function, the binomial family with a
-#' 'logistic' link
-#' function and the poisson family with a 'log' link function. For the majority of
+#' errors. At present the gaussian family is automatically coupled with
+#' an 'identity' link function, the binomial family with a
+#' 'logistic' link function and the poisson family with a 'log' link function. For the majority of
 #' applications typically
 #' encountered in epidemiology and medical statistics, one  these three classes of
-#' models will
-#' generally be what you need. However, if a particular user wishes us to implement
-#' an alternative family
+#' models will typically be what you need. However, if a particular user
+#' wishes us to implement an alternative family
 #' (e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
-#' probit) we can discuss
-#' how best to meet that request: it will almost certainly be possible, but we may
-#' seek a small amount
-#' of funding or practical programming support from the user in order to ensure that
-#' it can be carried out
-#' in a timely manner 
+#' probit) we can discuss how best to meet that request: it will almost certainly be possible,
+#' but we may seek a small amount of funding or practical in-kind support from
+#' the user in order to ensure that it can be carried outin a timely manner 
 #' @param offset  A character string specifying the name of a variable to be used as
-#' an offset (effectively
-#' a component of the glm which has a known coefficient a-priori and so does not need to be 
-#' estimated by the model). As an example, an offset is needed to fit a piecewise
-#' exponential regression model. Unlike the standard glm() function in R, ds.glm()
-#' only allows an offset
-#' to be set using the offset= argument, it CANNOT be included directly in the
+#' an offset. An offset is a component of a glm which may be viewed as a covariate
+#' with a known coefficient of 1.00 and so the coefficient does not need to be 
+#' estimated by the model. As an example, an offset is needed to fit a piecewise
+#' exponential regression model. Unlike the standard glm() function in
+#' native R, ds.glm() only allows an offset
+#' to be set using the <offset> argument, it CANNOT be included directly in the
 #' formula via notation
-#' such as  "y~a+b+c+d+offset(offset.vector.name)". In ds.glm this must be specified as:
-#' formula="y~a+b+c+d", ..., offset="offset.vector.name" and ds.glm then incorporates
-#' it appropriately
-#' into the formula itself.
+#' such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glm this model
+#' must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
+#' and ds.glm then incorporates
+#' it appropriately into the formula itself.
 #' @param weights A character string specifying the name of a variable containing
 #' prior regression
 #' weights for the fitting process. Like offset, ds.glm does not allow a weights vector to be
-#' written directly into the glm formula. Using weights provides an alternative way
-#' to fit PER models
-#' if you want to avoid using an offset, but this approach may be viewed as less 'elegant'
+#' written directly into the glm formula. 
 #' @param data A character string specifying the name of an (optional) dataframe that contains
 #' all of the variables in the glm formula. This avoids you having to specify the name of the
 #' dataframe in front of each covariate in the formula e.g. if the dataframe is
@@ -185,8 +177,7 @@
 #' opal servers in a set specify: e.g. datasources=opals.em[2,3]
 #' @return The main elements of the output returned by ds.glm are
 #' listed (below) as Example 1 under 'examples'. 
-#' @author DataSHIELD Development Team
-#' @seealso \link{ds.gee} for generalized estimating equation models
+#' @author Paul Burton for DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
@@ -451,7 +442,7 @@
 #' #datashield.logout(opals) 
 #' }
 #'
-ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=15, CI=0.95,
+ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=20, CI=0.95,
                      viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL) {
   
  # if no opal login details are provided look for 'opal' objects in the environment
@@ -514,7 +505,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 
 #IDENTIFY THE CORRECT DIMENSION FOR START BETAs VIA CALLING FIRST COMPONENT OF glmDS
  
-   cally1 <- call('glmDS1', formula, family, weights, data)
+   cally1 <- call('glmDS1', formula, family, weights, offset, data)
    
    study.summary.0 <- opal::datashield.aggregate(datasources, cally1)
 
@@ -538,16 +529,18 @@ coef.names<-study.summary.0[[1]][[2]]
 y.invalid<-NULL
 Xpar.invalid<-NULL
 w.invalid<-NULL
+o.invalid<-NULL
 glm.saturation.invalid<-NULL
 errorMessage<-NULL
 
 	for(ss in 1:numstudies)
 	{
-	  y.invalid<-c(y.invalid,study.summary.0[[ss]][[3]])
-	  Xpar.invalid<-rbind(Xpar.invalid,study.summary.0[[ss]][[4]])
-   	  w.invalid<-c(w.invalid,study.summary.0[[ss]][[5]])
-      glm.saturation.invalid <-c(glm.saturation.invalid,study.summary.0[[ss]][[6]])
-      errorMessage<-c(errorMessage,study.summary.0[[ss]][[7]])
+          y.invalid<-c(y.invalid,study.summary.0[[ss]][[3]])
+          Xpar.invalid<-rbind(Xpar.invalid,study.summary.0[[ss]][[4]])
+          w.invalid<-c(w.invalid,study.summary.0[[ss]][[5]])
+          o.invalid<-c(o.invalid,study.summary.0[[ss]][[6]])
+          glm.saturation.invalid <-c(glm.saturation.invalid,study.summary.0[[ss]][[7]])
+          errorMessage<-c(errorMessage,study.summary.0[[ss]][[8]])
 	}
 
 y.invalid<-as.matrix(y.invalid)
@@ -563,6 +556,10 @@ w.invalid<-as.matrix(w.invalid)
 sum.w.invalid<-sum(w.invalid)
 dimnames(w.invalid)<-list(names(datasources),"WEIGHT VECTOR")
 
+o.invalid<-as.matrix(o.invalid)
+sum.o.invalid<-sum(o.invalid)
+dimnames(o.invalid)<-list(names(datasources),"OFFSET VECTOR")
+
 glm.saturation.invalid<-as.matrix(glm.saturation.invalid)
 sum.glm.saturation.invalid<-sum(glm.saturation.invalid)
 dimnames(glm.saturation.invalid)<-list(names(datasources),"MODEL OVERPARAMETERIZED")
@@ -573,24 +570,40 @@ dimnames(errorMessage)<-list(names(datasources),"ERROR MESSAGES")
 
 
 output.blocked.information.1<-"MODEL FITTING TERMINATED AT FIRST ITERATION:"
-output.blocked.information.2<-"ANY VALUES OF 1 IN THE FOLLOWING TABLES DENOTE"
-output.blocked.information.3<-"POTENTIAL DISCLOSURE RISKS. PLEASE USE THE ARGUMENT"
-output.blocked.information.4<-"[datasources=] TO EXCLUDE STUDIES WITH DATA ERRORS"
+output.blocked.information.2<-"Any values of 1 in the following tables denote potential disclosure risks"
+output.blocked.information.3<-"please use the argument <datasources> to include only valid studies."
+output.blocked.information.4<-"Errors by study are as follows:"
 
 
 
 
-if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.invalid>0||at.least.one.study.data.error==1){
+if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.glm.saturation.invalid>0||at.least.one.study.data.error==1)
+	{
+	message("\n\nMODEL FITTING TERMINATED AT FIRST ITERATION:\n",
+        "Any values of 1 in the following tables denote potential disclosure risks\n",
+		"please use the argument <datasources> to include only valid studies.\n",
+		"Errors by study are as follows:\n")
+		print(as.matrix(y.invalid))
+		print(as.matrix(Xpar.invalid))
+		print(as.matrix(w.invalid))
+		print(as.matrix(o.invalid))
+		print(as.matrix(glm.saturation.invalid))
+		print(as.matrix(errorMessage))
+		
+
+		
+
     return(list(
 		    output.blocked.information.1,
 		    output.blocked.information.2,
 		    output.blocked.information.3,
 		    output.blocked.information.4,
-		    y.vector.error=y.invalid,
+				y.vector.error=y.invalid,
                 X.matrix.error=Xpar.invalid,
                 weight.vector.error=w.invalid,
+                offset.vector.error=o.invalid,
                 glm.overparameterized=glm.saturation.invalid,
-	    	    errorMessage=errorMessage
+                errorMessage=errorMessage
                 ))
 		stop("DATA ERROR") 
  }
@@ -626,6 +639,8 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
     cally2 <- call('glmDS2', formula, family, beta.vect=beta.vect.temp, offset, weights, data)
 
       study.summary <- opal::datashield.aggregate(datasources, cally2)
+	
+	
 
   
 
@@ -652,16 +667,33 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
     dimnames(errorMessage2)<-list(names(datasources),"ERROR MESSAGES")
 
     if(disclosure.risk.total>0){
-	message("DISCLOSURE RISK IN y.vect, X.mat OR w.vect \nOR MODEL OVERPARAMETERIZED IN AT LEAST ONE STUDY")
-	output.blocked.information.1<-"POTENTIAL DISCLOSURE RISK IN y.vect, X.mat OR w.vect"
-	output.blocked.information.2<-"OR MODEL OVERPARAMETERIZED IN AT LEAST ONE STUDY."
-	output.blocked.information.3<-"FURTHERMORE, CLIENTSIDE FUNCTION MAY HAVE BEEN MODIFIED"
-	output.blocked.information.4<-"SO SCORE VECTOR AND INFORMATION MATRIX DESTROYED IN ALL AT-RISK STUDIES"
+	message("Potential disclosure risk in y.vect, X.mat, w.vect or offset \n",
+	        "or model overparameterized in at least one study.\n",
+			"In addition clientside function appears to have been modified\n",
+			"to avoid traps in first serverside function.\n",
+			"Score vectors and information matrices therefore destroyed in all invalid studies\n",
+			"and model fitting terminated. This error is recorded in the log file but\n",
+			"please report it to the DataSHIELD team as we need to understand how\n",
+			"the controlled shutdown traps in glmDS1 have been circumvented\n\n")
+	
+	output.blocked.information.1<-"Potential disclosure risk in y.vect, X.mat, w.vect or offset"
+	output.blocked.information.2<-"or model overparameterized in at least one study."
+	output.blocked.information.3<-"In addition clientside function appears to have been modified"
+	output.blocked.information.4<-"to avoid disclosure traps in first serverside function."
+	output.blocked.information.5<-"Score vectors and information matrices therefore destroyed in all invalid studies"	
+	output.blocked.information.6<-"and model fitting terminated. This error is recorded in the log file but"
+	output.blocked.information.7<-"please also report it to the DataSHIELD team as we need to understand how"
+	output.blocked.information.8<-"the controlled shutdown traps in glmDS1 have been circumvented."
 
-   	return(list(output.blocked.information.1,
+
+        return(list(output.blocked.information.1,
 			output.blocked.information.2,
 			output.blocked.information.3,
-			output.blocked.information.4
+			output.blocked.information.4,
+			output.blocked.information.5,
+			output.blocked.information.6,
+			output.blocked.information.7,
+			output.blocked.information.8
 	            ))
 	}
 
@@ -696,7 +728,7 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
 	
 	beta.vect.next<-beta.vect.next+beta.update.vect
 
- 	beta.vect.temp <- paste0(as.character(beta.vect.next), collapse=",")
+        beta.vect.temp <- paste0(as.character(beta.vect.next), collapse=",")
 
     #Create a vector with the square roots of diagonal elements of variance covariance matrix 
     sqrt.diagonal <- sqrt(1/diag(variance.covariance.matrix.total))
@@ -857,15 +889,15 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
 			Ntotal=Ntotal.total,
 			disclosure.risk=disclosure.risk,
             errorMessage=errorMessage2,
-	  		nsubs=nsubs.total,
- 			iter=iteration.count,
-	  		family=f,
-      		formula=formulatext,
-    		coefficients=model.parameters,
-      		dev=dev.total,
-      		df=(nsubs.total-length(beta.vect.next)),
-			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
-    			)
+            nsubs=nsubs.total,
+            iter=iteration.count,
+            family=f,
+            formula=formulatext,
+            coefficients=model.parameters,
+            dev=dev.total,
+            df=(nsubs.total-length(beta.vect.next)),
+            output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
+        )
     
 #   class(glmds) <- 'glmds'
       
@@ -878,18 +910,18 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
 			Nmissing=Nmissing.total,
 			Ntotal=Ntotal.total,
 			disclosure.risk=disclosure.risk,
-            errorMessage=errorMessage2,
-	  		VarCovMatrix=variance.covariance.matrix.total,
+                        errorMessage=errorMessage2,
+	                VarCovMatrix=variance.covariance.matrix.total,
 			CorrMatrix=correlation,
 			nsubs=nsubs.total,
- 			iter=iteration.count,
-	  		family=f,
-      		formula=formulatext,
-    		coefficients=model.parameters,
-      		dev=dev.total,
-      		df=(nsubs.total-length(beta.vect.next)),
+                        iter=iteration.count,
+                        family=f,
+                        formula=formulatext,
+                        coefficients=model.parameters,
+                        dev=dev.total,
+                        df=(nsubs.total-length(beta.vect.next)),
 			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"			
-    			)   
+                 )   
 #   class(glmds) <- 'glmds'
 			return(glmds)	
     }	
@@ -899,18 +931,18 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
 			Nmissing=Nmissing.total,
 			Ntotal=Ntotal.total,
 			disclosure.risk=disclosure.risk,
-            errorMessage=errorMessage2,
+                        errorMessage=errorMessage2,
 			CorrMatrix=correlation,
 			nsubs=nsubs.total,
- 			iter=iteration.count,
-	  		family=f,
-      		formula=formulatext,
-    		coefficients=model.parameters,
-      		dev=dev.total,
-      		df=(nsubs.total-length(beta.vect.next)),
-			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"			
-    			)   
-        return(glmds)	
+                        iter=iteration.count,
+	                family=f,
+                        formula=formulatext,
+                        coefficients=model.parameters,
+                        dev=dev.total,
+                        df=(nsubs.total-length(beta.vect.next)),
+		        output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"			
+                )   
+        return(glmds)
     }	
 
 
@@ -920,17 +952,17 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
 			Nmissing=Nmissing.total,
 			Ntotal=Ntotal.total,
 			disclosure.risk=disclosure.risk,
-            errorMessage=errorMessage2,
-	  		VarCovMatrix=variance.covariance.matrix.total,
+                        errorMessage=errorMessage2,
+	                VarCovMatrix=variance.covariance.matrix.total,
 			nsubs=nsubs.total,
- 			iter=iteration.count,
-	  		family=f,
-      		formula=formulatext,
-    		coefficients=model.parameters,
-      		dev=dev.total,
-      		df=(nsubs.total-length(beta.vect.next)),
+                        iter=iteration.count,
+	                family=f,
+                        formula=formulatext,
+                        coefficients=model.parameters,
+                        dev=dev.total,
+                        df=(nsubs.total-length(beta.vect.next)),
 			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"			
-    			)   
+                )   
         return(glmds)	
     }	
     
@@ -941,3 +973,4 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.glm.saturation.inva
   
 }
 #ds.glm
+

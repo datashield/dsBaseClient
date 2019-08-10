@@ -18,7 +18,7 @@
 #' $studysideMessage is a string that cannot exceed a length of nfilter.string
 #' a default of 80 characters.  
 #' @param message.obj.name is a character string, containing the name of the list containing the
-#' message. As an example, the server-side function lexisDS2 enacts the
+#' message. As an example, the server-side function mergeDS enacts the
 #' command:    datashield.assign(datasources, "messageobj", calltext2)
 #' As a standard assign function its output is directed to the list object named
 #' (in this case) "messageobj". If a studysideMessage is written by DataSHIELD
@@ -30,7 +30,7 @@
 #' ds.message('messageobj') developers are asked to include a message such as:
 #' Note3<-"IF FUNCTION FAILED ON ONE OR MORE STUDIES WITHOUT EXPLANATION, TYPE [PRECISELY] THE COMMAND:"
 #' Note4<-"ds.message('messageobj') FOR MORE ERROR MESSAGES"
-#' These represent two of four notes returned by the client-side function ds.lexis at the end
+#' These represent two of four notes returned by the client-side function ds.merge at the end
 #' of each call. In combination, these two notes alert the user to the fact that if there is
 #' an error, there may be additional information available in a studysideMessage, and also
 #' tells them how to retrieve that message.

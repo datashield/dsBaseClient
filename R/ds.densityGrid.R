@@ -1,23 +1,24 @@
 #' 
 #' @title Generates a density grid with or without a priori defined limits
 #' @description This function generates a grid density object which can then be used to produced 
-#' a heatmap or contourplots. In cells with a count > 0 and < 5 are considered invalid and the count 
-#' is set to 0. The function prints the number of invalid cells in for participating study.
-#' @details In DataSHIELD the user does not have access to the micro-data so and extreme values such as
-#' the maximum and the minimum are potentially disclosive so this function does not allow for the user 
-#' to set the limits of the density grid and the minimum and maximum values of the x and y vectors. These
-#' elements are set by the server side function \code{densitygrid.ds} to 'valid' values (i.e. values that
-#' do not lead to leakage of micro-data to the user).
+#' heatmap or contour plots. The cells with a count > 0 and < nfilter.tab are considered invalid
+#' and the count is set to 0. The function prints the number of invalid cells in for participating
+#' study.
+#' @details In DataSHIELD the user does not have access to the micro-data so and extreme values
+#' such as the maximum and the minimum are potentially disclosive so this function does not allow
+#' for the user to set the limits of the density grid and the minimum and maximum values of the x
+#' and y vectors. These elements are set by the server side function \code{densityGridDS} to
+#' 'valid' values (i.e. values that do not lead to leakage of micro-data to the user).
 #' @param x a character the name of numerical vector
 #' @param y a character the name of numerical vector
 #' @param numints an integer, the number of intervals for the grid density object, by default is 20.
-#' @param type a character which represent the type of graph to display. 
-#' If \code{type} is set to 'combine', a pooled grid density matrix is generated and
-#' one grid density matrix is generated for each study if \code{type} is set to 'split'.
+#' @param type a character which represent the type of graph to display. If \code{type} is set to
+#' 'combine', a pooled grid density matrix is generated and one grid density matrix is generated
+#' for each study if \code{type} is set to 'split'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a grid density matrix is returned
-#' @author Isaeva, J.; Gaye, A.
+#' @author Julia Isaeva, Amadou Gaye, Demetris Avraam for DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
@@ -36,7 +37,7 @@
 #'   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 #' 
 #'   # Example3: generate a grid density object where the number of intervals is set to 15, for 
-#'   #           each study separately
+#'               each study separately
 #'   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 #' 
 #'   # clear the Datashield R sessions and logout
@@ -108,25 +109,25 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     x.range.arg <- c(min(x.minrs), max(x.maxrs))
     y.range.arg <- c(min(y.minrs), max(y.maxrs))
     
-    x.global.min = x.range.arg[1]
-    x.global.max = x.range.arg[2]
-    y.global.min = y.range.arg[1]
-    y.global.max = y.range.arg[2]
+    x.global.min <- x.range.arg[1]
+    x.global.max <- x.range.arg[2]
+    y.global.min <- y.range.arg[1]
+    y.global.max <- y.range.arg[2]
     
     # generate the grid density object to plot
-    cally <- paste0("densityGridDS(",x,",",y,",",limits=T,",",x.global.min,",",
-                    x.global.max,",",y.global.min,",",y.global.max,",",numints, ")")
+    cally <- paste0("densityGridDS(", x, ",", y, ",", limits=T, ",", x.global.min, ",",
+                    x.global.max, ",", y.global.min, ",", y.global.max, ",", numints, ")")
     grid.density.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
     numcol <- dim(grid.density.obj[[1]])[2]
     
     # print the number of invalid cells in each participating study
-    for (i in 1:num.sources) {
+    for (i in 1:num.sources){
       message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
     }
     
-    Global.grid.density = matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
+    Global.grid.density <- matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
     for (i in 1:num.sources){
-      Global.grid.density = Global.grid.density + grid.density.obj[[i]][,1:(numcol-2)]
+      Global.grid.density <- Global.grid.density + grid.density.obj[[i]][,1:(numcol-2)]
       names(dimnames(Global.grid.density))[2] <- "Grid Density Matrix of the Pooled Data"
     }
     # newline for some space between the previous messages and the matrix when it is displayed
@@ -135,14 +136,14 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
   }else{
     if(type=="split"){
       # generate the grid density object
-      num_intervals=numints
-      cally <- paste0("densityGridDS(",x,",",y,",",'limits=FALSE',",",'x.min=NULL',",",
-                      'x.max=NULL',",",'y.min=NULL',",",'y.max=NULL',",",numints=num_intervals, ")")
+      num_intervals <- numints
+      cally <- paste0("densityGridDS(", x, ",", y, ",", 'limits=FALSE', ",", 'x.min=NULL', ",",
+                      'x.max=NULL', ",", 'y.min=NULL', ",", 'y.max=NULL', ",", numints=num_intervals, ")")
       grid.density.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
       numcol <- dim(grid.density.obj[[1]])[2]
       
       # print the number of invalid cells in each participating study
-      for (i in 1:num.sources) {
+      for (i in 1:num.sources){
         message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
       }
       return(grid.density.obj)
