@@ -74,4 +74,4 @@ test_that("subD2_exists", {
 # Tear down
 #
 
-connect.studies.dataset.cnsim()
+disconnect.studies.dataset.cnsim()
