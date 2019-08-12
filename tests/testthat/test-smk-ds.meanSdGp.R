@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.meanSdGp::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("age.60", "female"))
+connect.studies.dataset.survival(list("age.60", "female"))
 
 #
 # Tests
@@ -70,4 +65,4 @@ test_that("meanSdGp values [both]", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.meanSdGp::smk done")
+disconnect.studies.dataset.survival()

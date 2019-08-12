@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.mean.o:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
@@ -49,4 +44,4 @@ test_that("mean_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.mean:arg done")
+disconnect.studies.dataset.cnsim()

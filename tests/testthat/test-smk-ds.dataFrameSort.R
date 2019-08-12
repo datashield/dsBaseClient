@@ -13,18 +13,12 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.dataFrameSort::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.dataFrameSort::smk create a sorted dataframe")
 context("ds.dataFrameSort::smk::create a sorted dataframe")
 test_that("dataFrameSort_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
@@ -41,4 +35,4 @@ test_that("dataFrameSort_exists", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.dataFrameSort::smk done")
+disconnect.studies.dataset.cnsim()

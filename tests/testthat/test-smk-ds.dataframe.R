@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.dataframe::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests
@@ -50,4 +45,4 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
 # Done
 #
 
-## context("dsBetaTestClient::ds.dataframe::smk done")
+disconnect.studies.dataset.cnsim()

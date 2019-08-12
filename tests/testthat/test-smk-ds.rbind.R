@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.rbind::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
@@ -43,4 +38,4 @@ test_that("simple test", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.rbind 1::smk done")
+disconnect.studies.dataset.survival()

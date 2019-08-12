@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.cbind::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
 #
 
 context("ds.cbind::smk")
-
 test_that("simple test", {
     res <- ds.cbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="cbind_newobj")
 
@@ -43,4 +37,4 @@ test_that("simple test", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.cbind:smk done")
+disconnect.studies.dataset.survival()

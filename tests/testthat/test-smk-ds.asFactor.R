@@ -13,23 +13,15 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asFactor::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
 #
 
-context("ds.asFactor::smk")
-
 ds.asNumeric("D$time.id","TID")
 
 context("ds.asFactor::smk::force.factor.levels")
-
 test_that("with no force.factor.levels", {
     ds.asFactor("TID", "TID.f1")
 
@@ -90,9 +82,7 @@ test_that("with force.factor.levels of c(1,2,3,4,'a','h',5)", {
     expect_equal("All tables are valid!", res2$validity)
 })
 
-# context("dsBetaTestClient::ds.asFactor(fixed.dummy.vars)::smk")
 context("ds.asFactor::smk::fixed.dummy.vars")
-
 test_that("with fixed.dummy.vars of TRUE", {
     ds.asFactor("TID", "TID.mat1", fixed.dummy.vars=TRUE)
 
@@ -117,4 +107,4 @@ test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.asFactor 1::smk done")
+disconnect.studies.dataset.survival()

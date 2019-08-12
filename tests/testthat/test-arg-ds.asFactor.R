@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asFactor:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
@@ -35,4 +30,4 @@ test_that("asFactor_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.asFactor:arg done")
+disconnect.studies.dataset.cnsim()

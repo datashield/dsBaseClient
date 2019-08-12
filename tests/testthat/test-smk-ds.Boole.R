@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.Boole::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
@@ -37,4 +32,4 @@ test_that("simple boole", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.Boole::smk done")
+disconnect.studies.dataset.cnsim()
