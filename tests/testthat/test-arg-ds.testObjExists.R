@@ -29,3 +29,5 @@ test_that("testObjExists_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

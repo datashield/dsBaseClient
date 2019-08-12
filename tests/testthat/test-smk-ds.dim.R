@@ -67,3 +67,5 @@ test_that("simple dim, combine", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

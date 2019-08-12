@@ -40,3 +40,5 @@ test_that("simplest ds.matrix", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

@@ -31,3 +31,5 @@ test_that("merge_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

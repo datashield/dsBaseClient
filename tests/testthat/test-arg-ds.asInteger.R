@@ -27,3 +27,5 @@ test_that("asInteger_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

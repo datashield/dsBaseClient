@@ -45,3 +45,5 @@ test_that("simple class", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

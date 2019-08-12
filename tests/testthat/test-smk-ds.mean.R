@@ -275,3 +275,5 @@ test_that("mean values [both]", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

@@ -27,3 +27,5 @@ test_that("simple c errors", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

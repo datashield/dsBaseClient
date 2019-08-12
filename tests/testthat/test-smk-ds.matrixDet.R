@@ -41,3 +41,5 @@ test_that("simplest ds.matrixDet", {
 #
 # Tear down
 #
+
+connect.studies.dataset.cnsim()

@@ -75,3 +75,5 @@ test_that("basic length, combine", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

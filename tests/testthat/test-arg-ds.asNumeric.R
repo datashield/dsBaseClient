@@ -27,3 +27,5 @@ test_that("asNumeric_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

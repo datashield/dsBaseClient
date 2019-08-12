@@ -27,3 +27,5 @@ test_that("unList_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

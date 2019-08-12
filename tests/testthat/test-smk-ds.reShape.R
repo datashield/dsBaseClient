@@ -39,3 +39,5 @@ test_that("simplest ds.reShape, wide", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

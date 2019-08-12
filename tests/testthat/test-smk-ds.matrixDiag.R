@@ -58,3 +58,5 @@ test_that("simplest ds.matrixDiag", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

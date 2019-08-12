@@ -40,3 +40,5 @@ test_that("simple testObjExists", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

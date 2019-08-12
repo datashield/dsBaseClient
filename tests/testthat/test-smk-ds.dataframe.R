@@ -44,3 +44,5 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

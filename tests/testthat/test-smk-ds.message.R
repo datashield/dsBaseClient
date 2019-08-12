@@ -32,3 +32,5 @@ test_that("request message", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

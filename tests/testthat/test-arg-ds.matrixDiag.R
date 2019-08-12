@@ -30,3 +30,5 @@ test_that("matrixDiag_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

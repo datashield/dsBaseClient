@@ -34,3 +34,5 @@ test_that("dataFrameSubset_exists", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

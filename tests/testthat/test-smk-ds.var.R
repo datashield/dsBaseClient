@@ -94,3 +94,5 @@ test_that("simple var, both", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

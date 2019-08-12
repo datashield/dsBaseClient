@@ -61,3 +61,5 @@ test_that("simple test, combine", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

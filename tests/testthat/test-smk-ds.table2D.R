@@ -50,3 +50,5 @@ test_that("simple table2D", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

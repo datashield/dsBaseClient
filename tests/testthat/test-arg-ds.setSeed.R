@@ -29,3 +29,5 @@ test_that("setSeed_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

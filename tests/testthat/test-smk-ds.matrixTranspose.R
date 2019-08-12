@@ -41,3 +41,5 @@ test_that("simplest ds.matrixTranspose", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

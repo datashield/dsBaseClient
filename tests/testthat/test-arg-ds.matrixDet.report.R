@@ -30,3 +30,5 @@ test_that("ds.matixDet.report erros", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

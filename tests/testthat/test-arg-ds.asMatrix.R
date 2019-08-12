@@ -28,4 +28,4 @@ test_that("asMatrix_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.asMatrix:arg done")
+disconnect.studies.dataset.cnsim()

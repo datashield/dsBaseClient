@@ -28,3 +28,5 @@ test_that("glm_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

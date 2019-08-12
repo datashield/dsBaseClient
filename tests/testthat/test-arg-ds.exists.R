@@ -27,3 +27,5 @@ test_that("simple exists errors", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

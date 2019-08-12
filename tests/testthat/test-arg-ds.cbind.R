@@ -30,3 +30,5 @@ test_that("cbind_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

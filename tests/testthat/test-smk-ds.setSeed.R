@@ -37,3 +37,5 @@ test_that("basic setSeed", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

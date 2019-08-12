@@ -34,4 +34,4 @@ test_that("length_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.length:arg done")
+disconnect.studies.dataset.cnsim()

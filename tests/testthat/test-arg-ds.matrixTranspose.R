@@ -29,3 +29,5 @@ test_that("matrixTranspose_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

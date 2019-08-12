@@ -82,3 +82,5 @@ test_that("data.frame test", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

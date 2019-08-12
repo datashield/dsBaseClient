@@ -69,4 +69,4 @@ test_that("non existent assign foobarDS", {
 # Tear down
 #
 
-# context("dsBetaTestClient::ds.foobar::arg done")
+disconnect.studies.dataset.cnsim()

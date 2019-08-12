@@ -65,3 +65,5 @@ test_that("var values [both]", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

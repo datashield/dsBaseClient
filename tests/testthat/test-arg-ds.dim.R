@@ -30,4 +30,4 @@ test_that("dim_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.dim:arg done")
+disconnect.studies.dataset.cnsim()

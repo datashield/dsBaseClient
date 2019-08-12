@@ -31,3 +31,5 @@ test_that("simplest ds.seq", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

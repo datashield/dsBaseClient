@@ -29,3 +29,5 @@ test_that("matrixInvert_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

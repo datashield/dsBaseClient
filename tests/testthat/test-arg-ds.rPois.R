@@ -30,3 +30,5 @@ test_that("rPois_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

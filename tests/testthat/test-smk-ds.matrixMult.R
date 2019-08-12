@@ -43,3 +43,5 @@ test_that("simplest ds.matrixMult", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

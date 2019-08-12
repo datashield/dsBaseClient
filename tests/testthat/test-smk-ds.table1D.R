@@ -79,3 +79,5 @@ test_that("table1D_erros", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

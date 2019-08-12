@@ -27,3 +27,5 @@ test_that("rbind_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

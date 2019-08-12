@@ -29,3 +29,5 @@ test_that("cov_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

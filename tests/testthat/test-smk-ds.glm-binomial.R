@@ -48,3 +48,5 @@ test_that("glm_binomial", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

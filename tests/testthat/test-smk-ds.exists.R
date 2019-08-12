@@ -51,3 +51,5 @@ test_that("simple exists", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

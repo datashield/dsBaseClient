@@ -27,3 +27,5 @@ test_that("request message for NULL", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

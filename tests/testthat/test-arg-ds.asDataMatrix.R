@@ -27,3 +27,5 @@ test_that("asDataMatrix_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

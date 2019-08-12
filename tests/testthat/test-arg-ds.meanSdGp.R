@@ -27,3 +27,5 @@ test_that("meanSdGp_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

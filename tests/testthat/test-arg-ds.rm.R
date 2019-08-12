@@ -28,3 +28,5 @@ test_that("ds.rm erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

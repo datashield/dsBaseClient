@@ -43,3 +43,5 @@ test_that("mean_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

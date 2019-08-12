@@ -39,3 +39,5 @@ test_that("asCharacter_erros", {
 #
 # Done
 #
+
+disconnect.discordant.dataset.simple()

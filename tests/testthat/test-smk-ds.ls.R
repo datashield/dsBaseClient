@@ -35,3 +35,5 @@ test_that("simple ls", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

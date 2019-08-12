@@ -48,3 +48,5 @@ test_that("glm_gaussian", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

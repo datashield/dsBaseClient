@@ -13,7 +13,6 @@
 # Set up
 #
 
-
 connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
@@ -71,4 +70,8 @@ test_that("simple test", {
     expect_equal(res2$survival3$return.message, "Disclosure risk, number of characters in x.name must not exceed nfilter.stringShort which is currently set at: 20")
 })
 
+#
+# Done
+#
 
+disconnect.studies.dataset.survival()

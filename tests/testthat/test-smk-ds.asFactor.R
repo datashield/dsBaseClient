@@ -106,3 +106,5 @@ test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

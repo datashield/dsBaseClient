@@ -29,3 +29,5 @@ test_that("asFactor_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

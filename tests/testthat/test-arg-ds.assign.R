@@ -27,3 +27,5 @@ test_that("assign_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

@@ -44,3 +44,5 @@ test_that("simplest ds.matrixDimnames", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

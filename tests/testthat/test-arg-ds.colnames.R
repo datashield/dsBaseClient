@@ -27,3 +27,5 @@ test_that("simple colnames errors", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

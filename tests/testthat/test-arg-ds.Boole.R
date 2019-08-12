@@ -31,3 +31,4 @@ test_that("Boole_erros", {
 # Done
 #
 
+disconnect.studies.dataset.cnsim()

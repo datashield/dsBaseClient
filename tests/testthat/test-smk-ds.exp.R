@@ -75,3 +75,5 @@ test_that("simple exp", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

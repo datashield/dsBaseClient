@@ -36,3 +36,5 @@ test_that("quantileMean_erros", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

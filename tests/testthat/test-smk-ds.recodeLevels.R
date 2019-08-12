@@ -50,3 +50,4 @@ connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
 # Tear down
 #
 
+disconnect.studies.dataset.cnsim()

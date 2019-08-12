@@ -100,3 +100,5 @@ test_that("simple test, split, casewise.complete", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

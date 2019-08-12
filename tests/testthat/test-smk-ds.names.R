@@ -42,3 +42,5 @@ test_that("names_erros", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

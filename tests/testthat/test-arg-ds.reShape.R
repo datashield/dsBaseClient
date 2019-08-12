@@ -30,3 +30,5 @@ test_that("reShape_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

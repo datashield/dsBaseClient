@@ -66,3 +66,5 @@ test_that("check results", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

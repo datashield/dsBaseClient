@@ -64,3 +64,5 @@ test_that("meanSdGp values [both]", {
 #
 # Done
 #
+
+disconnect.studies.dataset.survival()

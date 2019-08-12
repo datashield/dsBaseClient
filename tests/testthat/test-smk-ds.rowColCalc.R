@@ -48,3 +48,5 @@ test_that("rowColCalc_errors", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

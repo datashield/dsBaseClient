@@ -27,3 +27,5 @@ test_that("seq_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

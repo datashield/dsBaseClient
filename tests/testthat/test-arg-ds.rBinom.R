@@ -30,3 +30,5 @@ test_that("rBinom_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

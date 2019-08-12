@@ -30,3 +30,5 @@ test_that("rUnif_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

@@ -29,3 +29,5 @@ test_that("matrixDet_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

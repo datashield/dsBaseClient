@@ -27,3 +27,5 @@ test_that("dataFrameSubset_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

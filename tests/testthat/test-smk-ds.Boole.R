@@ -31,3 +31,5 @@ test_that("simple boole", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

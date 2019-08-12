@@ -75,3 +75,5 @@ test_that("simple log", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

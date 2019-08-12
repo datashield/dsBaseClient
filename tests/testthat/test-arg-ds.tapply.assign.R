@@ -42,3 +42,5 @@ test_that("tapply_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

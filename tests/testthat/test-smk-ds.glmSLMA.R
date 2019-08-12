@@ -162,3 +162,5 @@ test_that("simple glmSLMA, poisson", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

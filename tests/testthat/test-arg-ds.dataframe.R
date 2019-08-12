@@ -31,4 +31,4 @@ test_that("dataframe_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.dataframe:arg done")
+disconnect.studies.dataset.cnsim()

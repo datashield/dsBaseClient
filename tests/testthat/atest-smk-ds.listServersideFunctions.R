@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.listServersideFunctions::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests
@@ -87,4 +82,4 @@ test_that("check results", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.listServersideFunctions::smk done")
+disconnect.studies.dataset.cnsim()

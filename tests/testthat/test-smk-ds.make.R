@@ -31,3 +31,5 @@ test_that("simple make", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

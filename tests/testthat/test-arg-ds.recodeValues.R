@@ -32,3 +32,5 @@ test_that("recodeValues_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

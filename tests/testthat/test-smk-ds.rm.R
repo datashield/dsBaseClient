@@ -47,3 +47,5 @@ test_that("simple test", {
 #
 # Done
 #
+
+connect.studies.dataset.survival()

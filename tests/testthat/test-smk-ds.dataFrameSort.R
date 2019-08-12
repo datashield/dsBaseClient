@@ -34,3 +34,5 @@ test_that("dataFrameSort_exists", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()

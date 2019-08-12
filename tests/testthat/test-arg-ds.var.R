@@ -30,3 +30,5 @@ test_that("var_erros", {
 #
 # Done
 #
+
+disconnect.studies.dataset.cnsim()
