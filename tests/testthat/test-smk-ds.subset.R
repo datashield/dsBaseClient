@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.subset::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
+connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
 
 #
 # Tests
@@ -78,3 +73,5 @@ test_that("subD2_exists", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

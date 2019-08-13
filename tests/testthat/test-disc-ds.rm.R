@@ -13,18 +13,13 @@
 # Set up
 #
 
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.survival(list("survtime", "time.id", "female"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
 #
 # Tests
 #
 
 context("ds.rm::disc")
-
 test_that("justovertest", {
     res1 <- ds.rm(c("12345678910","12345678910"))
 
@@ -75,4 +70,8 @@ test_that("simple test", {
     expect_equal(res2$survival3$return.message, "Disclosure risk, number of characters in x.name must not exceed nfilter.stringShort which is currently set at: 20")
 })
 
+#
+# Done
+#
 
+disconnect.studies.dataset.survival()

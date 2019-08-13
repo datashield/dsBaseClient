@@ -13,11 +13,6 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.asCharacter:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_discordant_datasets.R")
-
 connect.discordant.dataset.simple(list("A", "B", "C"))
 
 #
@@ -45,4 +40,4 @@ test_that("asCharacter_erros", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.asCharacter:arg done")
+disconnect.discordant.dataset.simple()

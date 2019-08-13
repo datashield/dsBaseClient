@@ -161,3 +161,23 @@ connect.dataset.3 <- function()
   init.dataset.3()
   log.in.data.server()
 }
+
+disconnect.all.datasets <- function()
+{
+    log.out.data.server()
+}
+
+disconnect.dataset.1 <- function()
+{
+    log.out.data.server()
+}
+
+disconnect.dataset.2 <- function()
+{
+    log.out.data.server()
+}
+
+disconnect.dataset.3 <- function()
+{
+    log.out.data.server()
+}

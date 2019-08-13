@@ -24,3 +24,8 @@ connect.discordant.dataset.simple <- function(variables)
     init.discordant.dataset.simple(variables)
     log.in.data.server()
 }
+
+disconnect.discordant.dataset.simple <- function()
+{
+    log.out.data.server()
+}

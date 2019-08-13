@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.meanByClass::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC","LAB_HDL","GENDER","DIS_DIAB","PM_BMI_CATEGORICAL"))
+connect.studies.dataset.cnsim(list("LAB_TSC","LAB_HDL","GENDER","DIS_DIAB","PM_BMI_CATEGORICAL"))
 
 #
 # Tests
@@ -83,7 +78,9 @@ test_that("meanByClass_erros", {
     expect_error(ds.meanByClass(x='ldl~sex~not_a_factor'), "x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", fixed=TRUE)
     expect_error(ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
 })
+
 #
 # Tear down
 #
 
+disconnect.studies.dataset.cnsim()

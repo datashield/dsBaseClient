@@ -13,19 +13,13 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.merge::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
 
 #
 # Tests
 #
 
 context("ds.merge::smk")
-
 test_that("simple test", {
     spec_vectors_1 <- c('D$LAB_TSC', 'D$LAB_HDL')
     spec_vectors_2 <- c('D$LAB_TSC', 'D$DIS_AMI')
@@ -50,4 +44,4 @@ test_that("simple test", {
 # Done
 #
 
-# context("dsBetaTestClient::ds.merge 1::smk done")
+disconnect.studies.dataset.cnsim()

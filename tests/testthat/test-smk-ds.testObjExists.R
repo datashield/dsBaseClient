@@ -13,12 +13,7 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.testObjExists::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests
@@ -42,9 +37,8 @@ test_that("simple testObjExists", {
 #    expect_equal(res$return.message, "A valid copy of data object <ds_new> exists in all specified data sources")
 #})
 
-
 #
 # Done
 #
 
-# context("dsBetaTestClient::ds.testObjExists::smk done")
+disconnect.studies.dataset.cnsim()
