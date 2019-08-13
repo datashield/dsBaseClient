@@ -124,5 +124,7 @@ jobs:
   - bash: |
       sudo apt install tree -y
       tree
+      lscpu
+      env
     displayName: 'Environment info'
     condition: always()
