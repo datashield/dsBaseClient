@@ -13,24 +13,19 @@
 # Set up
 #
 
-# context("dsBetaTestClient::ds.lexis.o:args test")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
 #
 
-context("ds.lexis.o::arg::test errors")
+context("ds.lexis::arg::test errors")
 test_that("lexis_erros", {
-    expect_error(ds.lexis.o(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
+    expect_error(ds.lexis(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
 })
 
 #
 # Done
 #
 
-# context("dsBetaTestClient::ds.lexis.o:arg done")
+disconnect.studies.dataset.cnsim()
