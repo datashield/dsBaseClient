@@ -9,7 +9,6 @@ Depends: R (>= 3.5.0)
 Imports:
     fields,
     metafor,
-    RANN,
     opaladmin,
     opal
 RoxygenNote: 6.1.1
