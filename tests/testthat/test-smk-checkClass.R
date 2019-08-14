@@ -69,7 +69,7 @@ test_that("simple test", {
 
 test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=myvectors)
+    ds.dataFrame(x=myvectors)
 
     res <- checkClass(ds.test_env$connection.opal, "df_new")
 
