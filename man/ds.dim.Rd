@@ -63,7 +63,7 @@ of each study separately.
 
 }
 \seealso{
-\link{ds.dataframe} to generate a table of type dataframe.
+\link{ds.dataFrame} to generate a table of type dataframe.
 
 \link{ds.changeRefGroup} to change the reference level of a factor.
 

@@ -1,18 +1,18 @@
 #' 
-#' @title ds.dataframe calling dataframeDS
+#' @title ds.dataFrame calling dataframeDS
 #' @description Creates a data frame from its elemental components: pre-existing data frames;
 #' single variables; matrices
 #' @details A data frame is a list of variables all with the same number of rows with unique row
-#' names, which is of class 'data.frame'. ds.dataframe will create a data frame by combining
+#' names, which is of class 'data.frame'. ds.dataFrame will create a data frame by combining
 #' a series of elemental components which may be pre-existing data.frames, matrices or variables.
 #' A critical requirement is that the length of all component variables, and the
 #' number of rows of the component data.frames or matrices must all be the same. The output
-#' data.frame will then have this same number of rows. ds.dataframe calls the serverside
+#' data.frame will then have this same number of rows. ds.dataFrame calls the serverside
 #' function dataframeDS which is almost the same as the native R function data.frame()
 #' and so several of the arguments are precisely the same as for data.frame() 
 #' @param x This is a vector of character strings representing the names of the elemental
 #' components to be combined. For example, the call:
-#' ds.dataframe(x=c('DF_input','matrix.m','var_age'),newobj='DF_output') will
+#' ds.dataFrame(x=c('DF_input','matrix.m','var_age'),newobj='DF_output') will
 #' combine a pre-existing data.frame called DF_input with a matrix and a variable
 #' called var_age. The output will be the combined data.frame DF_output. As many
 #' elemental components as needed may be combined in any order e.g. 3 data.frames,
@@ -20,7 +20,7 @@
 #' be specified in a two step procedure, the first being a call to
 #' the native R environment on the client server:
 #' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
-#' ds.dataframe(x=x.components,newobj='DF_output')
+#' ds.dataFrame(x=x.components,newobj='DF_output')
 #' @param row.names	NULL or a single integer or character string specifying a
 #' column to be used as row names, or a character or integer vector giving the
 #' row names for the data frame.
@@ -32,7 +32,7 @@
 #' If necessary they are adjusted (by make.names) so that they are.
 #' As a slight modification to the standard data.frame() function in native
 #' R, if any column names are duplicated, the second and subsequent
-#' occurances are given the suffixes .1, .2 etc by ds.dataframe and so
+#' occurances are given the suffixes .1, .2 etc by ds.dataFrame and so
 #' there are never any duplicates when check.names is invoked by the
 #' serverside function dataframeDS
 #' @param stringsAsFactors logical: should character vectors be converted
@@ -61,7 +61,7 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataframe() also returns any studysideMessages that can explain the error in creating
+#' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
 #' see the relevant studysideMessages at a later date you can use the {ds.message}
 #' function. If you type ds.message("newobj") it will print out the relevant
@@ -71,7 +71,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-ds.dataframe<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj='df_new',datasources=NULL,notify.of.progress=FALSE){
+ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj='df_new',datasources=NULL,notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -285,5 +285,5 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.dataframe
+#ds.dataFrame
 

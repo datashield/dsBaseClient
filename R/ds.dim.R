@@ -17,7 +17,7 @@
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
 #' @author Amadou Gaye, Julia Isaeva, Demetris Avraam, for DataSHIELD Development Team
-#' @seealso \link{ds.dataframe} to generate a table of type dataframe.
+#' @seealso \link{ds.dataFrame} to generate a table of type dataframe.
 #' @seealso \link{ds.changeRefGroup} to change the reference level of a factor.
 #' @seealso \link{ds.colnames} to obtain the column names of a matrix or a data frame
 #' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.

@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 context("ds.colnames::smk")
 test_that("simple colnames", {
     myvectors <- c("D$LAB_TSC", "D$LAB_TRIG")
-    ds.dataframe(x=myvectors, newobj="new_df")
+    ds.dataFrame(x=myvectors, newobj="new_df")
 
     res <- ds.colnames("new_df")
 

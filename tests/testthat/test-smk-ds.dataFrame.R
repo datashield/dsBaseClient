@@ -18,10 +18,10 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 # Tests
 #
 
-context("ds.dataframe::smk::create a dataframe")
+context("ds.dataFrame::smk::create a dataframe")
 test_that("dataframe_exists", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=vectors)
+    ds.dataFrame(x=vectors)
     res <- ds.ls(datasources=ds.test_env$connection.opal)
 
     expect_equal(res$sim1[2], "df_new")
@@ -29,10 +29,10 @@ test_that("dataframe_exists", {
     expect_equal(res$sim3[2], "df_new")
 })
 
-context("ds.dataframe::smk::create a dataframe, with DataSHIELD.checks")
+context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks")
 test_that("dataframe_exists, with DataSHIELD.checks", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=vectors, DataSHIELD.checks=TRUE)
+    ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE)
     res <- ds.ls(datasources=ds.test_env$connection.opal)
 
     expect_equal(res$sim1[2], "df_new")
