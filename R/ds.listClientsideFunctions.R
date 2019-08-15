@@ -6,75 +6,88 @@
 #' dsStatsClient, or userDefinedClient. Operates by directly interrogating
 #' the R objects stored in the input client packages and objects with name
 #' "ds. ....." in .GlobalEnv
-#' @param all.functions logical, if TRUE will list all client-side functions
-#' in the input client-side packages and/or in .GlobalEnv. Default = TRUE
-#' @param dsBaseClient logical, if TRUE will selectively list client-side functions
-#' in "package:dsBaseClient". Default = FALSE.
-#' @param dsGraphicsClient logical, if TRUE will selectively list client-side functions
-#' in "package:dsGraphicsClient". Default = FALSE.
-#' @param dsModellingClient logical, if TRUE will selectively list client-side functions
-#' in "package:dsModellingClient". Default = FALSE.
-#' @param dsStatsClient logical, if TRUE will selectively list client-side functions
-#' in "package:dsStatsClient". Default = FALSE.
-#' @param dsBetaTestClient logical, if TRUE will selectively list client-side functions
-#' in "package:dsBetaTestClient". Default = FALSE.
-#' @param userDefinedClient logical, if TRUE will selectively list user defined
-#' client-side functions held as R objects with name "ds. ..." in .Global.env". Default = FALSE.
 #' @return list containing all functions in each or all of these five classes
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.listClientsideFunctions  <-function(all.functions=TRUE,
-						dsBaseClient=FALSE,
-					        dsGraphicsClient=FALSE,
-					        dsModellingClient=FALSE,
-					        dsStatsClient=FALSE,
-						dsBetaTestClient=FALSE,
-						userDefinedClient=FALSE
-						){
-#THIS IS UNDERLYING SEARCH FUNCTION IN R IF NEEDED: search()	
-	if(all.functions==TRUE&&dsBaseClient==FALSE&&dsGraphicsClient==FALSE&&
-	dsModellingClient==FALSE&&dsStatsClient==FALSE&&dsBetaTestClient==FALSE&&
-	userDefinedClient==FALSE){
-	cat("\n### dsBaseClient functions \n")
-	print(ls(pos="package:dsBaseClient"))
-	cat("\n\n### dsGraphicsClient functions \n")
-	print(ls(pos="package:dsGraphicsClient"))
-	cat("\n\n### dsModellingClient functions \n")
-	print(ls(pos="package:dsModellingClient"))
-	cat("\n\n### dsStatsClient functions \n")
-	print(ls(pos="package:dsStatsClient"))
-	cat("\n\n### dsBetaTestClient functions \n")
-	print(ls(pos="package:dsBetaTestClient"))
-	cat("\n\n### userDefinedClient functions \n")
-	print(ls(pos=".GlobalEnv",pattern="ds.*"))
+ds.listClientsideFunctions  <-function(){
 
-	}else{
-	if(dsBaseClient==TRUE){
-		cat("\n### dsBaseClient functions \n")
-		print(ls(pos="package:dsBaseClient"))}
-	if(dsGraphicsClient==TRUE){
-		cat("\n### dsBaseGraphics functions \n")
-		print(ls(pos="package:dsGraphicsClient"))}
-	if(dsModellingClient==TRUE){
-		cat("\n### dsModellingClient functions \n")
-		print(ls(pos="package:dsModellingClient"))}
-	if(dsStatsClient==TRUE){
-		cat("\n### dsStatsClient functions \n")
-		print(ls(pos="package:dsStatsClient"))}
-	if(dsBetaTestClient==TRUE){
-		cat("\n### dsBetaTestClient functions \n")
-		print(ls(pos="package:dsBetaTestClient"))}
-	if(userDefinedClient==TRUE){
-		cat("\n### userDefinedClient functions \n")
-		print(ls(pos=".GlobalEnv",pattern="ds.*"))}
+search.path<-search()
 
-	if(dsBaseClient==FALSE&&dsGraphicsClient==FALSE&&dsModellingClient==FALSE&&
-		dsStatsClient==FALSE&&dsStatsClient==FALSE&&dsBetaTestClient==FALSE&&userDefinedClient==FALSE){
+print.text.full<-NULL
 
-	print("ALL OPTIONS DECLARED FALSE SO NO OUTPUT")
+test.dsBaseClient<-FALSE
+test.dsBetaTestClient<-FALSE
+test.userDefinedClient<-FALSE
+test.no.functions<-TRUE
+potential.clientside.repositories<-NULL
+
+for(j in 1:length(search.path))
+  {
+
+  if(search.path[j]=="package:dsBaseClient")
+    {
+    test.dsBaseClient<-TRUE
+	test.no.functions<-FALSE
+    }
+
+ if(search.path[j]=="package:dsBetaTestClient")
+    {
+    test.dsBetaTestClient<-TRUE
+	test.no.functions<-FALSE
 	}
-   }
+
+  if(search.path[j]==".GlobalEnv")
+    {
+    test.userDefinedClient<-TRUE
+	test.no.functions<-FALSE
+	}
+  }
+
+
+		cat("\n### Full search path \n")
+		print.search.list<-search()
+		print(print.search.list)
+		
+
+	if(test.userDefinedClient==TRUE)
+		{	
+		cat("\n### userDefinedClient functions \n")
+		print.text<-ls(pos=".GlobalEnv",pattern="ds.*")
+		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
+		print(print.text)
+		print.text.full<-c(print.text.full,print.text)
+		}
+	
+	if(test.dsBetaTestClient==TRUE)
+		{	
+		cat("\n### dsBetaTestClient functions \n")
+		print.text<-ls(pos="package:dsBetaTestClient")
+		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
+		print(print.text)
+		print.text.full<-c(print.text.full,print.text)
+		}
+
+	if(test.dsBaseClient==TRUE)
+		{	
+		cat("\n### dsBaseClient functions \n")
+		print.text<-ls(pos="package:dsBaseClient")
+		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
+		print(print.text)
+		print.text.full<-c(print.text.full,print.text)
+		}
+
+	if(test.no.functions==TRUE)
+		{	
+		cat("\n### No standard clientside functions identified \n")
+		}
+
+	cat("\nIf you cannot see one or more of the clientside functions you expected to find",
+	    "please see above for the full search path. If one of the paths is a possible clientside repository",
+	    "issue the R command ls(pos='package:dsPackageName')",
+	    "where 'package:dsPackageName' is the full name stated in the search path\n\n")
+	
+	return(print.text.full)
 }
-#ds.listClientsideFunctions
+# ds.listClientsideFunctions()
 
 
