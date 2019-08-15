@@ -4,32 +4,7 @@
 \alias{ds.listClientsideFunctions}
 \title{ds.listClientsideFunctions calling no server-side functions}
 \usage{
-ds.listClientsideFunctions(all.functions = TRUE, dsBaseClient = FALSE,
-  dsGraphicsClient = FALSE, dsModellingClient = FALSE,
-  dsStatsClient = FALSE, dsBetaTestClient = FALSE,
-  userDefinedClient = FALSE)
-}
-\arguments{
-\item{all.functions}{logical, if TRUE will list all client-side functions
-in the input client-side packages and/or in .GlobalEnv. Default = TRUE}
-
-\item{dsBaseClient}{logical, if TRUE will selectively list client-side functions
-in "package:dsBaseClient". Default = FALSE.}
-
-\item{dsGraphicsClient}{logical, if TRUE will selectively list client-side functions
-in "package:dsGraphicsClient". Default = FALSE.}
-
-\item{dsModellingClient}{logical, if TRUE will selectively list client-side functions
-in "package:dsModellingClient". Default = FALSE.}
-
-\item{dsStatsClient}{logical, if TRUE will selectively list client-side functions
-in "package:dsStatsClient". Default = FALSE.}
-
-\item{dsBetaTestClient}{logical, if TRUE will selectively list client-side functions
-in "package:dsBetaTestClient". Default = FALSE.}
-
-\item{userDefinedClient}{logical, if TRUE will selectively list user defined
-client-side functions held as R objects with name "ds. ..." in .Global.env". Default = FALSE.}
+ds.listClientsideFunctions()
 }
 \value{
 list containing all functions in each or all of these five classes
