@@ -4,7 +4,6 @@ schedules:
     branches:
       include:
       - master
-      - merging
     always: true
 
 jobs:
@@ -57,10 +56,6 @@ jobs:
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
       sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
-      #sudo R -q -e "install.packages('devtools', dependencies=TRUE)"
-      #sudo R -q -e "install.packages('metafor', dependencies=TRUE)"
-      #sudo R -q -e "install.packages('fields', dependencies=TRUE)"
-      #sudo R -q -e "install.packages('covr', dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
     displayName: 'Install R client'
@@ -124,8 +119,11 @@ jobs:
 
   - bash: |
       sudo apt install tree -y
+      echo -n "#############################"
       tree
+      echo -n "#############################"
       lscpu
+      echo -n "#############################"
       env
     displayName: 'Environment info'
     condition: always()
