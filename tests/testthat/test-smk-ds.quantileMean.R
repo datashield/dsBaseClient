@@ -1,14 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+#  
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#  
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
 #
 # Set up
 #
 
-context("ds.quantileMean::smk")
-
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list('LAB_HDL'))
+connect.studies.dataset.cnsim(list('LAB_HDL'))
 
 #
 # Tests
@@ -31,7 +35,6 @@ test_that("quantileMean_split", {
   expect_equal(res$sim3[[7]], 2.2442, tolerance = .0000000000001)
 })
 
-
 context("ds.quantileMean::smk::test errors")
 ds.asCharacter(x='D$LAB_HDL', newobj="not_a_numeric")
 test_that("quantileMean_erros", {
@@ -39,6 +42,9 @@ test_that("quantileMean_erros", {
     expect_error(ds.quantileMean(x='D$LAB_HDL', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
     expect_error(ds.quantileMean(x='not_a_numeric'), "The input object must be an integer or numeric vector.", fixed=TRUE)
 })
+
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()

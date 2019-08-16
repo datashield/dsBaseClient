@@ -58,7 +58,7 @@ ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  if(typ != 'numeric' & typ != 'integer'){
+  if(!('numeric' %in% typ) && !('integer' %in% typ)){
       stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
   }
   

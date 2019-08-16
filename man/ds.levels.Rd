@@ -34,7 +34,7 @@ This is just a wrapper function for the server side function.
   ds.levels(x='D$PM_BMI_CATEGORICAL')
 
   # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-  \dontrun{ ds.levels(x='D$LAB_TSC') }
+  ds.levels(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
   datashield.logout(opals)

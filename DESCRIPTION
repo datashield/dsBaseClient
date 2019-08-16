@@ -1,13 +1,15 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 4.2.0
-Author: DataSHIELD Developers <datashield@obiba.org>
-Maintainer: DataSHIELD Developers <datashield@obiba.org>
-Description: DataSHIELD base functions for the client site.
+Version: 5.0.0-02
+Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
+Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
+Description: DataSHIELD client functions for the client site.
 License: GPL-3
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 Imports:
     fields,
+    metafor,
+    opaladmin,
     opal
 RoxygenNote: 6.1.1
 Encoding: UTF-8

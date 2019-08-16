@@ -16,11 +16,10 @@ library(dsBaseClient)
 library(RCurl)
 
 
-
-
 source("connection_to_datasets/login_details.R")
 source("connection_to_datasets/init_all_datasets.R")
-#source("libraries/load_libraries.R")
+source("connection_to_datasets/init_studies_datasets.R")
+source("connection_to_datasets/init_discordant_datasets.R")
 
 
 init.all.datasets()
@@ -37,7 +36,6 @@ test_that("The virtual machine is loaded. ",
 #define test_environment variables - connection to data shield and read from local files
 
 
-#load.libraries()
 #load the packages required for datashield to work
 #test_that(" The packages dsBase, dsModelling, dsGraphics, dsStats are installed and loaded.",
 #{
@@ -48,7 +46,7 @@ test_that("The virtual machine is loaded. ",
 #})
 
 
-print ("connect to server")
+#print ("connect to server")
 if (ds.test_env$context == ds.test_env$contexts[1])
 {
   #ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)

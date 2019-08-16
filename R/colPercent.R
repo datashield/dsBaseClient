@@ -1,14 +1,13 @@
 #'
 #' @title Produces column percentages
 #' @description this is an INTERNAL function.
-#' @details The function is required by the client function \code{ds.table2D}. 
+#' @details The function is required required by the client function \code{ds.table2D}. 
 #' @param dataframe a data frame
 #' @keywords internal
 #' @return a data frame
 #' @author Gaye, A.
 #' 
 colPercent <- function(dataframe){
-  
   dt <- dataframe
   lastcol <- dim(dataframe)[2]
   lastrow <- dim(dataframe)[1]
@@ -17,5 +16,7 @@ colPercent <- function(dataframe){
     dt[,i] <- round((dataframe[,i]/totalval)*100,2)      
   }
   return(dt)
-  
 }
+
+
+

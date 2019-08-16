@@ -14,10 +14,10 @@ This is an internal function.
 }
 \details{
 The function searches for a list containing object of type 'opal'
-in the global environment; if more than one list is found it return the lastest.
+in the global environment and the testing environment; if more than one list is found it return the lastest.
 This way no matter what the user calls his opal login object it will be captured.
 }
 \author{
-Amadou Gaye, Paul Burton (updated 15/10/18). THIS IS VERSION TO USE 8/2/19.
+Gaye A, edited by Ryser-Welch P.
 }
 \keyword{internal}

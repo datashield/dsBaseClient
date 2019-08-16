@@ -4,7 +4,7 @@
 \alias{ds.table2D}
 \title{Generates 2-dimensional contingency tables}
 \usage{
-ds.table2D(x = NULL, y = NULL, type = "combine",
+ds.table2D(x = NULL, y = NULL, type = "both",
   warningMessage = TRUE, datasources = NULL)
 }
 \arguments{
@@ -13,8 +13,9 @@ ds.table2D(x = NULL, y = NULL, type = "combine",
 \item{y}{a character, the name of a numerical vector with discrete values - usually a factor.}
 
 \item{type}{a character which represent the type of table to ouput: pooled table or one table for each 
-data source. If \code{type} is set to 'combine', a pooled 2-dimensional table is returned; if If \code{type} 
-is set to 'split' a 2-dimensional table is returned for each data source.}
+data source or both. If \code{type} is set to 'combine', a pooled 2-dimensional table is returned; If \code{type} 
+is set to 'split' a 2-dimensional table is returned for each data source. If \code{type} is set to 'both' (default)
+a pooled 2-dimensional table plus a 2-dimensional table for each data source are returned.}
 
 \item{warningMessage}{a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
 messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information 
@@ -25,28 +26,28 @@ assign to R, as \code{dataframe}, from opal datasources.}
 }
 \value{
 A list object containing the following items:
-\item{counts}{ table(s) that hold counts for each level/category. If some cells counts are invalid (see 'Details' 
-section) only the total (outer) cell counts are displayed in the returned individual study tables or in the pooled 
-table.}
-\item{rowPercent}{ table(s) that hold row percentages for each level/category. Inner cells are reported as
+\item{colPercent}{table(s) that hold column percentages for each level/category. Inner cells are reported as
 missing if one or more cells are 'invalid'.}
-\item{colPercent}{ table(s) that hold column percentages for each level/category. Inner cells are reported as
+\item{rowPercent}{table(s) that hold row percentages for each level/category. Inner cells are reported as
 missing if one or more cells are 'invalid'.}
 \item{chi2Test}{Chi-squared test for homogeneity.}
-\item{validity}{ a text that informs the analyst about the validity of the output tables. If any tables are invalid the
+\item{counts}{table(s) that hold counts for each level/category. If some cell counts are invalid (see 'Details' 
+section) only the total (outer) cell counts are displayed in the returned individual study tables or in the pooled 
+table.}
+\item{validity}{a text that informs the analyst about the validity of the output tables. If any tables are invalid the
 studies they are originated from are also mentioned in the text message.}
 }
 \description{
 The function ds.table2D is a client-side wrapper function. It calls the server-side function 
-'table2dDS' to generate 2-dimensional tables for all data sources.
+'table2DDS' that generates a 2-dimensional contingency table for each data source.
 }
 \details{
 The table returned by the server side function might be valid (non disclosive - no table cell have 
-counts between 1 and the minimal number agreed by the data owner and set in opal) or invalid (potentially 
-disclosive - one or more table cells have a count between 1 and the minimal number agreed by the data owner). 
-If a 2-dimensional table is invalid all the cells are set to NA except the total count. This way it is possible 
-the know the total count and combine total counts across data sources but it is not possible to identify the 
-cell(s) that had the small counts which render the table invalid.
+counts between 1 and the minimal number agreed by the data owner and set in opal as the "nfilter.tab") or
+invalid (potentially disclosive - one or more table cells have a count between 1 and the minimal number agreed
+by the data owner). If a 2-dimensional table is invalid all the cells are set to NA except the total counts.
+In this way, it is possible to combine total counts across all the data sources but it is not possible to 
+identify the cell(s) that had the small counts which render the table invalid.
 }
 \examples{
 \dontrun{
@@ -57,11 +58,11 @@ cell(s) that had the small counts which render the table invalid.
   # login and assign all the variables to R
   opals  <-  datashield.login(logins=logindata,assign=TRUE)
 
-  # Example 1: generate a two dimensional table, outputting combined contingency tables - 
-  # default behaviour
+  # Example 1: generate a two dimensional table, outputting combined contingency 
+  # tables - default behaviour
   output <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
-  # display the 5 results items, one at a time to avoid having too much information displayed
-  # at the same time
+  # display the 5 results items, one at a time to avoid having too much information
+  # displayed at the same time
   output$counts
   output$rowPercent
   output$colPercent
@@ -70,8 +71,8 @@ cell(s) that had the small counts which render the table invalid.
 
   # Example 2: generate a two dimensional table, outputting study specific contingency tables
   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
-  # display the 5 results items, one at a time to avoid having too much information displayed
-  # at the same time
+  # display the 5 results items, one at a time to avoid having too much information displayed 
+  at the same time
   output$counts
   output$rowPercent
   output$colPercent
@@ -79,8 +80,8 @@ cell(s) that had the small counts which render the table invalid.
   output$validity
 
   # Example 3: generate a two dimensional table, outputting combined contingency tables 
-  # *** this example shows what happens when one or studies return an invalis table ***
-  output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER')
+  # *** this example shows what happens when one or studies return an invalid table ***
+  output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='combine')
   output$counts
   output$rowPercent
   output$colPercent
@@ -89,7 +90,7 @@ cell(s) that had the small counts which render the table invalid.
 
   # Example 4: same example as above but output is given for each study,
   # separately (i.e. type='split')
-  # *** this example shows what happens when one or studies return an invalis table ***
+  # *** this example shows what happens when one or studies return an invalid table ***
   output <- ds.table2D(x='D$DIS_CVA', y='D$GENDER', type='split')
   output$counts
   output$rowPercent
@@ -107,5 +108,5 @@ cell(s) that had the small counts which render the table invalid.
 \link{ds.table1D} for the tabulating one vector.
 }
 \author{
-Gaye, A.; Burton, P.
+Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
 }

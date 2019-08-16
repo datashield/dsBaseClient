@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.rowColCalc::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("LAB_TSC", "LAB_HDL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
 #
 # Tests
@@ -53,3 +48,5 @@ test_that("rowColCalc_errors", {
 #
 # Tear down
 #
+
+disconnect.studies.dataset.cnsim()
