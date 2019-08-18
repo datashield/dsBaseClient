@@ -11,6 +11,6 @@ source("definition_tests/def-assign-stats.R")
   local.wide <- reshape(local.data,idvar="IDENTIFIER",timevar="CATEGORY",direction="wide")
  
   #server data
-  #ds.dataframe(x=c('IDENTIFIER','CATEGORY','INTEGER'),newobj = 'dataframe',datasources = ds.test_env$local.values)
+  #ds.dataFrame(x=c('IDENTIFIER','CATEGORY','INTEGER'),newobj = 'dataframe',datasources = ds.test_env$local.values)
   #dsReshape(data.name   , datasources = ds.test_env$local.values)
 }

@@ -20,24 +20,22 @@ source("connection_to_datasets/login_details.R")
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_studies_datasets.R")
 source("connection_to_datasets/init_discordant_datasets.R")
-#source("libraries/load_libraries.R")
 
 
 init.all.datasets()
 #
 #print(ds.test_env$ping_address)
 #connect to a server
-# context("VM problems")
-#test_that("The virtual machine is loaded. ",
-#{      
-#    expect_that(url.exists(ds.test_env$ping_address, timeout=5), is_true())
+context("VM problems")
+test_that("The virtual machine is loaded. ",
+{      
+    expect_that(url.exists(ds.test_env$ping_address, timeout=5), is_true())
 #    print("A server is available")
-#})
+})
 
 #define test_environment variables - connection to data shield and read from local files
 
 
-#load.libraries()
 #load the packages required for datashield to work
 #test_that(" The packages dsBase, dsModelling, dsGraphics, dsStats are installed and loaded.",
 #{
@@ -48,20 +46,20 @@ init.all.datasets()
 #})
 
 
-# if (ds.test_env$context == ds.test_env$contexts[1])
-# {
+if (ds.test_env$context == ds.test_env$contexts[1])
+{
   #ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
-#   log.in.data.server()
+  log.in.data.server()
 #  print(class(ds.test_env$connection.opal))
   
-# }
+}
 
 
 
-#test_that("The number of servers the same has setup",
-#{
-#  expect_true(length(ds.test_env$connection.opal) == length(ds.test_env$server))
-#})
+test_that("The number of servers the same has setup",
+{
+  expect_true(length(ds.test_env$connection.opal) == length(ds.test_env$server))
+})
 
 
 #print("dimensions")

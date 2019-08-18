@@ -1,7 +1,7 @@
 
 .test.data.frame.creation <- function(list.variables,data.frame.name)
 {
-     data.frame.server <- ds.dataframe(x=list.variables, newobj = data.frame.name, datasources = ds.test_env$connection.opal)
+     data.frame.server <- ds.dataFrame(x=list.variables, newobj = data.frame.name, datasources = ds.test_env$connection.opal)
      type <- ds.class(data.frame.name)
      exists <- ds.exists(data.frame.name, datasources = ds.test_env$connection.opal)
      cols.name <- ds.colnames(data.frame.name,datasources = ds.test_env$connection.opal)
@@ -31,7 +31,7 @@
   
   ds.make(variable.name,variable.created,datasources = ds.test_env$connection.opal)
  
-  data.frame.server <- ds.dataframe(x=list.variables, newobj = data.frame.name, datasources = ds.test_env$connection.opal)
+  data.frame.server <- ds.dataFrame(x=list.variables, newobj = data.frame.name, datasources = ds.test_env$connection.opal)
   
   type <- ds.class(data.frame.name)
   exists <- ds.exists(data.frame.name, datasources = ds.test_env$connection.opal)
@@ -49,7 +49,7 @@
   ds.make('D$NUMERIC','numeric_var')
   ds.make('D$FACTOR','factor_var')
   
-  data.frame.server <- ds.dataframe(x=c('numeric_var','factor_var'), newobj = data.frame.name, datasources = ds.test_env$connection.opal)
+  data.frame.server <- ds.dataFrame(x=c('numeric_var','factor_var'), newobj = data.frame.name, datasources = ds.test_env$connection.opal)
   type <- ds.class(data.frame.name)
   exists <- ds.exists(data.frame.name, datasources = ds.test_env$connection.opal)
   
