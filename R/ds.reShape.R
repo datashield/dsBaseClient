@@ -61,7 +61,7 @@
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataframe() also returns any studysideMessages that can explain the error in creating
+#' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
 #' see the relevant studysideMessages at a later date you can use the {ds.message}
 #' function. If you type ds.message('newobj') it will print out the relevant

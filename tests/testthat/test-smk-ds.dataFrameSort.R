@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -22,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context("ds.dataFrameSort::smk::create a sorted dataframe")
 test_that("dataFrameSort_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=myvectors, newobj="unsorted_df")
+    ds.dataFrame(x=myvectors, newobj="unsorted_df")
 
     res <- ds.dataFrameSort(df.name="unsorted_df", sort.key.name="D$LAB_TSC", newobj="sorted_df")
 

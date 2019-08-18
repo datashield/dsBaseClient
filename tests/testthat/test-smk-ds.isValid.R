@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -32,7 +31,7 @@ test_that("isValid", {
     expect_true(res1$sim3)
 
 #    myvectors <- c("D$LAB_TSC", "D$LAB_TRIG")
-#    ds.dataframe(x=myvectors, newobj="unsubset_df")
+#    ds.dataFrame(x=myvectors, newobj="unsubset_df")
 #    ds.dataFrameSubset(df.name="unsubset_df", V1.name="D$LAB_TSC", V2.name="D$LAB_TRIG", Boolean.operator=">", newobj="subset_df")
 
 #    res2 <- ds.isValid(x="subset_df")

@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -23,8 +22,8 @@ context("ds.merge::smk")
 test_that("simple test", {
     spec_vectors_1 <- c('D$LAB_TSC', 'D$LAB_HDL')
     spec_vectors_2 <- c('D$LAB_TSC', 'D$DIS_AMI')
-    ds.dataframe(x=spec_vectors_1, newobj="test_1_df")
-    ds.dataframe(x=spec_vectors_2, newobj="test_2_df")
+    ds.dataFrame(x=spec_vectors_1, newobj="test_1_df")
+    ds.dataFrame(x=spec_vectors_2, newobj="test_2_df")
 
     res <- ds.merge(x.name="test_1_df", y.name="test_2_df", by.x.names="D$LAB_TSC", by.y.names="D$LAB_TSC", newobj="merge_newobj")
 

@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -19,12 +18,9 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.dataframe::arg::test errors")
-test_that("dataframe_erros", {
-    expect_error(ds.dataframe(), "Please provide the name of the list that holds the input vectors!", fixed=TRUE)
-
-    ds.asList(x='D$A', newobj="as_list")
-    expect_error(ds.dataframe("as_list", DataSHIELD.checks=TRUE), " Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", fixed=TRUE)
+context("ds.lexis::arg::test errors")
+test_that("lexis_erros", {
+    expect_error(ds.lexis(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
 })
 
 #

@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -22,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 context("ds.colnames::smk")
 test_that("simple colnames", {
     myvectors <- c("D$LAB_TSC", "D$LAB_TRIG")
-    ds.dataframe(x=myvectors, newobj="new_df")
+    ds.dataFrame(x=myvectors, newobj="new_df")
 
     res <- ds.colnames("new_df")
 

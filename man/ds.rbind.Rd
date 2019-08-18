@@ -93,7 +93,7 @@ A sequence of vector, matrix or data-frame arguments
 is combined row by row to produce a matrix
 which is written to the serverside. For more details see 
 the native R function {rbind}. The handling of argument <x>
-is similar to that of functions {ds.cbind} and {ds.dataframe}
+is similar to that of functions {ds.cbind} and {ds.dataFrame}
 }
 \author{
 Paul Burton for DataSHIELD Development Team

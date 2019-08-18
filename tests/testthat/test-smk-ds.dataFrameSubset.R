@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -22,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context("ds.dataFrameSubset::smk::create a subset dataframe")
 test_that("dataFrameSubset_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=myvectors, newobj="unsubset_df")
+    ds.dataFrame(x=myvectors, newobj="unsubset_df")
 
     res <- ds.dataFrameSubset(df.name="unsubset_df", V1.name="D$LAB_TSC", V2.name="D$LAB_HDL", Boolean.operator="!=", newobj="subset_df")
 

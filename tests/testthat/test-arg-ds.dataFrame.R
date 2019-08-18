@@ -18,11 +18,12 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.testObjExists::arg::test errors")
-test_that("testObjExists_erros", {
-    res <- ds.testObjExists()
+context("ds.dataFrame::arg::test errors")
+test_that("dataframe_erros", {
+    expect_error(ds.dataFrame(), "Please provide the name of the list that holds the input vectors!", fixed=TRUE)
 
-    expect_equal(res, "Error: please provide the name of an object on the data servers as a character string in inverted commas")
+    ds.asList(x='D$A', newobj="as_list")
+    expect_error(ds.dataFrame("as_list", DataSHIELD.checks=TRUE), " Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", fixed=TRUE)
 })
 
 #

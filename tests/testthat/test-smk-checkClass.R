@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa,
-#               2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -70,7 +69,7 @@ test_that("simple test", {
 
 test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    ds.dataframe(x=myvectors)
+    ds.dataFrame(x=myvectors)
 
     res <- checkClass(ds.test_env$connection.opal, "df_new")
 
