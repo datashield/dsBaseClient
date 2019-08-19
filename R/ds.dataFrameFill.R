@@ -56,7 +56,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   
   column.names <- list()
   for (i in 1:length(datasources)){
-    column.names[[i]] <- ds.colnames(df.name, datasources=opals[[i]])
+    column.names[[i]] <- ds.colnames(df.name, datasources=datasources[[i]])
   }
   
   allNames <- unique(unlist(column.names))
