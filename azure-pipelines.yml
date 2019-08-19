@@ -1,6 +1,6 @@
 schedules:
-  - cron: "0 0 * * *"
-    displayName: Daily midnight build
+  - cron: "15 23 * * *"
+    displayName: Nightly build
     branches:
       include:
       - master
@@ -9,7 +9,7 @@ schedules:
 jobs:
 - job: DataSHIELD_CI
 
-  timeoutInMinutes: 90
+  timeoutInMinutes: 120
 
   pool:
     vmImage: 'Ubuntu 16.04'
@@ -17,9 +17,15 @@ jobs:
   variables:
     datetime: $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
     repoName: 'dsBaseClient'
+    # repoName: $(Build.Repository.Name) # This returns datashield/dsBaseClient, but we only want the reponame.
+    branchName: $(Build.SourceBranchName)
 
-  steps:
+
+  steps:  
   - bash: |
+      echo $(branchName)
+      echo $(repoName)
+      # Purge the default mysql installed on the VM as it is incompatible with our stuff.
       sudo service mysql stop
       sudo apt-get update
       sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
@@ -36,11 +42,6 @@ jobs:
 
       sudo apt-get install puppet-agent -y
 
-      sudo apt-get clean all
-      sudo apt-get update
-      sudo apt-get autoremove -y
-      sudo apt-get clean all
-
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
       echo -n "Puppet version: "
@@ -53,20 +54,15 @@ jobs:
     displayName: 'Install DataSHIELD server'
 
   - bash: |
-      sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/'
-      sudo apt-get update
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
-      sudo apt-get install -qq r-base -y
-      sudo R -q -e "install.packages('devtools', dependencies=TRUE)"
-      sudo R -q -e "install.packages('covr', dependencies=TRUE)"
+      sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
     displayName: 'Install R client'
 
   - bash: |
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
-      grep --quiet "0 error" azure-pipelines_check.Rout && grep --quiet "0 notes" azure-pipelines_check.Rout
+      grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
     displayName: 'Devtools checks'
     condition: always()
 
@@ -77,11 +73,6 @@ jobs:
     condition: always()
 
   - bash: |
-      R -q -e "library('devtools'); options(testthat.output_file = 'test_results.xml'); devtools::test(reporter = 'junit')"
-    displayName: 'Devtools test reports'
-    condition: always()
-
-  - bash: |
       ./checkDocumentationUpdated.sh
     displayName: 'Check documents'
     condition: always()
@@ -89,30 +80,50 @@ jobs:
   - bash: |
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
-      git clone https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
+      # Should look to see if can use the one downloaded by default and not cloning a fresh one.
+      git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
+      cd $(repoName)
+      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); testthat::test_package("$(reponame)", reporter = junit_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      mv test_results.xml ../
+      cd ../
+    displayName: 'Code coverage and JUnit report output'
+    condition: always()
+
+  - bash: |
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
-      cd $(repoName)
-      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'testthat::test_package("$(repoName)", reporter = "silent", stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
-      cd ../
+      # Make the directories if they dont already exist
+      mkdir --parents testStatus/logs/$(repoName)/$(branchName)
+      mkdir --parents testStatus/docs/$(repoName)/$(branchName)/latest
 
-      cp coveragelist.csv testStatus/logs/$(repoName)/
-      cp coveragelist.csv testStatus/logs/$(repoName)/$(datetime).csv
-      cp test_results.xml testStatus/logs/$(repoName)/
-      cp test_results.xml testStatus/logs/$(repoName)/$(datetime).xml
+      cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/
+      cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/$(datetime).csv
 
-      testStatus/source/status.py testStatus/logs/$(repoName)/$(datetime).xml testStatus/logs/$(repoName)/$(datetime).csv status.html $(repoName)
+      cp test_results.xml testStatus/logs/$(repoName)/$(branchName)/
+      cp test_results.xml testStatus/logs/$(repoName)/$(branchName)/$(datetime).xml
 
+      testStatus/source/status.py testStatus/logs/$(repoName)/$(branchName)/$(datetime).xml testStatus/logs/$(repoName)/$(branchName)/$(datetime).csv status.html $(repoName) $(repoName) $(branchName)
       cd testStatus
-      cp ../status.html docs/$(repoName)/latest/index.html
+      cp ../status.html docs/$(repoName)/$(branchName)/latest/index.html
 
-      git add logs/$(repoName)/coveragelist.csv
-      git add logs/$(repoName)/test_results.xml
-      git add logs/$(repoName)/$(datetime).xml
-      git add logs/$(repoName)/$(datetime).csv
-      git add docs/$(repoName)/latest/index.html    
-      git commit -m "adding new test_results file"
+      git add logs/$(repoName)/$(branchName)/coveragelist.csv
+      git add logs/$(repoName)/$(branchName)/test_results.xml
+      git add logs/$(repoName)/$(branchName)/$(datetime).xml
+      git add logs/$(repoName)/$(branchName)/$(datetime).csv
+      git add docs/$(repoName)/$(branchName)/latest/index.html
+      git commit -m "Test Status update for $(repoName)/$(branchName)"
       git push
       exit 0
     displayName: 'Parse test results'
+    condition: always()
+
+  - bash: |
+      sudo apt install tree -y
+      echo -n "#############################"
+      tree
+      echo -n "#############################"
+      lscpu
+      echo -n "#############################"
+      env
+    displayName: 'Environment info'
     condition: always()

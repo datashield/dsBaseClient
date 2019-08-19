@@ -1,36 +1,70 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
 #
 # Set up
 #
 
-context("ds.dim:smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list('LAB_TSC', 'LAB_TRIG','LAB_HDL', 'LAB_GLUC_ADJUSTED', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'MEDI_LPD', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
 #
 
 context("ds.dim::smk")
+test_that("simple dim, both", {
+    dim.res <- ds.dim('D', type='both')
 
-test_that("test_dim", {
-    expect_equal(ds.dim(x='D')$sim1, c(2163,12))
-    expect_equal(ds.dim(x='D')$sim2, c(3088,12))
-    expect_equal(ds.dim(x='D')$sim3, c(4128,12))
-    expect_equal(ds.dim(x='D', type='combine')$pooled.dimension, c(9379,12))
+    expect_length(dim.res, 4)
+    expect_length(dim.res$`dimensions of D in sim1`, 2)
+    expect_equal(dim.res$`dimensions of D in sim1`[[1]], 2163)
+    expect_equal(dim.res$`dimensions of D in sim1`[[2]], 1)
+    expect_length(dim.res$`dimensions of D in sim2`, 2)
+    expect_equal(dim.res$`dimensions of D in sim2`[[1]], 3088)
+    expect_equal(dim.res$`dimensions of D in sim2`[[2]], 1)
+    expect_length(dim.res$`dimensions of D in sim3`, 2)
+    expect_equal(dim.res$`dimensions of D in sim3`[[1]], 4128)
+    expect_equal(dim.res$`dimensions of D in sim3`[[2]], 1)
+    expect_length(dim.res$`dimensions of D in combined studies`, 2)
+    expect_equal(dim.res$`dimensions of D in combined studies`[[1]], 9379)
+    expect_equal(dim.res$`dimensions of D in combined studies`[[2]], 1)
 })
 
+context("ds.dim::smk")
+test_that("simple dim, split", {
+    dim.res <- ds.dim('D', type='split')
 
-context("ds.dim::smk::errors")
-test_that("dim_errors", {
-    expect_error(ds.dim(), "Please provide a the name of a data.frame or matrix!", fixed=TRUE)
-    expect_error(ds.dim(x='D$LAB_TSC'), "The input object must be a table structure!", fixed=TRUE)
-    expect_error(ds.dim(x='D', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
+    expect_length(dim.res, 3)
+    expect_length(dim.res$`dimensions of D in sim1`, 2)
+    expect_equal(dim.res$`dimensions of D in sim1`[[1]], 2163)
+    expect_equal(dim.res$`dimensions of D in sim1`[[2]], 1)
+    expect_length(dim.res$`dimensions of D in sim2`, 2)
+    expect_equal(dim.res$`dimensions of D in sim2`[[1]], 3088)
+    expect_equal(dim.res$`dimensions of D in sim2`[[2]], 1)
+    expect_length(dim.res$`dimensions of D in sim3`, 2)
+    expect_equal(dim.res$`dimensions of D in sim3`[[1]], 4128)
+    expect_equal(dim.res$`dimensions of D in sim3`[[2]], 1)
+})
+
+context("ds.dim::smk")
+test_that("simple dim, combine", {
+    dim.res <- ds.dim('D', type='combine')
+
+    expect_length(dim.res, 1)
+    expect_length(dim.res$`dimensions of D in combined studies`, 2)
+    expect_equal(dim.res$`dimensions of D in combined studies`[[1]], 9379)
+    expect_equal(dim.res$`dimensions of D in combined studies`[[2]], 1)
 })
 
 #
-# Tear down
+# Done
 #
 
+disconnect.studies.dataset.cnsim()

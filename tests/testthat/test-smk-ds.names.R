@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2014 OBiBa. All rights reserved.
+# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,12 +12,7 @@
 # Set up
 #
 
-context("ds.names::smk")
-
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_smk_datasets.R")
-
-connect.smk.dataset.sim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
+connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
 
 #
 # Tests
@@ -44,8 +39,8 @@ test_that("names_erros", {
 #   expect_equal(names$sim3, expected_names)
 # })
 
-
 #
 # Tear down
 #
 
+disconnect.studies.dataset.cnsim()
