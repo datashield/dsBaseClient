@@ -44,7 +44,7 @@
 #' @return a contour plot
 #' @author Julia Isaeva, Amadou Gaye, Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
-#' @examples {
+#' @examples
 #' \dontrun{
 #'
 #'   # load the file that contains the login details
