@@ -15,24 +15,18 @@ getPooledVar <- function(dtsources, x){
   num.sources <- length(dtsources)
   
   cally <- paste0("varDS(", x, ")")
-  var.local <- opal::datashield.aggregate(dtsources, as.symbol(cally))
+  out.var <- opal::datashield.aggregate(dtsources, as.symbol(cally))
   
-  cally <- paste0("NROW(", x, ")")
-  length.local <- opal::datashield.aggregate(dtsources, cally)
-
-  # get the number of entries with missing values
-  cally <- paste0("numNaDS(", x, ")")
-  numNA.local <- opal::datashield.aggregate(dtsources, cally)  
-
-  length.total = 0
-  sum.weighted = 0
-  var.global  = NA
+  length.total <- 0
+  sum.weighted <- 0
+  var.global <- NA
   
   for (i in 1:num.sources){
-    if ((!is.null(length.local[[i]])) & (length.local[[i]]!=0)) {
-      completeLength <- length.local[[i]]-numNA.local[[i]]
+    if ((!is.null(out.var[[i]][[5]])) & (out.var[[i]][[5]]!=0)) {
+      var.local <- out.var[[i]][[2]]/(out.var[[i]][[4]]-1) - (out.var[[i]][[1]])^2/(out.var[[i]][[4]]*(out.var[[i]][[4]]-1))
+      completeLength <- out.var[[i]][[5]]-out.var[[i]][[3]]
       length.total = length.total+completeLength
-      sum.weighted = sum.weighted+completeLength*var.local[[i]]
+      sum.weighted = sum.weighted+completeLength*var.local
     }
   }
   

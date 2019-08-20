@@ -66,8 +66,8 @@
 #'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
 #'   
 #'   # Example 4: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC' 
-#'   # and 'LAB_HDL' using the method 'deterministic' that plots the exact contour plot of the centroids 
-#'   # of each 3 (default number) nearest neighbours. 
+#'   # and 'LAB_HDL' using the method 'deterministic' that plots the exact contour plot of the
+#'   # centroids of each 3 (default number) nearest neighbours. 
 #'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
 #'   
 #'   # Example 5: the same as example 4
@@ -80,10 +80,12 @@
 #'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
 #'   
 #'   # Example 8: similar as example 7 for numints=40
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7, type='split')
+#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
+#'                  type='split')
 #'   
 #'   # Example 9: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC' 
-#'   # and 'LAB_HDL' using the method 'probabilistic' that plots the exact contour plot of the noisy data
+#'   # and 'LAB_HDL' using the method 'probabilistic' that plots the exact contour plot of the
+#'   # noisy data
 #'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
 #'   
 #'   # Example 10: the same as example 9

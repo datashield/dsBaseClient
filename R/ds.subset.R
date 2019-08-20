@@ -90,7 +90,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
   typ <- checkClass(datasources, x)
   
   # the input object must be a dataframe or a vector
-  if(typ != 'data.frame' & typ != 'character' & typ != 'factor' & typ != 'integer' & typ != 'logical' & typ != 'numeric'){
+  if(!('data.frame' %in% typ) & !('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ)){
     stop("The object to subset from must be a 'data.frame', a 'character', factor', a 'logical' or a 'numeric' vector.", call.=FALSE)
   }
   
@@ -105,7 +105,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       }
     }else{
       # allow this only for numeric vectors
-      if(typ == "factor" | typ == "character"){
+      if(("factor" %in% typ) | ("character" %in% typ)){
         stop(" Subsetting on a threshold criteria is allowed only for numeric vectors!", call.=FALSE)
       }
       # get the logicalOperator operator and any variable provided with it
@@ -128,7 +128,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
     
     # check if the sought subset is not larger than the vector or the table size
     # if not call the server side function and carry out the subsetting
-    if(typ == "factor" | typ == "numeric" | typ == "character"){
+    if(("factor" %in% typ) | ("numeric" %in% typ) | ("character" %in% typ)){
       # if the size of the requested subset is greater than that of original set the rows or cols to NULL
       # these will then be set to the maximum size in the server side
       if(!(is.null(rows))){
@@ -145,7 +145,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
         opal::datashield.assign(datasources[i], subset, cally)
       }
     }else{
-      if(typ == "data.frame" | typ == "matrix"){
+      if(("data.frame" %in% typ) | ("matrix" %in% typ)){
         # call the internal function that ensure wrong size subset is not requested (i.e. subset size > original table)
         for(i in 1:length(datasources)){
           check00 <- subsetHelper(datasources[i], x, rows, cols)
