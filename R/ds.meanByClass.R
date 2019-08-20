@@ -73,11 +73,11 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
       defined <- isDefined(datasources, obj[1])
       defined <- isDefined(datasources, obj[2])
       typ <- checkClass(datasources, obj[1])
-      if(typ != "numeric" & typ != "integer"){
+      if(!("numeric" %in% typ) & !("integer" %in% typ)){
         stop("The first element in the formula must be of type numeric or integer!", call.=FALSE)
       }
       typ <- checkClass(datasources, obj[2])
-      if(typ != "factor"){
+      if(!("factor" %in% typ)){
         stop("The second element in the formula must be of type factor!", call.=FALSE)
       }
       output <- meanByClassHelper0a(obj[1], obj[2], type, datasources)
@@ -86,7 +86,7 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
       if(length(obj)==1){
         defined <- isDefined(datasources, x)
         typ <- checkClass(datasources, x)
-        if(typ != "data.frame" & type != "matrix"){stop("x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", call.=FALSE)}
+        if(!("data.frame" %in% typ) & !("matrix" %in% typ)){stop("x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", call.=FALSE)}
         output <- meanByClassHelper0b(x, outvar, covar, type, datasources)
         return(output)
       }else{
@@ -96,9 +96,4 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
   }
   
 }
-
-
-
-
-
 
