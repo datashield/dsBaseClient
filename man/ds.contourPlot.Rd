@@ -66,6 +66,68 @@ The ranges returned by each study and used in the process of getting the grid de
 are not the exact minumum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 }
+\examples{
+\dontrun{
+
+  # load the file that contains the login details
+  data(logindata)
+
+  # login and assign specific variables(s)
+  # (by default the assigned dataset is a dataframe named 'D')
+  opals <- datashield.login(logins=logindata,assign=TRUE)
+
+  # Example 1: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'LowCountsRule' (default method) that applies a stochastic noise 
+  # in the extreme values of the variables' range.
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL')
+  
+  # Example 2: the same as example 1
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='combine')
+  
+  # Example 3: similar as example 2 but for type='split'
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
+  
+  # Example 4: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'deterministic' that plots the exact contour plot of the
+  # centroids of each 3 (default number) nearest neighbours. 
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
+  
+  # Example 5: the same as example 4
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='combine')
+  
+  # Example 6: similar as example 5 for type='split'
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='split')
+  
+  # Example 7: similar as example 6 for k=7
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
+  
+  # Example 8: similar as example 7 for numints=40
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
+                 type='split')
+  
+  # Example 9: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC' 
+  # and 'LAB_HDL' using the method 'probabilistic' that plots the exact contour plot of the
+  # noisy data
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
+  
+  # Example 10: the same as example 9
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=0.25, type='combine')
+  
+  # Example 11: the same as example 10 but for bigger level of noise
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='combine')
+  
+  # Example 12: the same as example 11 but for type='split'
+  ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='split')
+  
+  # Example 13: if any of the input variables is a factor then the function fails
+  ds.contourPlot(x='D$LAB_TSC', y='D$GENDER')
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(opals)
+
+}
+
+}
 \author{
 Julia Isaeva, Amadou Gaye, Paul Burton, Demetris Avraam for DataSHIELD Development Team
 }
