@@ -1,5 +1,5 @@
 #' 
-#' @title ds.dataFrame calling dataframeDS
+#' @title ds.dataFrame calling dataFrameDS
 #' @description Creates a data frame from its elemental components: pre-existing data frames;
 #' single variables; matrices
 #' @details A data frame is a list of variables all with the same number of rows with unique row
@@ -8,7 +8,7 @@
 #' A critical requirement is that the length of all component variables, and the
 #' number of rows of the component data.frames or matrices must all be the same. The output
 #' data.frame will then have this same number of rows. ds.dataFrame calls the serverside
-#' function dataframeDS which is almost the same as the native R function data.frame()
+#' function dataFrameDS which is almost the same as the native R function data.frame()
 #' and so several of the arguments are precisely the same as for data.frame() 
 #' @param x This is a vector of character strings representing the names of the elemental
 #' components to be combined. For example, the call:
@@ -34,7 +34,7 @@
 #' R, if any column names are duplicated, the second and subsequent
 #' occurances are given the suffixes .1, .2 etc by ds.dataFrame and so
 #' there are never any duplicates when check.names is invoked by the
-#' serverside function dataframeDS
+#' serverside function dataFrameDS
 #' @param stringsAsFactors logical: should character vectors be converted
 #' to factors? The 'factory-fresh' default is TRUE.
 #' @param completeCases logical. Default FALSE. If TRUE then any rows with
@@ -188,7 +188,7 @@ if(num.duplicates[m]!="0")
 
  ############################### 
   # call the server side function
-  #The serverside function dataframeDS calls dsBase::dataframeDS in dsBase repository
+  #The serverside function dataFrameDS calls dsBase::dataFrameDS in dsBase repository
   if(is.null(row.names)){
     cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
                      'NULL',",", check.rows,",", check.names,
