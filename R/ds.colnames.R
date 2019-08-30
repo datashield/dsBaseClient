@@ -45,7 +45,7 @@ ds.colnames <- function(x=NULL, datasources=NULL) {
   typ <- checkClass(datasources, x)
   
   # if the input object is not a matrix or a dataframe stop
-  if(typ != 'data.frame' & typ != 'matrix'){
+  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
     stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
   

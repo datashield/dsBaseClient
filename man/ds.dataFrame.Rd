@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrame.R
 \name{ds.dataFrame}
 \alias{ds.dataFrame}
-\title{ds.dataFrame calling dataframeDS}
+\title{ds.dataFrame calling dataFrameDS}
 \usage{
 ds.dataFrame(x = NULL, row.names = NULL, check.rows = FALSE,
   check.names = TRUE, stringsAsFactors = TRUE, completeCases = FALSE,
@@ -37,7 +37,7 @@ As a slight modification to the standard data.frame() function in native
 R, if any column names are duplicated, the second and subsequent
 occurances are given the suffixes .1, .2 etc by ds.dataFrame and so
 there are never any duplicates when check.names is invoked by the
-serverside function dataframeDS}
+serverside function dataFrameDS}
 
 \item{stringsAsFactors}{logical: should character vectors be converted
 to factors? The 'factory-fresh' default is TRUE.}
@@ -92,7 +92,7 @@ a series of elemental components which may be pre-existing data.frames, matrices
 A critical requirement is that the length of all component variables, and the
 number of rows of the component data.frames or matrices must all be the same. The output
 data.frame will then have this same number of rows. ds.dataFrame calls the serverside
-function dataframeDS which is almost the same as the native R function data.frame()
+function dataFrameDS which is almost the same as the native R function data.frame()
 and so several of the arguments are precisely the same as for data.frame()
 }
 \author{
