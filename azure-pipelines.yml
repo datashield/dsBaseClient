@@ -58,6 +58,7 @@ jobs:
       sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
+      sudo R -q -e "devtools::install_github(repo='datashield/dsBaseClient', ref='master')"
     displayName: 'Install R client'
 
   - bash: |
