@@ -33,7 +33,7 @@ meanByClassHelper0a = function(a, b, type, datasources){
   } 
   v <- c(v1, v2)
   newD <- "X"
-  cally <-  paste0("dataframeDS(list(",paste(x,collapse=","),"),", 
+  cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
                    'NULL',",", FALSE,",", TRUE,
                    ",list(","'",paste(v,collapse="','"),"'","),"
                    ,TRUE,",",FALSE,")")
