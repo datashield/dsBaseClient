@@ -7,15 +7,8 @@
 ds.listServersideFunctions(datasources = NULL)
 }
 \arguments{
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 list containing all serverside functions by study. Firstly lists assign
@@ -25,10 +18,10 @@ and then aggregate functions.
 Lists all current server-side functions
 }
 \details{
-Uses dsadmin.get_methods function from opaladmin package to list all
-assign and aggregate functions on the available opal servers. The only choice of
-arguments is in datasources; i.e. which studies to interrogate. Once the studies have 
-been selected ds.listServersideFunctions lists all assign functions for all 
+Uses \link{datashield.methods} function from DSI package to list all
+assign and aggregate functions on the available data repository servers. The only choice of
+arguments is in datasources; i.e. which studies to interrogate. Once the studies have
+been selected ds.listServersideFunctions lists all assign functions for all
 of these studies and then all aggregate functions for all of them.
 }
 \author{

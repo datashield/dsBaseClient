@@ -47,7 +47,7 @@ which was the case using the original formula.}
 \item{data}{A character string specifying the name of an (optional) dataframe that contains
 all of the variables in the glm formula. This avoids you having to specify the name of the
 dataframe in front of each covariate in the formula e.g. if the dataframe is
-called 'DataFrame' you 
+called 'DataFrame' you
 avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
 Processing stops if a non existing data frame is indicated.}
 
@@ -76,7 +76,7 @@ the user in order to ensure that it can be carried outin a timely manner}
 
 \item{offset}{A character string specifying the name of a variable to be used as
 an offset. An offset is a component of a glm which may be viewed as a covariate
-with a known coefficient of 1.00 and so the coefficient does not need to be 
+with a known coefficient of 1.00 and so the coefficient does not need to be
 estimated by the model. As an example, an offset is needed to fit a piecewise
 exponential regression model. Unlike the standard glm() function in
 native R, ds.glm() only allows an offset
@@ -95,7 +95,7 @@ written directly into the glm formula.}
 \item{checks}{This argument is a boolean. If TRUE ds.glm then undertakes a series
 of checks of
 the structural integrity of the model that can take several minutes. Specifically
-it verifies that the 
+it verifies that the
 variables in the model are all defined (exist) on the server site at every study
 and that they have the correct characteristics required to fit a GLM. The default
 value is FALSE
@@ -122,15 +122,10 @@ should be printed on screen or not. Default is FALSE (i.e. only final results ar
 of parameter estimates. TRUE=yes, FALSE=no, default=FALSE}
 
 \item{viewCor}{a boolean indicating whether to return the correlation matrix of
-parameter estimates. TRUE=yes, FALSE=no, default=FALSE}
+parameter estimates. TRUE=yes, FALSE=no, default=FALSE.}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not
-specified the default set of opals will be used. The default opals are always
-called default.opals. This parameter is set without inverted commas:
-e.g. datasources=opals.em or datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter
-is specified: e.g. datasources=opals.em[2]. If you wish to specify the first and third
-opal servers in a set specify: e.g. datasources=opals.em[2,3]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 The main elements of the output returned by ds.glm are
@@ -140,7 +135,7 @@ listed (below) as Example 1 under 'examples'.
 Fits a generalized linear model (glm) on data from a single or multiple sources
 }
 \details{
-Fits a glm on data from a single source or from multiple sources. In the latter case 
+Fits a glm on data from a single source or from multiple sources. In the latter case
 the data are co-analysed (when using ds.glm) by using an approach that is mathematically
 equivalent to placing all individual-level
 data from all sources in one central warehouse and analysing those data using the conventional
@@ -182,13 +177,13 @@ totals across all studies - i.e. this generates EXACTLY the same ultimate sums
 (4) CS then calculates sum(SCORES)%*%inverse(sum(INFORMATION.MATRICES)) -
 heuristically this may be
 viewed as being "the sum of the score vectors divided (NB 'matrix division') by the sum of the
-information matrices". If one uses the conventional algorithm (IRLS) 
+information matrices". If one uses the conventional algorithm (IRLS)
 to update generalized linear models from iteration to iteration this quantity happens to be
 precisely the vector to be added to the
 current value of beta.vector (i.e. beta.vector[1]) to obtain
 beta.vector[2] which is the improved estimate of the beta.vector to be used in iteration 2.
 This updating algorithm is often  called the IRLS (Iterative Reweighted Least
-Squares) algorithm 
+Squares) algorithm
 - which is closely related to the Newton
 Raphson approach but uses the expected information rather than
 the observed information.
@@ -232,7 +227,7 @@ R package metafor to meta-analyse the key parameters.
 #of death in period 1 is approximately -0.988 + (-1.114) = -2.102. If this is
 #exponentiated one obtains the value 0.1222
 #an estimated event rate of 0.1222 events per annum. If the notation '0' had been
-#used instead of '1', no intercept would 
+#used instead of '1', no intercept would
 #have been fitted and the coefficient for period 2 would have been -2.102 directly
 #estimating the baseline log rate in
 #period 2.
@@ -256,9 +251,9 @@ R package metafor to meta-analyse the key parameters.
 #
 #$errorMessage
 #       ERROR MESSAGES [EXPLANATION FOR ANY ERRORS OR DISCLOSURE RISKS IDENTIFIED]
-#study1 "No errors"   
-#study2 "No errors"   
-#study3 "No errors"   
+#study1 "No errors"
+#study2 "No errors"
+#study3 "No errors"
 #
 #$nsubs [TOTAL NUMBER OF OBSERVATIONAL UNITS USED BY ds.glm - NB USUALLY SAME AS $Nvalid]
 #[1] 6254
@@ -268,7 +263,7 @@ R package metafor to meta-analyse the key parameters.
 #
 #$family [ERROR FAMILY AND LINK FUNCTION]
 #Family: poisson
-#Link function: log 
+#Link function: log
 #
 #
 #$formula [MODEL FORMULA]
@@ -282,29 +277,29 @@ R package metafor to meta-analyse the key parameters.
 #
 #OUTPUT WRAPPED (AND MESSY) TO FIT IN WIDTH CONSTRAINT FOR R HELP FILE
 #
-#$coefficients 
+#$coefficients
 #                  Estimate  Std. Error      z-value       p-value low0.95CI.LP high0.95CI.LP
-#(Intercept)  -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681 
+#(Intercept)  -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681
 #-0.908578037       0.37218402    0.34364172      0.4030970
-#TID.f2       -1.1135769332 0.113156582  -9.84102663  7.494215e-23 -1.335359758 
+#TID.f2       -1.1135769332 0.113156582  -9.84102663  7.494215e-23 -1.335359758
 #-0.891794109       0.32838226    0.26306352      0.4099197
-#TID.f3       -2.4132187489 0.145110041 -16.63026714  4.207143e-62 -2.697629203 
+#TID.f3       -2.4132187489 0.145110041 -16.63026714  4.207143e-62 -2.697629203
 #-2.128808294       0.08952667    0.06736503      0.1189790
-#TID.f4       -0.9834247291 0.202670688  -4.85232836  1.220204e-06 -1.380651979 
+#TID.f4       -0.9834247291 0.202670688  -4.85232836  1.220204e-06 -1.380651979
 #-0.586197480       0.37402796    0.25141458      0.5564391
-#TID.f5       -1.2752840562 0.152704468  -8.35132119  6.750358e-17 -1.574579313 
+#TID.f5       -1.2752840562 0.152704468  -8.35132119  6.750358e-17 -1.574579313
 #-0.975988799       0.27935161    0.20709466      0.3768196
-#TID.f6       -1.0459413608 0.141295558  -7.40250701  1.336371e-13 -1.322875566 
+#TID.f6       -1.0459413608 0.141295558  -7.40250701  1.336371e-13 -1.322875566
 #-0.769007156       0.35136091    0.26636824      0.4634730
-#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124 
+#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124
 #-0.506195048       0.53580602    0.47626964      0.6027848
-#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474  
+#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474
 #0.048065578       1.04375995    1.03830905      1.0492395
-#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288  
+#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288
 #0.007717547       0.99965919    0.99163589      1.0077474
 #
 #$dev [RESIDUAL DEVIANCE]
-#[1] 5266.551 
+#[1] 5266.551
 #
 #$df [RESIDUAL DEGREES OF FREEDOM - NB RESIDUAL DEGREES OF FREEDOM + NUMBER OF
 #PARAMETERS IN MODEL = $nsubs]
@@ -333,8 +328,8 @@ R package metafor to meta-analyse the key parameters.
 #[1] 9
 #
 #$family
-#Family: poisson 
-#Link function: log 
+#Family: poisson
+#Link function: log
 #
 #
 #$formula
@@ -346,23 +341,23 @@ R package metafor to meta-analyse the key parameters.
 #$coefficients
 #                  Estimate  Std. Error      z-value       p-value low0.95CI.LP
 #high0.95CI.LP EXPONENTIATED RR low0.95CI.EXP high0.95CI.EXP
-#TID.f1       -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681 
+#TID.f1       -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681
 #-0.908578037       0.37218402    0.34364172     0.40309701
-#TID.f2       -2.1019437924 0.111730815 -18.81257014  5.957806e-79 -2.320932166 
+#TID.f2       -2.1019437924 0.111730815 -18.81257014  5.957806e-79 -2.320932166
 #-1.882955419       0.12221863    0.09818202     0.15213980
-#TID.f3       -3.4015856082 0.144060220 -23.61224772 2.884936e-123 -3.683938452 
+#TID.f3       -3.4015856082 0.144060220 -23.61224772 2.884936e-123 -3.683938452
 #-3.119232765       0.03332039    0.02512383     0.04419106
-#TID.f4       -1.9717915884 0.201948314  -9.76384278  1.609388e-22 -2.367603011 
+#TID.f4       -1.9717915884 0.201948314  -9.76384278  1.609388e-22 -2.367603011
 #-1.575980166       0.13920723    0.09370507     0.20680475
-#TID.f5       -2.2636509154 0.151818841 -14.91021073  2.828585e-50 -2.561210376 
+#TID.f5       -2.2636509154 0.151818841 -14.91021073  2.828585e-50 -2.561210376
 #-1.966091454       0.10397020    0.07721123     0.14000300
-#TID.f6       -2.0343082201 0.140582544 -14.47056064  1.859503e-47 -2.309844942 
+#TID.f6       -2.0343082201 0.140582544 -14.47056064  1.859503e-47 -2.309844942
 #-1.758771498       0.13077092    0.09927664     0.17225635
-#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124 
+#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124
 #-0.506195048       0.53580602    0.47626964     0.60278479
-#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474  
+#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474
 #0.048065578       1.04375995    1.03830905     1.04923946
-#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288  
+#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288
 #0.007717547       0.99965919    0.99163589     1.00774740
 #
 #$dev
@@ -393,8 +388,8 @@ R package metafor to meta-analyse the key parameters.
 #
 #$family
 #
-#Family: poisson 
-#Link function: log 
+#Family: poisson
+#Link function: log
 #
 #
 #$formula
@@ -406,23 +401,23 @@ R package metafor to meta-analyse the key parameters.
 #$coefficients
 #                  Estimate  Std. Error     z-value       p-value low0.95CI.LP
 #high0.95CI.LP EXPONENTIATED RR low0.95CI.EXP high0.95CI.EXP
-#TID.f1       -0.9883668593 0.020354665 -48.5572639  0.000000e+00  -1.02826127 
+#TID.f1       -0.9883668593 0.020354665 -48.5572639  0.000000e+00  -1.02826127
 #-0.948472448       0.37218402    0.35762824     0.38733224
-#TID.f2       -2.1019437924 0.055865407 -37.6251403  0.000000e+00  -2.21143798 
+#TID.f2       -2.1019437924 0.055865407 -37.6251403  0.000000e+00  -2.21143798
 #-1.992449606       0.12221863    0.10954301     0.13636099
-#TID.f3       -3.4015856082 0.072030110 -47.2244954  0.000000e+00  -3.54276203 
+#TID.f3       -3.4015856082 0.072030110 -47.2244954  0.000000e+00  -3.54276203
 #-3.260409187       0.03332039    0.02893330     0.03837269
-#TID.f4       -1.9717915884 0.100974157 -19.5276856  6.386915e-85  -2.16969730 
+#TID.f4       -1.9717915884 0.100974157 -19.5276856  6.386915e-85  -2.16969730
 #-1.773885877       0.13920723    0.11421218     0.16967238
-#TID.f5       -2.2636509154 0.075909421 -29.8204215 2.123826e-195  -2.41243065 
+#TID.f5       -2.2636509154 0.075909421 -29.8204215 2.123826e-195  -2.41243065
 #-2.114871185       0.10397020    0.08959725     0.12064883
-#TID.f6       -2.0343082201 0.070291272 -28.9411213 3.629743e-184  -2.17207658 
+#TID.f6       -2.0343082201 0.070291272 -28.9411213 3.629743e-184  -2.17207658
 #-1.896539859       0.13077092    0.11394076     0.15008704
-#SEXF1        -0.6239830856 0.030048521 -20.7658502  8.815359e-96  -0.68287710 
+#SEXF1        -0.6239830856 0.030048521 -20.7658502  8.815359e-96  -0.68287710
 #-0.565089067       0.53580602    0.50516150     0.56830953
-#AGE.60        0.0428295263 0.001335752  32.0639783 1.401856e-225   0.04021150  
+#AGE.60        0.0428295263 0.001335752  32.0639783 1.401856e-225   0.04021150
 #0.045447552       1.04375995    1.04103093     1.04649612
-#SEXF1:AGE.60 -0.0003408707 0.002055757  -0.1658128  8.683043e-01  -0.00437008  
+#SEXF1:AGE.60 -0.0003408707 0.002055757  -0.1658128  8.683043e-01  -0.00437008
 #0.003688338       0.99965919    0.99563946     1.00369515
 #
 #$dev
@@ -438,7 +433,7 @@ R package metafor to meta-analyse the key parameters.
 #data(glmLoginData)
 #
 # login and assign all the variables to R
-#opals <- datashield.login(logins=glmLoginData, assign=TRUE)
+#conns <- datashield.login(logins=glmLoginData, assign=TRUE)
 #
 # EXAMPLE 4: RUN A LOGISTIC REGRESSION WITHOUT INTERACTION (E.G. DIABETES
 #PREDICTION USING BMI AND HDL LEVELS AND GENDER)
@@ -464,7 +459,7 @@ R package metafor to meta-analyse the key parameters.
 #mod
 #
 # clear the Datashield R sessions and logout
-#datashield.logout(opals) 
+#datashield.logout(conns)
 }
 
 }

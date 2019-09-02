@@ -27,15 +27,8 @@ Default=FALSE.}
 data.frame which defaults to '<df.name>.sorted' if no name is specified
 where <df.name> is the first argument of ds.dataFrameSort().}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the object specified by the <newobj> argument (or default name <df.name>.sorted)
@@ -68,10 +61,10 @@ ie as if it is a vector of character strings.
 It should be noted that although we are all well used to seeing numbers
 sorted numerically, and character strings (words) sorted alphabetically
 when a numeric vector is sorted alphabetically, the order can look confusing.
-It is worth mentioning this because Opal sometimes sorts its data tables
+It is worth mentioning this because some data repository sometimes sorts its data tables
 alphabetically using ID. This can be confusing and one of the reasons for
 using the ds.dataFrameSort() function is to re-sort a data.frame derived
-from an Opal data table so its order is more natural. To explain alphabetic
+from a data repository data table so its order is more natural. To explain alphabetic
 and numeric sorting further, here are some illustrations.
 SORTING NUMBERS:
 vector.2.sort = (-192   76  841   NA 1670  163  147  101 -112 -231   -9  119  112   NA)

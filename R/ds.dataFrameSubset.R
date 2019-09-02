@@ -1,7 +1,7 @@
 #' @title ds.dataFrameSubset calling dataFrameSubsetDS1 and dataFrameSubsetDS2
 #' @description Subsets a data frame by row or by column.
 #' @details A data frame is a list of variables all with the same number of rows,
-#' which is of class 'data.frame'. ds.dataFrameSubset will subset a 
+#' which is of class 'data.frame'. ds.dataFrameSubset will subset a
 #' pre-existing data.frame by specifying the values of a subsetting variable
 #' (subsetting by row) or by selecting columns to keep or remove (subsetting
 #' by column). When subsetting by row, the resultant subset must strictly be
@@ -14,9 +14,9 @@
 #' individual ID) let us call it indID, which is equal in length to the data.frame
 #' to be subsetted. Then use the ds.make() function with the call
 #' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
-#' in each source equal in length to the indID vector in that source. 
+#' in each source equal in length to the indID vector in that source.
 #' @param df.name a character string providing the name for the data.frame
-#' to be sorted. 
+#' to be sorted.
 #' @param V1.name A character string specifying the name of a subsetting vector
 #' to which a Boolean operator will be applied to define the subset to be created. Note
 #' if the plan is to subset by column using ALL rows, then <V1.name>
@@ -54,15 +54,8 @@
 #' data.frame representing the primary output of the ds.dataFrameSubset() function.
 #' This defaults to '<df.name>_subset' if no name is specified
 #' where <df.name> is the first argument of ds.dataFrameSubset()
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name '<df.name>_subset').
@@ -82,17 +75,17 @@
 #' @export
 
 ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.operator=NULL, keep.cols=NULL, rm.cols=NULL, keep.NAs=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if user has provided the name of the data.frame to be subsetted
   if(is.null(df.name)){
     stop("Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", call.=FALSE)
   }
-   
+
   # check if user has provided the name of the column or scalar that holds V1
   if(is.null(V1.name)){
     stop("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
@@ -107,7 +100,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
   if(is.null(Boolean.operator)){
     stop("Please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='", call.=FALSE)
   }
-  
+
   #if keep.NAs is set as NULL convert to FALSE as otherwise the call to datashield.assign will fail
   if(is.null(keep.NAs)){
   keep.NAs<-FALSE
@@ -147,21 +140,21 @@ if(Boolean.operator == ">="){
 
  if(!is.null(keep.cols)){
   keep.cols<-paste0(as.character(keep.cols),collapse=",")
- } 
- 
+ }
+
 if(!is.null(rm.cols)){
   rm.cols<-paste0(as.character(rm.cols),collapse=",")
- } 
-  
-  
-  
+ }
+
+
+
     calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
-    return.warning.message<-opal::datashield.aggregate(datasources, calltext1)
+    return.warning.message<-DSI::datashield.aggregate(datasources, calltext1)
 
     calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
-    opal::datashield.assign(datasources, newobj, calltext2)
-	
- 
+    DSI::datashield.assign(datasources, newobj, calltext2)
+
+
     numsources<-length(datasources)
     for(s in 1:numsources){
 	num.messages<-length(return.warning.message[[s]])
@@ -185,11 +178,11 @@ if(!is.null(rm.cols)){
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -231,14 +224,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -257,4 +250,3 @@ if(!no.errors){																								#
 
 }
 #ds.dataFrameSubset
-

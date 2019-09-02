@@ -1,62 +1,62 @@
-#' 
+#'
 #' @title ds.var calling aggregate function varDS
 #' @description Computes the variance of a given vector
 #' This function is similar to the R function \code{var}.
-#' @details It is a wrapper for the server side function. 
+#' @details It is a wrapper for the server side function.
 #' The server side function returns a list with the sum of the input variable, the sum of squares
 #' of the input variable, the number of missing values, the number of valid values, the number of
 #' total lenght of the variable, and a study message indicating whether the number of valid is less
-#' than the disclosure threshold. The variance is calculated at the client side by the formula 
+#' than the disclosure threshold. The variance is calculated at the client side by the formula
 #' $\deqn{var(X)}{\frac{\sum{x_i^2}}{N-1}-\frac{(\sum{x_i})^2}{N(N-1)}}$
 #' @param x a character, the name of a numerical vector.
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global variance is calculated 
+#' @param type a character which represents the type of analysis to carry out.
+#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global variance is calculated
 #' if \code{type} is set to 'split', 'splits' or 's', the variance is calculated separately for each study.
 #' if \code{type} is set to 'both' or 'b', both sets of outputs are produced
 #' @param checks a Boolean indicator of whether to undertake optional checks of model
 #' components. Defaults to checks=FALSE to save time. It is suggested that checks
-#' should only be undertaken once the function call has failed
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' should only be undertaken once the function call has failed.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return a list including: Variance.by.Study = estimated variance in each study separately (if type = split or both), with Nmissing
 #' (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
 #' also reported separately for each study; Global.Variance = Variance, Nmissing, Nvalid, Ntotal across all studies combined
-#' (if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether 
+#' (if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether
 #' a full analysis was possible or whether one or more studies had fewer valid observations than the nfilter
 #' threshold for the minimum cell size in a contingency table.
 #' @author Amadou Gaye, Demetris Avraam, for DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
-#' 
+#'
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'
 #'   # login and assign specific variable(s)
 #'   myvar <- list('LAB_TSC')
-#'   opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#' 
+#'   conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#'
 #'   # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
 #'   ds.var(x='D$LAB_TSC')
-#' 
+#'
 #'   # Example 2: compute the variance of each study separately
 #'   ds.var(x='D$LAB_TSC', type='split')
-#' 
+#'
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(opals)
-#' 
+#'   datashield.logout(conns)
+#'
 #' }
-#' 
+#'
 ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
-  
+
   #####################################################################################
-  #MODULE 1: IDENTIFY DEFAULT OPALS  											                        		#
-  # if no opal login details are provided look for 'opal' objects in the environment  #
+  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS  											                        		#
+  # look for DS connections  #
   if(is.null(datasources)){														                               	#
-    datasources <- findLoginObjects()							                          					#
-  }																                                          					#						
-  #####################################################################################  
-  
+    datasources <- datashield.connections_find()							                          					#
+  }																                                          					#
+  #####################################################################################
+
   #####################################################################################
   #MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
   if(is.null(x)){                                                                   #
@@ -69,7 +69,7 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   varname <- xnames$elements                                                        #
   obj2lookfor <- xnames$holders                                                     #
   #####################################################################################
-  
+
   ###############################################################################################
   #MODULE 3: GENERIC OPTIONAL CHECKS TO ENSURE CONSISTENT STRUCTURE OF KEY VARIABLES            #
   #IN DIFFERENT SOURCES                                                                         #
@@ -94,7 +94,7 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
     }                                                                                           #
   }                                                                                             #
   ###############################################################################################
-  
+
   ###################################################################################################
   #MODULE 4: EXTEND "type" argument to include "both" and enable valid alisases                     #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
@@ -103,10 +103,10 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   #
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
-  
+
   cally <- paste0("varDS(", x, ")")
-  ss.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
-  
+  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+
   Nstudies <- length(datasources)
   EstimatedVar <- c()
   Nvalid <- c()
@@ -120,12 +120,12 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   }
   ss.mat <- matrix(c(EstimatedVar,Nmissing,Nvalid,Ntotal),nrow=Nstudies)
   dimnames(ss.mat) <- c(list(names(ss.obj),c('EstimatedVar','Nmissing','Nvalid','Ntotal')))
-  
+
   ValidityMessage.mat <- matrix(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,6],nrow=Nstudies)
   dimnames(ValidityMessage.mat) <- c(list(names(ss.obj),names(ss.obj[[1]])[6]))
-  
+
   ss.mat.combined <- t(matrix(ss.mat[1,]))
-  
+
   GlobalSum.new <- 0
   GlobalSumSquares.new <- 0
   GlobalNvalid.new <- 0
@@ -137,31 +137,31 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
     GlobalSumSquares.new <- GlobalSumSquares
     GlobalNvalid.new <- GlobalNvalid
   }
-  
+
   GlobalVar <- GlobalSumSquares/(GlobalNvalid-1) - (GlobalSum^2)/(GlobalNvalid*(GlobalNvalid-1))
-  
-  
+
+
   ss.mat.combined[1,1] <- GlobalVar
   ss.mat.combined[1,2] <- sum(ss.mat[,2])
   ss.mat.combined[1,3] <- sum(ss.mat[,3])
   ss.mat.combined[1,4] <- sum(ss.mat[,4])
 
-  
+
   dimnames(ss.mat.combined) <- c(list("studiesCombined",c('EstimatedVar','Nmissing','Nvalid','Ntotal')))
-  
+
   #PRIMARY FUNCTION OUTPUT SUMMARISE RESULTS FROM
   #AGGREGATE FUNCTION AND RETURN TO CLIENT-SIDE
   if (type=='split'){
     return(list(Variance.by.Study=ss.mat,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
   }
-  
+
   if (type=="combine"){
     return(list(Global.Variance=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
   }
-  
+
   if (type=="both"){
     return(list(Variance.by.Study=ss.mat,Global.Variance=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
   }
- 
+
 }
 #ds.var

@@ -11,12 +11,12 @@ ds.log(x = NULL, base = exp(1), newobj = NULL, datasources = NULL)
 
 \item{base}{a numrical, the base with respect to which logarithms are computed.}
 
-\item{newobj}{the name of the new variable. If this argument is set to NULL, the name of the new 
-variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input 
-variable's name is 'LAB_TSC')}
+\item{newobj}{the name of the new variable. If this argument is set to NULL, the name of the new
+variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input
+variable's name is 'LAB_TSC').}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 nothing is returned to the client, the new object is stored on the server side.
@@ -35,13 +35,13 @@ this is simply a wrapper for the server side function.
 
   # login and assign specific variable(s)
   myvar <- list("LAB_TSC")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
   # Compute natural logarithm of LAB_TSC
   ds.log(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals) 
+  datashield.logout(conns)
 
 }
 

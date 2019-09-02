@@ -52,7 +52,7 @@
 #' If you want to use the same starting seed in all studies but do not wish it to
 #' be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
 #' use the <datasources> argument to generate the random number vectors one source at
-#' a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
+#' a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
 #' As an example, if the <seed.as.integer> value is 78326 then the seed
 #' in each source will be set at 78326*1 = 78326 because the vector of datasources
 #' being used in each call to the function will always be of length 1 and so the
@@ -71,15 +71,8 @@
 #' decimal random number output to integer, a k in range 1-8 forces output to
 #' have k decimal places. If k = 9, no rounding occurs of native output.
 #' Default=9.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return Writes the pseudorandom number vector with the characteristics specified
 #' in the function call as a new serverside vector in each data source. Also returns
 #' key information to the clientside: the random seed trigger as specified by you in each
@@ -91,11 +84,11 @@
 #' @export
 ds.rNorm<-function(samp.size=1,mean=0,sd=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){
-					 
+
 ##################################################################################
-# if no opal login details are provided look for 'opal' objects in the environment
+# look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
 
@@ -145,10 +138,10 @@ if(is.numeric(sd)){
 		sd.valid<-0
 	}
 }
-	
+
 if(!sd.valid){
 mess3<-("ERROR: sd must be > 0")
-return(mess3)	
+return(mess3)
 }
 
 decimal.places.valid<-1
@@ -191,8 +184,8 @@ cat("NO SEED SET IN STUDY",study.id,"\n\n")
 
 }
   calltext <- paste0("setSeedDS(", seed.as.text, ")")
-  ssDS.obj[[study.id]] <- opal::datashield.aggregate(datasources[study.id], as.symbol(calltext))
-} 
+  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], as.symbol(calltext))
+}
 cat("\n\n")
 
 
@@ -216,9 +209,9 @@ toAssign<-paste0("rNormDS(",samp.size[k],",",mean, ",", sd, ",", force.output.to
   }
 
   # now do the business
- 
-  opal::datashield.assign(datasources[k], newobj, as.symbol(toAssign))
- } 
+
+  DSI::datashield.assign(datasources[k], newobj, as.symbol(toAssign))
+ }
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -226,11 +219,11 @@ toAssign<-paste0("rNormDS(",samp.size[k],",",mean, ",", sd, ",", force.output.to
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -272,14 +265,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors && !return.full.seed.as.set){																#
@@ -309,4 +302,3 @@ if(!no.errors){																								#
 }
 
 #ds.rNorm
-

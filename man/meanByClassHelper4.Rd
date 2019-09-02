@@ -8,8 +8,8 @@ meanByClassHelper4(dtsource, alist, initialtable, variable = NA,
   categories = NA)
 }
 \arguments{
-\item{dtsource}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{dtsource}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{alist}{the name of the list that holds the final subset tables}
 

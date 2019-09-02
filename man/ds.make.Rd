@@ -13,14 +13,10 @@ and complex (many brackets) expressions can always be broken down into a series 
 see example 1 below. If toAssign is a simple pre-existing data object, it will simply be copied and assigned as having a second name
 as specified by the newobject argument - e.g. see example 1 below. One bug identified}
 
-\item{newobj}{the name of the new object}
+\item{newobj}{the name of the new object.}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not specified
-the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-e.g. datasources=opals.em[2,3]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the object specified by the newobj argument (or default name newObject) is written to the
@@ -35,7 +31,7 @@ server side. ds.make is equivalent to ds.assign, but runs slightly faster.
 It defines a datashield object via an allowed function or an arithmetic
 expression hence creating a new object
 in the server side R environments. The function is a wrapper for
-the 'opal' package function 'datashield.assign'.
+the DSI package function 'datashield.assign'.
 }
 \details{
 If no newobj name is provided, the new object is named 'newObject' by default,
@@ -72,7 +68,7 @@ swap the original call around: ds.make('(beta*xvar)+5.3', 'predvals')
 the error seems also to be circumvented. This is presumably because the first element
 of the arithmetic function is of length equal to xvar and it then knows to
 replicate the 5.3 that many times in the second part of the expression.
-The second work-around is obviously easier, but it is worth knowing about the 
+The second work-around is obviously easier, but it is worth knowing about the
 first trick because creating a vector of ones of equal length to another vector
 can be useful in other settings. Equally the call:
 ds.make('indID-indID','ZEROS') to create a vector of zeros of that same
@@ -98,9 +94,9 @@ length may also be useful.
 ##EXAMPLE 3
 ##MISCELLANEOUS OPERATORS WITHIN FUNCTIONS (female.n is binary 1/0 so female.n2 = female.n
 ##and so they cancel out in code for second call to ds.make and so that call is
-##equivalent to copying log.surv to output.test.1)  
+##equivalent to copying log.surv to output.test.1)
 #ds.make("female.n^2","female.n2")
-#ds.make("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1") 
+#ds.make("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1")
 #ds.make("exp(output.test.1)","output.test")
 }
 

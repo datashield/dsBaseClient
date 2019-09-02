@@ -13,8 +13,8 @@ subsetHelper(dts, data, rs = NULL, cs = NULL)
 
 \item{cs}{a vector of two integers or one or more characters.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a message or the class of the object if the object has the same class in all studies.

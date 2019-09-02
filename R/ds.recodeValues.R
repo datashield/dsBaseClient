@@ -51,16 +51,9 @@
 #' @param newobj This a character string providing a name for the recoded vector
 #' representing the primary output of the ds.recodeValues() function.
 #' This defaults to '<var.name>_recoded' if no name is specified
-#' where <var.name> is the first argument of ds.recodeValues()
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' where <var.name> is the first argument of ds.recodeValues().
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name '<var.name>_recoded').
@@ -78,16 +71,16 @@
 #' without problems no studysideMessage will have been saved and ds.message("newobj")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
-#' @export 
+#' @export
 
 ds.recodeValues<-function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, force.output.format="no", newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
-   # if no opal login details are provided look for 'opal' objects in the environment
+   # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
- 
- 
+
+
     # check user has provided the name of the variable to be recoded
   if(is.null(var.name)){
     stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
@@ -102,12 +95,12 @@ ds.recodeValues<-function(var.name=NULL, values2replace.vector=NULL, new.values.
   if(is.null(new.values.vector)){
     stop("Please provide a vector specifying the new values to be set eg c(3,NA,4)", call.=FALSE)
   }
-  
+
     # check values2replace.vector and new.values.vector have the same length
   if(length(values2replace.vector)!=length(new.values.vector)){
     stop("Please ensure that values2replace.vector and new.values.vector have same length and are in the same order", call.=FALSE)
   }
-  
+
 
     # check no duplicate values in values2replace.vector
   if(length(values2replace.vector)!=length(unique(values2replace.vector))){
@@ -118,7 +111,7 @@ ds.recodeValues<-function(var.name=NULL, values2replace.vector=NULL, new.values.
 if(length(values2replace.vector)==1&&is.na(values2replace.vector)){
 stop("The <values2replace.vector> consists solely of one element which is NA. Please see details
 in the help information for ds.recodeValues to find an easy work around that circumvents
-the coding restriction that prohibits this particular way of specifying this recoding request") 
+the coding restriction that prohibits this particular way of specifying this recoding request")
   }
 
 #DETERMINE WHETHER new.values.vector CONTAINS NON-NUMERIC ELEMENTS (IF SO CAN ONLY GET NUMERIC OUTPUT
@@ -129,25 +122,25 @@ the coding restriction that prohibits this particular way of specifying this rec
 	nvv.numeric<-is.numeric(new.values.vector)
 
  numeric.output.format.possible<-(nvv.all.NA||nvv.numeric)
- 
+
     #is values2replace.vector numeric?
 
 	v2r.numeric<-is.numeric(values2replace.vector)
- 
- 
+
+
   values2replace.transmit<-paste0(as.character(values2replace.vector),collapse=",")
-  
+
   new.values.transmit<-paste0(as.character(new.values.vector),collapse=",")
-  
+
 
 	 if(is.null(newobj)){newobj<-paste0(var.name,"_recoded")}
 
- 
+
     calltext1 <- call("recodeValuesDS1", var.name, values2replace.transmit, new.values.transmit)
-    return.warning.message<-opal::datashield.aggregate(datasources, calltext1)
-	
+    return.warning.message<-DSI::datashield.aggregate(datasources, calltext1)
+
     calltext2 <- call("recodeValuesDS2", var.name, values2replace.transmit, new.values.transmit,numeric.output.format.possible,force.output.format,v2r.numeric)
-    opal::datashield.assign(datasources, newobj, calltext2)
+    DSI::datashield.assign(datasources, newobj, calltext2)
 
     numsources<-length(datasources)
     for(s in 1:numsources){
@@ -165,18 +158,18 @@ the coding restriction that prohibits this particular way of specifying this rec
             }
 	}
     }
-	
+
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -218,14 +211,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -241,7 +234,6 @@ if(!no.errors){																								#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
-	
+
 }
 #ds.recodeValues
-

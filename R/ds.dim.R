@@ -1,20 +1,20 @@
-#' 
+#'
 #' @title Retrieves the dimension of an object
 #' @description this function is similar to R function \code{dim}
 #' @details the function returns the unpooled or pooled dimension of the object by summing
-#' up the individual dimensions returned from each study or the dimension of the object in each 
-#' study. Unlike the other DataSHIELD function the default behaviour is to output the dimension 
-#' of each study separately. 
+#' up the individual dimensions returned from each study or the dimension of the object in each
+#' study. Unlike the other DataSHIELD function the default behaviour is to output the dimension
+#' of each study separately.
 #' @param x a character, the name of R table object, for example a matrix, array or data frame
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned 
+#' @param type a character which represents the type of analysis to carry out.
+#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned
 #' if \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
 #' if \code{type} is set to 'both' or 'b', both sets of outputs are produced
 #' @param checks a Boolean indicator of whether to undertake optional checks of model
 #' components. Defaults to checks=FALSE to save time. It is suggested that checks
-#' should only be undertaken once the function call has failed
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' should only be undertaken once the function call has failed.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return for an array, \code{NULL} or a vector of mode \code{integer}
 #' @author Amadou Gaye, Julia Isaeva, Demetris Avraam, for DataSHIELD Development Team
 #' @seealso \link{ds.dataFrame} to generate a table of type dataframe.
@@ -25,39 +25,39 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' 
+#'
 #'   # load that contains the login details
 #'   data(logindata)
-#' 
+#'
 #'   # login and assign all the stored variables.
-#'   opals <- datashield.login(logins=logindata,assign=TRUE)
-#' 
+#'   conns <- datashield.login(logins=logindata,assign=TRUE)
+#'
 #'   # Example 1: Get the dimension of the assigned datasets in each study
 #'   ds.dim(x='D', type='combine')
-#' 
+#'
 #'   # Example 2: Get the pooled dimension of the assigned datasets
 #'   ds.dim(x='D', type='combine')
 #'
 #'   # Example 3: Get the dimension og the datasets in each single study
 #'   # and the pooled dimension  - default
-#'   ds.dim(x='D') 
-#' 
+#'   ds.dim(x='D')
+#'
 #'   # Example 4: Input has to be either matrix, data frame or an array
 #'   # In the below example, the inpout is a vector so it will not work.
 #'   ds.dim(x='D$LAB_TSC')
-#' 
+#'
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(opals)
-#' 
+#'   datashield.logout(conns)
+#'
 #' }
-#' 
+#'
 ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     stop("Please provide a the name of a data.frame or matrix!", call.=FALSE)
   }
@@ -82,8 +82,8 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
     }                                                                                                    #
   }                                                                                                      #
   ########################################################################################################
-  
-  
+
+
   ###################################################################################################
   #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                       #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
@@ -92,17 +92,17 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   #
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
-  
+
   cally <- paste0("dimDS(", x, ")")
-  dimensions <- opal::datashield.aggregate(datasources, as.symbol(cally))
-  
+  dimensions <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+
   # names of the studies to be used in the output
   stdnames <- names(datasources)
   outputnames <- c()
   for (i in 1:length(datasources)){
     outputnames[i] <- paste0('dimensions of ', x, ' in ', stdnames[i])
   }
-  
+
   # find the dimensions of the combined dataframe or matrix
   global.dim1 <- 0
   global.dim2 <- dimensions[[1]][2]
@@ -110,7 +110,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
     global.dim1 <- global.dim1 + dimensions[[i]][1]
   }
   pooled.dim <- list(c(global.dim1, global.dim2))
-  
+
   if(type=="combine"){
     out <- pooled.dim
 	names(out) <- paste0('dimensions of ', x, ' in combined studies')
@@ -119,16 +119,16 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
 	  out <- dimensions
 	  names(out) <- outputnames
     }else{
-	  if(type=="both"){     
+	  if(type=="both"){
         out <- c(dimensions, pooled.dim)
 		names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
 	  }else{
         stop('Function argument "type" has to be either "both", "combine" or "split"')
-      } 
+      }
     }
-  }	
-  
+  }
+
   return(out)
-  
+
 }
 #ds.dim

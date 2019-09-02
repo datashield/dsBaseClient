@@ -1,4 +1,4 @@
-#' 
+#'
 #' @title ds.dataFrame calling dataFrameDS
 #' @description Creates a data frame from its elemental components: pre-existing data frames;
 #' single variables; matrices
@@ -9,7 +9,7 @@
 #' number of rows of the component data.frames or matrices must all be the same. The output
 #' data.frame will then have this same number of rows. ds.dataFrame calls the serverside
 #' function dataFrameDS which is almost the same as the native R function data.frame()
-#' and so several of the arguments are precisely the same as for data.frame() 
+#' and so several of the arguments are precisely the same as for data.frame()
 #' @param x This is a vector of character strings representing the names of the elemental
 #' components to be combined. For example, the call:
 #' ds.dataFrame(x=c('DF_input','matrix.m','var_age'),newobj='DF_output') will
@@ -19,7 +19,7 @@
 #' 7 variables and 2 matrices. For convenience the x argument can alternatively
 #' be specified in a two step procedure, the first being a call to
 #' the native R environment on the client server:
-#' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
+#' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age');
 #' ds.dataFrame(x=x.components,newobj='DF_output')
 #' @param row.names	NULL or a single integer or character string specifying a
 #' column to be used as row names, or a character or integer vector giving the
@@ -45,15 +45,8 @@
 #' consuming). Default FALSE.
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to 'df_new' if no name is specified.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name <df_new>).
@@ -72,25 +65,25 @@
 #' @author DataSHIELD Development Team
 #' @export
 ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj='df_new',datasources=NULL,notify.of.progress=FALSE){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
-  
+
   # the input variable might be given as column table (i.e. D$vector)
   # or just as a vector not attached to a table (i.e. vector)
   # we have to make sure the function deals with each case
   xnames <- extract(x)
   varnames <- xnames$elements
   obj2lookfor <- xnames$holders
- 
+
 if(DataSHIELD.checks)
-{ 
+{
   # check if the input object(s) is(are) defined in all the studies
   for(i in 1:length(varnames)){
     if(is.na(obj2lookfor[i])){
@@ -123,7 +116,7 @@ for(j in 1:length(x))
 testclass.var<-x[j]
 
 calltext1<-paste0('class(', testclass.var, ')')
-next.class <- opal::datashield.aggregate(datasources, as.symbol(calltext1))
+next.class <- DSI::datashield.aggregate(datasources, as.symbol(calltext1))
 class.vector<-c(class.vector,next.class[[1]])
 if (notify.of.progress)
     cat("\n",j," of ", length(x), " elements to combine in step 1 of 2\n")
@@ -142,7 +135,7 @@ if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
 else
 	{
 	calltext2<-paste0('colnames(', test.df, ')')
-    df.names <- opal::datashield.aggregate(datasources, as.symbol(calltext2))
+    df.names <- DSI::datashield.aggregate(datasources, as.symbol(calltext2))
 	 colname.vector<-c(colname.vector,df.names[[1]])
          if (notify.of.progress)
              cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
@@ -186,24 +179,24 @@ if(num.duplicates[m]!="0")
 }
 
 
- ############################### 
+ ###############################
   # call the server side function
   #The serverside function dataFrameDS calls dsBase::dataFrameDS in dsBase repository
   if(is.null(row.names)){
-    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
+    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),",
                      'NULL',",", check.rows,",", check.names,
                      ",list(","'",paste(colname.vector,collapse="','"),"'","),"
                      ,stringsAsFactors,",",completeCases,")")
   }else{
-    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),", 
-                     "list(","'",paste(row.names,collapse="','"),"'","),", 
+    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),",
+                     "list(","'",paste(row.names,collapse="','"),"'","),",
                      check.rows,",", check.names,
                      ",list(","'",paste(colname.vector,collapse="','"),"'","),"
-                     ,stringsAsFactors,",",completeCases,")") 
+                     ,stringsAsFactors,",",completeCases,")")
   }
-  opal::datashield.assign(datasources, newobj, as.symbol(cally))
-  
- 
+  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
+
+
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
@@ -214,11 +207,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -260,14 +253,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -286,4 +279,3 @@ if(!no.errors){																								#
 
 }
 #ds.dataFrame
-

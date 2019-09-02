@@ -19,7 +19,7 @@ elemental components as needed may be combined in any order e.g. 3 data.frames,
 7 variables and 2 matrices. For convenience the x argument can alternatively
 be specified in a two step procedure, the first being a call to
 the native R environment on the client server:
-x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
+x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age');
 ds.dataFrame(x=x.components,newobj='DF_output')}
 
 \item{row.names}{NULL or a single integer or character string specifying a
@@ -53,15 +53,8 @@ consuming). Default FALSE.}
 \item{newobj}{This a character string providing a name for the output
 data.frame which defaults to 'df_new' if no name is specified.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{notify.of.progress}{specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.}

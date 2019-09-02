@@ -10,8 +10,8 @@ ds.mean(x = NULL, type = "split", checks = FALSE,
 \arguments{
 \item{x}{a character, typically the name of a numerical vector}
 
-\item{type}{a character which represents the type of analysis to carry out. 
-If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global mean is calculated 
+\item{type}{a character which represents the type of analysis to carry out.
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global mean is calculated
 if \code{type} is set to 'split', 'splits' or 's', the mean is calculated separately for each study.
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
 
@@ -23,22 +23,18 @@ should only be undertaken once the function call has failed}
 generated values of the mean and of the number of valid (non-missing) observations into
 the R environments at each of the data servers. Will save study-specific means and Nvalids
 as well as the global equivalents across all studies combined. Once the estimated means and Nvalids
-are written into the server-side R environments, they can be used directly to centralize 
+are written into the server-side R environments, they can be used directly to centralize
 the variable of interest around its global mean or its study-specific means. Finally,
 the isDefined internal function checks whether the key variables have been created.}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not specified
-the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-e.g. datasources=opals.em[2,3]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list including: Mean.by.Study = estimated mean in each study separately (if type = split or both), with Nmissing
 (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
 also reported separately for each study; Global.Mean = Mean, Nmissing, Nvalid, Ntotal across all studies combined
-(if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether 
+(if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether
 a full analysis was possible or whether one or more studies had fewer valid observations than the nfilter
 threshold for the minimum cell size in a contingency table. If save.mean.Nvalid=TRUE, ds.mean writes
 the objects "Nvalid.all.studies", "Nvalid.study.specific", "mean.all.studies", and "mean.study.specific"
@@ -55,11 +51,11 @@ It is a wrapper for the server side function.
 
 #  # load that contains the login details
 #  data(logindata)
-#  library(opal)
+#  library(DSI)
 #
 #  # login and assign specific variable(s)
 #  myvar <- list('LAB_TSC')
-#  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+#  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 #
 #  # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
 #  ds.mean(x='D$LAB_TSC')
@@ -68,7 +64,7 @@ It is a wrapper for the server side function.
 #  ds.mean(x='D$LAB_TSC', type='split')
 #
 #  # clear the Datashield R sessions and logout
-#  datashield.logout(opals)
+#  datashield.logout(conns)
 
 }
 

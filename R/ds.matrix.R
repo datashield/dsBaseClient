@@ -1,15 +1,15 @@
 #' @title ds.matrix calling assign function matrixDS
-#' @description Creates a matrix A on the serverside 
+#' @description Creates a matrix A on the serverside
 #' @details Similar to the {matrix()} function in native R. Creates a matrix
 #' with dimensions specified by <nrows.scalar> and <ncols.scalar> arguments
-#' and assigns the values of all its elements based on the <mdata> argument 
+#' and assigns the values of all its elements based on the <mdata> argument
 #' @param mdata specifies the elements of the matrix to be created. If it
 #' is a vector it should usually be the same length as the total number of elements
 #' in the matrix and these will fill the matrix column by column or
 #' row by row depending whether the argument <byrow> is FALSE (default) or TRUE.
 #' If the mdata vector is not the same length as the total number of elements
 #' in the matrix to be created, the values in mdata will be used repeatedly until
-#' all elements in the matrix are full. 
+#' all elements in the matrix are full.
 #' If mdata is a scalar, all elements in the matrix will take that value.
 #' The <mdata> argument can be specified either as a character string specifying
 #' the name of a serverside scalar or vector,
@@ -45,19 +45,12 @@
 #' column by column (byrow=FALSE). Default = FALSE.
 #' @param dimnames A dimnames attribute for the matrix: NULL or a list of length 2 giving
 #' the row and column names respectively. An empty list is treated as NULL,
-#' and a list of length one as row names only. 
+#' and a list of length one as row names only.
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified or it is NULL
-#' the output matrix names defaults to "new_matrix"
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' the output matrix names defaults to "new_matrix".
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name "new_matrix")
 #' which is written to the serverside. In addition, two validity messages are returned
 #' indicating whether <newobj> has been created in each data source and if so whether
@@ -76,73 +69,73 @@
 #'
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' ds.matrix(mdata=-13,from="clientside.scalar", nrows.scalar=3,ncols.scalar=8,newobj="cs.block")
-#' 
+#'
 #' ds.matrix(NA,from="clientside.scalar", nrows.scalar=4,ncols.scalar=5,newobj="cs.block.NA")
-#' 
+#'
 #' clientside.input.scalar<-837
 #' ds.matrix(clientside.input.scalar,from="clientside.scalar", nrows.scalar=7,ncols.scalar=3,
 #'           newobj="cs.block.input")
-#' 
+#'
 #' clientside.input.nrows.scalar<-11
 #' ds.matrix(clientside.input.scalar,from="clientside.scalar",
 #'           nrows.scalar=clientside.input.nrows.scalar,ncols.scalar=3,
 #'           newobj="cs.block.input.nrows")
-#' 
+#'
 #' ds.rUnif(samp.size=1,min=0.5,max=10.5,newobj="block.scalar",seed.as.integer=761728,
 #'            force.output.to.k.decimal.places = 0)
-#' 
+#'
 #' ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
 #'           newobj="ss.block")
-#' 
+#'
 #' ds.make("log(block.scalar*(-1))","block.scalar.NA")
-#' 
+#'
 #' ds.matrix("block.scalar.NA",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
 #'           newobj="ss.block.NA")
-#' 
+#'
 #' ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar="block.scalar",
 #'           ncols.scalar="block.scalar",newobj="ss.block.square")
-#' 
+#'
 #' ds.rUnif(samp.size=45,min=-10.5,max=10.5,newobj="ss.vector",seed.as.integer=8321,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block")
-#' 
+#'
 #' ds.rUnif(samp.size=5,min=-10.5,max=10.5,newobj="ss.vector.5",seed.as.integer=551625,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector.5",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.5")
-#' 
+#'
 #' ds.rUnif(samp.size=9,min=-10.5,max=10.5,newobj="ss.vector.9",seed.as.integer=5575,
 #'            force.output.to.k.decimal.places = 0)
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
 #'           newobj="sv.block.9")
-#' 
+#'
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.9.ragged")
-#' 
+#'
 #' ds.rUnif(samp.size=12,min=-10.5,max=10.5,newobj="ss.vector.12",seed.as.integer=778172,
 #'            force.output.to.k.decimal.places = 0)
-#' 
+#'
 #' ds.matrix("ss.vector.12",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.12.ragged")
-#' 
+#'
 #' ds.recodeValues("ss.vector", c(-10),c(NA),newobj="ss.vector.NA")
 #' ds.matrix("ss.vector.NA",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           newobj="sv.block.NA")
-#' 
+#'
 #' ds.matrix("ss.vector.NA",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
 #'           byrow=TRUE,newobj="sv.byrow.block")
-#' 
+#'
 #' ds.matrix(NA, nrows.scalar=7,ncols.scalar=6,newobj="empty.matrix")
-#' 
+#'
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
 		  #' dimnames=list(c("a","b","c","d","e")),newobj="sv.block.9.dimnames1")
-#' 
+#'
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
           #' dimnames=list(c("a","b","c","d","e"),c(10*(9:1))),newobj="sv.block.9.dimnames12")
-#' 
+#'
 #' #No specification of newobj
 #' ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
           #' dimnames=list(c("a","b","c","d","e"),c(10*(9:1))))
@@ -150,13 +143,13 @@
 #'
 ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
                    dimnames = NULL, newobj=NULL, datasources=NULL){
-  
- 
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if a value has been provided for mdata
   if(is.null(mdata)){
     return("Error: mdata must be a character string, a numeric vector or a scalar")
@@ -181,8 +174,8 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   {
   mdata.transmit<-mdata
   }
- 
-  
+
+
   if(from=="clientside.scalar")
   {
   mdata.transmit<-paste0(as.character(mdata),collapse=",")
@@ -194,19 +187,19 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   if(is.null(nrows.scalar))
   {
   nrows.scalar<-c(-9)
-  }  
+  }
 
   nrows.transmit<-paste0(as.character(nrows.scalar),collapse=",")
- 
+
   if(is.null(ncols.scalar))
   {
   ncols.scalar<-c(-9)
-  }  
+  }
   ncols.transmit<-paste0(as.character(ncols.scalar),collapse=",")
 
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("matrixDS", mdata.transmit, from, nrows.transmit, ncols.transmit, byrow, dimnames)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 
 
@@ -222,11 +215,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -268,14 +261,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#

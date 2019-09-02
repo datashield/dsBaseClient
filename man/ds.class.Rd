@@ -9,8 +9,8 @@ ds.class(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{an R object}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a character the type of x
@@ -29,7 +29,7 @@ Same as for the R function \code{class}.
 
   # login and assign all the stored variables
   # (by default the assigned dataset is a dataframe named 'D')
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: Get the class of the whole dataset
   ds.class(x='D')
@@ -38,7 +38,7 @@ Same as for the R function \code{class}.
   ds.class(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

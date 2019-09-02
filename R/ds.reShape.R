@@ -1,6 +1,6 @@
 #' @title ds.reShape calling assign function reShapeDS
 #' @description Reshapes a data frame containing longitudinal or
-#' otherwise grouped data from 'wide' to 'long' format or vice-versa  
+#' otherwise grouped data from 'wide' to 'long' format or vice-versa
 #' @details This function is based on the native R function \code{reshape}.
 #' It reshapes a data frame containing longitudinal or otherwise grouped data
 #' between 'wide' format with repeated
@@ -23,7 +23,7 @@
 #' @param timevar.name, the variable in long format that differentiates multiple
 #' records from the same
 #' group or individual. If more than one record matches, the first will be taken. In the example,
-#' given under param v.names, it is the 'age' variable that discriminates the time at which 
+#' given under param v.names, it is the 'age' variable that discriminates the time at which
 #' each measurement was taken. For example, timevar.name='time.name'
 #' @param idvar.name, names of one or more variables in long format that identify multiple
 #' records from
@@ -32,28 +32,21 @@
 #' in an 'individual.ID' vector which can be declared as <idvar.name>: idvar.name='individual.ID'
 #' @param drop,	a vector of names of variables to drop before reshaping. This can simplify the
 #' resultant output. For example,  drop=c('bmi.26','pm10.16','survtime','censor')
-#' @param direction, a character string, partially matched to either 'wide' to reshape from 
+#' @param direction, a character string, partially matched to either 'wide' to reshape from
 #' long to wide format, or 'long' to reshape from wide to long format.
 #' @param sep, a character vector of length 1, indicating a separating character in the variable
 #' names in the wide format. This is used for creating good v.names and times arguments based
 #' on the names in the <varying> argument. This is also used to create variable names
 #' when reshaping
-#' to wide format. For example, in long format if sep='.', and systolic blood pressure is held in 
+#' to wide format. For example, in long format if sep='.', and systolic blood pressure is held in
 #' a column 'sbp', and age is recorded in years in a vector 'age' then depending how you
 #' set things up the column for sbp at age 7 in the wide format may be called
-#' 'sbp.7' or 'sbp.age.7' 
+#' 'sbp.7' or 'sbp.age.7'
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
 #' to 'newObject'.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return a reshaped data.frame converted from long to wide format or from wide to
 #' long format which is written to the serverside and given the name provided as the
 #' <newobj> argument or 'newObject' if no name is specified.
@@ -69,25 +62,25 @@
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
 #' without problems no studysideMessage will have been saved and ds.message('newobj')
 #' will return the message: 'ALL OK: there are no studysideMessage(s) on this datasource'
-#' @author Demetris Avraam, Paul Burton for DataSHIELD Development Team 
+#' @author Demetris Avraam, Paul Burton for DataSHIELD Development Team
 #' @export
 ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name="time", idvar.name="id",
                             drop=NULL, direction=NULL, sep=".", newobj="newObject", datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(data.name)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
 
- 
+
   if (!is.character(sep) || (nchar(sep) != 1)){
     stop("'sep' must be a character string", call.=FALSE)
   }
-  
+
   if(!is.null(varying)){
     varying.transmit <- paste(varying,collapse=",")
   }else{
@@ -99,29 +92,29 @@ ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name=
   }else{
     v.names.transmit <- NULL
   }
-  
+
   if(!is.null(drop)){
     drop.transmit <- paste(drop,collapse=",")
   }else{
     drop.transmit <- NULL
   }
 
-  ############################## 
+  ##############################
   # call the server side function
   calltext <- call("reShapeDS", data.name, varying.transmit, v.names.transmit, timevar.name, idvar.name, drop.transmit, direction, sep)
-  opal::datashield.assign(datasources, newobj, calltext)
- 
+  DSI::datashield.assign(datasources, newobj, calltext)
+
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -163,14 +156,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -186,9 +179,6 @@ if(!no.errors){																								#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
- 
+
 }
 #ds.reShape
-
-
-

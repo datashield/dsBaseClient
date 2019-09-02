@@ -29,15 +29,8 @@ function allows the user to choose one of five summarizing functions. These are
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
 to "tapply.out".}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 an array of the summarized values created by the tapplyDS.assign function.
@@ -66,7 +59,7 @@ writes the summarized values to the serverside. Because unlike the aggregate fun
 {tapplyDS}, {tapply.assign} returns no results to the clientside, it is fundamentally
 non-disclosive and the number of observations in each unique indexing group does
 not need to be evaluated against nfilter.tab (the minimum allowable non-zero count
-in a contingency table). This means that tapplyDS.assign can be used, for example, 
+in a contingency table). This means that tapplyDS.assign can be used, for example,
 to break a dataset down into a small number of values for each individual and then to flag up
 which individuals have got at least one positive value for a binary outcome variable.
 This will almost inevitably generate some indexing groups smaller than nfilter.tab but

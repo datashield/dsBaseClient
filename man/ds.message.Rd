@@ -12,7 +12,7 @@ message. As an example, the server-side function mergeDS enacts the
 command:    datashield.assign(datasources, "messageobj", calltext2)
 As a standard assign function its output is directed to the list object named
 (in this case) "messageobj". If a studysideMessage is written by DataSHIELD
-it can be found as messageobj$studysideMessage. To read it, you have to 
+it can be found as messageobj$studysideMessage. To read it, you have to
 issue the client-side command: ds.message('messageobj'). This tells DataSHIELD
 to look for the server-side object 'messageobj' and if it finds it, to return any
 text held in messageobj$studysideMessage. In order to help users to know the name
@@ -25,19 +25,15 @@ of each call. In combination, these two notes alert the user to the fact that if
 an error, there may be additional information available in a studysideMessage, and also
 tells them how to retrieve that message.}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not specified
-the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-e.g. datasources=opals.em[2,3]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list object from each study, containing whatever message has been written by
 DataSHIELD into $studysideMessage.
 }
 \description{
-This function allows for error messages arising from the 
+This function allows for error messages arising from the
 running of a server-side assign function to be returned to the client-side
 }
 \details{

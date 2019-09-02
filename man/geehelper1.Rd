@@ -12,10 +12,8 @@ geehelper1(N, npara, M_study, alphaM, sum_p, corStructure = NULL)
 \item{npara}{the number of parameters/columns of the design matrix, for a regression
 model, generated from the table of individual level data.}
 
-\item{M_study}{}
-
 \item{corStructure}{an integer that set the correlation structure: 1 for 'ar1',
-2 for 'exchangeable', 3 for 'independence', 4 for for 'fixed' and 5 for an 
+2 for 'exchangeable', 3 for 'independence', 4 for for 'fixed' and 5 for an
 'unstructure' correlation structure.}
 }
 \value{

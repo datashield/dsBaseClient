@@ -6,21 +6,13 @@
 #' a data.frame to a matrix but maintain all data columns in their
 #' original class you should use the native R function {data.matrix}
 #' and in DataSHIELD this is called by ds.asDataMatrix which calls
-#' asDataMatrixDS 
+#' asDataMatrixDS
 #' @param x.name the name of the input object to be coerced to a matrix.
 #' Must be specified in inverted commas.
 #' @param newobj the name of the new output variable. If this argument is set
 #' to NULL, the name of the new variable is defaulted to <x.name>.mat
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-#' it should be specified without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or by default <x.name>.mat
 #' if the <newobj> argument is NULL) which is written to the serverside.
 #' In addition, two validity messages are returned
@@ -37,17 +29,17 @@
 #' @author Amadou Gaye, Paul Burton, for DataSHIELD Development Team
 #' @export
 ds.asMatrix = function(x.name=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
-  
+
+
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- paste0(x.name, ".mat")
@@ -57,20 +49,20 @@ ds.asMatrix = function(x.name=NULL, newobj=NULL, datasources=NULL){
 
 	calltext <- call("asMatrixDS", x.name)
 
-	opal::datashield.assign(datasources, newobj, calltext)
+	DSI::datashield.assign(datasources, newobj, calltext)
 
-  
+
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -112,14 +104,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -136,7 +128,6 @@ if(!no.errors){																								#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
 
-  
+
 }
 # ds.asMatrix
-

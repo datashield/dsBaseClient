@@ -13,16 +13,8 @@ logical. Must be specified in inverted commas.}
 \item{newobj}{the name of the new output variable. If this argument is set
 to NULL, the name of the new variable is defaulted to <x.name>.logic}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-it should be specified without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the object specified by the <newobj> argument (or by default <x.name>.logic

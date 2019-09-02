@@ -13,8 +13,8 @@ ds.heatmapPlot(x = NULL, y = NULL, type = "combine", show = "all",
 
 \item{y}{a character, the name of a numerical vector}
 
-\item{type}{a character which represents the type of graph to display. 
-If \code{type} is set to 'combine', a combined heatmap plot displayed and 
+\item{type}{a character which represents the type of graph to display.
+If \code{type} is set to 'combine', a combined heatmap plot displayed and
 if \code{type} is set to 'split', each heatmap is plotted separately.}
 
 \item{show}{a character which represents where the plot should focus
@@ -48,8 +48,8 @@ the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The us
 any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
 By default the value of noise is set to be equal to 0.25.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a heatmap plot
@@ -59,8 +59,8 @@ Generates a heatmap plot of the pooled data or one plot for each dataset.
 }
 \details{
 The function first generates a density grid and uses it to plot the graph.
-Cells of the grid density matrix that hold a count of less than the filter set by 
-DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential 
+Cells of the grid density matrix that hold a count of less than the filter set by
+DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 disclosure. A message is printed to inform the user about the number of invalid cells.
 The ranges returned by each study and used in the process of getting the grid density matrix
 are not the exact minumum and maximum values but rather close approximates of the real
@@ -73,56 +73,56 @@ minimum and maximum value. This was done to reduce the risk of potential disclos
   data(logindata)
 
   # login and assign the required variables to R
-  opals <- datashield.login(logins=logindata, assign=TRUE)
+  conns <- datashield.login(logins=logindata, assign=TRUE)
 
-  # Example 1: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+  # Example 1: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
   # and 'LAB_HDL' using the method 'smallCellsRule' (default method) that applies a stochastic
   # noise in the extreme values of the variables' range.
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL')
-  
+
   # Example 2: the same as example 1
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='combine')
-  
+
   # Example 3: similar as example 2 but for type='split'
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
-  
-  # Example 4: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+
+  # Example 4: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
   # and 'LAB_HDL' using the method 'deterministic' that plots the exact heatmap plot of the
-  # centroids of each 3 (default number) nearest neighbours. 
+  # centroids of each 3 (default number) nearest neighbours.
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
-  
+
   # Example 5: the same as example 4
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='combine')
-  
+
   # Example 6: similar as example 5 for type='split'
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='split')
-  
+
   # Example 7: similar as example 6 for k=7
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
-  
+
   # Example 8: similar as example 7 for numints=40
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
                  type='split')
-  
-  # Example 9: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC' 
+
+  # Example 9: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
   # and 'LAB_HDL' using the method 'probabilistic' that plots the exact heatmap plot of the
   # noisy data
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
-  
+
   # Example 10: the same as example 9
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=0.25, type='combine')
-  
+
   # Example 11: the same as example 10 but for bigger level of noise
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='combine')
-  
+
   # Example 12: the same as example 11 but for type='split'
   ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='split')
-  
+
   # Example 13: if any of the input variables is a factor then the function fails
   ds.heatmapPlot(x='D$LAB_TSC', y='D$GENDER')
-   
+
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

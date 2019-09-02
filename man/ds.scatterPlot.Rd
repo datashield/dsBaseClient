@@ -39,8 +39,8 @@ equal to or greater than the pre-specified threshold 'nfilter.noise'.}
 combined data is generated when the \code{type} is set to 'combine'. One scatter plot for each
 single study is generated when the \code{type} is set to 'split' (default).}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 one or more scatter plots depending on the argument \code{type}
@@ -78,7 +78,7 @@ that chooses the probabilistic method in a given set of variables.
   data(logindata)
 
   # login to the servers
-  opals <- opal::datashield.login(logins=logindata, assign=TRUE)
+  conns <- datashield.login(logins=logindata, assign=TRUE)
 
   # Example 1: generate a scatter plot for each study separately (the default behaviour)
   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', type="split")
@@ -124,7 +124,7 @@ that chooses the probabilistic method in a given set of variables.
                    noise=0.1, type='split')
 
   # clear the Datashield R sessions and logout
-  opal::datashield.logout(opals)
+  DSI::datashield.logout(conns)
 
 }
 

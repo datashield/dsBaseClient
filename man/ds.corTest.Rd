@@ -11,8 +11,8 @@ ds.corTest(x = NULL, y = NULL, datasources = NULL)
 
 \item{y}{a character, the name of a numerical vector}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list containing the results of the test
@@ -32,13 +32,13 @@ Runs a two sided pearson test with a 0.95 confidence level.
   # login and assign specific variable(s)
   # (by default the assigned dataset is a dataframe named 'D')
   myvar <- list('LAB_TSC', 'LAB_HDL')
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
   # test for correlation between the variables 'LAB_TSC' and 'LAB_HDL'
   ds.corTest(x='D$LAB_TSC', y='D$LAB_HDL')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

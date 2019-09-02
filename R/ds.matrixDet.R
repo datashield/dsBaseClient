@@ -1,5 +1,5 @@
 #' @title ds.matrixDet calling assign function matrixDetDS2
-#' @description Calculates the determinant of a square matrix A 
+#' @description Calculates the determinant of a square matrix A
 #' and writes it as a data object to the serverside
 #' @details Calculates the determinant of a square matrix (for additional
 #' information see help for {determinant} function in native R). This operation is only
@@ -11,25 +11,18 @@
 #' to "M1_det" where <M1> is the first argument of the function
 #' @param logarithm logical. Default is FALSE, which returns the
 #' determinant itself, TRUE returns the logarithm of the modulus of the determinant.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the calculated determinant of the matrix as a serverside object
 #' with its name specified by the <newobj> argument (or default name <M1>_det).
 #' The determinant is reported as a two component list. Element 1
 #' is $modulus and element 2 is $sign. If logarithm=FALSE: $modulus reports the
-#' absolute value of the determinant and is therefore always positive. $sign 
+#' absolute value of the determinant and is therefore always positive. $sign
 #' indicates whether the determinant is positive ($sign=1) or negative ($sign=-1).
 #' $modulus has an attribute [attr(,"logarithm")] which is FALSE if the argument
 #' <logarithm> was FALSE - this enables you to look at results post-hoc to determine
 #' whether the logarithm argument was TRUE or FALSE. If you wish to generate the
-#' actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.   
+#' actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.
 #' If logarithm=TRUE: $modulus reports the log (to base e) of the absolute value
 #' of the determinant. $sign again reports whether the determinant is positive
 #' ($sign=1) or negative ($sign=-1). The attribute of $modulus [attr(,"logarithm")]
@@ -51,12 +44,12 @@
 #' @export
 #'
 ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
-   
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){
     return("Error: Please provide the name of the matrix representing M1")
@@ -67,13 +60,13 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
   {
   logarithm<-FALSE
   }
-  
+
   if(logarithm!=TRUE)
   {
   logarithm<-FALSE
   }
-  
-  
+
+
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
     newobj <- paste0(M1,"_det")
@@ -82,7 +75,7 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
 
   # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION
   calltext <- call("matrixDetDS2", M1, logarithm)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -94,11 +87,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -140,14 +133,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#

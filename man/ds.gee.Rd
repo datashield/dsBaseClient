@@ -12,46 +12,46 @@ ds.gee(formula = NULL, family = NULL, data = NULL,
 \arguments{
 \item{formula}{a string character, the formula which describes the model to be fitted.}
 
-\item{family}{a character, the description of the error distribution:  'binomial', 'gaussian', 
+\item{family}{a character, the description of the error distribution:  'binomial', 'gaussian',
 'Gamma' or 'poisson'.}
 
 \item{data}{the name of the data frame that hold the variables in the regression formula.}
 
-\item{corStructure}{a character, the correlation structure: 'ar1', 'exchangeable', 'independence', 
+\item{corStructure}{a character, the correlation structure: 'ar1', 'exchangeable', 'independence',
 'fixed' or 'unstructure'.}
 
 \item{clusterID}{a character, the name of the column that hold the cluster IDs}
 
 \item{startCoeff}{a numeric vector, the starting values for the beta coefficients.}
 
-\item{userMatrix}{a list of user defined matrix (one for each study). These matrices are 
+\item{userMatrix}{a list of user defined matrix (one for each study). These matrices are
 required if the correlation structure is set to 'fixed'.}
 
 \item{maxit}{an integer, the maximum number of iteration to use for convergence.}
 
-\item{checks}{a boolean, if TRUE (default) checks that takes 1-3min are carried out to verify that the 
+\item{checks}{a boolean, if TRUE (default) checks that takes 1-3min are carried out to verify that the
 variables in the model are defined (exist) on the server site and that they have the correct characteristics
-required to fit a GEE. If FALSE (not recommended if you are not an experienced user) no checks are carried 
+required to fit a GEE. If FALSE (not recommended if you are not an experienced user) no checks are carried
 except some very basic ones and eventual error messages might not give clear indications about the cause(s)
 of the error.}
 
 \item{display}{a boolean to display or not the intermediate results. Default is FALSE.}
 
-\item{datasources}{a list of opal object(s) obtained after login to opal servers;
-these objects also hold the data assigned to R, as a \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list which contains the final coefficient estimates (beta values), the pooled alpha
 value and the pooled phi value.
 }
 \description{
-A function that fits generalized estimated equations to deal with correlation 
+A function that fits generalized estimated equations to deal with correlation
 structures arising from repeated measures on individuals, or from clustering as in family data.
 }
 \details{
-It enables a parallelized analysis of individual-level data sitting on distinct servers 
-by sending commands to each data computer to fit a GEE model model. The estimates returned are 
-then combined and updated coefficients estimate sent back for a new fit. This iterative process 
+It enables a parallelized analysis of individual-level data sitting on distinct servers
+by sending commands to each data computer to fit a GEE model model. The estimates returned are
+then combined and updated coefficients estimate sent back for a new fit. This iterative process
 goes on until convergence is achieved. The input data should not contain missing values.
 The data must be in a data.frame obejct and the variables must be refer to through the data.frame.
 }
@@ -60,23 +60,23 @@ The data must be in a data.frame obejct and the variables must be refer to throu
 
   # load the login data file for the correlated data
   data(geeLoginData)
-  
+
   # login and assign all the stored variables to R
-  opals <- datashield.login(logins=geeLoginData,assign=TRUE)
-  
+  conns <- datashield.login(logins=geeLoginData,assign=TRUE)
+
   # set some parameters for the function 9the rest are set to default values)
   myformula <- 'response~1+sex+age.60'
   myfamily <- 'binomial'
   startbetas <- c(-1,1,0)
   clusters <- 'id'
   mycorr <- 'ar1'
-  
+
   # run a GEE analysis with the above specifed parameters
   ds.gee(data='D',formula=myformula,family=myfamily,corStructure=mycorr,clusterID=clusters,
          startCoeff=startbetas)
-  
+
   # clear the Datashield R sessions and logout
-  datashield.logout(opals) 
+  datashield.logout(conns)
 
 }
 

@@ -20,27 +20,7 @@
 #'
 
 ds.listOpals<-function(){
-
-  findLogin <- getOpals()
-  message(paste0(" This function lists all Opal objects in the R analysis environment\n"))
-  if (findLogin$flag == 0){
-  stop(" Are you logged in to any server? Please provide a valid opal login object! ", call.=FALSE)
-  }
-
-  if(findLogin$flag==1){
-    message(paste0(" There is only one set of opals available,\n that is: '",findLogin$opals.list,"'\n\n"))
-    eval(parse(text=paste0("default.opals <- ",findLogin$opals.list)),envir=0)
-    return(message(paste0(" This set of Opals has been copied to create 'default.opals',\n which all DataSHIELD functions will now use by default.\n If you want to change the default Opal object,\n please run the function ds.setDefaultOpals() again. \n\n")))
-    }
-
-
-
-  if (findLogin$flag > 1){
-  message(paste0(" There is more than one set of opals available,\n these are: '", paste(findLogin$opals.list,collapse="', '"), "'!!"))
-          return(message(paste0("\n\n You can either choose to specify the Opals you wish to use\n for each individual function call using the argument:\n 'datasources=name of opal object' [no inverted commas]\n or else use the ds.setDefaultOpals() function\n to create the object 'default.opals', which all\n DataSHIELD functions will then use by default.\n\n")))
-   } else {
-            stop("End of process: please enter a valid login object with no inverted commas", call.=FALSE)
-          }
+  .Deprecated("DSI::datashield.connections")
+  datashield.connections()
 }
-#ds.listOpals	  
-
+#ds.listOpals

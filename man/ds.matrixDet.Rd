@@ -18,27 +18,20 @@ to "M1_det" where <M1> is the first argument of the function}
 \item{logarithm}{logical. Default is FALSE, which returns the
 determinant itself, TRUE returns the logarithm of the modulus of the determinant.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the calculated determinant of the matrix as a serverside object
 with its name specified by the <newobj> argument (or default name <M1>_det).
 The determinant is reported as a two component list. Element 1
 is $modulus and element 2 is $sign. If logarithm=FALSE: $modulus reports the
-absolute value of the determinant and is therefore always positive. $sign 
+absolute value of the determinant and is therefore always positive. $sign
 indicates whether the determinant is positive ($sign=1) or negative ($sign=-1).
 $modulus has an attribute [attr(,"logarithm")] which is FALSE if the argument
 <logarithm> was FALSE - this enables you to look at results post-hoc to determine
 whether the logarithm argument was TRUE or FALSE. If you wish to generate the
-actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.   
+actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.
 If logarithm=TRUE: $modulus reports the log (to base e) of the absolute value
 of the determinant. $sign again reports whether the determinant is positive
 ($sign=1) or negative ($sign=-1). The attribute of $modulus [attr(,"logarithm")]
@@ -58,7 +51,7 @@ without problems no studysideMessage will have been saved and ds.message("newobj
 will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 }
 \description{
-Calculates the determinant of a square matrix A 
+Calculates the determinant of a square matrix A
 and writes it as a data object to the serverside
 }
 \details{

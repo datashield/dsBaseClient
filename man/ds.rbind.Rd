@@ -20,7 +20,7 @@ provided they all have the same number of columns.
 For convenience the x argument can alternatively
 be specified in a two step procedure, the first being a call to
 the native R environment on the client server:
-x.components<-c('matrix.m','matrix.n') then 
+x.components<-c('matrix.m','matrix.n') then
 ds.rbind(x=x.components,newobj='rbind_output'). Column names
 are taken either from the column names of the first object
 specified in the <x> argument. Alternatively new column names
@@ -52,15 +52,8 @@ is the actual number of columns in the output object}
 \item{newobj}{This a character string providing a name for the output
 data.frame which defaults to 'cbind.out' if no name is specified.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{notify.of.progress}{specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.}
@@ -91,7 +84,7 @@ and combine them by row to produce a matrix.
 \details{
 A sequence of vector, matrix or data-frame arguments
 is combined row by row to produce a matrix
-which is written to the serverside. For more details see 
+which is written to the serverside. For more details see
 the native R function {rbind}. The handling of argument <x>
 is similar to that of functions {ds.cbind} and {ds.dataFrame}
 }

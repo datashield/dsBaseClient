@@ -9,17 +9,17 @@ ds.dim(x = NULL, type = "both", checks = FALSE, datasources = NULL)
 \arguments{
 \item{x}{a character, the name of R table object, for example a matrix, array or data frame}
 
-\item{type}{a character which represents the type of analysis to carry out. 
-If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned 
+\item{type}{a character which represents the type of analysis to carry out.
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned
 if \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
 
 \item{checks}{a Boolean indicator of whether to undertake optional checks of model
 components. Defaults to checks=FALSE to save time. It is suggested that checks
-should only be undertaken once the function call has failed}
+should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 for an array, \code{NULL} or a vector of mode \code{integer}
@@ -29,8 +29,8 @@ this function is similar to R function \code{dim}
 }
 \details{
 the function returns the unpooled or pooled dimension of the object by summing
-up the individual dimensions returned from each study or the dimension of the object in each 
-study. Unlike the other DataSHIELD function the default behaviour is to output the dimension 
+up the individual dimensions returned from each study or the dimension of the object in each
+study. Unlike the other DataSHIELD function the default behaviour is to output the dimension
 of each study separately.
 }
 \examples{
@@ -40,7 +40,7 @@ of each study separately.
   data(logindata)
 
   # login and assign all the stored variables.
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: Get the dimension of the assigned datasets in each study
   ds.dim(x='D', type='combine')
@@ -50,14 +50,14 @@ of each study separately.
 
   # Example 3: Get the dimension og the datasets in each single study
   # and the pooled dimension  - default
-  ds.dim(x='D') 
+  ds.dim(x='D')
 
   # Example 4: Input has to be either matrix, data frame or an array
   # In the below example, the inpout is a vector so it will not work.
   ds.dim(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

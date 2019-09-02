@@ -10,7 +10,7 @@ ds.lexis(data = NULL, intervalWidth = NULL, idCol = NULL,
 }
 \arguments{
 \item{data}{is a character string. This specifies the name of a dataframe containing the
-survival data to be expanded. Often, the dataframe will also hold the original 
+survival data to be expanded. Often, the dataframe will also hold the original
 total-survival-time and final-censoring variables but the lexis function is deliberately set up
 so those can also be specified as coming either from a different data frame or from the root
 area of your analysis (i.e. lying outside any dataframe)table that holds the original data, this
@@ -26,10 +26,10 @@ disclosure checks (see details).}
 
 \item{idCol}{is a character string denoting the name of the column that holds the individual IDs
 of the subjects. This may be numeric or character. Note that when a particular variable is
-identified as being the main ID to Opal when the data are first transferred to Opal (i.e. before
+identified as being the main ID to the data repository when the data are first transferred to the data repository (i.e. before
 DataSHIELD is used), that ID often ends up being of class character and will then be sorted in
 'alphabetic' order (treating each digit as a character) rather than numeric. So, in a dataset
-containing sequential IDs 1-1000, the order allocated by Opal will be mean that the first
+containing sequential IDs 1-1000, the order allocated by the data repository will be mean that the first
 thirteen rows in the original dataset (before expansion) will correspond to the original IDs:
 1,10,100,101,102,103,104,105,106,107,108,109,11 (analogous to b, ba, baa, bab, bac, bad, bae,
 baf, bag, bah, bai, bb ...) in an alphabetic listing: NOT to the expected order 1,2,3,4,5,6,7,8,
@@ -68,7 +68,7 @@ variables which may still be useful for plotting survival data once these become
 
 \item{expandDF}{is a character string denoting the name of the new dataframe containing the
 expanded data set. If you specify a name, that name will be used, but if no name is specified it
-will be defaulted to 'name of dataframe specified by data argument' with '_expanded' as a 
+will be defaulted to 'name of dataframe specified by data argument' with '_expanded' as a
 suffix. If you use the client side function ds.ls() after running ds.lexis the new dataframe you
 have created should be listed, and the output of the function advises you to do this. If the
 function call fails (e.g. the expanded dataframe does not appear when you run ds.ls() you can
@@ -76,9 +76,8 @@ use the command ds.message("messageobj") and depending what has gone wrong, ther
 explanatory error message that ds.message("messageobj") will reveal. Errors arising directly
 from deliberate disclosure traps are explained under details.}
 
-\item{datasources}{requires specification of one or more opal objects. As in all client-side
-functions, a list of opal object(s) obtained after login to opal servers; these objects also
-hold the data assigned to R, as a \code{data frame}, from opal datasources}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 The function returns a dataframe which is the expanded version of the input table. The
@@ -129,8 +128,8 @@ survive through the first interval and they are censored in the second interval,
 failure-status variable will take the value 0 in both intervals. (3) The expanded data set also
 includes a unique ID (UID.expanded)in a form such as 77.13 which identifies that row of the
 dataset as relating to the 77th individual in the input data set (in whatever order they have
-been placed by Opal [which is often different to the original numeric order of the IDs that were
-actually specified to Opal]) and his/her experience (exposure-time and failure status)in the
+been placed by the data repository [which is often different to the original numeric order of the IDs that were
+actually specified to the data repository]) and his/her experience (exposure-time and failure status)in the
 14th interval. Note that .N indicates the (N+1)th interval because interval 1 has no
 suffix. (4) In addition to UID.expanded, the expanded dataframe also includes a simpler variable
 IDSEQ which is simply the first part of UID.expanded (before the '.'). The value of this
@@ -138,7 +137,7 @@ variable is repeated in every row to which the corresponding individual contribu
 to every row corresponding to an interval in which that individual was followed) (5) Finally,
 the expanded dataset contains any other variables pertaining to each individual that the user
 would like to  carry forwarded to a survival analysis based on the expanded data. Typically,
-this will include the original ID as specified to Opal, the total survival time (equivalent to
+this will include the original ID as specified to the data repository, the total survival time (equivalent to
 the sum of the exposure times across all intervals) and the ultimate failure-status in the final
 interval to which they were exposed.  The value of each of these variables is also repeated in
 every row corresponding to an interval in which that individual was followed. The clientside
@@ -191,7 +190,7 @@ argument is the actual dataframe rather than a table within a list.
 #expanded dataframe. Depending how the arguments of ds.lexis are specified some variables may be
 #repeated:
 #
-#A       B     C   D       E   F     G    H    I      J       K   L    M    N     O 
+#A       B     C   D       E   F     G    H    I      J       K   L    M    N     O
 #657     657	  1   2.054   1   657  983   0.0  2.054  2.054   1   0    13   1     2.3
 #658     658	  1   0.348   0   658  984   0.0  0.348  0.348   0   0    8    1    -2.7
 #659     659	  1   2.500   0   659  985   0.0  9.300  9.300   1   0   -21   1    -0.6
@@ -199,23 +198,24 @@ argument is the actual dataframe rather than a table within a list.
 #659.2   659   3   2.500   0   659  985   0.0  9.300  9.300   1   0   -21   1    -0.6
 #659.3   659	  4   1.800   1   659  985   0.0  9.300  9.300   1   0   -21   1    -0.6
 #
-#A = Expanded Unique ID - sequential ID allocated by ds.lexis combined with indicator of 
+#A = Expanded Unique ID - sequential ID allocated by ds.lexis combined with indicator of
 #interval to which that row corresponds. No indicator = interval 1, .N = N+1th interval (e.g.
 #see subject 659).
 #B = Sequential ID allocated by ds.lexis - starts from ID 1 in each study
 #C = Numbered value for each separate time period allocated by ds.lexis. THIS MUST BE CONVERTED
 #    INTO A FACTOR AND THEN USED (IN THAT FACTOR FORM NOT AS A NUMERIC) AS A COVARIATE IN THE
-#    ds.glm() CALL THAT FITS THE PIECEWISE EXPONENTIAL REGRESSION MODEL. 
+#    ds.glm() CALL THAT FITS THE PIECEWISE EXPONENTIAL REGRESSION MODEL.
 #D = Exposure time in corresponding interval (e.g. see subject 659). THIS IS THE SURVIVAL TIME
 #    VARIABLE TO BE USED IN THE PIECEWISE EXPONENTIAL REGRESSION MODEL - IT IS CONVERTED TO LOG
 #    SURVIVAL TIME (LOG TO BASE e) AND USED AS THE OFFSET IN THE ds.glm() MODEL THAT FITS THE
-#    PIECEWISE EXPONENTIAL REGRESSION MODEL. 
+#    PIECEWISE EXPONENTIAL REGRESSION MODEL.
 #E = Failure/censoring status in corresponding interval (e.g. see subject 659). THIS IS THE
 #    CENSORING VARIABLE TO BE USED IN THE PIECEWISE EXPONENTIAL REGRESSION MODEL - IT IS USED AS
 #    THE OUTCOME VARIABLE OF THE ds.glm() MODEL THAT FITS THE PIECEWISE EXPONENTIAL REGRESSION
-#   MODEL. 
+#   MODEL.
 #F = Repeat of Sequential ID allocated by ds.lexis.
-#G = Original ID allocated by Opal (note not necessarily in same order as Sequential ID).
+#G = Original ID allocated by the data repository (note not necessarily in same order as 
+     Sequential ID).
 #H = starttime (if specified) in original data (note gets repeated across all intervals for any
 #    individual). FOR INFORMATION ONLY, DO NOT USE IN PIECEWISE EXPONENTIAL REGRESSION MODEL.
 #I = endtime (if specified) in original data (note gets repeated across all intervals for any
@@ -235,7 +235,7 @@ argument is the actual dataframe rather than a table within a list.
 
 #EXAMPLE 2
 #In this example, the survival time intervals are to be 0<t<=1; 1<t<=2.0, 2.0<t<=5.0, 5.0<t<=11.0,
-#then 11.0<t<=maximum survival time in any study (if no survival time exceeds 11, the fifth 
+#then 11.0<t<=maximum survival time in any study (if no survival time exceeds 11, the fifth
 #interval will not appear in any row). No expandDF is specified so the output dataframe will be
 #named 'CM_expanded'.
 #ds.lexis.5(data = "CM", intervalWidth = c(1,1,3,6), idCol = "CM$ID",

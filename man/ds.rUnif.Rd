@@ -27,7 +27,7 @@ which may be used for the <min> and <max> arguments [see below]).}
 \item{min}{a numeric scalar specifying the minimum of the range across which
 the random numbers will be generated in each source. Alternatively you can specify
 the <min> argument to be a serverside vector equal in length
-to the random number vector you want to generate. This allows 
+to the random number vector you want to generate. This allows
 min to vary by observation in the dataset. If you wish to specify
 a serverside vector in this way (e.g. called vector.of.mins) you must
 specify the argument as a character string (..., min="vector.of.mins"...).
@@ -39,7 +39,7 @@ Default value for <min> = 0.}
 \item{max}{a numeric scalar specifying the maximum of the range across which
 the random numbers will be generated in each source. Alternatively you can specify
 the <max> argument to be a serverside vector equal in length
-to the random number vector you want to generate. This allows 
+to the random number vector you want to generate. This allows
 max to vary by observation in the dataset. If you wish to specify
 a serverside vector in this way (e.g. called vector.of.maxs) you must
 specify the argument as a character string (..., max="vector.of.maxs"...).
@@ -60,7 +60,7 @@ If <seed.as.integer> is set as 0 all sources will start with the seed value
 If you want to use the same starting seed in all studies but do not wish it to
 be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
 use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
+a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
 As an example, if the <seed.as.integer> value is 78326 then the seed
 in each source will be set at 78326*1 = 78326 because the vector of datasources
 being used in each call to the function will always be of length 1 and so the
@@ -83,17 +83,10 @@ have k decimal places. If k = 9, no rounding occurs of native output. NOTE
 IF YOU WANT CATEGORIES WITH EQUAL PROBABILITY (PARTICULARLY WHEN CREATING
 INTEGERS) YOU SHOULD EXTEND THE SIMULATION RANGE AT BOTH ENDS: IF K = 0 AND
 YOU WISH TO GENERATE INTEGERS WITH EQUAL PROBABILITY IN THE RANGE 1-10, YOU
-SHOULD SPECIFY <min>=0.5 AND <max>=10.5. Default value for k =9.}
+SHOULD SPECIFY <min>=0.5 AND <max>=10.5. Default value for k=9.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 Writes the pseudorandom number vector with the characteristics specified

@@ -6,7 +6,7 @@
 #' R function {merge} is very flexible. For example, you can choose to merge
 #' using all vectors that appear in both data.frames. However, for ds.merge
 #' in DataSHIELD it is required that all the vectors which dictate the merging
-#' are explicitly identified for both data.frames using the <by.x.names> and 
+#' are explicitly identified for both data.frames using the <by.x.names> and
 #' <by.y.names> arguments
 #' @param x.name, the name of the first data.frame to be merged specified in
 #' inverted commas. For example: x.name='dfx.name'. Native R refers to
@@ -38,7 +38,7 @@
 #' making unique common column names in the two input data.frames
 #' when they both appear in the merged data.frame. This avoids ambiguity in the
 #' source of columns that are not used for merging. Default is .x for vector names in
-#' the first data.frame and .y for vector names in the second data.frame 
+#' the first data.frame and .y for vector names in the second data.frame
 #' @param no.dups logical, indicating that suffixes are appended in more cases to
 #' rigorously avoid duplicated column names in the merged data.frame. Default TRUE
 #' but was apparently implicitly FALSE before R version 3.5.0.
@@ -50,16 +50,8 @@
 #' where x.name is the name of the first input data.frame
 #' specified as the <x.name> argument and y.name
 #' is the name of the second input data.frame specified as the <y.name> argument.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-#' it should be specified without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the merged data.frame specified by the <newobj> argument (or by default 'x.name_y.name'
 #' if the <newobj> argument is NULL) which is written to the serverside. In addition,
 #' two validity messages are returned to the clientside
@@ -79,17 +71,17 @@
 
 ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,all.x=FALSE,all.y=FALSE,
 			 sort=TRUE, suffixes = c(".x",".y"), no.dups=TRUE, incomparables=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
- 
-#dataframe names 
+
+#dataframe names
   if(is.null(x.name)){
     stop("Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", call.=FALSE)
   }
-  
+
   if(is.null(y.name)){
     stop("Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", call.=FALSE)
   }
@@ -98,11 +90,11 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
   if(is.null(by.x.names)){
     stop("Please provide the names of columns in x dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
 	}
-	
+
   if(is.null(by.y.names)){
     stop("Please provide the names of columns in y dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
 	}
-	
+
 	#make transmittable via parser
     by.x.names.transmit <- paste(by.x.names,collapse=",")
     by.y.names.transmit <- paste(by.y.names,collapse=",")
@@ -113,7 +105,7 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
   }
 	#make transmittable via parser
     suffixes.transmit <- paste(suffixes,collapse=",")
-	
+
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -126,7 +118,7 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
 	calltext <- call("mergeDS", x.name, y.name, by.x.names.transmit, by.y.names.transmit, all.x, all.y,
 			 sort, suffixes.transmit, no.dups, incomparables)
 
-	opal::datashield.assign(datasources, newobj, calltext)
+	DSI::datashield.assign(datasources, newobj, calltext)
 
 
 #############################################################################################################
@@ -135,11 +127,11 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -181,14 +173,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -205,8 +197,6 @@ if(!no.errors){																								#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
 
-  
+
 }
 # ds.merge
-
-

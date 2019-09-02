@@ -1,6 +1,6 @@
 #' @title ds.matrixDimnames calling assign function matrixDimnamesDS
 #' @description Adds dimnames (row names, column names or both) to
-#' a matrix on the serverside. 
+#' a matrix on the serverside.
 #' @details Adds dimnames (row names, column names or both) to
 #' a matrix on the serverside. Similar to the {dimnames} function
 #' in native R.
@@ -22,16 +22,9 @@
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified or it is NULL
 #' the output matrix names defaults to "<M1>_dimnames" where <M1> is the matrix
-#' name specified by the <M1> argument
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' name specified by the <M1> argument.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name "<M1>_dimnames")
 #' which is written to the serverside. In addition, two validity messages are returned
 #' indicating whether <newobj> has been created in each data source and if so whether
@@ -49,11 +42,11 @@
 #' @export
 
 ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NULL){
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){
     return("Error: Please provide the name of the matrix representing M1")
@@ -65,10 +58,10 @@ ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NUL
   }
 
 
-    
+
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("matrixDimnamesDS", M1, dimnames)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -80,11 +73,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -126,14 +119,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#

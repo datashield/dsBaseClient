@@ -1,7 +1,7 @@
 #' @title ds.matrixDiag calling assign function matrixDiagDS
 #' @description Extracts the diagonal vector from a square matrix A or
 #' creates a diagonal matrix A based on a vector or a scalar value and
-#' writes the output to the serverside 
+#' writes the output to the serverside
 #' @details Depending on the specified value of the <aim> argument this
 #' function behaves differently. If aim=="serverside.vector.2.matrix"
 #' the function takes a serverside vector and writes out a square matrix with
@@ -33,7 +33,7 @@
 #' it may be a single number e.g. 29, or a vector specified as
 #' e.g. c(3,5,-2,8) or it can be the name (but not in inverted commas) of
 #' a clientside scalar or clientside vector which have already been assigned
-#' values e.g. scalar.s<-83, x1=scalar.s; or vector.v<-c(7,0,-2,3:9), x1=vector.v. 
+#' values e.g. scalar.s<-83, x1=scalar.s; or vector.v<-c(7,0,-2,3:9), x1=vector.v.
 #' @param aim a character string specifying what behaviour is required
 #' of the function. It must take one of five values:
 #' "serverside.vector.2.matrix"; "serverside.scalar.2.matrix";
@@ -57,15 +57,8 @@
 #' to be written to the serverside which may be a matrix or a vector
 #' depending on the value of the <aim> argument.If no <newobj> argument is
 #' specified, the output object name defaults to "diag".
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the matrix or vector specified by the <newobj> argument
 #' (or default name diag)
 #' which is written to the serverside. In addition, two validity messages are returned
@@ -84,12 +77,12 @@
 #' @export
 #'
 ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if a value has been provided for x1
   if(is.null(x1)){
     return("Error: x1 must have a value which is a character string, a numeric vector or a scalar")
@@ -116,8 +109,8 @@ ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datas
   {
   x1.transmit<-x1
   }
- 
-  
+
+
   if(aim=="clientside.vector.2.matrix"||aim=="clientside.scalar.2.matrix")
   {
   x1.transmit<-paste0(as.character(x1),collapse=",")
@@ -129,13 +122,13 @@ ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datas
   if(is.null(nrows.scalar))
   {
   nrows.scalar<-c(-9)
-  }  
+  }
 
   nrows.transmit<-paste0(as.character(nrows.scalar),collapse=",")
-  
+
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("matrixDiagDS", x1.transmit, aim, nrows.transmit)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 
 #############################################################################################################
@@ -148,11 +141,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -194,14 +187,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#

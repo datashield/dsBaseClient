@@ -10,15 +10,14 @@ ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
 \arguments{
 \item{x, }{a character, the name of a factor variable.}
 
-\item{newCategories, }{a character vector, the new levels. Its length MUST be equal or greater 
+\item{newCategories, }{a character vector, the new levels. Its length MUST be equal or greater
 to the current number of levels.}
 
 \item{newobj, }{a character, the name of the new factor vector. If no name is specified
 for the new variable it is named after the input variable with a suffixe '_new'.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-By default an internal function looks for 'opal' objects in the environment and sets this parameter.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 nothing is returned to the client, the new object is stored on the server side.
@@ -28,7 +27,7 @@ The function replaces the levels of a factor by the specified ones.
 }
 \details{
 It uses the R function 'levels()' on the client side to alter the current levels.
-It can for example be used to merge two classes into one, to add a level(s) to a vector 
+It can for example be used to merge two classes into one, to add a level(s) to a vector
 or to rename (i.e. re-label) the levels of a vector.
 }
 \examples{
@@ -38,7 +37,7 @@ or to rename (i.e. re-label) the levels of a vector.
   data(logindata)
 
   # login and assign all the variables
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
   ds.levels(x='D$PM_BMI_CATEGORICAL')
@@ -60,7 +59,7 @@ or to rename (i.e. re-label) the levels of a vector.
   ds.levels(x='BMI_CAT_NEW3')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 
