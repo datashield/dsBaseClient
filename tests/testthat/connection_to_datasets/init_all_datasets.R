@@ -26,7 +26,8 @@ init.all.datasets <- function()
                                                               ds.test_env$url,
                                                               ds.test_env$table,
                                                               ds.test_env$user,
-                                                              ds.test_env$password)
+                                                              ds.test_env$password,
+                                                              .silent = TRUE)
     
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -57,7 +58,8 @@ init.dataset.3 <- function()
                                                                   ds.test_env$url,
                                                                   ds.test_env$table,
                                                                   ds.test_env$user,
-                                                                  ds.test_env$password)
+                                                                  ds.test_env$password,
+                                                                  .silent = TRUE)
     
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -86,7 +88,8 @@ init.dataset.2 <- function()
                                                                   ds.test_env$url,
                                                                   ds.test_env$table,
                                                                   ds.test_env$user,
-                                                                  ds.test_env$password)
+                                                                  ds.test_env$password,
+                                                                  .silent = TRUE)
     
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -116,7 +119,8 @@ init.dataset.1 <- function()
                                                                   ds.test_env$url,
                                                                   ds.test_env$table,
                                                                   ds.test_env$user,
-                                                                  ds.test_env$password)
+                                                                  ds.test_env$password,
+                                                                  .silent = TRUE)
     
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -129,21 +133,19 @@ init.dataset.1 <- function()
 
 log.in.data.server <- function()
 {
- 
-  ds.test_env$connection.opal <- opal::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
+  #print(ds.test_env$login.data)
+  ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
 }
 
 
 log.out.data.server <- function()
 {
-  objs        <- ls(.GlobalEnv)
-  test_index  <- length(objs[objs %in% c("ds.test_env")])
-  if (test_index >= 1)
+  if (!is.null(ds.test_env) && !is.null(ds.test_env$connection.opal))
   {
-    opal::datashield.logout(ds.test_env$connection.opal)
-    rm(list = ls())
-    gc()
+    datashield.logout(ds.test_env$connection.opal)
   }
+  rm(list = ls())
+  gc()
 }
 
 connect.all.datasets <- function()

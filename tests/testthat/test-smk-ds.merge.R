@@ -31,7 +31,7 @@ test_that("simple test", {
     expect_equal(res$is.object.created, "A data object <merge_newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<merge_newobj> appears valid in all sources")
 
-    class.res <- ds.class("merge_newobj", datasources=ds.test_env$connection.opal)
+    class.res <- ds.class("merge_newobj")
 
     expect_length(class.res, 3)
     expect_equal(class.res$sim1, "data.frame")

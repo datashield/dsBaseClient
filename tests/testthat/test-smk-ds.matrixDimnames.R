@@ -32,7 +32,7 @@ test_that("simplest ds.matrixDimnames", {
     expect_equal(res$is.object.created, "A data object <new_matrix_dimnames> has been created in all specified data sources")
     expect_equal(res$validity.check, "<new_matrix_dimnames> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix_dimnames",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("new_matrix_dimnames")
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")

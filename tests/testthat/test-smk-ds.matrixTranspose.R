@@ -29,7 +29,7 @@ test_that("simplest ds.matrixTranspose", {
     expect_equal(res[[1]], "A data object <new_matrix_transposed> has been created in all specified data sources")
     expect_equal(res[[2]], "<new_matrix_transposed> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix_transposed",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("new_matrix_transposed")
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")

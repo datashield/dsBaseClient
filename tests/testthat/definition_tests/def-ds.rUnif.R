@@ -10,18 +10,18 @@ source("definition_tests/def-assign-stats.R")
 {
   if (size <= 0)
   { 
-    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, datasources=ds.test_env$connection.opal))
+    expect_error(ds.rUnif(samp.size = size, newobj = variable.created))
   } 
   else if (size > (2^31-1))
   {
-    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, datasources=ds.test_env$connection.opal))
+    expect_error(ds.rUnif(samp.size = size, newobj = variable.created))
   }
   else
   {
-    ds.rUnif(samp.size = size, newobj = variable.created, datasources=ds.test_env$connection.opal)
-    exists <- ds.exists(variable.created,datasources=ds.test_env$connection.opal)
-    type <- ds.class(variable.created,datasources=ds.test_env$connection.opal)
-    sample.size <- ds.length(variable.created, type = "split", datasources=ds.test_env$connection.opal)
+    ds.rUnif(samp.size = size, newobj = variable.created)
+    exists <- ds.exists(variable.created)
+    type <- ds.class(variable.created)
+    sample.size <- ds.length(variable.created, type = "split")
   
     for(index in 1:length(exists))
     {
@@ -47,19 +47,19 @@ source("definition_tests/def-assign-stats.R")
   
   if (size <= 0)
   {
-    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed, datasources=ds.test_env$connection.opal))
+    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed))
   }
   else if (size > (2^31-1))
   {
-    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed, datasources=ds.test_env$connection.opal))
+    expect_error(ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed))
   }
   else
   {
     
-    ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed, datasources=ds.test_env$connection.opal)
-    exists <- ds.exists(variable.created,datasources=ds.test_env$connection.opal)
-    type <- ds.class(variable.created,datasources=ds.test_env$connection.opal)
-    sample.size <- ds.length(variable.created, type = "split", datasources=ds.test_env$connection.opal)
+    ds.rUnif(samp.size = size, newobj = variable.created, seed.as.integer = seed)
+    exists <- ds.exists(variable.created)
+    type <- ds.class(variable.created)
+    sample.size <- ds.length(variable.created, type = "split")
     
     for(index in 1:length(exists))
     {
@@ -82,7 +82,7 @@ source("definition_tests/def-assign-stats.R")
   seed <- .Machine$integer.max
   if (seed > seed/(no.server +1))
   {
-    expect_error(ds.rUnif(samp.size = 100, newobj = "dist.created", seed.as.integer = seed, datasources=ds.test_env$connection.opal))
+    expect_error(ds.rUnif(samp.size = 100, newobj = "dist.created", seed.as.integer = seed))
   }
 }
 
@@ -90,7 +90,7 @@ source("definition_tests/def-assign-stats.R")
 {
   seed <- -100
   
-  expect_warning(ds.rUnif(samp.size = 100, newobj = "dist.created", seed.as.integer = seed, datasources=ds.test_env$connection.opal))
+  expect_warning(ds.rUnif(samp.size = 100, newobj = "dist.created", seed.as.integer = seed))
   
 }
 
@@ -100,7 +100,7 @@ source("definition_tests/def-assign-stats.R")
 {
   # init size of sample and randomly generates distribution on server
   size <- 20000
-  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj = variable.created,  datasources=ds.test_env$connection.opal)
+  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj = variable.created)
  
   # compute distribution statistics
   dist.stats        <- .calc.distribution.server(variable.created)
@@ -120,8 +120,8 @@ source("definition_tests/def-assign-stats.R")
 {
   size <- 20000
   #create distribution on the server
-  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj ="first.dist",  seed.as.integer = seed, datasources=ds.test_env$connection.opal)
-  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj ="second.dist", seed.as.integer = seed,  datasources=ds.test_env$connection.opal)
+  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj ="first.dist",  seed.as.integer = seed)
+  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj ="second.dist", seed.as.integer = seed)
   
   #compute errors 
   errors <- .compute.errors.between.distributions("first.dist","second.dist",size)
@@ -138,8 +138,8 @@ source("definition_tests/def-assign-stats.R")
   expected.errors <- c(0,0)
   
   #create distribution on the server
-  ds.rUnif(samp.size = size, min = first.dist.min.value, max = first.dist.max.value, newobj ="first.dist", seed.as.integer = first.seed, datasources=ds.test_env$connection.opal)
-  ds.rUnif(samp.size = size, min = second.dist.min.value, max = second.dist.max.value, newobj ="second.dist", seed.as.integer = second.seed,  datasources=ds.test_env$connection.opal)
+  ds.rUnif(samp.size = size, min = first.dist.min.value, max = first.dist.max.value, newobj ="first.dist", seed.as.integer = first.seed)
+  ds.rUnif(samp.size = size, min = second.dist.min.value, max = second.dist.max.value, newobj ="second.dist", seed.as.integer = second.seed)
 
   #compute errors 
   errors <- .compute.errors.between.distributions("first.dist","second.dist",size)

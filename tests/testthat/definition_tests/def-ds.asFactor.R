@@ -11,7 +11,7 @@ source("definition_tests/def-assign-stats.R")
 
 .find.factors.server <- function(variable.name, variable.recoded)
 {
-   levels <- ds.asFactor(variable.name,variable.recoded, datasources = ds.test_env$connection.opal)
+   levels <- ds.asFactor(variable.name,variable.recoded)
    vector <- (as.numeric(unlist(levels[[1]])))
    return(vector)
 }
@@ -28,7 +28,7 @@ source("definition_tests/def-assign-stats.R")
 
 .test.uniqueness <- function(variable.name,variable.recoded)
 {
-   factor.server <- ds.asFactor(variable.name,variable.recoded, datasources = ds.test_env$connection.opal)
+   factor.server <- ds.asFactor(variable.name,variable.recoded)
    factors.vector <- unlist(factor.server[1])
    expect_true(!any(duplicated(factors.vector)))
 }

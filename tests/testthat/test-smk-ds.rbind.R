@@ -26,7 +26,7 @@ test_that("simple test", {
     expect_equal(res$is.object.created, "A data object <rbind_newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<rbind_newobj> appears valid in all sources")
 
-    res1 <- ds.class("rbind_newobj", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("rbind_newobj")
 
     expect_equal(res1$survival1, "matrix")
     expect_equal(res1$survival2, "matrix")

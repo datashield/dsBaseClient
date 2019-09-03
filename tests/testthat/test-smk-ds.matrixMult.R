@@ -31,7 +31,7 @@ test_that("simplest ds.matrixMult", {
     expect_equal(res$is.object.created, "A data object <mat1_mat2> has been created in all specified data sources")
     expect_equal(res$validity.check, "<mat1_mat2> appears valid in all sources")
 
-    check.class<-ds.class("mat1_mat2",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("mat1_mat2")
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")

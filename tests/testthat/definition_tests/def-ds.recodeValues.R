@@ -16,7 +16,7 @@ source("definition_tests/def-assign-stats.R")
 
 .apply.changes.server <- function(variable.name, variable.recoded, values,values.to.replace)
 {
-  recode.from.server <- ds.recodeValues(variable.name,values,values.to.replace,newobj = variable.recoded,datasources = ds.test_env$connection.opal)
+  recode.from.server <- ds.recodeValues(variable.name,values,values.to.replace,newobj = variable.recoded)
 }
 
 .identify.values.unique<- function(some.values, length)
@@ -83,7 +83,7 @@ source("definition_tests/def-assign-stats.R")
   else
   {
     #no value to replace was set
-    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded,datasources = ds.test_env$connection.opal))
+    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded))
   }
 }
 
@@ -119,7 +119,7 @@ source("definition_tests/def-assign-stats.R")
   else
   {
     #no value to replace was set
-    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded,datasources = ds.test_env$connection.opal))
+    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded))
   }
 }
 
@@ -173,7 +173,7 @@ source("definition_tests/def-assign-stats.R")
   }
   else
   {
-    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded,datasources = ds.test_env$connection.opal))
+    expect_error(ds.recodeValues(variable.names,values,values.to.replace,name.variable.recoded))
   }
 }
 

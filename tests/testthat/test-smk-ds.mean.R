@@ -39,7 +39,7 @@ test_that("mean values [combine]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1)
     expect_false("mean.study.specific" %in% ls.res$sim1)
     expect_false("Nvalid.all.studies" %in% ls.res$sim1)
@@ -61,7 +61,7 @@ test_that("mean values [split]", {
     ds.rm("Nvalid.all.studies")
     ds.rm("Nvalid.study.specific")
 
-    stat.mean <- ds.mean(datasources=ds.test_env$connection.opal, x='D$LAB_TSC', type='split')
+    stat.mean <- ds.mean(x='D$LAB_TSC', type='split')
 
     expect_length(stat.mean, 3)
     expect_length(stat.mean$Mean.by.Study, 12)
@@ -83,7 +83,7 @@ test_that("mean values [split]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1)
     expect_false("mean.study.specific" %in% ls.res$sim1)
     expect_false("Nvalid.all.studies" %in% ls.res$sim1)
@@ -105,7 +105,7 @@ test_that("mean values [both]", {
     ds.rm("Nvalid.all.studies")
     ds.rm("Nvalid.study.specific")
 
-    stat.mean <- ds.mean(datasources=ds.test_env$connection.opal, x='D$LAB_TSC', type='both')
+    stat.mean <- ds.mean(x='D$LAB_TSC', type='both')
 
     expect_length(stat.mean, 4)
     expect_length(stat.mean$Mean.by.Study, 12)
@@ -132,7 +132,7 @@ test_that("mean values [both]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1)
     expect_false("mean.study.specific" %in% ls.res$sim1)
     expect_false("Nvalid.all.studies" %in% ls.res$sim1)
@@ -168,7 +168,7 @@ test_that("mean values [combine]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1)
     expect_true("mean.study.specific" %in% ls.res$sim1)
     expect_true("Nvalid.all.studies" %in% ls.res$sim1)
@@ -190,7 +190,7 @@ test_that("mean values [split]", {
     ds.rm("Nvalid.all.studies")
     ds.rm("Nvalid.study.specific")
 
-    stat.mean <- ds.mean(datasources=ds.test_env$connection.opal, x='D$LAB_TSC', type='split', save.mean.Nvalid=TRUE)
+    stat.mean <- ds.mean(x='D$LAB_TSC', type='split', save.mean.Nvalid=TRUE)
 
     expect_length(stat.mean, 3)
     expect_length(stat.mean$Mean.by.Study, 12)
@@ -212,7 +212,7 @@ test_that("mean values [split]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1)
     expect_true("mean.study.specific" %in% ls.res$sim1)
     expect_true("Nvalid.all.studies" %in% ls.res$sim1)
@@ -229,7 +229,7 @@ test_that("mean values [split]", {
 
 context("ds.mean::smk::type=both,save.mean.Nvalid=TRUE")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(datasources=ds.test_env$connection.opal, x='D$LAB_TSC', type='both', save.mean.Nvalid=TRUE)
+    stat.mean <- ds.mean(x='D$LAB_TSC', type='both', save.mean.Nvalid=TRUE)
 
     expect_length(stat.mean, 4)
     expect_length(stat.mean$Mean.by.Study, 12)
@@ -256,7 +256,7 @@ test_that("mean values [both]", {
     expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
     expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
-    ls.res <- ds.ls(datasources=ds.test_env$connection.opal)
+    ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1)
     expect_true("mean.study.specific" %in% ls.res$sim1)
     expect_true("Nvalid.all.studies" %in% ls.res$sim1)

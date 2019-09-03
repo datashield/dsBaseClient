@@ -11,7 +11,8 @@ init.studies.dataset.cnsim <- function(variables)
                                                                       ds.test_env$url,
                                                                       ds.test_env$table,
                                                                       ds.test_env$user,
-                                                                      ds.test_env$password)
+                                                                      ds.test_env$password,
+                                                                      .silent = TRUE)
 
         ds.test_env$stats.var <- variables
     }
@@ -30,7 +31,8 @@ init.studies.dataset.dasim <- function(variables)
                                                                       ds.test_env$url,
                                                                       ds.test_env$table,
                                                                       ds.test_env$user,
-                                                                      ds.test_env$password)
+                                                                      ds.test_env$password,
+                                                                      .silent = TRUE)
 
         ds.test_env$stats.var <- variables
     }
@@ -49,7 +51,8 @@ init.studies.dataset.survival <- function(variables)
                                                                       ds.test_env$url,
                                                                       ds.test_env$table,
                                                                       ds.test_env$user,
-                                                                      ds.test_env$password)
+                                                                      ds.test_env$password,
+                                                                      .silent = TRUE)
 
         ds.test_env$stats.var <- variables
     }

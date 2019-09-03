@@ -21,31 +21,31 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.foobar::arg::aggregate")
 test_that("NULL opal", {
     calltext <- call("fooBarDS")
-    expect_error(opal::datashield.aggregate(opal=NULL, expr=calltext), "no applicable method for 'datashield.aggregate' applied to an object of class \"NULL\"", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsAggregate' for signature '\"NULL\"'", fixed=TRUE)
 })
 
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(opal::datashield.aggregate(opal=ds.test_env$connection.opal, expr=NULL), "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connection.opal, expr=NULL), "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
 })
 
 context("ds.foobar::arg::aggregate")
 test_that("non existent aggregate foobarDS", {
     calltext <- call("fooBarDS")
-    expect_error(opal::datashield.aggregate(opal=ds.test_env$connection.opal, expr=calltext), "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connection.opal, expr=calltext), "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
 })
 
 context("ds.foobar::arg::assign")
 test_that("NULL opal", {
     calltext <- call("fooBarDS")
-    expect_error(opal::datashield.assign(opal=NULL, symbol="new_obj", value=calltext), "no applicable method for 'datashield.assign' applied to an object of class \"NULL\"", fixed=TRUE)
+    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsAssignExpr' for signature '\"NULL\"'", fixed=TRUE)
 })
 
 #context("ds.foobar::arg::assign")
 #test_that("NULL symbol", {
 #    calltext <- call("fooBarDS")
-#    res <- opal::datashield.assign(opal=ds.test_env$connection.opal, symbol=NULL, value=calltext)
+#    res <- datashield.assign(conns=ds.test_env$connection.opal, symbol=NULL, value=calltext)
 #    expect_true(is.raw(res))
 #    expect_length(res, 0)
 #})
@@ -53,15 +53,14 @@ test_that("NULL opal", {
 context("ds.foobar::arg::assign")
 test_that("NULL value", {
     calltext <- call("fooBarDS")
-    expect_error(opal::datashield.assign(opal=ds.test_env$connection.opal, symbol="new_obj", value=NULL), "Invalid value type: 'NULL'. Use quote() to protect from early evaluation.", fixed=TRUE)
+    expect_error(datashield.assign(conns=ds.test_env$connection.opal, symbol="new_obj", value=NULL), "Invalid value type: 'NULL'. Use quote() to protect from early evaluation.", fixed=TRUE)
 })
 
 context("ds.foobar::arg::assign")
 test_that("non existent assign foobarDS", {
     calltext <- call("fooBarDS")
-    res <- opal::datashield.assign(opal=ds.test_env$connection.opal, symbol="new_obj", value=calltext)
-    expect_true(is.raw(res))
-    expect_length(res, 0)
+    res <- datashield.assign(conns=ds.test_env$connection.opal, symbol="new_obj", value=calltext)
+    expect_true(is.null(res))
 })
 
 #

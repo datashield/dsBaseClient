@@ -11,9 +11,8 @@
 # Datashield test suite set up
 #
 
-library(opal)
+library(DSOpal)
 library(dsBaseClient)
-library(RCurl)
 
 
 source("connection_to_datasets/login_details.R")
@@ -29,7 +28,7 @@ init.all.datasets()
 context("VM problems")
 test_that("The virtual machine is loaded. ",
 {      
-    expect_that(url.exists(ds.test_env$ping_address, timeout=5), is_true())
+    expect_false(httr::http_error(ds.test_env$ping_address))
 #    print("A server is available")
 })
 
@@ -46,13 +45,9 @@ test_that("The virtual machine is loaded. ",
 #})
 
 
-if (ds.test_env$context == ds.test_env$contexts[1])
-{
-  #ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
-  log.in.data.server()
+#ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
+log.in.data.server()
 #  print(class(ds.test_env$connection.opal))
-  
-}
 
 
 

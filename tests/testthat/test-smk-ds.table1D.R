@@ -62,7 +62,7 @@ test_that("GENDER_split_12", {
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific and combined contingency tables")
-res <- ds.table1D(datasources=ds.test_env$connection.opal, x='D$GENDER')
+res <- ds.table1D(x='D$GENDER')
 #print(res)
 test_that("GENDER_normal_2", {
     expect_equal(res$validity, "All tables are valid!")

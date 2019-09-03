@@ -37,7 +37,7 @@ test_that("LAB_HDL_across_gender_loose", {
 })
 
 context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across gender and bmi categories")
-res <- ds.meanByClass(datasources=ds.test_env$connection.opal, x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
+res <- ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER'))
 test_that("LAB_HDL_across_gender_bmi", {
     expect_equal(res[[1]], '4768')
     expect_equal(res[[7]], '4611')
@@ -47,7 +47,7 @@ test_that("LAB_HDL_across_gender_bmi", {
 })
 
 context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories")
-res <- ds.meanByClass(datasources=ds.test_env$connection.opal, x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
+res <- ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 test_that("LAB_HDL_across_gender_bmi_diabetes", {
     expect_equal(res[[1]], '1168')
     expect_equal(res[[7]], '12')
@@ -58,7 +58,7 @@ test_that("LAB_HDL_across_gender_bmi_diabetes", {
 })
 
 context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across gender categories for each study separately")
-res <- ds.meanByClass(datasources=ds.test_env$connection.opal, x='D', outvar='LAB_HDL', covar='GENDER', type='split')
+res <- ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split')
 test_that("LAB_HDL_across_gender_split", {
     expect_equal(res$sim1[[1]], '1092')
     expect_equal(res$sim1[[4]], '1.62(0.39)')

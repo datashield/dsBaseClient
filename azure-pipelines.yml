@@ -56,8 +56,8 @@ jobs:
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
       sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
-      sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
-      sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSI', ref='master', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSOpal', ref='master', dependencies=TRUE)"
     displayName: 'Install R client'
 
   - bash: |
