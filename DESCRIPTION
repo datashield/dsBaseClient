@@ -3,7 +3,7 @@ Title: DataSHIELD Client Functions
 Version: 5.0.0
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
-Description: DataSHIELD client functions for the client site.
+Description: DataSHIELD client functions for the client side.
 License: GPL-3
 Depends: R (>= 3.5.0)
 Imports:
