@@ -12,14 +12,13 @@
 #
 
 library(DSOpal)
+library(DSLite)
 library(dsBaseClient)
-
 
 source("connection_to_datasets/login_details.R")
 source("connection_to_datasets/init_all_datasets.R")
 source("connection_to_datasets/init_studies_datasets.R")
 source("connection_to_datasets/init_discordant_datasets.R")
-
 
 init.all.datasets()
 #
@@ -27,8 +26,10 @@ init.all.datasets()
 #connect to a server
 context("VM problems")
 test_that("The virtual machine is loaded. ",
-{      
+{ 
+  if (ds.test_env$driver == "OpalDriver") {
     expect_false(httr::http_error(ds.test_env$ping_address))
+  }
 #    print("A server is available")
 })
 
@@ -45,15 +46,17 @@ test_that("The virtual machine is loaded. ",
 #})
 
 
-#ds.test_env$connection.opal <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
+#ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
 log.in.data.server()
-#  print(class(ds.test_env$connection.opal))
+#  print(class(ds.test_env$connections))
 
 
 
 test_that("The number of servers the same has setup",
 {
-  expect_true(length(ds.test_env$connection.opal) == length(ds.test_env$server))
+  if (ds.test_env$driver == "OpalDriver") {
+    expect_true(length(ds.test_env$connections) == length(ds.test_env$server)) 
+  }
 })
 
 
@@ -65,7 +68,7 @@ test_that("The number of servers the same has setup",
 #context("The number of rows of the test data are the same on the server and locally")
 #test_that("The of rows are the same",
 #{
-#  dimensions <- ds.dim(x='D',type='combine',datasources = ds.test_env$connection.opal)
+#  dimensions <- ds.dim(x='D',type='combine',datasources = ds.test_env$connections)
 #  expect_true(dimensions[[1]][1] == nrow(ds.test_env$local.values))
 #})
 

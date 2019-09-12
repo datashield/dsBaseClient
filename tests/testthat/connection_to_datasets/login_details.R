@@ -26,7 +26,7 @@ init.ip.address()
   ds.test_env$password_1 <- getOption("opal.password", "datashield_test&")
   ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
   ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
+
+  # switch to "DSLiteDriver" to test with DSLite  
+  ds.test_env$driver <- "OpalDriver"
   ds.test_env$secure_login_details = TRUE
-
-
-

@@ -27,13 +27,13 @@ test_that("NULL opal", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connection.opal, expr=NULL), "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
 })
 
 context("ds.foobar::arg::aggregate")
 test_that("non existent aggregate foobarDS", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connection.opal, expr=calltext), "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=calltext))
 })
 
 context("ds.foobar::arg::assign")
@@ -45,7 +45,7 @@ test_that("NULL opal", {
 #context("ds.foobar::arg::assign")
 #test_that("NULL symbol", {
 #    calltext <- call("fooBarDS")
-#    res <- datashield.assign(conns=ds.test_env$connection.opal, symbol=NULL, value=calltext)
+#    res <- datashield.assign(conns=ds.test_env$connections, symbol=NULL, value=calltext)
 #    expect_true(is.raw(res))
 #    expect_length(res, 0)
 #})
@@ -53,14 +53,13 @@ test_that("NULL opal", {
 context("ds.foobar::arg::assign")
 test_that("NULL value", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=ds.test_env$connection.opal, symbol="new_obj", value=NULL), "Invalid value type: 'NULL'. Use quote() to protect from early evaluation.", fixed=TRUE)
+    expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=NULL), "Not a valid table name", fixed=TRUE)
 })
 
 context("ds.foobar::arg::assign")
 test_that("non existent assign foobarDS", {
     calltext <- call("fooBarDS")
-    res <- datashield.assign(conns=ds.test_env$connection.opal, symbol="new_obj", value=calltext)
-    expect_true(is.null(res))
+    expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=calltext))
 })
 
 #

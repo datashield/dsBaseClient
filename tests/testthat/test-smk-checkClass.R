@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("GENDER", "LAB_TSC", "LAB_TRIG", "LAB_HDL", "
 
 context("checkClass::smk::simple test")
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$GENDER")
+    res <- checkClass(ds.test_env$connections, "D$GENDER")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -28,7 +28,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_TSC")
+    res <- checkClass(ds.test_env$connections, "D$LAB_TSC")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -36,7 +36,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_TRIG")
+    res <- checkClass(ds.test_env$connections, "D$LAB_TRIG")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -44,7 +44,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_HDL")
+    res <- checkClass(ds.test_env$connections, "D$LAB_HDL")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -52,7 +52,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$DIS_CVA")
+    res <- checkClass(ds.test_env$connections, "D$DIS_CVA")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -60,7 +60,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$DIS_AMI")
+    res <- checkClass(ds.test_env$connections, "D$DIS_AMI")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -71,7 +71,7 @@ test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors)
 
-    res <- checkClass(ds.test_env$connection.opal, "df_new")
+    res <- checkClass(ds.test_env$connections, "df_new")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
