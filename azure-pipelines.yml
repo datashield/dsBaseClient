@@ -48,12 +48,9 @@ jobs:
       /opt/puppetlabs/bin/puppet --version
       /opt/puppetlabs/puppet/bin/r10k version
 
-      git clone -b ubuntu16 https://github.com/datashield/datashield-infrastructure.git ../datashield-infrastructure
+      git clone -b testing https://github.com/StuartWheater/datashield-infrastructure.git ../datashield-infrastructure
       pushd ../datashield-infrastructure/puppet/environments/datashield_azurepipelines && sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install && popd
       sudo /opt/puppetlabs/bin/puppet apply azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath ../datashield-infrastructure/puppet/environments
-      echo "===="
-      sudo cat /var/log/opal/opal.log
-      echo "===="
     displayName: 'Install DataSHIELD server'
 
   - bash: |
