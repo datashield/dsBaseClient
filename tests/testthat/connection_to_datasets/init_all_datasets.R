@@ -129,11 +129,6 @@ init.dataset.1 <- function()
 
 log.in.data.server <- function()
 {
-  print("====")
-  print(sapply(ls(ds.test_env), function(x) get(x, envir = ds.test_env)))
-  print("====")
-  print(ds.test_env)
-  print("====")
   ds.test_env$connection.opal <- opal::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
 }
 
