@@ -129,7 +129,6 @@ init.dataset.1 <- function()
 
 log.in.data.server <- function()
 {
- 
   ds.test_env$connection.opal <- opal::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var)
 }
 

@@ -19,7 +19,6 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 #
 
 context("ds.rowColCalc::smk")
-opal::datashield.assign(ds.test_env$connection.opal, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
 ds.rowColCalc(x='D', operation="rowSums", newobj="rsum_hdl_tsc")
 res <- ds.exists('rsum_hdl_tsc')
 test_that("rowColCalc_exists", {
@@ -29,7 +28,6 @@ test_that("rowColCalc_exists", {
 })
 
 context("ds.rowColCalc::smk::no newobj")
-opal::datashield.assign(ds.test_env$connection.opal, "hdl_tsc", quote(data.frame(cbind(D$LAB_HDL, D$LAB_TSC))))
 ds.rowColCalc(x='D', operation="rowSums")
 res <- ds.exists('rowColCalc_out')
 test_that("rowColCalc_out_exists", {
