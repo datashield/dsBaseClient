@@ -50,7 +50,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, df.name)
   
   # if the input object is not a matrix or a dataframe stop
-  if(typ != 'data.frame' & typ != 'matrix'){
+  if(!('data.frame' %in% typ) && !('matrix' %in% typ)){
     stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
   
@@ -75,10 +75,10 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   
   # SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION
   test.obj.name <- newobj	
-						
+
   # CALL SEVERSIDE FUNCTION
   calltext <- call("testObjExistsDS", test.obj.name)
-  object.info <- opal::datashield.aggregate(datasources, calltext)	
+  object.info <- opal::datashield.aggregate(datasources, calltext)
   
   # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS	
   # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS
@@ -87,7 +87,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   obj.name.exists.in.all.sources <- TRUE
   obj.non.null.in.all.sources <- TRUE
   
-  for(j in 1:num.datasources){			
+  for(j in 1:num.datasources){
     if(!object.info[[j]]$test.obj.exists){
       obj.name.exists.in.all.sources <- FALSE
     }
@@ -107,7 +107,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   
   calltext <- call("messageDS", test.obj.name)
   studyside.message <- opal::datashield.aggregate(datasources, calltext)
-  	
+
   no.errors <- TRUE
   for(nd in 1:num.datasources){
     if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){
