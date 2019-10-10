@@ -125,126 +125,194 @@ test_that("mean values [both]", {
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$DIS_CVA',type='combine')
+    ds.asNumeric(x.name="D$DIS_CVA", newobj="DIS_CVA")
+
+    stat.mean <- ds.mean(x='DIS_CVA',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_CVA-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$DIS_CVA', type='split')
+    ds.asNumeric(x.name="D$DIS_CVA", newobj="DIS_CVA")
+
+    stat.mean <- ds.mean(x='DIS_CVA', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_CVA-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$DIS_CVS', type='both')
+    ds.asNumeric(x.name="D$DIS_CVA", newobj="DIS_CVA")
+
+    stat.mean <- ds.mean(x='DIS_CVS', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_CVS-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$MEDI_LPD',type='combine')
+    ds.asNumeric(x.name="D$MEDI_LPD", newobj="MEDI_LPD")
+
+    stat.mean <- ds.mean(x='MEDI_LPD',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-MEDI_LPD-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$MEDI_LPD', type='split')
+    ds.asNumeric(x.name="D$MEDI_LPD", newobj="MEDI_LPD")
+
+    stat.mean <- ds.mean(x='MEDI_LPD', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-MEDI_LPD-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$MEDI_LPD', type='both')
+    ds.asNumeric(x.name="D$MEDI_LPD", newobj="MEDI_LPD")
+
+    stat.mean <- ds.mean(x='MEDI_LPD', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-MEDI_LPD-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$DIS_DIAB',type='combine')
+    stat.mean <- ds.mean(x='DIS_DIAB',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_DIAB-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$DIS_DIAB', type='split')
+    ds.asNumeric(x.name="D$DIS_DIAB", newobj="DIS_DIAB")
+
+    stat.mean <- ds.mean(x='DIS_DIAB', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_DIAB-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$DIS_DIAB', type='both')
+    ds.asNumeric(x.name="D$DIS_DIAB", newobj="DIS_DIAB")
+
+    stat.mean <- ds.mean(x='DIS_DIAB', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_DIAB-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$DIS_AMI',type='combine')
+    ds.asNumeric(x.name="D$DIS_AMI", newobj="DIS_AMI")
+
+    stat.mean <- ds.mean(x='DIS_AMI',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_AMI-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$DIS_AMI', type='split')
+    stat.mean <- ds.mean(x='DIS_AMI', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_AMI-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$DIS_AMI', type='both')
+    ds.asNumeric(x.name="D$DIS_AMI", newobj="DIS_AMI")
+
+    stat.mean <- ds.mean(x='DIS_AMI', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-DIS_AMI-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$GENDER',type='combine')
+    ds.asNumeric(x.name="D$GENDER", newobj="GENDER")
+
+    stat.mean <- ds.mean(x='GENDER',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-GENDER-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$GENDER', type='split')
+    ds.asNumeric(x.name="D$GENDER", newobj="GENDER")
+
+    stat.mean <- ds.mean(x='GENDER', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-GENDER-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$GENDER', type='both')
+    ds.asNumeric(x.name="D$GENDER", newobj="GENDER")
+
+    stat.mean <- ds.mean(x='GENDER', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-GENDER-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$PM_BMI_CATEGORICAL',type='combine')
+    ds.asNumeric(x.name="D$PM_BMI_CATEGORICAL", newobj="PM_BMI_CATEGORICAL")
+
+    stat.mean <- ds.mean(x='PM_BMI_CATEGORICAL',type='combine')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-PM_BMI_CATEGORICAL-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$PM_BMI_CATEGORICAL', type='split')
+    ds.asNumeric(x.name="D$PM_BMI_CATEGORICAL", newobj="PM_BMI_CATEGORICAL")
+
+    stat.mean <- ds.mean(x='PM_BMI_CATEGORICAL', type='split')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-PM_BMI_CATEGORICAL-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$PM_BMI_CATEGORICAL', type='both')
+    ds.asNumeric(x.name="D$PM_BMI_CATEGORICAL", newobj="PM_BMI_CATEGORICAL")
+
+    stat.mean <- ds.mean(x='PM_BMI_CATEGORICAL', type='both')
+
+    print(stat.mean)
 
     expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-PM_BMI_CATEGORICAL-both.rds')
 })
