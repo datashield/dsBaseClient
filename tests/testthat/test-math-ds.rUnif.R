@@ -7,9 +7,10 @@ context("ds.rUnif()::math::mean_variance::single")
 test_that("mean_variance", 
 {
   connect.dataset.1()
-  .test.range.values(1,2,"uniform_1")
-  .test.range.values(-1,2,"uniform_2")
-  .test.range.values(-200,-100,"uniform_3")
+   seed <- random.number/1000
+  .test.range.values(1,2,"uniform_1",seed)
+  .test.range.values(-1,2,"uniform_2",seed)
+  .test.range.values(-200,-100,"uniform_3",seed)
 })
 
 context("ds.rUnif()::math::distributions comparison::single")
