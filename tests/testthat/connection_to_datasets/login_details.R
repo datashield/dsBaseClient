@@ -9,11 +9,12 @@ source("connection_to_datasets/init_local_settings.R")
   # this option helps DSI to find the connection objects by looking in the right environment
   options(datashield.env=ds.test_env)
   ds.test_env$tolerance = 10^-6
-
+  
   ds.test_env$server_ip_address = init.ip.address()
   
   #This TCP/IP address is required to test a connect to the server. 
   ds.test_env$ping_address <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="" )
+  
   
   ds.test_env$ip_address_1 <- ds.test_env$ping_address
   ds.test_env$ip_address_2 <- ds.test_env$ping_address
@@ -32,5 +33,23 @@ source("connection_to_datasets/init_local_settings.R")
 
   # switch to "DSLiteDriver" to test with DSLite  
   # switch to "OpalDriver" to test with DSI 
-  ds.test_env$driver <- "OpalDriver"
+  
+  #this option is needed to integrate with the continuous integration. Opal was used until version 6. It is kept
+  #for backward compliance.
+  ds.test_env$contexts <- c('opal','dsi','dslite','continuous','coverage') 
+  
+  #switch to the values for uploading the correct driver 
+  ds.test_env$context = 'dslite'
+  if (ds.test_env$context == 'dsi')
+  {
+    ds.test_env$driver <- "OpalDriver"
+  } else
+  {
+    if (ds.test_env$context == 'dslite')
+    {
+      ds.test_env$driver <- "DSLiteDriver"
+    }
+  }
+  
+ 
   ds.test_env$secure_login_details = TRUE
