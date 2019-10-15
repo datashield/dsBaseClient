@@ -4,7 +4,7 @@
 
 
 source("connection_to_datasets/init_local_settings.R")
-init.ip.address()
+  init.ip.address()
   ds.test_env <- new.env()
   # this option helps DSI to find the connection objects by looking in the right environment
   options(datashield.env=ds.test_env)
@@ -26,7 +26,11 @@ init.ip.address()
   ds.test_env$password_1 <- getOption("opal.password", "datashield_test&")
   ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
   ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
+  
+  #change the name of your package, if it is not dsBase
+  ds.test_env$package <- "dsBase"
 
   # switch to "DSLiteDriver" to test with DSLite  
+  # switch to "OpalDriver" to test with DSI 
   ds.test_env$driver <- "OpalDriver"
   ds.test_env$secure_login_details = TRUE

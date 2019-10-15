@@ -15,31 +15,29 @@ init.all.datasets <- function()
     ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
     ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    
     if (ds.test_env$driver == "OpalDriver") 
     {
-      #connecting to the servers
-      ds.test_env$server <- c("study1", "study2", "study3")
-      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
-      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
-      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
-      ds.test_env$table <- c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3")
-      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                ds.test_env$url,
-                                                                ds.test_env$table,
-                                                                ds.test_env$user,
-                                                                ds.test_env$password,
-                                                                .silent = TRUE)
+      define.login.data.with.server(c("study1", "study2", "study3"), 
+                                    c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3),
+                                    c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3),
+                                    c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3),
+                                    c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3"))
+      
     }
     else 
     {
-      ds.test_env$login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
+      define.login.data.no.server(c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3"), server.to.keep = "all")
     }
+    
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
                                   'NUMERIC', 'NON_NEGATIVE_NUMERIC','POSITIVE_NUMERIC','NEGATIVE_NUMERIC','FACTOR_CHARACTER', 
                                   'FACTOR_INTEGER','IDENTIFIER','CATEGORY','IDENTIFIER','CATEGORY')
   }
 }
+
+
 
 # Connect to one server and the three datasets. One local variables named ds.test_env$local.values.3 is created.
 init.dataset.3 <- function()
@@ -50,22 +48,17 @@ init.dataset.3 <- function()
     ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
-      ds.test_env$server <- c("study3")
-      ds.test_env$url <- c(ds.test_env$ip_address_3)
-      ds.test_env$user <- c(ds.test_env$user_3)
-      ds.test_env$password <- c(ds.test_env$password_3)
-      ds.test_env$table <- c("TESTING.DATASET3")
-      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                    ds.test_env$url,
-                                                                    ds.test_env$table,
-                                                                    ds.test_env$user,
-                                                                    ds.test_env$password,
-                                                                    .silent = TRUE)
+      define.login.data.with.server(c("study3"), 
+                                    c(ds.test_env$ip_address_3),
+                                    c(ds.test_env$user_3),
+                                    c(ds.test_env$password_3),
+                                    c("TESTING.DATASET3"))
     }
     else
     {
-      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
-      ds.test_env$login.data <- subset(login.data, server=="study3")
+      #login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
+      #ds.test_env$login.data <- subset(login.data, server=="study3")
+      define.login.data.no.server(c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3"), server.to.keep = "study3")
     }
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -83,22 +76,15 @@ init.dataset.2 <- function()
     ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
-      ds.test_env$server <- c("study2")
-      ds.test_env$url <- c(ds.test_env$ip_address_2)
-      ds.test_env$user <- c(ds.test_env$user_2)
-      ds.test_env$password <- c(ds.test_env$password_2)
-      ds.test_env$table <- c("TESTING.DATASET2")
-      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                    ds.test_env$url,
-                                                                    ds.test_env$table,
-                                                                    ds.test_env$user,
-                                                                    ds.test_env$password,
-                                                                    .silent = TRUE)
+      define.login.data.with.server(c("study2"), 
+                                    c(ds.test_env$ip_address_2),
+                                    c(ds.test_env$user_2),
+                                    c(ds.test_env$password_2),
+                                    c("TESTING.DATASET2"))
     }
     else
     {
-      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
-      ds.test_env$login.data <- subset(login.data, server=="study2")
+      define.login.data.no.server(c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3"), server.to.keep = "study2")
     } 
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -116,22 +102,15 @@ init.dataset.1 <- function()
     ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
-      ds.test_env$server <- c("study1")
-      ds.test_env$url <- c(ds.test_env$ip_address_1)
-      ds.test_env$user <- c(ds.test_env$user_1)
-      ds.test_env$password <- c(ds.test_env$password_1)
-      ds.test_env$table <- c("TESTING.DATASET1")
-      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                    ds.test_env$url,
-                                                                    ds.test_env$table,
-                                                                    ds.test_env$user,
-                                                                    ds.test_env$password,
-                                                                    .silent = TRUE)
+      define.login.data.with.server(c("study1"), 
+                                    c(ds.test_env$ip_address_1),
+                                    c(ds.test_env$user_1),
+                                    c(ds.test_env$password_1),
+                                    c("TESTING.DATASET1"))
     }
     else
     {
-      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
-      ds.test_env$login.data <- subset(login.data, server=="study1")
+      define.login.data.no.server(c("TESTING.DATASET1", "TESTING.DATASET2", "TESTING.DATASET3"), server.to.keep = "study1")
     }  
     ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
                                   'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
@@ -139,6 +118,38 @@ init.dataset.1 <- function()
                                   'FACTOR_INTEGER','IDENTIFIER','CATEGORY','IDENTIFIER','CATEGORY')
   }
 }
+
+# This function creates a login data frame. No data is returned. Instead, 
+# ds.test_env$login.data is set with the values
+define.login.data.with.server <- function(some.servers, some.ip_addresses,some.users,some.passwords,some.tables)
+{
+  ds.test_env$server <- some.servers
+  ds.test_env$url <- some.ip_addresses
+  ds.test_env$user <- some.users
+  ds.test_env$password <- some.passwords
+  ds.test_env$table <- some.tables
+  ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                ds.test_env$url,
+                                                                ds.test_env$table,
+                                                                ds.test_env$user,
+                                                                ds.test_env$password,
+                                                                .silent = TRUE)
+}
+
+# This function creates a login data frame. No data is returned. Instead, 
+# ds.test_env$login.data is set with the values. It is used for DSLite. 
+define.login.data.no.server <- function(some.tables, server.to.keep = "all")
+{
+  ds.test_env$login.data <- DSLite::setupDATASETTest(ds.test_env$package, env = ds.test_env)
+  if(nrow(subset(ds.test_env$login.data, server == server.to.keep))>0)
+  {
+    ds.test_env$login.data <- subset(ds.test_env$login.data, server == server.to.keep)
+  }
+  
+  
+}
+
+
 
 log.in.data.server <- function()
 {
