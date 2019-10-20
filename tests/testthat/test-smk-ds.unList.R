@@ -24,16 +24,9 @@ test_that("simple test", {
 
     res <- ds.unList("D$GENDER.list")
 
-    expect_length(res, 3)
-    expect_length(res$sim1, 2)
-    expect_equal(res$sim1$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim1$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
-    expect_length(res$sim2, 2)
-    expect_equal(res$sim2$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim2$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
-    expect_length(res$sim3, 2)
-    expect_equal(res$sim3$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim3$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <D$GENDER.list.unlist> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<D$GENDER.list.unlist> appears valid in all sources")
 })
 
 #
