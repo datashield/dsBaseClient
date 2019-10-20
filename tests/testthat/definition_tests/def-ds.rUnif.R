@@ -96,11 +96,11 @@ source("definition_tests/def-assign-stats.R")
 
 
 
-.test.range.values <- function(min.value, max.value, variable.created)
+.test.range.values <- function(min.value, max.value, variable.created, seed)
 {
   # init size of sample and randomly generates distribution on server
   size <- 20000
-  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj = variable.created)
+  ds.rUnif(samp.size = size, min = min.value, max = max.value, newobj = variable.created, seed.as.integer = seed)
  
   # compute distribution statistics
   dist.stats        <- .calc.distribution.server(variable.created)
