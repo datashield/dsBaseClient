@@ -12,23 +12,52 @@
 # Set up
 #
 
-connect.studies.dataset.discordant(list("A", "B", "C"))
+connect.discordant.dataset.simple(list("A", "B", "C"))
 
 #
 # Tests
 #
 
-context("ds.dataFrameFill::smk::overright a filled dataframe")
+context("ds.dataFrameFill::smk::extend unfilled dataframes")
 test_that("dataFrameFill_exists", {
+    colnamesD <- ds.colnames('D')
+
+    expect_length(colnamesD, 3)
+    expect_length(colnamesD$discordant1, 2)
+    expect_equal(colnamesD$discordant1[1], "A")
+    expect_equal(colnamesD$discordant1[2], "B")
+    expect_length(colnamesD$discordant2, 2)
+    expect_equal(colnamesD$discordant2[1], "A")
+    expect_equal(colnamesD$discordant2[2], "C")
+    expect_length(colnamesD$discordant3, 2)
+    expect_equal(colnamesD$discordant3[1], "B")
+    expect_equal(colnamesD$discordant3[2], "C")
+
     res <- ds.dataFrameFill(df.name="D", newobj="filled_df")
 
     expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <filled_df> has been created in all specified data sources")
     expect_equal(res$validity.check, "<filled_df> appears valid in all sources")
+
+    colnamesFilled <- ds.colnames('filled_df')
+
+    expect_length(colnamesFilled, 3)
+    expect_length(colnamesFilled$discordant1, 3)
+    expect_equal(colnamesFilled$discordant1[1], "A")
+    expect_equal(colnamesFilled$discordant1[2], "B")
+    expect_equal(colnamesFilled$discordant1[3], "C")
+    expect_length(colnamesFilled$discordant2, 3)
+    expect_equal(colnamesFilled$discordant2[1], "A")
+    expect_equal(colnamesFilled$discordant2[2], "C")
+    expect_equal(colnamesFilled$discordant2[3], "B")
+    expect_length(colnamesFilled$discordant3, 3)
+    expect_equal(colnamesFilled$discordant3[1], "B")
+    expect_equal(colnamesFilled$discordant3[2], "C")
+    expect_equal(colnamesFilled$discordant3[3], "A")
 })
 
 #
 # Done
 #
 
-disconnect.studies.dataset.discordant()
+disconnect.discordant.dataset.simple()
