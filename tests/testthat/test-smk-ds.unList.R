@@ -29,6 +29,21 @@ test_that("simple test", {
     expect_equal(res$validity.check, "<D$GENDER.list.unlist> appears valid in all sources")
 })
 
+context("ds.unList::smk::simple test")
+test_that("simple test", {
+    ds.asList(x.name="D$GENDER", newobj="GENDER.list")
+
+    res <- ds.unList("GENDER.list")
+
+    expect_length(res, 3)
+    expect_equal(res$is.object.created, "A data object <GENDER.list.unlist> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<GENDER.list.unlist> invalid in at least one source. See studyside.messages:")
+    expect_length(res$studyside.messages, 3)
+    expect_equal(res$studyside.messages$sim1, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+    expect_equal(res$studyside.messages$sim2, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+    expect_equal(res$studyside.messages$sim3, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+})
+
 #
 # Done
 #
