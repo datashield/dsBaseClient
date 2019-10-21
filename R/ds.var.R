@@ -89,7 +89,7 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
     # call the internal function that checks the input object is suitable in all studies        #
     varClass <- checkClass(datasources, x)                                                      #
     # the input object must be a numeric or an integer vector                                   #
-    if(varClass != 'integer' & varClass != 'numeric'){                                          #
+    if(!('integer' %in% varClass) & !('numeric' %in% varClass)){                                #
       stop("The input object must be an integer or a numeric vector.", call.=FALSE)             #
     }                                                                                           #
   }                                                                                             #

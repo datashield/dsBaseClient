@@ -74,7 +74,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   typ <- checkClass(datasources, x)
   
   # if input vector is not a factor stop
-  if(typ != 'factor'){
+  if(!('factor' %in% typ)){
     stop("The input vector must be a factor!", call.=FALSE)
   }
   
