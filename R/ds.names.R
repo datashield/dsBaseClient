@@ -46,7 +46,7 @@ ds.names <- function(x=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # the input object must be a list
-  if(typ != 'list'){
+  if(!('list' %in% typ)){
     stop("The input object must be a list.", call.=FALSE)
   }
   

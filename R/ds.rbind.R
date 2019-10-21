@@ -107,7 +107,7 @@ if(DataSHIELD.checks)
   # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
   for(i in 1:length(x)){
     typ <- checkClass(datasources, x[i])
-    if(typ != 'data.frame' & typ != 'matrix' & typ != 'factor' & typ != 'character' & typ != 'numeric' & typ != 'integer'  & typ != 'logical'){
+    if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
       stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
     }
   }
