@@ -18,33 +18,33 @@ connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
 # Tests
 #
 
-# context("ds.recodeLevels::smk")
-# ds.recodeLevels(opals, x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
-# levels <- ds.levels(x='bmi_new')
-# test_that("new levels", {
-#   expected <- c("normal", "overweight", "obesity")
-#   expect_equal(levels$sim1, expected)
-#   expect_equal(levels$sim2, expected)
-#   expect_equal(levels$sim3, expected)
-# })
+context("ds.recodeLevels::smk")
+ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
+levels <- ds.levels(x='bmi_new')
+test_that("new levels", {
+    expected <- c("normal", "overweight", "obesity")
+    expect_length(levels, 3)
+    expect_length(levels$sim1, 3)
+    expect_equal(levels$sim1, expected)
+    expect_length(levels$sim2, 3)
+    expect_equal(levels$sim2, expected)
+    expect_length(levels$sim3, 3)
+    expect_equal(levels$sim3, expected)
+})
 
-# context("ds.recodeLevels::smk::no opals or newobj")
-# ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
-# levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
-# test_that("new levels auto", {
-#   expected <- c("normal", "overweight", "obesity")
-#   expect_equal(levels$sim1, expected)
-#   expect_equal(levels$sim2, expected)
-#   expect_equal(levels$sim3, expected)
-# })
-
-# context("ds.recodeLevels::smk::test errors")
-# test_that("recodeLevels_erros", {
-#     expect_error(ds.recodeLevels(), "Please provide a valid numeric of character vector", fixed=TRUE)
-#     expect_error(ds.levels(), "Please provide the name of the input vector!", fixed=TRUE)
-#     expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL'), "Please specify the new categories to recode to", fixed=TRUE)
-#     expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight')), "The number of levels you specified is smaller than the levels of the input vector!", fixed=TRUE)
-# })
+context("ds.recodeLevels::smk::no opals or newobj")
+ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
+levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
+test_that("new levels auto", {
+    expected <- c("normal", "overweight", "obesity")
+    expect_length(levels, 3)
+    expect_length(levels$sim1, 3)
+    expect_equal(levels$sim1, expected)
+    expect_length(levels$sim2, 3)
+    expect_equal(levels$sim2, expected)
+    expect_length(levels$sim3, 3)
+    expect_equal(levels$sim3, expected)
+})
 
 #
 # Tear down
