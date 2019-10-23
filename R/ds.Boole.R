@@ -82,35 +82,37 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
     stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
   }
-  
-  
 
-#convert Boolean operator to numeric
+  #convert Boolean operator to numeric
 
-BO.n<-0
-if(Boolean.operator == "=="){
-   BO.n<-1
-}
+  BO.n<-0
+  if(Boolean.operator == "=="){
+    BO.n<-1
+  }
 
-if(Boolean.operator == "!="){
-   BO.n<-2
-}
+  if(Boolean.operator == "!="){
+    BO.n<-2
+  }
 
-if(Boolean.operator == "<"){
-   BO.n<-3
-}
+  if(Boolean.operator == "<"){
+    BO.n<-3
+  }
 
-if(Boolean.operator == "<="){
-   BO.n<-4
-}
+  if(Boolean.operator == "<="){
+    BO.n<-4
+  }
 
-if(Boolean.operator == ">"){
-   BO.n<-5
-}
+  if(Boolean.operator == ">"){
+    BO.n<-5
+  }
 
-if(Boolean.operator == ">="){
-   BO.n<-6
-}
+  if(Boolean.operator == ">="){
+    BO.n<-6
+  }
+
+  if(BO.n == 0){
+    stop(paste0("An unrecognized Boolean operator, ", Boolean.operator, ", has provide"), call.=FALSE)
+  }
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
