@@ -76,19 +76,9 @@ test_that("simple glmSLMA, binomial", {
     ds.asCharacter('D$DIS_DIAB', 'str.dis.diab')
     ds.asNumeric('str.dis.diab', 'num.dis.diab')
 
-#    print("")
-#    print("== D$DIS_DIAB ==")
-#    print(ds.summary('D$DIS_DIAB'))
-#    print("== str.dis.diab ==")
-#    print(ds.summary('str.dis.diab'))
-#    print("== num.dis.diab ==")
-#    print(ds.summary('num.dis.diab'))
-#    print("====")
-
     glmSLMA.res <- ds.glmSLMA('num.dis.ami~num.gender*num.dis.diab', family="binomial")
 
     expect_length(glmSLMA.res, 9)
-
     expect_length(glmSLMA.res[[1]], 1)
     expect_equal(glmSLMA.res[[1]][1], "EVERY STUDY HAS DATA THAT COULD BE POTENTIALLY DISCLOSIVE UNDER THE CURRENT MODEL:")
     expect_length(glmSLMA.res[[2]], 1)
