@@ -137,8 +137,8 @@ test_that("check results", {
 
     expect_output(res <- ds.listClientsideFunctions(), "*")
 
-    expect_length(res, 116)
-    for (x in c(1:116)) {
+    expect_length(res, 112)
+    for (x in c(1:112)) {
         expect_equal(res[[x]], output[[x]])
     }
 })
