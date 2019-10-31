@@ -1,6 +1,6 @@
 #' 
 #' @title ds.asNumeric calling assign function asNumericDS
-#' @description This function is based on the native R function {as.numeric}
+#' @description This function is based on the native R function \type{as.numeric}.
 #' @details This function is based on the native R function \type{as.numeric} (see help file
 #' of function \type{as.numeric} in native R). The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
@@ -10,10 +10,10 @@
 #' converts the factor vector:
 #' 0 1 1 2 1 0 1 0 2 2 2 1
 #' Levels: 0 1 2
-#' to the following numeric:
+#' to the following numeric vector:
 #' 1 2 2 3 2 1 2 1 3 3 3 2
 #' For more information see the warning section in the help file of \type{factor} in native R.
-#' In contrast DataSHIELD converts an inpuct factor to its original numeric values.
+#' In contrast DataSHIELD converts an inpuct factor with numeric levels to its original numeric values.
 #' @param x.name the name of the input object to be coerced to class
 #' numeric. Must be specified in inverted commas.
 #' @param newobj the name of the new output variable. If this argument is set
