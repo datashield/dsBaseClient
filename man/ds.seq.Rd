@@ -103,3 +103,6 @@ of length 4 in study 2, the sequence written to study 2 will be 3,5,7,9.
 BUT CRUCIALLY - only one of the three arguments TO.value.char,
 LENGTH.OUT.value.char and ALONG.WITH.name can be non-null in any one call.
 }
+\author{
+Paul Burton for DataSHIELD Development Team, 17/9/2019
+}
