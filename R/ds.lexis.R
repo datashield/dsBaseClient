@@ -288,7 +288,7 @@ intervalWidth.transmit<-paste0(as.character(intervalWidth),collapse=",")
 #SECOND CALL TO SERVER SIDE USES maxmaxtime AND intervalWidth TO SET
 #FOLLOW-UP TIME BREAKS IN EACH STUDY (ALL THE SAME)
   # call the main server side function
-  calltext2 <- call("lexisDS2", data, intervalWidth=intervalWidth.transmit, maxmaxtime, idCol, entryCol, exitCol, statusCol, variables)
+  calltext2 <- call("lexisDS2", data, intervalWidth.transmit, maxmaxtime, idCol, entryCol, exitCol, statusCol, variables)
   opal::datashield.assign(datasources, "messageobj", calltext2)
 	
   calltext3<- call("lexisDS3")
