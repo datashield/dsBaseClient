@@ -7,15 +7,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
+
 #
-# Datashield test suite set up
+# Set up
 #
 
-library(opal)
-library(dsBaseClient)
-library(RCurl)
+context("ds.lexis::smk:: setup")
+connect.studies.dataset.survival(list("id", "starttime", "endtime", "cens"))
 
-source("connection_to_datasets/login_details.R")
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_studies_datasets.R")
-source("connection_to_datasets/init_discordant_datasets.R")
+#
+# Tests
+#
+
+context("ds.lexis::smk")
+test_that("simple lexis", {
+    res <- ds.lexis(data='D', intervalWidth = 2.5, idCol = 'D$ID', entryCol = 'D$STARTTIME', exitCol = 'D$ENDTIME', statusCol = 'D$CENS', expandDF = 'EM.new')
+
+    expect_length(res, 3)
+})
+
+#
+# Done
+#
+
+disconnect.studies.dataset.survival()
