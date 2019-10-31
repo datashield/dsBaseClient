@@ -48,7 +48,7 @@
 #' Please check output is OK". This suggests that - in the case of this specific
 #' function - one should check as far as one can
 #' the nature of the output from a call to ds.unList - e.g. ds.class, ds.length etc
-#' @authors Amadou Gaye (2016), Paul Burton (19/09/2019) for DataSHIELD Development Team
+#' @author Amadou Gaye (2016), Paul Burton (19/09/2019) for DataSHIELD Development Team
 #' @export
 ds.unList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   
