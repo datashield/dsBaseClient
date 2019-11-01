@@ -1,6 +1,19 @@
+#' 
 #' @title ds.asNumeric calling assign function asNumericDS
-#' @description this function is based on the native R function {as.numeric}
-#' @details See details of the native R function {as.numeric}.
+#' @description This function is based on the native R function \type{as.numeric}.
+#' @details This function is based on the native R function \type{as.numeric} (see help file
+#' of function \type{as.numeric} in native R). The only difference is that the DataSHIELD 
+#' function first converts the values of the input object into characters and then convert 
+#' those to numerics. This addition is important for the case where the input object is of class
+#' factor having numbers as levels. In that case, the native R \type{as.numeric} function returns
+#' the underlying level codes and not the values as numbers. For example \type{as.numeric} in R
+#' converts the factor vector:
+#' 0 1 1 2 1 0 1 0 2 2 2 1
+#' Levels: 0 1 2
+#' to the following numeric vector:
+#' 1 2 2 3 2 1 2 1 3 3 3 2
+#' For more information see the warning section in the help file of \type{factor} in native R.
+#' In contrast DataSHIELD converts an inpuct factor with numeric levels to its original numeric values.
 #' @param x.name the name of the input object to be coerced to class
 #' numeric. Must be specified in inverted commas.
 #' @param newobj the name of the new output variable. If this argument is set
@@ -28,8 +41,9 @@
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
 #' without problems no studysideMessage will have been saved and ds.message(<newobj>)
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+#' @author Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
 #' @export
+#'
 ds.asNumeric = function(x.name=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
@@ -41,96 +55,72 @@ ds.asNumeric = function(x.name=NULL, newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- paste0(x.name, ".num")
   }
 
-    # call the server side function that does the job
+  # call the server side function that does the job
+  calltext <- call("asNumericDS", x.name)
+  opal::datashield.assign(datasources, newobj, calltext)
 
-	calltext <- call("asNumericDS", x.name)
+  #############################################################################################################
+  # DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                 
 
-	opal::datashield.assign(datasources, newobj, calltext)
+  # SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION
+  test.obj.name <- newobj
 
+  # CALL SEVERSIDE FUNCTION
+  calltext <- call("testObjExistsDS", test.obj.name)
+  object.info <- opal::datashield.aggregate(datasources, calltext)
+
+  # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS
+  # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS
+  num.datasources <- length(object.info)
+
+  obj.name.exists.in.all.sources <- TRUE
+  obj.non.null.in.all.sources <- TRUE
+
+  for(j in 1:num.datasources){
+    if(!object.info[[j]]$test.obj.exists){
+	obj.name.exists.in.all.sources <- FALSE
+    }
+    if(object.info[[j]]$test.obj.class=="ABSENT"){
+	 obj.non.null.in.all.sources <- FALSE
+    }
+  }
+
+  if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){
+    return.message <- paste0("A data object <", test.obj.name, "> has been created in all specified data sources")
+  }else{
+    return.message.1 <- paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")
+    return.message.2 <-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")
+    return.message.3 <- paste0("Please use ds.ls() to identify where missing")
+    return.message <- list(return.message.1, return.message.2, return.message.3)
+  }
+
+  calltext <- call("messageDS", test.obj.name)
+  studyside.message <- opal::datashield.aggregate(datasources, calltext)
   
-#############################################################################################################
-#DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
-																											#
-#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
-test.obj.name<-newobj																					 	#
-																											#																											#
-																											#							
-# CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS", test.obj.name)													 	#
-																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
-																											#
-# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
-# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
-num.datasources<-length(object.info)																	 	#
-																											#
-																											#
-obj.name.exists.in.all.sources<-TRUE																	 	#
-obj.non.null.in.all.sources<-TRUE																		 	#
-																											#
-for(j in 1:num.datasources){																			 	#
-	if(!object.info[[j]]$test.obj.exists){																 	#
-		obj.name.exists.in.all.sources<-FALSE															 	#
-		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
-		obj.non.null.in.all.sources<-FALSE																 	#
-		}																								 	#
-	}																									 	#
-																											#
-if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
-																											#
-	return.message<-																					 	#
-    paste0("A data object <", test.obj.name, "> has been created in all specified data sources")		 	#
-																											#
-																											#
-	}else{																								 	#
-																											#
-    return.message.1<-																					 	#
-	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")	#
-																											#
-	return.message.2<-																					 	#
-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 	#
-																											#
-	return.message.3<-																					 	#
-	paste0("Please use ds.ls() to identify where missing")												 	#
-																											#
-																											#
-	return.message<-list(return.message.1,return.message.2,return.message.3)							 	#
-																											#
-	}																										#
-																											#
-	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
-	no.errors<-TRUE																							#
-	for(nd in 1:num.datasources){																			#
-		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
-		no.errors<-FALSE																					#
-		}																									#
-	}																										#	
-																											#
-																											#
-	if(no.errors){																							#
-	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	return(list(is.object.created=return.message,validity.check=validity.check))						    #
-	}																										#
-																											#
-if(!no.errors){																								#
-	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
-	return(list(is.object.created=return.message,validity.check=validity.check,					    		#
-	            studyside.messages=studyside.message))			                                            #
-	}																										#
-																											#
-#END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
-#############################################################################################################
+  no.errors <- TRUE
+  for(nd in 1:num.datasources){
+    if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){
+      no.errors <- FALSE
+    }
+  }	
 
-  
+  if(no.errors){
+    validity.check <- paste0("<", test.obj.name, "> appears valid in all sources")
+    return(list(is.object.created=return.message, validity.check=validity.check))
+  }
+
+  if(!no.errors){
+    validity.check <- paste0("<", test.obj.name, "> invalid in at least one source. See studyside.messages:")
+    return(list(is.object.created=return.message, validity.check=validity.check, studyside.messages=studyside.message))
+  }
+
+  # END OF CHECK OBJECT CREATED CORRECTLY MODULE
+  #############################################################################################################
+
 }
 # ds.asNumeric
-
