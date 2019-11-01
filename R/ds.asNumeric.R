@@ -1,18 +1,18 @@
 #' 
 #' @title ds.asNumeric calling assign function asNumericDS
-#' @description This function is based on the native R function \type{as.numeric}.
-#' @details This function is based on the native R function \type{as.numeric} (see help file
-#' of function \type{as.numeric} in native R). The only difference is that the DataSHIELD 
+#' @description This function is based on the native R function \code{as.numeric}.
+#' @details This function is based on the native R function \code{as.numeric} (see help file
+#' of function \code{as.numeric} in native R). The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
 #' those to numerics. This addition is important for the case where the input object is of class
-#' factor having numbers as levels. In that case, the native R \type{as.numeric} function returns
-#' the underlying level codes and not the values as numbers. For example \type{as.numeric} in R
+#' factor having numbers as levels. In that case, the native R \code{as.numeric} function returns
+#' the underlying level codes and not the values as numbers. For example \code{as.numeric} in R
 #' converts the factor vector:
 #' 0 1 1 2 1 0 1 0 2 2 2 1
 #' Levels: 0 1 2
 #' to the following numeric vector:
 #' 1 2 2 3 2 1 2 1 3 3 3 2
-#' For more information see the warning section in the help file of \type{factor} in native R.
+#' For more information see the warning section in the help file of \code{factor} in native R.
 #' In contrast DataSHIELD converts an inpuct factor with numeric levels to its original numeric values.
 #' @param x.name the name of the input object to be coerced to class
 #' numeric. Must be specified in inverted commas.
