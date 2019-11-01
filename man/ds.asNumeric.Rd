@@ -40,11 +40,23 @@ without problems no studysideMessage will have been saved and ds.message(<newobj
 will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 }
 \description{
-this function is based on the native R function {as.numeric}
+This function is based on the native R function \code{as.numeric}.
 }
 \details{
-See details of the native R function {as.numeric}.
+This function is based on the native R function \code{as.numeric} (see help file
+of function \code{as.numeric} in native R). The only difference is that the DataSHIELD 
+function first converts the values of the input object into characters and then convert 
+those to numerics. This addition is important for the case where the input object is of class
+factor having numbers as levels. In that case, the native R \code{as.numeric} function returns
+the underlying level codes and not the values as numbers. For example \code{as.numeric} in R
+converts the factor vector:
+0 1 1 2 1 0 1 0 2 2 2 1
+Levels: 0 1 2
+to the following numeric vector:
+1 2 2 3 2 1 2 1 3 3 3 2
+For more information see the warning section in the help file of \code{factor} in native R.
+In contrast DataSHIELD converts an inpuct factor with numeric levels to its original numeric values.
 }
 \author{
-Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
 }
