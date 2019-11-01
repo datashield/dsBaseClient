@@ -1,7 +1,7 @@
 #' 
 #' @title ds.asNumeric calling assign function asNumericDS
 #' @description This function is based on the native R function \code{as.numeric}.
-#' @details This function is based on the native R function \xode{as.numeric} (see help file
+#' @details This function is based on the native R function \code{as.numeric} (see help file
 #' of function \code{as.numeric} in native R). The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
 #' those to numerics. This addition is important for the case where the input object is of class
