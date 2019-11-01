@@ -1,18 +1,18 @@
 #' 
 #' @title ds.asInteger calling assign function asIntegerDS
-#' @description This function is based on the native R function \type{as.integer}.
-#' @details This function is based on the native R function \type{as.integer} (see help file
-#' of function \type{as.integer} in native R). The only difference is that the DataSHIELD 
+#' @description This function is based on the native R function \code{as.integer}.
+#' @details This function is based on the native R function \code{as.integer} (see help file
+#' of function \code{as.integer} in native R). The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
 #' those to integers. This addition is important for the case where the input object is of class
-#' factor having integers as levels. In that case, the native R \type{as.integer} function returns
-#' the underlying level codes and not the values as integers. For example \type{as.integer} in R
+#' factor having integers as levels. In that case, the native R \code{as.integer} function returns
+#' the underlying level codes and not the values as integers. For example \code{as.integer} in R
 #' converts the factor vector:
 #' 0 1 1 2 1 0 1 0 2 2 2 1
 #' Levels: 0 1 2
 #' to the following integer vector:
 #' 1 2 2 3 2 1 2 1 3 3 3 2
-#' For more information see the warning section in the help file of \type{factor} in native R.
+#' For more information see the warning section in the help file of \code{factor} in native R.
 #' In contrast DataSHIELD converts an inpuct factor with integer levels to its original integer values.
 #' @param x.name the name of the input object to be coerced to class
 #' integer. Must be specified in inverted commas.
