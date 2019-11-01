@@ -50,8 +50,8 @@
 #'   datashield.logout(opals)
 #' 
 #' }
-#' 
-ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
+#'
+ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -77,7 +77,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
     # call the internal function that checks the input object is suitable in all studies                 #
     typ <- checkClass(datasources, x)                                                                    #
     # throw a message and stop if input is not table structure                                           #
-    if(!('data.frame' %in% typ) & !('matrix' %in% typ)){                                                  #
+    if(!('data.frame' %in% typ) & !('matrix' %in% typ)){                                                 #
       stop("The input object must be a table structure!", call.=FALSE)                                   #
     }                                                                                                    #
   }                                                                                                      #
