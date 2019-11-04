@@ -16,7 +16,7 @@
 #' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
 #' in each source equal in length to the indID vector in that source. 
 #' @param df.name a character string providing the name for the data.frame
-#' to be sorted. 
+#' from where the subset is created.
 #' @param V1.name A character string specifying the name of a subsetting vector
 #' to which a Boolean operator will be applied to define the subset to be created. Note
 #' if the plan is to subset by column using ALL rows, then <V1.name>
