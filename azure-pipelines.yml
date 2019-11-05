@@ -87,7 +87,7 @@ jobs:
       mv test_results.xml ../
       mv test_console_output.txt ../
       cd ../
-      grep --quiet "Failed:   0" ../test_console_output.txt
+      grep --quiet "Failed:   0" test_console_output.txt
     displayName: 'Code coverage and JUnit report output'
     condition: always()
 
