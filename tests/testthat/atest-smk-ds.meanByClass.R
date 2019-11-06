@@ -68,6 +68,17 @@ test_that("LAB_HDL_across_gender_split", {
     expect_equal(res$sim3[[4]], '1.65(0.39)')
 })
 
+context("ds.meanByClass::smk::test errors")
+ds.asCharacter(x='D$GENDER', newobj="not_a_numeric")
+ds.asCharacter(x='D$GENDER', newobj="not_a_factor")
+test_that("meanByClass_erros", {
+    expect_error(ds.meanByClass(), "Please provide the name data frame or matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", fixed=TRUE)
+    expect_error(ds.meanByClass(x='not_a_numeric~sex'), "The first element in the formula must be of type numeric or integer!", fixed=TRUE)
+    expect_error(ds.meanByClass(x='ldl~not_a_factor'), "The second element in the formula must be of type factor!", fixed=TRUE)
+    expect_error(ds.meanByClass(x='ldl~sex~not_a_factor'), "x must be the name of a data frame or a matrix or a formula of the form 'A~B' where A is a continuous vector and B a factor vector!", fixed=TRUE)
+    expect_error(ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
+})
+
 #
 # Tear down
 #

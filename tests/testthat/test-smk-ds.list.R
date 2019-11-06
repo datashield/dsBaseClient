@@ -19,44 +19,17 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 #
 
 context("ds.list::smk")
+myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
+ds.list(x=myobjects)
+type <- ds.class("newlist")$sim2
 test_that("Is List", {
-  myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
-  res <- ds.list(x=myobjects, newobj='my_newobj')
+  expect_equal(type, "list")
+})
 
-  expect_null(res)
-
-  res_ls <- ds.ls()
-
-  expect_length(res_ls, 3)
-  expect_length(res_ls$sim1, 2)
-  expect_equal(res_ls$sim1[1], 'D')
-  expect_equal(res_ls$sim1[2], 'my_newobj')
-  expect_length(res_ls$sim3, 2)
-  expect_equal(res_ls$sim2[1], 'D')
-  expect_equal(res_ls$sim2[2], 'my_newobj')
-  expect_length(res_ls$sim3, 2)
-  expect_equal(res_ls$sim3[1], 'D')
-  expect_equal(res_ls$sim3[2], 'my_newobj')
-
-  res_class <- ds.class('my_newobj')
-
-  expect_length(res_class, 3)
-  expect_equal(res_class$sim1, 'list')
-  expect_equal(res_class$sim2, 'list')
-  expect_equal(res_class$sim3, 'list')
-
-  res_names <- ds.names('my_newobj')
-
-  expect_length(res_names, 3)
-  expect_length(res_names$sim1, 2)
-  expect_equal(res_names$sim1[1], 'LAB_TSC')
-  expect_equal(res_names$sim1[2], 'LAB_HDL')
-  expect_length(res_names$sim3, 2)
-  expect_equal(res_names$sim2[1], 'LAB_TSC')
-  expect_equal(res_names$sim2[2], 'LAB_HDL')
-  expect_length(res_names$sim3, 2)
-  expect_equal(res_names$sim3[1], 'LAB_TSC')
-  expect_equal(res_names$sim3[2], 'LAB_HDL')
+context("ds.list::smk::test errors")
+test_that("list_erros", {
+    expect_error(ds.list(), "x=NULL. Please provide the names of the objects to coerce into a list!", fixed=TRUE)
+    expect_error(ds.class(), "Please provide the name of the input object!", fixed=TRUE)
 })
 
 #

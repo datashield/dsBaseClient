@@ -97,7 +97,7 @@ glmChecks <- function(formula, data, offset, weights, datasources){
         }
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value
         if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){
-          if(!('numeric' %in% typ)){
+          if(typ != 'numeric'){
             stop(paste0("'", elts[i], "' ", "is not a numeric in ", stdnames[j]), call.=FALSE)
           } 
         }

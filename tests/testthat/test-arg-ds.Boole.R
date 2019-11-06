@@ -24,7 +24,6 @@ test_that("Boole_erros", {
     expect_error(ds.Boole(V1="D$LAB_TSC"), "Please provide the name of a column or scalar holding V2 or declare a scalar in character format: eg '3'", fixed=TRUE)
     expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG"), "Please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='", fixed=TRUE)
     expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG", Boolean.operator="==", na.assign=2), "Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", fixed=TRUE)
-    expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG", Boolean.operator="AA"), "An unrecognized Boolean operator, AA, has provide", fixed=TRUE)
 })
 
 #

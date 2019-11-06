@@ -84,7 +84,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   # check the type of the input objects
   typ <- checkClass(datasources, x)
   
-  if(('numeric' %in% typ) | ('integer' %in% typ) | ('factor' %in% typ)){
+  if(typ=='numeric' | typ=='integer' | typ=='factor'){
     if(is.null(y)){
       stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
     }else{
@@ -93,7 +93,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     }
   }
   
-  if(('matrix' %in% typ) | ('data.frame' %in% typ) & !(is.null(y))){
+  if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
     y <- NULL
     warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
   }
@@ -102,7 +102,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   stdnames <- names(datasources)
 
   # call the server side function
-  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
+  if(typ=='matrix' | typ=='data.frame'){
     cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
   }else{
     if(!(is.null(y))){

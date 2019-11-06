@@ -18,24 +18,26 @@ connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GE
 # Tests
 #
 
-context("ds.names::smk")
-test_that("level_names", {
-  myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
-  res_list <- ds.list(x=myobjects, newobj='my_newobj')
-
-  res <- ds.names('my_newobj')
-
-  expect_length(res, 3)
-  expect_length(res$sim1, 2)
-  expect_equal(res$sim1[1], 'LAB_TSC')
-  expect_equal(res$sim1[2], 'LAB_HDL')
-  expect_length(res$sim3, 2)
-  expect_equal(res$sim2[1], 'LAB_TSC')
-  expect_equal(res$sim2[2], 'LAB_HDL')
-  expect_length(res$sim3, 2)
-  expect_equal(res$sim3[1], 'LAB_TSC')
-  expect_equal(res$sim3[2], 'LAB_HDL')
+context("ds.names::smk::test errors")
+ds.asCharacter(x='D$GENDER', newobj="not_a_list")
+test_that("names_erros", {
+    expect_error(ds.names(), "Please provide the name of the input list!", fixed=TRUE)
+    expect_error(ds.names('not_a_list'), "The input object must be a list.", fixed=TRUE)
 })
+
+# context("ds.names::smk")
+# ds.subsetByClass(datasources=opals, subsets='subclasses', x='D')
+# names <- ds.names('subclasses')
+# expected_names <- c("DIS_DIAB.level_0", "DIS_DIAB.level_1", "GENDER.level_0",   "GENDER.level_1")
+# test_that("level_names", {
+#   expect_equal(length(names), 3)
+#   expect_equal(length(names$sim1), 4)
+#   expect_equal(names$sim1, expected_names)
+#   expect_equal(length(names$sim2), 4)
+#   expect_equal(names$sim2, expected_names)
+#   expect_equal(length(names$sim3), 4)
+#   expect_equal(names$sim3, expected_names)
+# })
 
 #
 # Tear down
