@@ -100,7 +100,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       if(!completeCases){
         stop("No subset parameters provided, the sought subset is the same as the original object!", call.=FALSE)
       }else{
-        cally <- call('subsetDS', dt=x, complt=completeCases)
+        cally <- call('subsetDS', x, completeCases)
         opal::datashield.assign(datasources, subset, cally)
       }
     }else{
@@ -121,7 +121,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
 
       # turn the logicalOperator operator into the corresponding integer that will be evaluated on the server side.
       logicalOperator <- logical2int(logicalOperator)
-      cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows, cs=cols, lg=logicalOperator, th=threshold, varname=var2sub)
+      cally <- call('subsetDS', x, completeCases, rows, cols, logicalOperator, threshold, var2sub)
       opal::datashield.assign(datasources, subset, cally)
     }
   }else{
@@ -141,7 +141,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       }
       # turn the vector of row indices into a character to pass the parser
       for(i in 1:length(datasources)){
-        cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows)
+        cally <- call('subsetDS', x, completeCases, rows)
         opal::datashield.assign(datasources[i], subset, cally)
       }
     }else{
@@ -153,7 +153,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
           if(check00[2] == 1){ cols <- NULL }
         }
         for(i in 1:length(datasources)){
-          cally <- call('subsetDS', dt=x, complt=completeCases, rs=rows, cs=cols)
+          cally <- call('subsetDS', x, completeCases, rows, cols)
           opal::datashield.assign(datasources[i], subset, cally)
         }
       }else{

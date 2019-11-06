@@ -139,7 +139,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   typ <- checkClass(datasources, x)
   
   # the input object must be a numeric or an integer vector
-  if(typ != 'integer' & typ != 'numeric'){
+  if(!('integer' %in% typ) & !('numeric' %in% typ)){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be an integer or numeric vector.", call.=FALSE)
   }
