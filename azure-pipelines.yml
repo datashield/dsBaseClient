@@ -9,7 +9,7 @@ schedules:
 jobs:
 - job: DataSHIELD_CI
 
-  timeoutInMinutes: 120
+  timeoutInMinutes: 180
 
   pool:
     vmImage: 'Ubuntu 16.04'
