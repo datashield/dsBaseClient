@@ -1,84 +1,94 @@
-#' @title ds.unList calling assign function unListDS
-#' @description this function is based on the native R function {unlist}
-#' which coerces an object of list class back to the class it was when
-#' it was coerced into a list
-#' @details See details of the native R function {unlist}.
-#' This function represents a substantive restructuring of an earlier version
-#' created by Amadou Gaye.
-#' When an object is coerced to a list, depending
-#' on the class of the original object some information may be lost. Thus,
-#' for example, when a data.frame is coerced to a list information that
-#' underpins the structure of the data.frame is lost and when it is
-#' subject to the function {ds.unList.o} it is returned to a simpler
-#' class than data.frame eg 'numeric' (basically a numeric vector
-#' containing all of the original data in all variables in the data.frame
-#' but with no structure). If you wish to reconstruct the original
-#' data.frame you therefore need to specify this structure again e.g.
-#' the column names etc 
-#' @param x.name the name of the input object to be unlisted.
-#' It must be specified in inverted commas e.g. x.name="input.object.name"
-#' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to <x.name>.unlist
+#' @title ds.completeCases calling assign function completeCasesDS
+#' @description Identifies and strips out all rows of a data.frame,
+#' matrix or vector that contain NAs.
+#' @details In the case of a data.frame or matrix, {ds.completeCases} identifies
+#' all rows containing one or more NAs and deletes those
+#' rows altogether. Any one variable with NA in a given row will lead
+#' to deletion of the whole row. In the case of a vector, {ds.completeCases}
+#' acts in an equivalent manner but there is no equivalent to a 'row'
+#' and so it simply strips out all observations recorded as NA.
+#' {ds.completeCASES} is analogous to the {complete.cases} function
+#' in native R. Limited additional information can therefore be found
+#' under help("complete.cases") in native R.
+#' @param x1 This argument determines the input data.frame, matrix or vector
+#' from which rows with NAs are to be stripped. x1 is specified via
+#' a character string (in inverted commas) denoting the name of the input
+#' object
+#' @param newobj A character string specifying the name of the output object
+#' to be written to the serverside which will be in the form of a modified
+#' version of the input data object (data.frame, matrix or vector). The only
+#' change is that any rows containing at least one NA will have been stripped.
+#' If no <newobj> argument is specified, the output object name defaults to
+#' <x1>_complete.cases.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If an explicit <datasources> argument is to be set,
-#' it should be specified without
+#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
 #' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
-#' @return the object specified by the <newobj> argument (or by default <x.name>.unlist
-#' if the <newobj> argument is NULL) which is written to the serverside.
-#' As well as writing the output object as <newobj>
-#' on the serverside, two validity messages are returned
+#' e.g. datasources=opals.em[c(1,3)]. 
+#' @return a modified data.frame, matrix or vector from which
+#' all rows containing at least one NA have been deleted. This
+#' modified object is written to the serverside in each source.
+#' In addition, two validity messages are returned
 #' indicating whether <newobj> has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
-#' {ds.seq()} also returns any studysideMessages that can explain the error in creating
+#' ds.completeCases also returns any studysideMessages that can help
+#' explain the error in creating
 #' the full output object. As well as appearing on the screen at run time,if you wish to
 #' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("<newobj>") it will print out the relevant
+#' function. If you type ds.message("newobj") it will print out the relevant
 #' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. Because the outcome object from ds.unList is
-#' typically a list object with no names, if there are no errors in creating it
-#' the message returned from ds.message("<newobj>") in each study will read
-#' "Outcome object is a list without names. So a studysideMessage may be hidden.
-#' Please check output is OK". This suggests that - in the case of this specific
-#' function - one should check as far as one can
-#' the nature of the output from a call to ds.unList - e.g. ds.class, ds.length etc
-#' @author Amadou Gaye (2016), Paul Burton (19/09/2019) for DataSHIELD Development Team
+#' and a studysideMessage was saved. If there was no error and <newobj> was created
+#' without problems no studysideMessage will have been saved and ds.message("newobj")
+#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' @author Paul Burton for DataSHIELD Development Team, 17/10/2019
 #' @export
-ds.unList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
+ds.completeCases<-function(x1=NULL, newobj=NULL,datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
   }
-  
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
-  
-  
-  # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- paste0(x.name, ".unlist")
+
+ # check if a value has been provided for x1
+  if(is.null(x1)){
+    return("Error: x1 must have a value which is a character string naming a serverside data.frame, matrix or vector")
   }
 
+ #rename target object for transfer (not strictly necessary as string will pass parser anyway)
+ #but maintains consistency with other functions
+ 
+  x1.transmit<-x1
+
+  # if no value specified for output object, then specify a default
+  if(is.null(newobj))
+  {
+    newobj <- paste0(x1,"_complete.cases")
+  }
+
   
-     # call the server side function
-  calltext <- call("unListDS", x.name)
-  datashield.assign(datasources, newobj, calltext)
+# CALL THE MAIN SERVER SIDE FUNCTION
+
+  calltext <- call("completeCasesDS", x1.transmit=x1.transmit)
 
 
+ datashield.assign(datasources, newobj, calltext)
+
+ 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
-																											#																											#
+																											#
+#TRACER																									 	#
+#return(test.obj.name)																					 	#
+#}                                                                                   					 	#
+																											#
 																											#							
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
@@ -133,7 +143,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 		no.errors<-FALSE																					#
 		}																									#
 	}																										#	
-																											#
+																										#
 																											#
 	if(no.errors){																							#
 	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
@@ -150,5 +160,6 @@ if(!no.errors){																								#
 #############################################################################################################
 
 }
-#ds.unList
+#ds.completeCases
+
 
