@@ -11,7 +11,7 @@ ds.dataFrameSubset(df.name = NULL, V1.name = NULL, V2.name = NULL,
 }
 \arguments{
 \item{df.name}{a character string providing the name for the data.frame
-to be sorted.}
+from where the subset is created.}
 
 \item{V1.name}{A character string specifying the name of a subsetting vector
 to which a Boolean operator will be applied to define the subset to be created. Note
