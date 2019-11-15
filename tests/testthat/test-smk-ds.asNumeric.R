@@ -12,7 +12,11 @@
 # Set up
 #
 
+context("ds.asNumeric::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+ds_expect_variables(c("D"))
 
 #
 # Tests
@@ -30,5 +34,9 @@ test_that("simple test", {
 #
 # Done
 #
+
+context("ds.asNumeric::smk::done")
+
+ds_expect_variables(c("D", "D$GENDER.num"))
 
 disconnect.studies.dataset.cnsim()

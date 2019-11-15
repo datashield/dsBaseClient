@@ -7,17 +7,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
+
 #
-# Datashield test suite set up
+# Tests
 #
 
-library(opal)
-library(dsBaseClient)
-library(RCurl)
+ds_expect_variables <- function(expected.variables)
+{
+    studies.current.varables <- ds.ls()
 
-source("dstest_functions/ds_expect_variables.R")
-
-source("connection_to_datasets/login_details.R")
-source("connection_to_datasets/init_all_datasets.R")
-source("connection_to_datasets/init_studies_datasets.R")
-source("connection_to_datasets/init_discordant_datasets.R")
+    for (study.current.varables in studies.current.varables)
+        expect_setequal(study.current.varables, expected.variables)
+}
