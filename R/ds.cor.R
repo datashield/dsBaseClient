@@ -103,15 +103,15 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   
   # call the server side function
   if(('matrix' %in% typ) | ('data.frame' %in% typ)){
-    cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+    calltext <- call("covDS", x, NULL, naAction)
   }else{
     if(!(is.null(y))){
-      cally <- paste0("covDS(x=", x, ", y=", y, ", use='", naAction, "')")
+      calltext <- call("covDS", x, y, naAction)
     }else{
-      cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+      calltext <- call("covDS", x, NULL, naAction)
     }
   }
-  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, calltext)
 
   if (type=="split"){
     covariance <- list()
