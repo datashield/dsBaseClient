@@ -16,7 +16,9 @@ context("ds.asInteger::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
-ds_expect_variables(c("D"))
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -35,8 +37,12 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.asInteger::smk::done")
+context("ds.asInteger::smk::stutdown")
 
-ds_expect_variables(c("D", "D$GENDER.int"))
+test_that("stutdown", {
+    ds_expect_variables(c("D", "D$GENDER.int"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.asInteger::smk::done")

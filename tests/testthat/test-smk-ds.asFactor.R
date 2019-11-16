@@ -16,7 +16,9 @@ context("ds.asFactor::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
-ds_expect_variables(c("D"))
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -110,8 +112,12 @@ test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
 # Done
 #
 
-context("ds.asFactor::smk::done")
+context("ds.asFactor::smk::shutdown")
 
-ds_expect_variables(c("D", "TID", "TID.f1", "TID.f2", "TID.f3", "TID.f4", "TID.f5", "TID.mat1", "TID.mat6"))
+test_that("shutdown", {
+    ds_expect_variables(c("D", "TID", "TID.f1", "TID.f2", "TID.f3", "TID.f4", "TID.f5", "TID.mat1", "TID.mat6"))
+})
 
 disconnect.studies.dataset.survival()
+
+context("ds.asFactor::smk::done")

@@ -16,7 +16,9 @@ context("ds.asCharacter::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
-ds_expect_variables(c("D"))
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -35,8 +37,12 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.asCharacter::smk::done")
+context("ds.asCharacter::smk::stutdown")
 
-ds_expect_variables(c("D", "D$LAB_TSC.char"))
+test_that("setup", {
+    ds_expect_variables(c("D", "D$LAB_TSC.char"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.asCharacter::smk::done")

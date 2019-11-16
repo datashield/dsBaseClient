@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("checkClass::smk::discordant::setup")
+
 connect.discordant.dataset.simple(list("A", "B", "C"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -35,4 +41,12 @@ test_that("simple test, discordant dataset C", {
 # Done
 #
 
+context("checkClass::smk::discordant::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.discordant.dataset.simple()
+
+context("checkClass::smk::discordant::done")

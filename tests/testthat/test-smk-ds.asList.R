@@ -16,7 +16,9 @@ context("ds.asList::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
-ds_expect_variables(c("D"))
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -36,16 +38,18 @@ test_that("simple test", {
     expect_length(res$sim3, 2)
     expect_equal(res$sim3$return.message, "New object <D$GENDER.list> created")
     expect_equal(res$sim3$class.of.newobj, "Class of <D$GENDER.list> is 'list'")
-
-    print(ds.ls())
 })
 
 #
 # Done
 #
 
-context("ds.asList::smk::done")
+context("ds.asList::smk::shutdown")
 
-ds_expect_variables(c("D"))
+test_that("stutdown", {
+    ds_expect_variables(c("D"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.asList::smk::done")
