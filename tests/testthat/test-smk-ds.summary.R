@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.summary::smk::setup")
+
 connect.studies.dataset.cnsim(list('LAB_TSC', 'LAB_TRIG', 'LAB_HDL', 'LAB_GLUC_ADJUSTED', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'MEDI_LPD', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -58,4 +64,12 @@ test_that("summary_data_frame", {
 # Tear down
 #
 
+context("ds.summary::smk::setup")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "a_character"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.summary::smk::done")

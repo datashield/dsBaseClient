@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.subsetByClass::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -42,4 +48,12 @@ test_that("gender", {
 # Tear down
 #
 
+context("ds.subsetByClass::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "subclasses"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.subsetByClass::smk::done")

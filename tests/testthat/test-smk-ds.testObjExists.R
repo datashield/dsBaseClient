@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.testObjExists::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -86,4 +92,12 @@ test_that("data.frame testObjExists", {
 # Done
 #
 
+context("ds.testObjExists::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "df_new", "D$TEST", "TEST"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.testObjExists::smk::done")

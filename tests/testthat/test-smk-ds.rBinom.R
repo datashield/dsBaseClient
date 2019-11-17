@@ -12,15 +12,19 @@
 # Set up
 #
 
+context("ds.rBinom::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
-# context("dsBetaTestClient::ds.rBinom::smk simple test")
 context("ds.rBinom::smk::simple test")
-
 test_that("simple test", {
     res <- ds.rBinom(samp.size = 50, size = 50, prob = 0.25, newobj = "binom_dist", seed.as.integer = 27)
 
@@ -41,4 +45,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.rBinom::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "binom_dist"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.rBinom::smk::done")
