@@ -95,7 +95,7 @@ test_that("data.frame testObjExists", {
 context("ds.testObjExists::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "df_new", "D$TEST", "TEST"))
+    ds_expect_variables(c("D", "df_new"))
 })
 
 disconnect.studies.dataset.cnsim()

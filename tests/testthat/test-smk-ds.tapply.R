@@ -135,9 +135,9 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 context("ds.tapply::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "GENDER", "LAB_TSC"))
 })
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.tapply::smk::done)
+context("ds.tapply::smk::done")
