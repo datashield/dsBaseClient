@@ -21,7 +21,6 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context(        "ds.listClientsideFunctions::smk::check results")
 test_that("check results", {
     output <- list(
-        "ds.test_env",
         "checkClass",
         "colPercent",
         "ds.asCharacter",
@@ -117,12 +116,8 @@ test_that("check results", {
         "getPooledMean",
         "getPooledVar",
         "glmChecks",
-        "init.object.list.global.environment",
-        "init.object.list.testing.environment",
-        "init.opal.list",
         "isAssigned",
         "isDefined",
-        "library.dynam.unload",
         "logical2int",
         "meanByClassHelper0a",
         "meanByClassHelper0b",
@@ -131,15 +126,13 @@ test_that("check results", {
         "meanByClassHelper3",
         "meanByClassHelper4",
         "rowPercent",
-        "subsetHelper",
-        "system.file"
+        "subsetHelper"
     )
 
     expect_output(res <- ds.listClientsideFunctions(), "*")
 
-    expect_length(res, 112)
-    for (x in c(1:112)) {
-        expect_equal(res[[x]], output[[x]])
+    for (func.name in output) {
+        expect_true(func.name %in% res, info = func.name)
     }
 })
 
