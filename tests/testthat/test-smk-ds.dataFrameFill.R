@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrameFill::smk::setup")
+
 connect.discordant.dataset.simple(list("A", "B", "C"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -60,4 +66,12 @@ test_that("dataFrameFill_exists", {
 # Done
 #
 
+context("ds.dataFrameFill::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "filled_df"))
+})
+
 disconnect.discordant.dataset.simple()
+
+context("ds.dataFrameFill::smk::done")

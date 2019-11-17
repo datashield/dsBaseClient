@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.glmSLMA::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -173,4 +179,12 @@ test_that("simple glmSLMA, poisson", {
 # Done
 #
 
+context("ds.glmSLMA::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "str.dis.ami", "num.dis.ami", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.glmSLMA::smk::done")

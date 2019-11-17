@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrameSort::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -34,4 +40,12 @@ test_that("dataFrameSort_exists", {
 # Done
 #
 
+context("ds.dataFrameSort::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "unsorted_df", "sorted_df"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.dataFrameSort::smk::done")
