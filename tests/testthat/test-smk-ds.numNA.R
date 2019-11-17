@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.numNA::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_HDL", "LAB_TRIG", "DIS_CVA"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -46,4 +52,12 @@ test_that("simple numNA", {
 # Done
 #
 
+context("ds.numNA::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.numNA::smk::done")
