@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.look::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -33,4 +39,12 @@ test_that("simple look", {
 # Done
 #
 
+context("ds.look::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.look::smk::done")

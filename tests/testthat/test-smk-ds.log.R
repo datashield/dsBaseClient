@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.log::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -60,7 +66,7 @@ test_that("simple log", {
     expect_length(res2_exists$sim3, 1)
     expect_equal(res2_exists$sim3, TRUE)
 
-    res2_class <- ds.class("log1_obj")
+    res2_class <- ds.class("log2_obj")
 
     expect_length(res2_class, 3)
     expect_length(res2_class$sim1, 1)
@@ -75,4 +81,12 @@ test_that("simple log", {
 # Done
 #
 
+context("ds.log::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "new_data", "log1_obj", "log2_obj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.log::smk::done")

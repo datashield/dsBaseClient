@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.listDisclosureSettings::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -66,4 +72,12 @@ test_that("check results", {
 # Done
 #
 
+context("ds.listDisclosureSettings::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.listDisclosureSettings::smk::down")

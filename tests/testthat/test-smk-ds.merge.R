@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.merge::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -43,4 +49,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.merge::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "test_1_df", "test_2_df", "merge_newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.merge::smk::done")
