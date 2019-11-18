@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.replaceNA::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_HDL", "LAB_TRIG", "DIS_CVA"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -34,4 +40,12 @@ test_that("simple replaceNA", {
 # Done
 #
 
+context("ds.replaceNA::smk::shutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D", "newobj1", "newobj2", "newobj3"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.replaceNA::smk::done")

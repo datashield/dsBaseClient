@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.list::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -63,4 +69,12 @@ test_that("Is List", {
 # Tear down
 #
 
+context("ds.list::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "my_newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.list::smk::down")

@@ -12,14 +12,19 @@
 # Set up
 #
 
+context("ds.rbind::smk::setup")
+
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
 context("ds.rbind::smk")
-
 test_that("simple test", {
     res <- ds.rbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="rbind_newobj")
 
@@ -37,4 +42,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.rbind::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "rbind_newobj"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.rbind::smk::done")

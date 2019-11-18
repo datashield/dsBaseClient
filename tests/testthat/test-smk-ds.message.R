@@ -12,7 +12,14 @@
 # Set up
 #
 
+context("ds.message::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
+
 
 #
 # Tests
@@ -53,5 +60,12 @@ test_that("partial - request message", {
 #
 # Done
 #
+context("ds.message::smk::shutdown")
+
+test_that("shutdown", {
+#     ds_expect_variables(c("D", "TestP"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.message::smk::done")

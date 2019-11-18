@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dim::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -67,4 +73,12 @@ test_that("simple dim, combine", {
 # Done
 #
 
+context("ds.dim::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.dim::smk::done")

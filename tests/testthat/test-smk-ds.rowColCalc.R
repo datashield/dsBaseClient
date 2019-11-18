@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.rowColCalc::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -42,5 +48,12 @@ test_that("rowColCalc_out_exists", {
 #
 # Tear down
 #
+context("ds.rowColCalc::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "rsum_hdl_tsc", "rowColCalc_out"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.rowColCalc::smk::done")

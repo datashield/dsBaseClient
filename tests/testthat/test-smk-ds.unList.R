@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.unList::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -20,7 +26,7 @@ connect.studies.dataset.cnsim(list("GENDER"))
 
 context("ds.unList::smk::simple test")
 test_that("simple test", {
-    ds.asList(x.name="D$GENDER")
+    ds.asList(x.name="D$GENDER", newobj="D$GENDER.list")
 
     res <- ds.unList("D$GENDER.list")
 
@@ -48,4 +54,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.unList::smk::shutdown")
+
+test_that("shutdown", {
+#     ds_expect_variables(c("D", "D$GENDER.list", "D$GENDER.list.unlist", "GENDER.list", "GENDER.list.unlist"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.unList::smk::done")

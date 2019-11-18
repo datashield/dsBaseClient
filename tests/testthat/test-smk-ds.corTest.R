@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.corTest::smk::setup")
+
 connect.studies.dataset.survival(list("survtime", "time.id"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -57,4 +63,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.corTest::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.corTest::smk::done")

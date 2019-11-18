@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.glm::smk::binomial::setup")
+
 connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER", "PM_BMI_CONTINUOUS", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -74,4 +80,12 @@ test_that("glm_binomial, with check", {
 # Done
 #
 
+context("ds.glm::smk::binomial::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.glm::smk::binomial::done")

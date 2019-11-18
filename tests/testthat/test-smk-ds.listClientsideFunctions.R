@@ -12,13 +12,19 @@
 # Set up
 #
 
+context("ds.listClientsideFunctions::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
-context(        "ds.listClientsideFunctions::smk::check results")
+context("ds.listClientsideFunctions::smk::check results")
 test_that("check results", {
     output <- list(
         "checkClass",
@@ -140,4 +146,12 @@ test_that("check results", {
 # Done
 #
 
+context("ds.listClientsideFunctions::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.listClientsideFunctions::smk::done")

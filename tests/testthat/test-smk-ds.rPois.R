@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.rPois::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -39,4 +45,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.rPois::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "pois_dist"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.rPois::smk::done")

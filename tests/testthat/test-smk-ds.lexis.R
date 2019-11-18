@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.lexis::smk::setup")
+
 connect.studies.dataset.survival(list("id", "starttime", "endtime", "cens", "age.60"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -48,4 +54,12 @@ test_that("simple lexis", {
 # Done
 #
 
+context("ds.lexis::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "EM.new", "messageobj"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.lexis::smk::done")

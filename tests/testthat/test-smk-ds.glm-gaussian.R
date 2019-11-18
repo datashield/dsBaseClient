@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.glm::smk::gaussian::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -74,4 +80,12 @@ test_that("glm_gaussian, with check", {
 # Done
 #
 
+context("ds.glm::smk::gaussian::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.glm::smk::gaussian::done")

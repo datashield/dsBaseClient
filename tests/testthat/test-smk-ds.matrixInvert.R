@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixInvert::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -41,4 +47,12 @@ test_that("simplest ds.matrixInvert", {
 # Tear down
 #
 
+context("ds.matrixInvert::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "new_matrix", "new_matrix_inverted"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixInvert::smk::done")
