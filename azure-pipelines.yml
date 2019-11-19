@@ -21,7 +21,12 @@ jobs:
     branchName: $(Build.SourceBranchName)
 
 
-  steps:  
+  steps:
+  - bash: |
+      echo "options(Ncpus=2)" >> ~/.Rprofile
+      displayName: 'Tweak local R env'
+
+  
   - bash: |
       echo $(branchName)
       echo $(repoName)
