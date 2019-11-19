@@ -24,7 +24,7 @@ jobs:
   steps:
   - bash: |
       echo "options(Ncpus=2)" >> ~/.Rprofile
-      displayName: 'Tweak local R env'
+    displayName: 'Tweak local R env'
 
   
   - bash: |
