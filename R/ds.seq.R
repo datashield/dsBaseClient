@@ -153,7 +153,7 @@ if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.na
 
 # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("seqDS", FROM.value.char,TO.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
- opal::datashield.assign(datasources, newobj, calltext)
+ datashield.assign(datasources, newobj, calltext)
 
 
 #############################################################################################################
@@ -208,7 +208,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
+    studyside.message<-datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
