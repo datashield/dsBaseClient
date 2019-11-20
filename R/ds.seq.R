@@ -80,7 +80,7 @@
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
 #' without problems no studysideMessage will have been saved and ds.message("<newobj>")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @authors Paul Burton for DataSHIELD Development Team, 17/9/2019
+#' @author Paul Burton for DataSHIELD Development Team, 17/9/2019
 #' @export
 ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL, LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
                    newobj="newObj", datasources=NULL) {
@@ -153,7 +153,7 @@ if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.na
 
 # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("seqDS", FROM.value.char,TO.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
- opal::datashield.assign(datasources, newobj, calltext)
+ datashield.assign(datasources, newobj, calltext)
 
 
 #############################################################################################################
@@ -208,7 +208,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
+    studyside.message<-datashield.aggregate(datasources, calltext)											#
 																											#	
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
