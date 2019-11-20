@@ -85,7 +85,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "Boole.newobj"
+    newobj <- "boole.newobj"
   }
 
   #convert Boolean operator to numeric
