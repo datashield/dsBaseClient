@@ -76,7 +76,7 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
   
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_det")
+    newobj <- "matrixdet.newobj"
   }
 
 

@@ -35,7 +35,7 @@
 #' 
 #' }
 #' 
-ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
+ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -45,7 +45,12 @@ ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
   }
-  
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "assign.newobj"
+  }
+
   # now do the business
   opal::datashield.assign(datasources, newobj, as.symbol(toAssign))
   

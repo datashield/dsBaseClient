@@ -61,7 +61,7 @@ ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NUL
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_dimnames")
+    newobj <- "matrixdimnames.newobj"
   }
 
 

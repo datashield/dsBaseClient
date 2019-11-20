@@ -62,7 +62,7 @@
 #' dimensions as INDEX. 
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
-ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj="tapply.out",datasources=NULL){
+ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
   # if no opal login details are provided look for 'opal' objects in the environment
@@ -100,7 +100,7 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
 
     # create a name by default if user did not provide a name for the new tapply object
   if(is.null(newobj)){
-    newobj <- "tapply.out"
+    newobj <- "tapply.assign.newobj"
   }
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION

@@ -64,7 +64,7 @@ ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "newlist"
+    newobj <- "list.newobj"
   }
   
   # get the names of the list elements if the user has not specified any

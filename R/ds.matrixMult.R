@@ -59,7 +59,7 @@ ds.matrixMult<-function(M1=NULL, M2=NULL, newobj=NULL, datasources=NULL){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_",M2)
+    newobj <- "matrixmult.newobj"
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION

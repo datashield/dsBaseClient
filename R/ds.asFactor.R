@@ -144,7 +144,7 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
 
   # if no output variable specified then provide a default name
   if(is.null(newobj.name)){
-    newobj.name <- paste0(input.var.name,".f")
+    newobj.name <- "asfactor.newobj")
   }
 
   #CALL THE FIRST SERVER SIDE FUNCTION (AN AGGREGATE FUNCTION)

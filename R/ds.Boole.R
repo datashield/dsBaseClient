@@ -56,7 +56,7 @@
 #' @author DataSHIELD Development Team
 #' @export
 #'
-ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA",newobj=NULL, datasources=NULL){
+ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA", newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -81,6 +81,11 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   #check if na.assign has legal value
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
     stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
+  }
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "Boole.newobj"
   }
 
   #convert Boolean operator to numeric

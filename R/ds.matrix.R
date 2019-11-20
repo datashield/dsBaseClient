@@ -165,7 +165,7 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   # if no value spcified for output object, then specify a default
   if(is.null(newobj))
   {
-    newobj <- "new_matrix"
+    newobj <- "matrix.newobj"
   }
 
   #process mdata to make transmittable depending on <from>

@@ -47,7 +47,7 @@ ds.matrixTranspose<-function(M1=NULL, newobj=NULL, datasources=NULL){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_transposed")
+    newobj <- "matrixtranspose.newobj"
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION

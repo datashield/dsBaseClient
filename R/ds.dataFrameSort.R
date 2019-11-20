@@ -93,7 +93,9 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     datasources <- findLoginObjects()
   }
  
-  if(is.null(newobj)){newobj<-paste0(df.name,".sorted")}
+  if(is.null(newobj)){
+    newobj<-"dataframesort.newobj"
+  }
   
     calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.alphabetic, sort.numeric)
     opal::datashield.assign(datasources, newobj, calltext)

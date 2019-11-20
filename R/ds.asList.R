@@ -43,7 +43,7 @@ ds.asList = function(x.name=NULL, newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(x.name, ".list")
+    newobj <- "aslist.newobj"
   }
 
   # call the server side function that does the job

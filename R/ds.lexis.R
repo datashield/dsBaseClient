@@ -253,7 +253,7 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
   
   # if no value spcified for output (expanded) data set, then specify a default
   if(is.null(expandDF)){
-    expandDF <- paste0(data,"_expanded")
+    expandDF <- "lexis.newobj")
   }
 
 #FIRST CALL TO SERVER SIDE TO IDENTIFY THE MAXIMUM FOLLOW UP TIME IN ANY

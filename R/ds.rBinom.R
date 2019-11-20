@@ -97,7 +97,7 @@
 #' created in each source.
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
+ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj=NULL, seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 
 ##################################################################################
 # if no opal login details are provided look for 'opal' objects in the environment
@@ -105,6 +105,10 @@ ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj="newObject", seed.as.integ
     datasources <- findLoginObjects()
   }
 
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "rbinom.newobj"
+  }
 
 ########################
 #TEST SEED PRIMING VALUE

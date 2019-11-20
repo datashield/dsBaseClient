@@ -142,7 +142,7 @@ if(Boolean.operator == ">="){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(df.name,"_subset")
+    newobj <- "dataframesubset.newobj"
   }
 
  if(!is.null(keep.cols)){

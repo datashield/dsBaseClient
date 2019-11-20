@@ -46,7 +46,7 @@ ds.matrixInvert<-function(M1=NULL, newobj=NULL, datasources=NULL){
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_inverted")
+    newobj <- "matrixinvert.newobj"
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION

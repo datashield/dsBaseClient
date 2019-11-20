@@ -35,7 +35,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(df.name,"_filled")
+    newobj <- "dataframefill.newobj"
   }
 
   # check if the input object is defined in all the studies

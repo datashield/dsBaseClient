@@ -98,7 +98,7 @@ ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datas
   # if no value spcified for output object, then specify a default
   if(is.null(newobj))
   {
-    newobj <- "diag"
+    newobj <- "matrixdiag.newobj"
   }
 
   #process x1 to make transmittable depending on aim

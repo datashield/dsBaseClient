@@ -46,6 +46,12 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
   }
   
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "c.newobj"
+  }
+
   # the input variable might be given as column table (i.e. D$object)
   # or just as a vector not attached to a table (i.e. object)
   # we have to make sure the function deals with each case

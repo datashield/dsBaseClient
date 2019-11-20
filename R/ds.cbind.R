@@ -77,7 +77,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='cbind.out',datasources=NULL,notify.of.progress=FALSE){
+ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -116,7 +116,7 @@ if(DataSHIELD.checks)
 } 
   # check newobj not actively declared as null
   if(is.null(newobj)){
-    newobj <- "cbind.out"
+    newobj <- "cbind.newobj"
   }
 
 
