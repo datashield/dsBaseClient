@@ -126,7 +126,7 @@ jobs:
       echo -n "#############################"
       env
       echo -n "#############################"
-      echo(~/.Rprofile)
+      cat ~/.Rprofile
       echo -n "#############################"
     displayName: 'Environment info'
     condition: always()
