@@ -1,5 +1,5 @@
 schedules:
-  - cron: "15 23 * * *"
+  - cron: "1 23 * * *"
     displayName: Nightly build
     branches:
       include:
@@ -124,14 +124,14 @@ jobs:
 
   - bash: |
       sudo apt install tree -y
-      echo -n "#############################"
+      echo -n "#############################\nFile tree#############################\n"
       tree
-      echo -n "#############################"
+      echo -n "#############################\nlscpu#############################\n"
       lscpu
-      echo -n "#############################"
+      echo -n "#############################\nenv#############################\n"
       env
-      echo -n "#############################"
-      echo(~/.Rprofile)
-      echo -n "#############################"
+      echo -n "#############################\nRprofile#############################\n"
+      cat ~/.Rprofile
+      echo -n "#############################\n#############################\n"
     displayName: 'Environment info'
     condition: always()
