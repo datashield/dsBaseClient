@@ -83,14 +83,23 @@ jobs:
     condition: always()
 
   - bash: |
+
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
       git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
       cd $(repoName)
-      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); testthat::test_package("$(reponame)", reporter = junit_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(repoName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      # display the test console output
+      cat test_console_output.txt
       mv test_results.xml ../
+      mv test_console_output.txt ../
       cd ../
+      grep --quiet "Failed:   0" test_console_output.txt
     displayName: 'Code coverage and JUnit report output'
     condition: always()
 
