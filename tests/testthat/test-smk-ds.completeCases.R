@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.completeCases::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "LAB_GLUC_ADJUSTED", "PM_BMI_CONTINUOUS", "DIS_CVA", "MEDI_LPD", "DIS_DIAB", "DIS_AMI", "GENDER", "PM_BMI_CATEGORICAL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -158,10 +164,6 @@ test_that("completeCases vector", {
 
     res.vec_new.length <- ds.length("vec_new")
 
-    print("====")
-    print(res.vec_new.length)
-    print("====")
-
     expect_length(res.vec_new.length, 4)
     expect_equal(res.vec_new.length$`length of vec_new in sim1`, 1807)
     expect_equal(res.vec_new.length$`length of vec_new in sim2`, 2539)
@@ -173,4 +175,12 @@ test_that("completeCases vector", {
 # Done
 #
 
+context("ds.completeCases::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "df", "df_new", "mat", "mat_new", "vec", "vec_new"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.completeCases::smk::done")

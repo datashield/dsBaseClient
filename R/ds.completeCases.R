@@ -73,7 +73,7 @@ ds.completeCases<-function(x1=NULL, newobj=NULL,datasources=NULL){
   
 # CALL THE MAIN SERVER SIDE FUNCTION
 
-  calltext <- call("completeCasesDS", x1.transmit=x1.transmit)
+  calltext <- call("completeCasesDS", x1.transmit)
 
 
  opal::datashield.assign(datasources, newobj, calltext)
