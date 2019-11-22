@@ -2,7 +2,7 @@ schedules:
   - cron: "1 23 * * *"
     displayName: Nightly build
     branches:
-    include:
+     include:
       - master
     always: true
 
