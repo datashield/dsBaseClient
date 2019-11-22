@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrameSubset::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -34,4 +40,12 @@ test_that("dataFrameSubset_exists", {
 # Done
 #
 
+context("ds.dataFrameSubset::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "unsubset_df", "subset_df"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.dataFrameSubset::smk::down")

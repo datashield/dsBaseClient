@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.levels::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -56,4 +62,13 @@ test_that("simple levels", {
 # Done
 #
 
+context("ds.levels::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.levels::smk::done")
+

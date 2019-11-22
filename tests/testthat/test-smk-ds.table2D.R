@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.table2D::smk::setup")
+
 connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -50,4 +56,12 @@ test_that("simple table2D", {
 # Done
 #
 
+context("ds.table2D::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.table2D::smk::done")

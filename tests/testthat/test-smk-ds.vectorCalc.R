@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.vectorCalc::smk::setup")
+
 connect.studies.dataset.cnsim(list('LAB_TSC', 'LAB_HDL'))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -52,4 +58,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.vectorCalc::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "math_output"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.vectorCalc::smk::done")

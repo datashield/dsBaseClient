@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.names::smk::setup")
+
 connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -41,4 +47,12 @@ test_that("level_names", {
 # Tear down
 #
 
+context("ds.names::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "my_newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.names::smk::done")

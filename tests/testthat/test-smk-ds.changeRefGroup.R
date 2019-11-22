@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.changeRefGroup::smk::setup")
+
 connect.studies.dataset.cnsim(list('PM_BMI_CATEGORICAL'))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -55,4 +61,12 @@ test_that("simple changeRefGroup", {
 # Done
 #
 
+context("ds.changeRefGroup::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "bmi_new", "bmi_ob"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.changeRefGroup::smk::done")

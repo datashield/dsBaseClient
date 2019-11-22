@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.quantileMean::smk::setup")
+
 connect.studies.dataset.cnsim(list('LAB_HDL'))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -71,4 +77,12 @@ test_that("quantileMean_split", {
 # Tear down
 #
 
+context("ds.quantileMean::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "hdl"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.quantileMean::smk::done")

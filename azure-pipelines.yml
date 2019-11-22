@@ -1,8 +1,8 @@
 schedules:
-  - cron: "15 23 * * *"
+  - cron: "1 23 * * *"
     displayName: Nightly build
     branches:
-      include:
+     include:
       - master
     always: true
 
@@ -21,7 +21,11 @@ jobs:
     branchName: $(Build.SourceBranchName)
 
 
-  steps:  
+  steps:
+  - bash: |
+      echo "options(Ncpus=2)" >> ~/.Rprofile
+    displayName: 'Tweak local R env'
+  
   - bash: |
       echo $(branchName)
       echo $(repoName)
@@ -55,7 +59,8 @@ jobs:
 
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
-      sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      #sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
     displayName: 'Install R client'
@@ -120,10 +125,17 @@ jobs:
   - bash: |
       sudo apt install tree -y
       echo -n "#############################"
+      echo -n "File tree: ##################"
       tree
       echo -n "#############################"
+      echo -n "lscpu: ######################"
       lscpu
       echo -n "#############################"
+      echo -n "env: ########################"
       env
+      echo -n "#############################"
+      echo -n "Rprofile: ###################"
+      cat ~/.Rprofile
+      echo -n "#############################"
     displayName: 'Environment info'
     condition: always()

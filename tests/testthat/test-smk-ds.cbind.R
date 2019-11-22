@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.cbind::smk::setup")
+
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -36,4 +42,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.cbind::smk::shutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D", "cbind_newobj"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.cbind::smk::done")

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.asMatrix::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -31,4 +37,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.asMatrix::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "D$GENDER.mat"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.asMatrix::smk::done")

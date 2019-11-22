@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.reShape::smk::setup")
+
 connect.studies.dataset.survival(list("id", "study.id", "time.id", "cens", "age.60", "female"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -39,4 +45,12 @@ test_that("simplest ds.reShape, wide", {
 # Done
 #
 
+context("ds.reShape::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "reshape1_obj"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.reShape::smk::done")

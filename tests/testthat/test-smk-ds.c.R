@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.c::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -29,4 +35,12 @@ test_that("simple c", {
 # Done
 #
 
+context("ds.c::smk::shutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D", "newObject"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.c::smk::done")

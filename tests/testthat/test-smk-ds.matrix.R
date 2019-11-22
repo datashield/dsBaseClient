@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrix::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -40,4 +46,12 @@ test_that("simplest ds.matrix", {
 # Tear down
 #
 
+context("ds.matrix::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "new_matrix"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrix::smk::done")
