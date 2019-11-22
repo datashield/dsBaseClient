@@ -137,5 +137,5 @@ jobs:
       echo -n "Rprofile: ###################"
       cat ~/.Rprofile
       echo -n "#############################"
-   displayName: 'Environment info'
-   condition: always()
+    displayName: 'Environment info'
+    condition: always()
