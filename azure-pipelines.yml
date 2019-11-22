@@ -60,7 +60,8 @@ jobs:
 
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
-      sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      # sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
     displayName: 'Install R client'
@@ -124,14 +125,18 @@ jobs:
 
   - bash: |
       sudo apt install tree -y
-      echo -n "#############################\nFile tree#############################\n"
+      echo -n "#############################"
+      echo -n "File tree: ##################"
       tree
-      echo -n "#############################\nlscpu#############################\n"
+      echo -n "#############################"
+      echo -n "lscpu: ######################"
       lscpu
-      echo -n "#############################\nenv#############################\n"
+      echo -n "#############################"
+      echo -n "env: ########################"
       env
-      echo -n "#############################\nRprofile#############################\n"
+      echo -n "#############################"
+      echo -n "Rprofile: ###################"
       cat ~/.Rprofile
-      echo -n "#############################\n#############################\n"
+      echo -n "#############################"
     displayName: 'Environment info'
     condition: always()
