@@ -262,7 +262,7 @@ if(table.assign)
 					)
 	
 	
-datashield.assign(datasources, newobj, calltext.assign)
+opal::datashield.assign(datasources, newobj, calltext.assign)
 	}
   
 # CALL THE MAIN SERVER SIDE AGGREGATE FUNCTION
@@ -273,7 +273,7 @@ datashield.assign(datasources, newobj, calltext.assign)
 					force.nfilter.transmit=force.nfilter.transmit)
 
  
- table.out<-datashield.aggregate(datasources, calltext)
+ table.out<-opal::datashield.aggregate(datasources, calltext)
 
 #END OF MAIN FUNCTION LEADING UP TO CALL
 ##############################################################################
@@ -346,7 +346,7 @@ for(ns in 1:numsources.orig)
 
 
 
-
+table.out.valid <- FALSE
 list.text<-paste0("table.out.valid<-list(",list.temp)
 
 
@@ -1144,7 +1144,8 @@ for(st in 1:length(stvar.dimnames.unique))
 
 	calltext2<-paste0("TABLE.COMBINED_row.props<-combine.array.all.sources.row.props")
 	calltext3<-paste0("TABLE.COMBINED_col.props<-combine.array.all.sources.col.props")
-
+        TABLE.COMBINED_row.props <- NULL
+        TABLE.COMBINED_col.props <- NULL
 	eval(parse(text=calltext2))
 	eval(parse(text=calltext3))
 
@@ -1158,6 +1159,7 @@ for(st in 1:length(stvar.dimnames.unique))
 	commas.vect<-rep(",",num.table.dims)
 	commas.vect<-paste(commas.vect,collapse="")
 	calltext<-paste0("study.specific.table<-array.all.sources[",commas.vect,ns,"]")
+        study.specific.table<-NULL
 	eval(parse(text=calltext))
 
 study.specific.table.row.props<-study.specific.table
@@ -1451,7 +1453,7 @@ if(num.table.dims==3){
 	
 	for(nt in numtests:1)
 	{
-		chisqtext<-paste0("chisq.test_TABLES.COMBINED.",nt,"<-chisq.test(combine.array.all.sources[,,nt])")
+		chisqtext<-paste0("chisq.test_TABLES.COMBINED.",nt,"<-stats::chisq.test(combine.array.all.sources[,,nt])")
 		eval(parse(text=chisqtext))
 		chisq.list.temp<-paste0(",chisq.test_TABLES.COMBINED_all.sources_counts_table.",nt,"=chisq.test_TABLES.COMBINED.",nt,chisq.list.temp)	
 	}
@@ -1465,6 +1467,7 @@ if(num.table.dims==3){
 for(ns in numsources:1)
  {
     input.calltext<-paste0("input.array.source.specific<-array.study.",ns)
+        input.array.source.specific <- NULL
 	eval(parse(text=input.calltext))
 	
 	numtests<-dim(input.array.source.specific)[num.table.dims]
@@ -1475,13 +1478,13 @@ for(ns in numsources:1)
 	
 		if(nt>1||ns>1)
 		{
-		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts.",nt,"<-chisq.test(input.array.source.specific[,,nt])")
+		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts.",nt,"<-stats::chisq.test(input.array.source.specific[,,nt])")
 		eval(parse(text=chisqtext))
 		chisq.list.temp<-paste0(",chisq.test_TABLE.STUDY.",study.names.valid[ns],"_counts_table.",nt,"=chisq.test_TABLE.STUDY.",ns,"_counts.",nt,chisq.list.temp)	
 		}
 		else
 		{
-		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts.",nt,"<-chisq.test(input.array.source.specific[,,nt])")
+		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts.",nt,"<-stats::chisq.test(input.array.source.specific[,,nt])")
 		eval(parse(text=chisqtext))
 		chisq.list.text<-paste0("chisq.tests<-list(chisq.test_TABLE.STUDY.",study.names.valid[ns],"_counts_table.",nt,"=chisq.test_TABLE.STUDY.",ns,"_counts.",nt,chisq.list.temp)
 		}
@@ -1530,7 +1533,7 @@ options(warn=-1)
 
 	chisq.list.temp<-")"
 	
-		chisqtext<-paste0("chisq.test_TABLES.COMBINED<-chisq.test(combine.array.all.sources)")
+		chisqtext<-paste0("chisq.test_TABLES.COMBINED<-stats::chisq.test(combine.array.all.sources)")
 		eval(parse(text=chisqtext))
 		chisq.list.temp<-paste0(",chisq.test_TABLES.COMBINED_all.sources_counts=chisq.test_TABLES.COMBINED",chisq.list.temp)	
 
@@ -1551,13 +1554,13 @@ for(ns in numsources:1)
 	
 		if(ns>1)
 		{
-		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts<-chisq.test(input.array.source.specific)")
+		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts<-stats::chisq.test(input.array.source.specific)")
 		eval(parse(text=chisqtext))
 		chisq.list.temp<-paste0(",chisq.test_TABLE.STUDY.",study.names.valid[ns],"_counts=chisq.test_TABLE.STUDY.",ns,"_counts",chisq.list.temp)	
 		}
 		else
 		{
-		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts<-chisq.test(input.array.source.specific)")
+		chisqtext<-paste0("chisq.test_TABLE.STUDY.",ns,"_counts<-stats::chisq.test(input.array.source.specific)")
 		eval(parse(text=chisqtext))
 		chisq.list.text<-paste0("chisq.tests<-list(chisq.test_TABLE.STUDY.",study.names.valid[ns],"_counts=chisq.test_TABLE.STUDY.",ns,"_counts",chisq.list.temp)
 		}
@@ -1624,9 +1627,10 @@ for(ns in numsources:1)
 
 #	print(chisq.1D.text)
 
+        rvar.by.study_counts <- NULL
 	eval(parse(text=chisq.1D.text))
 
-	chisq.test_rvar.by.study_counts<-chisq.test(rvar.by.study_counts)
+	chisq.test_rvar.by.study_counts<-stats::chisq.test(rvar.by.study_counts)
 
 	
 	output.list<-list(
@@ -1664,7 +1668,7 @@ if(table.assign)
 	calltext <- call("tableDS2", newobj=newobj,rvar.transmit=rvar.transmit, cvar.transmit=cvar.transmit,
                     stvar.transmit=stvar.transmit)
  
-	serverside.table.out<-datashield.aggregate(datasources, calltext)
+	serverside.table.out<-opal::datashield.aggregate(datasources, calltext)
  
  if(report.chisq.tests)
 	{
