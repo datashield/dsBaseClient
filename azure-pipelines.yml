@@ -1,8 +1,8 @@
 schedules:
-  - cron: "15 23 * * *"
+  - cron: "1 23 * * *"
     displayName: Nightly build
     branches:
-      include:
+     include:
       - master
     always: true
 
@@ -21,7 +21,11 @@ jobs:
     branchName: $(Build.SourceBranchName)
 
 
-  steps:  
+  steps:
+  - bash: |
+      echo "options(Ncpus=2)" >> ~/.Rprofile
+    displayName: 'Tweak local R env'
+  
   - bash: |
       echo $(branchName)
       echo $(repoName)
@@ -55,7 +59,8 @@ jobs:
 
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
-      sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      #sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
+      sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
     displayName: 'Install R client'
@@ -67,8 +72,8 @@ jobs:
     condition: always()
 
   - bash: |
-      R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
-      grep --quiet "Failed:   0" azure-pipelines_test.Rout
+      #R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
+      #grep --quiet "Failed:   0" azure-pipelines_test.Rout
     displayName: 'Devtools tests'
     condition: always()
 
@@ -78,14 +83,23 @@ jobs:
     condition: always()
 
   - bash: |
+
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
       git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
       cd $(repoName)
-      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); testthat::test_package("$(reponame)", reporter = junit_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(repoName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      # display the test console output
+      cat test_console_output.txt
       mv test_results.xml ../
+      mv test_console_output.txt ../
       cd ../
+      grep --quiet "Failed:   0" test_console_output.txt
     displayName: 'Code coverage and JUnit report output'
     condition: always()
 
@@ -120,13 +134,17 @@ jobs:
   - bash: |
       sudo apt install tree -y
       echo -n "#############################"
+      echo -n "File tree: ##################"
       tree
       echo -n "#############################"
+      echo -n "lscpu: ######################"
       lscpu
       echo -n "#############################"
+      echo -n "env: ########################"
       env
       echo -n "#############################"
-      echo(~/.Rprofile)
+      echo -n "Rprofile: ###################"
+      cat ~/.Rprofile
       echo -n "#############################"
     displayName: 'Environment info'
     condition: always()
