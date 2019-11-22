@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrame::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -44,4 +50,12 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
 # Done
 #
 
+context("ds.dataFrame::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "df_new"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.dataFrame::smk::done")

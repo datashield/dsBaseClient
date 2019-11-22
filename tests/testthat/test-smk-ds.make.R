@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.make::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -31,4 +37,12 @@ test_that("simple make", {
 # Done
 #
 
+context("ds.make::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "maded.rand"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.make::smk::done")

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.recodeLevels::smk::setup")
+
 connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -50,4 +56,12 @@ test_that("new levels auto", {
 # Tear down
 #
 
+context("ds.recodeLevels::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "bmi_new", "PM_BMI_CATEGORICAL_new"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.recodeLevels::smk::done")

@@ -13,7 +13,13 @@
 # Set up
 #
 
+context("ds.tapply::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -126,4 +132,12 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 # Tear down
 #
 
+context("ds.tapply::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "GENDER", "LAB_TSC"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.tapply::smk::done")

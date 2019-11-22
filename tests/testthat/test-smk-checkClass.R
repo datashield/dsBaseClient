@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("checkClass::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER", "LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -90,4 +96,12 @@ test_that("missing test", {
 # Done
 #
 
+context("checkClass::smk::shutdown")
+
+test_that("shtudown", {
+    ds_expect_variables(c("D", "df_new"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("checkClass::smk::done")

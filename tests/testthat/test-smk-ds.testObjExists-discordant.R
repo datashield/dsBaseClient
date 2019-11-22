@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.testObjExists::smk::setup")
+
 connect.discordant.dataset.simple(list("A", "B", "C"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -53,4 +59,12 @@ test_that("data.frame testObjExists, discordant", {
 # Done
 #
 
+context("ds.testObjExists::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.discordant.dataset.simple()
+
+context("ds.testObjExists::smk::done")

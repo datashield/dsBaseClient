@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.colnames::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -41,4 +47,12 @@ test_that("simple colnames", {
 # Done
 #
 
+context("ds.colnames::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "new_df"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.colnames::smk::done")

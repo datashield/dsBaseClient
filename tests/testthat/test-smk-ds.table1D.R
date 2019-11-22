@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.table1D::smk::setup")
+
 connect.studies.dataset.cnsim(list("DIS_CVA","GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -68,4 +74,12 @@ test_that("GENDER_normal_2", {
 # Tear down
 #
 
+context("ds.table1D::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.table1D::smk::done")

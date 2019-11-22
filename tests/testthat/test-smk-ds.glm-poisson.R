@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.glm::smk::poisson::setup")
+
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -74,4 +80,12 @@ test_that("glm_gaussian, which check", {
 # Done
 #
 
+context("ds.glm::smk::poisson::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.glm::smk::poisson::done")

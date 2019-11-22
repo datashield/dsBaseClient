@@ -12,16 +12,21 @@
 # Set up
 #
 
+context("ds.listClientsideFunctions::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
-context(        "ds.listClientsideFunctions::smk::check results")
+context("ds.listClientsideFunctions::smk::check results")
 test_that("check results", {
     output <- list(
-        "ds.test_env",
         "checkClass",
         "colPercent",
         "ds.asCharacter",
@@ -117,12 +122,8 @@ test_that("check results", {
         "getPooledMean",
         "getPooledVar",
         "glmChecks",
-        "init.object.list.global.environment",
-        "init.object.list.testing.environment",
-        "init.opal.list",
         "isAssigned",
         "isDefined",
-        "library.dynam.unload",
         "logical2int",
         "meanByClassHelper0a",
         "meanByClassHelper0b",
@@ -131,15 +132,13 @@ test_that("check results", {
         "meanByClassHelper3",
         "meanByClassHelper4",
         "rowPercent",
-        "subsetHelper",
-        "system.file"
+        "subsetHelper"
     )
 
     expect_output(res <- ds.listClientsideFunctions(), "*")
 
-    expect_length(res, 112)
-    for (x in c(1:112)) {
-        expect_equal(res[[x]], output[[x]])
+    for (func.name in output) {
+        expect_true(func.name %in% res, info = func.name)
     }
 })
 
@@ -147,4 +146,12 @@ test_that("check results", {
 # Done
 #
 
+context("ds.listClientsideFunctions::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.listClientsideFunctions::smk::done")

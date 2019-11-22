@@ -125,5 +125,8 @@ jobs:
       lscpu
       echo -n "#############################"
       env
+      echo -n "#############################"
+      cat ~/.Rprofile
+      echo -n "#############################"
     displayName: 'Environment info'
     condition: always()
