@@ -17,7 +17,7 @@
 #' @param x.name the name of the input object to be coerced to class
 #' numeric. Must be specified in inverted commas.
 #' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to <x.name>.num
+#' to NULL, the name of the new variable is defaulted to asnumeric.newobj
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function

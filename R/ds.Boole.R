@@ -30,7 +30,7 @@
 #' the input vector are all converted to 1 or 0 respectively.
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "V1_Boole" where <V1> is the first argument of the function.
+#' to "boole.newobj".
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function

@@ -44,7 +44,7 @@
 #' @param DataSHIELD.checks logical: If TRUE undertakes all DataSHIELD checks (time
 #' consuming). Default FALSE.
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'df_new' if no name is specified.
+#' data.frame which defaults to 'dataframe.newobj' if no name is specified.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function

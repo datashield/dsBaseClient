@@ -7,7 +7,7 @@
 #' If no name is provided, the new object is named 'newObject', by default.
 #' @param toAssign a string character, the object to assign or the call to an assign function 
 #' that generates the object to assign.
-#' @param newobj the name of the new object
+#' @param newobj the name of the new object, newobj if unspecified defaults to assign.newobj
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.

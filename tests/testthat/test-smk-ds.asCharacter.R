@@ -29,8 +29,8 @@ test_that("simple test", {
     res <- ds.asCharacter("D$LAB_TSC")
 
     expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <D$LAB_TSC.char> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$LAB_TSC.char> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <ascharacter.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<ascharacter.newobj> appears valid in all sources")
 })
 
 #
@@ -40,7 +40,7 @@ test_that("simple test", {
 context("ds.asCharacter::smk::stutdown")
 
 test_that("setup", {
-    ds_expect_variables(c("D", "D$LAB_TSC.char"))
+    ds_expect_variables(c("D", "ascharacter.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

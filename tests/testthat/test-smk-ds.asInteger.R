@@ -29,8 +29,8 @@ test_that("simple test", {
     res <- ds.asInteger("D$GENDER")
 
     expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <D$GENDER.int> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$GENDER.int> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <asinteger.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<asinteger.newobj> appears valid in all sources")
 })
 
 #
@@ -40,7 +40,7 @@ test_that("simple test", {
 context("ds.asInteger::smk::stutdown")
 
 test_that("stutdown", {
-    ds_expect_variables(c("D", "D$GENDER.int"))
+    ds_expect_variables(c("D", "asinteger.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

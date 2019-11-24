@@ -3,9 +3,8 @@
 #' @description This function is similar to R function \code{exp}. 
 #' @details this is a wrapper that calls the exponential function on the server site.
 #' @param x a charcater, the name of a numerical vector.
-#' @param newobj the name of the new vector.If this argument is set to \code{NULL}, the name of the new 
-#' variable is the name of the input variable with the suffixe '_exp' (e.g. 'PM_BMI_CONTINUOUS_exp', if input 
-#' variable's name is 'PM_BMI_CONTINUOUS')
+#' @param newobj the name of the new vector. If this argument is set to \code{NULL}, the name of the new 
+#' variable is the name 'exp.newobj'
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.

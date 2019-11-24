@@ -8,7 +8,7 @@
 #' @param newCategories, a character vector, the new levels. Its length MUST be equal or greater 
 #' to the current number of levels.
 #' @param newobj, a character, the name of the new factor vector. If no name is specified
-#' for the new variable it is named after the input variable with a suffixe '_new'.
+#' for the new variable it is named 'recodelevels.newobj'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
