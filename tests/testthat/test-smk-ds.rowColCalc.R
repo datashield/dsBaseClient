@@ -36,7 +36,7 @@ test_that("rowColCalc_exists", {
 
 context("ds.rowColCalc::smk::no newobj")
 ds.rowColCalc(x='D', operation="rowSums")
-res <- ds.exists('rowColCalc_out')
+res <- ds.exists('rowcolcalc.newobj')
 test_that("rowColCalc_out_exists", {
     expect_length(res, 3)
     expect_true(res$sim1)
@@ -49,8 +49,6 @@ test_that("rowColCalc_out_exists", {
 # Tear down
 #
 context("ds.rowColCalc::smk::shutdown")
-
-print(ds.ls())
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "rsum_hdl_tsc", "rowcolcalc.newobj"))

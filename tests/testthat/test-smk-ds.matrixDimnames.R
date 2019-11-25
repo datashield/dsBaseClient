@@ -32,7 +32,7 @@ test_that("simplest ds.matrixDimnames", {
 
     dimnames <- list(c("r1", "r2", "r3"), c("c1", "c2", "c3"))
 
-    res <- ds.matrixDimnames("new_matrix", dimnames=dimnames)
+    res <- ds.matrixDimnames("matrix.newobj", dimnames=dimnames)
 
     expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <matrixdimnames.newobj> has been created in all specified data sources")
@@ -53,7 +53,7 @@ test_that("simplest ds.matrixDimnames", {
 context("ds.matrixDimnames::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "new_matrix", "matrixdimnames.newobj"))
+    ds_expect_variables(c("D", "matrix.newobj", "matrixdimnames.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()
