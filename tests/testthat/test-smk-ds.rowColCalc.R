@@ -50,8 +50,10 @@ test_that("rowColCalc_out_exists", {
 #
 context("ds.rowColCalc::smk::shutdown")
 
+print(ds.ls())
+
 test_that("shutdown", {
-    ds_expect_variables(c("D", "rsum_hdl_tsc", "rowColCalc_out"))
+    ds_expect_variables(c("D", "rsum_hdl_tsc", "rowcolcalc.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

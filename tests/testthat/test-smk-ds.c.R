@@ -38,7 +38,7 @@ test_that("simple c", {
 context("ds.c::smk::shutdown")
 
 test_that("setup", {
-    ds_expect_variables(c("D", "newObject"))
+    ds_expect_variables(c("D", "c.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()
