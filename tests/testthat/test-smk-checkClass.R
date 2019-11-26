@@ -77,7 +77,7 @@ test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors)
 
-    res <- checkClass(ds.test_env$connection.opal, "df_new")
+    res <- checkClass(ds.test_env$connection.opal, "dataframe.newobj")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -98,8 +98,10 @@ test_that("missing test", {
 
 context("checkClass::smk::shutdown")
 
+print(ds.ls())
+
 test_that("shtudown", {
-    ds_expect_variables(c("D", "df_new"))
+    ds_expect_variables(c("D", "dataframe.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()
