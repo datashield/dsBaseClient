@@ -12,7 +12,7 @@ filled with extra columns with missing values if a number of variables is missin
 compared to the data frames of the other studies used in the analysis.}
 
 \item{newobj}{a character string providing a name for the output data frame which defaults to
-the name of the input data frame with the suffix "_filled" if no name is specified.}
+the name "dataframefill.newobj" if no name is specified.}
 
 \item{datasources}{specifies the particular opal objects to use. If the \code{datasources}
 argument is not specified the default set of opals will be used. The default opals

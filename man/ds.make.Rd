@@ -4,7 +4,7 @@
 \alias{ds.make}
 \title{ds.make}
 \usage{
-ds.make(toAssign = NULL, newobj = "newObject", datasources = NULL)
+ds.make(toAssign = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{toAssign}{a character string specifying the function call or the arithmetic expression
@@ -38,7 +38,7 @@ in the server side R environments. The function is a wrapper for
 the 'opal' package function 'datashield.assign'.
 }
 \details{
-If no newobj name is provided, the new object is named 'newObject' by default,
+If no newobj name is provided, the new object is named 'make.newobj' by default,
 otherwise the name can be specified using the newobj argument.
 If the newObject is created successfully, the function will verify its
 existence on the required servers. Please note there are certain modes of failure

@@ -10,7 +10,7 @@ ds.list(x = NULL, newobj = NULL, datasources = NULL)
 \item{x}{a character, the names of the objects to coerce into a list.}
 
 \item{newobj}{the name of the output object. If this argument is set to \code{NULL}, 
-the name of the new object is 'newlist'.}
+the name of the new object is 'list.newobj'.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
