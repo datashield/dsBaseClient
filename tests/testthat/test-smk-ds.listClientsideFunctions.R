@@ -27,8 +27,6 @@ test_that("setup", {
 context("ds.listClientsideFunctions::smk::check results")
 test_that("check results", {
     output <- list(
-        "checkClass",
-        "colPercent",
         "ds.asCharacter",
         "ds.asDataMatrix",
         "ds.asFactor",
@@ -115,24 +113,7 @@ test_that("check results", {
         "ds.testObjExists",
         "ds.unList",
         "ds.var",
-        "ds.vectorCalc",
-        "extract",
-        "findLoginObjects",
-        "getOpals",
-        "getPooledMean",
-        "getPooledVar",
-        "glmChecks",
-        "isAssigned",
-        "isDefined",
-        "logical2int",
-        "meanByClassHelper0a",
-        "meanByClassHelper0b",
-        "meanByClassHelper1",
-        "meanByClassHelper2",
-        "meanByClassHelper3",
-        "meanByClassHelper4",
-        "rowPercent",
-        "subsetHelper"
+        "ds.vectorCalc"
     )
 
     expect_output(res <- ds.listClientsideFunctions(), "*")
