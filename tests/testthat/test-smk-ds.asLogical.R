@@ -14,7 +14,7 @@
 
 context("ds.asLogical::smk::setup")
 
-connect.studies.dataset.cnsim(list("GENDER"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -26,11 +26,11 @@ test_that("setup", {
 
 context("ds.asLogical::smk::simple test")
 test_that("simple test", {
-    res <- ds.asLogical("D$GENDER")
+    res <- ds.asLogical("D$LAB_TSC")
 
     expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <D$GENDER.logic> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$GENDER.logic> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <aslogical.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<aslogical.newobj> appears valid in all sources")
 })
 
 #
@@ -40,7 +40,7 @@ test_that("simple test", {
 context("ds.asLogical::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "D$GENDER.logic"))
+    ds_expect_variables(c("D", "aslogical.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

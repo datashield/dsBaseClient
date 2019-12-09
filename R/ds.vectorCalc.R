@@ -12,7 +12,7 @@
 #' @param x a vector of characters, the names of the vectors to include in the operation.
 #' @param calc a character, a symbol that indicates the mathematical operation to carry out: 
 #' '+' for addition, '/' for division, *' for multiplication and '-' for subtraction.
-#' @param newobj the name of the output object. By default the name is 'vectorCalc_output'.
+#' @param newobj the name of the output object. By default the name is 'vectorcalc.newobj'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return  no data are returned to user, the output vector is stored on the server side.
@@ -37,7 +37,7 @@
 #' 
 #' }
 #' 
-ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NULL){
+ds.vectorCalc = function(x=NULL, calc=NULL, newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -52,6 +52,12 @@ ds.vectorCalc = function(x=NULL, calc=NULL, newobj='math_output', datasources=NU
     stop("You must provide the names of at least two vectors!", call.=FALSE)
   }
   
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "vectorcalc.newobj"
+  }
+
   # the input variable might be given as column table (i.e. D$object)
   # or just as a vector not attached to a table (i.e. object)
   # we have to make sure the function deals with each case

@@ -50,8 +50,7 @@
 #' to character format.
 #' @param newobj This a character string providing a name for the recoded vector
 #' representing the primary output of the ds.recodeValues() function.
-#' This defaults to '<var.name>_recoded' if no name is specified
-#' where <var.name> is the first argument of ds.recodeValues()
+#' This defaults to 'recodevalues.newobj'
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function

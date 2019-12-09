@@ -27,8 +27,7 @@ the row names for a matrix with 5 rows.}
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified or it is NULL
-the output matrix names defaults to "<M1>_dimnames" where <M1> is the matrix
-name specified by the <M1> argument}
+the output matrix names defaults to "matrixdimnames.newobj"}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

@@ -11,7 +11,7 @@ ds.matrixInvert(M1 = NULL, newobj = NULL, datasources = NULL)
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "M1_inverted" where <M1> is the first argument of the function}
+to "matrixinvert.newobj"}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

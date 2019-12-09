@@ -12,7 +12,7 @@ ds.asFactor(input.var.name = NULL, newobj.name = NULL,
 \item{input.var.name}{the name of the variable that is to be converted to a factor}
 
 \item{newobj.name}{the name of the new object. If this argument is set to NULL or not specified 
-then the default name of the new variable is the name of the input variable with the suffixe '.f'.}
+then the default name of the new variable is asfactor.newobj}
 
 \item{forced.factor.levels}{the levels that the user wants to split the input variable. If this
 argument is set to NULL (default) then a vector with all unique levels from all studies is created 

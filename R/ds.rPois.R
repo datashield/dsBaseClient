@@ -34,7 +34,7 @@
 #' <datasources> argument to create the random vectors one source at a time.
 #' Default value for <lambda> = 1.
 #' @param newobj This a character string providing a name for the output
-#' random number vector which defaults to 'newObject' if no name is specified.
+#' random number vector which defaults to 'rpois.newobj' if no name is specified.
 #' @param seed.as.integer a numeric scalar or a NULL which primes the random seed
 #' in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
 #' the seed in each study is set as 938*1 in the first study in the set of

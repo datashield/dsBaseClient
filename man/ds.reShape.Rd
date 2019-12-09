@@ -56,7 +56,7 @@ set things up the column for sbp at age 7 in the wide format may be called
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to 'newObject'.}
+to 'reshape.newobj'.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

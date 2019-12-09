@@ -30,7 +30,7 @@
 #' the input vector are all converted to 1 or 0 respectively.
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "V1_Boole" where <V1> is the first argument of the function.
+#' to "boole.newobj".
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
@@ -56,7 +56,7 @@
 #' @author DataSHIELD Development Team
 #' @export
 #'
-ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA",newobj=NULL, datasources=NULL){
+ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA", newobj=NULL, datasources=NULL){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -81,6 +81,11 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   #check if na.assign has legal value
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
     stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
+  }
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "boole.newobj"
   }
 
   #convert Boolean operator to numeric

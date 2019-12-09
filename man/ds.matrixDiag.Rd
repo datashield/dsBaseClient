@@ -40,7 +40,7 @@ name of a serverside scalar.}
 \item{newobj}{A character string specifying the name of the output object
 to be written to the serverside which may be a matrix or a vector
 depending on the value of the <aim> argument.If no <newobj> argument is
-specified, the output object name defaults to "diag".}
+specified, the output object name defaults to "matrixdiag.newobj".}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

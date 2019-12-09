@@ -8,7 +8,7 @@
 #' determinant to be calculated
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "M1_det" where <M1> is the first argument of the function
+#' to 'matrixdet.newobj'
 #' @param logarithm logical. Default is FALSE, which returns the
 #' determinant itself, TRUE returns the logarithm of the modulus of the determinant.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
@@ -76,7 +76,7 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
   
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_det")
+    newobj <- "matrixdet.newobj"
   }
 
 

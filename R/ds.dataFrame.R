@@ -44,7 +44,7 @@
 #' @param DataSHIELD.checks logical: If TRUE undertakes all DataSHIELD checks (time
 #' consuming). Default FALSE.
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'df_new' if no name is specified.
+#' data.frame which defaults to 'dataframe.newobj' if no name is specified.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
@@ -71,7 +71,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj='df_new',datasources=NULL,notify.of.progress=FALSE){
+ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -80,6 +80,11 @@ ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,s
   
   if(is.null(x)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
+  }
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "dataframe.newobj"
   }
   
   # the input variable might be given as column table (i.e. D$vector)

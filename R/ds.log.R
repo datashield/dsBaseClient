@@ -5,8 +5,7 @@
 #' @param x a vector. 
 #' @param base a numrical, the base with respect to which logarithms are computed.
 #' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
-#' variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input 
-#' variable's name is 'LAB_TSC')
+#' variable is the name 'log.newobj'
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -66,7 +65,7 @@ ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(varname, "_log")
+    newobj <- "log.newobj"
   }
   
   # call the server side function that does the job

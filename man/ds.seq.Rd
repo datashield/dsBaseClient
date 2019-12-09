@@ -47,7 +47,7 @@ depends on the standard length of vectors in that data set and this will
 in general vary.}
 
 \item{newobj}{This a character string providing a name for the output
-sequence vector which defaults to 'newObj' if no name is specified.}
+sequence vector which defaults to 'seq.newobj' if no name is specified.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

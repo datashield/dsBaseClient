@@ -16,8 +16,7 @@
 #' for each study. The length of the list must be equal to the number of servers the analyst 
 #' is connected to. 
 #' @param newobj a character, the name of the new vector in which missing values have been replaced. 
-#' If no name is specified the default name is the name of the original vector followed by the suffix 
-#' '.noNA' e.g. 'LAB_HDL.noNA' if the name of the vector is 'LAB_HDL'.
+#' If no name is specified the default name is 'replacena.newobj'
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return a new vector or table structure with the same class is stored on the server site.
