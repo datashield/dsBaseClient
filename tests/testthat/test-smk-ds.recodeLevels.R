@@ -38,7 +38,7 @@ test_that("new levels", {
     expect_equal(levels$sim3, expected)
 })
 
-context("ds.recodeLevels::smk::no opals or newobj")
+context("ds.recodeLevels::smk::no connections or newobj")
 ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
 levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
 test_that("new levels auto", {

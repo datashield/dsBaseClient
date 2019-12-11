@@ -47,7 +47,7 @@ test_that("exists - request message", {
 })
 
 test_that("partial - request message", {
-    ds.list("D$LAB_TSC", newobj="TestP", datasources=ds.test_env$connection.opal[1])
+    ds.list("D$LAB_TSC", newobj="TestP", datasources=ds.test_env$connections[1])
 
     message.res <- ds.message('TestP')
 

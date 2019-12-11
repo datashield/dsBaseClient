@@ -26,15 +26,15 @@ test_that("setup", {
 
 context("checkClass::smk::discordant")
 test_that("simple test, discordant dataset A", {
-    expect_error(checkClass(ds.test_env$connection.opal, "D$A"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$A"), " End of process!", fixed=TRUE)
 })
 
 test_that("simple test, discordant dataset B", {
-    expect_error(checkClass(ds.test_env$connection.opal, "D$B"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$B"), " End of process!", fixed=TRUE)
 })
 
 test_that("simple test, discordant dataset C", {
-    expect_error(checkClass(ds.test_env$connection.opal, "D$C"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$C"), " End of process!", fixed=TRUE)
 })
 
 #

@@ -85,7 +85,7 @@ test_that("data.frame test", {
 })
 
 test_that("missing test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$TEST")
+    res <- checkClass(ds.test_env$connections, "D$TEST")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")

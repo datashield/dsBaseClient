@@ -19,7 +19,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 #
 
 context("ds.foobar::arg::aggregate")
-test_that("NULL opal", {
+test_that("NULL connections", {
     calltext <- call("fooBarDS")
     expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsAggregate' for signature '\"NULL\"'", fixed=TRUE)
 })
@@ -37,7 +37,7 @@ test_that("non existent aggregate foobarDS", {
 })
 
 context("ds.foobar::arg::assign")
-test_that("NULL opal", {
+test_that("NULL connections", {
     calltext <- call("fooBarDS")
     expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsAssignExpr' for signature '\"NULL\"'", fixed=TRUE)
 })
