@@ -4,8 +4,13 @@
 \alias{ds.mean}
 \title{Computes the statistical mean of a given vector}
 \usage{
-ds.mean(x = NULL, type = "split", checks = FALSE,
-  save.mean.Nvalid = FALSE, datasources = NULL)
+ds.mean(
+  x = NULL,
+  type = "split",
+  checks = FALSE,
+  save.mean.Nvalid = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, typically the name of a numerical vector}

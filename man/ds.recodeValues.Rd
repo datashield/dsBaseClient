@@ -4,9 +4,15 @@
 \alias{ds.recodeValues}
 \title{ds.recodeValues calling recodeValuesDS1 and recodeValuesDS2}
 \usage{
-ds.recodeValues(var.name = NULL, values2replace.vector = NULL,
-  new.values.vector = NULL, force.output.format = "no",
-  newobj = NULL, datasources = NULL, notify.of.progress = FALSE)
+ds.recodeValues(
+  var.name = NULL,
+  values2replace.vector = NULL,
+  new.values.vector = NULL,
+  force.output.format = "no",
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{var.name}{a character string providing the name for the vector representing the
@@ -47,8 +53,7 @@ to character format.}
 
 \item{newobj}{This a character string providing a name for the recoded vector
 representing the primary output of the ds.recodeValues() function.
-This defaults to '<var.name>_recoded' if no name is specified
-where <var.name> is the first argument of ds.recodeValues().}
+This defaults to 'recodevalues.newobj'}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

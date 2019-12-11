@@ -16,8 +16,7 @@
 #' for each study. The length of the list must be equal to the number of servers the analyst
 #' is connected to.
 #' @param newobj a character, the name of the new vector in which missing values have been replaced.
-#' If no name is specified the default name is the name of the original vector followed by the suffix
-#' '.noNA' e.g. 'LAB_HDL.noNA' if the name of the vector is 'LAB_HDL'.
+#' If no name is specified the default name is 'replacena.newobj'
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return a new vector or table structure with the same class is stored on the server site.
@@ -86,7 +85,7 @@ ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
   }
 
   if(is.null(newobj)){
-    newobj <- paste0(inputElts[[2]],".noNA")
+    newobj <- "replacena.newobj"
   }
 
   # call the server side function and doo the replacement for each server

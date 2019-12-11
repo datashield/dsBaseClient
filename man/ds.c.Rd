@@ -9,8 +9,8 @@ ds.c(x = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character, a vector that holds the names of the objects to combine.}
 
-\item{newobj}{the name of the output object. If this argument is set to NULL,
-the name of the new object is 'newObject'.}
+\item{newobj}{the name of the output object. If this argument is set to NULL, 
+the name of the new object is 'c.newobj'.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

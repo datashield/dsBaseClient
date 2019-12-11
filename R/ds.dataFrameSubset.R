@@ -16,7 +16,7 @@
 #' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
 #' in each source equal in length to the indID vector in that source.
 #' @param df.name a character string providing the name for the data.frame
-#' to be sorted.
+#' from where the subset is created.
 #' @param V1.name A character string specifying the name of a subsetting vector
 #' to which a Boolean operator will be applied to define the subset to be created. Note
 #' if the plan is to subset by column using ALL rows, then <V1.name>
@@ -52,7 +52,7 @@
 #' be converted to 0s and the corresponding row will therefore be excluded from the subset.
 #' @param newobj This a character string providing a name for the subset
 #' data.frame representing the primary output of the ds.dataFrameSubset() function.
-#' This defaults to '<df.name>_subset' if no name is specified
+#' This defaults to 'dataframesubset.newobj' if no name is specified
 #' where <df.name> is the first argument of ds.dataFrameSubset()
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
@@ -135,7 +135,7 @@ if(Boolean.operator == ">="){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(df.name,"_subset")
+    newobj <- "dataframesubset.newobj"
   }
 
  if(!is.null(keep.cols)){
@@ -146,14 +146,11 @@ if(!is.null(rm.cols)){
   rm.cols<-paste0(as.character(rm.cols),collapse=",")
  }
 
-
-
-    calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs)
     return.warning.message<-DSI::datashield.aggregate(datasources, calltext1)
 
-    calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs)
     DSI::datashield.assign(datasources, newobj, calltext2)
-
 
     numsources<-length(datasources)
     for(s in 1:numsources){
@@ -196,7 +193,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -4,13 +4,13 @@
 \alias{ds.assign}
 \title{Assigns an object to a name in the server side}
 \usage{
-ds.assign(toAssign = NULL, newobj = "newObject", datasources = NULL)
+ds.assign(toAssign = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{toAssign}{a string character, the object to assign or the call to an assign function
 that generates the object to assign.}
 
-\item{newobj}{the name of the new object}
+\item{newobj}{the name of the new object, newobj if unspecified defaults to assign.newobj}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

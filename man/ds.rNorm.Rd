@@ -4,9 +4,16 @@
 \alias{ds.rNorm}
 \title{ds.rNorm calling rNormDS and setSeedDS}
 \usage{
-ds.rNorm(samp.size = 1, mean = 0, sd = 1, newobj = "newObject",
-  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
-  force.output.to.k.decimal.places = 9, datasources = NULL)
+ds.rNorm(
+  samp.size = 1,
+  mean = 0,
+  sd = 1,
+  newobj = "newObject",
+  seed.as.integer = NULL,
+  return.full.seed.as.set = FALSE,
+  force.output.to.k.decimal.places = 9,
+  datasources = NULL
+)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.
@@ -49,7 +56,7 @@ source, then you can use the <datasources> argument to create the random vectors
 one source at a time. Default value = 1.}
 
 \item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'newObject' if no name is specified.}
+random number vector which defaults to 'rnorm.newobj' if no name is specified.}
 
 \item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixDiag::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -43,10 +49,10 @@ test_that("simplest ds.matrixDiag", {
     res <- ds.matrixDiag(matrix, aim="clientside.vector.2.matrix")
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <diag> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<diag> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <matrixdiag.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<matrixdiag.newobj> appears valid in all sources")
 
-    check.class<-ds.class("diag")
+    check.class<-ds.class("matrixdiag.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")
@@ -58,4 +64,12 @@ test_that("simplest ds.matrixDiag", {
 # Tear down
 #
 
+context("ds.matrixDiag::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "matrix_diag", "matrixdiag.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixDiag::smk::done")

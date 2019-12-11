@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixMult::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -28,10 +34,10 @@ test_that("simplest ds.matrixMult", {
     res <- ds.matrixMult("mat1", "mat2")
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <mat1_mat2> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<mat1_mat2> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <matrixmult.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<matrixmult.newobj> appears valid in all sources")
 
-    check.class<-ds.class("mat1_mat2")
+    check.class<-ds.class("matrixmult.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")
@@ -43,4 +49,12 @@ test_that("simplest ds.matrixMult", {
 # Tear down
 #
 
+context("ds.matrixMult::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "mat1", "mat2", "matrixmult.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixMult::smk::done")

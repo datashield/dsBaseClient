@@ -4,8 +4,7 @@
 \alias{ds.rowColCalc}
 \title{Computes sums and means of rows or columns of numeric matrix or data frame}
 \usage{
-ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
-  datasources = NULL)
+ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a matrix or a dataframe}
@@ -13,8 +12,8 @@ ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
 \item{operation}{a character string which indicates the operation to carry out:
 "rowSums", "colSums", "rowMeans" or "colMeans".}
 
-\item{newobj}{the name of the new object. If this argument is set to NULL, the name of the new
-variable, set by default, is 'rowColCalc_out'.}
+\item{newobj}{the name of the new object. If this argument is set to NULL, the name of the new 
+variable, set by default, is 'rowcolcalc.newobj'.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

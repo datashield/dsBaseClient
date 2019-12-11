@@ -6,7 +6,7 @@
 #' expression hence creating a new object
 #' in the server side R environments. The function is a wrapper for
 #' the DSI package function 'datashield.assign'.
-#' @details If no newobj name is provided, the new object is named 'newObject' by default,
+#' @details If no newobj name is provided, the new object is named 'make.newobj' by default,
 #' otherwise the name can be specified using the newobj argument.
 #' If the newObject is created successfully, the function will verify its
 #' existence on the required servers. Please note there are certain modes of failure
@@ -86,7 +86,7 @@
 #' #ds.make("exp(output.test.1)","output.test")
 #' }
 #'
-ds.make<-function(toAssign=NULL, newobj="newObject", datasources=NULL){
+ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -96,6 +96,11 @@ ds.make<-function(toAssign=NULL, newobj="newObject", datasources=NULL){
 
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
+  }
+  
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "make.newobj"
   }
 
   # now do the business
@@ -129,7 +134,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

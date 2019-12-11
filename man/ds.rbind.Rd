@@ -4,9 +4,14 @@
 \alias{ds.rbind}
 \title{ds.rbind calling rbindDS}
 \usage{
-ds.rbind(x = NULL, DataSHIELD.checks = FALSE, force.colnames = NULL,
-  newobj = "rbind.out", datasources = NULL,
-  notify.of.progress = FALSE)
+ds.rbind(
+  x = NULL,
+  DataSHIELD.checks = FALSE,
+  force.colnames = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental
@@ -50,7 +55,7 @@ are required.Please see help for {ds.rbind} function" where 'N'
 is the actual number of columns in the output object}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'cbind.out' if no name is specified.}
+data.frame which defaults to 'rbind.newobj' if no name is specified.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

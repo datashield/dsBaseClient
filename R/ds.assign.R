@@ -6,7 +6,7 @@
 #' If no name is provided, the new object is named 'newObject', by default.
 #' @param toAssign a string character, the object to assign or the call to an assign function
 #' that generates the object to assign.
-#' @param newobj the name of the new object
+#' @param newobj the name of the new object, newobj if unspecified defaults to assign.newobj
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -34,8 +34,8 @@
 #'
 #' }
 #'
-ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
-
+ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
+  
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
@@ -43,6 +43,11 @@ ds.assign <- function(toAssign=NULL, newobj="newObject", datasources=NULL){
 
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
+  }
+
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "assign.newobj"
   }
 
   # now do the business

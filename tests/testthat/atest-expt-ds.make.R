@@ -7,7 +7,7 @@ context("ds.make()::expt::copy_transform:single")
 test_that("copy and transform", 
 {
   connect.dataset.1()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
   .test.copy.apply.operator('D$INTEGER',constant.value,'NUMERIC_created',"+",some.values = ds.test_env$local.values.1[,6], result.local = (ds.test_env$local.values.1[,6] + constant.value))
   .test.copy.apply.operator('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"*",some.values = ds.test_env$local.values.1[,7],result.local = (ds.test_env$local.values[,7] * constant.value))
   .test.copy.apply.operator('D$POSITIVE_INTEGER',constant.value,'NUMERIC_created',"*",some.values = ds.test_env$local.values.1[,8],result.local = (ds.test_env$local.values[,8] * constant.value))
@@ -293,7 +293,7 @@ context("ds.make()::expt::sum_of_constant::single")
 test_that("apply the the sum a vector and a constant value",
 {
   connect.dataset.1()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
 
  .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"+", result.local = (ds.test_env$local.values.1[,6] + constant.value))
  .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"+",result.local = (ds.test_env$local.values.1[,7] + constant.value))
@@ -310,7 +310,7 @@ context("ds.make()::expt::substract_of_constant::single")
 test_that("substract a constant value to all the values of a vector",
 {
   connect.dataset.1()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
  
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"-", result.local = (ds.test_env$local.values.1[,6] - constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"-",result.local = (ds.test_env$local.values.1[,7] - constant.value))
@@ -328,7 +328,7 @@ context("ds.make()::expt::divide_of_constant::single")
 test_that("divide a constant value to all the values of a vector",
 {
   connect.dataset.1()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
         
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"/", result.local = (ds.test_env$local.values.1[,6] / constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"/",result.local = (ds.test_env$local.values.1[,7] / constant.value))
@@ -345,7 +345,7 @@ context("ds.make()::expt::multiply_of_constant::single")
 test_that("multiply a constant value to all the values of a vector",
 {
   connect.dataset.1()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
   print(constant.value)
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"*", result.local = (ds.test_env$local.values.1[,6] * constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values.1[,7] * constant.value))
@@ -363,7 +363,7 @@ context("ds.make()::expt::sum_of_constant::multiple")
 test_that("apply the the sum a vector and a constant value",
 {
   connect.all.datasets()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
 
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"+", result.local = (ds.test_env$local.values[,6] + constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"+",result.local = (ds.test_env$local.values[,7] + constant.value))
@@ -380,7 +380,7 @@ context("ds.make()::expt::substract_of_constant::multiple")
 test_that("substract a constant value to all the values of a vector",
 {
   connect.all.datasets()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
          
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"-", result.local = (ds.test_env$local.values[,6] - constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"-",result.local = (ds.test_env$local.values[,7] - constant.value))
@@ -398,7 +398,7 @@ context("ds.make()::expt::divide_of_constant::multiple")
 test_that("divide a constant value to all the values of a vector",
 {
   connect.all.datasets()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
          
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"/", result.local = (ds.test_env$local.values[,6] / constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"/",result.local = (ds.test_env$local.values[,7] / constant.value))
@@ -415,7 +415,7 @@ context("ds.make()::expt::multiply_of_constant::multiple")
 test_that("multiply a constant value to all the values of a vector",
 {
   connect.all.datasets()
-  constant.value <- sample(1:200,1)
+  constant.value <- sample(2:200,1)
  
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"*", result.local = (ds.test_env$local.values[,6] * constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values[,7] * constant.value))

@@ -4,9 +4,16 @@
 \alias{ds.matrix}
 \title{ds.matrix calling assign function matrixDS}
 \usage{
-ds.matrix(mdata = NA, from = "clientside.scalar",
-  nrows.scalar = NULL, ncols.scalar = NULL, byrow = FALSE,
-  dimnames = NULL, newobj = NULL, datasources = NULL)
+ds.matrix(
+  mdata = NA,
+  from = "clientside.scalar",
+  nrows.scalar = NULL,
+  ncols.scalar = NULL,
+  byrow = FALSE,
+  dimnames = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{mdata}{specifies the elements of the matrix to be created. If it
@@ -60,7 +67,7 @@ and a list of length one as row names only.}
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified or it is NULL
-the output matrix names defaults to "new_matrix".}
+the output matrix names defaults to "matrix.newobj"}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

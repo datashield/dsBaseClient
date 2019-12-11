@@ -4,8 +4,13 @@
 \alias{ds.meanByClass}
 \title{Computes the mean and standard deviation across categories}
 \usage{
-ds.meanByClass(x = NULL, outvar = NULL, covar = NULL,
-  type = "combine", datasources = NULL)
+ds.meanByClass(
+  x = NULL,
+  outvar = NULL,
+  covar = NULL,
+  type = "combine",
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of the dataset to get the subsets from or a text formula of the

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.setSeed::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -37,4 +43,12 @@ test_that("basic setSeed", {
 # Done
 #
 
+context("ds.setSeed::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.setSeed::smk::done")

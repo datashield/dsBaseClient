@@ -9,8 +9,8 @@ ds.list(x = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character, the names of the objects to coerce into a list.}
 
-\item{newobj}{the name of the output object. If this argument is set to \code{NULL},
-the name of the new object is 'newlist'.}
+\item{newobj}{the name of the output object. If this argument is set to \code{NULL}, 
+the name of the new object is 'list.newobj'.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

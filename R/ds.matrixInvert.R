@@ -6,7 +6,7 @@
 #' @param M1  A character string specifying the name of the matrix to be inverted
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "M1_inverted" where <M1> is the first argument of the function.
+#' to "matrixinvert.newobj"
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name <M1>_inverted)
@@ -39,7 +39,7 @@ ds.matrixInvert<-function(M1=NULL, newobj=NULL, datasources=NULL){
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_inverted")
+    newobj <- "matrixinvert.newobj"
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION
@@ -74,7 +74,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

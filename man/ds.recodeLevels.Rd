@@ -4,8 +4,12 @@
 \alias{ds.recodeLevels}
 \title{Recodes the levels of a factor vector}
 \usage{
-ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
-  datasources = NULL)
+ds.recodeLevels(
+  x = NULL,
+  newCategories = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x, }{a character, the name of a factor variable.}
@@ -14,7 +18,7 @@ ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
 to the current number of levels.}
 
 \item{newobj, }{a character, the name of the new factor vector. If no name is specified
-for the new variable it is named after the input variable with a suffixe '_new'.}
+for the new variable it is named 'recodelevels.newobj'.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

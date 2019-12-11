@@ -21,7 +21,7 @@
 #' the row names for a matrix with 5 rows.
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified or it is NULL
-#' the output matrix names defaults to "<M1>_dimnames" where <M1> is the matrix
+#' the output matrix names defaults to "matrixdimnames.newobj"
 #' name specified by the <M1> argument.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
@@ -54,7 +54,7 @@ ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NUL
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_dimnames")
+    newobj <- "matrixdimnames.newobj"
   }
 
 
@@ -91,7 +91,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

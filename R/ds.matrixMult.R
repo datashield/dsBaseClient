@@ -9,8 +9,7 @@
 #' @param M2  A character string specifying the name of the second matrix (M2)
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "M1_M2" where <M1> is the first argument of the function
-#' and <M2> is the second argument of the function.
+#' to "matrixmult.newobj"
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name <M1>_<M2>)
@@ -52,7 +51,7 @@ ds.matrixMult<-function(M1=NULL, M2=NULL, newobj=NULL, datasources=NULL){
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_",M2)
+    newobj <- "matrixmult.newobj"
   }
 
 # CALL THE MAIN SERVER SIDE FUNCTION
@@ -87,7 +86,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

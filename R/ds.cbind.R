@@ -44,7 +44,7 @@
 #' are required.Please see help for {ds.cbind} function" where 'N'
 #' is the actual number of columns in the output object
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'cbind.out' if no name is specified.
+#' data.frame which defaults to 'cbind.newobj' if no name is specified.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
@@ -70,7 +70,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='cbind.out',datasources=NULL,notify.of.progress=FALSE){
+ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -109,7 +109,7 @@ if(DataSHIELD.checks)
 }
   # check newobj not actively declared as null
   if(is.null(newobj)){
-    newobj <- "cbind.out"
+    newobj <- "cbind.newobj"
   }
 
 
@@ -229,7 +229,7 @@ for(j in 1:num.datasources){										    #
 	if(!object.info[[j]]$test.obj.exists){								    #
 		obj.name.exists.in.all.sources<-FALSE							    #
 		}											    #
-	if(object.info[[j]]$test.obj.class=="ABSENT"){						            #
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){						            #
 		obj.non.null.in.all.sources<-FALSE						            #
 		}																								 	#
 	}																									 	#

@@ -44,7 +44,7 @@
 #' @param DataSHIELD.checks logical: If TRUE undertakes all DataSHIELD checks (time
 #' consuming). Default FALSE.
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'df_new' if no name is specified.
+#' data.frame which defaults to 'dataframe.newobj' if no name is specified.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
@@ -64,7 +64,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj='df_new',datasources=NULL,notify.of.progress=FALSE){
+ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -75,6 +75,11 @@ ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,s
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
 
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "dataframe.newobj"
+  }
+  
   # the input variable might be given as column table (i.e. D$vector)
   # or just as a vector not attached to a table (i.e. vector)
   # we have to make sure the function deals with each case
@@ -225,7 +230,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

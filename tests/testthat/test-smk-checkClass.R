@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("checkClass::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER", "LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -71,15 +77,33 @@ test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors)
 
-    res <- checkClass(ds.test_env$connections, "df_new")
+    res <- checkClass(ds.test_env$connections, "dataframe.newobj")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
     expect_equal(res, "data.frame")
 })
 
+test_that("missing test", {
+    res <- checkClass(ds.test_env$connection.opal, "D$TEST")
+
+    expect_length(res, 1)
+    expect_equal(class(res), "character")
+    expect_equal(res, "NULL")
+})
+
 #
 # Done
 #
 
+context("checkClass::smk::shutdown")
+
+print(ds.ls())
+
+test_that("shtudown", {
+    ds_expect_variables(c("D", "dataframe.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("checkClass::smk::done")

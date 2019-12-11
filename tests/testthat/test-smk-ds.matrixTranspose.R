@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixTranspose::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,13 +29,13 @@ test_that("simplest ds.matrixTranspose", {
     matrix <- c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
 
     ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=4)
-    res <- ds.matrixTranspose("new_matrix")
+    res <- ds.matrixTranspose("matrix.newobj")
 
     expect_length(res, 2)
-    expect_equal(res[[1]], "A data object <new_matrix_transposed> has been created in all specified data sources")
-    expect_equal(res[[2]], "<new_matrix_transposed> appears valid in all sources")
+    expect_equal(res[[1]], "A data object <matrixtranspose.newobj> has been created in all specified data sources")
+    expect_equal(res[[2]], "<matrixtranspose.newobj> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix_transposed")
+    check.class<-ds.class("matrixtranspose.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")
@@ -41,4 +47,12 @@ test_that("simplest ds.matrixTranspose", {
 # Tear down
 #
 
+context("ds.matrixTranspose::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "matrix.newobj", "matrixtranspose.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixTranspose::smk::done")

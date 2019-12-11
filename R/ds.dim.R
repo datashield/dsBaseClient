@@ -1,21 +1,21 @@
 #'
 #' @title Retrieves the dimension of an object
-#' @description this function is similar to R function \code{dim}
-#' @details the function returns the unpooled or pooled dimension of the object by summing
-#' up the individual dimensions returned from each study or the dimension of the object in each
-#' study. Unlike the other DataSHIELD function the default behaviour is to output the dimension
-#' of each study separately.
+#' @description This function is similar to R function \code{dim}
+#' @details The function returns the dimension of the input object (e.g. array, matrix or data frame)
+#' from each single study and the pooled dimension of the object by summing up the individual 
+#' dimensions returned from each study.
 #' @param x a character, the name of R table object, for example a matrix, array or data frame
-#' @param type a character which represents the type of analysis to carry out.
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned
-#' if \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
-#' if \code{type} is set to 'both' or 'b', both sets of outputs are produced
+#' @param type a character which represents the type of analysis to carry out. 
+#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned. 
+#' If \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
+#' If \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 #' @param checks a Boolean indicator of whether to undertake optional checks of model
 #' components. Defaults to checks=FALSE to save time. It is suggested that checks
 #' should only be undertaken once the function call has failed.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return for an array, \code{NULL} or a vector of mode \code{integer}
+#' @return The function retrieves the dimension of the object in the form of a vector where the first
+#' element indicates the number of rows and the second element indicates the number of columns.
 #' @author Amadou Gaye, Julia Isaeva, Demetris Avraam, for DataSHIELD Development Team
 #' @seealso \link{ds.dataFrame} to generate a table of type dataframe.
 #' @seealso \link{ds.changeRefGroup} to change the reference level of a factor.
@@ -43,7 +43,7 @@
 #'   ds.dim(x='D')
 #'
 #'   # Example 4: Input has to be either matrix, data frame or an array
-#'   # In the below example, the inpout is a vector so it will not work.
+#'   # In the below example, the input is a vector so it will not work.
 #'   ds.dim(x='D$LAB_TSC')
 #'
 #'   # clear the Datashield R sessions and logout
@@ -77,7 +77,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
     # call the internal function that checks the input object is suitable in all studies                 #
     typ <- checkClass(datasources, x)                                                                    #
     # throw a message and stop if input is not table structure                                           #
-    if(typ != 'data.frame' & typ!= 'matrix'){                                                            #
+    if(!('data.frame' %in% typ) & !('matrix' %in% typ)){                                                 #
       stop("The input object must be a table structure!", call.=FALSE)                                   #
     }                                                                                                    #
   }                                                                                                      #
@@ -85,7 +85,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
 
 
   ###################################################################################################
-  #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                       #
+  #MODULE: EXTEND "type" argument to include "both" and enable valid aliases                        #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #

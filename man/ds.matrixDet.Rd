@@ -4,8 +4,7 @@
 \alias{ds.matrixDet}
 \title{ds.matrixDet calling assign function matrixDetDS2}
 \usage{
-ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE,
-  datasources = NULL)
+ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE, datasources = NULL)
 }
 \arguments{
 \item{M1}{A character string specifying the name of the matrix for which
@@ -13,7 +12,7 @@ determinant to be calculated}
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "M1_det" where <M1> is the first argument of the function}
+to 'matrixdet.newobj'}
 
 \item{logarithm}{logical. Default is FALSE, which returns the
 determinant itself, TRUE returns the logarithm of the modulus of the determinant.}

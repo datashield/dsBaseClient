@@ -1,10 +1,23 @@
+#' 
 #' @title ds.asInteger calling assign function asIntegerDS
-#' @description this function is based on the native R function {as.integer}
-#' @details See details of the native R function {as.integer}.
+#' @description This function is based on the native R function \code{as.integer}.
+#' @details This function is based on the native R function \code{as.integer} (see help file
+#' of function \code{as.integer} in native R). The only difference is that the DataSHIELD 
+#' function first converts the values of the input object into characters and then convert 
+#' those to integers. This addition is important for the case where the input object is of class
+#' factor having integers as levels. In that case, the native R \code{as.integer} function returns
+#' the underlying level codes and not the values as integers. For example \code{as.integer} in R
+#' converts the factor vector:
+#' 0 1 1 2 1 0 1 0 2 2 2 1
+#' Levels: 0 1 2
+#' to the following integer vector:
+#' 1 2 2 3 2 1 2 1 3 3 3 2
+#' For more information see the warning section in the help file of \code{factor} in native R.
+#' In contrast DataSHIELD converts an inpuct factor with integer levels to its original integer values.
 #' @param x.name the name of the input object to be coerced to class
 #' integer. Must be specified in inverted commas.
 #' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to <x.name>.int
+#' to NULL, the name of the new variable is defaulted to asinteger.newobj
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or by default <x.name>.int
@@ -20,10 +33,11 @@
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
 #' without problems no studysideMessage will have been saved and ds.message(<newobj>)
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+#' @author Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
 #' @export
-ds.asInteger = function(x.name=NULL, newobj=NULL, datasources=NULL){
-
+#'
+ds.asInteger <- function(x.name=NULL, newobj=NULL, datasources=NULL){
+  
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
@@ -33,26 +47,21 @@ ds.asInteger = function(x.name=NULL, newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(x.name, ".int")
+    newobj <- "asinteger.newobj"
   }
 
-    # call the server side function that does the job
-
-	calltext <- call("asIntegerDS", x.name)
-
-	DSI::datashield.assign(datasources, newobj, calltext)
-
+  # call the server side function that does the job
+  calltext <- call("asIntegerDS", x.name)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
-																											#																											#
-																											#
+																											#																											#																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
@@ -70,7 +79,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
@@ -121,7 +130,6 @@ if(!no.errors){																								#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
-
 
 }
 # ds.asInteger

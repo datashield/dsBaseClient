@@ -10,7 +10,7 @@
 #' @param x.name the name of the input object to be coerced to class
 #' list. Must be specified in inverted commas e.g. x.name="input.object.name"
 #' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to <x.name>.list
+#' to NULL, the name of the new variable is defaulted to aslist.newobj
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or by default <x.name>.list
@@ -35,7 +35,7 @@ ds.asList = function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(x.name, ".list")
+    newobj <- "aslist.newobj"
   }
 
   # call the server side function that does the job

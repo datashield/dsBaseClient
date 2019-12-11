@@ -60,7 +60,7 @@
 #' @param sort.numeric logical, if TRUE the sort key is treated as if numeric
 #' Default=FALSE.
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to '<df.name>.sorted' if no name is specified
+#' data.frame which defaults to 'dataframesort.newobj' if no name is specified
 #' where <df.name> is the first argument of ds.dataFrameSort().
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
@@ -85,8 +85,10 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-
-  if(is.null(newobj)){newobj<-paste0(df.name,".sorted")}
+ 
+  if(is.null(newobj)){
+    newobj<-"dataframesort.newobj"
+  }
 
     calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.alphabetic, sort.numeric)
     DSI::datashield.assign(datasources, newobj, calltext)
@@ -115,7 +117,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

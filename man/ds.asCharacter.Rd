@@ -11,7 +11,7 @@ ds.asCharacter(x.name = NULL, newobj = NULL, datasources = NULL)
 character. Must be specified in inverted commas.}
 
 \item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to <x.name>.char}
+to NULL, the name of the new variable is defaulted to ascharacter.newobj}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

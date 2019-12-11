@@ -55,7 +55,7 @@
 #' <datasources> argument to create the random vectors one source at a time.
 #' Default value for <prob> = 0.5 (equivalent to tossing an unbiased coin).
 #' @param newobj This a character string providing a name for the output
-#' random number vector which defaults to 'newObject' if no name is specified.
+#' random number vector which defaults to 'rbinom.newobj' if no name is specified.
 #' @param seed.as.integer a numeric scalar or a NULL which primes the random seed
 #' in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
 #' the seed in each study is set as 938*1 in the first study in the set of
@@ -90,7 +90,7 @@
 #' created in each source.
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
+ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj=NULL, seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 
 ##################################################################################
 # look for DS connections
@@ -98,6 +98,10 @@ ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj="newObject", seed.as.integ
     datasources <- datashield.connections_find()
   }
 
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "rbinom.newobj"
+  }
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -248,7 +252,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

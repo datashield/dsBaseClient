@@ -4,9 +4,8 @@
 #' @details this is simply a wrapper for the server side function.
 #' @param x a vector.
 #' @param base a numrical, the base with respect to which logarithms are computed.
-#' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new
-#' variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input
-#' variable's name is 'LAB_TSC').
+#' @param newobj the name of the new variable. If this argument is set to NULL, the name of the new 
+#' variable is the name 'log.newobj'
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -59,14 +58,14 @@ ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
 
   # the input object must be a vector
-  if(typ != 'integer' & typ != 'numeric'){
+  if(!('integer' %in% typ) & !('numeric' %in% typ)){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be an integer or numeric vector.", call.=FALSE)
   }
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(varname, "_log")
+    newobj <- "log.newobj"
   }
 
   # call the server side function that does the job

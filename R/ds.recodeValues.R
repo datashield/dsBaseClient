@@ -50,8 +50,7 @@
 #' to character format.
 #' @param newobj This a character string providing a name for the recoded vector
 #' representing the primary output of the ds.recodeValues() function.
-#' This defaults to '<var.name>_recoded' if no name is specified
-#' where <var.name> is the first argument of ds.recodeValues().
+#' This defaults to 'recodevalues.newobj'
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
@@ -183,7 +182,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -127,8 +127,8 @@
 #' variables which may still be useful for plotting survival data once these become available.
 #' @param expandDF is a character string denoting the name of the new dataframe containing the
 #' expanded data set. If you specify a name, that name will be used, but if no name is specified it
-#' will be defaulted to 'name of dataframe specified by data argument' with '_expanded' as a
-#' suffix. If you use the client side function ds.ls() after running ds.lexis the new dataframe you
+#' will be defaulted to 'lexis.newobj'
+#' If you use the client side function ds.ls() after running ds.lexis the new dataframe you
 #' have created should be listed, and the output of the function advises you to do this. If the
 #' function call fails (e.g. the expanded dataframe does not appear when you run ds.ls() you can
 #' use the command ds.message("messageobj") and depending what has gone wrong, there may be an
@@ -253,7 +253,7 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
 
   # if no value spcified for output (expanded) data set, then specify a default
   if(is.null(expandDF)){
-    expandDF <- paste0(data,"_expanded")
+    expandDF <- "lexis.newobj"
   }
 
 #FIRST CALL TO SERVER SIDE TO IDENTIFY THE MAXIMUM FOLLOW UP TIME IN ANY
@@ -288,7 +288,7 @@ intervalWidth.transmit<-paste0(as.character(intervalWidth),collapse=",")
 #SECOND CALL TO SERVER SIDE USES maxmaxtime AND intervalWidth TO SET
 #FOLLOW-UP TIME BREAKS IN EACH STUDY (ALL THE SAME)
   # call the main server side function
-  calltext2 <- call("lexisDS2", data, intervalWidth=intervalWidth.transmit, maxmaxtime, idCol, entryCol, exitCol, statusCol, variables)
+  calltext2 <- call("lexisDS2", data, intervalWidth.transmit, maxmaxtime, idCol, entryCol, exitCol, statusCol, variables)
   DSI::datashield.assign(datasources, "messageobj", calltext2)
 
   calltext3<- call("lexisDS3")

@@ -146,11 +146,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   typ.y <- checkClass(datasources, y)
 
   # the input objects must be numeric or integer vectors
-  if(typ.x != 'integer' & typ.x != 'numeric'){
+  if(!('integer' %in% typ.x) & !('numeric' %in% typ.x)){
     message(paste0(x, " is of type ", typ.x, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
-  if(typ.y != 'integer' & typ.y != 'numeric'){
+  if(!('integer' %in% typ.y) & !('numeric' %in% typ.y)){
     message(paste0(y, " is of type ", typ.y, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }

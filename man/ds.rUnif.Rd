@@ -4,9 +4,16 @@
 \alias{ds.rUnif}
 \title{ds.rUnif calling rUnifDS and setSeedDS}
 \usage{
-ds.rUnif(samp.size = 1, min = 0, max = 1, newobj = "newObject",
-  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
-  force.output.to.k.decimal.places = 9, datasources = NULL)
+ds.rUnif(
+  samp.size = 1,
+  min = 0,
+  max = 1,
+  newobj = "newObject",
+  seed.as.integer = NULL,
+  return.full.seed.as.set = FALSE,
+  force.output.to.k.decimal.places = 9,
+  datasources = NULL
+)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.
@@ -49,7 +56,7 @@ source, then you can specify <max> as a scalar and use the
 Default value for <max> = 1}
 
 \item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'newObject' if no name is specified.}
+random number vector which defaults to 'runif.newobj' if no name is specified.}
 
 \item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
