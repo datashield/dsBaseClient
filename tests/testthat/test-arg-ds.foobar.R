@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.foobar::arg::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -66,4 +72,12 @@ test_that("non existent assign foobarDS", {
 # Tear down
 #
 
+context("ds.foobar::arg::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.foobar::arg::done")
