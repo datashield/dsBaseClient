@@ -4,14 +4,9 @@
 \alias{ds.rPois}
 \title{ds.rPois calling rPoisDS and setSeedDS}
 \usage{
-ds.rPois(
-  samp.size = 1,
-  lambda = 1,
-  newobj = "newObject",
-  seed.as.integer = NULL,
-  return.full.seed.as.set = FALSE,
-  datasources = NULL
-)
+ds.rPois(samp.size = 1, lambda = 1, newobj = "newObject",
+  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
+  datasources = NULL)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.

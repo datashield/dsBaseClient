@@ -4,16 +4,9 @@
 \alias{ds.histogram}
 \title{Generates a histogram plot}
 \usage{
-ds.histogram(
-  x = NULL,
-  type = "split",
-  num.breaks = 10,
-  method = "smallCellsRule",
-  k = 3,
-  noise = 0.25,
-  vertical.axis = "Frequency",
-  datasources = NULL
-)
+ds.histogram(x = NULL, type = "split", num.breaks = 10,
+  method = "smallCellsRule", k = 3, noise = 0.25,
+  vertical.axis = "Frequency", datasources = NULL)
 }
 \arguments{
 \item{x}{a charcater, the name of the vector of values for which the histogram is desired.}

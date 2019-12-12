@@ -4,7 +4,8 @@
 \alias{ds.vectorCalc}
 \title{Performs a mathematical operation on two or more vectors}
 \usage{
-ds.vectorCalc(x = NULL, calc = NULL, newobj = NULL, datasources = NULL)
+ds.vectorCalc(x = NULL, calc = NULL, newobj = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a vector of characters, the names of the vectors to include in the operation.}

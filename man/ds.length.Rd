@@ -4,7 +4,8 @@
 \alias{ds.length}
 \title{Gets the length of a vector or list}
 \usage{
-ds.length(x = NULL, type = "both", checks = "FALSE", datasources = NULL)
+ds.length(x = NULL, type = "both", checks = "FALSE",
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a string character, the name of a vector or list}

@@ -4,13 +4,8 @@
 \alias{meanByClassHelper4}
 \title{Gets the subset tables out of the list (i.e. unlist)}
 \usage{
-meanByClassHelper4(
-  dtsource,
-  alist,
-  initialtable,
-  variable = NA,
-  categories = NA
-)
+meanByClassHelper4(dtsource, alist, initialtable, variable = NA,
+  categories = NA)
 }
 \arguments{
 \item{dtsource}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>

@@ -4,7 +4,8 @@
 \alias{ds.matrixMult}
 \title{ds.matrixMult calling assign function matrixMultDS}
 \usage{
-ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL, datasources = NULL)
+ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{M1}{A character string specifying the name of the first matrix (M1)}

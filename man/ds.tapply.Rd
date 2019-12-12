@@ -4,12 +4,8 @@
 \alias{ds.tapply}
 \title{ds.tapply calling tapplyDS}
 \usage{
-ds.tapply(
-  X.name = NULL,
-  INDEX.names = NULL,
-  FUN.name = NULL,
-  datasources = NULL
-)
+ds.tapply(X.name = NULL, INDEX.names = NULL, FUN.name = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{X.name, }{the name of the variable to be summarized. The user must set the name as a

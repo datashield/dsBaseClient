@@ -4,7 +4,8 @@
 \alias{ds.rowColCalc}
 \title{Computes sums and means of rows or columns of numeric matrix or data frame}
 \usage{
-ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL, datasources = NULL)
+ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a matrix or a dataframe}

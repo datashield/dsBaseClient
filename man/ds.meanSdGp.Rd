@@ -4,13 +4,8 @@
 \alias{ds.meanSdGp}
 \title{Computes the mean and standard deviation across groups defined by one factor}
 \usage{
-ds.meanSdGp(
-  x = NULL,
-  y = NULL,
-  type = "both",
-  do.checks = FALSE,
-  datasources = NULL
-)
+ds.meanSdGp(x = NULL, y = NULL, type = "both", do.checks = FALSE,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{This must be named as a character string (e.g. "AGE"). It must denote a continuous

@@ -4,14 +4,8 @@
 \alias{ds.rbind}
 \title{ds.rbind calling rbindDS}
 \usage{
-ds.rbind(
-  x = NULL,
-  DataSHIELD.checks = FALSE,
-  force.colnames = NULL,
-  newobj = NULL,
-  datasources = NULL,
-  notify.of.progress = FALSE
-)
+ds.rbind(x = NULL, DataSHIELD.checks = FALSE, force.colnames = NULL,
+  newobj = NULL, datasources = NULL, notify.of.progress = FALSE)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental

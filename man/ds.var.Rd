@@ -4,7 +4,8 @@
 \alias{ds.var}
 \title{ds.var calling aggregate function varDS}
 \usage{
-ds.var(x = NULL, type = "split", checks = FALSE, datasources = NULL)
+ds.var(x = NULL, type = "split", checks = FALSE,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector.}

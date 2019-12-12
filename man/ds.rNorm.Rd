@@ -4,16 +4,9 @@
 \alias{ds.rNorm}
 \title{ds.rNorm calling rNormDS and setSeedDS}
 \usage{
-ds.rNorm(
-  samp.size = 1,
-  mean = 0,
-  sd = 1,
-  newobj = "newObject",
-  seed.as.integer = NULL,
-  return.full.seed.as.set = FALSE,
-  force.output.to.k.decimal.places = 9,
-  datasources = NULL
-)
+ds.rNorm(samp.size = 1, mean = 0, sd = 1, newobj = "newObject",
+  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
+  force.output.to.k.decimal.places = 9, datasources = NULL)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.

@@ -4,13 +4,8 @@
 \alias{ds.densityGrid}
 \title{Generates a density grid with or without a priori defined limits}
 \usage{
-ds.densityGrid(
-  x = NULL,
-  y = NULL,
-  numints = 20,
-  type = "combine",
-  datasources = NULL
-)
+ds.densityGrid(x = NULL, y = NULL, numints = 20, type = "combine",
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character the name of numerical vector}

@@ -53,28 +53,28 @@ test_that("check results", {
     res <- ds.listServersideFunctions()
 
     expect_length(res, 2)
-    expect_length(res$serverside.assign.functions, 3)
-    expect_length(res$serverside.aggregate.functions, 3)
+    expect_length(res$serverside.assign.functions, 7)
+    expect_length(res$serverside.aggregate.functions, 7)
 
-    sim1.assign.res    <- res$serverside.assign.functions$sim1
-    sim1.aggregate.res <- res$serverside.aggregate.functions$sim1
-    sim2.assign.res    <- res$serverside.assign.functions$sim2
-    sim2.aggregate.res <- res$serverside.aggregate.functions$sim2
-    sim3.assign.res    <- res$serverside.assign.functions$sim3
-    sim3.aggregate.res <- res$serverside.aggregate.functions$sim3
+    sim1.assign.res    <- subset(res$serverside.assign.functions, server == 'sim1', c('name'))
+    sim1.aggregate.res <- subset(res$serverside.aggregate.functions, server == 'sim1', c('name'))
+    sim2.assign.res    <- subset(res$serverside.assign.functions, server == 'sim2', c('name'))
+    sim2.aggregate.res <- subset(res$serverside.aggregate.functions, server == 'sim2', c('name'))
+    sim3.assign.res    <- subset(res$serverside.assign.functions, server == 'sim3', c('name'))
+    sim3.aggregate.res <- subset(res$serverside.aggregate.functions, server == 'sim3', c('name'))
 
     for (func.name in assign.functions)
-        expect_true(func.name %in% sim1.assign.res, info = func.name)
+        expect_true(func.name %in% sim1.assign.res$name, info = func.name)
     for (func.name in aggregate.functions)
-        expect_true(func.name %in% sim1.aggregate.res, info = func.name)
+        expect_true(func.name %in% sim1.aggregate.res$name, info = func.name)
     for (func.name in assign.functions)
-        expect_true(func.name %in% sim2.assign.res, info = func.name)
+        expect_true(func.name %in% sim2.assign.res$name, info = func.name)
     for (func.name in aggregate.functions)
-        expect_true(func.name %in% sim2.aggregate.res, info = func.name)
+        expect_true(func.name %in% sim2.aggregate.res$name, info = func.name)
     for (func.name in assign.functions)
-        expect_true(func.name %in% sim3.assign.res, info = func.name)
+        expect_true(func.name %in% sim3.assign.res$name, info = func.name)
     for (func.name in aggregate.functions)
-        expect_true(func.name %in% sim3.aggregate.res, info = func.name)
+        expect_true(func.name %in% sim3.aggregate.res$name, info = func.name)
 })
 
 #

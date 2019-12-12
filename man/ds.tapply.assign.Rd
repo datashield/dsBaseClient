@@ -4,13 +4,8 @@
 \alias{ds.tapply.assign}
 \title{ds.tapply.assign calling tapplyDS.assign}
 \usage{
-ds.tapply.assign(
-  X.name = NULL,
-  INDEX.names = NULL,
-  FUN.name = NULL,
-  newobj = NULL,
-  datasources = NULL
-)
+ds.tapply.assign(X.name = NULL, INDEX.names = NULL, FUN.name = NULL,
+  newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{X.name, }{the name of the variable to be summarized. The user must set the name as a

@@ -4,17 +4,9 @@
 \alias{ds.heatmapPlot}
 \title{Generates a heatmap plot}
 \usage{
-ds.heatmapPlot(
-  x = NULL,
-  y = NULL,
-  type = "combine",
-  show = "all",
-  numints = 20,
-  method = "smallCellsRule",
-  k = 3,
-  noise = 0.25,
-  datasources = NULL
-)
+ds.heatmapPlot(x = NULL, y = NULL, type = "combine", show = "all",
+  numints = 20, method = "smallCellsRule", k = 3, noise = 0.25,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector}

@@ -4,12 +4,8 @@
 \alias{ds.recodeLevels}
 \title{Recodes the levels of a factor vector}
 \usage{
-ds.recodeLevels(
-  x = NULL,
-  newCategories = NULL,
-  newobj = NULL,
-  datasources = NULL
-)
+ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{x, }{a character, the name of a factor variable.}

@@ -4,14 +4,8 @@
 \alias{ds.cbind}
 \title{ds.cbind calling cbindDS}
 \usage{
-ds.cbind(
-  x = NULL,
-  DataSHIELD.checks = FALSE,
-  force.colnames = NULL,
-  newobj = NULL,
-  datasources = NULL,
-  notify.of.progress = FALSE
-)
+ds.cbind(x = NULL, DataSHIELD.checks = FALSE, force.colnames = NULL,
+  newobj = NULL, datasources = NULL, notify.of.progress = FALSE)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental

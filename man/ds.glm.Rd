@@ -4,20 +4,10 @@
 \alias{ds.glm}
 \title{ds.glm calling glmDS1, glmDS2}
 \usage{
-ds.glm(
-  formula = NULL,
-  data = NULL,
-  family = NULL,
-  offset = NULL,
-  weights = NULL,
-  checks = FALSE,
-  maxit = 20,
-  CI = 0.95,
-  viewIter = FALSE,
-  viewVarCov = FALSE,
-  viewCor = FALSE,
-  datasources = NULL
-)
+ds.glm(formula = NULL, data = NULL, family = NULL, offset = NULL,
+  weights = NULL, checks = FALSE, maxit = 20, CI = 0.95,
+  viewIter = FALSE, viewVarCov = FALSE, viewCor = FALSE,
+  datasources = NULL)
 }
 \arguments{
 \item{formula}{Denotes an object of class formula which is a character string describing

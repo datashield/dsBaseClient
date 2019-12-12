@@ -4,17 +4,9 @@
 \alias{ds.glmSLMA}
 \title{ds.glmSLMA calling glmSLMADS1, glmSLMADS2}
 \usage{
-ds.glmSLMA(
-  formula = NULL,
-  family = NULL,
-  offset = NULL,
-  weights = NULL,
-  combine.with.metafor = TRUE,
-  dataName = NULL,
-  checks = FALSE,
-  maxit = 30,
-  datasources = NULL
-)
+ds.glmSLMA(formula = NULL, family = NULL, offset = NULL,
+  weights = NULL, combine.with.metafor = TRUE, dataName = NULL,
+  checks = FALSE, maxit = 30, datasources = NULL)
 }
 \arguments{
 \item{formula}{Denotes an object of class formula which is a character string describing

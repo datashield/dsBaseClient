@@ -4,13 +4,8 @@
 \alias{ds.matrixDiag}
 \title{ds.matrixDiag calling assign function matrixDiagDS}
 \usage{
-ds.matrixDiag(
-  x1 = NULL,
-  aim = NULL,
-  nrows.scalar = NULL,
-  newobj = NULL,
-  datasources = NULL
-)
+ds.matrixDiag(x1 = NULL, aim = NULL, nrows.scalar = NULL,
+  newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{x1}{This argument determines the input object. Depending on the

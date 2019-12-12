@@ -4,12 +4,8 @@
 \alias{ds.subsetByClass}
 \title{Generates valid subset(s) of a data frame or a factor}
 \usage{
-ds.subsetByClass(
-  x = NULL,
-  subsets = "subClasses",
-  variables = NULL,
-  datasources = NULL
-)
+ds.subsetByClass(x = NULL, subsets = "subClasses", variables = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of the dataframe or the vector to generate subsets from.}

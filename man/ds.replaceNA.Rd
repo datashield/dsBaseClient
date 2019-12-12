@@ -4,7 +4,8 @@
 \alias{ds.replaceNA}
 \title{Replaces the missing values in a vector}
 \usage{
-ds.replaceNA(x = NULL, forNA = NULL, newobj = NULL, datasources = NULL)
+ds.replaceNA(x = NULL, forNA = NULL, newobj = NULL,
+  datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of the vector to process.}
