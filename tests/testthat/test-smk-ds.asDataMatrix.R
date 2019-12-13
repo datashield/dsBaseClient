@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.asDataMatrix::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,12 +29,21 @@ test_that("simple test", {
     res <- ds.asDataMatrix(x.name="D$GENDER")
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <D$GENDER.mat> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$GENDER.mat> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <asdatamatrix.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<asdatamatrix.newobj> appears valid in all sources")
 })
 
 #
 # Done
 #
 
+context("ds.asDataMatrix::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "asdatamatrix.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.asDataMatrix::smk::done")
+

@@ -56,7 +56,7 @@ set things up the column for sbp at age 7 in the wide format may be called
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to 'newObject'.}
+to 'reshape.newobj'.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

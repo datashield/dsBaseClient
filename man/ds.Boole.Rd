@@ -36,7 +36,7 @@ the input vector are all converted to 1 or 0 respectively.}
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to "V1_Boole" where <V1> is the first argument of the function.}
+to "boole.newobj".}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

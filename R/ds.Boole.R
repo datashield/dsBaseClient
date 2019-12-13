@@ -30,7 +30,7 @@
 #' the input vector are all converted to 1 or 0 respectively.
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "V1_Boole" where <V1> is the first argument of the function.
+#' to "boole.newobj".
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name <V1>_Boole)
@@ -76,34 +76,41 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
     stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
   }
 
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "boole.newobj"
+  }
 
+  #convert Boolean operator to numeric
 
-#convert Boolean operator to numeric
+  BO.n<-0
+  if(Boolean.operator == "=="){
+    BO.n<-1
+  }
 
-BO.n<-0
-if(Boolean.operator == "=="){
-   BO.n<-1
-}
+  if(Boolean.operator == "!="){
+    BO.n<-2
+  }
 
-if(Boolean.operator == "!="){
-   BO.n<-2
-}
+  if(Boolean.operator == "<"){
+    BO.n<-3
+  }
 
-if(Boolean.operator == "<"){
-   BO.n<-3
-}
+  if(Boolean.operator == "<="){
+    BO.n<-4
+  }
 
-if(Boolean.operator == "<="){
-   BO.n<-4
-}
+  if(Boolean.operator == ">"){
+    BO.n<-5
+  }
 
-if(Boolean.operator == ">"){
-   BO.n<-5
-}
+  if(Boolean.operator == ">="){
+    BO.n<-6
+  }
 
-if(Boolean.operator == ">="){
-   BO.n<-6
-}
+  if(BO.n == 0){
+    stop(paste0("An unrecognized Boolean operator, ", Boolean.operator, ", has provide"), call.=FALSE)
+  }
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
@@ -142,7 +149,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

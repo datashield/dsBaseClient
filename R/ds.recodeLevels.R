@@ -8,7 +8,7 @@
 #' @param newCategories, a character vector, the new levels. Its length MUST be equal or greater
 #' to the current number of levels.
 #' @param newobj, a character, the name of the new factor vector. If no name is specified
-#' for the new variable it is named after the input variable with a suffixe '_new'.
+#' for the new variable it is named 'recodelevels.newobj'.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -73,7 +73,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   typ <- checkClass(datasources, x)
 
   # if input vector is not a factor stop
-  if(typ != 'factor'){
+  if(!('factor' %in% typ)){
     stop("The input vector must be a factor!", call.=FALSE)
   }
 

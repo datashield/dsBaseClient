@@ -83,8 +83,8 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
 
   # check the type of the input objects
   typ <- checkClass(datasources, x)
-
-  if(typ=='numeric' | typ=='integer' | typ=='factor'){
+  
+  if(('numeric' %in% typ) | ('integer' %in% typ) | ('factor' %in% typ)){
     if(is.null(y)){
       stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
     }else{
@@ -92,8 +92,8 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       typ2 <- checkClass(datasources, y)
     }
   }
-
-  if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
+  
+  if(('matrix' %in% typ) | ('data.frame' %in% typ) & !(is.null(y))){
     y <- NULL
     warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
   }
@@ -102,16 +102,16 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   stdnames <- names(datasources)
 
   # call the server side function
-  if(typ=='matrix' | typ=='data.frame'){
-    cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
+    calltext <- call("covDS", x, NULL, naAction)
   }else{
     if(!(is.null(y))){
-      cally <- paste0("covDS(x=", x, ", y=", y, ", use='", naAction, "')")
+      calltext <- call("covDS", x, y, naAction)
     }else{
-      cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+      calltext <- call("covDS", x, NULL, naAction)
     }
   }
-  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  output <- DSI::datashield.aggregate(datasources, calltext)
 
   if (type=="split"){
     covariance <- list()

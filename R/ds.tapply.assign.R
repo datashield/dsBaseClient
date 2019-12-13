@@ -47,7 +47,7 @@
 #' "N" (or "length"), "mean","sd", "sum", or "quantile". For more information see Details.
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "tapply.out".
+#' to "tapply.assign.newobj".
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return an array of the summarized values created by the tapplyDS.assign function.
@@ -55,7 +55,7 @@
 #' dimensions as INDEX.
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
-ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj="tapply.out",datasources=NULL){
+ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
   # look for DS connections
@@ -93,7 +93,7 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
 
     # create a name by default if user did not provide a name for the new tapply object
   if(is.null(newobj)){
-    newobj <- "tapply.out"
+    newobj <- "tapply.assign.newobj"
   }
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION
@@ -125,7 +125,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

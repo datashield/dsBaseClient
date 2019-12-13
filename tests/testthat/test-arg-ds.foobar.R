@@ -12,16 +12,22 @@
 # Set up
 #
 
+context("ds.foobar::arg::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
 context("ds.foobar::arg::aggregate")
-test_that("NULL opal", {
+test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsAggregate' for signature '\"NULL\"'", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function ‘dsAggregate’ for signature ‘\"NULL\"’", fixed=TRUE)
 })
 
 context("ds.foobar::arg::aggregate")
@@ -37,9 +43,9 @@ test_that("non existent aggregate foobarDS", {
 })
 
 context("ds.foobar::arg::assign")
-test_that("NULL opal", {
+test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsAssignExpr' for signature '\"NULL\"'", fixed=TRUE)
+    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function ‘dsAssignExpr’ for signature ‘\"NULL\"’", fixed=TRUE)
 })
 
 #context("ds.foobar::arg::assign")
@@ -66,4 +72,12 @@ test_that("non existent assign foobarDS", {
 # Tear down
 #
 
+context("ds.foobar::arg::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.foobar::arg::done")

@@ -12,9 +12,8 @@ ds.changeRefGroup(x = NULL, ref = NULL, newobj = NULL,
 
 \item{ref}{the reference level}
 
-\item{newobj}{the name of the new variable. If this argument is set to NULL,
-the name of the new variable is the name of the input variable with the
-suffixe '_newref'.}
+\item{newobj}{the name of the new variable. If this argument is set to NULL, 
+the name of the new variable is 'changerefgroup.newobj'.}
 
 \item{reorderByRef}{a boolean that tells whether or not the new vector
 should be ordered by the reference group (i.e. putting the reference group first).

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixDimnames::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -26,13 +32,13 @@ test_that("simplest ds.matrixDimnames", {
 
     dimnames <- list(c("r1", "r2", "r3"), c("c1", "c2", "c3"))
 
-    res <- ds.matrixDimnames("new_matrix", dimnames=dimnames)
+    res <- ds.matrixDimnames("matrix.newobj", dimnames=dimnames)
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <new_matrix_dimnames> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<new_matrix_dimnames> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <matrixdimnames.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<matrixdimnames.newobj> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix_dimnames")
+    check.class<-ds.class("matrixdimnames.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")
@@ -44,4 +50,12 @@ test_that("simplest ds.matrixDimnames", {
 # Tear down
 #
 
+context("ds.matrixDimnames::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "matrix.newobj", "matrixdimnames.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixDimnames::smk::done")

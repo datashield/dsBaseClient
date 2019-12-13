@@ -14,8 +14,7 @@ ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL,
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "M1_M2" where <M1> is the first argument of the function
-and <M2> is the second argument of the function.}
+to "matrixmult.newobj"}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

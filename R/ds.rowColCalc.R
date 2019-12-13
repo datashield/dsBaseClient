@@ -7,8 +7,8 @@
 #' @param x a character, the name of a matrix or a dataframe
 #' @param operation a character string which indicates the operation to carry out:
 #' "rowSums", "colSums", "rowMeans" or "colMeans".
-#' @param newobj the name of the new object. If this argument is set to NULL, the name of the new
-#' variable, set by default, is 'rowColCalc_out'.
+#' @param newobj the name of the new object. If this argument is set to NULL, the name of the new 
+#' variable, set by default, is 'rowcolcalc.newobj'.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -50,7 +50,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
 
   # if the input object is not a matrix or a dataframe stop
-  if(typ != 'data.frame' & typ != 'matrix'){
+  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
     stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
 
@@ -97,7 +97,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "rowColCalc_out"
+    newobj <- "rowcolcalc.newobj"
   }
 
   # call the server side function that does the job

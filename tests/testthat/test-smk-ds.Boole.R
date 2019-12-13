@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.Boole::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,12 +29,20 @@ test_that("simple boole", {
     res <- ds.Boole("D$LAB_TSC", "D$LAB_TRIG", "==")
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <D$LAB_TSC_Boole> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$LAB_TSC_Boole> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <boole.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<boole.newobj> appears valid in all sources")
 })
 
 #
 # Done
 #
 
+context("ds.Boole::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "boole.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.Boole::smk::done")

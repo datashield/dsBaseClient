@@ -6,7 +6,7 @@
 \usage{
 ds.dataFrame(x = NULL, row.names = NULL, check.rows = FALSE,
   check.names = TRUE, stringsAsFactors = TRUE, completeCases = FALSE,
-  DataSHIELD.checks = FALSE, newobj = "df_new", datasources = NULL,
+  DataSHIELD.checks = FALSE, newobj = NULL, datasources = NULL,
   notify.of.progress = FALSE)
 }
 \arguments{
@@ -51,7 +51,7 @@ will be deleted.}
 consuming). Default FALSE.}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'df_new' if no name is specified.}
+data.frame which defaults to 'dataframe.newobj' if no name is specified.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

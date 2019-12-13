@@ -49,7 +49,7 @@ source, then you can use the <datasources> argument to create the random vectors
 one source at a time. Default value = 1.}
 
 \item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'newObject' if no name is specified.}
+random number vector which defaults to 'rnorm.newobj' if no name is specified.}
 
 \item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)

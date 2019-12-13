@@ -5,8 +5,8 @@
 #' on the client side, the names are coerce into a list and the server side
 #' function loops through that list to concatenate the list's elements into a vector.
 #' @param x a character, a vector that holds the names of the objects to combine.
-#' @param newobj the name of the output object. If this argument is set to NULL,
-#' the name of the new object is 'newObject'.
+#' @param newobj the name of the output object. If this argument is set to NULL, 
+#' the name of the new object is 'c.newobj'.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return  nothing is returned to the client, the new object is stored on the server side.
@@ -46,6 +46,11 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
   }
 
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "c.newobj"
+  }
+
   # the input variable might be given as column table (i.e. D$object)
   # or just as a vector not attached to a table (i.e. object)
   # we have to make sure the function deals with each case
@@ -65,11 +70,6 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(x)){
     typ <- checkClass(datasources, x[i])
-  }
-
-  # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- 'newObject'
   }
 
   # call the server side function that does the job

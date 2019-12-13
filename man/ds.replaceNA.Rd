@@ -15,8 +15,7 @@ for each study. The length of the list must be equal to the number of servers th
 is connected to.}
 
 \item{newobj}{a character, the name of the new vector in which missing values have been replaced.
-If no name is specified the default name is the name of the original vector followed by the suffix
-'.noNA' e.g. 'LAB_HDL.noNA' if the name of the vector is 'LAB_HDL'.}
+If no name is specified the default name is 'replacena.newobj'}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

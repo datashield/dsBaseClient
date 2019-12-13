@@ -48,7 +48,7 @@
 #' and a list of length one as row names only.
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified or it is NULL
-#' the output matrix names defaults to "new_matrix".
+#' the output matrix names defaults to "matrix.newobj"
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name "new_matrix")
@@ -158,7 +158,7 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   # if no value spcified for output object, then specify a default
   if(is.null(newobj))
   {
-    newobj <- "new_matrix"
+    newobj <- "matrix.newobj"
   }
 
   #process mdata to make transmittable depending on <from>
@@ -233,7 +233,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

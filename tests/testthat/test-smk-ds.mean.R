@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.mean::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -275,4 +281,12 @@ test_that("mean values [both]", {
 # Done
 #
 
+context("ds.mean::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "mean.all.studies", "mean.study.specific", "Nvalid.all.studies", "Nvalid.study.specific"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.mean::smk::done")

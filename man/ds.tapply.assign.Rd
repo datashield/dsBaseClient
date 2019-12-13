@@ -5,7 +5,7 @@
 \title{ds.tapply.assign calling tapplyDS.assign}
 \usage{
 ds.tapply.assign(X.name = NULL, INDEX.names = NULL, FUN.name = NULL,
-  newobj = "tapply.out", datasources = NULL)
+  newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{X.name, }{the name of the variable to be summarized. The user must set the name as a
@@ -27,7 +27,7 @@ function allows the user to choose one of five summarizing functions. These are
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to "tapply.out".}
+to "tapply.assign.newobj".}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

@@ -58,7 +58,7 @@ for Native R {merge} function. This is intended to be used for merging on
 one column, so these are incomparable values of that column.}
 
 \item{newobj}{the name of the merged data.frame. If this argument is set
-to NULL, the name of the merged data.frame is defaulted to 'x.name_y.name'
+to NULL, the name of the merged data.frame is defaulted to 'merge.newobj'
 where x.name is the name of the first input data.frame
 specified as the <x.name> argument and y.name
 is the name of the second input data.frame specified as the <y.name> argument.}

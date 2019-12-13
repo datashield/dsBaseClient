@@ -14,6 +14,12 @@
 #' @import DSI
 ds.listServersideFunctions<-function(datasources=NULL){
 	.Deprecated("DSI::datashield.methods")
+
+  # look for DS connections
+  if(is.null(datasources)){
+    datasources <- datashield.connections_find()
+  }
+
   assign.funs <- DSI::datashield.methods(datasources, 'assign')
   aggregate.funs <- DSI::datashield.methods(datasources, 'aggregate')
   return(list(serverside.assign.functions=assign.funs,

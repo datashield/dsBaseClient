@@ -24,7 +24,7 @@ Default=FALSE.}
 Default=FALSE.}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to '<df.name>.sorted' if no name is specified
+data.frame which defaults to 'dataframesort.newobj' if no name is specified
 where <df.name> is the first argument of ds.dataFrameSort().}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>

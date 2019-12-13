@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.unList::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -20,24 +26,29 @@ connect.studies.dataset.cnsim(list("GENDER"))
 
 context("ds.unList::smk::simple test")
 test_that("simple test", {
-    ds.asList(x.name="D$GENDER")
+    ds.asList(x.name="D$GENDER", newobj="GENDER.list")
 
-    res <- ds.unList("D$GENDER.list")
+    res <- ds.unList("GENDER.list")
 
     expect_length(res, 3)
-    expect_length(res$sim1, 2)
-    expect_equal(res$sim1$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim1$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
-    expect_length(res$sim2, 2)
-    expect_equal(res$sim2$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim2$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
-    expect_length(res$sim3, 2)
-    expect_equal(res$sim3$return.message, "New object <D$GENDER.list.unlist> created")
-    expect_equal(res$sim3$class.of.newobj, "Class of <D$GENDER.list.unlist> is 'factor'")
+    expect_equal(res$is.object.created, "A data object <unlist.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<unlist.newobj> invalid in at least one source. See studyside.messages:")
+    expect_length(res$studyside.messages, 3)
+    expect_equal(res$studyside.messages$sim1, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+    expect_equal(res$studyside.messages$sim2, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+    expect_equal(res$studyside.messages$sim3, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
 })
 
 #
 # Done
 #
 
+context("ds.unList::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "GENDER.list", "unlist.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.unList::smk::done")

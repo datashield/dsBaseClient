@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrame::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -24,9 +30,9 @@ test_that("dataframe_exists", {
     ds.dataFrame(x=vectors)
     res <- ds.ls()
 
-    expect_equal(res$sim1[2], "df_new")
-    expect_equal(res$sim2[2], "df_new")
-    expect_equal(res$sim3[2], "df_new")
+    expect_equal(res$sim1[2], "dataframe.newobj")
+    expect_equal(res$sim2[2], "dataframe.newobj")
+    expect_equal(res$sim3[2], "dataframe.newobj")
 })
 
 context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks")
@@ -35,13 +41,21 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
     ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE)
     res <- ds.ls()
 
-    expect_equal(res$sim1[2], "df_new")
-    expect_equal(res$sim2[2], "df_new")
-    expect_equal(res$sim3[2], "df_new")
+    expect_equal(res$sim1[2], "dataframe.newobj")
+    expect_equal(res$sim2[2], "dataframe.newobj")
+    expect_equal(res$sim3[2], "dataframe.newobj")
 })
 
 #
 # Done
 #
 
+context("ds.dataFrame::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "dataframe.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.dataFrame::smk::done")

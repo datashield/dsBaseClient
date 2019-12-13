@@ -11,7 +11,7 @@ ds.asMatrix(x.name = NULL, newobj = NULL, datasources = NULL)
 Must be specified in inverted commas.}
 
 \item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to <x.name>.mat}
+to NULL, the name of the new variable is defaulted to asmatrix.newobj}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

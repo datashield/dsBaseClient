@@ -11,7 +11,7 @@
 #' Must be specified in inverted commas eg x.name="name.of.object"
 #' @param newobj the name of the new output variable specified
 #' in inverted commas. If this argument is set to NULL, the name
-#' of the new variable is defaulted to <x.name>.mat
+#' of the new variable is defaulted to asdatamatrix.newobj
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or by default <x.name>.mat
@@ -43,7 +43,7 @@ ds.asDataMatrix = function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- paste0(x.name, ".mat")
+    newobj <- "asdatamatrix.newobj"
   }
 
     # call the server side function that does the job
@@ -77,7 +77,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -4,7 +4,7 @@
 \alias{ds.rBinom}
 \title{ds.rBinom calling rBinomDS and setSeedDS}
 \usage{
-ds.rBinom(samp.size = 1, size = 0, prob = 1, newobj = "newObject",
+ds.rBinom(samp.size = 1, size = 0, prob = 1, newobj = NULL,
   seed.as.integer = NULL, return.full.seed.as.set = FALSE,
   datasources = NULL)
 }
@@ -51,7 +51,7 @@ source, then you can specify <prob> as a scalar and use the
 Default value for <prob> = 0.5 (equivalent to tossing an unbiased coin).}
 
 \item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'newObject' if no name is specified.}
+random number vector which defaults to 'rbinom.newobj' if no name is specified.}
 
 \item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)

@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.meanSdGp::smk::setup")
+
 connect.studies.dataset.survival(list("age.60", "female"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -64,4 +70,12 @@ test_that("meanSdGp values [both]", {
 # Done
 #
 
+context("ds.meanSdGp::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.survival()
+
+context("ds.meanSdGp::smk::done")

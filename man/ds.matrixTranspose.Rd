@@ -11,7 +11,7 @@ ds.matrixTranspose(M1 = NULL, newobj = NULL, datasources = NULL)
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "M1_transposed" where <M1> is the first argument of the function.}
+to "matrixtranspose.newobj"}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

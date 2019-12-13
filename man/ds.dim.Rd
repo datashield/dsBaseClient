@@ -9,10 +9,10 @@ ds.dim(x = NULL, type = "both", checks = FALSE, datasources = NULL)
 \arguments{
 \item{x}{a character, the name of R table object, for example a matrix, array or data frame}
 
-\item{type}{a character which represents the type of analysis to carry out.
-If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned
-if \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
-if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
+\item{type}{a character which represents the type of analysis to carry out. 
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned. 
+If \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
+If \code{type} is set to 'both' or 'b', both sets of outputs are produced.}
 
 \item{checks}{a Boolean indicator of whether to undertake optional checks of model
 components. Defaults to checks=FALSE to save time. It is suggested that checks
@@ -22,16 +22,16 @@ should only be undertaken once the function call has failed.}
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
-for an array, \code{NULL} or a vector of mode \code{integer}
+The function retrieves the dimension of the object in the form of a vector where the first
+element indicates the number of rows and the second element indicates the number of columns.
 }
 \description{
-this function is similar to R function \code{dim}
+This function is similar to R function \code{dim}
 }
 \details{
-the function returns the unpooled or pooled dimension of the object by summing
-up the individual dimensions returned from each study or the dimension of the object in each
-study. Unlike the other DataSHIELD function the default behaviour is to output the dimension
-of each study separately.
+The function returns the dimension of the input object (e.g. array, matrix or data frame)
+from each single study and the pooled dimension of the object by summing up the individual 
+dimensions returned from each study.
 }
 \examples{
 \dontrun{
@@ -53,7 +53,7 @@ of each study separately.
   ds.dim(x='D')
 
   # Example 4: Input has to be either matrix, data frame or an array
-  # In the below example, the inpout is a vector so it will not work.
+  # In the below example, the input is a vector so it will not work.
   ds.dim(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout

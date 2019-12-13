@@ -11,9 +11,8 @@ ds.log(x = NULL, base = exp(1), newobj = NULL, datasources = NULL)
 
 \item{base}{a numrical, the base with respect to which logarithms are computed.}
 
-\item{newobj}{the name of the new variable. If this argument is set to NULL, the name of the new
-variable is the name of the input variable with the suffixe '_log' (e.g. 'LAB_TSC_log', if input
-variable's name is 'LAB_TSC').}
+\item{newobj}{the name of the new variable. If this argument is set to NULL, the name of the new 
+variable is the name 'log.newobj'}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}

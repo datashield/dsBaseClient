@@ -8,7 +8,7 @@
 #' determinant to be calculated
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "M1_det" where <M1> is the first argument of the function
+#' to 'matrixdet.newobj'
 #' @param logarithm logical. Default is FALSE, which returns the
 #' determinant itself, TRUE returns the logarithm of the modulus of the determinant.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
@@ -69,7 +69,7 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
-    newobj <- paste0(M1,"_det")
+    newobj <- "matrixdet.newobj"
   }
 
 
@@ -105,7 +105,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
