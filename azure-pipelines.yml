@@ -112,13 +112,13 @@ jobs:
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
       ##sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
-      cd ../
+      ##cd ../
       sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"coveragelist.csv")'
       # display the test console output
       cat test_console_output.txt
-      ##mv test_results.xml ../
-      ##mv test_console_output.txt ../
-      ##cd ../
+      mv test_results.xml ../
+      mv test_console_output.txt ../
+      cd ../
       grep --quiet "Failed:   0" test_console_output.txt
     displayName: 'Code coverage and JUnit report output'
     condition: always()
