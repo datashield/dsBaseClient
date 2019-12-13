@@ -25,7 +25,7 @@ jobs:
   - bash: |
       echo "options(Ncpus=2)" >> ~/.Rprofile
     displayName: 'Tweak local R env'
-  
+
   - bash: |
       echo $(branchName)
       echo $(projectName)
@@ -60,7 +60,6 @@ jobs:
 
   - bash: |
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
-      #sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
       sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
@@ -70,12 +69,6 @@ jobs:
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
     displayName: 'Devtools checks'
-    condition: always()
-
-  - bash: |
-      #R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
-      #grep --quiet "Failed:   0" azure-pipelines_test.Rout
-    displayName: 'Devtools tests'
     condition: always()
 
   - bash: |
