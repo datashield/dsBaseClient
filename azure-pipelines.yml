@@ -109,6 +109,14 @@ jobs:
     displayName: 'Check for errors & Failures in JUnit file'
     condition: always()
 
+  - bash: |
+      echo 'branch:'$(branchName) >> $(datetime).txt
+      echo 'os:'lsb_release -ds >> $(datetime).txt
+      echo 'R:'R --version | head -n 1 >> $(datetime).txt
+      echo 'opal:'opal system --opal localhost:8080 --user administrator --password "datashield_test&" --version >> $(datetime).txt
+    displayName: 'Versions'
+    condition: always()
+
 
   - bash: |
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
@@ -132,6 +140,7 @@ jobs:
       git add logs/$(projectName)/$(branchName)/$(datetime).xml
       git add logs/$(projectName)/$(branchName)/$(datetime).csv
       git add docs/$(projectName)/$(branchName)/latest/index.html
+      git add ../$(datetime).txt
       git commit -m "Test Status update for $(projectName)/$(branchName)"
       git push
       exit 0
