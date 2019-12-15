@@ -27,6 +27,7 @@ jobs:
 
 
   - bash: |
+      pwd
       sudo apt install tree -y
       pwd
       echo -n "#############################"
@@ -47,10 +48,12 @@ jobs:
 
 
   - bash: |
+      pwd
       echo "options(Ncpus=2)" >> ~/.Rprofile
     displayName: 'Tweak local R env'
 
   - bash: |
+      pwd
       echo 'BranchName: '$(branchName)
       echo 'ProjectName: '$(projectName)
       echo 'RepoName: '$(repoName)
@@ -83,6 +86,7 @@ jobs:
     displayName: 'Install DataSHIELD server'
 
   - bash: |
+      pwd
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
@@ -90,18 +94,20 @@ jobs:
     displayName: 'Install R client'
 
   - bash: |
+      pwd
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
     displayName: 'Devtools checks'
     condition: always()
 
   - bash: |
+      pwd
       ./checkDocumentationUpdated.sh
     displayName: 'Check documents'
     condition: always()
 
   - bash: |
-
+      pwd
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
@@ -125,9 +131,10 @@ jobs:
 
 
   - bash: |
+      pwd
       # Strip out when error and failure = 0 and count the number of times it does not.
-      error_count=$(sed 's/errors="0"//' junit_raw.xml | grep --count errors=)
-      failure_count=$(sed 's/failues="0"//' junit_raw.xml | grep --count failures=)
+      error_count=$(sed 's/errors="0"//' test_results.xml | grep --count errors=)
+      failure_count=$(sed 's/failues="0"//' test_results.xml | grep --count failures=)
       echo "Non zero errors: "$error_count
       echo "Non zoro failures: "$failure_count
       exit $(($error_count + $failure_count))
@@ -135,6 +142,7 @@ jobs:
     condition: always()
 
   - bash: |
+      pwd
       echo 'branch:'$(branchName) >> $(datetime).txt
       echo 'os:'lsb_release -ds >> $(datetime).txt
       echo 'R:'R --version | head -n 1 >> $(datetime).txt
@@ -144,6 +152,7 @@ jobs:
 
 
   - bash: |
+      pwd
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
       # Make the directories if they dont already exist
