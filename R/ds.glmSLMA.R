@@ -368,12 +368,12 @@ if(!at.least.one.study.valid)
 	message("\n\nEVERY STUDY HAS DATA THAT COULD BE POTENTIALLY DISCLOSIVE UNDER THE CURRENT MODEL:\n",
 	    "Any values of 1 in the following tables denote potential disclosure risks.\n",
 		"Errors by study are as follows:\n")
-		print(as.matrix(y.invalid))
-		print(as.matrix(Xpar.invalid))
-		print(as.matrix(w.invalid))
-		print(as.matrix(o.invalid))
-		print(as.matrix(glm.saturation.invalid))
-		print(as.matrix(errorMessage))
+#		print(as.matrix(y.invalid))
+#		print(as.matrix(Xpar.invalid))
+#		print(as.matrix(w.invalid))
+#		print(as.matrix(o.invalid))
+#		print(as.matrix(glm.saturation.invalid))
+#		print(as.matrix(errorMessage))
 
 		
     return(list(
@@ -399,12 +399,12 @@ if(at.least.one.study.data.error)
 		"You may also choose to exclude invalid studies from\n",
 		"the whole analysis using the <datasources> argument.\n",
 		"Errors by study are as follows:\n")
-		print(as.matrix(y.invalid))
-		print(as.matrix(Xpar.invalid))
-		print(as.matrix(w.invalid))
-		print(as.matrix(o.invalid))
-		print(as.matrix(glm.saturation.invalid))
-		print(as.matrix(errorMessage))
+#		print(as.matrix(y.invalid))
+#		print(as.matrix(Xpar.invalid))
+#		print(as.matrix(w.invalid))
+#		print(as.matrix(o.invalid))
+#		print(as.matrix(glm.saturation.invalid))
+#		print(as.matrix(errorMessage))
 	
 	}
 
@@ -482,10 +482,10 @@ if(!all.studies.valid)
 }
 
 
-if(all.studies.valid)
-{
-		cat("\nAll studies passed disclosure tests\n\n\n")
-		}
+#if(all.studies.valid)
+#{
+#		cat("\nAll studies passed disclosure tests\n\n\n")
+#		}
 
 
 

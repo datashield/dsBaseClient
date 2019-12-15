@@ -198,16 +198,12 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-cat("NO SEED SET IN STUDY",study.id,"\n\n")
+cat("NO SEED SET IN STUDY",study.id,"\n")
 
 }
   calltext <- paste0("setSeedDS(", seed.as.text, ")")
   ssDS.obj[[study.id]] <- opal::datashield.aggregate(datasources[study.id], as.symbol(calltext))
 } 
-cat("\n\n")
-
-
-
 
 
 ##############################

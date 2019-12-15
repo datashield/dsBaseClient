@@ -98,8 +98,6 @@ test_that("missing test", {
 
 context("checkClass::smk::shutdown")
 
-print(ds.ls())
-
 test_that("shtudown", {
     ds_expect_variables(c("D", "dataframe.newobj"))
 })
