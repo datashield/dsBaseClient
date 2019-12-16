@@ -131,6 +131,7 @@ jobs:
 
 
   - bash: |
+      cd ../
       pwd
       tree
       # Strip out when error and failure = 0 and count the number of times it does not.
