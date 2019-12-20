@@ -31,7 +31,7 @@ test_that("simple test", {
 
     expect_length(res, 0)
  
-    res_class <- ds.class("math_output")
+    res_class <- ds.class("vectorcalc.newobj")
 
     expect_length(res_class, 3)
     expect_length(res_class$sim1, 1)
@@ -41,17 +41,17 @@ test_that("simple test", {
     expect_length(res_class$sim3, 1)
     expect_equal(res_class$sim3[1], "numeric")
 
-    res_length <- ds.length("math_output")
+    res_length <- ds.length("vectorcalc.newobj")
 
     expect_length(res_length, 4)
-    expect_length(res_length$`length of math_output in sim1`, 1)
-    expect_equal(res_length$`length of math_output in sim1`, 2163)
-    expect_length(res_length$`length of math_output in sim2`, 1)
-    expect_equal(res_length$`length of math_output in sim2`, 3088)
-    expect_length(res_length$`length of math_output in sim3`, 1)
-    expect_equal(res_length$`length of math_output in sim3`, 4128)
-    expect_length(res_length$`total length of math_output in all studies combined`, 1)
-    expect_equal(res_length$`total length of math_output in all studies combined`, 9379)
+    expect_length(res_length$`length of vectorcalc.newobj in sim1`, 1)
+    expect_equal(res_length$`length of vectorcalc.newobj in sim1`, 2163)
+    expect_length(res_length$`length of vectorcalc.newobj in sim2`, 1)
+    expect_equal(res_length$`length of vectorcalc.newobj in sim2`, 3088)
+    expect_length(res_length$`length of vectorcalc.newobj in sim3`, 1)
+    expect_equal(res_length$`length of vectorcalc.newobj in sim3`, 4128)
+    expect_length(res_length$`total length of vectorcalc.newobj in all studies combined`, 1)
+    expect_equal(res_length$`total length of vectorcalc.newobj in all studies combined`, 9379)
 })
 
 #
@@ -61,7 +61,7 @@ test_that("simple test", {
 context("ds.vectorCalc::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "math_output"))
+    ds_expect_variables(c("D", "vectorcalc.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

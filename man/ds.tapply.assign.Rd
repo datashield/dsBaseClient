@@ -5,7 +5,7 @@
 \title{ds.tapply.assign calling tapplyDS.assign}
 \usage{
 ds.tapply.assign(X.name = NULL, INDEX.names = NULL, FUN.name = NULL,
-  newobj = "tapply.out", datasources = NULL)
+  newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{X.name, }{the name of the variable to be summarized. The user must set the name as a
@@ -27,7 +27,7 @@ function allows the user to choose one of five summarizing functions. These are
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to "tapply.out".}
+to "tapply.assign.newobj".}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

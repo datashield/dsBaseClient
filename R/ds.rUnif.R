@@ -43,7 +43,7 @@
 #' <datasources> argument to create the random vectors one source at a time.
 #' Default value for <max> = 1
 #' @param newobj This a character string providing a name for the output
-#' random number vector which defaults to 'newObject' if no name is specified.
+#' random number vector which defaults to 'runif.newobj' if no name is specified.
 #' @param seed.as.integer a numeric scalar or a NULL which primes the random seed
 #' in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
 #' the seed in each study is set as 938*1 in the first study in the set of
@@ -198,16 +198,12 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-cat("NO SEED SET IN STUDY",study.id,"\n\n")
+cat("NO SEED SET IN STUDY",study.id,"\n")
 
 }
   calltext <- paste0("setSeedDS(", seed.as.text, ")")
   ssDS.obj[[study.id]] <- opal::datashield.aggregate(datasources[study.id], as.symbol(calltext))
 } 
-cat("\n\n")
-
-
-
 
 
 ##############################

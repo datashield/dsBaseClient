@@ -26,24 +26,13 @@ test_that("setup", {
 
 context("ds.unList::smk::simple test")
 test_that("simple test", {
-    ds.asList(x.name="D$GENDER", newobj="D$GENDER.list")
-
-    res <- ds.unList("D$GENDER.list")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <D$GENDER.list.unlist> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$GENDER.list.unlist> appears valid in all sources")
-})
-
-context("ds.unList::smk::simple test")
-test_that("simple test", {
     ds.asList(x.name="D$GENDER", newobj="GENDER.list")
 
     res <- ds.unList("GENDER.list")
 
     expect_length(res, 3)
-    expect_equal(res$is.object.created, "A data object <GENDER.list.unlist> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<GENDER.list.unlist> invalid in at least one source. See studyside.messages:")
+    expect_equal(res$is.object.created, "A data object <unlist.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<unlist.newobj> invalid in at least one source. See studyside.messages:")
     expect_length(res$studyside.messages, 3)
     expect_equal(res$studyside.messages$sim1, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
     expect_equal(res$studyside.messages$sim2, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
@@ -57,7 +46,7 @@ test_that("simple test", {
 context("ds.unList::smk::shutdown")
 
 test_that("shutdown", {
-#     ds_expect_variables(c("D", "D$GENDER.list", "D$GENDER.list.unlist", "GENDER.list", "GENDER.list.unlist"))
+    ds_expect_variables(c("D", "GENDER.list", "unlist.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

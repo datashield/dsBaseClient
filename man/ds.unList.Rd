@@ -11,7 +11,7 @@ ds.unList(x.name = NULL, newobj = NULL, datasources = NULL)
 It must be specified in inverted commas e.g. x.name="input.object.name"}
 
 \item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to <x.name>.unlist}
+to NULL, the name of the new variable is defaulted to unlist.newobj}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

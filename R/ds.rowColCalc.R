@@ -8,7 +8,7 @@
 #' @param operation a character string which indicates the operation to carry out:
 #' "rowSums", "colSums", "rowMeans" or "colMeans".
 #' @param newobj the name of the new object. If this argument is set to NULL, the name of the new 
-#' variable, set by default, is 'rowColCalc_out'.
+#' variable, set by default, is 'rowcolcalc.newobj'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return nothing is returned to the client, the new object is stored on the server side.
@@ -97,7 +97,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "rowColCalc_out"
+    newobj <- "rowcolcalc.newobj"
   }
   
   # call the server side function that does the job

@@ -5,7 +5,7 @@
 #' or a dataframe the names of the elements in the list are the names of columns.
 #' @param x a character, the names of the objects to coerce into a list.
 #' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
-#' the name of the new object is 'newlist'.
+#' the name of the new object is 'list.newobj'.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
 #' @return  nothing is returned to the client, the new object is stored on the server side.
@@ -64,7 +64,7 @@ ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "newlist"
+    newobj <- "list.newobj"
   }
   
   # get the names of the list elements if the user has not specified any

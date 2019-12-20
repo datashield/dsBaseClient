@@ -29,13 +29,13 @@ test_that("simplest ds.matrixDet", {
     matrix <- c(-2, 1, 3, 0, -1, 1, 1, 2, 0)
 
     ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=3)
-    res <- ds.matrixDet("new_matrix")
+    res <- ds.matrixDet("matrix.newobj")
 
     expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <new_matrix_det> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<new_matrix_det> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <matrixdet.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<matrixdet.newobj> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix_det",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("matrixdet.newobj",datasources=ds.test_env$connection.opal)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "det")
@@ -50,7 +50,7 @@ test_that("simplest ds.matrixDet", {
 context("ds.matrixDet::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "new_matrix", "new_matrix_det"))
+    ds_expect_variables(c("D", "matrix.newobj", "matrixdet.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

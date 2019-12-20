@@ -59,7 +59,7 @@ test_that("LAB_HDL_across_gender_bmi_diabetes", {
     expect_equal(res[[7]], '12')
     expect_equal(res[[2]], '1.59(0.42)')
     expect_equal(res[[4]], '5.88(1.04)')
-    expect_equal(res[[8]], '6.05(0.57)')
+    expect_equal(res[[8]], 'NA(NA)')
     expect_equal(res[[12]], '5.88(1.08)')
 })
 

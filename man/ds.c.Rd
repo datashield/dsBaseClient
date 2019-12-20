@@ -10,7 +10,7 @@ ds.c(x = NULL, newobj = NULL, datasources = NULL)
 \item{x}{a character, a vector that holds the names of the objects to combine.}
 
 \item{newobj}{the name of the output object. If this argument is set to NULL, 
-the name of the new object is 'newObject'.}
+the name of the new object is 'c.newobj'.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}

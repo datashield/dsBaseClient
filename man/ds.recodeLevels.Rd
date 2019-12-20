@@ -14,7 +14,7 @@ ds.recodeLevels(x = NULL, newCategories = NULL, newobj = NULL,
 to the current number of levels.}
 
 \item{newobj, }{a character, the name of the new factor vector. If no name is specified
-for the new variable it is named after the input variable with a suffixe '_new'.}
+for the new variable it is named 'recodelevels.newobj'.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.

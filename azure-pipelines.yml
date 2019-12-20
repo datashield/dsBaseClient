@@ -15,10 +15,10 @@ jobs:
     vmImage: 'Ubuntu 16.04'
 
   variables:
-    datetime: $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
-    repoName: 'dsBaseClient'
-    # repoName: $(Build.Repository.Name) # This returns datashield/dsBaseClient, but we only want the reponame.
-    branchName: $(Build.SourceBranchName)
+    datetime:    $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
+    repoName:    $(Build.Repository.Name)
+    projectName: 'dsBaseClient'
+    branchName:  $(Build.SourceBranchName)
 
 
   steps:
@@ -28,6 +28,7 @@ jobs:
   
   - bash: |
       echo $(branchName)
+      echo $(projectName)
       echo $(repoName)
       # Purge the default mysql installed on the VM as it is incompatible with our stuff.
       sudo service mysql stop
@@ -72,8 +73,8 @@ jobs:
     condition: always()
 
   - bash: |
-      R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
-      grep --quiet "Failed:   0" azure-pipelines_test.Rout
+      #R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
+      #grep --quiet "Failed:   0" azure-pipelines_test.Rout
     displayName: 'Devtools tests'
     condition: always()
 
@@ -83,14 +84,23 @@ jobs:
     condition: always()
 
   - bash: |
+
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
-      git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/datashield/$(repoName).git $(repoName)
-      cd $(repoName)
-      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); testthat::test_package("$(reponame)", reporter = junit_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/$(repoName).git $(projectName)
+      cd $(projectName)
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      # display the test console output
+      cat test_console_output.txt
       mv test_results.xml ../
+      mv test_console_output.txt ../
       cd ../
+      grep --quiet "Failed:   0" test_console_output.txt
     displayName: 'Code coverage and JUnit report output'
     condition: always()
 
@@ -98,25 +108,25 @@ jobs:
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
       # Make the directories if they dont already exist
-      mkdir --parents testStatus/logs/$(repoName)/$(branchName)
-      mkdir --parents testStatus/docs/$(repoName)/$(branchName)/latest
+      mkdir --parents testStatus/logs/$(projectName)/$(branchName)
+      mkdir --parents testStatus/docs/$(projectName)/$(branchName)/latest
 
-      cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/
-      cp coveragelist.csv testStatus/logs/$(repoName)/$(branchName)/$(datetime).csv
+      cp coveragelist.csv testStatus/logs/$(projectName)/$(branchName)/
+      cp coveragelist.csv testStatus/logs/$(projectName)/$(branchName)/$(datetime).csv
 
-      cp test_results.xml testStatus/logs/$(repoName)/$(branchName)/
-      cp test_results.xml testStatus/logs/$(repoName)/$(branchName)/$(datetime).xml
+      cp test_results.xml testStatus/logs/$(projectName)/$(branchName)/
+      cp test_results.xml testStatus/logs/$(projectName)/$(branchName)/$(datetime).xml
 
-      testStatus/source/status.py testStatus/logs/$(repoName)/$(branchName)/$(datetime).xml testStatus/logs/$(repoName)/$(branchName)/$(datetime).csv status.html $(repoName) $(repoName) $(branchName)
+      testStatus/source/status.py testStatus/logs/$(projectName)/$(branchName)/$(datetime).xml testStatus/logs/$(projectName)/$(branchName)/$(datetime).csv status.html $(projectName) $(projectName) $(branchName)
       cd testStatus
-      cp ../status.html docs/$(repoName)/$(branchName)/latest/index.html
+      cp ../status.html docs/$(projectName)/$(branchName)/latest/index.html
 
-      git add logs/$(repoName)/$(branchName)/coveragelist.csv
-      git add logs/$(repoName)/$(branchName)/test_results.xml
-      git add logs/$(repoName)/$(branchName)/$(datetime).xml
-      git add logs/$(repoName)/$(branchName)/$(datetime).csv
-      git add docs/$(repoName)/$(branchName)/latest/index.html
-      git commit -m "Test Status update for $(repoName)/$(branchName)"
+      git add logs/$(projectName)/$(branchName)/coveragelist.csv
+      git add logs/$(projectName)/$(branchName)/test_results.xml
+      git add logs/$(projectName)/$(branchName)/$(datetime).xml
+      git add logs/$(projectName)/$(branchName)/$(datetime).csv
+      git add docs/$(projectName)/$(branchName)/latest/index.html
+      git commit -m "Test Status update for $(projectName)/$(branchName)"
       git push
       exit 0
     displayName: 'Parse test results'

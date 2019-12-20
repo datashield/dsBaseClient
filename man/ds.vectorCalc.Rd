@@ -4,7 +4,7 @@
 \alias{ds.vectorCalc}
 \title{Performs a mathematical operation on two or more vectors}
 \usage{
-ds.vectorCalc(x = NULL, calc = NULL, newobj = "math_output",
+ds.vectorCalc(x = NULL, calc = NULL, newobj = NULL,
   datasources = NULL)
 }
 \arguments{
@@ -13,7 +13,7 @@ ds.vectorCalc(x = NULL, calc = NULL, newobj = "math_output",
 \item{calc}{a character, a symbol that indicates the mathematical operation to carry out: 
 '+' for addition, '/' for division, *' for multiplication and '-' for subtraction.}
 
-\item{newobj}{the name of the output object. By default the name is 'vectorCalc_output'.}
+\item{newobj}{the name of the output object. By default the name is 'vectorcalc.newobj'.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}

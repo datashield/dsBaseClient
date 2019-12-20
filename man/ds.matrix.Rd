@@ -60,7 +60,7 @@ and a list of length one as row names only.}
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified or it is NULL
-the output matrix names defaults to "new_matrix"}
+the output matrix names defaults to "matrix.newobj"}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

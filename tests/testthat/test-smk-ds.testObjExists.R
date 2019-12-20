@@ -36,10 +36,10 @@ test_that("data.frame testObjExists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors)
 
-    res <- ds.testObjExists("df_new")
+    res <- ds.testObjExists("dataframe.newobj")
 
     expect_length(res, 1)
-    expect_equal(res$return.message, "A valid copy of data object <df_new> exists in all specified data sources")
+    expect_equal(res$return.message, "A valid copy of data object <dataframe.newobj> exists in all specified data sources")
 })
 
 test_that("data.frame testObjExists", {
@@ -95,7 +95,7 @@ test_that("data.frame testObjExists", {
 context("ds.testObjExists::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "df_new"))
+    ds_expect_variables(c("D", "dataframe.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

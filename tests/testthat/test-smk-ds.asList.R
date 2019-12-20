@@ -30,14 +30,14 @@ test_that("simple test", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 2)
-    expect_equal(res$sim1$return.message, "New object <D$GENDER.list> created")
-    expect_equal(res$sim1$class.of.newobj, "Class of <D$GENDER.list> is 'list'")
+    expect_equal(res$sim1$return.message, "New object <aslist.newobj> created")
+    expect_equal(res$sim1$class.of.newobj, "Class of <aslist.newobj> is 'list'")
     expect_length(res$sim2, 2)
-    expect_equal(res$sim2$return.message, "New object <D$GENDER.list> created")
-    expect_equal(res$sim2$class.of.newobj, "Class of <D$GENDER.list> is 'list'")
+    expect_equal(res$sim2$return.message, "New object <aslist.newobj> created")
+    expect_equal(res$sim2$class.of.newobj, "Class of <aslist.newobj> is 'list'")
     expect_length(res$sim3, 2)
-    expect_equal(res$sim3$return.message, "New object <D$GENDER.list> created")
-    expect_equal(res$sim3$class.of.newobj, "Class of <D$GENDER.list> is 'list'")
+    expect_equal(res$sim3$return.message, "New object <aslist.newobj> created")
+    expect_equal(res$sim3$class.of.newobj, "Class of <aslist.newobj> is 'list'")
 })
 
 #
@@ -47,7 +47,7 @@ test_that("simple test", {
 context("ds.asList::smk::shutdown")
 
 test_that("stutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "aslist.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()

@@ -30,9 +30,9 @@ test_that("dataframe_exists", {
     ds.dataFrame(x=vectors)
     res <- ds.ls(datasources=ds.test_env$connection.opal)
 
-    expect_equal(res$sim1[2], "df_new")
-    expect_equal(res$sim2[2], "df_new")
-    expect_equal(res$sim3[2], "df_new")
+    expect_equal(res$sim1[2], "dataframe.newobj")
+    expect_equal(res$sim2[2], "dataframe.newobj")
+    expect_equal(res$sim3[2], "dataframe.newobj")
 })
 
 context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks")
@@ -41,9 +41,9 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
     ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE)
     res <- ds.ls(datasources=ds.test_env$connection.opal)
 
-    expect_equal(res$sim1[2], "df_new")
-    expect_equal(res$sim2[2], "df_new")
-    expect_equal(res$sim3[2], "df_new")
+    expect_equal(res$sim1[2], "dataframe.newobj")
+    expect_equal(res$sim2[2], "dataframe.newobj")
+    expect_equal(res$sim3[2], "dataframe.newobj")
 })
 
 #
@@ -53,7 +53,7 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
 context("ds.dataFrame::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "df_new"))
+    ds_expect_variables(c("D", "dataframe.newobj"))
 })
 
 disconnect.studies.dataset.cnsim()
