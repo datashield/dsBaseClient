@@ -4,8 +4,12 @@
 \alias{ds.table1D}
 \title{Generates 1-dimensional contingency tables}
 \usage{
-ds.table1D(x = NULL, type = "combine", warningMessage = TRUE,
-  datasources = NULL)
+ds.table1D(
+  x = NULL,
+  type = "combine",
+  warningMessage = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector with discrete values - usually a factor.}

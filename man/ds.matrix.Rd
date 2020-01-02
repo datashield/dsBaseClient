@@ -4,9 +4,16 @@
 \alias{ds.matrix}
 \title{ds.matrix calling assign function matrixDS}
 \usage{
-ds.matrix(mdata = NA, from = "clientside.scalar",
-  nrows.scalar = NULL, ncols.scalar = NULL, byrow = FALSE,
-  dimnames = NULL, newobj = NULL, datasources = NULL)
+ds.matrix(
+  mdata = NA,
+  from = "clientside.scalar",
+  nrows.scalar = NULL,
+  ncols.scalar = NULL,
+  byrow = FALSE,
+  dimnames = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{mdata}{specifies the elements of the matrix to be created. If it
