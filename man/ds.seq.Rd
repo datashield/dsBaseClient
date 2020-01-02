@@ -4,9 +4,15 @@
 \alias{ds.seq}
 \title{ds.seq calling assign function seqDS}
 \usage{
-ds.seq(FROM.value.char = "1", BY.value.char = "1",
-  TO.value.char = NULL, LENGTH.OUT.value.char = NULL,
-  ALONG.WITH.name = NULL, newobj = "newObj", datasources = NULL)
+ds.seq(
+  FROM.value.char = "1",
+  BY.value.char = "1",
+  TO.value.char = NULL,
+  LENGTH.OUT.value.char = NULL,
+  ALONG.WITH.name = NULL,
+  newobj = "newObj",
+  datasources = NULL
+)
 }
 \arguments{
 \item{FROM.value.char}{the starting value for the sequence expressed as an integer

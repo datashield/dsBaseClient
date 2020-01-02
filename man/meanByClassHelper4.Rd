@@ -4,8 +4,13 @@
 \alias{meanByClassHelper4}
 \title{Gets the subset tables out of the list (i.e. unlist)}
 \usage{
-meanByClassHelper4(dtsource, alist, initialtable, variable = NA,
-  categories = NA)
+meanByClassHelper4(
+  dtsource,
+  alist,
+  initialtable,
+  variable = NA,
+  categories = NA
+)
 }
 \arguments{
 \item{dtsource}{a list of opal object(s) obtained after login in to opal servers;

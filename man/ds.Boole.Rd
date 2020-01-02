@@ -4,9 +4,15 @@
 \alias{ds.Boole}
 \title{ds.Boole}
 \usage{
-ds.Boole(V1 = NULL, V2 = NULL, Boolean.operator = NULL,
-  numeric.output = TRUE, na.assign = "NA", newobj = NULL,
-  datasources = NULL)
+ds.Boole(
+  V1 = NULL,
+  V2 = NULL,
+  Boolean.operator = NULL,
+  numeric.output = TRUE,
+  na.assign = "NA",
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{V1}{A character string specifying the name of the vector to which the Boolean operator

@@ -4,9 +4,14 @@
 \alias{ds.asFactor}
 \title{Converts a numeric vector into a factor type}
 \usage{
-ds.asFactor(input.var.name = NULL, newobj.name = NULL,
-  forced.factor.levels = NULL, fixed.dummy.vars = FALSE,
-  baseline.level = 1, datasources = NULL)
+ds.asFactor(
+  input.var.name = NULL,
+  newobj.name = NULL,
+  forced.factor.levels = NULL,
+  fixed.dummy.vars = FALSE,
+  baseline.level = 1,
+  datasources = NULL
+)
 }
 \arguments{
 \item{input.var.name}{the name of the variable that is to be converted to a factor}

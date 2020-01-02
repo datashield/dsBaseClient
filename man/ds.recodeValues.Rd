@@ -4,9 +4,15 @@
 \alias{ds.recodeValues}
 \title{ds.recodeValues calling recodeValuesDS1 and recodeValuesDS2}
 \usage{
-ds.recodeValues(var.name = NULL, values2replace.vector = NULL,
-  new.values.vector = NULL, force.output.format = "no",
-  newobj = NULL, datasources = NULL, notify.of.progress = FALSE)
+ds.recodeValues(
+  var.name = NULL,
+  values2replace.vector = NULL,
+  new.values.vector = NULL,
+  force.output.format = "no",
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{var.name}{a character string providing the name for the vector representing the

@@ -4,8 +4,13 @@
 \alias{ds.changeRefGroup}
 \title{Changes the reference level of a factor}
 \usage{
-ds.changeRefGroup(x = NULL, ref = NULL, newobj = NULL,
-  reorderByRef = FALSE, datasources = NULL)
+ds.changeRefGroup(
+  x = NULL,
+  ref = NULL,
+  newobj = NULL,
+  reorderByRef = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a vector of type factor.}

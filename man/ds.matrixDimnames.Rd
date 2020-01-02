@@ -4,8 +4,12 @@
 \alias{ds.matrixDimnames}
 \title{ds.matrixDimnames calling assign function matrixDimnamesDS}
 \usage{
-ds.matrixDimnames(M1 = NULL, dimnames = NULL, newobj = NULL,
-  datasources = NULL)
+ds.matrixDimnames(
+  M1 = NULL,
+  dimnames = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{M1}{Specifies the name of the serverside matrix to which

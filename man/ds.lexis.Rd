@@ -4,9 +4,17 @@
 \alias{ds.lexis}
 \title{ds.lexis calling lexisDS1, lexisDS2, lexisDS3}
 \usage{
-ds.lexis(data = NULL, intervalWidth = NULL, idCol = NULL,
-  entryCol = NULL, exitCol = NULL, statusCol = NULL,
-  variables = NULL, expandDF = NULL, datasources = NULL)
+ds.lexis(
+  data = NULL,
+  intervalWidth = NULL,
+  idCol = NULL,
+  entryCol = NULL,
+  exitCol = NULL,
+  statusCol = NULL,
+  variables = NULL,
+  expandDF = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{data}{is a character string. This specifies the name of a dataframe containing the
