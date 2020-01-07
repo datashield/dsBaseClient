@@ -69,7 +69,7 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
   typ <- checkClass(datasources, x)
   
   # the input object must be a dataframe or a factor
-  if(!('data.frame' %in% typ) & !('factor' %in% typ)){
+  if(typ != 'data.frame' & typ != 'factor'){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The object to subset from must be a 'data.frame' or a 'factor'.", call.=FALSE)
   }

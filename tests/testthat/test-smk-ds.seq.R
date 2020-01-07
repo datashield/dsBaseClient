@@ -26,19 +26,11 @@ test_that("setup", {
 
 context("ds.seq::smk")
 test_that("simplest ds.seq", {
-    seq.res <- ds.seq(FROM.value.char="1", BY.value.char="1", LENGTH.OUT.value.char="10", ALONG.WITH.name=NULL, newobj="obj1")
+    seq.res <- ds.seq("1", "1", "10", "D$LAB_TSC", "obj")
 
     expect_true(length(seq.res) == 2)
-    expect_equal(seq.res[[1]], "A data object <obj1> has been created in all specified data sources")
-    expect_equal(seq.res[[2]], "<obj1> appears valid in all sources")
-})
-
-test_that("simplest ds.seq", {
-    seq.res <- ds.seq(FROM.value.char="1", BY.value.char="1", LENGTH.OUT.value.char=NULL, ALONG.WITH.name="D$LAB_TSC", newobj="obj2")
-
-    expect_true(length(seq.res) == 2)
-    expect_equal(seq.res[[1]], "A data object <obj2> has been created in all specified data sources")
-    expect_equal(seq.res[[2]], "<obj2> appears valid in all sources")
+    expect_equal(seq.res[[1]], "A data object <obj> has been created in all specified data sources")
+    expect_equal(seq.res[[2]], "<obj> appears valid in all sources")
 })
 
 #

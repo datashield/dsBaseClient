@@ -58,7 +58,7 @@ ds.log = function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
   
   # the input object must be a vector
-  if(!('integer' %in% typ) & !('numeric' %in% typ)){
+  if(typ != 'integer' & typ != 'numeric'){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be an integer or numeric vector.", call.=FALSE)
   }

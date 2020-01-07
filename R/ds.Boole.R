@@ -1,4 +1,4 @@
-#' 
+#'
 #' @title ds.Boole
 #' @description Converts the individual elements of a vector or other object into Boolean
 #' indicators(TRUE/FALSE or 1/0) based on the standard set of Boolean operators:
@@ -24,7 +24,7 @@
 #' output variable should be of class numeric (1/0) or class logical (TRUE/FALSE). It is easy
 #' to convert a logical class variable to numeric using the ds.asNumeric() function and to
 #' convert a numeric (1/0) variable to logical you can apply ds.Boole with <Boolean.operator>
-#' '==', <V2> the scalar '1' and <numeric.output> FALSE. 
+#' '==', <V2> the scalar '1' and <numeric.output> FALSE.
 #' @param na.assign A character string taking values 'NA', '1' or '0'. If 'NA' then any NA
 #' values in the input vector remain as NAs in the output vector. If '1' or '0' NA values in
 #' the input vector are all converted to 1 or 0 respectively.
@@ -57,7 +57,7 @@
 #' @export
 #'
 ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA", newobj=NULL, datasources=NULL){
-  
+
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
@@ -77,11 +77,13 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   if(is.null(Boolean.operator)){
     stop("Please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='", call.=FALSE)
   }
-  
+
   #check if na.assign has legal value
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
     stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
   }
+
+
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -95,29 +97,30 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
     BO.n<-1
   }
 
-  if(Boolean.operator == "!="){
-    BO.n<-2
-  }
+BO.n<-0
+if(Boolean.operator == "=="){
+   BO.n<-1
+}
 
-  if(Boolean.operator == "<"){
-    BO.n<-3
-  }
+if(Boolean.operator == "!="){
+   BO.n<-2
+}
 
-  if(Boolean.operator == "<="){
-    BO.n<-4
-  }
+if(Boolean.operator == "<"){
+   BO.n<-3
+}
 
-  if(Boolean.operator == ">"){
-    BO.n<-5
-  }
+if(Boolean.operator == "<="){
+   BO.n<-4
+}
 
-  if(Boolean.operator == ">="){
-    BO.n<-6
-  }
+if(Boolean.operator == ">"){
+   BO.n<-5
+}
 
-  if(BO.n == 0){
-    stop(paste0("An unrecognized Boolean operator, ", Boolean.operator, ", has provide"), call.=FALSE)
-  }
+if(Boolean.operator == ">="){
+   BO.n<-6
+}
 
   # if no value spcified for output object, then specify a default
   if(is.null(newobj)){
@@ -138,7 +141,7 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
@@ -156,7 +159,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
@@ -185,13 +188,13 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
     studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -210,4 +213,3 @@ if(!no.errors){																								#
 
 }
 #ds.Boole
-

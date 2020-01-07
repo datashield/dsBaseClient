@@ -84,14 +84,6 @@ test_that("data.frame test", {
     expect_equal(res, "data.frame")
 })
 
-test_that("missing test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$TEST")
-
-    expect_length(res, 1)
-    expect_equal(class(res), "character")
-    expect_equal(res, "NULL")
-})
-
 #
 # Done
 #
