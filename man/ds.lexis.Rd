@@ -4,9 +4,17 @@
 \alias{ds.lexis}
 \title{ds.lexis calling lexisDS1, lexisDS2, lexisDS3}
 \usage{
-ds.lexis(data = NULL, intervalWidth = NULL, idCol = NULL,
-  entryCol = NULL, exitCol = NULL, statusCol = NULL,
-  variables = NULL, expandDF = NULL, datasources = NULL)
+ds.lexis(
+  data = NULL,
+  intervalWidth = NULL,
+  idCol = NULL,
+  entryCol = NULL,
+  exitCol = NULL,
+  statusCol = NULL,
+  variables = NULL,
+  expandDF = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{data}{is a character string. This specifies the name of a dataframe containing the
@@ -68,8 +76,8 @@ variables which may still be useful for plotting survival data once these become
 
 \item{expandDF}{is a character string denoting the name of the new dataframe containing the
 expanded data set. If you specify a name, that name will be used, but if no name is specified it
-will be defaulted to 'name of dataframe specified by data argument' with '_expanded' as a 
-suffix. If you use the client side function ds.ls() after running ds.lexis the new dataframe you
+will be defaulted to 'lexis.newobj'
+If you use the client side function ds.ls() after running ds.lexis the new dataframe you
 have created should be listed, and the output of the function advises you to do this. If the
 function call fails (e.g. the expanded dataframe does not appear when you run ds.ls() you can
 use the command ds.message("messageobj") and depending what has gone wrong, there may be an

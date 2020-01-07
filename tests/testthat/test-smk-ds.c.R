@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.c::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -29,4 +35,12 @@ test_that("simple c", {
 # Done
 #
 
+context("ds.c::smk::shutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D", "c.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.c::smk::done")

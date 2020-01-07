@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrixDet.report::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,7 +29,7 @@ test_that("simplest ds.matrixDet.report", {
     matrix <- c(-2, 1, 3, 0, -1, 1, 1, 2, 0)
 
     ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=3)
-    res <- ds.matrixDet.report("new_matrix", logarithm=NULL)
+    res <- ds.matrixDet.report("matrix.newobj", logarithm=NULL)
 
     expect_length(res, 1)
     expect_length(res$matrix.determinant, 3)
@@ -45,4 +51,12 @@ test_that("simplest ds.matrixDet.report", {
 # Tear down
 #
 
+context("ds.matrixDet.report::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "matrix.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrixDet.report::smk::done")

@@ -4,10 +4,20 @@
 \alias{ds.merge}
 \title{ds.merge calling assign function mergeDS}
 \usage{
-ds.merge(x.name = NULL, y.name = NULL, by.x.names = NULL,
-  by.y.names = NULL, all.x = FALSE, all.y = FALSE, sort = TRUE,
-  suffixes = c(".x", ".y"), no.dups = TRUE, incomparables = NULL,
-  newobj = NULL, datasources = NULL)
+ds.merge(
+  x.name = NULL,
+  y.name = NULL,
+  by.x.names = NULL,
+  by.y.names = NULL,
+  all.x = FALSE,
+  all.y = FALSE,
+  sort = TRUE,
+  suffixes = c(".x", ".y"),
+  no.dups = TRUE,
+  incomparables = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x.name, }{the name of the first data.frame to be merged specified in
@@ -58,10 +68,7 @@ for Native R {merge} function. This is intended to be used for merging on
 one column, so these are incomparable values of that column.}
 
 \item{newobj}{the name of the merged data.frame. If this argument is set
-to NULL, the name of the merged data.frame is defaulted to 'x.name_y.name'
-where x.name is the name of the first input data.frame
-specified as the <x.name> argument and y.name
-is the name of the second input data.frame specified as the <y.name> argument.}
+to NULL, the name of the merged data.frame is defaulted to 'merge.newobj'}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

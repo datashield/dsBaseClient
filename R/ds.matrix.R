@@ -48,7 +48,7 @@
 #' and a list of length one as row names only. 
 #' @param newobj A character string specifying the name of the matrix to which the output
 #' is to be written. If no <newobj> argument is specified or it is NULL
-#' the output matrix names defaults to "new_matrix"
+#' the output matrix names defaults to "matrix.newobj"
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
@@ -165,7 +165,7 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   # if no value spcified for output object, then specify a default
   if(is.null(newobj))
   {
-    newobj <- "new_matrix"
+    newobj <- "matrix.newobj"
   }
 
   #process mdata to make transmittable depending on <from>

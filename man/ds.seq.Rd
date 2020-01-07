@@ -4,9 +4,15 @@
 \alias{ds.seq}
 \title{ds.seq calling seqDS}
 \usage{
-ds.seq(FROM.value.char = "1", BY.value.char = "1",
-  LENGTH.OUT.value.char = NULL, ALONG.WITH.name = NULL,
-  newobj = "newObj", datasources = NULL)
+ds.seq(
+  FROM.value.char = "1",
+  BY.value.char = "1",
+  TO.value.char = NULL,
+  LENGTH.OUT.value.char = NULL,
+  ALONG.WITH.name = NULL,
+  newobj = "newObj",
+  datasources = NULL
+)
 }
 \arguments{
 \item{FROM.value.char}{the starting value for the sequence expressed as an integer
@@ -32,7 +38,7 @@ depends on the standard length of vectors in that data set and this will
 in general vary.}
 
 \item{newobj}{This a character string providing a name for the output
-sequence vector which defaults to 'newObj' if no name is specified.}
+sequence vector which defaults to 'seq.newobj' if no name is specified.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals
@@ -46,7 +52,7 @@ e.g. datasources=opals.em[c(1,3)].}
 }
 \value{
 the object specified by the <newobj> argument (or default name newObj)
-which is written to the serverside. 
+which is written to the serverside.
 As well as writing the output object as <newobj>
 on the serverside, two validity messages are returned
 indicating whether <newobj> has been created in each data source and if so whether

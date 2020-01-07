@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.isNA::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -30,4 +36,13 @@ test_that("isNA", {
 # Tear down
 #
 
+context("ds.isNA::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.isNA::smk::done")
+

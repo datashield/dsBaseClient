@@ -47,7 +47,7 @@
 #' "N" (or "length"), "mean","sd", "sum", or "quantile". For more information see Details.
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "tapply.out".
+#' to "tapply.assign.newobj".
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
@@ -62,7 +62,7 @@
 #' dimensions as INDEX. 
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
-ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj="tapply.out",datasources=NULL){
+ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
   # if no opal login details are provided look for 'opal' objects in the environment
@@ -100,7 +100,7 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
 
     # create a name by default if user did not provide a name for the new tapply object
   if(is.null(newobj)){
-    newobj <- "tapply.out"
+    newobj <- "tapply.assign.newobj"
   }
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION

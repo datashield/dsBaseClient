@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.meanByClass::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC","LAB_HDL","GENDER","DIS_DIAB","PM_BMI_CATEGORICAL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -53,7 +59,7 @@ test_that("LAB_HDL_across_gender_bmi_diabetes", {
     expect_equal(res[[7]], '12')
     expect_equal(res[[2]], '1.59(0.42)')
     expect_equal(res[[4]], '5.88(1.04)')
-    expect_equal(res[[8]], '6.05(0.57)')
+    expect_equal(res[[8]], 'NA(NA)')
     expect_equal(res[[12]], '5.88(1.08)')
 })
 
@@ -83,4 +89,21 @@ test_that("meanByClass_erros", {
 # Tear down
 #
 
+context("ds.meanByClass::smk::shutdown")
+
+test_that("shutdown", {
+#     ds_expect_variables(c("D",
+#                           "D.GENDER0",
+#                           "D.GENDER0.PM_BMI_CATEGORICAL1", "D.GENDER0.PM_BMI_CATEGORICAL1.DIS_DIAB0", "D.GENDER0.PM_BMI_CATEGORICAL1.DIS_DIAB1", 
+#                           "D.GENDER0.PM_BMI_CATEGORICAL2", "D.GENDER0.PM_BMI_CATEGORICAL2.DIS_DIAB0", "D.GENDER0.PM_BMI_CATEGORICAL2.DIS_DIAB1",
+#                           "D.GENDER0.PM_BMI_CATEGORICAL3", "D.GENDER0.PM_BMI_CATEGORICAL3.DIS_DIAB0", "D.GENDER0.PM_BMI_CATEGORICAL3.DIS_DIAB1",
+#                           "D.GENDER1",
+#                           "D.GENDER1.PM_BMI_CATEGORICAL1", "D.GENDER1.PM_BMI_CATEGORICAL1.DIS_DIAB0", "D.GENDER1.PM_BMI_CATEGORICAL1.DIS_DIAB1",
+#                           "D.GENDER1.PM_BMI_CATEGORICAL2", "D.GENDER1.PM_BMI_CATEGORICAL2.DIS_DIAB0", "D.GENDER1.PM_BMI_CATEGORICAL2.DIS_DIAB1",
+#                           "D.GENDER1.PM_BMI_CATEGORICAL3", "D.GENDER1.PM_BMI_CATEGORICAL3.DIS_DIAB0", "D.GENDER1.PM_BMI_CATEGORICAL3.DIS_DIAB1",
+#                           "ldl", "sex", "tempholder", "X", "X.sex0", "X.sex1"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.meanByClass::smk::done")

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.matrix::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -25,10 +31,10 @@ test_that("simplest ds.matrix", {
     res <- ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=4)
 
     expect_length(res, 2)
-    expect_equal(res[[1]], "A data object <new_matrix> has been created in all specified data sources")
-    expect_equal(res[[2]], "<new_matrix> appears valid in all sources")
+    expect_equal(res[[1]], "A data object <matrix.newobj> has been created in all specified data sources")
+    expect_equal(res[[2]], "<matrix.newobj> appears valid in all sources")
 
-    check.class<-ds.class("new_matrix",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("matrix.newobj",datasources=ds.test_env$connection.opal)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "matrix")
@@ -40,4 +46,12 @@ test_that("simplest ds.matrix", {
 # Tear down
 #
 
+context("ds.matrix::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "matrix.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.matrix::smk::done")

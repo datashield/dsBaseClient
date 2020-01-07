@@ -4,8 +4,7 @@
 \alias{ds.matrixMult}
 \title{ds.matrixMult calling assign function matrixMultDS}
 \usage{
-ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL,
-  datasources = NULL)
+ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{M1}{A character string specifying the name of the first matrix (M1)}
@@ -14,8 +13,7 @@ ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL,
 
 \item{newobj}{A character string specifying the name of the matrix to which the output
 is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "M1_M2" where <M1> is the first argument of the function
-and <M2> is the second argument of the function.}
+to "matrixmult.newobj"}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

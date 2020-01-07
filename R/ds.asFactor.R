@@ -5,7 +5,7 @@
 #' or as a matrix of dummy variables dependending on the argument \code{fixed.dummy.vars}.
 #' @param input.var.name the name of the variable that is to be converted to a factor
 #' @param newobj.name the name of the new object. If this argument is set to NULL or not specified 
-#' then the default name of the new variable is the name of the input variable with the suffixe '.f'.
+#' then the default name of the new variable is asfactor.newobj
 #' @param forced.factor.levels the levels that the user wants to split the input variable. If this
 #' argument is set to NULL (default) then a vector with all unique levels from all studies is created 
 #' as a result of the output of 'asFactorDS1.b' server-side function. The 'asFactorDS1.b' function 
@@ -144,7 +144,7 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
 
   # if no output variable specified then provide a default name
   if(is.null(newobj.name)){
-    newobj.name <- paste0(input.var.name,".f")
+    newobj.name <- "asfactor.newobj"
   }
 
   #CALL THE FIRST SERVER SIDE FUNCTION (AN AGGREGATE FUNCTION)

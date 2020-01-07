@@ -4,8 +4,7 @@
 \alias{ds.rowColCalc}
 \title{Computes sums and means of rows or columns of numeric matrix or data frame}
 \usage{
-ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
-  datasources = NULL)
+ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{x}{a character, the name of a matrix or a dataframe}
@@ -14,7 +13,7 @@ ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL,
 "rowSums", "colSums", "rowMeans" or "colMeans".}
 
 \item{newobj}{the name of the new object. If this argument is set to NULL, the name of the new 
-variable, set by default, is 'rowColCalc_out'.}
+variable, set by default, is 'rowcolcalc.newobj'.}
 
 \item{datasources}{a list of opal object(s) obtained after login in to opal servers;
 these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}

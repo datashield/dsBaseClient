@@ -4,9 +4,15 @@
 \alias{ds.dataFrameSort}
 \title{ds.dataFrameSort calling dataFrameSortDS}
 \usage{
-ds.dataFrameSort(df.name = NULL, sort.key.name = NULL,
-  sort.descending = FALSE, sort.alphabetic = FALSE,
-  sort.numeric = FALSE, newobj = NULL, datasources = NULL)
+ds.dataFrameSort(
+  df.name = NULL,
+  sort.key.name = NULL,
+  sort.descending = FALSE,
+  sort.alphabetic = FALSE,
+  sort.numeric = FALSE,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{df.name}{a character string providing the name for the data.frame
@@ -24,8 +30,7 @@ Default=FALSE.}
 Default=FALSE.}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to '<df.name>.sorted' if no name is specified
-where <df.name> is the first argument of ds.dataFrameSort().}
+data.frame which defaults to 'dataframesort.newobj' if no name is specified}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

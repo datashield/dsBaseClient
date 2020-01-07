@@ -4,14 +4,22 @@
 \alias{ds.dataFrameSubset}
 \title{ds.dataFrameSubset calling dataFrameSubsetDS1 and dataFrameSubsetDS2}
 \usage{
-ds.dataFrameSubset(df.name = NULL, V1.name = NULL, V2.name = NULL,
-  Boolean.operator = NULL, keep.cols = NULL, rm.cols = NULL,
-  keep.NAs = NULL, newobj = NULL, datasources = NULL,
-  notify.of.progress = FALSE)
+ds.dataFrameSubset(
+  df.name = NULL,
+  V1.name = NULL,
+  V2.name = NULL,
+  Boolean.operator = NULL,
+  keep.cols = NULL,
+  rm.cols = NULL,
+  keep.NAs = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{df.name}{a character string providing the name for the data.frame
-to be sorted.}
+from where the subset is created.}
 
 \item{V1.name}{A character string specifying the name of a subsetting vector
 to which a Boolean operator will be applied to define the subset to be created. Note
@@ -54,8 +62,7 @@ be converted to 0s and the corresponding row will therefore be excluded from the
 
 \item{newobj}{This a character string providing a name for the subset
 data.frame representing the primary output of the ds.dataFrameSubset() function.
-This defaults to '<df.name>_subset' if no name is specified
-where <df.name> is the first argument of ds.dataFrameSubset()}
+This defaults to 'dataframesubset.newobj' if no name is specified}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

@@ -4,9 +4,14 @@
 \alias{ds.rPois}
 \title{ds.rPois calling rPoisDS and setSeedDS}
 \usage{
-ds.rPois(samp.size = 1, lambda = 1, newobj = "newObject",
-  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
-  datasources = NULL)
+ds.rPois(
+  samp.size = 1,
+  lambda = 1,
+  newobj = "newObject",
+  seed.as.integer = NULL,
+  return.full.seed.as.set = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.
@@ -39,7 +44,7 @@ source, then you can specify <lambda> as a scalar and use the
 Default value for <lambda> = 1.}
 
 \item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'newObject' if no name is specified.}
+random number vector which defaults to 'rpois.newobj' if no name is specified.}
 
 \item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)

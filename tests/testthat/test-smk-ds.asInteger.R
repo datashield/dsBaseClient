@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.asInteger::smk::setup")
+
 connect.studies.dataset.cnsim(list("GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,12 +29,20 @@ test_that("simple test", {
     res <- ds.asInteger("D$GENDER")
 
     expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <D$GENDER.int> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<D$GENDER.int> appears valid in all sources")
+    expect_equal(res$is.object.created, "A data object <asinteger.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<asinteger.newobj> appears valid in all sources")
 })
 
 #
 # Done
 #
 
+context("ds.asInteger::smk::stutdown")
+
+test_that("stutdown", {
+    ds_expect_variables(c("D", "asinteger.newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.asInteger::smk::done")

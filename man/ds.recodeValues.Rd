@@ -4,9 +4,15 @@
 \alias{ds.recodeValues}
 \title{ds.recodeValues calling recodeValuesDS1 and recodeValuesDS2}
 \usage{
-ds.recodeValues(var.name = NULL, values2replace.vector = NULL,
-  new.values.vector = NULL, force.output.format = "no",
-  newobj = NULL, datasources = NULL, notify.of.progress = FALSE)
+ds.recodeValues(
+  var.name = NULL,
+  values2replace.vector = NULL,
+  new.values.vector = NULL,
+  force.output.format = "no",
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{var.name}{a character string providing the name for the vector representing the
@@ -47,8 +53,7 @@ to character format.}
 
 \item{newobj}{This a character string providing a name for the recoded vector
 representing the primary output of the ds.recodeValues() function.
-This defaults to '<var.name>_recoded' if no name is specified
-where <var.name> is the first argument of ds.recodeValues()}
+This defaults to 'recodevalues.newobj'}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

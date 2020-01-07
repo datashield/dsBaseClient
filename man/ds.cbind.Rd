@@ -4,9 +4,14 @@
 \alias{ds.cbind}
 \title{ds.cbind calling cbindDS}
 \usage{
-ds.cbind(x = NULL, DataSHIELD.checks = FALSE, force.colnames = NULL,
-  newobj = "cbind.out", datasources = NULL,
-  notify.of.progress = FALSE)
+ds.cbind(
+  x = NULL,
+  DataSHIELD.checks = FALSE,
+  force.colnames = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental
@@ -50,7 +55,7 @@ are required.Please see help for {ds.cbind} function" where 'N'
 is the actual number of columns in the output object}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'cbind.out' if no name is specified.}
+data.frame which defaults to 'cbind.newobj' if no name is specified.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

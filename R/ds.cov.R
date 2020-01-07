@@ -1,17 +1,17 @@
-#' 
+#'
 #' @title Calculates the covariance between two variables
-#' @description This function calculates the covariance of two variables or the variance-covariance 
+#' @description This function calculates the covariance of two variables or the variance-covariance
 #' matrix for the vairables of an input dataframe
-#' @details In addition to computing covariances; this function, produces a table outlining the 
+#' @details In addition to computing covariances; this function, produces a table outlining the
 #' number of complete cases and a table outlining the number of missing values to allow for the
 #' user to make a decision about the 'relevance' of the covariance based on the number of complete
 #' cases included in the covariance calculations.
 #' @param x a character, the name of a vector, matrix or dataframe of variable(s) for which the
 #' covariance(s) is (are) calculated for.
-#' @param y NULL (default) or the name of a vector, matrix or dataframe with compatible 
+#' @param y NULL (default) or the name of a vector, matrix or dataframe with compatible
 #' dimensions to x.
-#' @param naAction a character string giving a method for computing covariances in the 
-#' presence of missing values. This must be one of the strings "casewise.complete" or 
+#' @param naAction a character string giving a method for computing covariances in the
+#' presence of missing values. This must be one of the strings "casewise.complete" or
 #' "pairwise.complete". If \code{use} is set to 'casewise.complete', then the function omits all the rows
 #' in the whole dataframe that include at least one cell with a missing value before the calculation of covariances.
 #' If \code{use} is set to 'pairwise.complete' (default), then the function divides the input dataframe to subset
@@ -22,14 +22,14 @@
 #' an input dataframe and the number of complete cases and missing values are returned for each
 #' single study. If \code{type} is set to 'combine', the pooled covariance, the total number of
 #' complete cases and the total number of missing values aggregated from all the involved studies,
-#' are returned. 
+#' are returned.
 #' @param datasources a list of opal object(s) obtained after login in to opal servers;
 #' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return a list containing the number of missing values in each variable, the number of missing variables 
+#' @return a list containing the number of missing values in each variable, the number of missing variables
 #' casewise or paiwise depending on the argument \code{use}, the covariance matrix, the number of used complete cases
 #' and an error message which indicates whether or not the input variables pass the disclosure control (i.e. none of them
 #' is dichotomous with a level having less counts than the pre-specified threshold). If any of the input variables does not
-#' pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass 
+#' pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
 #' the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 #' @author Gaye A; Avraam D; Burton PR
 #' @export
@@ -45,15 +45,15 @@
 #' #  myvar <- list('LAB_HDL', 'LAB_TSC', 'LAB_GLUC_ADJUSTED', 'GENDER')
 #' #  opals <- opal::datashield.login(logins=glmLoginData, assign=TRUE, variables=myvar)
 #' #
-#' #  # Example 1: generate the covariance matrix for the assigned dataset 'D' 
+#' #  # Example 1: generate the covariance matrix for the assigned dataset 'D'
 #' #  # which contains 4 vectors (3 continuous and 1 categorical)
 #' #  ds.cov(x='D')
 #' #
-#' #  # Example 2: generate the covariance matrix for the dataset 'D' combined for all 
-#' #  # studies and removing any missing values casewise 
+#' #  # Example 2: generate the covariance matrix for the dataset 'D' combined for all
+#' #  # studies and removing any missing values casewise
 #' #  ds.cov(x='D', naAction='casewise.complete', type='combine')
 #' #
-#' #  # Example 3: calculate the covariance between two vectors 
+#' #  # Example 3: calculate the covariance between two vectors
 #' #  # (first assign the vectors from 'D')
 #' #  ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
 #' #  ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
@@ -65,25 +65,25 @@
 #' #
 #' #  # clear the Datashield R sessions and logout
 #' #  opal::datashield.logout(opals)
-#' 
+#'
 #' }
 #'
 ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL){
-  
+
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
     datasources <- findLoginObjects()
   }
-  
+
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
   }else{
     defined <- isDefined(datasources, x)
   }
-  
+
   # check the type of the input objects
   typ <- checkClass(datasources, x)
-  
+
   if(typ=='numeric' | typ=='integer' | typ=='factor'){
     if(is.null(y)){
       stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
@@ -92,7 +92,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       typ2 <- checkClass(datasources, y)
     }
   }
-  
+
   if(typ=='matrix' | typ=='data.frame' & !(is.null(y))){
     y <- NULL
     warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
@@ -102,20 +102,20 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   stdnames <- names(datasources)
 
   # call the server side function
-  if(typ=='matrix' | typ=='data.frame'){
-    cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
+    calltext <- call("covDS", x, NULL, naAction)
   }else{
     if(!(is.null(y))){
-      cally <- paste0("covDS(x=", x, ", y=", y, ", use='", naAction, "')")
+      calltext <- call("covDS", x, y, naAction)
     }else{
-      cally <- paste0("covDS(x=", x, ", y=NULL", ", use='", naAction, "')")
+      calltext <- call("covDS", x, NULL, naAction)
     }
   }
-  output <- opal::datashield.aggregate(datasources, as.symbol(cally))
+  output <- opal::datashield.aggregate(datasources, calltext)
 
   if (type=="split"){
     covariance <- list()
-    results <- list() 
+    results <- list()
     for(i in 1:length(stdnames)){
       covariance[[i]] <- matrix(0, ncol=dim(output[[i]][[1]])[2], nrow=dim(output[[i]][[1]])[1])
       colnames(covariance[[i]]) <- colnames(output[[i]][[1]])
@@ -123,11 +123,11 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       for(m in 1:dim(output[[i]][[1]])[1]){
         for(n in 1:dim(output[[i]][[1]])[2]){
           if (naAction=='pairwise.complete'){
-            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m,n]*output[[i]][[2]][n,m]     
+            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m,n]*output[[i]][[2]][n,m]
           }
           if (naAction=='casewise.complete'){
-            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m]*output[[i]][[2]][n]     
-          }                  
+            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m]*output[[i]][[2]][n]
+          }
        }
       }
       results[[i]] <- list(output[[i]][[4]][[1]], output[[i]][[4]][[2]], covariance[[i]], output[[i]][[3]], output[[i]][[5]])
@@ -166,14 +166,14 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       for(m in 1:dim(output[[i]][[1]])[1]){
         for(n in 1:dim(output[[i]][[1]])[1]){
           if (naAction=='pairwise.complete'){
-            combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]     
+            combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
           }
           if (naAction=='casewise.complete'){
-            combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m]*combined.sums[n]     
+            combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m]*combined.sums[n]
           }
         }
       }
-	  
+
       results <- list(combined.missing.cases.vector, combined.missing.cases.matrix, combined.covariance, combined.complete.cases, combined.error.message)
       n1 <- "Number of missing values in each variable"
       if(naAction=='casewise.complete'){
@@ -191,6 +191,6 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     }
   }
 
-  return(results)  
+  return(results)
 
 }

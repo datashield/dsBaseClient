@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.merge::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "DIS_CVA", "DIS_AMI"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -43,4 +49,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.merge::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "test_1_df", "test_2_df", "merge_newobj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.merge::smk::done")

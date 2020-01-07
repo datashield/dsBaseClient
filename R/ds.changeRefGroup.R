@@ -10,8 +10,7 @@
 #' @param x a character, the name of a vector of type factor.
 #' @param ref the reference level
 #' @param newobj the name of the new variable. If this argument is set to NULL, 
-#' the name of the new variable is the name of the input variable with the 
-#' suffixe '_newref'.
+#' the name of the new variable is 'changerefgroup.newobj'.
 #' @param reorderByRef a boolean that tells whether or not the new vector 
 #' should be ordered by the reference group (i.e. putting the reference group first).
 #' The default is to not re-order for the reasons explained in the 'details' section.
@@ -78,6 +77,11 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
     stop(" You must indicate a reference level - set the parameter 'ref'.", call.=FALSE)
   }
   
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "changerefgroup.newobj"
+  }
+
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case

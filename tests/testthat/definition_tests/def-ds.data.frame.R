@@ -47,7 +47,7 @@
 .test.data.frame.from.different.objects <- function(data.frame.name)
 {
   ds.make('D$NUMERIC','numeric_var')
-  ds.make('D$FACTOR','factor_var')
+  ds.make('D$FACTOR_INTEGER','factor_var')
   
   data.frame.server <- ds.dataFrame(x=c('numeric_var','factor_var'), newobj = data.frame.name, datasources = ds.test_env$connection.opal)
   type <- ds.class(data.frame.name)

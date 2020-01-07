@@ -12,7 +12,7 @@ Must be specified in inverted commas eg x.name="name.of.object"}
 
 \item{newobj}{the name of the new output variable specified
 in inverted commas. If this argument is set to NULL, the name
-of the new variable is defaulted to <x.name>.mat}
+of the new variable is defaulted to asdatamatrix.newobj}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

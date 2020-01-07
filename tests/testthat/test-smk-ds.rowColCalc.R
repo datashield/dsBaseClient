@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.rowColCalc::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -29,7 +35,7 @@ test_that("rowColCalc_exists", {
 
 context("ds.rowColCalc::smk::no newobj")
 ds.rowColCalc(x='D', operation="rowSums")
-res <- ds.exists('rowColCalc_out')
+res <- ds.exists('rowcolcalc.newobj')
 test_that("rowColCalc_out_exists", {
     expect_true(res$sim1)
     expect_true(res$sim2)
@@ -46,5 +52,12 @@ test_that("rowColCalc_errors", {
 #
 # Tear down
 #
+context("ds.rowColCalc::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "rsum_hdl_tsc", "rowcolcalc.newobj"))
+})
 
 disconnect.studies.dataset.cnsim()
+
+context("ds.rowColCalc::smk::done")

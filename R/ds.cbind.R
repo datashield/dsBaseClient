@@ -44,7 +44,7 @@
 #' are required.Please see help for {ds.cbind} function" where 'N'
 #' is the actual number of columns in the output object 
 #' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'cbind.out' if no name is specified.
+#' data.frame which defaults to 'cbind.newobj' if no name is specified.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
@@ -77,7 +77,7 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
-ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj='cbind.out',datasources=NULL,notify.of.progress=FALSE){
+ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
   
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
@@ -116,7 +116,7 @@ if(DataSHIELD.checks)
 } 
   # check newobj not actively declared as null
   if(is.null(newobj)){
-    newobj <- "cbind.out"
+    newobj <- "cbind.newobj"
   }
 
 

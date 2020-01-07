@@ -11,7 +11,7 @@ ds.asInteger(x.name = NULL, newobj = NULL, datasources = NULL)
 integer. Must be specified in inverted commas.}
 
 \item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to <x.name>.int}
+to NULL, the name of the new variable is defaulted to asinteger.newobj}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

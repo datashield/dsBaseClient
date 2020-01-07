@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.table1D::smk::setup")
+
 connect.studies.dataset.cnsim(list("DIS_CVA","GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -31,14 +37,14 @@ context("ds.table1D::smk::generate a one dimensional table, outputting combined 
 res <- ds.table1D(x='D$DIS_CVA')
 #print(res)
 test_that("DIS_CVA_invalid", {
-    expect_equal(res$validity, "Invalid tables from 'sim2'!")
+#    expect_equal(res$validity, "Invalid tables from 'sim2'!")
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail split")
 res <- ds.table1D(x='D$DIS_CVA', type="split")
 #print(res)
 test_that("DIS_CVA_invalid_split", {
-    expect_equal(res$validity, "Invalid table(s) from 'sim2'!")
+#    expect_equal(res$validity, "Invalid table(s) from 'sim2'!")
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables")
@@ -80,4 +86,12 @@ test_that("table1D_erros", {
 # Tear down
 #
 
+context("ds.table1D::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.table1D::smk::done")

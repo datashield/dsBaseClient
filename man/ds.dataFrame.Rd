@@ -4,10 +4,18 @@
 \alias{ds.dataFrame}
 \title{ds.dataFrame calling dataFrameDS}
 \usage{
-ds.dataFrame(x = NULL, row.names = NULL, check.rows = FALSE,
-  check.names = TRUE, stringsAsFactors = TRUE, completeCases = FALSE,
-  DataSHIELD.checks = FALSE, newobj = "df_new", datasources = NULL,
-  notify.of.progress = FALSE)
+ds.dataFrame(
+  x = NULL,
+  row.names = NULL,
+  check.rows = FALSE,
+  check.names = TRUE,
+  stringsAsFactors = TRUE,
+  completeCases = FALSE,
+  DataSHIELD.checks = FALSE,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental
@@ -51,7 +59,7 @@ will be deleted.}
 consuming). Default FALSE.}
 
 \item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'df_new' if no name is specified.}
+data.frame which defaults to 'dataframe.newobj' if no name is specified.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

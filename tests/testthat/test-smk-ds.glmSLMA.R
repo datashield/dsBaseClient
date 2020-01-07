@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "GENDER"))
+context("ds.glmSLMA::smk::setup")
+
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -162,4 +168,12 @@ test_that("simple glmSLMA, poisson", {
 # Done
 #
 
+context("ds.glmSLMA::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "str.dis.ami", "num.dis.ami", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.glmSLMA::smk::done")

@@ -4,10 +4,18 @@
 \alias{ds.reShape}
 \title{ds.reShape calling assign function reShapeDS}
 \usage{
-ds.reShape(data.name = NULL, varying = NULL, v.names = NULL,
-  timevar.name = "time", idvar.name = "id", drop = NULL,
-  direction = NULL, sep = ".", newobj = "newObject",
-  datasources = NULL)
+ds.reShape(
+  data.name = NULL,
+  varying = NULL,
+  v.names = NULL,
+  timevar.name = "time",
+  idvar.name = "id",
+  drop = NULL,
+  direction = NULL,
+  sep = ".",
+  newobj = "newObject",
+  datasources = NULL
+)
 }
 \arguments{
 \item{data.name, }{the name of the data frame to be reshaped. The user must set the name as a
@@ -56,7 +64,7 @@ set things up the column for sbp at age 7 in the wide format may be called
 
 \item{newobj}{A character string specifying the name of the vector to which the output
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to 'newObject'.}
+to 'reshape.newobj'.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
 argument is not specified the default set of opals will be used. The default opals

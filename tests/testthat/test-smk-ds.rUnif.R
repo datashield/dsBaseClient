@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.rUnif::smk::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -39,4 +45,12 @@ test_that("simple test", {
 # Done
 #
 
+context("ds.rUnif::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "unif_dist"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.rUnif::smk::done")

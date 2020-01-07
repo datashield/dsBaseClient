@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.assign::smk::setup")
+
 connect.studies.dataset.cnsim(list('LAB_TSC', 'LAB_TRIG','LAB_HDL', 'LAB_GLUC_ADJUSTED', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'MEDI_LPD', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -29,4 +35,12 @@ test_that("test_assign", {
 # Tear down
 #
 
+context("ds.assign::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "assigned_obj"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+context("ds.assign::smk::done")

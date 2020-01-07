@@ -4,8 +4,13 @@
 \alias{ds.cor}
 \title{Calculates the correlation between two variables}
 \usage{
-ds.cor(x = NULL, y = NULL, naAction = "pairwise.complete",
-  type = "split", datasources = NULL)
+ds.cor(
+  x = NULL,
+  y = NULL,
+  naAction = "pairwise.complete",
+  type = "split",
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a vector, matrix or dataframe of variable(s) for which the
