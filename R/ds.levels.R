@@ -57,7 +57,7 @@ ds.levels = function(x=NULL, datasources=NULL) {
   typ <- checkClass(datasources, x)
   
   # the input object must be a factor
-  if(typ != 'factor'){
+  if(!('factor' %in% typ)){
     stop("The input object must be a factor.", call.=FALSE)
   }  
   

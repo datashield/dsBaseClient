@@ -100,7 +100,7 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
   typ <- checkClass(datasources, x)
   
   # if input vector is not a factor stop
-  if(typ != 'factor'){
+  if(!('factor' %in% typ)){
     stop("The input vector must be a factor!", call.=FALSE)
   }
   

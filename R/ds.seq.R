@@ -1,29 +1,52 @@
-#' @title ds.seq calling seqDS
+#' @title ds.seq calling assign function seqDS
 #' @description ds.seq calling assign function seqDS
 #' @details Calls an assign function that uses the native R function seq() to create
 #' any one of a flexible range of sequence vectors that can then be used to help
 #' manage and analyse data. As it is an assign function the resultant vector is
-#' written as a new object onto all of the specified data source servers. For
-#' the purposes of creating the DataSHIELD equivalent to seq() in native R we
-#' have used all of the original arguments (see below) except the <to> argument.
-#' This simplifies the function and prevents some combinations of arguments that
-#' lead to an error in native R. The effect of the <to> argument - see help(seq) in
-#' native R - is to specify the terminal value of the sequence. However,
-#' when using seq() one can usually specify other arguments (see below) to mimic
-#' the desire effect of <to>. These include: <from>, the starting value of the
-#' sequence; <by>, its increment (+ or -), and <length.out> the length of the final vector
-#' in each data source. 
+#' written as a new object into all of the specified data source servers. Please
+#' note that some combinations  of arguments are not allowed for the function {seq}
+#' in native R and hence are also prohibited in {ds.seq}. To be specific,
+#' FROM.value.char defines the start of the sequence and BY.value.char defines how
+#' the sequence is incremented (or decremented) at each step. But where the
+#' sequence stops can be defined in three different ways: TO.value.char indicates
+#' the terminal value of the sequence e.g. ds.seq(FROM.value.char="3", BY.value.char="2",
+#' TO.value.char="7") creates the sequence 3,5,7 on the serverside;
+#' LENGTH.OUT.value.char indicates the length of the sequence
+#' e.g. ds.seq(FROM.value.char="3", BY.value.char="2", LENGTH.OUT.value.char="7")
+#' creates the sequence 3,5,7,9,11,13,15 on the serverside; ALONG.WITH.name
+#' specifies the name of a variable (on the serverside) such that the sequence
+#' in each study will be equal in length to that variable.
+#' i.e. ds.seq(FROM.value.char="3", BY.value.char="2", ALONG.WITH.name="var.x")
+#' will create a sequence such that if var.x is of length 100 in study 1 the
+#' sequence written to study 1 will be 3,5,7,...,197,199,201 and if var.x is
+#' of length 4 in study 2, the sequence written to study 2 will be 3,5,7,9.
+#' BUT CRUCIALLY - only one of the three arguments TO.value.char,
+#' LENGTH.OUT.value.char and ALONG.WITH.name can be non-null in any one call.
 #' @param FROM.value.char the starting value for the sequence expressed as an integer
-#' in character form. e.g. FROM.value.char="1" will start at 1, FROM.value.char="-10"
-#' will start at -10. Default = "1"
+#' or real number with a decimal point but 
+#' in character form. e.g. FROM.value.char="1" will start at 1, FROM.value.char="-10.7"
+#' will start at -10.7. Default = "1"
+#' @param TO.value.char the terminal value for the sequence expressed as an integer
+#' or real number with a decimal point but 
+#' in character form. e.g. if TO.value.char="17.33" the sequence will terminate
+#' at the last value in the sequence that is <= 17.33. Default = "1"
 #' @param BY.value.char the value to increment each step in the sequence
-#' expressed as a numeric e.g. BY.value.char="10" will increment by 10,
-#' while BY.value.char="-3.37" will reduce the value of each sequence
-#' element by -3.37. Default = "1" but does not have to be integer
-#' @param LENGTH.OUT.value.char The length of the sequence at which point
-#' its extension should be stopped. e.g.  LENGTH.OUT.value.char="1000" will
-#' generate a sequence of length 1000. Default = NULL (must be specified) but
-#' must be a positive integer
+#' expressed as an integer
+#' or real number with a decimal point but 
+#' in character form. e.g. if BY.value.char="2.93" the sequence will increment
+#' by 2.93 at each step, if BY.value.char="-1" the sequence will decrement
+#' by 1 at each step. Default = "+1"
+#' @param LENGTH.OUT.value.char length of the sequence at which point
+#' its extension should be stopped, expressed as an integer
+#' or real number with a decimal point but 
+#' in character form. e.g.  LENGTH.OUT.value.char="1000" will
+#' generate a sequence of length 1000. If however, LENGTH.OUT.value.char
+#' is not an integer any value larger than a given integer will result
+#' in a sequence of length integer+1. e.g.  LENGTH.OUT.value.char="1000.0001" will
+#' generate a sequence of length 1001. If 0.0>=LENGTH.OUT.value.char>(-1.0), the function
+#' will run but will generate a sequence with no elements.
+#' If LENGTH.OUT.value.char<=(-1.0) the function will terminate with an error.
+#' Default = NULL.
 #' @param ALONG.WITH.name For convenience, rather than specifying a value
 #' for LENGTH.OUT it can often be better to specify a variable name as
 #' the <ALONG.WITH.name> argument. e.g. ALONG.WITH.name = "vector.name".
@@ -57,9 +80,9 @@
 #' and a studysideMessage was saved. If there was no error and <newobj> was created
 #' without problems no studysideMessage will have been saved and ds.message("<newobj>")
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton for DataSHIELD Development Team
+#' @author Paul Burton for DataSHIELD Development Team, 17/9/2019
 #' @export
-ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
+ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL, LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
                    newobj="newObj", datasources=NULL) {
 
 
@@ -79,6 +102,17 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", LENGTH.OUT.value.ch
 	}
 	if(!FROM.valid){
   return("Error: If FROM.value.char is non.NULL, it must be a real number in inverted commas eg '-3.7' or '0'")
+	}
+
+###TO.value.char
+  # check TO.value.char is valid
+  TO.valid<-1
+  if(!(is.null(TO.value.char))) {
+		if(!is.character(TO.value.char))TO.valid<-0
+		if(!is.numeric(eval(parse(text=TO.value.char))))TO.valid<-0
+	}
+	if(!TO.valid){
+  return("Error: If TO.value.char is non.NULL, it must be a real number in inverted commas eg '-3.7' or '0'")
 	}
 
 ###BY.value.char
@@ -111,18 +145,17 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", LENGTH.OUT.value.ch
 	}
 
 ###Either LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL
-if(is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.name)){
-    return("Error: Either LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL, they cannot both be NULL")
+if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.name)){
+    return("Error: Either TO.value.char or LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL, they cannot both be NULL")
 	}
 
 
-# CALL THE PRIMARY SERVER SIDE FUNCTION
-  calltext <- call("seqDS", FROM.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
- opal::datashield.assign(datasources, newobj, calltext)
- 
 
- 
- 
+# CALL THE PRIMARY SERVER SIDE FUNCTION
+  calltext <- call("seqDS", FROM.value.char,TO.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
+ opal::datashield.assign(datasources, newobj, calltext)
+
+
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
 																											#
@@ -147,7 +180,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

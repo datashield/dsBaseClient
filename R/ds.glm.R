@@ -636,7 +636,7 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.gl
     message("Iteration ", iteration.count, "...")
 
 #NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
-    cally2 <- call('glmDS2', formula, family, beta.vect=beta.vect.temp, offset, weights, data)
+    cally2 <- call('glmDS2', formula, family, beta.vect.temp, offset, weights, data)
 
       study.summary <- opal::datashield.aggregate(datasources, cally2)
 	

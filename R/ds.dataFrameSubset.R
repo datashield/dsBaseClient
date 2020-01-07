@@ -16,7 +16,7 @@
 #' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
 #' in each source equal in length to the indID vector in that source. 
 #' @param df.name a character string providing the name for the data.frame
-#' from where the subset is created. 
+#' from where the subset is created.
 #' @param V1.name A character string specifying the name of a subsetting vector
 #' to which a Boolean operator will be applied to define the subset to be created. Note
 #' if the plan is to subset by column using ALL rows, then <V1.name>
@@ -154,10 +154,10 @@ if(!is.null(rm.cols)){
   
   
   
-    calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext1 <- call("dataFrameSubsetDS1", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs)
     return.warning.message<-opal::datashield.aggregate(datasources, calltext1)
 
-    calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs=keep.NAs)
+    calltext2 <- call("dataFrameSubsetDS2", df.name, V1.name, V2.name, BO.n, keep.cols, rm.cols, keep.NAs)
     opal::datashield.assign(datasources, newobj, calltext2)
 	
  
@@ -202,7 +202,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
