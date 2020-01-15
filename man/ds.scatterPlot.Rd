@@ -4,8 +4,15 @@
 \alias{ds.scatterPlot}
 \title{Generates non-disclosive scatter plots}
 \usage{
-ds.scatterPlot(x = NULL, y = NULL, method = "deterministic", k = 3,
-  noise = 0.25, type = "split", datasources = NULL)
+ds.scatterPlot(
+  x = NULL,
+  y = NULL,
+  method = "deterministic",
+  k = 3,
+  noise = 0.25,
+  type = "split",
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a numeric vector, the x-variable.}

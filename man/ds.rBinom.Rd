@@ -4,9 +4,15 @@
 \alias{ds.rBinom}
 \title{ds.rBinom calling rBinomDS and setSeedDS}
 \usage{
-ds.rBinom(samp.size = 1, size = 0, prob = 1, newobj = NULL,
-  seed.as.integer = NULL, return.full.seed.as.set = FALSE,
-  datasources = NULL)
+ds.rBinom(
+  samp.size = 1,
+  size = 0,
+  prob = 1,
+  newobj = NULL,
+  seed.as.integer = NULL,
+  return.full.seed.as.set = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{samp.size}{the length of the random number vector to be created in each source.

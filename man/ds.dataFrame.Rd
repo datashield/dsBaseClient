@@ -4,10 +4,18 @@
 \alias{ds.dataFrame}
 \title{ds.dataFrame calling dataFrameDS}
 \usage{
-ds.dataFrame(x = NULL, row.names = NULL, check.rows = FALSE,
-  check.names = TRUE, stringsAsFactors = TRUE, completeCases = FALSE,
-  DataSHIELD.checks = FALSE, newobj = NULL, datasources = NULL,
-  notify.of.progress = FALSE)
+ds.dataFrame(
+  x = NULL,
+  row.names = NULL,
+  check.rows = FALSE,
+  check.names = TRUE,
+  stringsAsFactors = TRUE,
+  completeCases = FALSE,
+  DataSHIELD.checks = FALSE,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{x}{This is a vector of character strings representing the names of the elemental

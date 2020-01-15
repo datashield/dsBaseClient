@@ -4,10 +4,18 @@
 \alias{ds.reShape}
 \title{ds.reShape calling assign function reShapeDS}
 \usage{
-ds.reShape(data.name = NULL, varying = NULL, v.names = NULL,
-  timevar.name = "time", idvar.name = "id", drop = NULL,
-  direction = NULL, sep = ".", newobj = "newObject",
-  datasources = NULL)
+ds.reShape(
+  data.name = NULL,
+  varying = NULL,
+  v.names = NULL,
+  timevar.name = "time",
+  idvar.name = "id",
+  drop = NULL,
+  direction = NULL,
+  sep = ".",
+  newobj = "newObject",
+  datasources = NULL
+)
 }
 \arguments{
 \item{data.name, }{the name of the data frame to be reshaped. The user must set the name as a

@@ -4,8 +4,7 @@
 \alias{ds.matrixDet}
 \title{ds.matrixDet calling assign function matrixDetDS2}
 \usage{
-ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE,
-  datasources = NULL)
+ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE, datasources = NULL)
 }
 \arguments{
 \item{M1}{A character string specifying the name of the matrix for which
