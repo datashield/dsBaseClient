@@ -19,18 +19,14 @@ change is that any rows containing at least one NA will have been stripped.
 If no <newobj> argument is specified, the output object name defaults to
 <x1>_complete.cases.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)].}
-}
-\value{
-a modified data.frame, matrix or vector from which
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.
+If the <datasources> is to be specified, it should be set without
+inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
+apply the function solely to e.g. the second connection server in a set of three,
+the argument can be specified as: e.g. datasources=connections.em[2].
+If you wish to specify the first and third connection servers in a set you specify:
+e.g. datasources=connections.em[c(1,3)]. #' @return a modified data.frame, matrix or vector from which
 all rows containing at least one NA have been deleted. This
 modified object is written to the serverside in each source.
 In addition, two validity messages are returned
@@ -45,7 +41,7 @@ function. If you type ds.message("newobj") it will print out the relevant
 studysideMessage from any datasource in which there was an error in creating <newobj>
 and a studysideMessage was saved. If there was no error and <newobj> was created
 without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".}
 }
 \description{
 Identifies and strips out all rows of a data.frame,

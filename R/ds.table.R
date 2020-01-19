@@ -133,22 +133,21 @@
 #' If no explicit name for the table object is specified, but <table.assign>
 #' is nevertheless TRUE, the name for the serverside table object defaults
 #' to 'newObj'.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)].
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' If the <datasources> is to be specified, it should be set without
+#' inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
+#' apply the function solely to e.g. the second connection server in a set of three,
+#' the argument can be specified as: e.g. datasources=connections.em[2].
+#' If you wish to specify the first and third connection servers in a set you specify:
+#' e.g. datasources=connections.em[c(1,3)].
 #' @param force.nfilter if <force.nfilter> is non-NULL it must be specified as
 #' a positive integer represented as a character string: e.g. "173". This
 #' the has the effect of the standard value of 'nfilter.tab' (often 1, 3, 5 or 10
 #' depending what value the data custodian has selected for this particular
 #' data set), to this new value (here, 173). CRUCIALLY, the {ds.table} function
 #' only allows the standard value to be INCREASED. So if the standard value has
-#' been set as 5 (as one of the R options set in the serverside Opal), "6" and
+#' been set as 5 (as one of the R options set in the serverside connection), "6" and
 #' "4981" would be allowable values for the <force.nfilter> argument but "4" or
 #' "1" would not. The purpose of this argument is for the user or developer
 #' to force the table to fail the disclosure control tests so the he/she can
@@ -173,9 +172,9 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
 					datasources=NULL, force.nfilter=NULL)
 		 
  {
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # if no connection login details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
  # check if a value has been provided for xvar
@@ -262,7 +261,7 @@ if(table.assign)
 					)
 	
 	
-opal::datashield.assign(datasources, newobj, calltext.assign)
+DSI::datashield.assign(datasources, newobj, calltext.assign)
 	}
   
 # CALL THE MAIN SERVER SIDE AGGREGATE FUNCTION
@@ -273,7 +272,7 @@ opal::datashield.assign(datasources, newobj, calltext.assign)
 					force.nfilter.transmit=force.nfilter.transmit)
 
  
- table.out<-opal::datashield.aggregate(datasources, calltext)
+ table.out<-DSI::datashield.aggregate(datasources, calltext)
 
 #END OF MAIN FUNCTION LEADING UP TO CALL
 ##############################################################################
@@ -1668,7 +1667,7 @@ if(table.assign)
 	calltext <- call("tableDS2", newobj=newobj,rvar.transmit=rvar.transmit, cvar.transmit=cvar.transmit,
                     stvar.transmit=stvar.transmit)
  
-	serverside.table.out<-opal::datashield.aggregate(datasources, calltext)
+	serverside.table.out<-DSI::datashield.aggregate(datasources, calltext)
  
  if(report.chisq.tests)
 	{

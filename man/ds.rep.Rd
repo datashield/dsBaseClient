@@ -78,23 +78,21 @@ length 1 allowing <ds.rep> to create serverside scalars.
 If no <newobj> argument is specified, the output object name defaults to
 "seq.vect".}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]. Using the <datasources> argument and
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
+If the <datasources> the default set of connections will be used: see 
+\link{datashield.connections_default}. If you wish to
+apply the function solely to e.g. the second connection server in a set of three,
+the argument can be specified as: e.g. datasources=connections.em[2].
+If you wish to specify the first and third connection servers in a set you specify:
+e.g. datasources=connections.em[c(1,3)]. Using the <datasources> argument and
 repeated calls to <ds.rep>
 it is possible to create different repetive sequences in the different data
 sources which can be particularly helpful for creating IDs - for example
 ds.rep(x1=1,length.out="vector.with.required.length",source.x1="c",
-source.length.out ="s",newobj="idstudy",datasources=default.opals[1])
+source.length.out ="s",newobj="idstudy",datasources=default.connections[1])
 ds.rep(x1=2,length.out="vector.with.required.length",source.x1="c",
 ds.rep(x1=3,length.out="vector.with.required.length",source.x1="c",
-source.length.out ="s",newobj="idstudy",datasources=default.opals[3])
+source.length.out ="s",newobj="idstudy",datasources=default.connections[3])
 will create a vector called idstudy in each of three studies which is of length
 equal to the length of the vector "vector.with.required.length" in
 each study consisting all of 1s in study 1, all of 2s in study 2 ....}
