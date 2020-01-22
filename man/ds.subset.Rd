@@ -4,9 +4,16 @@
 \alias{ds.subset}
 \title{Generates a valid subset of a table or a vector}
 \usage{
-ds.subset(x = NULL, subset = "subsetObject", completeCases = FALSE,
-  rows = NULL, cols = NULL, logicalOperator = NULL,
-  threshold = NULL, datasources = NULL)
+ds.subset(
+  x = NULL,
+  subset = "subsetObject",
+  completeCases = FALSE,
+  rows = NULL,
+  cols = NULL,
+  logicalOperator = NULL,
+  threshold = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of the dataframe or the factor vector and the range of the subset.}

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -42,6 +42,7 @@ test_that("check results", {
         "ds.changeRefGroup",
         "ds.class",
         "ds.colnames",
+        "ds.completeCases",
         "ds.contourPlot",
         "ds.cor",
         "ds.corTest",
@@ -92,6 +93,7 @@ test_that("check results", {
         "ds.rBinom",
         "ds.recodeLevels",
         "ds.recodeValues",
+        "ds.rep",
         "ds.replaceNA",
         "ds.reShape",
         "ds.rm",
@@ -106,6 +108,7 @@ test_that("check results", {
         "ds.subset",
         "ds.subsetByClass",
         "ds.summary",
+        "ds.table",
         "ds.table1D",
         "ds.table2D",
         "ds.tapply",

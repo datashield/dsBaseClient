@@ -4,8 +4,13 @@
 \alias{ds.cov}
 \title{Calculates the covariance between two variables}
 \usage{
-ds.cov(x = NULL, y = NULL, naAction = "pairwise.complete",
-  type = "split", datasources = NULL)
+ds.cov(
+  x = NULL,
+  y = NULL,
+  naAction = "pairwise.complete",
+  type = "split",
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a vector, matrix or dataframe of variable(s) for which the

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -24,13 +24,13 @@ test_that("check results", {
       "BooleDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
       "asFactorDS", "asFactorDS2", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
       "asMatrixDS", "asNumericDS", "attach", "c", "cDS", "cbind",
-      "cbindDS", "changeRefGroupDS", "complete.cases", "dataFrameDS", "dataFrameSortDS", "dataFrameSubsetDS2",
+      "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameSortDS", "dataFrameSubsetDS2",
       "dataFrameDS", "exp", "lexisDS2", "lexisDS3", "list",
       "listDS", "log", "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS2", "rep",
+      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS2", "repDS", "rep",
       "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "subsetByClassDS", "subsetDS", "sum",
-      "tapplyDS.assign", "unlist", "unListDS"
+      "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
     ))
     aggregate.functions <- factor(c(
       "NROW", "alphaPhiDS", "asFactorDS1", "asListDS",
@@ -46,8 +46,8 @@ test_that("check results", {
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "recodeValuesDS1", "rmDS", "scatterPlotDS",
       "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
-      "table1DDS", "table2DDS", "tapplyDS", "testObjExistsDS",
-      "varDS"
+      "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
+      "testObjExistsDS", "varDS"
     ))
 
     res <- ds.listServersideFunctions()

@@ -4,10 +4,18 @@
 \alias{ds.dataFrameSubset}
 \title{ds.dataFrameSubset calling dataFrameSubsetDS1 and dataFrameSubsetDS2}
 \usage{
-ds.dataFrameSubset(df.name = NULL, V1.name = NULL, V2.name = NULL,
-  Boolean.operator = NULL, keep.cols = NULL, rm.cols = NULL,
-  keep.NAs = NULL, newobj = NULL, datasources = NULL,
-  notify.of.progress = FALSE)
+ds.dataFrameSubset(
+  df.name = NULL,
+  V1.name = NULL,
+  V2.name = NULL,
+  Boolean.operator = NULL,
+  keep.cols = NULL,
+  rm.cols = NULL,
+  keep.NAs = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
 }
 \arguments{
 \item{df.name}{a character string providing the name for the data.frame

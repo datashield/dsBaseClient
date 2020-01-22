@@ -4,9 +4,15 @@
 \alias{ds.dataFrameSort}
 \title{ds.dataFrameSort calling dataFrameSortDS}
 \usage{
-ds.dataFrameSort(df.name = NULL, sort.key.name = NULL,
-  sort.descending = FALSE, sort.alphabetic = FALSE,
-  sort.numeric = FALSE, newobj = NULL, datasources = NULL)
+ds.dataFrameSort(
+  df.name = NULL,
+  sort.key.name = NULL,
+  sort.descending = FALSE,
+  sort.alphabetic = FALSE,
+  sort.numeric = FALSE,
+  newobj = NULL,
+  datasources = NULL
+)
 }
 \arguments{
 \item{df.name}{a character string providing the name for the data.frame

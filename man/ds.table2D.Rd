@@ -4,8 +4,13 @@
 \alias{ds.table2D}
 \title{Generates 2-dimensional contingency tables}
 \usage{
-ds.table2D(x = NULL, y = NULL, type = "both",
-  warningMessage = TRUE, datasources = NULL)
+ds.table2D(
+  x = NULL,
+  y = NULL,
+  type = "both",
+  warningMessage = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character, the name of a numerical vector with discrete values - usually a factor.}
