@@ -68,7 +68,7 @@ jobs:
 
   - bash: |
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
-      grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 1 warning" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
+      grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
     displayName: 'Devtools checks'
     condition: always()
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmerSLMA.R
 \name{ds.glmerSLMA}
 \alias{ds.glmerSLMA}
-\title{ds.glmerSLMA calling glmerDS2}
+\title{Fitting generalized linear mixed effect models}
 \usage{
 ds.glmerSLMA(
   formula = NULL,
@@ -21,87 +21,171 @@ ds.glmerSLMA(
 )
 }
 \arguments{
-\item{formula}{Denotes an object of class formula which is a character string which describes
+\item{formula}{Denotes an R object of class formula which is a character string which describes
 the model to be fitted. Most shortcut notation allowed by lme4's glmer() function is
-also allowed by ds.glmerSLMA. Many lmes can be fitted very simply using a formula like:
-"y~a+b+(1|c)" which simply means fit a lme with y as the outcome variable with a and b as fixed effects, and c
-as a random effect or grouping factor. This allows for a random intercept between groups.
-By default all such models also include an intercept (regression constant) term.
-It is also possible to fit models with random slopes by specifying a model such as "y~a+b+(1+b|c)"
-Implicit nesting can be specified with formulae such as "y~a+b+(1|c/d)" or "y~a+b+(1|c)+(1|c:d)"
-See the following for more details:
+also allowed by ds.glmerSLMA. Many glmes can be fitted very simply using a formula like:
+"y~a+b+(1|c)" which simply means fit a glme with y as the outcome variable (e.g. 
+a binary case-control using a logistic regression model or a count or a survival
+time using a Poisson regression model) with a and b
+as fixed effects, and c as a random effect or grouping factor. This allows for a random
+intercept between groups which allows, for example, the analysis of, or correction for,
+correlated outcomes between observational units in a group. It is also possible to fit models
+with random slopes by specifying a model such as "y~a+b+(1+b|c)" where the effect of
+b can vary randomly between groups defined by c.
+Implicit nesting can be specified with formulae such as "y~a+b+(1|c/d)"
+or "y~a+b+(1|c)+(1|c:d)". See the following for more details:
 https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf}
 
 \item{offset}{A character string specifying the name of a variable to be used as
-an offset (effectively
-a component of the linear predictor of the lme which has a known coefficient a-priori and so does not need to be
-estimated by the model).}
+an offset (effectively a component of the linear predictor of the glme which has a known
+coefficient a-priori and so does not need to be estimated by the model). When using a
+Poisson  model to fit outcome data consisting of a survival time and a censoring
+variable (1=died, 0=alive) - e.g. when using what is called
+'piecewise exponential regression' - the natural log of the survival time is
+often used as an offset.}
 
 \item{weights}{A character string specifying the name of a variable containing
-prior regression
-weights for the fitting process.}
+prior regression weights for the fitting process.}
 
 \item{combine.with.metafor}{This argument is Boolean. If TRUE (the default) the
 estimates and standard errors for each regression coefficient are pooled across
 studies using random effects meta-analysis under maximum likelihood (ML),
 restricted maximum likelihood (REML), or fixed effects meta-analysis (FE).}
 
-\item{dataName}{A character string specifying the name of an (optional) dataframe that contains
-all of the variables in the lme formula. This avoids you having to specify the name of the
-dataframe in front of each covariate in the formula e.g. if the dataframe is
-called 'DataFrame' you
-avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)"
-Processing stops if a non existing data frame is indicated.}
+\item{dataName}{A character string specifying the name of an (optional) dataframe
+that contains all of the variables in the lme formula. This avoids you having
+to specify the name of the dataframe in front of each covariate in the formula
+e.g. if the dataframe is called 'DataFrame' you avoid having to write: 
+"DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)" where
+processing stops if a non existing data frame is indicated (e.g. if you misspell the name).
+If no dataName is specified
+or it is specified as NULL, each variable in the formula must either sit in the top
+level folder in the search path (ie where new objects are being placed by default)
+or else you must explicitly specify the dataframe in which other variables sit.
+e.g.  formula = "DataFrame1$y~DataFrame2$a+b+(1|DataFrame2$c)" if variable y is
+in DataFrame1, variable a and c are in DataFrame2 and b is in the top level folder.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{checks}{This argument is Boolean. If TRUE ds.glmerSLMA undertakes a series
+of preliminary checks of structural integrity of the model. Specifically
+it verifies that the variables in the model are all defined (exist) on the server site
+at every study and that they have the correct characteristics (e.g. class) required to fit
+the model. The argument defaults to FALSE because the checks markedly increase
+the time taken to apply the function and so it is suggested that it is only made TRUE
+if an unexplained problem in the model fit is encountered.}
 
-\item{family}{This argument identifies the error distribution function to use in
-the model. At present
-ds.glmerSLMA has been written to fit family="binomial"
-(i.e. a conventional
-unconditional logistic regression model), and family = "poisson" (i.e. a
-Poisson regression model At present the binomial family is coupled with a
-'logistic' link function and the poisson family with a 'log' link function.
-For a Gaussian error distribution (i.e. a
-conventional linear model with normally distributed errors), the ds.lmerSLMA 
-function should be used.}
+\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
+argument is not specified the default set of opals will be used. The default opals
+are called default.opals and the default can be set using the function
+{ds.setDefaultOpals.o}. If the <datasources> is to be specified, it should be set without
+inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
+apply the function solely to e.g. the second opal server in a set of three,
+the argument can be specified as: e.g. datasources=opals.em[2].
+If you wish to specify the first and third opal servers in a set you specify:
+e.g. datasources=opals.em[c(1,3)].}
 
-\item{verbose}{integer scalar. If > 0 verbose output is generated during the optimization of the 
-parameter estimates. If > 1 verbose output is generated during the individual penalized 
-iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies' summary
-in the "iterations" slot.}
+\item{family}{This is a character string specifying the distribution of the observed
+value of the outcome variable around the predictions generated by the linear predictor
+as applied via the default or specified link function. Typical examples are
+family = "binomial" for logistic regression models and family="poisson" for poisson
+regression models. Note if you are fitting a gaussian model (a standard linear mixed
+model you should use ds.lmerSLMA not ds.glmerSLMA. For further details about the
+specification of family and link
+functions in generalized linear models or generalized linear mixed models please
+see R help for glm and glmer}
+
+\item{control_type}{is an optional character string vector specifying the nature of a parameter
+(or parameters) to be modified in the 'convergence control options' which can be viewed or
+modified via the lme4::glmerControl function. At present only one such parameter can be modified,
+namely the tolerance of the convergence criterion to the gradient of the log-likelihood 
+at the maximum likelihood achieved. We have enabled this because our practical experience
+suggests that in situations where the model looks to have converged with sensible parameter
+values but formal convergence is not being declared, if we allow the model to be more
+tolerant to a non-zero gradient the same parameter values are obtained but formal
+convergence is declared. The default value for the check.conv.grad is 0.001 (note this
+differs from the default of 0.002 for ds.lmerSLMA) but by specifying
+control_type = "check.conv.grad" and specifying a specific value for the control_value
+argument, you can change check.conv.grad to, for example, 0.01. If control_type is specified
+as any character string other than "check.conv.grad" processing will stop and an error message
+will be returned. If control_type is not specified or is declared as NULL, all control
+parameters will take their default values (e.g. check.conv.grad will be set to 0.001).
+If users need additional control parameters to be modified, the development team can enable
+additional valid character strings to be specified for control_type. We have deliberately not
+made it possible to modify any or all control parameters even though that would be relatively
+easy. This is because it would require evaluating and then activating a potentially
+complex text string on the serverside, which would potentially create a
+hacking-in/disclosure risk.}
+
+\item{control_value}{A numeric representing the new value which you want to allocate the
+control parameter corresponding to the 'control-type'. At present (see control_type)
+the only parameter this can be is the convergence tolerance "check.conv.grad". In
+general, models will be identified as having converged more readily if the value set
+for "check.conv.grad" is increased from its default (0.001) to,say, 0.01. Please note
+that the risk of doing this is that the model is also more likely to be declared
+as having converged at a local maximum that is not the global maximum likelihood.
+This will not generally be a problem if the likelihood surface is well behaved but if
+you have a problem with convergence you might usefully compare all the parameter
+estimates and standard errors obtained using the default tolerance (0.001) even though
+that has not formally converged with those obtained after convergence using the higher
+tolerance. In our experience when the problem has simply been that a well behaved
+model is simply failing to be declared as converged the two sets of parameters are
+almost the same. If they are quite different you may have a badly behaved likelihood
+surface and rather than simply allowing the model to converge by changing "check.conv.grad"
+you probably ought to explore the likelihood surface in more detail - possibly by exploring
+the impact of changing a range of the different control parameters via glmerControl (see
+native R help for glmerControl). In the first instance you can potentially study this by
+fitting the model on the data from a single study using lmer itself in native R.
+If users need additional control parameters to be modified, the development team can enable
+additional valid character strings to be specified for control_type. We have deliberately not
+made it possible to modify any or all control parameters even though that would be relatively
+easy. This is because it would require evaluating and then activating a potentially
+complex text string on the serverside, which would potential create a
+hacking-in/disclosure risk.}
+
+\item{verbose}{integer scalar. If > 0 verbose output is generated during the optimization of
+the parameter estimates. If > 1 verbose output is generated during the individual penalized 
+iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies'
+summary in the "iterations" slot. Default value = 0, implying no additional output.}
 
 \item{start_theta}{numeric vector of length equal to number of random effects. Specify to retain
 more control over the optimisation. See glmer() for more details.}
 
 \item{start_fixef}{numeric vector of length equal to number of fixed effects (NB including intercept). 
 Specify to retain more control over the optimisation. See glmer() for more details.}
-
-\item{control_opt}{optional charcter vector length 1 or 2 specifying the optimiser to be used. The default optimiser
-is "bobyqa". It is also possible to specify "Nealder_Mead". See lme4's glmer() function.}
-
-\item{control_tol}{optional numeric used to set the value of check.conv.grad, the gradient of the deviance
-function for convergence. See lme4's glmer() function.}
 }
 \value{
-many of the elements of the output list returned by ds.glmerSLMA from
-each study separately are
-equivalent to those from glmer() in lme4 with potentially disclosive elements
-such as individual-level residuals and linear predictors blocked.
+most of the non-disclosive elements of the output list returned by glmer
+are returned from each study separately. Potentially disclosive elements
+such as individual-level residuals and linear predictors are blocked.
 The return results from each study appear first in the return list with one
-block of results from each study in the order they appear in datasources.
+set of results from each study in the order they appear in datasources.
 As regards the elements within each study the most important
 elements are included last in the return list because they then appear at the
-bottom of a simple print out of the return object. In reverse order, these
-key elements in reverse order are:
+bottom of a simple print out of the return object. The first list object
+in the return list from each study is called output.summary. If the primary
+output from the ds.glmerSLMA is being written to an object called outputName
+[i.e. out Name<-ds.glmerSLMA(.....) ] the R command outName[[1]][[2]] will list
+all immediately printable components of output.summary in study 2.
+Alternatively names(outName[[1]][[2]]) will list all of the output objects
+available in output.summary (not just the immediately printable ones):
+names(outName[[1]][[2]])
+[1] "methTitle"       "objClass"        "devcomp"         "isLmer"         
+[5] "useScale"        "logLik"          "family"          "link"           
+[9] "ngrps"           "coefficients"    "sigma"           "vcov"           
+[13] "varcor"          "AICtab"          "call"            "fitMsgs"        
+[17] "optinfo"         "errorMessage"    "disclosure.risk" "iterations"     
+[21] "control.info"
+If you now want to look at "control.info" which lists the settings of ALL of
+convergence control parameters when the model was fitted you can type:
+outName[[1]][[2]]$control.info 
+In reverse order, the key elements of the output object that are automatically printed are:
 
 coefficients:- a matrix in which the first column contains the names of
 all of the regression parameters (coefficients) in the model, the second column
 contains the estimated values, the third their corresponding standard errors,
 the fourth the ratio of estimate/standard error and the fifth the p-value
 treating that as a standardised normal deviate
-#' @return CorrMatrix:- the correlation matrix of parameter estimates
+
+CorrMatrix:- the correlation matrix of parameter estimates
 
 VarCovMatrix:- the variance covariance matrix of parameter estimates
 
@@ -121,9 +205,13 @@ data:- - equivalent to input parameter dataName (above)
 
 call:- - summary of key elements of the call to fit the model
 
-there are a small number of more esoteric items of information returned
+There are a small number of more esoteric items of information returned
 by ds.glmerSLMA. Additional information about these can be found in the help
 file for the glmer() function in the lme4 package.
+
+Once the study-specific output has been returned, the function returns a
+number of elements relating to the pooling of estimates across studies via
+study level meta-analysis. These are as follows:
 
 input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
 estimates from each study. In combination with the corresponding standard errors
@@ -139,21 +227,29 @@ SLMA.pooled.estimates:- a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via
 random effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed effects meta-analysis (FE)
+
+convergence.error.message reports for each study whether the model converged.
+If it did not some information about the reason for this is reported.
 }
 \description{
-Fits a generalised linear mixed effects model (glme) on data from a single or multiple sources
+ds.glmerSLMA fits a generalized linear mixed effects model
+(glme) - e.g. a logistic or Poisson regression model including both fixed and random effects
+- on data from one or multiple sources with pooling via SLMA (study level meta-analysis)
 }
 \details{
-Fits a generalised linear mixed effects model (glme) on data from a single source or from multiple sources.
-In the latter case, the glme is fitted to convergence in each data source and the
-estimates and standard errors
-returned from each study separately. When these are then pooled using a function such as
-ds.metafor, this is a form of study level meta-analysis (SLMA). The SLMA approach offers some advantages
- when there is marked heterogeneity
-between sources that cannot simply be corrected with fixed effects each reflecting a study
-or centre effect. In particular fixed effects cannot simply be used in this way when there
-there is heterogeneity in the effect of scientific interest.
+ds.glmerSLMA is a clientside function calling glmerSLMADS2 on the serverside.
+The analytic work engine is the glmer function in R which sits in the lme4 package.
+ds.glmerSLMA fits a generalized linear mixed effects model (glme) - e.g. a logistic or
+Poisson regression model including both fixed and random effects - on data
+from a single or multiple sources. When there are multiple data sources,
+the glme is fitted to convergence in each data source independently and the
+estimates and standard errors returned to the client thereby enabling cross-study pooling
+using study level meta-analysis (SLMA). By default the SLMA is undertaken
+using the metafor package, but as the SLMA occurs on the clientside which, as far
+as the user is concerned is just a standard R environment, the user can choose to use
+any approach to meta-analysis they choose. Additional information about fitting 
+glmes using the glmer engine can be obtained using R help for glmer and the lme4 package
 }
 \author{
-Tom Bishop
+Tom Bishop, with some additions by Paul Burton
 }
