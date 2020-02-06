@@ -36,6 +36,18 @@ test_that("dataFrameSubset_exists", {
     expect_equal(res$validity.check, "<subset_df> appears valid in all sources")
 })
 
+context("ds.dataFrameSubset::smk::create a subset dataframe, based on scalar")
+test_that("dataFrameSubset_exists scalar", {
+    myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
+    ds.dataFrame(x=myvectors, newobj="unsubset_df")
+
+    res <- ds.dataFrameSubset(df.name="unsubset_df", V1.name="D$LAB_TSC", V2.name="D$LAB_HDL", Boolean.operator="!=", newobj="subset_df")
+
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <subset_df> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<subset_df> appears valid in all sources")
+})
+
 #
 # Done
 #
