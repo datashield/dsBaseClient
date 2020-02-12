@@ -1,16 +1,16 @@
 #' @title Generate Poisson distribution in several opal servers 
 #' @description Generates random (pseudorandom) non-negative integers
-#' with a Poisson distribution
+#' with a Poisson distribution.
 #' @details creates a vector of random or pseudorandom non-negative integer values distributed with a Poisson distribution
 #'  in each data source. The ds.rPois function's arguments specify lambda, the length and the seed of the output vector in each source.
 #' @param samp.size the length of the random numeric vector to be created in each source.
 #' This can be a integer vector equal to the quantity of sources. 
-#' @param lambda the mean of number of events per interval. To specify different value in each source, 
+#' @param lambda the number of event mean per interval. To specify different value in each source, 
 #' you can specify using a character vector (..., lambda="vector.of.lambdas"...) or using the <datasources>
 #' parameter to create the random vector for one source at a time, changing lambda as required.
 #' Default value for <lambda> = 1.
-#' @param newobj This a character string providing a name for the output
-#' random number vectors which defaults to 'rpois.newobj' if no name is specified.
+#' @param newobj a character string which provide a name for the output
+#' random number vectors. Default 'rpois.newobj'.  
 #' @param seed.as.integer an integer or a NULL value which primes the random seed
 #' in each data source. If there are more than one sources and
 #'  <seed.as.integer> is an integer (e.g. 938) the seed in each study (N) is set as 938*N.  
@@ -26,7 +26,7 @@
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. 
 #' @return the pseudorandom number vector information for each data source with the characteristics specified
-#' in the function. If requested the full 626 length random seed vector generated in
+#' in the function. If requested, the full 626 length random seed vector generated in
 #' each source (see info for the argument <return.full.seed.as.set>).
 #' @examples 
 #' ds.rPois(samp.size=c(13,20,25),lambda=as.character(c(2,3,4)), newobj="pois.dist", seed.as.integer=1234, return.full.seed.as.set=FALSE, datasources=opals)

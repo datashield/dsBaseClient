@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rPois.R
 \name{ds.rPois}
 \alias{ds.rPois}
-\title{ds.rPois calling rPoisDS and setSeedDS}
+\title{Generate Poisson distribution in several opal servers}
 \usage{
 ds.rPois(
   samp.size = 1,
@@ -14,85 +14,50 @@ ds.rPois(
 )
 }
 \arguments{
-\item{samp.size}{the length of the random number vector to be created in each source.
-<samp.size> can be a numeric scalar and this then specifies the length of the
-random vectors in each source to be the same. If it is a numeric vector
-it enables the random vectors to be of different lengths in each source but the
-numeric vector must be of length equal to the number of data sources being used.
-Often, one wishes to generate random vectors of length equal to the length of
-standard vectors in each source. To do this most easily, issue a command such as:
-numobs.list<-ds.length('varname',type='split') where varname is an arbitrary
-vector of standard length in all sources. Then issue command:
-numobs<-unlist(numobs.list) to make numobs numeric rather than a list. Finally,
-declare samp.size=numobs as the first argument for the ds.rPois function
-Please note that because (in this case) numobs is a clientside vector it
-should be specified without inverted commas (unlike the serverside vectors
-which may be used for the <lambda> argument [see below]).}
+\item{samp.size}{the length of the random numeric vector to be created in each source.
+This can be a integer vector equal to the quantity of sources.}
 
-\item{lambda}{a numeric scalar specifying the expected count of the Poisson
-distribution used to generate the random counts. If you wish to specify a
-different value in each source, then you can use the <datasources> argument
-to create the random vectors one source at a time, changing lambda as required.
-Alternatively you can specify the <lambda> argument to be a serverside vector
-equal in length to the random number vector you want to generate and this allows
-lambda to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.lambdas) you must
-specify the argument as a character string (..., lambda="vector.of.lambdas"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <lambda> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
+\item{lambda}{the number of event mean per interval. To specify different value in each source, 
+you can specify using a character vector (..., lambda="vector.of.lambdas"...) or using the <datasources>
+parameter to create the random vector for one source at a time, changing lambda as required.
 Default value for <lambda> = 1.}
 
-\item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'rpois.newobj' if no name is specified.}
+\item{newobj}{a character string which provide a name for the output
+random number vectors. Default 'rpois.newobj'.}
 
-\item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
-in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-the seed in each study is set as 938*1 in the first study in the set of
-data sources being used, 938*2 in the second, up to 938*N in the Nth study.
+\item{seed.as.integer}{an integer or a NULL value which primes the random seed
+in each data source. If there are more than one sources and
+ <seed.as.integer> is an integer (e.g. 938) the seed in each study (N) is set as 938*N.  
 If <seed.as.integer> is set as 0 all sources will start with the seed value
 0 and all the random number generators will therefore start from the same position.
 If you want to use the same starting seed in all studies but do not wish it to
-be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
-As an example, if the <seed.as.integer> value is 78326 then the seed
-in each source will be set at 78326*1 = 78326 because the vector of datasources
-being used in each call to the function will always be of length 1 and so the
-source-specific seed multiplier will also be 1. The function ds.rPois
-calls the serverside assign function setSeedDS to create the random seeds in
-each source}
+be 0, you can use <datasources> argument to generate the random number vectors one source at
+a time.}
 
 \item{return.full.seed.as.set}{logical, if TRUE will return the full
 random number seed in each data source (a numeric vector of length 626). If
-FALSE it will only return the trigger seed value you have provided: eg if
-<seed.as.integer> = 32 and there are three studies, the ds.rPois function will
-return: "$integer.seed.as.set.by.source", [1]  32  64 96, rather than the three
-vectors each of length 626 that represent the full seeds generated in each source.
+FALSE it will only return the trigger seed value you have provided. 
 Default is FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
+argument is not specified the default set of opals will be used.}
 }
 \value{
-Writes the pseudorandom number vector with the characteristics specified
-in the function call as a new serverside vector in each data source. Also returns
-key information to the clientside: the random seed trigger as specified by you in each
-source + (if requested) the full 626 length random seed vector this generated in
-each source (see info for the argument <return.full.seed.as.set>). The ds.rPois
-function also returns a vector reporting the length of the pseudorandom vector
-created in each source.
+the pseudorandom number vector information for each data source with the characteristics specified
+in the function. If requested, the full 626 length random seed vector generated in
+each source (see info for the argument <return.full.seed.as.set>).
 }
 \description{
-Generates random (pseudorandom) numbers (non-negative integers)
-with a Poisson distribution
+Generates random (pseudorandom) non-negative integers
+with a Poisson distribution.
 }
 \details{
-An assign function that creates a vector of pseudorandom numbers
-in each data source. This function generates random numbers distributed with a
-Poisson distribution - non-negative integer values with an expected count fully specified
-by a single argument lambda. In addition, the ds.rPois function's
-arguments specify the length of the output vector in each source.
+creates a vector of random or pseudorandom non-negative integer values distributed with a Poisson distribution
+ in each data source. The ds.rPois function's arguments specify lambda, the length and the seed of the output vector in each source.
+}
+\examples{
+ds.rPois(samp.size=c(13,20,25),lambda=as.character(c(2,3,4)), newobj="pois.dist", seed.as.integer=1234, return.full.seed.as.set=FALSE, datasources=opals)
+ds.rPois(samp.size=13,lambda=5, newobj="pois.dist", seed.as.integer=1234, return.full.seed.as.set=FALSE, datasources=opals[1])
 }
 \author{
 Paul Burton for DataSHIELD Development Team
