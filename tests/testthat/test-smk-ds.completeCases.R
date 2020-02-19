@@ -24,7 +24,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.completeCases::smk data.frame")
+context("ds.completeCases::sm::data.frame")
 test_that("completeCases data.frame", {
     ds.dataFrame(c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$LAB_GLUC_ADJUSTED", "D$PM_BMI_CONTINUOUS", "D$DIS_CVA", "D$MEDI_LPD", "D$DIS_DIAB", "D$DIS_AMI", "D$GENDER", "D$PM_BMI_CATEGORICAL"), newobj="df")
 
@@ -81,7 +81,7 @@ test_that("completeCases data.frame", {
     expect_equal(res.df_new.dim$`dimensions of df_new in combined studies`[2], 11)
 })
 
-context("ds.completeCases::smk matrix")
+context("ds.completeCases::smk::matrix")
 test_that("completeCases matrix", {
     ds.asDataMatrix(c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$LAB_GLUC_ADJUSTED", "D$PM_BMI_CONTINUOUS", "D$DIS_CVA", "D$MEDI_LPD", "D$DIS_DIAB", "D$DIS_AMI", "D$GENDER", "D$PM_BMI_CATEGORICAL"), newobj="mat")
 
@@ -130,7 +130,7 @@ test_that("completeCases matrix", {
     expect_equal(res.mat_new.dim$`dimensions of mat_new in combined studies`, numeric(0))
 })
 
-context("ds.completeCases::smk vector")
+context("ds.completeCases::smk::vector")
 test_that("completeCases vector", {
     ds.c("D$LAB_TSC", newobj="vec")
 
