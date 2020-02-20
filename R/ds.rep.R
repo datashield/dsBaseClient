@@ -1,8 +1,8 @@
-#' @title ds.rep calling assign function repDS
+#' @title Creates a repetitive sequence in several Opal servers
+#' 
 #' @description Creates a repetitive sequence by repeating
-#' an identified scalar, or specified elements of a vector
-#' or list. This is analogous to the {rep} function in native R.
-#' The sequence is written as a new object to the serverside.
+#' the specified scalar number, vector or list in each data source.
+#' Server functions called: rbindDS. 
 #' @details With four exceptions, ds.rep is almost equivalent to {rep}
 #' in native R and the controlling arguments are similar.
 #' The four exceptions*** are: (1) the argument <x> in {rep} is called
@@ -61,7 +61,7 @@
 #' computed quantity it is prudent to add a small fuzz or use round. And analogously
 #' for each.
 #' 
-#' @param x1 This argument determines the input scalar, vector or list. Depending
+#' @param x1 an scalar number, vector or list. Depending
 #' on the other arguments specified, x1 may either be a clientside scalar or
 #' vector or a serverside scalar or vector. If it is a clientside vector or
 #' scalar it may either be defined in the call e.g. ds.rep(x1=c(7:12),...) or

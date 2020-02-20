@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rbind.R
 \name{ds.rbind}
 \alias{ds.rbind}
-\title{ds.rbind calling rbindDS}
+\title{Combines R objects by rows to generate a matrix in the Opal servers}
 \usage{
 ds.rbind(
   x = NULL,
@@ -14,84 +14,81 @@ ds.rbind(
 )
 }
 \arguments{
-\item{x}{This is a vector of character strings representing the names of the elemental
-components to be combined.  For example, the call:
-ds.rbind(x=c('matrix.m','matrix.n'),newobj='rbind_output') will
-stack matrix.m on top of matrix.n provided the number of
-columns of matrix.m and matrix.n are the same. The output
-object rbind_output is written to the serverside. As many
-elemental components as needed may be combined using ds.rbind
-provided they all have the same number of columns.
-For convenience the x argument can alternatively
-be specified in a two step procedure, the first being a call to
-the native R environment on the client server:
-x.components<-c('matrix.m','matrix.n') then
-ds.rbind(x=x.components,newobj='rbind_output'). Column names
-are taken either from the column names of the first object
-specified in the <x> argument. Alternatively new column names
-can be user specified using <force.colnames>}
+\item{x}{a character vector with the  name of the objects to be combined.}
 
-\item{DataSHIELD.checks}{logical, if TRUE checks are made that all
-input objects exist and are of an appropriate class. These checks
-are relatively slow and so the <DataSHIELD.checks> argument is
-defaulted to FALSE}
+\item{DataSHIELD.checks}{logical, if TRUE checks that all
+input objects exist and are of an appropriate class.}
 
-\item{force.colnames}{NULL or a vector of character strings representing
-the required column names of the output object. For example:
-force.colnames=c("colname1","name.of.second.column", "lastcol") for an
-output object with three columns. If <force.colnames> is NULL
-column names are inferred from the names or column names of
-the first object specified in the <x> argument.
-The vector of column names must have
-the same number of elements as there are columns in the output
-object. In other words as every specified object in the <x>
-argument must have the same number of columns the vector
-of column names must have the same number of elements as
-there are columns in every object specified in the <x> argument
-If the length of the column name vector is incorrect a
-studysideMessage is returned: "Number of column names
-does not match number of columns in output object. Here 'N' names
-are required.Please see help for {ds.rbind} function" where 'N'
-is the actual number of columns in the output object}
+\item{force.colnames}{can be NULL or a vector of characters which 
+specifies column names of the output object.}
 
-\item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'rbind.newobj' if no name is specified.}
+\item{newobj}{a character string which provides the name for the output variable 
+that is stored on the data servers.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{specifies the particular Opal object(s) to use. 
+If the <datasources> argument is not specified the default set of Opals will be used.}
 
 \item{notify.of.progress}{specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
-the object specified by the <newobj> argument (or default name <rbind.out>).
-which is written to the serverside. Unlike the {ds.cbind} function
-even if one of the objects specified in the <x> argument is a data.frame
-the output object will always be of class matrix
-As well as writing the output object as <newobj>
-on the serverside, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.cbind() also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("<newobj>") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("<newobj>")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+ds.rbind returns a matrix combining the rows of the R objects specified in the function. 
+The created matrix is stored in the in the Opal servers. It also returns two messages with the name of <newobj>
+that has been created in each data source and <DataSHIELD.checks> result.
 }
 \description{
 Take a sequence of vector, matrix or data-frame arguments
-and combine them by row to produce a matrix.
+and combine them by rows to produce a matrix.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined row by row to produce a matrix
-which is written to the serverside. For more details see
-the native R function {rbind}. The handling of argument <x>
-is similar to that of functions {ds.cbind} and {ds.dataFrame}
+is combined  by rows to produce a matrix in the Opal servers.
+
+In <DataSHIELD.checks> the checks are relatively slow. 
+Default <DataSHIELD.checks> value is FALSE. 
+
+If <force.colnames> is NULL column names are inferred from the names or column names
+of the first object specified in the <x> argument.
+The vector of column names must have the same number of elements as the columns in the output
+object.
+
+Server functions called: rbindDS.
+}
+\examples{
+#connecting to the Opal servers
+
+require('DSI')
+require('DSOpal')
+require('dsBaseClient')
+
+builder <- DSI::newDSLoginBuilder()
+builder$append(server = "study1", 
+               url = "http://192.168.56.100:8080/", 
+               user = "administrator", password = "datashield_test&", 
+               table = "CNSIM.CNSIM1", driver = "OpalDriver")
+builder$append(server = "study2", 
+               url = "http://192.168.56.100:8080/", 
+               user = "administrator", password = "datashield_test&", 
+               table = "CNSIM.CNSIM2", driver = "OpalDriver")
+builder$append(server = "study3",
+               url = "http://192.168.56.100:8080/", 
+               user = "administrator", password = "datashield_test&", 
+               table = "CNSIM.CNSIM3", driver = "OpalDriver")
+logindata <- builder$build()
+
+connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+
+#Combining R objects by rows in the Opal servers 
+
+ds.rbind(x = "D",    #the object that contains the names of the data frames in the Opal servers to be conbined (see above the connection to the Opal servers)
+         DataSHIELD.checks = FALSE,
+         force.colnames = NULL,  # column names are inferred from the names or column names of the first object specified in the <x> argument
+         newobj = "D.bind",      # name for the output variable that is stored on the data servers
+         datasources = connections, # All Opal servers are used (see above the connection to the Opal servers)
+         notify.of.progress = FALSE)
+         
+datashield.logout(connections) #log out from the Opal servers
+
 }
 \author{
 Paul Burton for DataSHIELD Development Team
