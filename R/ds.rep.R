@@ -2,153 +2,90 @@
 #' 
 #' @description Creates a repetitive sequence by repeating
 #' the specified scalar number, vector or list in each data source.
-#' @details
-#' The four exceptions*** are: (1) the argument <x> in {rep} is called
-#' <x1> in {ds.rep}, it is defaulted to NULL and if it is not specified
-#' or is called as NULL it fails with an error message;
-#' (2) each of the control arguments <x1>,<times> etc
-#' is accompanied by a source argument, <x1.source>,
-#' <times.source> etc which specifies whether the defining scalar,
-#' vector or list is located on the clientside or serverside;
-#' (3) if <length.out.source> indicates a serverside vector,
-#' the length of the vector named as the <length.out> argument,
-#' defines the length of the generated repetitive sequence. This
-#' is useful when you want to create a repetitive sequence of the
-#' same length as the standard vector length in each study. In native
-#' R, the length.out argument of {rep} cannot be a vector;
-#' (4) the Boolean <x1.includes.characters> argument determines
-#' whether to coerce the final output sequence to numeric.
-#' If it truly is numeric this has advantages, but if there are
-#' any character elements in the vector this generates NAs. If
-#' <x1.includes.characters> is then set to TRUE,
-#' the output sequence remains in character format without NAs but
-#' it will not then behave as a numeric so, for example, on sorting
-#' it will be sorted alphabetically (which can be confusing)
-#' rather than numerically.
+#' @details  All arguments that can denote in a clientside  or
+#' a serverside (i.e. <x1>,<times>, <length.out>
+#' or <each>). 
 #' 
-#' All arguments that can denote a clientside vector/scalar or
-#' a serverside/vector or scalar (i.e. <x1>,<times>, <length.out>
-#' or <each>) should follow the calling formats outlined under
-#' the information for parameter <x1> below. All source arguments
-#' should specify the source as being clientside or serverside
-#' using the calling formats under the information for parameter
-#' <x1.source> below. 
-#'
-#' With these exceptions, the behavior of <ds.rep> is similar
-#' to <rep> in native R and the following details from the help
-#' in R are therefore valid:
-#'  
-#' Details from R help for <rep>:
-#' 
-#' The default behaviour is as if the call was 
-#' rep(x, times = 1, length.out = NA, each = 1)
-#' Normally just one of the additional arguments is specified, but if 'each' is
-#' specified with either of the other two, its replication is performed first, and
-#' then that is followed by the replication implied by times or length.out.
-#' 
-#' If times consists of a single integer, the result consists of the whole input
-#' repeated this many times. If times is a vector of the same length as x (after
-#' replication by each), the result consists of x[1] repeated times[1] times, x[2]
-#' repeated times[2] times and so on. ***Note exception 1 above.
-#' 
-#' length.out may be given in place of times, in which case x is repeated as many
-#' times as is necessary to create a vector of this length. If both are given,
-#' length.out takes priority and times is ignored. ***Note exception 3 above.
-#' 
-#' Non-integer values of times will be truncated towards zero. If times is a
-#' computed quantity it is prudent to add a small fuzz or use round. And analogously
-#' for each.
-#' 
-#' Server functions called: rbindDS. 
+#' Server functions called: repDS. 
 #' 
 #' @param x1 an scalar number, vector or list. 
-#' 
-#' 
-#' Depending
-#' on the other arguments specified, x1 may either be a clientside scalar or
-#' vector or a serverside scalar or vector. If it is a clientside vector or
-#' scalar it may either be defined in the call e.g. ds.rep(x1=c(7:12),...) or
-#' ds.rep(x1=61,...) or it may first be created as
-#' a named vector or scalar:
-#'
-#' rep.vect<-c(7:12)
-#' ds.rep(x1=rep.vect,...)
-#' rep.scalar<-61
-#' ds.rep(x1=rep.scalar,...)
-#'
-#' Please note that in the latter case, clientside vectors
-#' MUST NOT be written in inverted commas.  
-#'
-#' If it is a serverside scalar or vector, it must already exist as a defined
-#' object on the serverside, and it MUST be written in inverted commas
-#' ds.rep(x1="named.serverside.vector",...)
-#' ds.rep(x1="named.serverside.scalar",...)
-#'
-#'
-#' @param times May be a scalar or a vector from either the clientside
-#' or serverside for behaviour see "details from R help for <rep>" above
-#' @param length.out May be a clientside scalar or a serverside scalar
-#' or vector. See "details from R help for <rep>" above but if it is
-#' a serverside vector exception 3 applies*** (see above) - the
-#' <length.out> argument in native R cannot treat a vector in this way
-#' @param each May be a clientside or serverside scalar (vectors not
-#' allowed).
-#' @param source.x1 This defines the source of the scalar or vector defined
-#' by the <x1> argument. Four character strings are allowed:
-#' "clientside" or "c" and serverside or "s". If the abbreviated strings "c"
-#' or "s" are used they are internally converted to "clientside" and
-#' "serverside as one of the first steps in the function. If this argument
-#' is specified in any way other than one of these four character strings
-#' the function will fail with an error message.
-#' @param source.times see "param source.x1"
-#' @param source.length.out see "param source.x1"
-#' @param source.each see "param source.x1"
-#' @param x1.includes.characters Boolean parameter determining
-#' whether to coerce the final output sequence to numeric. Defaults
-#' to FALSE and output is coerced to numeric. If <x1> contains
-#' any character elements the <x1.includes.characters> argument
-#' should be set to TRUE and the output sequence remains in
-#' character format. Exception 4 applies*** (see above).
-#' @param newobj A character string specifying the name of the output object
-#' to be written to the serverside which will be in the form of a vector
-#' containing the requested repetitive sequence. Note this can be of
-#' length 1 allowing <ds.rep> to create serverside scalars.
-#' If no <newobj> argument is specified, the output object name defaults to
-#' "seq.vect".
+#' @param times an integer from clientside or a serverside integer
+#' or vector. 
+#' @param length.out a clientside integer or a serverside integer
+#' or vector. 
+#' @param each a clientside or serverside integer. 
+#' @param source.x1 the source <x1> argument. It can be "clientside" or "c" 
+#' and serverside or "s".
+#' @param source.times see <source.x1>
+#' @param source.length.out see <source.x1>
+#' @param source.each see <source.x1>
+#' @param x1.includes.characters Boolean parameter which specifies if 
+#' the <x1> is a character. 
+#' @param newobj the name of the output object. If this argument is set to
+#' NULL, the name of the new object is 'seq.vect'.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
 #' If the <datasources> the default set of connections will be used: see 
-#' \link{datashield.connections_default}. If you wish to
-#' apply the function solely to e.g. the second connection server in a set of three,
-#' the argument can be specified as: e.g. datasources=connections.em[2].
-#' If you wish to specify the first and third connection servers in a set you specify:
-#' e.g. datasources=connections.em[c(1,3)]. Using the <datasources> argument and
-#' repeated calls to <ds.rep>
-#' it is possible to create different repetive sequences in the different data
-#' sources which can be particularly helpful for creating IDs - for example
-#' ds.rep(x1=1,length.out="vector.with.required.length",source.x1="c",
-#' source.length.out ="s",newobj="idstudy",datasources=default.connections[1])
-#' ds.rep(x1=2,length.out="vector.with.required.length",source.x1="c",
-#, source.length.out ="s",newobj="idstudy",datasources=default.connections[2])
-#' ds.rep(x1=3,length.out="vector.with.required.length",source.x1="c",
-#' source.length.out ="s",newobj="idstudy",datasources=default.connections[3])
-#' will create a vector called idstudy in each of three studies which is of length
-#' equal to the length of the vector "vector.with.required.length" in
-#' each study consisting all of 1s in study 1, all of 2s in study 2 ....
-#' @return the vector containing the specified repetitive sequence
-#' and write to the output object defined by the <newobj> argument
-#' (or default name seq.vect) which is written to the serverside in 
-#' each source. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.matrixDiag also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' \code{\link{datashield.connections_default}}.
+#' @return ds.rep create in the server side a vector with the specified repetitve sequence.  
+#' In addition, two validity messages are returned the name of <newobj> that has been created 
+#' in each data source and if it is in a valid form.
+#' @examples 
+#' 
+#' ## Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#' 
+#'   # Log onto the remote Opal training servers
+#'     connections <- DSI::datashield.login(logins = logindata, 
+#'                                          assign = TRUE, 
+#'                                          symbol = "D") 
+#' 
+#' ## Creating a repetitive sequence  
+#'               
+#'    ds.rep(x1 = 4,
+#'           times = 6,
+#'           length.out = NA,
+#'           each = 1,
+#'           source.x1 = "clientside",
+#'           source.times = "c",
+#'           source.length.out = NULL,
+#'           source.each = "c",
+#'           x1.includes.characters = FALSE,
+#'           newobj = "rep.seq",
+#'           datasources = connections)
+#'        
+#'    ds.rep(x1 = "lung",
+#'           times = 6,
+#'           length.out = 7,
+#'           each = 1,
+#'           source.x1 = "clientside",
+#'           source.times = "c",
+#'           source.length.out = "c",
+#'           source.each = "c",
+#'           x1.includes.characters = TRUE,
+#'           newobj = "rep.seq",
+#'           datasources = connections)
+#'
+#' ## clear the Datashield R sessions and logout               
+#'    datashield.logout(connections) #log out from the Opal servers
+#' 
 #' @author Paul Burton for DataSHIELD Development Team, 14/10/2019
 #' @export
 #'
