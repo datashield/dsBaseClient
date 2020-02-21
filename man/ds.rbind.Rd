@@ -80,10 +80,10 @@ connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol =
 
 #Combining R objects by rows in the Opal servers 
 
-ds.rbind(x = "D",    #the object that contains the names of the data frames in the Opal servers to be conbined (see above the connection to the Opal servers)
+ds.rbind(x = "D",    #data frames in the Opal servers to be conbined (see above the connection to the Opal servers)
          DataSHIELD.checks = FALSE,
          force.colnames = NULL,  # column names are inferred from the names or column names of the first object specified in the <x> argument
-         newobj = "D.bind",      # name for the output variable that is stored on the data servers
+         newobj = "D.bind",      # name for the output object that is stored in the data servers
          datasources = connections, # All Opal servers are used (see above the connection to the Opal servers)
          notify.of.progress = FALSE)
          

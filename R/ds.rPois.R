@@ -61,7 +61,8 @@
 
 #' logindata <- builder$build()
 
-#' connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+#' #Log onto the remote Opal training servers
+#' connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
 #'#Generating the vectors in the Opal servers
 #' ds.rPois(samp.size=c(13,20,25),       #the length of the vector created in each source is different (13,20,25) 
@@ -83,9 +84,9 @@
 ds.rPois<-function(samp.size=1,lambda=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 
 ##################################################################################
-# if no opal login details are provided look for 'opal' objects in the environment
+# look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
 
@@ -135,10 +136,10 @@ if(is.numeric(lambda)){
 		lambda.valid<-0
 	}
 }
-	
+
 if(!lambda.valid){
 mess3<-("ERROR: lambda must be > 0")
-return(mess3)	
+return(mess3)
 }
 ###################################################################################
 
@@ -171,8 +172,8 @@ cat("NO SEED SET IN STUDY",study.id,"\n\n")
 
 }
   calltext <- paste0("setSeedDS(", seed.as.text, ")")
-  ssDS.obj[[study.id]] <- opal::datashield.aggregate(datasources[study.id], as.symbol(calltext))
-} 
+  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], as.symbol(calltext))
+}
 cat("\n\n")
 
 
@@ -196,9 +197,9 @@ toAssign<-paste0("rPoisDS(",samp.size[k],",",lambda, ")")
   }
 
   # now do the business
- 
-  opal::datashield.assign(datasources[k], newobj, as.symbol(toAssign))
- } 
+
+  DSI::datashield.assign(datasources[k], newobj, as.symbol(toAssign))
+ }
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -206,11 +207,11 @@ toAssign<-paste0("rPoisDS(",samp.size[k],",",lambda, ")")
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -252,14 +253,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors && !return.full.seed.as.set){																#
@@ -289,4 +290,3 @@ if(!no.errors){																								#
 }
 
 #ds.rPois
-

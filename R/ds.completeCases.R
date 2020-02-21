@@ -1,48 +1,56 @@
-#' @title ds.completeCases calling assign function completeCasesDS
-#' @description Identifies and strips out all rows of a data.frame,
-#' matrix or vector that contain NAs.
-#' @details In the case of a data.frame or matrix, {ds.completeCases} identifies
-#' all rows containing one or more NAs and deletes those
-#' rows altogether. Any one variable with NA in a given row will lead
-#' to deletion of the whole row. In the case of a vector, {ds.completeCases}
-#' acts in an equivalent manner but there is no equivalent to a 'row'
-#' and so it simply strips out all observations recorded as NA.
-#' {ds.completeCASES} is analogous to the {complete.cases} function
-#' in native R. Limited additional information can therefore be found
-#' under help("complete.cases") in native R.
-#' @param x1 This argument determines the input data.frame, matrix or vector
-#' from which rows with NAs are to be stripped. x1 is specified via
-#' a character string (in inverted commas) denoting the name of the input
-#' object
-#' @param newobj A character string specifying the name of the output object
-#' to be written to the serverside which will be in the form of a modified
-#' version of the input data object (data.frame, matrix or vector). The only
-#' change is that any rows containing at least one NA will have been stripped.
-#' If no <newobj> argument is specified, the output object name defaults to
-#' <x1>_complete.cases.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
-#' apply the function solely to e.g. the second connection server in a set of three,
-#' the argument can be specified as: e.g. datasources=connections.em[2].
-#' If you wish to specify the first and third connection servers in a set you specify:
-#' e.g. datasources=connections.em[c(1,3)]. #' @return a modified data.frame, matrix or vector from which
-#' all rows containing at least one NA have been deleted. This
-#' modified object is written to the serverside in each source.
-#' In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.completeCases also returns any studysideMessages that can help
-#' explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' @title Identies complete cases in R objects of several Opal servers
+#' @description Selects complete cases of a data.frame,
+#' matrix or vector that contain missing values.
+#' @details In the case of a data.frame or matrix, \code{ds.completeCases} deletes 
+#' all rows containing one or more missing values. However \code{ds.completeCases} 
+#' in vector only deletes the observation recorded as NA.  
+#' 
+#' Server functions called: completeCasesDS
+#' 
+#' @param x1 a character denoting the name of the input object 
+#' which can be a data.frame, matrix or vector
+#' @param newobj a character string which provides the name for the output variable that is stored on the data servers.
+#' @param datasources specifies the particular Opal object(s) to use. If the <datasources> argument is not specified the default set of Opals will be used.
+#' @return a modified data.frame, matrix or vector from which
+#' all rows containing at least one NA have been deleted. 
+#' The output R object is stored in the Opal servers. 
+#' It also returns two validity messages 
+#' indicating the name of <newobj> that has been created in each data source 
+#' and if it is valid in all servers. 
+#' @examples 
+#' #connecting to the Opal servers
+#' 
+#' require('DSI')
+#' require('DSOpal')
+#' require('dsBaseClient')
+#' 
+#' builder <- DSI::newDSLoginBuilder()
+#' builder$append(server = "study1", 
+#'                url = "http://192.168.56.100:8080/", 
+#'                user = "administrator", password = "datashield_test&", 
+#'                table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#' builder$append(server = "study2", 
+#'                url = "http://192.168.56.100:8080/", 
+#'                user = "administrator", password = "datashield_test&", 
+#'                table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#' builder$append(server = "study3",
+#'                url = "http://192.168.56.100:8080/", 
+#'                user = "administrator", password = "datashield_test&", 
+#'                table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#' logindata <- builder$build()
+#' connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+#' 
+#' #Select complete cases from different R objects
+#' 
+#' ds.completeCases(x1 = "D", #data frames in the Opal servers (see above the connection to the Opal servers)
+#'                  newobj = "D.completeCases", # name for the output object that is stored in the Opal servers
+#'                  datasources = connections)  # All Opal servers are used (see above the connection to the Opal servers)
+#'                  
+#' ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers (see above the connection to the Opal servers)
+#'                  newobj = "LAB_TSC.completeCases", # name for the output variable that is stored in the Opal servers
+#'                  datasources = connections[2])  #only the second Opal server is used ("study2")
+#' 
+#' datashield.logout(connections) #log out from the Opal servers
 #' @author Paul Burton for DataSHIELD Development Team, 17/10/2019
 #' @export
 ds.completeCases<-function(x1=NULL, newobj=NULL,datasources=NULL){

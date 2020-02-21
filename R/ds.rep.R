@@ -2,9 +2,7 @@
 #' 
 #' @description Creates a repetitive sequence by repeating
 #' the specified scalar number, vector or list in each data source.
-#' Server functions called: rbindDS. 
-#' @details With four exceptions, ds.rep is almost equivalent to {rep}
-#' in native R and the controlling arguments are similar.
+#' @details
 #' The four exceptions*** are: (1) the argument <x> in {rep} is called
 #' <x1> in {ds.rep}, it is defaulted to NULL and if it is not specified
 #' or is called as NULL it fails with an error message;
@@ -61,7 +59,12 @@
 #' computed quantity it is prudent to add a small fuzz or use round. And analogously
 #' for each.
 #' 
-#' @param x1 an scalar number, vector or list. Depending
+#' Server functions called: rbindDS. 
+#' 
+#' @param x1 an scalar number, vector or list. 
+#' 
+#' 
+#' Depending
 #' on the other arguments specified, x1 may either be a clientside scalar or
 #' vector or a serverside scalar or vector. If it is a clientside vector or
 #' scalar it may either be defined in the call e.g. ds.rep(x1=c(7:12),...) or
@@ -74,7 +77,7 @@
 #' ds.rep(x1=rep.scalar,...)
 #'
 #' Please note that in the latter case, clientside vectors
-#' MUST NOT be written in inverted commas.
+#' MUST NOT be written in inverted commas.  
 #'
 #' If it is a serverside scalar or vector, it must already exist as a defined
 #' object on the serverside, and it MUST be written in inverted commas

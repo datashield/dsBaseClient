@@ -85,7 +85,8 @@ builder$append(server = "study3",
                user = "administrator", password = "datashield_test&", 
                table = "CNSIM.CNSIM3", driver = "OpalDriver")
 logindata <- builder$build()
-connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+#Log onto the remote Opal training servers
+connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
 #Generating the vectors in the Opal servers
 ds.rPois(samp.size=c(13,20,25),       #the length of the vector created in each source is different (13,20,25) 
