@@ -69,4 +69,20 @@ test_that("shutdown", {
 
 disconnect.all.datasets()
 
+connect.testing.group.dataset.1()
+context("ds.table::smkgrouptest")
+test_that("simple table", {
+  
+  GROUP1 <- read.csv("data_files/GROUP1.csv")
+  GROUP2 <- read.csv("data_files/GROUP2_test.csv")
+  
+  server.result <- ds.table("D$COLOURS", "D$POSITIVE.NUMBERS") ##############it works!!! ###############
+  
+  expect_length(server.result, 2)
+  expect_length(server.result$output.list, 9)
+  expect_equal(class(table.res$output.list), "list")
+}  
+)
+disconnect.testing.group.dataset.1()
+
 context("ds.table::smk::done")
