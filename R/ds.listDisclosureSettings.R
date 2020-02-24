@@ -17,10 +17,10 @@
 #' a subset. Typically defaulted to 3.
 #' (3) nfilter.glm, the maximum number of parameters in a regression model as a proportion of the
 #' sample size in a study. If a study has 1000 observational units (typically individuals) being
-#' used in a particular analysis then if nfilter.glm is set to 0.37 (its default value) the maximum
-#' allowable number of parameters in a model fitted to those data will be 370. This disclosure
+#' used in a particular analysis then if nfilter.glm is set to 0.33 (its default value) the maximum
+#' allowable number of parameters in a model fitted to those data will be 330. This disclosure
 #' filter protects against fitting overly saturated models which can be disclosive. The choice of
-#' 0.37 is entirely arbitrary.
+#' 0.33 is entirely arbitrary.
 #' (4) nfilter.string, the maximum length of a string argument if that argument is to be subject to
 #' testing of its length. Default value = 80. The aim of this nfilter is to make it difficult for
 #' hackers to find a way to embed malicious code in a valid string argument that is actively
@@ -36,8 +36,8 @@
 #' prevent such disclosure we set this threshold to 0.33 which ensures that if a factor has unique
 #' levels more than the 33% of its actual length, then the levels do not returned to the client.
 #' (8) nfilter.noise specifies the minimum level of noise added in some variables mainly used for
-#' data visualizations. The default value is 0.10 which means that the noise added to a given
-#' variable, follows a normal distribution with zero mean and variance equal to 10% of the actual
+#' data visualizations. The default value is 0.25 which means that the noise added to a given
+#' variable, follows a normal distribution with zero mean and variance equal to 25% of the actual
 #' variance of the given variable. Any value greated than this threshold can reduce the risk of
 #' disclosure.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>

@@ -76,6 +76,32 @@ init.studies.dataset.survival <- function(variables)
     }
 }
 
+init.studies.dataset.cluster.int <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      ds.test_env$server <- c("cluster.int1", "cluster.int2", "cluster.int3")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
+      ds.test_env$table <- c("CLUSTER.dtPatient_int1", "CLUSTER.dtPatient_int2", "CLUSTER.dtPatient_int3")
+      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                    ds.test_env$url,
+                                                                    ds.test_env$table,
+                                                                    ds.test_env$user,
+                                                                    ds.test_env$password,
+                                                                    .silent = TRUE)
+    }
+    else 
+    {
+      ds.test_env$login.data <- DSLite::setupSURVIVALTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
+}
+
 connect.studies.dataset.cnsim <- function(variables)
 {
     log.out.data.server()
@@ -100,6 +126,14 @@ connect.studies.dataset.survival <- function(variables)
     log.in.data.server()
 }
 
+connect.studies.dataset.cluster.int <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cluster.int(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
     log.out.data.server()
@@ -115,3 +149,7 @@ disconnect.studies.dataset.survival <- function()
     log.out.data.server()
 }
 
+disconnect.studies.dataset.cluster.int <- function()
+{
+  log.out.data.server()
+}
