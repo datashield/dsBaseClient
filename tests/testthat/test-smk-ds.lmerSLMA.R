@@ -14,7 +14,7 @@
 
 context("ds.lmerSLMA::smk::setup")
 
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cluster.int(list("incid_rate", "trtGrp", "Male", "idDoctor"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -26,9 +26,9 @@ test_that("setup", {
 
 context("ds.lmerSLMA::smk")
 test_that("simple lmerSLMA", {
-    res <- ds.lmerSLMA('D$LAB_TSC~D$LAB_TRIG')
+    res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = "D")
 
-    expect_length(res, 0)
+    expect_length(res, 8)
 })
 
 #
@@ -38,11 +38,10 @@ test_that("simple lmerSLMA", {
 context("ds.lmerSLMA::smk::shutdown")
 
 test_that("setup", {
-    print()
-    print(ds.ls())
-    ds_expect_variables(c("D"))
+    #note the offset and weights objects below are artefacts 
+    ds_expect_variables(c("D", "offset", "weights"))
 })
 
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.cluster.int()
 
 context("ds.lmerSLMA::smk::done")
