@@ -4,10 +4,10 @@
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined  by rows to produce a matrix in the Opal servers.
 #' 
-#' In <DataSHIELD.checks> the checks are relatively slow. 
-#' Default <DataSHIELD.checks> value is FALSE. 
+#' In \code{DataSHIELD.checks} the checks are relatively slow. 
+#' Default \code{DataSHIELD.checks} value is FALSE. 
 #' 
-#' If <force.colnames> is NULL column names are inferred from the names or column names
+#' If \code{force.colnames} is NULL column names are inferred from the names or column names
 #' of the first object specified in the <x> argument.
 #' The vector of column names must have the same number of elements as the columns in the output
 #' object.

@@ -3,8 +3,8 @@
 #' @description Creates a repetitive sequence by repeating
 #' the specified scalar number, vector or list in each data source.
 #' @details  All arguments that can denote in a clientside  or
-#' a serverside (i.e. <x1>,<times>, <length.out>
-#' or <each>). 
+#' a serverside (i.e. \code{x1},\code{times}, \code{length.out}
+#' or \code{each}). 
 #' 
 #' Server functions called: repDS. 
 #' 
@@ -14,77 +14,79 @@
 #' @param length.out a clientside integer or a serverside integer
 #' or vector. 
 #' @param each a clientside or serverside integer. 
-#' @param source.x1 the source <x1> argument. It can be "clientside" or "c" 
+#' @param source.x1 the source \code{x1} argument. It can be "clientside" or "c" 
 #' and serverside or "s".
-#' @param source.times see <source.x1>
-#' @param source.length.out see <source.x1>
-#' @param source.each see <source.x1>
+#' @param source.times see \code{source.x1}
+#' @param source.length.out see \code{source.x1}
+#' @param source.each see \code{source.x1}
 #' @param x1.includes.characters Boolean parameter which specifies if 
-#' the <x1> is a character. 
+#' the \code{x1} is a character. 
 #' @param newobj the name of the output object. If this argument is set to
-#' NULL, the name of the new object is 'seq.vect'.
+#' NULL, the name of the new object is \code{'seq.vect'}.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
-#' If the <datasources> the default set of connections will be used: see 
+#' If the \code{datasources} the default set of connections will be used: see 
 #' \code{\link{datashield.connections_default}}.
 #' @return ds.rep create in the server side a vector with the specified repetitve sequence.  
-#' In addition, two validity messages are returned the name of <newobj> that has been created 
+#' In addition, two validity messages are returned the name of \code{newobj} that has been created 
 #' in each data source and if it is in a valid form.
 #' @examples 
+#' \dontrun{
+#'   # Connecting to the Opal servers
 #' 
-#' ## Connecting to the Opal servers
-#' 
-#'   require('DSI')
-#'   require('DSOpal')
-#'   require('dsBaseClient')
+#'     require('DSI')
+#'     require('DSOpal')
+#'     require('dsBaseClient')
 #'
-#'   builder <- DSI::newDSLoginBuilder()
-#'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-#'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
-#'   logindata <- builder$build()
+#'     builder <- DSI::newDSLoginBuilder()
+#'     builder$append(server = "study1", 
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'     builder$append(server = "study2", 
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'     builder$append(server = "study3",
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'     logindata <- builder$build()
 #' 
 #'   # Log onto the remote Opal training servers
 #'     connections <- DSI::datashield.login(logins = logindata, 
 #'                                          assign = TRUE, 
 #'                                          symbol = "D") 
 #' 
-#' ## Creating a repetitive sequence  
+#'   # Creating a repetitive sequence  
 #'               
-#'    ds.rep(x1 = 4,
-#'           times = 6,
-#'           length.out = NA,
-#'           each = 1,
-#'           source.x1 = "clientside",
-#'           source.times = "c",
-#'           source.length.out = NULL,
-#'           source.each = "c",
-#'           x1.includes.characters = FALSE,
-#'           newobj = "rep.seq",
-#'           datasources = connections)
+#'      ds.rep(x1 = 4,
+#'             times = 6,
+#'             length.out = NA,
+#'             each = 1,
+#'             source.x1 = "clientside",
+#'             source.times = "c",
+#'             source.length.out = NULL,
+#'             source.each = "c",
+#'             x1.includes.characters = FALSE,
+#'             newobj = "rep.seq",
+#'             datasources = connections)
 #'        
-#'    ds.rep(x1 = "lung",
-#'           times = 6,
-#'           length.out = 7,
-#'           each = 1,
-#'           source.x1 = "clientside",
-#'           source.times = "c",
-#'           source.length.out = "c",
-#'           source.each = "c",
-#'           x1.includes.characters = TRUE,
-#'           newobj = "rep.seq",
-#'           datasources = connections)
+#'      ds.rep(x1 = "lung",
+#'             times = 6,
+#'             length.out = 7,
+#'             each = 1,
+#'             source.x1 = "clientside",
+#'             source.times = "c",
+#'             source.length.out = "c",
+#'             source.each = "c",
+#'             x1.includes.characters = TRUE,
+#'             newobj = "rep.seq",
+#'             datasources = connections)
 #'
-#' ## clear the Datashield R sessions and logout               
-#'    datashield.logout(connections) #log out from the Opal servers
+#'   # clear the Datashield R sessions and logout  
+#'                
+#'      datashield.logout(connections) 
+#' } 
 #' 
 #' @author Paul Burton for DataSHIELD Development Team, 14/10/2019
 #' @export
