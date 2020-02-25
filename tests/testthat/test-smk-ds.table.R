@@ -80,7 +80,7 @@ test_that("simple table", {
   
   expect_length(server.result, 2)
   expect_length(server.result$output.list, 9)
-  expect_equal(class(table.res$output.list), "list")
+  expect_equal(class(server.result$output.list), "list")
 }  
 )
 disconnect.testing.group.dataset.1()
