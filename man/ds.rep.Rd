@@ -116,7 +116,7 @@ Server functions called: repDS.
           source.each = "c",
           x1.includes.characters = TRUE,
           newobj = "rep.seq",
-         datasources = connections)
+          datasources = connections)
 
 ## clear the Datashield R sessions and logout               
    datashield.logout(connections) #log out from the Opal servers
