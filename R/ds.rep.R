@@ -21,8 +21,8 @@
 #' @param source.each see \code{source.x1}
 #' @param x1.includes.characters Boolean parameter which specifies if 
 #' the \code{x1} is a character. 
-#' @param newobj the name of the output object. If this argument is set to
-#' NULL, the name of the new object is \code{'seq.vect'}.
+#' @param newobj a character string which provides the name for the output object
+#' that is stored on the data servers. Defailt \code{'seq.vect'}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
 #' If the \code{datasources} the default set of connections will be used: see 
 #' \code{\link{datashield.connections_default}}.
@@ -83,9 +83,8 @@
 #'             newobj = "rep.seq",
 #'             datasources = connections)
 #'
-#'   # clear the Datashield R sessions and logout  
-#'                
-#'      datashield.logout(connections) 
+#'   # Clear the Datashield R sessions and logout  
+#'   datashield.logout(connections) 
 #' } 
 #' 
 #' @author Paul Burton for DataSHIELD Development Team, 14/10/2019

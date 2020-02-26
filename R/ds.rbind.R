@@ -8,7 +8,7 @@
 #' Default \code{DataSHIELD.checks} value is FALSE. 
 #' 
 #' If \code{force.colnames} is NULL column names are inferred from the names or column names
-#' of the first object specified in the <x> argument.
+#' of the first object specified in the \code{x} argument.
 #' The vector of column names must have the same number of elements as the columns in the output
 #' object.
 #' 
@@ -21,48 +21,54 @@
 #' @param force.colnames can be NULL or a vector of characters which 
 #' specifies column names of the output object. 
 #' @param newobj a character string which provides the name for the output variable 
-#' that is stored on the data servers.
-#' @param datasources specifies the particular Opal object(s) to use. 
-#' If the <datasources> argument is not specified the default set of Opals will be used.
+#' that is stored on the data servers. Defaults \code{rbind.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the \code{datasources}
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return ds.rbind returns a matrix combining the rows of the R objects specified in the function. 
 #' The created matrix is stored in the in the Opal servers. It also returns two messages with the name of <newobj>
-#' that has been created in each data source and <DataSHIELD.checks> result. 
+#' that has been created in each data source and \code{DataSHIELD.checks} result. 
 #' @examples 
-#' #connecting to the Opal servers
 #' 
-#' require('DSI')
-#' require('DSOpal')
-#' require('dsBaseClient')
+#' \dontrun{
+#' 
+#'   #connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#' builder <- DSI::newDSLoginBuilder()
-#' builder$append(server = "study1", 
-#'                url = "http://192.168.56.100:8080/", 
-#'                user = "administrator", password = "datashield_test&", 
-#'                table = "CNSIM.CNSIM1", driver = "OpalDriver")
-#' builder$append(server = "study2", 
-#'                url = "http://192.168.56.100:8080/", 
-#'                user = "administrator", password = "datashield_test&", 
-#'                table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#' builder$append(server = "study3",
-#'                url = "http://192.168.56.100:8080/", 
-#'                user = "administrator", password = "datashield_test&", 
-#'                table = "CNSIM.CNSIM3", driver = "OpalDriver")
-#' logindata <- builder$build()
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
 #' 
-#' connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
-#' #Combining R objects by rows in the Opal servers 
-#' 
-#' ds.rbind(x = "D",    #data frames in the Opal servers to be conbined (see above the connection to the Opal servers)
-#'          DataSHIELD.checks = FALSE,
-#'          force.colnames = NULL,  # column names are inferred from the names or column names of the first object specified in the <x> argument
-#'          newobj = "D.bind",      # name for the output object that is stored in the data servers
-#'          datasources = connections, # All Opal servers are used (see above the connection to the Opal servers)
-#'          notify.of.progress = FALSE)
-#'          
-#' datashield.logout(connections) #log out from the Opal servers
+#'   #Combining R objects by rows in the Opal servers 
+#'   
+#'   ds.rbind(x = "D", #data frames in the Opal servers to be conbined (see above the connection to the Opal servers)    
+#'            DataSHIELD.checks = FALSE,
+#'            force.colnames = NULL,  # column names are inferred from the names or column names of the first object specified in the <x> argument
+#'            newobj = "D.bind",      # name for the output object that is stored in the data servers
+#'            datasources = connections, # All Opal servers are used (see above the connection to the Opal servers)
+#'            notify.of.progress = FALSE)
+#'            
+#'   # Clear the Datashield R sessions and logout  
+#'   datashield.logout(connections) 
+#'   }
 #' 
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export

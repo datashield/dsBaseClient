@@ -21,10 +21,10 @@
 #' Default=FALSE.
 #' @param sort.numeric logical, if TRUE the sort key is treated as if numeric
 #' Default=FALSE.
-#' @param newobj This a character string providing a name for the output
-#' data frame which defaults to \code{'dataframesort.newobj'} if no name is specified
+#' @param newobj a character string which provides the name for the output data frame 
+#' that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
 #' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the \code{datasources}
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return th sorted dataframe is written to the serverside. In addition, two validity messages are returned
 #' indicating the name of  \code{newobj} has been created in each data source and if so whether
@@ -64,7 +64,7 @@
 #'                    newobj = "df.sort",
 #'                    datasources = connections)
 #'                    
-#'   # clear the Datashield R sessions and logout                 
+#'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 
 #'   
 #' }   
