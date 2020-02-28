@@ -26,14 +26,16 @@ of the random numeric vector to be created in each source.}
 \item{newobj}{a character string which provides the name for the output variable 
 that is stored on the data servers. Default \code{newObject}.}
 
-\item{seed.as.integer}{an integer or a NULL value which provides the random seed in each data source.}
+\item{seed.as.integer}{an integer 
+or a NULL value which provides the random seed in each data source.}
 
-\item{return.full.seed.as.set}{logical, if TRUE will returns the full random number seed in each data 
-source (a numeric vector of length 626). If FALSE it will only returns the trigger seed value you have provided. 
+\item{return.full.seed.as.set}{logical, if TRUE will returns the full random number 
+seed in each data source (a numeric vector of length 626). 
+If FALSE it will only returns the trigger seed value you have provided. 
 Default is FALSE.}
 
-\item{force.output.to.k.decimal.places}{an integer an integer vector which forces the output random
-numbers vector to have k decimals.}
+\item{force.output.to.k.decimal.places}{an integer an integer vector which 
+forces the output random numbers vector to have k decimals.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
 If the \code{datasources} the default set of connections 
@@ -50,19 +52,26 @@ Generates normally distributed random (pseudorandom) scalar numbers.
 In addition, ds.rNorm allows to create different vector length in each server.
 }
 \details{
-Creates a vector of pseudorandom numbers distributed with a Normal distribution in each data source. 
-The ds.rNorm function's arguments specify the mean and the standard deviation (\code{sd}) of the normal distribution and  
+Creates a vector of pseudorandom numbers distributed 
+with a Normal distribution in each data source. 
+The \code{ds.rNorm} function's arguments specify the mean and the standard deviation 
+(\code{sd}) of the normal distribution and  
 the length and the seed of the output vector in each source.
  
-To specify different \code{mean} value in each source, you can use a character vector \code{(..., mean="vector.of.means"...)}
-or the \code{datasources} parameter to create the random vector for one source at a time, changing the <mean> as required.
-Default value for \code{mean = 0} 
+To specify different \code{mean} value in each source,
+you can use a character vector \code{(..., mean="vector.of.means"...)}
+or the \code{datasources} parameter to create the random vector for one source at a time, 
+changing the \code{mean} as required.
+Default value for \code{mean = 0}.  
  
-To specify different \code{sd} value in each source, you can use a character vector \code{(..., sd="vector.of.sds"...}
-or the \code{datasources} parameter to create the random vector for one source at a time, changing the <mean> as required.
-Default value for \code{sd = 0}
+To specify different \code{sd} value in each source, 
+you can use a character vector \code{(..., sd="vector.of.sds"...}
+or the \code{datasources} parameter to create the random vector for one source at a time, 
+changing the <mean> as required.
+Default value for \code{sd = 0}. 
  
-If \code{seed.as.integer} is an integer e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+If \code{seed.as.integer} is an integer 
+e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
 For example, in the first study the seed is set as 938*1, 
 in the second as  938*2  
 up to 938*N in the Nth study.
@@ -70,8 +79,8 @@ up to 938*N in the Nth study.
 If \code{seed.as.integer} is set as 0 all sources will start with the seed value
 0 and all the random number generators will therefore start from the same position. 
 In addition, to use the same starting seed in all studies but do not wish it to
-be 0, you can use \code{datasources} argument to generate the random number vectors one source at
-a time. 
+be 0, you can use \code{datasources} argument to generate the random number 
+vectors one source at a time. 
 
 In \code{force.output.to.k.decimal.places} the range of k is 1-8 decimals. 
 If \code{k = 0} the output random numbers are forced  to integer.  
@@ -83,6 +92,7 @@ Server functions called: rNormDS and setSeedDS.
 \examples{
 \dontrun{
 
+  ## Version 6, for version 5 see the Wiki
   # Connecting to the Opal servers
 
   require('DSI')
@@ -103,18 +113,23 @@ Server functions called: rNormDS and setSeedDS.
                  user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
   # Generating the vectors in the Opal servers
 
-  ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different (10,20,45) 
+  ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
            mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
-           sd=as.character(c(1,4,3)), #the standard seviation of the Normal distribution changes in each server
+           sd=as.character(c(1,4,3)), #the sd of the Normal distribution changes in each server
            newobj="Norm.dist",
            seed.as.integer=2345, 
            return.full.seed.as.set=FALSE,
-           force.output.to.k.decimal.places=c(4,5,6), #output random numbers have different decimal quantity in each source (4,5,6)
-           datasources=connections)
+           force.output.to.k.decimal.places=c(4,5,6), #output random numbers have different 
+                                                      #decimal quantity in each source 
+           datasources=connections) #all the Opal servers are used, in this case 3 
+                                    #(see above the connection to the servers) 
+  
   ds.rNorm(samp.size=10,
            mean=1.4,
            sd=0.2, 

@@ -66,6 +66,8 @@ Server functions called: repDS.
 }
 \examples{
 \dontrun{
+
+  ## Version 6, for version 5 see the Wiki
   # Connecting to the Opal servers
 
     require('DSI')
@@ -124,5 +126,5 @@ Server functions called: repDS.
 
 }
 \author{
-Paul Burton for DataSHIELD Development Team, 14/10/2019
+Paul Burton for DataSHIELD Development Team
 }

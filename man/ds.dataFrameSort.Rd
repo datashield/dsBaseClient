@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrameSort.R
 \name{ds.dataFrameSort}
 \alias{ds.dataFrameSort}
-\title{ds.dataFrameSort calling dataFrameSortDS}
+\title{Sorting data frames in several Opal servers}
 \usage{
 ds.dataFrameSort(
   df.name = NULL,
@@ -23,8 +23,8 @@ to be sorted}
 \item{sort.descending}{logical, if TRUE the data frame will be sorted.
 by the sort key in descending order. Default = FALSE (sort order ascending)}
 
-\item{sort.alphabetic}{logical, if TRUE the sort key is treated as if alphabetic
-Default=FALSE.}
+\item{sort.alphabetic}{logical, if TRUE the sort key is 
+treated as if alphabetic Default=FALSE.}
 
 \item{sort.numeric}{logical, if TRUE the sort key is treated as if numeric
 Default=FALSE.}
@@ -33,12 +33,15 @@ Default=FALSE.}
 that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the \code{datasources}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources}
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
-th sorted dataframe is written to the serverside. In addition, two validity messages are returned
-indicating the name of  \code{newobj} has been created in each data source and if so whether
+th sorted dataframe is written to the serverside. 
+In addition, two validity messages are returned
+indicating the name of  \code{newobj} 
+has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
@@ -50,15 +53,16 @@ data.frame on the serverside using a sort key also on the serverside. The
 sort key can either sit in the data.frame or outside it. 
 The sort key can be forced to be interpreted as alphabetic or numeric. 
 
-When sorting numbers in a  ascending (default) manner the negative values get
-ordered first and the missing values last. Instead when sorting characters 
-the missing values get ordered first. 
+When sorting numbers in a  ascending (default) manner the negative values 
+get ordered first and the missing values last. 
+Instead when sorting characters the missing values get ordered first. 
 
 Server functions called: dataFrameSortDS.
 }
 \examples{
 \dontrun{
-
+  ## Version 6, for version 5 see the Wiki
+  
   # connecting to the Opal servers
 
   require('DSI')

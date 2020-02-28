@@ -38,14 +38,16 @@ If the \code{datasources} the default set of connections
 will be used: see \link{datashield.connections_default}.}
 }
 \value{
-\code{ds.rBinom} returns random number vectors with a Binomial distribution for each study, 
-taking into account the values specified in each parameter of the function. If requested,
+\code{ds.rBinom} returns random number vectors 
+with a Binomial distribution for each study, 
+taking into account the values specified in each parameter of the function. 
+If requested,
 it also gives the full 626 length random seed vector generated in each source 
 (see info for the argument \code{return.full.seed.as.set}).
 }
 \description{
 Generates random (pseudorandom) non-negative integers from a Binomial distribution.
-In addition,  \code{ds.rBinom} allows to create different vector length in each server.
+In addition, \code{ds.rBinom} allows to create different vector length in each server.
 }
 \details{
 Creates a vector of random or pseudorandom non-negative integer values 
@@ -54,7 +56,8 @@ the number of trials, the success probability, the length and the seed of the ou
 vector in each source.
 
 To specify different \code{size} in each source, you can use a character vector 
-\code{(..., size="vector.of.sizes"...)} or the \code{datasources} parameter to create the random vector for one source at a time,
+\code{(..., size="vector.of.sizes"...)} 
+or the \code{datasources} parameter to create the random vector for one source at a time,
 changing \code{size} as required.
 The default value for \code{size = 1} which simulates binary outcomes (all observations 0 or 1).
 
@@ -62,7 +65,8 @@ To specify different \code{prob} in each source, you can use a integer or  chara
 \code{(..., prob="vector.of.probs"...)} or the \code{datasources} parameter to create the random 
 vector for one source at a time, changing \code{prob} as required.
 
-If \code{seed.as.integer} is an integer e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+If \code{seed.as.integer} is an integer 
+e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
 For example, in the first study the seed is set as 938*1, 
 in the second as  938*2  
 up to 938*N in the Nth study.
@@ -70,15 +74,15 @@ up to 938*N in the Nth study.
 If \code{seed.as.integer} is set as 0 all sources will start with the seed value
 0 and all the random number generators will therefore start from the same position. 
 In addition, to use the same starting seed in all studies but do not wish it to
-be 0, you can use \code{datasources} argument to generate the random number vectors one source at
-a time. 
+be 0, you can use \code{datasources} argument to generate the random number 
+vectors one source at a time. 
 
 Server functions called: rBinomDS and setSeedDS.
 }
 \examples{
 \dontrun{
-
-  #Connecting to the Opal servers
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -99,16 +103,19 @@ Server functions called: rBinomDS and setSeedDS.
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 
   logindata <- builder$build()
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
   #Generating the vectors in the Opal servers
-  ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different (13,20,25) 
-  size=as.character(c(10,23,5)),   #Bernoulli trials change in each source (10,23,5)
-  prob=c(0.6,0.1,0.5), #Probability  changes in each source (0.6,0.1,0.5)
+  ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
+  size=as.character(c(10,23,5)),   #Bernoulli trials change in each source 
+  prob=c(0.6,0.1,0.5), #Probability  changes in each source 
   newobj="Binom.dist", 
   seed.as.integer=45, 
   return.full.seed.as.set=FALSE,
-  datasources=connections)   #all the Opal servers are used, in this case 3 (see above the connection to the servers) 
+  datasources=connections)   #all the Opal servers are used, in this case 3 
+                             #(see above the connection to the servers) 
 
   ds.rBinom(samp.size=15,    
             size=4,          

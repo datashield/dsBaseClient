@@ -10,9 +10,11 @@ ds.completeCases(x1 = NULL, newobj = NULL, datasources = NULL)
 \item{x1}{a character denoting the name of the input object 
 which can be a data.frame, matrix or vector}
 
-\item{newobj}{a character string which provides the name for the output variable that is stored on the data servers.}
+\item{newobj}{a character string which provides the name for the output variable 
+that is stored on the data servers.}
 
-\item{datasources}{specifies the particular Opal object(s) to use. If the <datasources> argument is not specified the default set of Opals will be used.}
+\item{datasources}{specifies the particular Opal object(s) to use. 
+If the \code{datasources} argument is not specified the default set of Opals will be used.}
 }
 \value{
 a modified data.frame, matrix or vector from which
@@ -35,8 +37,8 @@ Server functions called: completeCasesDS
 }
 \examples{
 \dontrun{
-
-  #Connecting to the Opal servers
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -56,17 +58,23 @@ Server functions called: completeCasesDS
                  user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  #Select complete cases from different R objects
+  # Select complete cases from different R objects
 
-  ds.completeCases(x1 = "D", #data frames in the Opal servers (see above the connection to the Opal servers)
-                   newobj = "D.completeCases", # name for the output object that is stored in the Opal servers
-                   datasources = connections)  # All Opal servers are used (see above the connection to the Opal servers)
+  ds.completeCases(x1 = "D", #data frames in the Opal servers 
+                             #(see above the connection to the Opal servers)
+                   newobj = "D.completeCases", # name for the output object 
+                                               # that is stored in the Opal servers
+                   datasources = connections)  # All Opal servers are used 
+                                               # (see above the connection to the Opal servers)
                  
-  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers (see above the connection to the Opal servers)
-                   newobj = "LAB_TSC.completeCases", # name for the output variable that is stored in the Opal servers
-                   datasources = connections[2])  #only the second Opal server is used ("study2")
+  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers 
+                                     #(see above the connection to the Opal servers)
+                   newobj = "LAB_TSC.completeCases", #name for the output variable 
+                                                     #that is stored in the Opal servers
+                   datasources = connections[2]) #only the second Opal server is used ("study2")
                    
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 
@@ -74,5 +82,5 @@ Server functions called: completeCasesDS
   
 }
 \author{
-Paul Burton for DataSHIELD Development Team, 17/10/2019
+Paul Burton for DataSHIELD Development Team
 }
