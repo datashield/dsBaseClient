@@ -31,6 +31,8 @@
 #' in each data source and if it is in a valid form.
 #' @examples 
 #' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
 #'   # Connecting to the Opal servers
 #' 
 #'     require('DSI')
@@ -87,7 +89,7 @@
 #'   datashield.logout(connections) 
 #' } 
 #' 
-#' @author Paul Burton for DataSHIELD Development Team, 14/10/2019
+#' @author Paul Burton for DataSHIELD Development Team
 #' @export
 #'
 ds.rep<-function(x1=NULL,  times=NA,  length.out=NA, each=1, 

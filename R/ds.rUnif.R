@@ -1,19 +1,26 @@
 #' @title Generates Uniform  distribution in several Opal servers
-#' @description Generates uniformly distributed random (pseudorandom) scalar numbers. In addition, 
-#' ds.rUnif allows to create different vector length in each server.
-#' @details Creates a vector of pseudorandom numbers distributed with a uniform probability in each data source. 
-#' The ds.Unif function's arguments specify the minimum and maximum of the uniform distribution and  
-#' the length and the seed of the output vector in each source.
+#' @description Generates uniformly distributed random (pseudorandom) scalar numbers.
+#'  In addition, \code{ds.rUnif} allows to create different vector length in each server.
+#' @details Creates a vector of pseudorandom numbers distributed 
+#' with a uniform probability in each data source. 
+#' The \code{ds.Unif} function's arguments specify 
+#' the minimum and maximum of the uniform distribution 
+#' and the length and the seed of the output vector in each source.
 #' 
-#' To specify different \code{min} value in each source, you can use a character vector \code{(..., min="vector.of.mins"...)}
-#' or the \code{datasources} parameter to create the random vector for one source at a time, changing the \code{min} value as required.
+#' To specify different \code{min} value in each source, 
+#' you can use a character vector \code{(..., min="vector.of.mins"...)}
+#' or the \code{datasources} parameter to create the random vector for one source at a time, 
+#' changing the \code{min} value as required.
 #' Default value for \code{min = 0}. 
 #' 
-#' To specify different \code{max} value in each source, you can use a character vector \code{(..., max="vector.of.maxs"...)}
-#' or the \code{datasources} parameter to create the random vector for one source at a time, changing the \code{max} value as required.
+#' To specify different \code{max} value in each source, 
+#' you can use a character vector \code{(..., max="vector.of.maxs"...)}
+#' or the \code{datasources} parameter to create the random vector for one source at a time, 
+#' changing the \code{max} value as required.
 #' Default value for \code{max = 1}. 
 #' 
-#' If \code{seed.as.integer} is an integer e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+#' If \code{seed.as.integer} is an integer 
+#' e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
 #' For example, in the first study the seed is set as 938*1, 
 #' in the second as  938*2  
 #' up to 938*N in the Nth study.
@@ -21,8 +28,8 @@
 #' If \code{seed.as.integer} is set as 0 all sources will start with the seed value
 #' 0 and all the random number generators will therefore start from the same position. 
 #' In addition, to use the same starting seed in all studies but do not wish it to
-#' be 0, you can use \code{datasources} argument to generate the random number vectors one source at
-#' a time. 
+#' be 0, you can use \code{datasources} argument to generate 
+#' the random number vectors one source at  a time. 
 #' 
 #' In \code{force.output.to.k.decimal.places} the range of k is 1-8 decimals. 
 #' If \code{k = 0} the output random numbers are forced  to integer.  
@@ -47,7 +54,8 @@
 #' @param return.full.seed.as.set logical, if TRUE will returns the full random number 
 #' seed in each data source (a numeric vector of length 626). If FALSE it will only 
 #' returns the trigger seed value you have provided. Default is FALSE.
-#' @param force.output.to.k.decimal.places an integer or an integer vector  which forces the output random 
+#' @param force.output.to.k.decimal.places an integer or 
+#' an integer vector which forces the output random 
 #' numbers vector to have k decimals.
 #' 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
@@ -55,12 +63,14 @@
 #' will be used: see \link{datashield.connections_default}.
 #' @return \code{ds.Unif} returns random number vectors with a uniform distribution for each study,
 #' taking into account the values specified in each parameter of the function. If requested, 
-#' it also gives the full 626 length random seed vector generated in each source (see info for the argument <return.full.seed.as.set>).
+#' it also gives the full 626 length random seed vector generated in each source 
+#' (see info for the argument <return.full.seed.as.set>).
 #' @examples 
 #' 
 #' \dontrun{
 #' 
-#'   #Connecting to the Opal servers
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -82,19 +92,21 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 
 #'   logindata <- builder$build()
-
-#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
-#'  # Generating the vectors in the Opal servers
+#'   # Generating the vectors in the Opal servers
 #'
-#'   ds.rUnif(samp.size = c(12,20,4),      #the length of the vector created in each source is different (12,20,4)
-#'            min = as.character(c(0,2,5)), #different minumum value of the function (0,2,5) in each source
-#'            max = as.character(c(2,5,9)), #different maximum value of the function (2,5,9) in each source
+#'   ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
+#'            min = as.character(c(0,2,5)), #different minumum value of the function in each source
+#'            max = as.character(c(2,5,9)), #different maximum value of the function in each source
 #'            newobj = "Unif.dist",
 #'            seed.as.integer = 234,
 #'            return.full.seed.as.set = FALSE,
 #'            force.output.to.k.decimal.places = c(1,2,3),
-#'            datasources = connections)   #all the Opal servers are used, in this case 3 (see above the connection to the servers) 
+#'            datasources = connections)   #all the Opal servers are used, in this case 3 
+#'                                         #(see above the connection to the servers) 
 #'
 #'   ds.rUnif(samp.size = 12,
 #'            min = 0,

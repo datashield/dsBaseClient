@@ -1,15 +1,20 @@
 #' @title Generates Poisson distribution in several Opal servers 
 #' @description Generates random (pseudorandom) non-negative integers
-#' with a Poisson distribution. In addition,  ds.rPois allows to create different vector length in each server. 
-#' @details Creates a vector of random or pseudorandom non-negative integer values distributed with a Poisson distribution
-#' in each data source. The \code{ds.rPois} function's arguments specify lambda, the length and the seed of the output vector in each source.
+#' with a Poisson distribution. 
+#' In addition,  \code{ds.rPois} allows to create different vector length in each server. 
+#' @details Creates a vector of random or pseudorandom non-negative integer values 
+#' distributed with a Poisson distribution in each data source. 
+#' The \code{ds.rPois} function's arguments specify lambda, 
+#' the length and the seed of the output vector in each source.
 #' 
 #' To specify different \code{lambda} value in each source, you can use a character vector 
 #' \code{(..., lambda = "vector.of.lambdas"...)} or the \code{datasources}
-#' parameter to create the random vector for one source at a time, changing \code{lambda} as required.
+#' parameter to create the random vector for one source at a time, 
+#' changing \code{lambda} as required.
 #' Default value for  \code{lambda> = 1}.
 #' 
-#' If \code{seed.as.integer} is an integer e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+#' If \code{seed.as.integer} is an integer 
+#' e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
 #' For example, in the first study the seed is set as 938*1, 
 #' in the second as  938*2  
 #' up to 938*N in the Nth study.
@@ -17,10 +22,11 @@
 #' If \code{seed.as.integer} is set as 0 all sources will start with the seed value
 #' 0 and all the random number generators will therefore start from the same position. 
 #' In addition, to use the same starting seed in all studies but do not wish it to
-#' be 0, you can use \code{datasources} argument to generate the random number vectors one source at
-#' a time. 
+#' be 0, you can use \code{datasources} argument to generate the random number 
+#' vectors one source at a time. 
 #' 
-#' Server functions called: rPoisDS and setSeedDS. 
+#' Server functions called: rPoisDS and setSeedDS.
+#'  
 #' @param samp.size an integer value or an integer vector that defines the length of the
 #' random numeric vector to be created in each source. 
 #' @param lambda the number of event mean per interval. 
@@ -35,13 +41,17 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
 #' If the \code{datasources} the default set of connections 
 #' will be used: see \link{datashield.connections_default}.
-#' @return \code{ds.rPois} returns random number vectors with a Poisson distribution for each study, taking into 
-#' account the values specified in each parameter of the function. The created vectors are stored in the Opal servers.  If requested, it also gives the full 626 length random seed vector generated in
+#' @return \code{ds.rPois} returns random number vectors with a Poisson distribution for each study, 
+#' taking into  account the values specified in each parameter of the function. 
+#' The created vectors are stored in the Opal servers.  
+#' If requested, it also gives the full 626 length random seed vector generated in
 #' each source (see info for the argument  <return.full.seed.as.set>).
+#' 
 #' @examples 
 #' 
 #' \dontrun{
 #' 
+#'   ## Version 6, for version 5 see the Wiki 
 #'   # Connecting to the Opal servers
 #' 
 #'   require('DSI')
@@ -69,12 +79,13 @@
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
 #'   # Generating the vectors in the Opal servers
-#'   ds.rPois(samp.size=c(13,20,25),       #the length of the vector created in each source is different (13,20,25) 
+#'   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
 #'           lambda=as.character(c(2,3,4)), #different mean per interval (2,3,4) in each source
 #'           newobj="Pois.dist",                   
 #'           seed.as.integer=1234,         
 #'           return.full.seed.as.set=FALSE, 
-#'           datasources=connections)     #all the Opal servers are used, in this case 3 (see above the connection to the servers) 
+#'           datasources=connections)  #all the Opal servers are used, in this case 3 
+#'                                     #(see above the connection to the servers) 
 #'   ds.rPois(samp.size=13,                
 #'           lambda=5,
 #'           newobj="Pois.dist", 

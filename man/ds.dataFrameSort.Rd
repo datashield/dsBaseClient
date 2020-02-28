@@ -29,11 +29,11 @@ Default=FALSE.}
 \item{sort.numeric}{logical, if TRUE the sort key is treated as if numeric
 Default=FALSE.}
 
-\item{newobj}{This a character string providing a name for the output
-data frame which defaults to \code{'dataframesort.newobj'} if no name is specified
+\item{newobj}{a character string which provides the name for the output data frame 
+that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the \code{datasources}
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
@@ -91,7 +91,7 @@ Server functions called: dataFrameSortDS.
                    newobj = "df.sort",
                    datasources = connections)
                    
-  # clear the Datashield R sessions and logout                 
+  # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 
   
 }   

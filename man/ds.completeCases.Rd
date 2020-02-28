@@ -19,7 +19,7 @@ a modified data.frame, matrix or vector from which
 all rows containing at least one NA have been deleted. 
 The output R object is stored in the Opal servers. 
 It also returns two validity messages 
-indicating the name of <newobj> that has been created in each data source 
+indicating the name of \code{newobj} that has been created in each data source 
 and if it is valid in all servers.
 }
 \description{
@@ -34,39 +34,44 @@ in vector only deletes the observation recorded as NA.
 Server functions called: completeCasesDS
 }
 \examples{
-#connecting to the Opal servers
+\dontrun{
 
-require('DSI')
-require('DSOpal')
-require('dsBaseClient')
+  #Connecting to the Opal servers
 
-builder <- DSI::newDSLoginBuilder()
-builder$append(server = "study1", 
-               url = "http://192.168.56.100:8080/", 
-               user = "administrator", password = "datashield_test&", 
-               table = "CNSIM.CNSIM1", driver = "OpalDriver")
-builder$append(server = "study2", 
-               url = "http://192.168.56.100:8080/", 
-               user = "administrator", password = "datashield_test&", 
-               table = "CNSIM.CNSIM2", driver = "OpalDriver")
-builder$append(server = "study3",
-               url = "http://192.168.56.100:8080/", 
-               user = "administrator", password = "datashield_test&", 
-               table = "CNSIM.CNSIM3", driver = "OpalDriver")
-logindata <- builder$build()
-connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-#Select complete cases from different R objects
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") #Log onto the remote Opal training servers
 
-ds.completeCases(x1 = "D", #data frames in the Opal servers (see above the connection to the Opal servers)
-                 newobj = "D.completeCases", # name for the output object that is stored in the Opal servers
-                 datasources = connections)  # All Opal servers are used (see above the connection to the Opal servers)
+  #Select complete cases from different R objects
+
+  ds.completeCases(x1 = "D", #data frames in the Opal servers (see above the connection to the Opal servers)
+                   newobj = "D.completeCases", # name for the output object that is stored in the Opal servers
+                   datasources = connections)  # All Opal servers are used (see above the connection to the Opal servers)
                  
-ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers (see above the connection to the Opal servers)
-                 newobj = "LAB_TSC.completeCases", # name for the output variable that is stored in the Opal servers
-                 datasources = connections[2])  #only the second Opal server is used ("study2")
-
-datashield.logout(connections) #log out from the Opal servers
+  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers (see above the connection to the Opal servers)
+                   newobj = "LAB_TSC.completeCases", # name for the output variable that is stored in the Opal servers
+                   datasources = connections[2])  #only the second Opal server is used ("study2")
+                   
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+  }
+  
 }
 \author{
 Paul Burton for DataSHIELD Development Team, 17/10/2019

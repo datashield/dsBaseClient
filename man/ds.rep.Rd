@@ -41,16 +41,16 @@ and serverside or "s".}
 \item{x1.includes.characters}{Boolean parameter which specifies if 
 the \code{x1} is a character.}
 
-\item{newobj}{the name of the output object. If this argument is set to
-NULL, the name of the new object is \code{'seq.vect'}.}
+\item{newobj}{a character string which provides the name for the output object
+that is stored on the data servers. Defailt \code{'seq.vect'}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
-If the <datasources> the default set of connections will be used: see 
+If the \code{datasources} the default set of connections will be used: see 
 \code{\link{datashield.connections_default}}.}
 }
 \value{
 ds.rep create in the server side a vector with the specified repetitve sequence.  
-In addition, two validity messages are returned the name of <newobj> that has been created 
+In addition, two validity messages are returned the name of \code{newobj} that has been created 
 in each data source and if it is in a valid form.
 }
 \description{
@@ -118,9 +118,8 @@ Server functions called: repDS.
             newobj = "rep.seq",
             datasources = connections)
 
-  # clear the Datashield R sessions and logout  
-               
-     datashield.logout(connections) 
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
 } 
 
 }

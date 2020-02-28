@@ -9,8 +9,8 @@
 #' 
 #' If \code{force.colnames} is NULL column names are inferred from the names or column names
 #' of the first object specified in the \code{x} argument.
-#' The vector of column names must have the same number of elements as the columns in the output
-#' object.
+#' The vector of column names must have the same number of elements as 
+#' the columns in the output object.
 #' 
 #' Server functions called: rbindDS. 
 #' 
@@ -22,18 +22,21 @@
 #' specifies column names of the output object. 
 #' @param newobj a character string which provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{rbind.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the \code{datasources}
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
+#' If the \code{datasources} the default set of connections will be used: 
+#' see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return ds.rbind returns a matrix combining the rows of the R objects specified in the function. 
-#' The created matrix is stored in the in the Opal servers. It also returns two messages with the name of <newobj>
+#' The created matrix is stored in the in the Opal servers. 
+#' It also returns two messages with the name of <newobj>
 #' that has been created in each data source and \code{DataSHIELD.checks} result. 
 #' @examples 
 #' 
 #' \dontrun{
-#' 
-#'   #connecting to the Opal servers
+#'   ## Version 6, for version 5 see the Wiki 
+#'   
+#'   # Connecting to the Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -57,13 +60,16 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
-#'   #Combining R objects by rows in the Opal servers 
-#'   
-#'   ds.rbind(x = "D", #data frames in the Opal servers to be conbined (see above the connection to the Opal servers)    
+#'   #Combining R objects by rows in the Opal servers
+#'    
+#'                    
+#'   ds.rbind(x = "D", #data frames in the Opal servers to be conbined 
+#'                     #(see above the connection to the Opal servers) 
 #'            DataSHIELD.checks = FALSE,
-#'            force.colnames = NULL,  # column names are inferred from the names or column names of the first object specified in the <x> argument
-#'            newobj = "D.bind",      # name for the output object that is stored in the data servers
-#'            datasources = connections, # All Opal servers are used (see above the connection to the Opal servers)
+#'            force.colnames = NULL,
+#'            newobj = "D.bind", # name for the output object that is stored in the data servers
+#'            datasources = connections, # All Opal servers are used 
+#'                                       #(see above the connection to the Opal servers)
 #'            notify.of.progress = FALSE)
 #'            
 #'   # Clear the Datashield R sessions and logout  
