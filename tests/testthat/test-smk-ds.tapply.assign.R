@@ -71,7 +71,7 @@ test_that("simplest 'ds.tapply.assign, quantile'", {
 context("ds.tapply.assign::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "GENDER", "LAB_TSC", "temp1.obj", "temp2.obj", "temp3.obj", "temp4.obj"))
+    ds_expect_variables(c("D", "temp1.obj", "temp2.obj", "temp3.obj", "temp4.obj", "current.factor", "GENDER", "LAB_TSC"))
 })
 
 disconnect.studies.dataset.cnsim()
