@@ -20,7 +20,7 @@ random numeric vector to be created in each source.}
 \item{lambda}{the number of event mean per interval.}
 
 \item{newobj}{a character string  which provides the name for the output variable 
-that is stored on the data servers. Default\code{newObject}.}
+that is stored on the data servers. Default \code{newObject}.}
 
 \item{seed.as.integer}{an integer or a NULL value which provides the random seed
 in each data source.}

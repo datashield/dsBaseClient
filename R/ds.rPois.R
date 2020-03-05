@@ -31,7 +31,7 @@
 #' random numeric vector to be created in each source. 
 #' @param lambda the number of event mean per interval. 
 #' @param newobj a character string  which provides the name for the output variable 
-#' that is stored on the data servers. Default\code{newObject}. 
+#' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer or a NULL value which provides the random seed
 #' in each data source.   
 #' @param return.full.seed.as.set logical, if TRUE will returns the full
