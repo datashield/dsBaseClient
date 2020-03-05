@@ -38,7 +38,8 @@ If the \code{datasources}
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The unique levels of the converted variable in ascending order and a validity 
+\code{ds.asFactor} returns the unique levels of the converted 
+variable in ascending order and a validity 
 message with the name of the created object on the client side and 
 the output matrix or vector in the server side.
 }
