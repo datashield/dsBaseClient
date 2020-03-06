@@ -29,7 +29,7 @@ source("definition_tests/def-assign-stats.R")
 
 .test.variance.positive.split <- function(variable.name)
 {
-  var.server <- ds.var(variable.name,type='combine', check=TRUE)
+  var.server <- ds.var(variable.name,type='split', check=TRUE)
   expect_true(var.server[[1]][1] >= 0)
   expect_true(var.server[[1]][2] >= 0)
   expect_true(var.server[[1]][3] >= 0)

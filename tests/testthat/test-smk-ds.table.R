@@ -69,6 +69,7 @@ test_that("shutdown", {
 
 disconnect.all.datasets()
 
+
 connect.testing.group.dataset.1()
 context("ds.table::smkgrouptest")
 test_that("simple table", {
