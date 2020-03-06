@@ -24,10 +24,17 @@ glmChecks <- function(formula, data, offset, weights, datasources){
   formula <- paste0(Reduce(paste, deparse(formula)))
 
   # replace the symbols '~', '+' and '*' by a separator
-  formula <- gsub( " ", "", formula, fixed=TRUE)
-  formula <- gsub( "~", "|", formula, fixed=TRUE)
-  formula <- gsub( "+", "|", formula, fixed=TRUE)
-  formula <- gsub( "*", "|", formula, fixed=TRUE)
+  formula <- gsub(" ", "", formula, fixed=TRUE)
+  formula <- gsub("(", "", formula, fixed=TRUE)
+  formula <- gsub("(1", "", formula, fixed=TRUE)
+  formula <- gsub("(0", "", formula, fixed=TRUE)
+  formula <- gsub(")", "", formula, fixed=TRUE)
+  formula <- gsub("~", "|", formula, fixed=TRUE)
+  formula <- gsub("+", "|", formula, fixed=TRUE)
+  formula <- gsub("*", "|", formula, fixed=TRUE)
+  formula <- gsub("/", "|", formula, fixed=TRUE)
+  formula <- gsub(":", "|", formula, fixed=TRUE)
+  formula <- gsub("||", "|", formula, fixed=TRUE)
 
   # split the input formula by "|" to obtain the names of the variables
   elts <- unlist(strsplit(formula, split="|", fixed=TRUE))
