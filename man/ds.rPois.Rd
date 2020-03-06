@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rPois.R
 \name{ds.rPois}
 \alias{ds.rPois}
-\title{ds.rPois calling rPoisDS and setSeedDS}
+\title{Generates Poisson distribution in several Opal servers}
 \usage{
 ds.rPois(
   samp.size = 1,
@@ -14,85 +14,110 @@ ds.rPois(
 )
 }
 \arguments{
-\item{samp.size}{the length of the random number vector to be created in each source.
-<samp.size> can be a numeric scalar and this then specifies the length of the
-random vectors in each source to be the same. If it is a numeric vector
-it enables the random vectors to be of different lengths in each source but the
-numeric vector must be of length equal to the number of data sources being used.
-Often, one wishes to generate random vectors of length equal to the length of
-standard vectors in each source. To do this most easily, issue a command such as:
-numobs.list<-ds.length('varname',type='split') where varname is an arbitrary
-vector of standard length in all sources. Then issue command:
-numobs<-unlist(numobs.list) to make numobs numeric rather than a list. Finally,
-declare samp.size=numobs as the first argument for the ds.rPois function
-Please note that because (in this case) numobs is a clientside vector it
-should be specified without inverted commas (unlike the serverside vectors
-which may be used for the <lambda> argument [see below]).}
+\item{samp.size}{an integer value or an integer vector that defines the length of the
+random numeric vector to be created in each source.}
 
-\item{lambda}{a numeric scalar specifying the expected count of the Poisson
-distribution used to generate the random counts. If you wish to specify a
-different value in each source, then you can use the <datasources> argument
-to create the random vectors one source at a time, changing lambda as required.
-Alternatively you can specify the <lambda> argument to be a serverside vector
-equal in length to the random number vector you want to generate and this allows
-lambda to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.lambdas) you must
-specify the argument as a character string (..., lambda="vector.of.lambdas"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <lambda> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
-Default value for <lambda> = 1.}
+\item{lambda}{the number of event mean per interval.}
 
-\item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'rpois.newobj' if no name is specified.}
+\item{newobj}{a character string  which provides the name for the output variable 
+that is stored on the data servers. Default \code{newObject}.}
 
-\item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
-in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-the seed in each study is set as 938*1 in the first study in the set of
-data sources being used, 938*2 in the second, up to 938*N in the Nth study.
-If <seed.as.integer> is set as 0 all sources will start with the seed value
-0 and all the random number generators will therefore start from the same position.
-If you want to use the same starting seed in all studies but do not wish it to
-be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
-As an example, if the <seed.as.integer> value is 78326 then the seed
-in each source will be set at 78326*1 = 78326 because the vector of datasources
-being used in each call to the function will always be of length 1 and so the
-source-specific seed multiplier will also be 1. The function ds.rPois
-calls the serverside assign function setSeedDS to create the random seeds in
-each source}
+\item{seed.as.integer}{an integer or a NULL value which provides the random seed
+in each data source.}
 
-\item{return.full.seed.as.set}{logical, if TRUE will return the full
+\item{return.full.seed.as.set}{logical, if TRUE will returns the full
 random number seed in each data source (a numeric vector of length 626). If
-FALSE it will only return the trigger seed value you have provided: eg if
-<seed.as.integer> = 32 and there are three studies, the ds.rPois function will
-return: "$integer.seed.as.set.by.source", [1]  32  64 96, rather than the three
-vectors each of length 626 that represent the full seeds generated in each source.
+FALSE it will only returns the trigger seed value you have provided. 
 Default is FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
+If the \code{datasources} the default set of connections 
+will be used: see \link{datashield.connections_default}.}
 }
 \value{
-Writes the pseudorandom number vector with the characteristics specified
-in the function call as a new serverside vector in each data source. Also returns
-key information to the clientside: the random seed trigger as specified by you in each
-source + (if requested) the full 626 length random seed vector this generated in
-each source (see info for the argument <return.full.seed.as.set>). The ds.rPois
-function also returns a vector reporting the length of the pseudorandom vector
-created in each source.
+\code{ds.rPois} returns random number vectors with a Poisson distribution for each study, 
+taking into  account the values specified in each parameter of the function. 
+The created vectors are stored in the Opal servers.  
+If requested, it also gives the full 626 length random seed vector generated in
+each source (see info for the argument  <return.full.seed.as.set>).
 }
 \description{
-Generates random (pseudorandom) numbers (non-negative integers)
-with a Poisson distribution
+Generates random (pseudorandom) non-negative integers
+with a Poisson distribution. 
+In addition,  \code{ds.rPois} allows to create different vector length in each server.
 }
 \details{
-An assign function that creates a vector of pseudorandom numbers
-in each data source. This function generates random numbers distributed with a
-Poisson distribution - non-negative integer values with an expected count fully specified
-by a single argument lambda. In addition, the ds.rPois function's
-arguments specify the length of the output vector in each source.
+Creates a vector of random or pseudorandom non-negative integer values 
+distributed with a Poisson distribution in each data source. 
+The \code{ds.rPois} function's arguments specify lambda, 
+the length and the seed of the output vector in each source.
+
+To specify different \code{lambda} value in each source, you can use a character vector 
+\code{(..., lambda = "vector.of.lambdas"...)} or the \code{datasources}
+parameter to create the random vector for one source at a time, 
+changing \code{lambda} as required.
+Default value for  \code{lambda> = 1}.
+
+If \code{seed.as.integer} is an integer 
+e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+For example, in the first study the seed is set as 938*1, 
+in the second as  938*2  
+up to 938*N in the Nth study.
+
+If \code{seed.as.integer} is set as 0 all sources will start with the seed value
+0 and all the random number generators will therefore start from the same position. 
+In addition, to use the same starting seed in all studies but do not wish it to
+be 0, you can use \code{datasources} argument to generate the random number 
+vectors one source at a time. 
+
+Server functions called: rPoisDS and setSeedDS.
+}
+\examples{
+
+\dontrun{
+
+  ## Version 6, for version 5 see the Wiki 
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  # Generating the vectors in the Opal servers
+  ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
+          lambda=as.character(c(2,3,4)), #different mean per interval (2,3,4) in each source
+          newobj="Pois.dist",                   
+          seed.as.integer=1234,         
+          return.full.seed.as.set=FALSE, 
+          datasources=connections)  #all the Opal servers are used, in this case 3 
+                                    #(see above the connection to the servers) 
+  ds.rPois(samp.size=13,                
+          lambda=5,
+          newobj="Pois.dist", 
+          seed.as.integer=1234, 
+          return.full.seed.as.set=FALSE, 
+          datasources=connections[1])  #only the first Opal server is used ("study1")
+        
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+}
 }
 \author{
 Paul Burton for DataSHIELD Development Team
