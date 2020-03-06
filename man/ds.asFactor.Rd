@@ -34,7 +34,7 @@ If the \code{fixed.dummy.vars} is set to FALSE then any value of baseline level 
 into account.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
-If the \code{datasources}
+If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
@@ -161,7 +161,7 @@ Server functions called:  asFactorDS1
               fixed.dummy.vars = TRUE, #create a matrix of dummy variables
               baseline.level = 1,
               datasources = connections)#all the Opal servers are used, in this case 3 
-                                        #see above the connection to the servers) 
+                                        #(see above the connection to the servers) 
   ds.asFactor(input.var.name = "D$PM_BMI_CATEGORICAL", 
               newobj.name = "fact.obj", 
               forced.factor.levels = c(2,3), #the variable is split in 2 levels
@@ -174,5 +174,7 @@ Server functions called:  asFactorDS1
 
 
 }
-
+}
+\author{
+DataSHIELD Development Team
 }
