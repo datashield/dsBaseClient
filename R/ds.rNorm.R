@@ -1,85 +1,117 @@
-#' @title ds.rNorm calling rNormDS and setSeedDS
-#' @description Generates random (pseudorandom) numbers with a normal distribution
-#' @details An assign function that creates a vector of pseudorandom numbers
-#' in each data source. This function generates normally distributed random numbers.
-#' The function's arguments specify the length of the output vector in each source
-#' and the mean and standard deviation (sd) of the normal distribution to
-#' generate from.
-#' @param samp.size the length of the random number vector to be created in each source.
-#' <samp.size> can be a numeric scalar and this then specifies the length of the
-#' random vectors in each source to be the same. If it is a numeric vector
-#' it enables the random vectors to be of different lengths in each source but the
-#' numeric vector must be of length equal to the number of data sources being used.
-#' Often, one wishes
-#' to generate random vectors of length equal to the length of standard vectors in
-#' each source. To do this most easily, issue a command such as:
-#' numobs.list<-ds.length('varname',type='split') where varname is an arbitrary
-#' vector of standard length in all sources. Then issue command:
-#' numobs<-unlist(numobs.list) to make numobs numeric rather than a list. Finally,
-#' declare samp.size=numobs as the first argument for the ds.rNorm function
-#' Please note that because (in this case) numobs is a clientside vector it
-#' should be specified without inverted commas (unlike the serverside vectors
-#' which may be used for the <mean> and <sd> arguments [see below]).
-#' @param mean a numeric scalar specifying the mean of the generating normal
-#' distribution in each data source. Alternatively you can specify
-#' the <mean> argument to be a serverside vector equal in length
-#' to the random number vector you want to generate and this allows the
-#' mean to vary by observation in the dataset. If you wish to specify
-#' a serverside vector in this way (e.g. called vector.of.means) you must
-#' specify the argument as a character string (..., mean="vector.of.means"...).
-#' If you simply wish to specify a single but different value in each
-#' source, then you can specify <mean> as a scalar and use the
-#' <datasources> argument to create the random vectors one source at a time.
-#' Default value for <mean> = 0.
-#' @param sd a numeric scalar specifying the standard deviation of the generating normal
-#' distribution in each data source. Alternatively you can specify
-#' the <sd> argument to be a serverside vector equal in length
-#' to the random number vector you want to generate and this allows the
-#' sd to vary by observation in the dataset. If you wish to specify
-#' a serverside vector in this way (e.g. called vector.of.sds) you must
-#' specify the argument as a character string (..., sd="vector.of.sds"...)
-#' If you simply wish to specify a single but different value in each
-#' source, then you can use the <datasources> argument to create the random vectors
-#' one source at a time. Default value = 1.
-#' @param newobj This a character string providing a name for the output
-#' random number vector which defaults to 'rnorm.newobj' if no name is specified.
-#' @param seed.as.integer a numeric scalar or a NULL which primes the random seed
-#' in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-#' the seed in each study is set as 938*1 in the first study in the set of
-#' data sources being used, 938*2 in the second, up to 938*N in the Nth study.
-#' If <seed.as.integer> is set as 0 all sources will start with the seed value
-#' 0 and all the random number generators will therefore start from the same position.
-#' If you want to use the same starting seed in all studies but do not wish it to
-#' be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-#' use the <datasources> argument to generate the random number vectors one source at
-#' a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
-#' As an example, if the <seed.as.integer> value is 78326 then the seed
-#' in each source will be set at 78326*1 = 78326 because the vector of datasources
-#' being used in each call to the function will always be of length 1 and so the
-#' source-specific seed multiplier will also be 1. The function ds.rNorm
-#' calls the serverside assign function setSeedDS to create the random seeds in
-#' each source
-#' @param return.full.seed.as.set logical, if TRUE will return the full
-#' random number seed in each data source (a numeric vector of length 626). If
-#' FALSE it will only return the trigger seed value you have provided: eg if
-#' <seed.as.integer> = 32 and there are three studies, the ds.rNorm function will
-#' return: "$integer.seed.as.set.by.source", [1]  32  64 96, rather than the three
-#' vectors each of length 626 that represent the full seeds generated in each source.
+#' @title Generates Normal distribution in several Opal servers  
+#' @description Generates normally distributed random (pseudorandom) scalar numbers. 
+#' In addition, ds.rNorm allows to create different vector length in each server.
+#' @details Creates a vector of pseudorandom numbers distributed 
+#' with a Normal distribution in each data source. 
+#' The \code{ds.rNorm} function's arguments specify the mean and the standard deviation 
+#' (\code{sd}) of the normal distribution and  
+#' the length and the seed of the output vector in each source.
+#'  
+#' To specify different \code{mean} value in each source,
+#' you can use a character vector \code{(..., mean="vector.of.means"...)}
+#' or the \code{datasources} parameter to create the random vector for one source at a time, 
+#' changing the \code{mean} as required.
+#' Default value for \code{mean = 0}.  
+#'  
+#' To specify different \code{sd} value in each source, 
+#' you can use a character vector \code{(..., sd="vector.of.sds"...}
+#' or the \code{datasources} parameter to create the random vector for one source at a time, 
+#' changing the <mean> as required.
+#' Default value for \code{sd = 0}. 
+#'  
+#' If \code{seed.as.integer} is an integer 
+#' e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+#' For example, in the first study the seed is set as 938*1, 
+#' in the second as  938*2  
+#' up to 938*N in the Nth study.
+#' 
+#' If \code{seed.as.integer} is set as 0 all sources will start with the seed value
+#' 0 and all the random number generators will therefore start from the same position. 
+#' In addition, to use the same starting seed in all studies but do not wish it to
+#' be 0, you can use \code{datasources} argument to generate the random number 
+#' vectors one source at a time. 
+#' 
+#' In \code{force.output.to.k.decimal.places} the range of k is 1-8 decimals. 
+#' If \code{k = 0} the output random numbers are forced  to integer.  
+#' If \code{k = 9}, no rounding of output numbers occurs. 
+#' The default value of \code{force.output.to.k.decimal.places = 9}.
+#' 
+#' Server functions called: rNormDS and setSeedDS.
+#' 
+#' @param samp.size an integer value or an integer vector that defines the length
+#' of the random numeric vector to be created in each source.
+#' @param mean the mean value or vector of the Normal distribution to be created. 
+#' @param sd the standard seviation of of the Normal distribution to be created. 
+#' @param newobj a character string which provides the name for the output variable 
+#' that is stored on the data servers. Default \code{newObject}. 
+#' @param seed.as.integer an integer 
+#' or a NULL value which provides the random seed in each data source.
+#' @param return.full.seed.as.set logical, if TRUE will returns the full random number 
+#' seed in each data source (a numeric vector of length 626). 
+#' If FALSE it will only returns the trigger seed value you have provided. 
 #' Default is FALSE.
-#' @param force.output.to.k.decimal.places scalar integer. Forces the output random
-#' number vector to have k decimal places. If 0 rounds it coerces
-#' decimal random number output to integer, a k in range 1-8 forces output to
-#' have k decimal places. If k = 9, no rounding occurs of native output.
-#' Default=9.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return Writes the pseudorandom number vector with the characteristics specified
-#' in the function call as a new serverside vector in each data source. Also returns
-#' key information to the clientside: the random seed trigger as specified by you in each
-#' source + (if requested) the full 626 length random seed vector this generated in
-#' each source (see info for the argument <return.full.seed.as.set>). The ds.rNorm
-#' function also returns a vector reporting the length of the pseudorandom vector
-#' created in each source.
+#' @param force.output.to.k.decimal.places an integer an integer vector which 
+#' forces the output random numbers vector to have k decimals.  
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
+#' If the \code{datasources} the default set of connections 
+#' will be used: see \link{datashield.connections_default}.
+#' @return \code{ds.rNorm} returns random number vectors with a normal  distribution for each 
+#' study, taking into account the values specified in each parameter of the function. 
+#' If requested, it also gives the full 626 length random seed vector generated 
+#' in each source (see info for the argument \code{return.full.seed.as.set}).
+#' @examples 
+#' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#' 
+#'   # Generating the vectors in the Opal servers
+#' 
+#'   ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
+#'            mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
+#'            sd=as.character(c(1,4,3)), #the sd of the Normal distribution changes in each server
+#'            newobj="Norm.dist",
+#'            seed.as.integer=2345, 
+#'            return.full.seed.as.set=FALSE,
+#'            force.output.to.k.decimal.places=c(4,5,6), #output random numbers have different 
+#'                                                       #decimal quantity in each source 
+#'            datasources=connections) #all the Opal servers are used, in this case 3 
+#'                                     #(see above the connection to the servers) 
+#'   
+#'   ds.rNorm(samp.size=10,
+#'            mean=1.4,
+#'            sd=0.2, 
+#'            newobj="Norm.dist", 
+#'            seed.as.integer=2345,
+#'            return.full.seed.as.set=FALSE,
+#'            force.output.to.k.decimal.places=1,
+#'            datasources=connections[2]) #only the second  Opal server is used ("study2")
+#'            
+#'   # Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
+#' }
 #' @author Paul Burton for DataSHIELD Development Team
 #' @export
 ds.rNorm<-function(samp.size=1,mean=0,sd=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,

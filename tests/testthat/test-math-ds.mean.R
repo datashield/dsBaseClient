@@ -1,4 +1,4 @@
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.mean.R")
 
 
@@ -27,7 +27,7 @@ test_that("residual deviation tends to 0",
    
 })
 
-context("ds.mean()::math::residual::single")
+context("ds.mean()::math::residual::multiple")
 test_that("residual deviation tends to 0",
 {
   connect.all.datasets()

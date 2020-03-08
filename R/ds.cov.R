@@ -1,7 +1,7 @@
 #'
-#' @title Calculates the covariance between two variables
+#' @title Calculates the covariance between any two variables
 #' @description This function calculates the covariance of two variables or the variance-covariance
-#' matrix for the vairables of an input dataframe
+#' matrix for the variables of an input dataframe
 #' @details In addition to computing covariances; this function, produces a table outlining the
 #' number of complete cases and a table outlining the number of missing values to allow for the
 #' user to make a decision about the 'relevance' of the covariance based on the number of complete

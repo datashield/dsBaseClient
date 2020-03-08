@@ -1,4 +1,4 @@
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-assign-stats.R")
 
 .find.factors.locally <- function(some.local.values)
@@ -21,7 +21,7 @@ source("definition_tests/def-assign-stats.R")
    factor.local <- .find.factors.locally(some.values[,column])
    factor.server <- .find.factors.server(variable.name, variable.recoded)
    dist.local <- .calc.distribution.locally(factor.local)
-   dist.server <- .calc.distribution.locally(factor.server)
+   dist.server <- .calc.distribution.server(factor.server)
    expect_equal(dist.local[1],dist.server [1], tolerance = ds.test_env$tolerance)
    expect_equal(dist.local[2],dist.server [2], tolerance = ds.test_env$tolerance)
 }

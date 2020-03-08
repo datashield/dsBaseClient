@@ -7,7 +7,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
-#source("connection_to_datasets/init_all_datasets.R")
-#print("teardown.r - clearing all the r objects")
 
-log.out.data.server()
+#
+# Set up
+#
+
+connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+#
+# Tests
+#
+
+context("ds.completeCases::arg::test errors")
+test_that("completeCases_errors", {
+  res <- ds.completeCases()
+  expect_equal(res, "Error: x1 must have a value which is a character string naming a serverside data.frame, matrix or vector")
+})
+
+#
+# Done
+#
+
+disconnect.studies.dataset.cnsim()

@@ -5,7 +5,7 @@
 
 # Connect to three servers and the three datasets. Four local variables named ds.test_env$local.values.1,
 # ds.test_env$local.values.2, ds.test_env$local.values.3 and ds.test_env$local.values are created.
-init.all.datasets <- function()
+init.testing.datasets <- function()
 {
   log.out.data.server()
   if (ds.test_env$secure_login_details)
@@ -140,6 +140,39 @@ init.dataset.1 <- function()
   }
 }
 
+#####GROUP TESTING
+
+# Connect to one server and the two studies. One local variables named ds.test_env$local.values.2is created.
+init.testing.group.dataset.1 <- function()
+{
+  log.out.data.server()
+  if (ds.test_env$secure_login_details)
+  {
+    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      ds.test_env$server <- c("GROUP1", "GROUP2")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1)
+      ds.test_env$table <- c("TESTING_GROUP.GROUP1","TESTING_GROUP.GROUP2")
+      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                    ds.test_env$url,
+                                                                    ds.test_env$table,
+                                                                    ds.test_env$user,
+                                                                    ds.test_env$password,
+                                                                    .silent = TRUE)
+    }
+    else
+    {
+      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
+      ds.test_env$login.data <- subset(login.data, server=="study1")
+    }  
+    ds.test_env$stats.var <- list('ID',	'COLOURS'	,'COLOURS.NUMBERS',	'POSITIVE.NUMBERS',	'NEGATIVE.NUMBERS',	'NUMBERS',
+                                  'POSITIVE.DECIMAL',	'NEGATIVE.DECIMAL',	'DECIMAL',	'CHARACTERS')
+  }
+}
+
 log.in.data.server <- function()
 {
   #print(ds.test_env$login.data)
@@ -161,7 +194,7 @@ connect.all.datasets <- function()
 {
    log.out.data.server()
    source("connection_to_datasets/login_details.R")
-   init.all.datasets()
+   init.testing.datasets()
    log.in.data.server()
 }
 
@@ -189,6 +222,14 @@ connect.dataset.3 <- function()
   log.in.data.server()
 }
 
+connect.testing.group.dataset.1 <- function()
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.testing.group.dataset.1()
+  log.in.data.server()
+}
+
 disconnect.all.datasets <- function()
 {
     log.out.data.server()
@@ -207,4 +248,9 @@ disconnect.dataset.2 <- function()
 disconnect.dataset.3 <- function()
 {
     log.out.data.server()
+}
+
+disconnect.testing.group.dataset.1 <- function()
+{
+  log.out.data.server()
 }

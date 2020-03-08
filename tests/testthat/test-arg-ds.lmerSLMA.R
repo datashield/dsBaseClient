@@ -7,16 +7,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
+
 #
-# Datashield test suite set up
+# Set up
 #
 
-library(DSOpal)
-library(DSLite)
-library(dsBaseClient)
+context("ds.lmerSLMA::arg::setup")
 
-source("dstest_functions/ds_expect_variables.R")
-source("connection_to_datasets/login_details.R")
-source("connection_to_datasets/init_testing_datasets.R")
-source("connection_to_datasets/init_studies_datasets.R")
-source("connection_to_datasets/init_discordant_datasets.R")
+connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
+
+#
+# Tests
+#
+
+context("ds.lmerSLMA::arg")
+test_that("simple lmerSLMA", {
+    expect_error(ds.lmerSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
+})
+
+#
+# Done
+#
+
+context("ds.lmerSLMA::arg::shutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
+
+disconnect.studies.dataset.cnsim()
+
+context("ds.lmerSLMA::arg::done")
