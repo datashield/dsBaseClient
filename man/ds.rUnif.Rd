@@ -39,9 +39,9 @@ returns the trigger seed value you have provided. Default is FALSE.}
 an integer vector which forces the output random 
 numbers vector to have k decimals.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
-If the \code{datasources} the default set of connections 
-will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.Unif} returns random number vectors with a uniform distribution for each study,

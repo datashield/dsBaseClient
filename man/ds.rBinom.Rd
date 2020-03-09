@@ -33,9 +33,9 @@ random seed in each data source.}
 in each data source (a numeric vector of length 626). If FALSE it will only returns the 
 trigger seed value you have provided. Default is FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
-If the \code{datasources} the default set of connections 
-will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.rBinom} returns random number vectors 
