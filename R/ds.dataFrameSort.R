@@ -25,7 +25,7 @@
 #' that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
 #' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources}
+#' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return The sorted dataframe is written to the serverside. 
 #' In addition, two validity messages are returned

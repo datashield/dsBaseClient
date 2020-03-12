@@ -14,7 +14,7 @@ character.}
 that is stored on the data servers. Default \code{ascharacter.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
-objects obtained after login. If the \code{datasources}
+objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
@@ -58,7 +58,7 @@ Server function called: asCharacterDS
   
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  # Converting the object into a class character
+  # Converting the R object into a class character
   ds.asCharacter(x.name = "D$LAB_TSC",
                  newobj = "char.obj",
                  datasources = connections[1]) #only the first Opal server is used ("study1")

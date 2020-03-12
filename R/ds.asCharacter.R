@@ -8,7 +8,7 @@
 #' @param newobj a character string which provides the name for the output object
 #'  that is stored on the data servers. Default \code{ascharacter.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources}
+#' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.asCharacter} returns the object converted into a class character 
 #' which is written to the serverside. In addition, two validity messages are returned
@@ -42,7 +42,7 @@
 #'   
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   # Converting the object into a class character
+#'   # Converting the R object into a class character
 #'   ds.asCharacter(x.name = "D$LAB_TSC",
 #'                  newobj = "char.obj",
 #'                  datasources = connections[1]) #only the first Opal server is used ("study1")
