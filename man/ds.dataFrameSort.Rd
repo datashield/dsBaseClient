@@ -15,7 +15,7 @@ ds.dataFrameSort(
 )
 }
 \arguments{
-\item{df.name}{a character string providing the name for the data frame.
+\item{df.name}{a character string providing the name of the data frame
 to be sorted}
 
 \item{sort.key.name}{a character string providing the name for the sort key.}
@@ -35,13 +35,13 @@ where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources}
-the default set of connections will be used: see \link{datashield.connections_default}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-th sorted dataframe is written to the serverside. 
+The sorted dataframe is written to the serverside. 
 In addition, two validity messages are returned
-indicating the name of  \code{newobj} 
-has been created in each data source and if so whether
+indicating the name of the \code{newobj} which 
+has been created in each data source and if 
 it is in a valid form.
 }
 \description{
@@ -93,7 +93,7 @@ Server functions called: dataFrameSortDS.
                    sort.alphabetic = FALSE,
                    sort.numeric = TRUE,
                    newobj = "df.sort",
-                   datasources = connections)
+                   datasources = connections[1]) #only the first Opal server is used ("study1")
                    
   # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 
