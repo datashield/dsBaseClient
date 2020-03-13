@@ -168,8 +168,8 @@ init.testing.dataset.factor_levels <- function()
       login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
       ds.test_env$login.data <- subset(login.data, server=="study1")
     }  
-    ds.test_env$stats.var <- list('ID',	'COLOURS'	,'COLOURS.NUMBERS',	'POSITIVE.NUMBERS',	'NEGATIVE.NUMBERS',	'NUMBERS',
-                                  'POSITIVE.DECIMAL',	'NEGATIVE.DECIMAL',	'DECIMAL',	'CHARACTERS')
+    ds.test_env$stats.var <- list('ID', 'COLOURS', 'COLOURS.NUMBERS', 'POSITIVE.NUMBERS', 'NEGATIVE.NUMBERS', 'NUMBERS',
+                                  'POSITIVE.DECIMAL', 'NEGATIVE.DECIMAL', 'DECIMAL', 'PLANETS.CHARACTERS')
   }
 }
 

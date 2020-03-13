@@ -25,7 +25,7 @@ test_that("setup", {
 #
 
 context("FACTOR_LEVELS::datachk")
-test_that("isNA", {
+test_that("Check FACTOR_LEVELS dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
     expect_length(res.class$GROUP1, 1)
@@ -38,21 +38,21 @@ test_that("isNA", {
     res.length <- ds.length(x='D')
     expect_length(res.length, 4)
     expect_length(res.length$`length of D in GROUP1`, 1)
-    expect_equal(res.length$`length of D in GROUP1`, 9)
+    expect_equal(res.length$`length of D in GROUP1`, 10)
     expect_length(res.length$`length of D in GROUP2`, 1)
-    expect_equal(res.length$`length of D in GROUP2`, 9)
+    expect_equal(res.length$`length of D in GROUP2`, 10)
     expect_length(res.length$`length of D in GROUP3`, 1)
-    expect_equal(res.length$`length of D in GROUP3`, 9)
-    expect_equal(res.length$`total length of D in all studies combined`, 27)
+    expect_equal(res.length$`length of D in GROUP3`, 10)
+    expect_equal(res.length$`total length of D in all studies combined`, 30)
 
     res.colnames <- ds.colnames(x='D')
     expect_length(res.colnames, 3)
-    expect_length(res.colnames$GROUP1, 9)
-    expect_equal(res.colnames$GROUP1, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL"))
-    expect_length(res.colnames$GROUP2, 9)
-    expect_equal(res.colnames$GROUP2, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL"))
-    expect_length(res.colnames$GROUP3, 9)
-    expect_equal(res.colnames$GROUP3, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL"))
+    expect_length(res.colnames$GROUP1, 10)
+    expect_equal(res.colnames$GROUP1, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL", "PLANETS.CHARACTERS"))
+    expect_length(res.colnames$GROUP2, 10)
+    expect_equal(res.colnames$GROUP2, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL", "PLANETS.CHARACTERS"))
+    expect_length(res.colnames$GROUP3, 10)
+    expect_equal(res.colnames$GROUP3, c("ID", "COLOURS", "COLOURS.NUMBERS", "POSITIVE.NUMBERS", "NEGATIVE.NUMBERS", "NUMBERS", "POSITIVE.DECIMAL", "NEGATIVE.DECIMAL", "DECIMAL", "PLANETS.CHARACTERS"))
 
     res.class.id <- ds.class(x='D$ID')
     expect_length(res.class.id, 3)
@@ -233,6 +233,26 @@ test_that("isNA", {
     expect_equal(res.length.decimal$`length of D$DECIMAL in GROUP3`, 100)
     expect_length(res.length.decimal$`total length of D$DECIMAL in all studies combined`, 1)
     expect_equal(res.length.decimal$`total length of D$DECIMAL in all studies combined`, 300)
+
+    res.class.planets.characters <- ds.class(x='D$PLANETS.CHARACTERS')
+    expect_length(res.class.planets.characters, 3)
+    expect_length(res.class.planets.characters$GROUP1, 1)
+    expect_equal(res.class.planets.characters$GROUP1, "factor")
+    expect_length(res.class.planets.characters$GROUP2, 1)
+    expect_equal(res.class.planets.characters$GROUP2, "factor")
+    expect_length(res.class.planets.characters$GROUP3, 1)
+    expect_equal(res.class.planets.characters$GROUP3, "factor")
+
+    res.length.planets.characters <- ds.length(x='D$PLANETS.CHARACTERS')
+    expect_length(res.length.planets.characters, 4)
+    expect_length(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP1`, 1)
+    expect_equal(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP1`, 100)
+    expect_length(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP2`, 1)
+    expect_equal(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP2`, 100)
+    expect_length(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP3`, 1)
+    expect_equal(res.length.planets.characters$`length of D$PLANETS.CHARACTERS in GROUP3`, 100)
+    expect_length(res.length.planets.characters$`total length of D$PLANETS.CHARACTERS in all studies combined`, 1)
+    expect_equal(res.length.planets.characters$`total length of D$PLANETS.CHARACTERS in all studies combined`, 300)
 })
 
 #
