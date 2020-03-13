@@ -1,57 +1,41 @@
 #'
-#' @title ds.dataFrame calling dataFrameDS
+#' @title Generates a data frame object in several Opal servers 
 #' @description Creates a data frame from its elemental components: pre-existing data frames;
 #' single variables; matrices
-#' @details A data frame is a list of variables all with the same number of rows with unique row
-#' names, which is of class 'data.frame'. ds.dataFrame will create a data frame by combining
-#' a series of elemental components which may be pre-existing data.frames, matrices or variables.
-#' A critical requirement is that the length of all component variables, and the
-#' number of rows of the component data.frames or matrices must all be the same. The output
-#' data.frame will then have this same number of rows. ds.dataFrame calls the serverside
-#' function dataFrameDS which is almost the same as the native R function data.frame()
-#' and so several of the arguments are precisely the same as for data.frame()
-#' @param x This is a vector of character strings representing the names of the elemental
-#' components to be combined. For example, the call:
-#' ds.dataFrame(x=c('DF_input','matrix.m','var_age'),newobj='DF_output') will
-#' combine a pre-existing data.frame called DF_input with a matrix and a variable
-#' called var_age. The output will be the combined data.frame DF_output. As many
-#' elemental components as needed may be combined in any order e.g. 3 data.frames,
-#' 7 variables and 2 matrices. For convenience the x argument can alternatively
-#' be specified in a two step procedure, the first being a call to
-#' the native R environment on the client server:
-#' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age');
-#' ds.dataFrame(x=x.components,newobj='DF_output')
-#' @param row.names	NULL or a single integer or character string specifying a
-#' column to be used as row names, or a character or integer vector giving the
-#' row names for the data frame.
+#' @details  \code{ds.dataFrame} function creates a data frame by combining
+#' pre-existing data.frames, matrices or variables.
+#' 
+#' The length of all component variables, and the number of rows 
+#' of the  data frames or matrices must be the same.  The output 
+#' data frame will have the same number of rows. 
+#' 
+#' Server functions called: dataFrameDS
+#' 
+#' @param x a character string which provides the name of the objects
+#' to be combined.
+#' @param row.names	NULL, integer or character string which provides the
+#'  row names of the output data frame
 #' @param check.rows if TRUE then the rows are checked for consistency of
-#' length and names.
-#' @param check.names logical. If TRUE then the names of the variables
-#' in the data frame are checked to ensure that they are syntactically
-#' valid variable names and are not duplicated.
-#' If necessary they are adjusted (by make.names) so that they are.
-#' As a slight modification to the standard data.frame() function in native
-#' R, if any column names are duplicated, the second and subsequent
-#' occurances are given the suffixes .1, .2 etc by ds.dataFrame and so
-#' there are never any duplicates when check.names is invoked by the
-#' serverside function dataFrameDS
-#' @param stringsAsFactors logical: should character vectors be converted
-#' to factors? The 'factory-fresh' default is TRUE.
-#' @param completeCases logical. Default FALSE. If TRUE then any rows with
-#' missing values
-#' in any of the elemental components of the final output data.frame
-#' will be deleted.
-#' @param DataSHIELD.checks logical: If TRUE undertakes all DataSHIELD checks (time
-#' consuming). Default FALSE.
-#' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'dataframe.newobj' if no name is specified.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' length and names. Default is FALSE. 
+#' @param check.names logical. If TRUE the colum names 
+#' in the data frame are checked to ensure that are unique. Default is TRUE. 
+#' @param stringsAsFactors logical. If true the character vectors are
+#' converted to factors. Default TRUE.
+#' @param completeCases logical. If TRUE rows with one or more 
+#' missing values will be deleted from the output data frame.
+#' Default is FALSE.
+#' @param DataSHIELD.checks logical. If TRUE undertakes all DataSHIELD checks (time
+#' consuming). Default FALSE. 
+#' @param newobj a character string  which provides the name for the output data frame  
+#' that is stored on the data servers. Default \code{dataframe.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources}
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return the object specified by the <newobj> argument (or default name <df_new>).
+#' progress. Default is FALSE.
+#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument (or default name <df_new>).
 #' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
+#' indicating whether \code{newobj}  has been created in each data source and if so whether
 #' it is in a valid form. If its form is not valid in at least one study - e.g. because
 #' a disclosure trap was tripped and creation of the full output object was blocked -
 #' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
