@@ -140,10 +140,10 @@ init.dataset.1 <- function()
   }
 }
 
-#####GROUP TESTING
+#####FACTOR_LEVELS
 
 # Connect to one server and the two studies. One local variables named ds.test_env$local.values.2is created.
-init.testing.group.dataset.1 <- function()
+init.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
   if (ds.test_env$secure_login_details)
@@ -151,11 +151,11 @@ init.testing.group.dataset.1 <- function()
     ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
-      ds.test_env$server <- c("GROUP1", "GROUP2")
-      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1)
-      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1)
-      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1)
-      ds.test_env$table <- c("TESTING_GROUP.GROUP1","TESTING_GROUP.GROUP2")
+      ds.test_env$server <- c("GROUP1", "GROUP2", "GROUP3")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1,ds.test_env$ip_address_1)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1,ds.test_env$user_1)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1,ds.test_env$password_1)
+      ds.test_env$table <- c("FACTOR_LEVELS.GROUP1","FACTOR_LEVELS.GROUP2","FACTOR_LEVELS.GROUP3")
       ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
                                                                     ds.test_env$url,
                                                                     ds.test_env$table,
@@ -222,11 +222,11 @@ connect.dataset.3 <- function()
   log.in.data.server()
 }
 
-connect.testing.group.dataset.1 <- function()
+connect.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
   source("connection_to_datasets/login_details.R")
-  init.testing.group.dataset.1()
+  init.testing.dataset.factor_levels()
   log.in.data.server()
 }
 
@@ -250,7 +250,7 @@ disconnect.dataset.3 <- function()
     log.out.data.server()
 }
 
-disconnect.testing.group.dataset.1 <- function()
+disconnect.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
 }
