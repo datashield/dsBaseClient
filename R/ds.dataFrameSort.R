@@ -12,7 +12,7 @@
 #' 
 #' Server functions called: dataFrameSortDS. 
 #' 
-#' @param df.name a character string providing the name for the data frame.
+#' @param df.name a character string providing the name of the data frame
 #' to be sorted
 #' @param sort.key.name a character string providing the name for the sort key.
 #' @param sort.descending logical, if TRUE the data frame will be sorted.
@@ -22,15 +22,15 @@
 #' @param sort.numeric logical, if TRUE the sort key is treated as if numeric
 #' Default=FALSE.
 #' @param newobj a character string which provides the name for the output data frame 
-#' that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
+#' that is stored on the data servers. Default \code{dataframesort.newobj}.   
 #' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources}
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return th sorted dataframe is written to the serverside. 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return The sorted dataframe is written to the serverside. 
 #' In addition, two validity messages are returned
-#' indicating the name of  \code{newobj} 
-#' has been created in each data source and if so whether
+#' indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 
 #' \dontrun{
@@ -66,7 +66,7 @@
 #'                    sort.alphabetic = FALSE,
 #'                    sort.numeric = TRUE,
 #'                    newobj = "df.sort",
-#'                    datasources = connections)
+#'                    datasources = connections[1]) #only the first Opal server is used ("study1")
 #'                    
 #'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 

@@ -22,9 +22,9 @@
 #' specifies column names of the output object. 
 #' @param newobj a character string which provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{rbind.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
-#' If the \code{datasources} the default set of connections will be used: 
-#' see \link{datashield.connections_default}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return ds.rbind returns a matrix combining the rows of the R objects specified in the function. 

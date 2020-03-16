@@ -1,39 +1,72 @@
-#' 
-#' @title ds.asInteger calling assign function asIntegerDS
-#' @description This function is based on the native R function \code{as.integer}.
-#' @details This function is based on the native R function \code{as.integer} (see help file
-#' of function \code{as.integer} in native R). The only difference is that the DataSHIELD 
+#' @title Coercing a R object into an integer class in several Opal servers 
+#' @description Coerces an R object into an integer class.
+#' This function is based on the native R function \code{as.integer}.
+#' @details This function is based on the native R function \code{as.integer}. 
+#'  The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
-#' those to integers. This addition is important for the case where the input object is of class
-#' factor having integers as levels. In that case, the native R \code{as.integer} function returns
-#' the underlying level codes and not the values as integers. For example \code{as.integer} in R
-#' converts the factor vector:
-#' 0 1 1 2 1 0 1 0 2 2 2 1
-#' Levels: 0 1 2
+#' those to integers. This addition, 
+#' it is important for the case where the input object is of class
+#' factor having integers as levels. 
+#' In that case, the native R \code{as.integer} function returns
+#' the underlying level codes and not the values as integers.
+#'  For example \code{as.integer} in R
+#' converts the factor vector: \cr
+#' [1] 0 1 1 2 1 0 1 0 2 2 2 1 \cr
+#'  Levels: 0 1 2  \cr
 #' to the following integer vector:
-#' 1 2 2 3 2 1 2 1 3 3 3 2
-#' For more information see the warning section in the help file of \code{factor} in native R.
-#' In contrast DataSHIELD converts an inpuct factor with integer levels to its original integer values.
-#' @param x.name the name of the input object to be coerced to class
-#' integer. Must be specified in inverted commas.
-#' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to asinteger.newobj
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return the object specified by the <newobj> argument (or by default <x.name>.int
-#' if the <newobj> argument is NULL) which is written to the serverside.
-#' In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study there may
-#' be a studysideMessage that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message(<newobj>) it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message(<newobj>)
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
+#' 1 2 2 3 2 1 2 1 3 3 3 2 \cr
+#' 
+#' Server function called: \code{asIntegerDS}
+#' 
+#' @param x.name a character string providing the name of the input object to be coerced to 
+#' an integer.  
+#' @param newobj a character string which provides the name for the output object
+#'  that is stored on the data servers. Default \code{asinteger.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.asInteger} returns the R object converted into an integer
+#' which is written to the server-side. In addition, two validity messages are returned
+#' indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
+#' it is in a valid form.
+#' @examples 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Converting the R object into an integer
+#'   ds.asInteger(x.name = "D$LAB_TSC",
+#'                   newobj = "int.obj",
+#'                   datasources = connections[1]) #only the first Opal server is used ("study1")
+#'   ds.class(x = "int.obj", datasources = connections[1])               
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
+#' @author DataSHIELD Development Team
 #' @export
 #'
 ds.asInteger <- function(x.name=NULL, newobj=NULL, datasources=NULL){

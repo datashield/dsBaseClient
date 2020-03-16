@@ -44,9 +44,9 @@ the \code{x1} is a character.}
 \item{newobj}{a character string which provides the name for the output object
 that is stored on the data servers. Defailt \code{'seq.vect'}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
-If the \code{datasources} the default set of connections will be used: see 
-\code{\link{datashield.connections_default}}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 ds.rep create in the server side a vector with the specified repetitve sequence.  
