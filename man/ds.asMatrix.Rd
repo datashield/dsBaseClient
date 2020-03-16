@@ -2,47 +2,77 @@
 % Please edit documentation in R/ds.asMatrix.R
 \name{ds.asMatrix}
 \alias{ds.asMatrix}
-\title{ds.asMatrix calling assign function asMatrixDS}
+\title{Coercing a R object into a matrix in several Opal servers}
 \usage{
 ds.asMatrix(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{the name of the input object to be coerced to a matrix.
-Must be specified in inverted commas.}
+\item{x.name}{a character string providing the name of the input object to be coerced to 
+a matrix.}
 
-\item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to asmatrix.newobj}
+\item{newobj}{a character string which provides the name for the output object
+that is stored on the data servers. Default \code{asmatrix.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or by default <x.name>.mat
-if the <newobj> argument is NULL) which is written to the serverside.
-In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study there may
-be a studysideMessage that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message(<newobj>) it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message(<newobj>)
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.asMatrix} returns the object converted into a matrix 
+which is written to the serverside. In addition, two validity messages are returned
+indicating the name of the \code{newobj} which 
+has been created in each data source and if 
+it is in a valid form.
 }
 \description{
-this function is based on the native R function {as.matrix}
+Coerces an R object into a matrix. 
+This converts all columns into character class.
 }
 \details{
-This function is based on the native R function {as.matrix}
-If applied to a data.frame, the native R function {as.matrix}
-converts all columns into character class. If you wish to convert
-a data.frame to a matrix but maintain all data columns in their
-original class you should use the native R function {data.matrix}
-and in DataSHIELD this is called by ds.asDataMatrix which calls
-asDataMatrixDS
+This function is based on the native R function \code{as.matrix}. 
+If this function is applied to a data frame,  all columns are converted into character class.
+ If you wish to convert a data frame to a matrix but maintain all data columns in their
+original class you should use the function \code{ds.asDataMatrix}. 
+
+Server function called: asMatrixDS
+}
+\examples{
+\dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Converting the R object into a matrix
+  ds.asMatrix(x.name = "D",
+              newobj = "mat.obj",
+              datasources = connections[1]) #only the first Opal server is used ("study1")
+                 
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+} 
 }
 \author{
-Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+DataSHIELD Development Team
 }
