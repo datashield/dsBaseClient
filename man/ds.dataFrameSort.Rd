@@ -30,7 +30,7 @@ treated as if alphabetic Default=FALSE.}
 Default=FALSE.}
 
 \item{newobj}{a character string which provides the name for the output data frame 
-that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
+that is stored on the data servers. Default \code{dataframesort.newobj}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
