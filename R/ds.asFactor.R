@@ -95,13 +95,13 @@
 #' If the \code{fixed.dummy.vars} is set to FALSE then any value of baseline level is not taken
 #' into account.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources}
+#' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.asFactor} returns the unique levels of the converted 
 #' variable in ascending order and a validity 
 #' message with the name of the created object on the client side and 
 #' the output matrix or vector in the server side.  
-#' @export
+#' 
 #' @examples
 #' \dontrun{
 #'  
@@ -137,7 +137,7 @@
 #'               fixed.dummy.vars = TRUE, #create a matrix of dummy variables
 #'               baseline.level = 1,
 #'               datasources = connections)#all the Opal servers are used, in this case 3 
-#'                                         #see above the connection to the servers) 
+#'                                         #(see above the connection to the servers) 
 #'   ds.asFactor(input.var.name = "D$PM_BMI_CATEGORICAL", 
 #'               newobj.name = "fact.obj", 
 #'               forced.factor.levels = c(2,3), #the variable is split in 2 levels
@@ -150,7 +150,8 @@
 #'
 #'
 #' }
-#'
+#' @author DataSHIELD Development Team
+#' @export
 ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.levels=NULL, fixed.dummy.vars=FALSE,
                         baseline.level=1, datasources=NULL){
 

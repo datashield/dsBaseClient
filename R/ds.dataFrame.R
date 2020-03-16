@@ -1,7 +1,6 @@
-#'
 #' @title Generates a data frame object in several Opal servers 
-#' @description Creates a data frame from its elemental components: pre-existing data frames;
-#' single variables; matrices
+#' @description Creates a data frame from its elemental components:
+#'  pre-existing data frames, single variables or matrices
 #' @details  \code{ds.dataFrame} function creates a data frame by combining
 #' pre-existing data.frames, matrices or variables.
 #' 
@@ -14,10 +13,10 @@
 #' @param x a character string which provides the name of the objects
 #' to be combined.
 #' @param row.names	NULL, integer or character string which provides the
-#'  row names of the output data frame
+#'  row names of the output data frame.
 #' @param check.rows if TRUE then the rows are checked for consistency of
 #' length and names. Default is FALSE. 
-#' @param check.names logical. If TRUE the colum names 
+#' @param check.names logical. If TRUE the column names 
 #' in the data frame are checked to ensure that are unique. Default is TRUE. 
 #' @param stringsAsFactors logical. If true the character vectors are
 #' converted to factors. Default TRUE.
@@ -29,23 +28,61 @@
 #' @param newobj a character string  which provides the name for the output data frame  
 #' that is stored on the data servers. Default \code{dataframe.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources}
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}. 
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. Default is FALSE.
-#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument (or default name <df_new>).
+#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument.
 #' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether \code{newobj}  has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' indicating name of the \code{newobj} that has been created in each data source and if 
+#' it is in a valid form.
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki 
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Create a new data frame
+#'   ds.dataFrame(x = c("D$LAB_TSC","D$GENDER","D$PM_BMI_CATEGORICAL"),
+#'                row.names = NULL,
+#'                check.rows = FALSE,
+#'                check.names = TRUE,
+#'                stringsAsFactors = TRUE, #character variables are converted to a factor 
+#'                completeCases = TRUE, #only rows with not missing values are selected
+#'                DataSHIELD.checks = FALSE,
+#'                newobj = "df1",
+#'                datasources = connections[1], #only the first Opal server is used ("study1")
+#'                notify.of.progress = FALSE)
+#'
+#'
+#'   # Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
+#' }
 #' @author DataSHIELD Development Team
 #' @export
 ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){

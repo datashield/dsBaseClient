@@ -37,9 +37,9 @@ Default is FALSE.}
 \item{force.output.to.k.decimal.places}{an integer an integer vector which 
 forces the output random numbers vector to have k decimals.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
-If the \code{datasources} the default set of connections 
-will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.rNorm} returns random number vectors with a normal  distribution for each 
