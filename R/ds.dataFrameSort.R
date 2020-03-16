@@ -22,7 +22,7 @@
 #' @param sort.numeric logical, if TRUE the sort key is treated as if numeric
 #' Default=FALSE.
 #' @param newobj a character string which provides the name for the output data frame 
-#' that is stored on the data servers. Default \code{'dataframesort.newobj'}.   
+#' that is stored on the data servers. Default \code{dataframesort.newobj}.   
 #' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified

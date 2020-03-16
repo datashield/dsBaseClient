@@ -11,7 +11,7 @@
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return {ds.asDataMatrix} returns the object converted into a matrix 
-#' which is written to the serverside. In addition, two validity messages are returned
+#' which is written to the server-side. In addition, two validity messages are returned
 #' indicating the name of the \code{newobj} which 
 #' has been created in each data source and if 
 #' it is in a valid form.
