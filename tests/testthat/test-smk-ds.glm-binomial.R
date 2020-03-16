@@ -83,7 +83,7 @@ test_that("glm_binomial, with check", {
 context("ds.glm::smk::binomial::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "DIS_DIAB", "GENDER", "LAB_HDL", "PM_BMI_CONTINUOUS"))
 })
 
 disconnect.studies.dataset.cnsim()

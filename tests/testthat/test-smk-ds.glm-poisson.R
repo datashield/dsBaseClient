@@ -83,7 +83,7 @@ test_that("glm_gaussian, which check", {
 context("ds.glm::smk::poisson::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "female", "survtime", "time.id"))
 })
 
 disconnect.studies.dataset.survival()

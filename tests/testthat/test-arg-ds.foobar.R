@@ -27,7 +27,7 @@ test_that("setup", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function ‘dsAggregate’ for signature ‘\"NULL\"’", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function ['‘]dsAggregate['’] for signature ['‘]\"NULL\"['’]", fixed=FALSE)
 })
 
 context("ds.foobar::arg::aggregate")
@@ -45,7 +45,7 @@ test_that("non existent aggregate foobarDS", {
 context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function ‘dsAssignExpr’ for signature ‘\"NULL\"’", fixed=TRUE)
+    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function ['‘]dsAssignExpr['’] for signature ['‘]\"NULL\"['’]", fixed=FALSE)
 })
 
 #context("ds.foobar::arg::assign")
