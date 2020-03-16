@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.cov.R
 \name{ds.cov}
 \alias{ds.cov}
-\title{Calculates the covariance between two variables}
+\title{Calculates the covariance between any two variables}
 \usage{
 ds.cov(
   x = NULL,
@@ -47,7 +47,7 @@ the control, then the output matrices are returned and also an error message is 
 }
 \description{
 This function calculates the covariance of two variables or the variance-covariance
-matrix for the vairables of an input dataframe
+matrix for the variables of an input dataframe
 }
 \details{
 In addition to computing covariances; this function, produces a table outlining the
