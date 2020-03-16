@@ -10,7 +10,7 @@ init.ip.address <- function()
    }
    else
    {
-      ip.address <- "192.168.56.100"
+      ip.address <- "127.0.0.1"
    }
    return (ip.address)
 }
