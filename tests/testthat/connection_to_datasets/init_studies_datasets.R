@@ -76,6 +76,73 @@ init.studies.dataset.survival <- function(variables)
     }
 }
 
+init.studies.dataset.cluster.int <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    #reading data from local files
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_INT1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_INT2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_INT3.csv", header = TRUE)
+    ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+
+      ds.test_env$server <- c("cluster.int1", "cluster.int2", "cluster.int3")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
+      ds.test_env$table <- c("CLUSTER.CLUSTER_INT1", "CLUSTER.CLUSTER_INT2", "CLUSTER.CLUSTER_INT3")
+      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                    ds.test_env$url,
+                                                                    ds.test_env$table,
+                                                                    ds.test_env$user,
+                                                                    ds.test_env$password,
+                                                                    .silent = TRUE)
+    }
+    else 
+    {
+      #to do
+      #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
+}
+
+init.studies.dataset.cluster.slo <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    #reading data from local files
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_SLO1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_SLO2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_SLO3.csv", header = TRUE)
+    ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      
+      ds.test_env$server <- c("cluster.slo1", "cluster.slo2", "cluster.slo3")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
+      ds.test_env$table <- c("CLUSTER.CLUSTER_SLO1", "CLUSTER.CLUSTER_SLO2", "CLUSTER.CLUSTER_SLO3")
+      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                    ds.test_env$url,
+                                                                    ds.test_env$table,
+                                                                    ds.test_env$user,
+                                                                    ds.test_env$password,
+                                                                    .silent = TRUE)
+    }
+    else 
+    {
+      #to do
+      #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+
+  }
+}
+
 connect.studies.dataset.cnsim <- function(variables)
 {
     log.out.data.server()
@@ -100,6 +167,22 @@ connect.studies.dataset.survival <- function(variables)
     log.in.data.server()
 }
 
+connect.studies.dataset.cluster.int <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cluster.int(variables)
+  log.in.data.server()
+}
+
+connect.studies.dataset.cluster.slo <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cluster.slo(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
     log.out.data.server()
@@ -115,3 +198,13 @@ disconnect.studies.dataset.survival <- function()
     log.out.data.server()
 }
 
+disconnect.studies.dataset.cluster.int <- function()
+{
+  log.out.data.server()
+}
+
+
+disconnect.studies.dataset.cluster.slo <- function()
+{
+  log.out.data.server()
+}

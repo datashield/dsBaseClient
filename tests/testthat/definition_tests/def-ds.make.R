@@ -1,4 +1,4 @@
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-assign-stats.R")
 
 .test.copy.data <-function(variable.name, variable.created, some.values)
