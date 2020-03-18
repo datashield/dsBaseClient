@@ -155,7 +155,7 @@ init.testing.dataset.factor_levels <- function()
       ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1,ds.test_env$ip_address_1)
       ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1,ds.test_env$user_1)
       ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1,ds.test_env$password_1)
-      ds.test_env$table <- c("FACTOR_LEVELS.GROUP1","FACTOR_LEVELS.GROUP2","FACTOR_LEVELS.GROUP3")
+      ds.test_env$table <- c("FACTOR_LEVELS.FACTOR_LEVELS1","FACTOR_LEVELS.FACTOR_LEVELS2","FACTOR_LEVELS.FACTOR_LEVELS3")
       ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
                                                                     ds.test_env$url,
                                                                     ds.test_env$table,
