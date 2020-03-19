@@ -3,7 +3,7 @@ source("definition_tests/def-assign-stats.R")
 
 .test.reshape <- function()
 {
-  init.all.datasets()
+  init.testing.datasets()
   #local data
   local.data <- data.frame("IDENTIFIER" = ds.test_env$local.values[,16], 
                            "CATEGORY" = ds.test_env$local.values[,17],
