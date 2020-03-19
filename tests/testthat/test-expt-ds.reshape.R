@@ -6,7 +6,7 @@ source("definition_tests/def-assign-stats.R")
 context("ds.reshape()::expt::multiple")
 test_that("copy and transform", 
 {
-   init.all.datasets()
+   init.testing.datasets()
   .test.reshape()
   
 
