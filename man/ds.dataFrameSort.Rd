@@ -16,12 +16,12 @@ ds.dataFrameSort(
 }
 \arguments{
 \item{df.name}{a character string providing the name of the data frame
-to be sorted}
+to be sorted.}
 
 \item{sort.key.name}{a character string providing the name for the sort key.}
 
 \item{sort.descending}{logical, if TRUE the data frame will be sorted.
-by the sort key in descending order. Default = FALSE (sort order ascending)}
+by the sort key in descending order. Default = FALSE (sort order ascending).}
 
 \item{sort.alphabetic}{logical, if TRUE the sort key is 
 treated as if alphabetic Default=FALSE.}
@@ -56,6 +56,11 @@ The sort key can be forced to be interpreted as alphabetic or numeric.
 When sorting numbers in a  ascending (default) manner the negative values 
 get ordered first and the missing values last. 
 Instead when sorting characters the missing values get ordered first. 
+
+When a numeric vector is sorted alphabetically, the order can look confusing:\cr
+vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 112, NA) \cr
+numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA) \cr
+alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA) \cr
 
 Server functions called: dataFrameSortDS.
 }
