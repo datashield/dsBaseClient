@@ -6,12 +6,12 @@ require(dsBaseClient)
 require(testthat)
 library(dsDangerClient)
 
-
+setwd("tests/testthat")
 
 ## Load local files
-dataset1<-read.csv("C:/Users/nla94/Documents/data/testing/DATASET1.csv")[,-1]
-dataset2<-read.csv("C:/Users/nla94/Documents/data/testing/DATASET2.csv")[,-1]
-dataset3<-read.csv("C:/Users/nla94/Documents/data/testing/DATASET3.csv")[,-1]
+dataset1<-read.csv("data_files/DATASET1.csv")[,-1]
+dataset2<-read.csv("data_files/DATASET2.csv")[,-1]
+dataset3<-read.csv("data_files/DATASET3.csv")[,-1]
 
 ##Parameters to change!!!!! 
 key.name<-"INTEGER" #this parameter needs to change when creating the function
