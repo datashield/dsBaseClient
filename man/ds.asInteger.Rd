@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.asInteger.R
 \name{ds.asInteger}
 \alias{ds.asInteger}
-\title{Coercing a R object into an integer class in several Opal servers}
+\title{Coercing an R object into an integer class in several Opal servers}
 \usage{
 ds.asInteger(x.name = NULL, newobj = NULL, datasources = NULL)
 }

@@ -1,4 +1,4 @@
-#' @title Coercing a R object into an integer class in several Opal servers 
+#' @title Coercing an R object into an integer class in several Opal servers 
 #' @description Coerces an R object into an integer class.
 #' This function is based on the native R function \code{as.integer}.
 #' @details This function is based on the native R function \code{as.integer}. 
