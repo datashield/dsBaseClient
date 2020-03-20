@@ -11,9 +11,9 @@ init.testing.datasets <- function()
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files 
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/TESTING/DATASET2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/TESTING/DATASET3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver") 
     {
@@ -47,7 +47,7 @@ init.dataset.3 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/TESTING/DATASET3.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study3")
@@ -80,7 +80,7 @@ init.dataset.2 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/TESTING/DATASET2.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study2")
@@ -113,7 +113,7 @@ init.dataset.1 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study1")
@@ -148,7 +148,7 @@ init.testing.dataset.factor_levels <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("GROUP1", "GROUP2", "GROUP3")
