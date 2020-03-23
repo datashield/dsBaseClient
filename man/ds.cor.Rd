@@ -23,7 +23,7 @@ presence of missing values. This must be set to  \code{'casewise.complete'} or
 \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details.}
 
 \item{type}{a character string which represents the type of analysis to carry out. 
-This must ne set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
+This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
@@ -52,14 +52,14 @@ If the argument \code{y} is not NULL, the dimensions of the object have to be
 compatible to the argument \code{x}. 
 
 If \code{naAction} is set to \code{'casewise.complete'}, then the function omits all the rows
-in the whole dataframe that include at least one cell with a missing value before the calculation of correlations.
+in the whole data frame that include at least one cell with a missing value before the calculation of correlations.
 If \code{naAction} is set to \code{'pairwise.complete'} (default),
  then the function divides the input dataframe to subset
 subset dataframes formed by each pair between two variables 
 (all combinations are considered) and omits the rows
 with missing values at each pair separately and then calculates the correlations of those pairs.
 
- If \type is set to \code{'split'} (default), the correlation of two variables or the
+ If \code{type} is set to \code{'split'} (default), the correlation of two variables or the
  variance-correlation matrix of an input data frame and the number of 
  complete cases and missing values are returned for each single study. 
  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
