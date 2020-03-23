@@ -124,15 +124,15 @@ Server functions called: \code{changeRefGroupDS}
 }
 }
 \seealso{
-\link{ds.cbind} Combines objects column-wise.
+\code{\link{ds.cbind}} Combines objects column-wise.
 
-\link{ds.levels} to obtain the levels (categories) of a vector of type factor.
+\code{\link{ds.levels}} to obtain the levels (categories) of a vector of type factor.
 
-\link{ds.colnames} to obtain the column names of a matrix or a data frame
+\code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
 
-\link{ds.asMatrix} to coerce an object into a matrix type.
+\code{\link{ds.asMatrix}} to coerce an object into a matrix type.
 
-\link{ds.dim} to obtain the dimensions of matrix or a data frame.
+\code{\link{ds.dim}} to obtain the dimensions of matrix or a data frame.
 }
 \author{
 DataSHIELD Development Team

@@ -1,70 +1,94 @@
 #'
-#' @title Calculates the correlation between two variables
+#' @title Calculates the correlation of R objects in the server-side 
 #' @description This function calculates the correlation of two variables or the correlation
-#' matrix for the vairables of an input dataframe
+#' matrix for the vairables of an input data frame.
 #' @details In addition to computing correlations; this function, produces a table outlining the
 #' number of complete cases and a table outlining the number of missing values to allow for the
 #' user to make a decision about the 'relevance' of the correlation based on the number of complete
 #' cases included in the correlation calculations.
-#' @param x a character, the name of a vector, matrix or dataframe of variable(s) for which the
-#' correlation(s) is (are) calculated for.
-#' @param y NULL (default) or the name of a vector, matrix or dataframe with compatible
-#' dimensions to x.
-#' @param naAction a character string giving a method for computing correlations in the
-#' presence of missing values. This must be one of the strings "casewise.complete" or
-#' "pairwise.complete". If \code{use} is set to 'casewise.complete', then the function omits all the rows
+#' 
+#' If the argument \code{y} is not NULL, the dimensions of the object have to be 
+#' compatible to the argument \code{x}. 
+#' 
+#' If \code{naAction} is set to \code{'casewise.complete'}, then the function omits all the rows
 #' in the whole dataframe that include at least one cell with a missing value before the calculation of correlations.
-#' If \code{use} is set to 'pairwise.complete' (default), then the function divides the input dataframe to subset
-#' subset dataframes formed by each pair between two variables (all combinations are considered) and omits the rows
+#' If \code{naAction} is set to \code{'pairwise.complete'} (default),
+#'  then the function divides the input dataframe to subset
+#' subset dataframes formed by each pair between two variables 
+#' (all combinations are considered) and omits the rows
 #' with missing values at each pair separately and then calculates the correlations of those pairs.
-#' @param type a character which represents the type of analysis to carry out. If \code{type} is
-#' set to 'split' (default), the correlation of two variables or the variance-correlation matrix of
-#' an input dataframe and the number of complete cases and missing values are returned for each
-#' single study. If \code{type} is set to 'combine', the pooled correlation, the total number of
-#' complete cases and the total number of missing values aggregated from all the involved studies,
-#' are returned.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return a list containing the number of missing values in each variable, the number of missing variables
-#' casewise or paiwise depending on the argument \code{use}, the correlation matrix, the number of used complete cases
+#' 
+#'  If \type is set to \code{'split'} (default), the correlation of two variables or the
+#'  variance-correlation matrix of an input data frame and the number of 
+#'  complete cases and missing values are returned for each single study. 
+#'  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
+#'  and the total number of missing values aggregated from all the involved studies, are returned.
+#' 
+#' @param x a character string providing the name of the input vector, data frame or matrix.
+#' @param y a character string providing the name of the input vector, data frame or matrix.
+#' Default NULL. 
+#' @param naAction a character string giving a method for computing correlations in the
+#' presence of missing values. This must be set to  \code{'casewise.complete'} or
+#' \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details. 
+#' @param type a character string which represents the type of analysis to carry out. 
+#' This must ne set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.cor} returns a list containing the number of missing values in each variable,
+#' the number of missing variables casewise or
+#' paiwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
 #' and an error message which indicates whether or not the input variables pass the disclosure control (i.e. none of them
 #' is dichotomous with a level having less counts than the pre-specified threshold). If any of the input variables does not
 #' pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
 #' the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
-#' @author Gaye A; Avraam D; Burton PR
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#' #  # load that contains the login details
-#' #  data(glmLoginData)
-#' #  library(DSI)
-#' #
-#' #  # login and assign specific variable(s)
-#' #  # (by default the assigned dataset is a dataframe named 'D')
-#' #  myvar <- list('LAB_HDL', 'LAB_TSC', 'LAB_GLUC_ADJUSTED', 'GENDER')
-#' #  conns <- datashield.login(logins=glmLoginData, assign=TRUE, variables=myvar)
-#' #
-#' #  # Example 1: generate the correlation matrix for the assigned dataset 'D'
-#' #  # which contains 4 vectors (3 continuous and 1 categorical)
-#' #  ds.cor(x='D')
-#' #
-#' #  # Example 2: generate the correlation matrix for the dataset 'D' combined for all
-#' #  # studies and removing any missing values casewise
-#' #  ds.cor(x='D', naAction='casewise.complete', type='combine')
-#' #
-#' #  # Example 3: calculate the correlation between two vectors
-#' #  # (first assign the vectors from 'D')
-#' #  ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
-#' #  ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
-#' #  ds.assign(newobj='gender', toAssign='D$GENDER')
-#' #  ds.cor(x='labhdl', y='labtsc', naAction='pairwise.complete', type='combine')
-#' #  ds.cor(x='labhdl', y='labtsc', naAction='casewise.complete', type='combine')
-#' #  ds.cor(x='labhdl', y='gender', naAction='pairwise.complete', type='combine')
-#' #  ds.cor(x='labhdl', y='gender', naAction='casewise.complete', type='combine')
-#' #
-#' #  # clear the Datashield R sessions and logout
-#' #  DSI::datashield.logout(conns)
+#' ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Calculate the correlation between two vectors
+#'   ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
+#'   ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
+#'   ds.assign(newobj='gender', toAssign='D$GENDER')
+#'   ds.cor(x = 'labhdl',
+#'          y = 'labtsc',
+#'          naAction = 'pairwise.complete',
+#'          type = 'combine',
+#'          datasources = connections)
+#'   ds.cor(x = 'labhdl',
+#'          y = 'gender',
+#'          naAction = 'pairwise.complete',
+#'          type = 'combine',
+#'          datasources = connections[1]) #only the first Opal server is used ("study1")
+#' 
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
 #'
 #' }
 #'
