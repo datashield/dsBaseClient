@@ -144,5 +144,5 @@ Server functions called: rNormDS and setSeedDS.
 }
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

@@ -112,7 +112,7 @@
 #'   # Clear the Datashield R sessions and logout
 #'   datashield.logout(connections) 
 #' }
-#' @author Paul Burton for DataSHIELD Development Team
+#' @author DataSHIELD Development Team
 #' @export
 ds.rNorm<-function(samp.size=1,mean=0,sd=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){

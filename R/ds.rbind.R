@@ -1,8 +1,8 @@
-#' @title Combines R objects by rows to generate a matrix in the Opal servers 
+#' @title Combines R objects by rows in the server-side
 #' @description Take a sequence of vector, matrix or data-frame arguments
 #' and combine them by rows to produce a matrix.
 #' @details A sequence of vector, matrix or data-frame arguments
-#' is combined  by rows to produce a matrix in the Opal servers.
+#' is combined  by rows to produce a matrix in the server-side.
 #' 
 #' In \code{DataSHIELD.checks} the checks are relatively slow. 
 #' Default \code{DataSHIELD.checks} value is FALSE. 
@@ -12,7 +12,7 @@
 #' The vector of column names must have the same number of elements as 
 #' the columns in the output object.
 #' 
-#' Server functions called: rbindDS. 
+#' Server functions called: \code{rbindDS}. 
 #' 
 #' 
 #' @param x a character vector with the  name of the objects to be combined.  
@@ -26,10 +26,11 @@
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return ds.rbind returns a matrix combining the rows of the R objects specified in the function. 
-#' The created matrix is stored in the in the Opal servers. 
-#' It also returns two messages with the name of <newobj>
+#' progress. Default FALSE.
+#' @return \code{ds.rbind} returns a matrix combining the rows of the 
+#' R objects specified in the function
+#' which is written to the server-side. 
+#' It also returns two messages to the client-side with the name of \code{newobj}
 #' that has been created in each data source and \code{DataSHIELD.checks} result. 
 #' @examples 
 #' 
@@ -60,14 +61,14 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
-#'   #Combining R objects by rows in the Opal servers
+#'   #Combining R objects by rows 
 #'    
 #'                    
-#'   ds.rbind(x = "D", #data frames in the Opal servers to be conbined 
+#'   ds.rbind(x = "D", #data frames in the server-side to be conbined 
 #'                     #(see above the connection to the Opal servers) 
 #'            DataSHIELD.checks = FALSE,
 #'            force.colnames = NULL,
-#'            newobj = "D.bind", # name for the output object that is stored in the data servers
+#'            newobj = "D.rbind", # name for the output object that is stored in the data servers
 #'            datasources = connections, # All Opal servers are used 
 #'                                       #(see above the connection to the Opal servers)
 #'            notify.of.progress = FALSE)
@@ -76,7 +77,7 @@
 #'   datashield.logout(connections) 
 #'   }
 #' 
-#' @author Paul Burton for DataSHIELD Development Team
+#' @author DataSHIELD Development Team
 #' @export
 ds.rbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
 
