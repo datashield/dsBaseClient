@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.asCharacter.R
 \name{ds.asCharacter}
 \alias{ds.asCharacter}
-\title{Coercing an R object into a character class in several Opal servers}
+\title{Converts a server-side R object into a character class}
 \usage{
 ds.asCharacter(x.name = NULL, newobj = NULL, datasources = NULL)
 }
@@ -10,7 +10,7 @@ ds.asCharacter(x.name = NULL, newobj = NULL, datasources = NULL)
 \item{x.name}{a character string providing  the name of the input object to be coerced to class
 character.}
 
-\item{newobj}{a character string which provides the name for the output object
+\item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{ascharacter.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
@@ -19,7 +19,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.asCharacter} returns the object converted into a class character 
-which is written to the serverside. In addition, two validity messages are returned
+that is written to the server-side. Also, two validity messages are returned to the client-side
 indicating the name of the \code{newobj} which 
 has been created in each data source and if 
 it is in a valid form.
@@ -29,7 +29,7 @@ Converts the input object into a character class.
 This function is based on the native R function \code{as.character}.
 }
 \details{
-Server function called: asCharacterDS
+Server function called: \code{asCharacterDS}
 }
 \examples{
 \dontrun{
