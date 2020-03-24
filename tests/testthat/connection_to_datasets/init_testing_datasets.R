@@ -11,9 +11,9 @@ init.testing.datasets <- function()
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files 
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/TESTING/DATASET2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/TESTING/DATASET3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver") 
     {
@@ -47,7 +47,7 @@ init.dataset.3 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.3 <- read.csv("data_files/DATASET3.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/TESTING/DATASET3.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study3")
@@ -80,7 +80,7 @@ init.dataset.2 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.2 <- read.csv("data_files/DATASET2.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/TESTING/DATASET2.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study2")
@@ -113,7 +113,7 @@ init.dataset.1 <- function()
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
       ds.test_env$server <- c("study1")
@@ -140,22 +140,22 @@ init.dataset.1 <- function()
   }
 }
 
-#####GROUP TESTING
+#####FACTOR_LEVELS
 
 # Connect to one server and the two studies. One local variables named ds.test_env$local.values.2is created.
-init.testing.group.dataset.1 <- function()
+init.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
   if (ds.test_env$secure_login_details)
   {
-    ds.test_env$local.values.1 <- read.csv("data_files/DATASET1.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
     if (ds.test_env$driver == "OpalDriver")
     {
-      ds.test_env$server <- c("GROUP1", "GROUP2")
-      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1)
-      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1)
-      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1)
-      ds.test_env$table <- c("TESTING_GROUP.GROUP1","TESTING_GROUP.GROUP2")
+      ds.test_env$server <- c("GROUP1", "GROUP2", "GROUP3")
+      ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_1,ds.test_env$ip_address_1)
+      ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_1,ds.test_env$user_1)
+      ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_1,ds.test_env$password_1)
+      ds.test_env$table <- c("FACTOR_LEVELS.FACTOR_LEVELS1","FACTOR_LEVELS.FACTOR_LEVELS2","FACTOR_LEVELS.FACTOR_LEVELS3")
       ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
                                                                     ds.test_env$url,
                                                                     ds.test_env$table,
@@ -168,8 +168,8 @@ init.testing.group.dataset.1 <- function()
       login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
       ds.test_env$login.data <- subset(login.data, server=="study1")
     }  
-    ds.test_env$stats.var <- list('ID',	'COLOURS'	,'COLOURS.NUMBERS',	'POSITIVE.NUMBERS',	'NEGATIVE.NUMBERS',	'NUMBERS',
-                                  'POSITIVE.DECIMAL',	'NEGATIVE.DECIMAL',	'DECIMAL',	'CHARACTERS')
+    ds.test_env$stats.var <- list('ID', 'COLOURS', 'COLOURS.NUMBERS', 'POSITIVE.NUMBERS', 'NEGATIVE.NUMBERS', 'NUMBERS',
+                                  'POSITIVE.DECIMAL', 'NEGATIVE.DECIMAL', 'DECIMAL', 'PLANETS.CHARACTERS')
   }
 }
 
@@ -222,11 +222,11 @@ connect.dataset.3 <- function()
   log.in.data.server()
 }
 
-connect.testing.group.dataset.1 <- function()
+connect.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
   source("connection_to_datasets/login_details.R")
-  init.testing.group.dataset.1()
+  init.testing.dataset.factor_levels()
   log.in.data.server()
 }
 
@@ -250,7 +250,7 @@ disconnect.dataset.3 <- function()
     log.out.data.server()
 }
 
-disconnect.testing.group.dataset.1 <- function()
+disconnect.testing.dataset.factor_levels <- function()
 {
   log.out.data.server()
 }
