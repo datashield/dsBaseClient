@@ -261,7 +261,65 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
  {
  force.nfilter.transmit<-force.nfilter
  }
-
+ #CALL THE asFactorDS1 SERVER SIDE FUNCTION (AN AGGREGATE FUNCTION)
+ # FOR rvar, cvar AND stvar  
+ #TO DETERMINE ALL OF THE LEVELS REQUIRED
+ 
+ rvar.asfactor.calltext <- call("asFactorDS1", rvar)
+ rvar.all.levels <- DSI::datashield.aggregate(datasources, rvar.asfactor.calltext)
+ 
+ numstudies <- length(datasources)
+ 
+ rvar.all.levels.all.studies <- NULL
+ 
+ for(j in 1:numstudies){
+   rvar.all.levels.all.studies <- c(rvar.all.levels.all.studies,rvar.all.levels[[j]])
+ }
+ 
+ rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
+ 
+ rvar.all.unique.levels.transmit <- paste0(rvar.all.unique.levels, collapse=",")
+ 
+ ########################################################
+ 
+ if(!is.null(cvar)){
+   cvar.asfactor.calltext <- call("asFactorDS1", cvar)
+   cvar.all.levels <- DSI::datashield.aggregate(datasources, cvar.asfactor.calltext)
+   
+   numstudies <- length(datasources)
+   
+   cvar.all.levels.all.studies <- NULL
+   
+   for(j in 1:numstudies){
+     cvar.all.levels.all.studies <- c(cvar.all.levels.all.studies,cvar.all.levels[[j]])
+   }
+   
+   cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
+   
+   cvar.all.unique.levels.transmit <- paste0(cvar.all.unique.levels, collapse=",")
+ }else{
+   cvar.all.unique.levels.transmit<-NULL
+ }
+ ########################################################
+ 
+ if(!is.null(stvar)){
+   stvar.asfactor.calltext <- call("asFactorDS1", stvar)
+   stvar.all.levels <- DSI::datashield.aggregate(datasources, stvar.asfactor.calltext)
+   
+   numstudies <- length(datasources)
+   
+   stvar.all.levels.all.studies <- NULL
+   
+   for(j in 1:numstudies){
+     stvar.all.levels.all.studies <- c(stvar.all.levels.all.studies,stvar.all.levels[[j]])
+   }
+   
+   stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
+   
+   stvar.all.unique.levels.transmit <- paste0(stvar.all.unique.levels, collapse=",")
+ }else{
+   stvar.all.unique.levels.transmit<-NULL
+ }
 
 #ASSIGN TABLE TO SERVERSIDE IF REQUIRED
 if(table.assign)
@@ -272,65 +330,7 @@ if(table.assign)
 		newobj<-"newTable"
 		}
 		
-  #CALL THE asFactorDS1 SERVER SIDE FUNCTION (AN AGGREGATE FUNCTION)
-  # FOR rvar, cvar AND stvar  
-  #TO DETERMINE ALL OF THE LEVELS REQUIRED
-  
-  rvar.asfactor.calltext <- call("asFactorDS1", rvar)
-  rvar.all.levels <- DSI::datashield.aggregate(datasources, rvar.asfactor.calltext)
-  
-  numstudies <- length(datasources)
-  
-  rvar.all.levels.all.studies <- NULL
-  
-  for(j in 1:numstudies){
-    rvar.all.levels.all.studies <- c(rvar.all.levels.all.studies,rvar.all.levels[[j]])
-  }
-  
-  rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
-  
-  rvar.all.unique.levels.transmit <- paste0(rvar.all.unique.levels, collapse=",")
-  
-  ########################################################
-  
-  if(is.null(cvar)){
-    cvar.asfactor.calltext <- call("asFactorDS1", cvar)
-    cvar.all.levels <- DSI::datashield.aggregate(datasources, cvar.asfactor.calltext)
-  
-    numstudies <- length(datasources)
-  
-    cvar.all.levels.all.studies <- NULL
-  
-    for(j in 1:numstudies){
-      cvar.all.levels.all.studies <- c(cvar.all.levels.all.studies,cvar.all.levels[[j]])
-    }
-  
-    cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
-  
-    cvar.all.unique.levels.transmit <- paste0(cvar.all.unique.levels, collapse=",")
-  }else{
-    cvar.all.unique.levels.transmit<-NULL
-  }
-  ########################################################
-  
-  if(is.null(stvar)){
-    stvar.asfactor.calltext <- call("asFactorDS1", stvar)
-    stvar.all.levels <- DSI::datashield.aggregate(datasources, stvar.asfactor.calltext)
-  
-    numstudies <- length(datasources)
-  
-    stvar.all.levels.all.studies <- NULL
-  
-    for(j in 1:numstudies){
-      stvar.all.levels.all.studies <- c(stvar.all.levels.all.studies,stvar.all.levels[[j]])
-    }
-  
-    stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
-  
-    stvar.all.unique.levels.transmit <- paste0(stvar.all.unique.levels, collapse=",")
-  }else{
-    stvar.all.unique.levels.transmit<-NULL
-  }
+
 # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION
  
   calltext.assign <- call("tableDS.assign", rvar.transmit=rvar.transmit, cvar.transmit=cvar.transmit,
