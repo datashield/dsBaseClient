@@ -3,7 +3,7 @@
 #' and combine them by column to produce a matrix.
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined column by column to produce a matrix 
-#' which is written to the server-side. 
+#' that is written to the server-side. 
 #' 
 #' This function is similar to the native function \code{cbind}.
 #' 
@@ -15,19 +15,19 @@
 #' The vector of column names must have the same number of elements as 
 #' the columns in the output object. 
 #' 
-#' Server functions called: \code{cbindDS}
+#' Server function called: \code{cbindDS}
 #' 
 #' @param x a character vector with the  name of the objects to be combined.
 #' @param DataSHIELD.checks logical, if TRUE checks that all
 #' input objects exist and are of an appropriate class.
-#' @param force.colnames can be NULL or a vector of characters which 
-#' specifies column names of the output object.
-#' @param newobj a character string which provides the name for the output variable 
+#' @param force.colnames can be NULL or a vector of characters that specifies 
+#' column names of the output object.
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{cbind.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @param notify.of.progress specifies if console output should be produce to indicate
+#' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
 #' @return \code{ds.cbind} returns a matrix combining the columns of the R 
 #' objects specified in the function which is written to the server-side. 

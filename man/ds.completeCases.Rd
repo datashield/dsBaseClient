@@ -2,38 +2,39 @@
 % Please edit documentation in R/ds.completeCases.R
 \name{ds.completeCases}
 \alias{ds.completeCases}
-\title{Identies complete cases in R objects of several Opal servers}
+\title{Identifies complete cases in server-side R objects}
 \usage{
 ds.completeCases(x1 = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{x1}{a character denoting the name of the input object 
-which can be a data.frame, matrix or vector}
+which can be a data frame, matrix or vector.}
 
-\item{newobj}{a character string which provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers.}
 
-\item{datasources}{specifies the particular Opal object(s) to use. 
-If the \code{datasources} argument is not specified the default set of Opals will be used.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a modified data.frame, matrix or vector from which
+\code{ds.completeCases} returns a modified data frame, matrix or vector from which
 all rows containing at least one NA have been deleted. 
-The output R object is stored in the Opal servers. 
-It also returns two validity messages 
+The output R object is stored on the server-side. 
+Also, two validity messages are returned to the client-side 
 indicating the name of \code{newobj} that has been created in each data source 
-and if it is valid in all servers.
+and if it is in a valid form.
 }
 \description{
-Selects complete cases of a data.frame,
+Selects complete cases of a data frame,
 matrix or vector that contain missing values.
 }
 \details{
-In the case of a data.frame or matrix, \code{ds.completeCases} deletes 
+In the case of a data frame or matrix, \code{ds.completeCases} deletes 
 all rows containing one or more missing values. However \code{ds.completeCases} 
-in vector only deletes the observation recorded as NA.  
+in vectors only deletes the observation recorded as NA.  
 
-Server functions called: completeCasesDS
+Server function called: \code{completeCasesDS}
 }
 \examples{
 \dontrun{
@@ -82,5 +83,5 @@ Server functions called: completeCasesDS
   
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

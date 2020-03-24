@@ -5,20 +5,20 @@
 #' 
 #' This function is similar to R function \code{relevel}.
 #' @details This function
-#' allows for the user to re-order the vector, putting the reference
-#' group first. Should be mentioned that by default the reference is 
+#' allows the user to re-order the vector, putting the reference
+#' group first. It should be mentioned that by default the reference is 
 #' the first level in the vector of levels.  
 #' If the user chooses the re-order a warning is issued
 #' as this can introduce a mismatch of values if the vector is put back
 #' into a table that is not reordered in the same way. Such mismatch
 #' can render the results of operations on that table invalid.
 #' 
-#' Server functions called: \code{changeRefGroupDS}
+#' Server function called: \code{changeRefGroupDS}
 #' 
 #' @param x a character string providing the name of the input vector of type factor.
 #' @param ref the reference level.
-#' @param newobj a character string which provides the name for the output object
-#'  that is stored in the server-side. Default \code{changerefgroup.newobj}.
+#' @param newobj a character string that provides the name for the output object
+#'  that is stored on the server-side. Default \code{changerefgroup.newobj}.
 #' @param reorderByRef logical, if TRUE the new vector
 #' should be ordered by the reference group (i.e. putting the reference group first).
 #' The default is to not re-order (see the reasons in the details). 
@@ -32,7 +32,7 @@
 #' @seealso \code{\link{ds.levels}} to obtain the levels (categories) of a vector of type factor.
 #' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
 #' @seealso \code{\link{ds.asMatrix}} to coerce an object into a matrix type.
-#' @seealso \code{\link{ds.dim}} to obtain the dimensions of matrix or a data frame.
+#' @seealso \code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 #'
 #' @examples 
 #' \dontrun{
@@ -90,7 +90,7 @@
 #'       ds.levels(x = "bmi_ob",
 #'                 datasources = connections)
 #'
-#'     # Example 2: change the reference and re-order by the refence level
+#'     # Example 2: change the reference and re-order by the reference level
 #'       # If re-ordering is sought, the action is completed but a warning is issued
 #'       ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
 #'                       newCategories = newNames,

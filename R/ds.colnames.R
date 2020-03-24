@@ -1,17 +1,18 @@
 #'
 #' @title Column names of the R object in the server-side
-#' @description Retrieves column names of an R object in the server-side.  
+#' @description Retrieves column names of an R object on the server-side.  
 #' This function is similar to R function \code{colnames}.
-#' @details The input is restricted to object of type \code{data.frame} or \code{matrix}. 
+#' @details The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
 #' 
 #' Server function called: \code{colnames}
 #' @param x a character string providing the name of the input data frame or matrix.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.colnames} returns the column names of the specified server-side data frame or matrix. 
+#' @return \code{ds.colnames} returns the column names of 
+#' the specified server-side data frame or matrix. 
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.dim}} to obtain the dimensions of matrix or a data frame.
+#' @seealso \code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 #' @examples 
 #' \dontrun{
 #' 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.contourPlot.R
 \name{ds.contourPlot}
 \alias{ds.contourPlot}
-\title{Generates a contour plot}
+\title{Generates a contour plot using server-side data}
 \usage{
 ds.contourPlot(
   x = NULL,
@@ -21,20 +21,20 @@ ds.contourPlot(
 
 \item{y}{a character string providing the name of a numerical vector.}
 
-\item{type}{a character string which represents the type of graph to display.
+\item{type}{a character string that represents the type of graph to display.
 If \code{type} is set to \code{'combine'}, a combined contour plot displayed and
 if \code{type} is set to \code{'split'}, each contour is plotted separately.}
 
-\item{show}{a character which represents where the plot should focus.
+\item{show}{a character that represents where the plot should focus.
 If \code{show} is set to \code{'all'}, the ranges of the variables are used as plot limits.
 If \code{show} is set to \code{'zoomed'}, the plot is zoomed to the region where the actual data are.}
 
-\item{numints}{a number of intervals for a density grid object.}
+\item{numints}{number of intervals for a density grid object.}
 
-\item{method}{a character which defines which contour will be created. If \code{method}
+\item{method}{a character that defines which contour will be created. If \code{method}
 is set to \code{'smallCellsRule'} (default), the contour plot of the actual variables is
 created but grids with low counts are replaced with grids with zero counts. If \code{method} is
-set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbours of the
+set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 original variables is created, where the value of \code{k} is set by the user. If the
 \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated.}
 
@@ -52,7 +52,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.contourPlot} returns a contour plot to the client-side.
 }
 \description{
-Generates a countour plot of the pooled data or one plot for each dataset.
+It generates a contour plot of the pooled data or one plot for each dataset.
 }
 \details{
 The function first generates a density grid and uses it to plot the graph.
@@ -61,7 +61,7 @@ DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potenti
 disclosure. A message is printed to inform the user about the number of invalid cells.
 
 The ranges returned by each study and used in the process of getting the grid density matrix
-are not the exact minumum and maximum values but rather close approximates of the real
+are not the exact minimum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 
 In the \code{k} parameter the user can choose any value for \code{k} equal to or greater 
@@ -81,7 +81,7 @@ Default noise value is  0.25.
 The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 the initial variance of each input variable.
 
-Server functions called: heatmapPlotDS, rangeDS and densityGridDS
+Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityGridDS}
 }
 \examples{
 \dontrun{
@@ -111,7 +111,7 @@ Server functions called: heatmapPlotDS, rangeDS and densityGridDS
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  # Generating a contour plots
+  # Generating contour plots
 
   ds.contourPlot(x = "D$LAB_TSC",
                  y = "D$LAB_HDL",

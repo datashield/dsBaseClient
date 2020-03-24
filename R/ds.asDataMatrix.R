@@ -2,6 +2,7 @@
 #' @description Coerces an R object into a matrix maintaining original
 #' class for all columns in data frames.  
 #' @details This function is based on the native R function \code{data.matrix}. 
+#' 
 #' Server function called: \code{asDataMatrixDS}.
 #' @param x.name a character string providing  the name of the input object to be coerced to 
 #' a matrix. 

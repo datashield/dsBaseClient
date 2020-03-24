@@ -31,6 +31,7 @@ class for all columns in data frames.
 }
 \details{
 This function is based on the native R function \code{data.matrix}. 
+
 Server function called: \code{asDataMatrixDS}.
 }
 \examples{

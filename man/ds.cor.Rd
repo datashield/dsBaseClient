@@ -22,7 +22,7 @@ Default NULL.}
 presence of missing values. This must be set to  \code{'casewise.complete'} or
 \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details.}
 
-\item{type}{a character string which represents the type of analysis to carry out. 
+\item{type}{a character string that represents the type of analysis to carry out. 
 This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -32,40 +32,40 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \value{
 \code{ds.cor} returns a list containing the number of missing values in each variable,
 the number of missing variables casewise or
-paiwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
+pairwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
 and an error message which indicates whether or not the input variables pass the disclosure control (i.e. none of them
-is dichotomous with a level having less counts than the pre-specified threshold). If any of the input variables does not
+is dichotomous with a level having fewer counts than the pre-specified threshold). If any of the input variables do not
 pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
 the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 }
 \description{
 This function calculates the correlation of two variables or the correlation
-matrix for the vairables of an input data frame.
+matrix for the variables of an input data frame.
 }
 \details{
-In addition to computing correlations; this function, produces a table outlining the
+In addition to computing correlations; this function produces a table outlining the
 number of complete cases and a table outlining the number of missing values to allow for the
-user to make a decision about the 'relevance' of the correlation based on the number of complete
+user to decide the 'relevance' of the correlation based on the number of complete
 cases included in the correlation calculations.
 
 If the argument \code{y} is not NULL, the dimensions of the object have to be 
-compatible to the argument \code{x}. 
+compatible with the argument \code{x}. 
 
 If \code{naAction} is set to \code{'casewise.complete'}, then the function omits all the rows
 in the whole data frame that include at least one cell with a missing value before the calculation of correlations.
 If \code{naAction} is set to \code{'pairwise.complete'} (default),
- then the function divides the input dataframe to subset
-subset dataframes formed by each pair between two variables 
+ then the function divides the input data frame to 
+subset data frames formed by each pair between two variables 
 (all combinations are considered) and omits the rows
 with missing values at each pair separately and then calculates the correlations of those pairs.
 
  If \code{type} is set to \code{'split'} (default), the correlation of two variables or the
  variance-correlation matrix of an input data frame and the number of 
- complete cases and missing values are returned for each single study. 
+ complete cases and missing values are returned for every single study. 
  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
  and the total number of missing values aggregated from all the involved studies, are returned.
  
- Server function called:\code{covDS}
+ Server function called: \code{covDS}
 }
 \examples{
 \dontrun{

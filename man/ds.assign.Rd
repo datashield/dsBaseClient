@@ -2,14 +2,14 @@
 % Please edit documentation in R/ds.assign.R
 \name{ds.assign}
 \alias{ds.assign}
-\title{Assigns an R object to a name in the server side}
+\title{Assigns an R object to a name in the server-side}
 \usage{
 ds.assign(toAssign = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{toAssign}{a character string providing the object to assign.}
 
-\item{newobj}{a character string which provides the name for the output object
+\item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{assign.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
@@ -18,16 +18,16 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.assign} returns the R object assigned to a name 
-which is written to the server-side.
+that is written to the server-side.
 }
 \description{
 This function assigns a datashield object to a name, hence creating a new object.
 }
 \details{
-The new object is stored on the server side.
+The new object is stored on the server-side.
 
 \code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}. 
-The \code{toAssign} argument is checked then evaluated at the server and 
+The \code{toAssign} argument is checked at the server and 
 assigned the variable called \code{newobj} on the server-side.
 }
 \examples{

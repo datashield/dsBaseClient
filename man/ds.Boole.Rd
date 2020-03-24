@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.Boole.R
 \name{ds.Boole}
 \alias{ds.Boole}
-\title{ds.Boole}
+\title{Converts a server-side R object into Boolean indicators}
 \usage{
 ds.Boole(
   V1 = NULL,
@@ -16,63 +16,63 @@ ds.Boole(
 }
 \arguments{
 \item{V1}{A character string specifying the name of the vector to which the Boolean operator
-is to be applied}
+is to be applied.}
 
-\item{V2}{A character string specifying the name of the vector or scalar to which <V1> is to
-be compared. So, if <V2> is a scalar (e.g. '4') and the Boolean operator is '<=', the
-output vector will be a binary/Boolean variable with elements taking the value 1 or TRUE
-if the corresponding element of <V1> is 4 or less and 0 or FALSE otherwise. On the other
-hand, if <V2> is a vector and the Boolean operator is '==', the output vector will be a
-binary/Boolean variable with elements taking the value 1 or TRUE if the corresponding
-elements of <V1> and <V2> are equal and 0 or FALSE otherwise. If <V2> is a vector rather than
-a scalar it must be of the same length as <V1>}
+\item{V2}{A character string specifying the name of the vector or scalar to which \code{V1} is to
+be compared.}
 
 \item{Boolean.operator}{A character string specifying one of six possible Boolean operators:
-'==', '!=', '>', '>=', '<', '<='}
+\code{'==', '!=', '>', '>=', '<', '<='}.}
 
-\item{numeric.output}{a TRUE/FALSE indicator defaulting to TRUE determining whether the final
-output variable should be of class numeric (1/0) or class logical (TRUE/FALSE). It is easy
-to convert a logical class variable to numeric using the ds.asNumeric() function and to
-convert a numeric (1/0) variable to logical you can apply ds.Boole with <Boolean.operator>
-'==', <V2> the scalar '1' and <numeric.output> FALSE.}
+\item{numeric.output}{logical. If TRUE the output variable should be of class numeric (1/0).
+If FALSE the output variable should be of class logical (TRUE/FALSE). 
+Default TRUE.}
 
 \item{na.assign}{A character string taking values 'NA', '1' or '0'. If 'NA' then any NA
 values in the input vector remain as NAs in the output vector. If '1' or '0' NA values in
 the input vector are all converted to 1 or 0 respectively.}
 
-\item{newobj}{A character string specifying the name of the vector to which the output
-vector is to be written. If no <newobj> argument is specified, the output vector defaults
-to "boole.newobj".}
+\item{newobj}{a character string that provides the name for the output 
+object that is stored on the data servers. Default \code{boole.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or default name <V1>_Boole)
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.Boole also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.Boole} returns the object specified by the \code{newobj} argument 
+which is written to the server-side. Also, two validity messages are returned
+to the client-side indicating the name of the \code{newobj} which 
+has been created in each data source and if 
+it is in a valid form.
 }
 \description{
 Converts the individual elements of a vector or other object into Boolean
-indicators(TRUE/FALSE or 1/0) based on the standard set of Boolean operators:
-==, !=, >, >=, <, <=.
+indicators(\code{TRUE/FALSE} or \code{1/0}) based on the standard set of Boolean operators:
+\code{==, !=, >, >=, <, <=}.
 }
 \details{
-A combination of operators reflected in AND can be obtained by multiplying two or more
+A combination of operators reflected in \code{AND} 
+can be obtained by multiplying two or more
 binary/Boolean vectors together: observations taking the value 1 in every vector will then
-take the value 1 while all others will take the value 0. The combination OR can be obtained by
-adding two or more vectors and then then reapply ds.Boole using the operator >= 1: any
+take the value 1 while all others will take the value 0. The combination \code{OR} can be obtained by
+adding two or more vectors and then then reapply \code{ds.Boole} using the operator \code{>= 1}: any
 observation taking the value 1 in one or more vectors will take the value 1 in the final vector.
+
+Explanation of V2 and V1 So, if <V2> is a scalar (e.g. '4') and the Boolean operator is '<=', the
+output vector will be a binary/Boolean variable with elements taking the value 1 or TRUE
+if the corresponding element of <V1> is 4 or less and 0 or FALSE otherwise. On the other
+hand, if <V2> is a vector and the Boolean operator is '==', the output vector will be a
+binary/Boolean variable with elements taking the value 1 or TRUE if the corresponding
+elements of <V1> and <V2> are equal and 0 or FALSE otherwise. If <V2> is a vector rather than
+a scalar it must be of the same length as <V1>
+
+Numeric output It is easy
+to convert a logical class variable to numeric using the ds.asNumeric() function and to
+convert a numeric (1/0) variable to logical you can apply ds.Boole with <Boolean.operator>
+'==', <V2> the scalar '1' and <numeric.output> FALSE.
+
+Server function called: \code{BooleDS}
 }
 \author{
 DataSHIELD Development Team

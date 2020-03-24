@@ -1,19 +1,20 @@
 #'
-#' @title Combines values into a vector or list in the server side
+#' @title Combines values into a vector or list in the server-side
 #' @description Concatenates objects into one vector.
 #' @details To avoid combining the character names and not the 
 #' vectors on the client-side, the names are coerced into a list 
 #' and the server-side function loops through that list to 
 #' concatenate the list's elements into a vector.
+#' 
 #' Server function called: \code{cDS}
 #' @param x  a vector of character string providing the names of the objects to be combined.
-#' @param newobj a character string which provides the name for the output object 
+#' @param newobj a character string that provides the name for the output object 
 #' that is stored on the data servers. Default \code{c.newobj}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return  \code{ds.c} returns the vector of concatenate
-#' R objects which is written to the server-side.
+#' @return  \code{ds.c} returns the vector of concatenating R
+#'  objects which are written to the server-side.
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki

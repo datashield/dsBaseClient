@@ -17,11 +17,11 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.class} returns the type of the R object.
 }
 \description{
-Retrieves the class of an object.
- This function is similar to R function \code{class}.
+Retrieves the class of an R object.
+ This function is similar to the R function \code{class}.
 }
 \details{
-Same as for the R function \code{class}.
+Same as the native R function \code{class}.
 
 Server function called: \code{class}
 }
@@ -65,7 +65,7 @@ Server function called: \code{class}
 }
 }
 \seealso{
-\code{\link{ds.exists}} to verify if an object is defined (exists) on the server side.
+\code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.
 }
 \author{
 DataSHIELD Development Team

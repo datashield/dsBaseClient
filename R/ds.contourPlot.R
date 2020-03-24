@@ -1,13 +1,13 @@
 #'
-#' @title Generates a contour plot
-#' @description Generates a countour plot of the pooled data or one plot for each dataset.
+#' @title Generates a contour plot using server-side data
+#' @description It generates a contour plot of the pooled data or one plot for each dataset.
 #' @details The function first generates a density grid and uses it to plot the graph.
 #' Cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 #' disclosure. A message is printed to inform the user about the number of invalid cells.
 #' 
 #' The ranges returned by each study and used in the process of getting the grid density matrix
-#' are not the exact minumum and maximum values but rather close approximates of the real
+#' are not the exact minimum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
 #' 
 #' In the \code{k} parameter the user can choose any value for \code{k} equal to or greater 
@@ -27,21 +27,21 @@
 #' The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 #' the initial variance of each input variable.
 #' 
-#' Server functions called: heatmapPlotDS, rangeDS and densityGridDS
+#' Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityGridDS}
 #' 
 #' @param x a character string providing the name of a numerical vector.
 #' @param y a character string providing the name of a numerical vector.
-#' @param type a character string which represents the type of graph to display.
+#' @param type a character string that represents the type of graph to display.
 #' If \code{type} is set to \code{'combine'}, a combined contour plot displayed and
 #' if \code{type} is set to \code{'split'}, each contour is plotted separately.
-#' @param show a character which represents where the plot should focus.
+#' @param show a character that represents where the plot should focus.
 #' If \code{show} is set to \code{'all'}, the ranges of the variables are used as plot limits.
 #' If \code{show} is set to \code{'zoomed'}, the plot is zoomed to the region where the actual data are.
-#' @param numints a number of intervals for a density grid object.
-#' @param method a character which defines which contour will be created. If \code{method}
+#' @param numints number of intervals for a density grid object.
+#' @param method a character that defines which contour will be created. If \code{method}
 #' is set to \code{'smallCellsRule'} (default), the contour plot of the actual variables is
 #' created but grids with low counts are replaced with grids with zero counts. If \code{method} is
-#' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbours of the
+#' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 #' original variables is created, where the value of \code{k} is set by the user. If the
 #' \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated. 
 #' @param k the number of the nearest neghbours for which their centroid is calculated. For more information
@@ -81,7 +81,7 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   # Generating a contour plots
+#'   # Generating contour plots
 #'
 #'   ds.contourPlot(x = "D$LAB_TSC",
 #'                  y = "D$LAB_HDL",
