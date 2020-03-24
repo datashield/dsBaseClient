@@ -17,7 +17,6 @@
 #' which is written to the server-side.
 #' @author DataSHIELD Development Team
 #' @export
-#' #' it is in a valid form.
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
