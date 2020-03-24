@@ -23,7 +23,7 @@ This function is similar to R function \code{colnames}.
 \details{
 The input is restricted to object of type \code{data.frame} or \code{matrix}. 
 
-Server function called: \code{colnamesDS}
+Server function called: \code{colnames}
 }
 \examples{
 \dontrun{

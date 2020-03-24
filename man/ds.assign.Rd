@@ -26,7 +26,9 @@ This function assigns a datashield object to a name, hence creating a new object
 \details{
 The new object is stored on the server side.
 
-Server function called: \code{assign}.
+\code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}. 
+The \code{toAssign} argument is checked then evaluated at the server and 
+assigned the variable called \code{newobj} on the server-side.
 }
 \examples{
 \dontrun{

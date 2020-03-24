@@ -81,7 +81,7 @@ Default noise value is  0.25.
 The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 the initial variance of each input variable.
 
-Server function called:
+Server functions called: heatmapPlotDS, rangeDS and densityGridDS
 }
 \examples{
 \dontrun{

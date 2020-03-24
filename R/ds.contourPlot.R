@@ -27,7 +27,7 @@
 #' The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 #' the initial variance of each input variable.
 #' 
-#' Server function called: 
+#' Server functions called: heatmapPlotDS, rangeDS and densityGridDS
 #' 
 #' @param x a character string providing the name of a numerical vector.
 #' @param y a character string providing the name of a numerical vector.

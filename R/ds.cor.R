@@ -23,6 +23,8 @@
 #'  complete cases and missing values are returned for each single study. 
 #'  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
 #'  and the total number of missing values aggregated from all the involved studies, are returned.
+#'  
+#'  Server function called:\code{covDS}
 #' 
 #' @param x a character string providing the name of the input vector, data frame or matrix.
 #' @param y a character string providing the name of the input vector, data frame or matrix.
@@ -43,7 +45,6 @@
 #' pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
 #' the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 #' @author DataSHIELD Development Team
-#' @export
 #' @examples
 #' \dontrun{
 #'
@@ -91,7 +92,7 @@
 #'   datashield.logout(connections)
 #'
 #' }
-#'
+#' @export
 ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL){
 
   # look for DS connections

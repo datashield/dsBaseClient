@@ -4,7 +4,7 @@
 #'  This function is similar to R function \code{class}.
 #' @details Same as for the R function \code{class}.
 #' 
-#' Server function called: \code{classDS}
+#' Server function called: \code{class}
 #' @param x a character string providing the name of the input R object.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
