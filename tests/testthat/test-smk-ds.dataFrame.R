@@ -30,9 +30,13 @@ test_that("dataframe_exists", {
     ds.dataFrame(x=vectors)
     res <- ds.ls()
 
-    expect_equal(res$sim1[2], "dataframe.newobj")
-    expect_equal(res$sim2[2], "dataframe.newobj")
-    expect_equal(res$sim3[2], "dataframe.newobj")
+    expect_length(res, 3)
+    expect_length(res$sim1$objects.found, 2)
+    expect_equal(res$sim1$objects.found[2], "dataframe.newobj")
+    expect_length(res$sim2$objects.found, 2)
+    expect_equal(res$sim2$objects.found[2], "dataframe.newobj")
+    expect_length(res$sim3$objects.found, 2)
+    expect_equal(res$sim3$objects.found[2], "dataframe.newobj")
 })
 
 context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks")
@@ -41,9 +45,13 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
     ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE)
     res <- ds.ls()
 
-    expect_equal(res$sim1[2], "dataframe.newobj")
-    expect_equal(res$sim2[2], "dataframe.newobj")
-    expect_equal(res$sim3[2], "dataframe.newobj")
+    expect_length(res, 3)
+    expect_length(res$sim1$objects.found, 2)
+    expect_equal(res$sim1$objects.found[2], "dataframe.newobj")
+    expect_length(res$sim2$objects.found, 2)
+    expect_equal(res$sim2$objects.found[2], "dataframe.newobj")
+    expect_length(res$sim3$objects.found, 2)
+    expect_equal(res$sim3$objects.found[2], "dataframe.newobj")
 })
 
 #
