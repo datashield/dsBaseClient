@@ -1,8 +1,8 @@
 #' @title Combines R objects by rows in the server-side
-#' @description Take a sequence of vector, matrix or data-frame arguments
-#' and combine them by rows to produce a matrix.
+#' @description It takes a sequence of vector, matrix or data-frame arguments
+#' and combines them by rows to produce a matrix.
 #' @details A sequence of vector, matrix or data-frame arguments
-#' is combined  by rows to produce a matrix in the server-side.
+#' is combined  by rows to produce a matrix on the server-side.
 #' 
 #' In \code{DataSHIELD.checks} the checks are relatively slow. 
 #' Default \code{DataSHIELD.checks} value is FALSE. 
@@ -18,14 +18,14 @@
 #' @param x a character vector with the  name of the objects to be combined.  
 #' @param DataSHIELD.checks logical, if TRUE checks that all
 #' input objects exist and are of an appropriate class. 
-#' @param force.colnames can be NULL or a vector of characters which 
+#' @param force.colnames can be NULL or a vector of characters that 
 #' specifies column names of the output object. 
-#' @param newobj a character string which provides the name for the output variable 
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{rbind.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @param notify.of.progress specifies if console output should be produce to indicate
+#' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
 #' @return \code{ds.rbind} returns a matrix combining the rows of the 
 #' R objects specified in the function

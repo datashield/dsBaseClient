@@ -1,13 +1,13 @@
-#' @title Generates Normal distribution in several Opal servers  
+#' @title Generates Normal distribution in the server-side
 #' @description Generates normally distributed random (pseudorandom) scalar numbers. 
-#' In addition, ds.rNorm allows to create different vector length in each server.
+#' Besides, \code{ds.rNorm} allows creating different vector lengths in each server.
 #' @details Creates a vector of pseudorandom numbers distributed 
 #' with a Normal distribution in each data source. 
 #' The \code{ds.rNorm} function's arguments specify the mean and the standard deviation 
 #' (\code{sd}) of the normal distribution and  
 #' the length and the seed of the output vector in each source.
 #'  
-#' To specify different \code{mean} value in each source,
+#' To specify a different \code{mean} value in each source,
 #' you can use a character vector \code{(..., mean="vector.of.means"...)}
 #' or the \code{datasources} parameter to create the random vector for one source at a time, 
 #' changing the \code{mean} as required.
@@ -20,14 +20,14 @@
 #' Default value for \code{sd = 0}. 
 #'  
 #' If \code{seed.as.integer} is an integer 
-#' e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+#' e.g. 5 and there is more than one source (N) the seed is set as 5*N. 
 #' For example, in the first study the seed is set as 938*1, 
 #' in the second as  938*2  
 #' up to 938*N in the Nth study.
 #' 
 #' If \code{seed.as.integer} is set as 0 all sources will start with the seed value
-#' 0 and all the random number generators will therefore start from the same position. 
-#' In addition, to use the same starting seed in all studies but do not wish it to
+#' 0 and all the random number generators will, therefore, start from the same position. 
+#' Also, to use the same starting seed in all studies but do not wish it to
 #' be 0, you can use \code{datasources} argument to generate the random number 
 #' vectors one source at a time. 
 #' 
@@ -36,29 +36,30 @@
 #' If \code{k = 9}, no rounding of output numbers occurs. 
 #' The default value of \code{force.output.to.k.decimal.places = 9}.
 #' 
-#' Server functions called: rNormDS and setSeedDS.
+#' Server functions called: \code{rNormDS} and \code{setSeedDS}.
 #' 
 #' @param samp.size an integer value or an integer vector that defines the length
 #' of the random numeric vector to be created in each source.
 #' @param mean the mean value or vector of the Normal distribution to be created. 
-#' @param sd the standard seviation of of the Normal distribution to be created. 
-#' @param newobj a character string which provides the name for the output variable 
+#' @param sd the standard deviation of the Normal distribution to be created. 
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer 
 #' or a NULL value which provides the random seed in each data source.
 #' @param return.full.seed.as.set logical, if TRUE will returns the full random number 
 #' seed in each data source (a numeric vector of length 626). 
-#' If FALSE it will only returns the trigger seed value you have provided. 
+#' If FALSE it will only return the trigger seed value you have provided. 
 #' Default is FALSE.
-#' @param force.output.to.k.decimal.places an integer an integer vector which 
+#' @param force.output.to.k.decimal.places an integer vector that 
 #' forces the output random numbers vector to have k decimals.  
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.rNorm} returns random number vectors with a normal  distribution for each 
 #' study, taking into account the values specified in each parameter of the function. 
-#' If requested, it also gives the full 626 length random seed vector generated 
-#' in each source (see info for the argument \code{return.full.seed.as.set}).
+#' The output vector is written to the server-side.
+#' If requested, it also returned to the client-side the full 626 lengths random seed vector
+#' generated in each source  (see info for the argument \code{return.full.seed.as.set}).
 #' @examples 
 #' \dontrun{
 #' 

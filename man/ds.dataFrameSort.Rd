@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrameSort.R
 \name{ds.dataFrameSort}
 \alias{ds.dataFrameSort}
-\title{Sorting data frames in several Opal servers}
+\title{Sorting data frames in the server-side}
 \usage{
 ds.dataFrameSort(
   df.name = NULL,
@@ -29,7 +29,7 @@ treated as if alphabetic Default=FALSE.}
 \item{sort.numeric}{logical, if TRUE the sort key is treated as if numeric
 Default=FALSE.}
 
-\item{newobj}{a character string which provides the name for the output data frame 
+\item{newobj}{a character string that provides the name for the output data frame 
 that is stored on the data servers. Default \code{dataframesort.newobj}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
@@ -38,8 +38,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The sorted dataframe is written to the serverside. 
-In addition, two validity messages are returned
+\code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
+Also, two validity messages are returned to the client-side
 indicating the name of the \code{newobj} which 
 has been created in each data source and if 
 it is in a valid form.
@@ -48,12 +48,12 @@ it is in a valid form.
 Sorts a data frame using a specified sort key.
 }
 \details{
-\code{ds.dataFrameSort} sorts a specified
-data.frame on the serverside using a sort key also on the serverside. The
+It sorts a specified
+data.frame on the serverside using a sort key also on the server-side. The
 sort key can either sit in the data.frame or outside it. 
 The sort key can be forced to be interpreted as alphabetic or numeric. 
 
-When sorting numbers in a  ascending (default) manner the negative values 
+When sorting numbers in an ascending (default) manner the negative values 
 get ordered first and the missing values last. 
 Instead when sorting characters the missing values get ordered first. 
 
@@ -62,7 +62,7 @@ vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 1
 numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA) \cr
 alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA) \cr
 
-Server functions called: dataFrameSortDS.
+Server function called: \code{dataFrameSortDS}.
 }
 \examples{
 \dontrun{

@@ -19,17 +19,17 @@ ds.rbind(
 \item{DataSHIELD.checks}{logical, if TRUE checks that all
 input objects exist and are of an appropriate class.}
 
-\item{force.colnames}{can be NULL or a vector of characters which 
+\item{force.colnames}{can be NULL or a vector of characters that 
 specifies column names of the output object.}
 
-\item{newobj}{a character string which provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{rbind.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
-\item{notify.of.progress}{specifies if console output should be produce to indicate
+\item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
 }
 \value{
@@ -40,12 +40,12 @@ It also returns two messages to the client-side with the name of \code{newobj}
 that has been created in each data source and \code{DataSHIELD.checks} result.
 }
 \description{
-Take a sequence of vector, matrix or data-frame arguments
-and combine them by rows to produce a matrix.
+It takes a sequence of vector, matrix or data-frame arguments
+and combines them by rows to produce a matrix.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined  by rows to produce a matrix in the server-side.
+is combined  by rows to produce a matrix on the server-side.
 
 In \code{DataSHIELD.checks} the checks are relatively slow. 
 Default \code{DataSHIELD.checks} value is FALSE. 
