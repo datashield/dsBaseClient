@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrame.R
 \name{ds.dataFrame}
 \alias{ds.dataFrame}
-\title{Generates a data frame object in several Opal servers}
+\title{Generates a data frame object in the server-side}
 \usage{
 ds.dataFrame(
   x = NULL,
@@ -18,17 +18,17 @@ ds.dataFrame(
 )
 }
 \arguments{
-\item{x}{a character string which provides the name of the objects
+\item{x}{a character string that provides the name of the objects
 to be combined.}
 
-\item{row.names}{NULL, integer or character string which provides the
+\item{row.names}{NULL, integer or character string that provides the
 row names of the output data frame.}
 
-\item{check.rows}{if TRUE then the rows are checked for consistency of
+\item{check.rows}{logical. If TRUE then the rows are checked for consistency of
 length and names. Default is FALSE.}
 
 \item{check.names}{logical. If TRUE the column names 
-in the data frame are checked to ensure that are unique. Default is TRUE.}
+in the data frame are checked to ensure that is unique. Default is TRUE.}
 
 \item{stringsAsFactors}{logical. If true the character vectors are
 converted to factors. Default TRUE.}
@@ -37,38 +37,38 @@ converted to factors. Default TRUE.}
 missing values will be deleted from the output data frame.
 Default is FALSE.}
 
-\item{DataSHIELD.checks}{logical. If TRUE undertakes all DataSHIELD checks (time
-consuming). Default FALSE.}
+\item{DataSHIELD.checks}{logical. If TRUE undertakes all DataSHIELD checks 
+(time-consuming). Default FALSE.}
 
-\item{newobj}{a character string  which provides the name for the output data frame
+\item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default \code{dataframe.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
-\item{notify.of.progress}{specifies if console output should be produce to indicate
+\item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default is FALSE.}
 }
 \value{
-\code{ds.dataFrame} returns the object specified by the \code{newobj} argument.
-which is written to the serverside. In addition, two validity messages are returned
-indicating name of the \code{newobj} that has been created in each data source and if 
-it is in a valid form.
+\code{ds.dataFrame} returns the object specified by the \code{newobj} argument
+which is written to the serverside. Also, two validity messages are returned to the
+client-side indicating the name of the \code{newobj} that has been created in each data source
+and if it is in a valid form.
 }
 \description{
 Creates a data frame from its elemental components:
- pre-existing data frames, single variables or matrices
+ pre-existing data frames, single variables or matrices.
 }
 \details{
-\code{ds.dataFrame} function creates a data frame by combining
-pre-existing data.frames, matrices or variables.
+It creates a data frame by combining
+pre-existing data frames, matrices or variables.
 
-The length of all component variables, and the number of rows 
+The length of all component variables and the number of rows 
 of the  data frames or matrices must be the same.  The output 
 data frame will have the same number of rows. 
 
-Server functions called: dataFrameDS
+Server function called: \code{dataFrameDS}
 }
 \examples{
 

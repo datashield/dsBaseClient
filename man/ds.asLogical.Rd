@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.asLogical.R
 \name{ds.asLogical}
 \alias{ds.asLogical}
-\title{Coercing a R object into a logical class in several Opal servers}
+\title{Converts a server-side R object into a logical class}
 \usage{
 ds.asLogical(x.name = NULL, newobj = NULL, datasources = NULL)
 }
@@ -10,7 +10,7 @@ ds.asLogical(x.name = NULL, newobj = NULL, datasources = NULL)
 \item{x.name}{a character string providing the name of the 
 input object to be coerced to a logical.}
 
-\item{newobj}{a character string which provides the name for the output object
+\item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{aslogical.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
@@ -19,8 +19,8 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.asLogical} returns the R object converted into a logical
-which is written to the server-side. In addition, two validity messages are returned
-indicating the name of the \code{newobj} which 
+that is written to the server-side. Also, two validity messages are returned
+to the client-side indicating the name of the \code{newobj} which 
 has been created in each data source and if 
 it is in a valid form.
 }
@@ -29,7 +29,7 @@ Coerces an R object into a logical class.
 This function is based on the native R function \code{as.logical}.
 }
 \details{
-Server function called: asLogicalDS
+Server function called: \code{asLogicalDS}
 }
 \examples{
 \dontrun{
@@ -59,10 +59,11 @@ Server function called: asLogicalDS
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
   # Converting the R object into a logical
-    ds.asLogical(x.name = "D$LAB_TSC", 
-                 newobj = "logical.obj", 
-                 datasources =connections[1]) #only the first Opal server is used ("study1")
-  ds.class(x = "logical.obj", datasources = connections[1])               
+  ds.asLogical(x.name = "D$LAB_TSC", 
+               newobj = "logical.obj", 
+               datasources =connections[1]) #only the first Opal server is used ("study1")
+  ds.class(x = "logical.obj", datasources = connections[1])  
+               
   # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 
   

@@ -1,34 +1,39 @@
 #'
-#' @title Sorting data frames in several Opal servers 
+#' @title Sorting data frames in the server-side
 #' @description Sorts a data frame using a specified sort key.
-#' @details \code{ds.dataFrameSort} sorts a specified
-#' data.frame on the serverside using a sort key also on the serverside. The
+#' @details It sorts a specified
+#' data.frame on the serverside using a sort key also on the server-side. The
 #' sort key can either sit in the data.frame or outside it. 
 #' The sort key can be forced to be interpreted as alphabetic or numeric. 
 #' 
-#' When sorting numbers in a  ascending (default) manner the negative values 
+#' When sorting numbers in an ascending (default) manner the negative values 
 #' get ordered first and the missing values last. 
 #' Instead when sorting characters the missing values get ordered first. 
 #' 
-#' Server functions called: dataFrameSortDS. 
+#' When a numeric vector is sorted alphabetically, the order can look confusing:\cr
+#' vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 112, NA) \cr
+#' numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA) \cr
+#' alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA) \cr
+#' 
+#' Server function called: \code{dataFrameSortDS}. 
 #' 
 #' @param df.name a character string providing the name of the data frame
-#' to be sorted
+#' to be sorted.
 #' @param sort.key.name a character string providing the name for the sort key.
 #' @param sort.descending logical, if TRUE the data frame will be sorted.
-#' by the sort key in descending order. Default = FALSE (sort order ascending)
+#' by the sort key in descending order. Default = FALSE (sort order ascending).
 #' @param sort.alphabetic logical, if TRUE the sort key is 
 #' treated as if alphabetic Default=FALSE.
 #' @param sort.numeric logical, if TRUE the sort key is treated as if numeric
 #' Default=FALSE.
-#' @param newobj a character string which provides the name for the output data frame 
+#' @param newobj a character string that provides the name for the output data frame 
 #' that is stored on the data servers. Default \code{dataframesort.newobj}.   
 #' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return The sorted dataframe is written to the serverside. 
-#' In addition, two validity messages are returned
+#' @return \code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
+#' Also, two validity messages are returned to the client-side
 #' indicating the name of the \code{newobj} which 
 #' has been created in each data source and if 
 #' it is in a valid form.

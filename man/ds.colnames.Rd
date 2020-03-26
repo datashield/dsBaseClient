@@ -2,47 +2,68 @@
 % Please edit documentation in R/ds.colnames.R
 \name{ds.colnames}
 \alias{ds.colnames}
-\title{Retrieves column names of a matrix-like object}
+\title{Column names of the R object in the server-side}
 \usage{
 ds.colnames(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of a dataframe or matrix.}
+\item{x}{a character string providing the name of the input data frame or matrix.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a character vector
+\code{ds.colnames} returns the column names of 
+the specified server-side data frame or matrix.
 }
 \description{
-this function is similar to R function \code{colnames}.
+Retrieves column names of an R object on the server-side.  
+This function is similar to R function \code{colnames}.
 }
 \details{
-The input is restricted to object of type 'data.frame' or 'matrix'
+The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
+
+Server function called: \code{colnames}
 }
 \examples{
 \dontrun{
 
-  # load that contains the login details
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
 
-  # login and assign all the stored variables
-  # (by default the assigned dataset is a dataframe named 'D')
-  conns <- datashield.login(logins=logindata,assign=TRUE)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # Get the column names of the assigned datasets (default name is 'D')
-  ds.colnames(x='D')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
+  # Getting column names of the R objects stored in the server-side
+  ds.colnames(x = "D",
+              datasources = connections[1]) #only the first server ("study1") is used
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
 }
-
 }
 \seealso{
-\link{ds.dim} to obtain the dimensions of matrix or a data frame.
+\code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 }
 \author{
-Gaye, A.; Isaeva, J.
+DataSHIELD Development Team
 }
