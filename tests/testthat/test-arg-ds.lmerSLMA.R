@@ -75,8 +75,6 @@ test_that("test offsets and weights", {
 # Switch to slope dataset
 #
 
-ds.ls()
-
 context("ds.lmerSLMA::arg::switch")
 
 disconnect.studies.dataset.cluster.int()
