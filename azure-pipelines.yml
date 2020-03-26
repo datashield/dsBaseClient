@@ -22,14 +22,44 @@ jobs:
 
 
   steps:
+  - checkout: self
+    path: 'dsBaseClient'
+
+
   - bash: |
+      pwd
+      sudo apt install tree -y
+      pwd
+      echo -n "#############################"
+      echo -n "File tree: ##################"
+      tree
+      echo -n "#############################"
+      echo -n "lscpu: ######################"
+      lscpu
+      echo -n "#############################"
+      echo -n "memory: ######################"
+      free -m
+      echo -n "#############################"
+      echo -n "env: ########################"
+      env
+      echo -n "#############################"
+      echo -n "Rprofile: ###################"
+      cat ~/.Rprofile
+      echo -n "#############################"
+    displayName: 'Environment info1'
+    condition: always()
+
+
+  - bash: |
+      pwd
       echo "options(Ncpus=2)" >> ~/.Rprofile
     displayName: 'Tweak local R env'
-  
+
   - bash: |
-      echo $(branchName)
-      echo $(projectName)
-      echo $(repoName)
+      pwd
+      echo 'BranchName: '$(branchName)
+      echo 'ProjectName: '$(projectName)
+      echo 'RepoName: '$(repoName)
       # Purge the default mysql installed on the VM as it is incompatible with our stuff.
       sudo service mysql stop
       sudo apt-get update
@@ -59,6 +89,7 @@ jobs:
     displayName: 'Install DataSHIELD server'
 
   - bash: |
+      pwd
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       # sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
@@ -68,34 +99,32 @@ jobs:
     displayName: 'Install R client'
 
   - bash: |
+      pwd
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
     displayName: 'Devtools checks'
     condition: always()
 
   - bash: |
-      #R -q -e "library('devtools'); devtools::test()" | tee azure-pipelines_test.Rout
-      #grep --quiet "Failed:   0" azure-pipelines_test.Rout
-    displayName: 'Devtools tests'
-    condition: always()
-
-  - bash: |
+      pwd
       ./checkDocumentationUpdated.sh
     displayName: 'Check documents'
     condition: always()
 
   - bash: |
-
+      pwd
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
       # Should look to see if can use the one downloaded by default and not cloning a fresh one.
-      git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/$(repoName).git $(projectName)
-      cd $(projectName)
+      ##git clone -b $(branchName) https://datashield:$(GHPAT)@github.com/$(repoName).git $(projectName)
+      ##cd $(projectName)
       # run the coverage tool and output to coveragelist.csv
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
-      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      ##sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"../coveragelist.csv")'
+      ##cd ../
+      sudo R -q -e 'library(covr);write.csv(coverage_to_list(covr::package_coverage(type = c("none"), code = c('"'"'library(testthat); output_file <- file("test_console_output.txt"); sink(output_file); sink(output_file, type = "message"); library(testthat); junit_rep <- JunitReporter$new(file = "test_results.xml"); progress_rep <- ProgressReporter$new(max_failures = 999999); multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); testthat::test_package("$(projectName)", reporter = multi_rep, stop_on_failure = FALSE)'"'"'))),"coveragelist.csv")'
       # display the test console output
       cat test_console_output.txt
       mv test_results.xml ../
@@ -105,7 +134,32 @@ jobs:
     displayName: 'Code coverage and JUnit report output'
     condition: always()
 
+
   - bash: |
+      cd ../
+      pwd
+      tree
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      error_count=$(sed 's/errors="0"//' test_results.xml | grep --count errors=)
+      failure_count=$(sed 's/failues="0"//' test_results.xml | grep --count failures=)
+      echo "Non zero errors: "$error_count
+      echo "Non zoro failures: "$failure_count
+      exit $(($error_count + $failure_count))
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: always()
+
+  - bash: |
+      pwd
+      echo 'branch:'$(branchName) >> $(datetime).txt
+      echo 'os:'$(lsb_release -ds) >> $(datetime).txt
+      echo 'R:'$(R --version | head -n 1) >> $(datetime).txt
+      echo 'opal:'$(opal system --opal localhost:8080 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
+    displayName: 'Versions'
+    condition: always()
+
+
+  - bash: |
+      pwd
       git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
       # Make the directories if they dont already exist
@@ -127,6 +181,11 @@ jobs:
       git add logs/$(projectName)/$(branchName)/$(datetime).xml
       git add logs/$(projectName)/$(branchName)/$(datetime).csv
       git add docs/$(projectName)/$(branchName)/latest/index.html
+
+      # copy versions file into repo tree and add
+      cp ../$(datetime).txt logs/$(projectName)/$(branchName)/
+      git add logs/$(projectName)/$(branchName)/$(datetime).txt
+
       git commit -m "Test Status update for $(projectName)/$(branchName)"
       git push
       exit 0
@@ -135,12 +194,16 @@ jobs:
 
   - bash: |
       sudo apt install tree -y
+      pwd
       echo -n "#############################"
       echo -n "File tree: ##################"
       tree
       echo -n "#############################"
       echo -n "lscpu: ######################"
       lscpu
+      echo -n "#############################"
+      echo -n "memory: ######################"
+      free -m
       echo -n "#############################"
       echo -n "env: ########################"
       env
