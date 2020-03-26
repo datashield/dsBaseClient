@@ -2,54 +2,73 @@
 % Please edit documentation in R/ds.c.R
 \name{ds.c}
 \alias{ds.c}
-\title{Combines values into a vector or list}
+\title{Combines values into a vector or list in the server-side}
 \usage{
 ds.c(x = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, a vector that holds the names of the objects to combine.}
+\item{x}{a vector of character string providing the names of the objects to be combined.}
 
-\item{newobj}{the name of the output object. If this argument is set to NULL, 
-the name of the new object is 'c.newobj'.}
+\item{newobj}{a character string that provides the name for the output object 
+that is stored on the data servers. Default \code{c.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+\code{ds.c} returns the vector of concatenating R
+ objects which are written to the server-side.
 }
 \description{
-Concatenates object into one object.
+Concatenates objects into one vector.
 }
 \details{
-To avoid combining the character names and not the vectors
-on the client side, the names are coerce into a list and the server side
-function loops through that list to concatenate the list's elements into a vector.
+To avoid combining the character names and not the 
+vectors on the client-side, the names are coerced into a list 
+and the server-side function loops through that list to 
+concatenate the list's elements into a vector.
+
+Server function called: \code{cDS}
 }
 \examples{
 \dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-  # load the file that contains the login details
-  data(logindata)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # login and assign specific variable(s)
-  # (by default the assigned dataset is a dataframe named 'D')
-  myvar <- c('LAB_TSC', 'LAB_HDL')
-  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
-  # Get the variables 'LAB_TSC' by 'LAB_HDL' from the dataframe 'D' and combine them
-  myvect <- c('D$LAB_TSC', 'D$LAB_HDL')
-  ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
-  ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
-  myvect <- c('labtsc', 'labhdl')
-  ds.c(x=myvect)
-
-  # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
-}
-
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Create a vector with combined objects
+  myvect <- c("D$LAB_TSC", "D$LAB_HDL")
+  ds.c(x = myvect,
+       newobj = "new.vect",
+       datasources = connections[1]) #only the first Opal server is used ("study1")
+                
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+}    
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

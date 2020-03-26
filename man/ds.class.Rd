@@ -2,50 +2,71 @@
 % Please edit documentation in R/ds.class.R
 \name{ds.class}
 \alias{ds.class}
-\title{Retrieves the class of an object}
+\title{Class of the R object in the server-side}
 \usage{
 ds.class(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{an R object}
+\item{x}{a character string providing the name of the input R object.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a character the type of x
+\code{ds.class} returns the type of the R object.
 }
 \description{
-This function is similar to R function \code{class}.
+Retrieves the class of an R object.
+ This function is similar to the R function \code{class}.
 }
 \details{
-Same as for the R function \code{class}.
+Same as the native R function \code{class}.
+
+Server function called: \code{class}
 }
 \examples{
 \dontrun{
 
-  # load that contains the login details
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
 
-  # login and assign all the stored variables
-  # (by default the assigned dataset is a dataframe named 'D')
-  conns <- datashield.login(logins=logindata,assign=TRUE)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # Example 1: Get the class of the whole dataset
-  ds.class(x='D')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  # Example 2: Get the class of the variable PM_BMI_CONTINUOUS
-  ds.class(x='D$LAB_TSC')
+  # Getting the class of the R objects stored in the server-side
+  ds.class(x = "D", #whole dataset
+           datasources = connections[1]) #only the first server ("study1") is used
 
-  # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
+  ds.class(x = "D$LAB_TSC", #select a variable
+           datasources = connections[1]) #only the first server ("study1") is used
+           
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
 }
-
 }
 \seealso{
-\link{ds.exists} to verify if an object is defined (exists) on the server side.
+\code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.
 }
 \author{
-Gaye, A.; Isaeva, J.
+DataSHIELD Development Team
 }

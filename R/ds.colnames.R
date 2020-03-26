@@ -1,32 +1,54 @@
 #'
-#' @title Retrieves column names of a matrix-like object
-#' @description this function is similar to R function \code{colnames}.
-#' @details The input is restricted to object of type 'data.frame' or 'matrix'
-#' @param x a character, the name of a dataframe or matrix.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return a character vector
-#' @author Gaye, A.; Isaeva, J.
-#' @seealso \link{ds.dim} to obtain the dimensions of matrix or a data frame.
-#' @export
-#' @examples
+#' @title Column names of the R object in the server-side
+#' @description Retrieves column names of an R object on the server-side.  
+#' This function is similar to R function \code{colnames}.
+#' @details The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
+#' 
+#' Server function called: \code{colnames}
+#' @param x a character string providing the name of the input data frame or matrix.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.colnames} returns the column names of 
+#' the specified server-side data frame or matrix. 
+#' @author DataSHIELD Development Team
+#' @seealso \code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
+#' @examples 
 #' \dontrun{
-#'
-#'   # load that contains the login details
-#'   data(logindata)
-#'
-#'   # login and assign all the stored variables
-#'   # (by default the assigned dataset is a dataframe named 'D')
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
-#'
-#'   # Get the column names of the assigned datasets (default name is 'D')
-#'   ds.colnames(x='D')
-#'
-#'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
-#'
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#' 
+#'   # Getting column names of the R objects stored in the server-side
+#'   ds.colnames(x = "D",
+#'               datasources = connections[1]) #only the first server ("study1") is used
+#'   # Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
 #' }
-#'
+#' @export
+
 ds.colnames <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections

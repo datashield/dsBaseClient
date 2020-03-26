@@ -1,74 +1,83 @@
-#' @title ds.cbind calling cbindDS
+#' @title Combines R objects by columns in the server-side
 #' @description Take a sequence of vector, matrix or data-frame arguments
 #' and combine them by column to produce a matrix.
 #' @details A sequence of vector, matrix or data-frame arguments
-#' is combined column by column to produce a matrix written to the
-#' which is written to the serverside. For more details see
-#' the native R function {cbind}. The handling of argument <x>
-#' is the same as for {ds.dataFrame}
-#' @param x This is a vector of character strings representing the names of the elemental
-#' components to be combined  For example, the call:
-#' ds.cbind(x=c('DF_input','matrix.m','var_age'),newobj='cbind_output') will
-#' combine a pre-existing data.frame called DF_input with a matrix and a variable
-#' called var_age. The output will be the object cbind_output in which
-#' the first columns will be the columns of DF_input, to their right
-#' the next block of columns are from matrix.m and the final column will
-#' be the variable var_age. As many
-#' elemental components as needed may be combined in any order e.g. 3 data.frames,
-#' 7 variables and 2 matrices. For convenience the x argument can alternatively
-#' be specified in a two step procedure, the first being a call to
-#' the native R environment on the client server:
-#' x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age');
-#' ds.cbind(x=x.components,newobj='DF_output'). In order to
-#' disambiguate column names, if the same column name appears several times
-#' the suffix '.1' will be appended to the second instance, '.2' to the
-#' third and, generally, .(n-1) to the nth instance. Disambiguation
-#' does not occur if column names are user specified using <force.colnames>
-#' @param DataSHIELD.checks logical, if TRUE checks are made that all
-#' input objects exist and are of an appropriate class. These checks
-#' are relatively slow and so the <DataSHIELD.checks> argument is
-#' defaulted to FALSE
-#' @param force.colnames NULL or a vector of character strings representing
-#' the required column names of the output object. For example:
-#' force.colnames=c("colname1","name.of.second.column", "lastcol") for an
-#' output object with three columns. If <force.colnames> is NULL
-#' column names are inferred from the names or column names of
-#' the input objects - please see 'details' for disambiguation.
-#' If <force.colnames> is not NULL, there is no disambiguation
-#' so you can force columns to have the same names should you
-#' so wish.The vector of column names must have
-#' the same number of elements as there are columns in the output
-#' object. If the length of the column name vector is incorrect a
-#' studysideMessage is returned: "Number of column names
-#' does not match number of columns in output object. Here 'N' names
-#' are required.Please see help for {ds.cbind} function" where 'N'
-#' is the actual number of columns in the output object
-#' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'cbind.newobj' if no name is specified.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return the object specified by the <newobj> argument (or default name <cbind.out>).
-#' which is written to the serverside. Just like the {cbind} function in
-#' native R, the output object is of class matrix unless one or more
-#' of the input objects is a data.frame in which case the class of the
-#' output object is data.frame. In the latter case, if an object of
-#' class matrix is required one may use the {ds.asMatrix} function.
-#' As well as writing the output object as <newobj>
-#' on the serverside, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.cbind() also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("<newobj>") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("<newobj>")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton for DataSHIELD Development Team
+#' is combined column by column to produce a matrix 
+#' that is written to the server-side. 
+#' 
+#' This function is similar to the native function \code{cbind}.
+#' 
+#' In \code{DataSHIELD.checks} the checks are relatively slow. 
+#' Default \code{DataSHIELD.checks} value is FALSE. 
+#' 
+#' If \code{force.colnames} is NULL column names are inferred from the names or column names
+#' of the first object specified in the \code{x} argument.
+#' The vector of column names must have the same number of elements as 
+#' the columns in the output object. 
+#' 
+#' Server function called: \code{cbindDS}
+#' 
+#' @param x a character vector with the  name of the objects to be combined.
+#' @param DataSHIELD.checks logical, if TRUE checks that all
+#' input objects exist and are of an appropriate class.
+#' @param force.colnames can be NULL or a vector of characters that specifies 
+#' column names of the output object.
+#' @param newobj a character string that provides the name for the output variable 
+#' that is stored on the data servers. Defaults \code{cbind.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @param notify.of.progress specifies if console output should be produced to indicate
+#' progress. Default FALSE.
+#' @return \code{ds.cbind} returns a matrix combining the columns of the R 
+#' objects specified in the function which is written to the server-side. 
+#' It also returns to the client-side two messages with the name of \code{newobj}
+#' that has been created in each data source and \code{DataSHIELD.checks} result. 
+#' @examples 
+#' 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki 
+#'   
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#' 
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#' 
+#'   #Combining R objects by columns 
+#'     ds.cbind(x = "D", #data frames in the server-side to be conbined
+#'                       #(see above the connection to the Opal servers)
+#'              DataSHIELD.checks = FALSE,
+#'              force.colnames = NULL,
+#'              newobj = "D.cbind",
+#'              datasources = connections,
+#'              notify.of.progress = FALSE)# All Opal servers are used 
+#'                                         #(see above the connection to the Opal servers)
+#'    
+#'                    
+#'   # Clear the Datashield R sessions and logout  
+#'   datashield.logout(connections) 
+#'   }
+#' 
+#' @author DataSHIELD Development Team
 #' @export
 ds.cbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
 

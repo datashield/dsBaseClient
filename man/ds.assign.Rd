@@ -2,53 +2,72 @@
 % Please edit documentation in R/ds.assign.R
 \name{ds.assign}
 \alias{ds.assign}
-\title{Assigns an object to a name in the server side}
+\title{Assigns an R object to a name in the server-side}
 \usage{
 ds.assign(toAssign = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{toAssign}{a string character, the object to assign or the call to an assign function
-that generates the object to assign.}
+\item{toAssign}{a character string providing the object to assign.}
 
-\item{newobj}{the name of the new object, newobj if unspecified defaults to assign.newobj}
+\item{newobj}{a character string that provides the name for the output object
+that is stored on the data servers. Default \code{assign.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+\code{ds.assign} returns the R object assigned to a name 
+that is written to the server-side.
 }
 \description{
 This function assigns a datashield object to a name, hence creating a new object.
-It also calls 'assign' server side functions to generate objects stored on the server side.
 }
 \details{
-The new object is stored on the remote R instance (i.e. on the server side).
-If no name is provided, the new object is named 'newObject', by default.
+The new object is stored on the server-side.
+
+\code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}. 
+The \code{toAssign} argument is checked at the server and 
+assigned the variable called \code{newobj} on the server-side.
 }
 \examples{
 \dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-  # load that contains the login details
-  data(logindata)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # login and assign specific variable(s)
-  # (by default the assigned dataset is a dataframe named 'D')
-  myvar <- list("LAB_TSC")
-  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-
-  # Example 1: assign the variable 'LAB_TSC' in the dataframe D
-  ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
-
-  # Example2: get the log values of the variable 'LAB_TSC' in D and assign it to 'logTSC'
-  ds.assign(toAssign='log(D$LAB_TSC)', newobj='logTSC')
-
-  # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
-}
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Assign a variable to a name
+  ds.assign(toAssign = "D$LAB_TSC",
+            newobj = "labtsc",
+            datasources = connections[1]) #only the first Opal server is used ("study1")
+                
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+}   
 
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

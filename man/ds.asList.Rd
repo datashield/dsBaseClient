@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.asList.R
 \name{ds.asList}
 \alias{ds.asList}
-\title{Coercing an R object into a list in several Opal servers}
+\title{Converts a server-side R object into a list}
 \usage{
 ds.asList(x.name = NULL, newobj = NULL, datasources = NULL)
 }
@@ -10,7 +10,7 @@ ds.asList(x.name = NULL, newobj = NULL, datasources = NULL)
 \item{x.name}{a character string providing the name of the input object to be coerced to 
 a list.}
 
-\item{newobj}{a character string which provides the name for the output object
+\item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{aslist.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
@@ -19,8 +19,8 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.asList} returns the R object converted into a list 
-which is written to the server-side. In addition, two validity messages are returned
-indicating the name of the \code{newobj} which 
+which is written to the server-side. Also, two validity messages are returned to the
+client-side indicating the name of the \code{newobj} which 
 has been created in each data source and if 
 it is in a valid form.
 }

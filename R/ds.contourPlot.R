@@ -1,110 +1,103 @@
 #'
-#' @title Generates a contour plot
-#' @description Generates a countour plot of the pooled data or one plot for each dataset.
+#' @title Generates a contour plot using server-side data
+#' @description It generates a contour plot of the pooled data or one plot for each dataset.
 #' @details The function first generates a density grid and uses it to plot the graph.
 #' Cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 #' disclosure. A message is printed to inform the user about the number of invalid cells.
+#' 
 #' The ranges returned by each study and used in the process of getting the grid density matrix
-#' are not the exact minumum and maximum values but rather close approximates of the real
+#' are not the exact minimum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
-#' @param x a character, the name of a numerical vector.
-#' @param y a character, the name of a numerical vector.
-#' @param type a character which represents the type of graph to display.
-#' If \code{type} is set to 'combine', a combined contour plot displayed and
-#' if \code{type} is set to 'split', each conntour is plotted separately.
-#' @param show a character which represents where the plot should focus.
-#' If \code{show} is set to 'all', the ranges of the variables are used as plot limits.
-#' If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.
-#' @param numints a number of intervals for a density grid object.
-#' @param method a character which defines which contour will be created. If \code{method}
-#' is set to 'smallCellsRule' (default option), the contour plot of the actual variables is
+#' 
+#' In the \code{k} parameter the user can choose any value for \code{k} equal to or greater 
+#' than the pre-specified threshold used as a disclosure control for this method 
+#' and lower than the number of observations minus the value of this threshold. 
+#' \code{k} default value is  3 (we suggest k to be equal to, or bigger than, 3). 
+#' Note that the function fails if the user
+#' uses the default value but the study has set a bigger threshold. 
+#' The value of \code{k} is used only if the argument \code{method} is set to \code{'deterministic'}. 
+#' Any value of k is ignored if the
+#' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
+#' 
+#' In \code{noise} any value of noise is ignored if
+#' the argument \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. The user can choose
+#' any value for noise equal to or greater than the pre-specified threshold \code{'nfilter.noise'}.
+#' Default noise value is  0.25. 
+#' The added noise follows a normal distribution with zero mean and variance equal to a percentage of
+#' the initial variance of each input variable.
+#' 
+#' Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityGridDS}
+#' 
+#' @param x a character string providing the name of a numerical vector.
+#' @param y a character string providing the name of a numerical vector.
+#' @param type a character string that represents the type of graph to display.
+#' If \code{type} is set to \code{'combine'}, a combined contour plot displayed and
+#' if \code{type} is set to \code{'split'}, each contour is plotted separately.
+#' @param show a character that represents where the plot should focus.
+#' If \code{show} is set to \code{'all'}, the ranges of the variables are used as plot limits.
+#' If \code{show} is set to \code{'zoomed'}, the plot is zoomed to the region where the actual data are.
+#' @param numints number of intervals for a density grid object.
+#' @param method a character that defines which contour will be created. If \code{method}
+#' is set to \code{'smallCellsRule'} (default), the contour plot of the actual variables is
 #' created but grids with low counts are replaced with grids with zero counts. If \code{method} is
-#' set to 'deterministic' the contour of the scaled centroids of each k nearest neighbours of the
+#' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 #' original variables is created, where the value of \code{k} is set by the user. If the
-#' \code{method} is set to 'probabilistic', then the contour of 'noisy' variables is generated. The
-#' added noise follows a normal distribution with zero mean and variance equal to a percentage of
-#' the initial variance of each input variable. This percentage is specified by the user in the
-#' argument \code{noise}.
-#' @param k the number of the nearest neghbours for which their centroid is calculated.
-#' The user can choose any value for k equal to or greater than the pre-specified threshold
-#' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of k is set to be equal to 3
-#' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-#' uses the default value but the study has set a bigger threshold. The value of k is used only
-#' if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
-#' argument \code{method} is set to 'probabilistic' or 'smallCellsRule'.
+#' \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated. 
+#' @param k the number of the nearest neghbours for which their centroid is calculated. For more information
+#' see details. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
-#' the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The user can choose
-#' any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
-#' By default the value of noise is set to be equal to 0.25.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}. 
-#' @return a contour plot
-#' @author Julia Isaeva, Amadou Gaye, Paul Burton, Demetris Avraam for DataSHIELD Development Team
-#' @export
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.contourPlot} returns a contour plot to the client-side. 
+#' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Generating contour plots
 #'
-#'   # load the file that contains the login details
-#'   data(logindata)
-#'
-#'   # login and assign specific variables(s)
-#'   # (by default the assigned dataset is a dataframe named 'D')
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
-#'
-#'   # Example 1: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC'
-#'   # and 'LAB_HDL' using the method 'LowCountsRule' (default method) that applies a stochastic noise
-#'   # in the extreme values of the variables' range.
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL')
-#'
-#'   # Example 2: the same as example 1
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='combine')
-#'
-#'   # Example 3: similar as example 2 but for type='split'
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
-#'
-#'   # Example 4: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC'
-#'   # and 'LAB_HDL' using the method 'deterministic' that plots the exact contour plot of the
-#'   # centroids of each 3 (default number) nearest neighbours.
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
-#'
-#'   # Example 5: the same as example 4
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='combine')
-#'
-#'   # Example 6: similar as example 5 for type='split'
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='split')
-#'
-#'   # Example 7: similar as example 6 for k=7
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
-#'
-#'   # Example 8: similar as example 7 for numints=40
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
-#'                  type='split')
-#'
-#'   # Example 9: Plot a combined (default behaviour) contour plot of the variables 'LAB_TSC'
-#'   # and 'LAB_HDL' using the method 'probabilistic' that plots the exact contour plot of the
-#'   # noisy data
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
-#'
-#'   # Example 10: the same as example 9
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=0.25, type='combine')
-#'
-#'   # Example 11: the same as example 10 but for bigger level of noise
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='combine')
-#'
-#'   # Example 12: the same as example 11 but for type='split'
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='split')
-#'
-#'   # Example 13: if any of the input variables is a factor then the function fails
-#'   ds.contourPlot(x='D$LAB_TSC', y='D$GENDER')
+#'   ds.contourPlot(x = "D$LAB_TSC",
+#'                  y = "D$LAB_HDL",
+#'                  type = "combine", 
+#'                  show = "all",
+#'                  numints = 20,
+#'                  method = "smallCellsRule",  
+#'                  k = 3, 
+#'                  noise = 0.25,
+#'                  datasources = connections)
 #'
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
+#'   datashield.logout(connections)
 #'
 #' }
-#'
+#' @export
 ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
 
   # look for DS connections

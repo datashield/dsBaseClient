@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.asFactor.R
 \name{ds.asFactor}
 \alias{ds.asFactor}
-\title{Converts a server side numeric vector into a factor}
+\title{Converts a server-side numeric vector into a factor}
 \usage{
 ds.asFactor(
   input.var.name = NULL,
@@ -17,11 +17,11 @@ ds.asFactor(
 \item{input.var.name}{a character string which provides 
 the name of the variable to be converted to a factor.}
 
-\item{newobj.name}{a character string which provides the name for the output variable 
+\item{newobj.name}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{asfactor.newobj}.}
 
 \item{forced.factor.levels}{the levels that the user wants to split the input variable. 
-If NULL (default) a vector with all unique levels from all studies is created.}
+If NULL (default) a vector with all unique levels from all studies are created.}
 
 \item{fixed.dummy.vars}{boolean. If TRUE the input variable is converted to a factor 
 but presented as a matrix of dummy variables. 
@@ -30,7 +30,7 @@ is converted to a factor and assigned as a vector.}
 
 \item{baseline.level}{an integer indicating the baseline level 
 to be used in the creation of the matrix with dummy variables. 
-If the \code{fixed.dummy.vars} is set to FALSE then any value of baseline level is not taken
+If the \code{fixed.dummy.vars} is set to FALSE then any value of the baseline level is not taken
 into account.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -40,19 +40,19 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \value{
 \code{ds.asFactor} returns the unique levels of the converted 
 variable in ascending order and a validity 
-message with the name of the created object on the client side and 
-the output matrix or vector in the server side.
+message with the name of the created object on the client-side and 
+the output matrix or vector in the server-side.
 }
 \description{
-This function assigns a server side numeric vector into a factor type.
+This function assigns a server-side numeric vector into a factor type.
 }
 \details{
 Converts a numeric vector into a factor type which is represented either as a vector
-or as a matrix of dummy variables dependending on the argument \code{fixed.dummy.vars}.
-The matrix of dummy variables also depends on argument
+or as a matrix of dummy variables depending on the argument \code{fixed.dummy.vars}.
+The matrix of dummy variables also depends on the argument
 \code{baseline.level}. 
 
-To understand how the matrix of dummy variable is created let's assume that we have the vector
+To understand how the matrix of the dummy variable is created let's assume that we have the vector
 \code{(1, 2, 1, 3, 4, 4, 1, 3, 4, 5)} of ten integer numbers. 
 If we set the argument \code{fixed.dummy.vars = TRUE},
 \code{baseline.level = 1} and \code{forced.factor.levels = c(1,2,3,4,5)}. 
@@ -98,14 +98,14 @@ first (\code{DV1}) column and zeros elsewhere,
 indicating again that the first data point belongs to level 1.
 Also as we can see the fourth row of the second matrix has all its elements equal 
 to zero indicating that the
-fourth data point belongs to level 3 (as the baseline level in that case is 3).
+fourth data point belongs to level 3 (as the baseline level, in that case, is 3).
 
 If the \code{baseline.level} is set to be equal to a value 
 that is not one of the levels of the factor then a
-matrix of dummy variables is created having as many columns as the number of levels are.
+matrix of dummy variables is created having as many columns as the number of levels.
 In that case in each row there is a unique entry equal to 1 at a 
 certain column indicating the level of each data point. So, for the
-above example where the vector has five levels,
+above example where the vector has five levels
 if we set the \code{baseline.level} equal to a value that does not
 belong to those five levels (\code{baseline.level=8}) 
 the matrix of dummy variables is:
@@ -125,7 +125,7 @@ the matrix of dummy variables is:
 }
 
 
-Server functions called:  asFactorDS1
+Server functions called: \code{asFactorDS1} and \code{asFactorDS2}
 }
 \examples{
 \dontrun{

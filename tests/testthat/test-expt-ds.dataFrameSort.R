@@ -8,15 +8,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-#
-# Tests
-#
+source('connection_to_datasets/init_testing_datasets.R')
+source('definition_tests/def-ds.dataFrameSort.R')
 
-ds_expect_variables <- function(expected.variables)
+###!!! test the data frame creation
+
+
+
+context("ds.dataFrameSort()::expt::numeric::increasing")
+test_that("combined data set",
 {
-    studies.current.varables <- ds.ls()
+  connect.all.datasets()
+  .sort.numeric.increasing("D","INTEGER")
+})
 
-    for (study.current.varables in studies.current.varables) {
-        expect_setequal(study.current.varables$objects.found, expected.variables)
-    }
-}
+

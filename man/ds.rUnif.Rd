@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rUnif.R
 \name{ds.rUnif}
 \alias{ds.rUnif}
-\title{Generates Uniform  distribution in several Opal servers}
+\title{Generates Uniform  distribution in the server-side}
 \usage{
 ds.rUnif(
   samp.size = 1,
@@ -19,24 +19,24 @@ ds.rUnif(
 \item{samp.size}{an integer value or an integer vector that defines the 
 length of the random numeric vector to be created in each source.}
 
-\item{min}{a numeric scalar which specifies the minimum value of the 
+\item{min}{a numeric scalar that specifies the minimum value of the 
 random numbers in the distribution.}
 
-\item{max}{a numeric scalar which specifies the maximum value of the 
+\item{max}{a numeric scalar that specifies the maximum value of the 
 random numbers in the distribution.}
 
-\item{newobj}{a character string which provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{newObject}.}
 
 \item{seed.as.integer}{an integer or a NULL value which provides the random 
 seed in each data source.}
 
-\item{return.full.seed.as.set}{logical, if TRUE will returns the full random number 
+\item{return.full.seed.as.set}{logical, if TRUE will return the full random number 
 seed in each data source (a numeric vector of length 626). If FALSE it will only 
-returns the trigger seed value you have provided. Default is FALSE.}
+return the trigger seed value you have provided. Default is FALSE.}
 
 \item{force.output.to.k.decimal.places}{an integer or 
-an integer vector which forces the output random 
+an integer vector that forces the output random 
 numbers vector to have k decimals.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -45,54 +45,55 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.Unif} returns random number vectors with a uniform distribution for each study,
-taking into account the values specified in each parameter of the function. If requested, 
-it also gives the full 626 length random seed vector generated in each source 
-(see info for the argument <return.full.seed.as.set>).
+taking into account the values specified in each parameter of the function.
+The created vectors are stored in the server-side. If requested, it also returned to the 
+client-side the full 626 lengths random seed vector generated in each source
+(see info for the argument \code{return.full.seed.as.set}).
 }
 \description{
 Generates uniformly distributed random (pseudorandom) scalar numbers.
- In addition, \code{ds.rUnif} allows to create different vector length in each server.
+Besides, \code{ds.rUnif} allows creating different vector lengths in each server.
 }
 \details{
-Creates a vector of pseudorandom numbers distributed 
+It creates a vector of pseudorandom numbers distributed 
 with a uniform probability in each data source. 
 The \code{ds.Unif} function's arguments specify 
 the minimum and maximum of the uniform distribution 
 and the length and the seed of the output vector in each source.
 
-To specify different \code{min} value in each source, 
+To specify different \code{min} values in each source, 
 you can use a character vector \code{(..., min="vector.of.mins"...)}
 or the \code{datasources} parameter to create the random vector for one source at a time, 
 changing the \code{min} value as required.
 Default value for \code{min = 0}. 
 
-To specify different \code{max} value in each source, 
+To specify different \code{max} values in each source, 
 you can use a character vector \code{(..., max="vector.of.maxs"...)}
 or the \code{datasources} parameter to create the random vector for one source at a time, 
 changing the \code{max} value as required.
 Default value for \code{max = 1}. 
 
 If \code{seed.as.integer} is an integer 
-e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+e.g. 5 and there is more than one source (N) the seed is set as 5*N. 
 For example, in the first study the seed is set as 938*1, 
 in the second as  938*2  
 up to 938*N in the Nth study.
 
 If \code{seed.as.integer} is set as 0 all sources will start with the seed value
-0 and all the random number generators will therefore start from the same position. 
-In addition, to use the same starting seed in all studies but do not wish it to
+0 and all the random number generators will, therefore, start from the same position. 
+Also, to use the same starting seed in all studies but do not wish it to
 be 0, you can use \code{datasources} argument to generate 
 the random number vectors one source at  a time. 
 
 In \code{force.output.to.k.decimal.places} the range of k is 1-8 decimals. 
-If \code{k = 0} the output random numbers are forced  to integer.  
+If \code{k = 0} the output random numbers are forced to an integer.  
 If \code{k = 9}, no rounding of output numbers occurs. 
 The default value of \code{force.output.to.k.decimal.places = 9}.
 If you wish to generate integers with equal probabilities in the range 1-10
 you should specify  \code{min = 0.5} and \code{max = 10.5}. 
 Default value for \code{k = 9}.
 
-Server functions called: rUnifDS and setSeedDS.
+Server functions called: \code{rUnifDS} and \code{setSeedDS}.
 }
 \examples{
 
@@ -150,5 +151,5 @@ Server functions called: rUnifDS and setSeedDS.
  
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }
