@@ -2,47 +2,70 @@
 % Please edit documentation in R/ds.corTest.R
 \name{ds.corTest}
 \alias{ds.corTest}
-\title{Tests for correlation between paired samples}
+\title{Tests for correlation between paired samples in the server-side}
 \usage{
 ds.corTest(x = NULL, y = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of a numerical vector}
+\item{x}{a character string providing  the name of a numerical vector.}
 
-\item{y}{a character, the name of a numerical vector}
+\item{y}{a character string providing  the name of a numerical vector.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a list containing the results of the test
+\code{ds.corTest} returns to the client-side the results of the Pearson test.
 }
 \description{
-This is similar to the R base function 'cor.test'.
+This is similar to the R base function \code{cor.test}.
 }
 \details{
-Runs a two sided pearson test with a 0.95 confidence level.
+Runs a two-sided Pearson test with a 0.95 confidence level.
+
+Server function called: \code{cor.test}
 }
 \examples{
 \dontrun{
 
-  # load that contains the login details
-  data(logindata)
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-  # login and assign specific variable(s)
-  # (by default the assigned dataset is a dataframe named 'D')
-  myvar <- list('LAB_TSC', 'LAB_HDL')
-  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # test for correlation between the variables 'LAB_TSC' and 'LAB_HDL'
-  ds.corTest(x='D$LAB_TSC', y='D$LAB_HDL')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # test for correlation
+  ds.corTest(x = "D$LAB_TSC",
+             y = "D$LAB_HDL",
+             datasources = connections[1]) #Only first server is used ("study1")
+                
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+}   
 
-  # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
-}
 
 }
 \author{
-Gaye, A.; Burton, P.
+DataSHIELD Development Team
 }

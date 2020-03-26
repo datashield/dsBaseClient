@@ -1,76 +1,109 @@
-#' @title ds.dataFrameSubset calling dataFrameSubsetDS1 and dataFrameSubsetDS2
-#' @description Subsets a data frame by row or by column.
-#' @details A data frame is a list of variables all with the same number of rows,
-#' which is of class 'data.frame'. ds.dataFrameSubset will subset a
-#' pre-existing data.frame by specifying the values of a subsetting variable
-#' (subsetting by row) or by selecting columns to keep or remove (subsetting
-#' by column). When subsetting by row, the resultant subset must strictly be
-#' as large or larger than the disclosure trap value nfilter.subset. If you
-#' wish to keep all rows in the subset (e.g. if the primary plan is to subset by column
-#' not by row) then V1.name can be used to specify a vector of the same length
-#' as the data.frame to be subsetted in each study in which every
-#' element is 1 and there are no NAs. Such a vector can be created as follows:
-#' First identify a convenient numeric variable with no missing values (typically a numeric
-#' individual ID) let us call it indID, which is equal in length to the data.frame
-#' to be subsetted. Then use the ds.make() function with the call
-#' ds.make('indID-indID+1','ONES'). This creates a vector of ones (called 'ONES')
-#' in each source equal in length to the indID vector in that source.
-#' @param df.name a character string providing the name for the data.frame
-#' from where the subset is created.
-#' @param V1.name A character string specifying the name of a subsetting vector
-#' to which a Boolean operator will be applied to define the subset to be created. Note
-#' if the plan is to subset by column using ALL rows, then <V1.name>
-#' might, for example, specify a vector consisting all of ones (see 'details' for how
-#' to create such a vector.
-#' @param V2.name A character string specifying the name of the vector
-#' or scalar to which the values in the vector specified by the argument <V1.name>
-#' is to be compared. So, for example, if <V2.name>
-#' is a scalar (e.g. '4')
-#' and the <Boolean.operator> argument is '<=', the subset data.frame that is created
-#' will include all rows that correspond to a value of 4 or less in the subsetting
-#' vector specified by the <V1.name> argument. If <V2.name> specifies a vector
-#' (which must be of strictly the same length as the vector specified by <V1.name>)
-#' and the <Boolean.operator> argument is '==', the subset data.frame that is
-#' created will include
-#' all rows in which the values in the vectors specified by <V1.name> and <V2.name>
-#' are equal. If you are subsetting by column and want to keep all rows in the final subset,
-#' <V1.name> can be specified as indicating a "ONES" vector created as described (above)
-#' under 'details', <V2.name> can be specified as the scalar "1" and the <Boolean operator>
-#' argument can be specified as "=="
+#' @title Subsetting data frames in the server-side
+#' @description Subsets a data frame by rows and/or by columns.
+#' @details Subset a pre-existing data frame using the standard 
+#' set of Boolean operators (\code{==, !=, >, >=, <, <=}). 
+#' The  subsetting is made by rows, but it is also possible to select
+#' columns to keep or remove. Instead, if you
+#' wish to keep all rows in the subset (e.g. if the primary plan is to subset by columns
+#' and not by rows) the \code{V1.name} and \code{V2.name} parameters can be used 
+#' to specify a vector of the same length
+#' as the data frame to be subsetted in each study in which every element is 1 and 
+#' there are no missing values. For more information see the example 2 below. 
+#' 
+#' Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
+#' 
+#' @param df.name a character string providing the name of the data frame to be subseted. 
+#' @param V1.name  A character string specifying the name of the vector 
+#' to which the Boolean operator is to be applied to define the subset.
+#' For more information see details. 
+#' @param V2.name A character string specifying the name of the vector to compare 
+#' with \code{V1.name}.
 #' @param Boolean.operator A character string specifying one of six possible Boolean operators:
-#' '==', '!=', '>', '>=', '<', '<='
+#' \code{'==', '!=', '>', '>=', '<'} and \code{'<='}. 
 #' @param keep.cols a numeric vector specifying the numbers of the columns to be kept in the
-#' final subset when subsetting by column. For example: keep.cols=c(2:5,7,12) will keep
-#' columns 2,3,4,5,7 and 12.
-#' @param rm.cols a numeric vector specifying the numbers of the columns to be removed before
-#' creating the final subset when subsetting by column. For example: rm.cols=c(2:5,7,12)
-#' will remove columns 2,3,4,5,7 and 12.
-#' @param keep.NAs logical, if TRUE any NAs in the vector holding the final Boolean vector
-#' indicating whether a given row should be included in the subset will be converted into
-#' 1s and so they will be included in the subset. Such NAs could be caused by NAs in
-#' either <V1.name> or <V2.name>. If FALSE or NULL NAs in the final Boolean vector will
-#' be converted to 0s and the corresponding row will therefore be excluded from the subset.
-#' @param newobj This a character string providing a name for the subset
-#' data.frame representing the primary output of the ds.dataFrameSubset() function.
-#' This defaults to 'dataframesubset.newobj' if no name is specified
-#' where <df.name> is the first argument of ds.dataFrameSubset()
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return the object specified by the <newobj> argument (or default name '<df.name>_subset').
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataFrame() also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' final subset.
+#' @param rm.cols a numeric vector specifying the numbers of the columns to be removed from 
+#' the final subset.
+#' @param keep.NAs logical, if TRUE the missing values are included in the subset. 
+#' If FALSE or NULL all rows with at least one missing values are removed from the subset. 
+#' @param newobj a character string that provides the name for the output 
+#' object that is stored on the data servers. Default \code{dataframesubset.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
+#' If the \code{datasources}
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @param notify.of.progress specifies if console output should be produced to indicate
+#' progress. Default FALSE.
+#' @return \code{ds.dataFrameSubset} returns
+#' the object specified by the \code{newobj} argument
+#' which is written to the server-side. 
+#' Also, two validity messages are returned to the client-side indicating
+#' the name of the \code{newobj} which has been created in each data source
+#'  and if it is in a valid form.
+#' @examples 
+#' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Subsetting a data frame
+#'   #Example 1: Include some rows and all columns in the subset
+#'   ds.dataFrameSubset(df.name = "D",
+#'                      V1.name = "D$LAB_TSC",
+#'                      V2.name = "D$LAB_TRIG",
+#'                      Boolean.operator = ">",
+#'                      keep.cols = NULL, #All columns are included in the new subset
+#'                      rm.cols = NULL, #All columns are included in the new subset
+#'                      keep.NAs = FALSE, #All rows with NAs are removed
+#'                      newobj = "new.subset",
+#'                      datasources = connections[1],#only the first server is used ("study1")
+#'                      notify.of.progress = FALSE)
+#'   #Example 2: Include all rows and some columns in the new subset
+#'     #Select complete cases (rows without NA)
+#'     ds.completeCases(x1 = "D",
+#'                      newobj = "complet",
+#'                      datasources = connections)
+#'     #Create a vector with all ones
+#'     ds.make(toAssign = "complet$LAB_TSC-complet$LAB_TSC+1",
+#'             newobj = "ONES",
+#'             datasources = connections) 
+#'     #Subset the data
+#'     ds.dataFrameSubset(df.name = "complet",
+#'                        V1.name = "ONES",
+#'                        V2.name = "ONES",
+#'                        Boolean.operator = "==",
+#'                        keep.cols = c(1:4,10), #only columns 1, 2, 3, 4 and 10 are selected
+#'                        rm.cols = NULL,
+#'                        keep.NAs = FALSE,
+#'                        newobj = "subset.all.rows",
+#'                        datasources = connections, #all servers are used
+#'                        notify.of.progress = FALSE)                
+#'                      
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
 #' @author DataSHIELD Development Team
 #' @export
 
