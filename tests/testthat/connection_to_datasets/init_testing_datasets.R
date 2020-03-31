@@ -173,6 +173,36 @@ init.testing.dataset.factor_levels <- function()
   }
 }
 
+init.testing.dataset.factor_levels.1 <- function()
+{
+  log.out.data.server()
+  if (ds.test_env$secure_login_details)
+  {
+    ds.test_env$local.values.1 <- read.csv("data_files/TESTING/DATASET1.csv", header = TRUE)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      ds.test_env$server <- c("GROUP1")
+      ds.test_env$url <- c(ds.test_env$ip_address_1)
+      ds.test_env$user <- c(ds.test_env$user_1)
+      ds.test_env$password <- c(ds.test_env$password_1)
+      ds.test_env$table <- c("FACTOR_LEVELS.FACTOR_LEVELS1")
+      ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
+                                                                    ds.test_env$url,
+                                                                    ds.test_env$table,
+                                                                    ds.test_env$user,
+                                                                    ds.test_env$password,
+                                                                    .silent = TRUE)
+    }
+    else
+    {
+      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
+      ds.test_env$login.data <- subset(login.data, server=="study1")
+    }  
+    ds.test_env$stats.var <- list('ID', 'COLOURS', 'COLOURS.NUMBERS', 'POSITIVE.NUMBERS', 'NEGATIVE.NUMBERS', 'NUMBERS',
+                                  'POSITIVE.DECIMAL', 'NEGATIVE.DECIMAL', 'DECIMAL', 'PLANETS.CHARACTERS')
+  }
+}
+
 log.in.data.server <- function()
 {
   #print(ds.test_env$login.data)
@@ -230,6 +260,14 @@ connect.testing.dataset.factor_levels <- function()
   log.in.data.server()
 }
 
+connect.testing.dataset.factor_levels.1 <- function()
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.testing.dataset.factor_levels.1()
+  log.in.data.server()
+}
+
 disconnect.all.datasets <- function()
 {
     log.out.data.server()
@@ -251,6 +289,11 @@ disconnect.dataset.3 <- function()
 }
 
 disconnect.testing.dataset.factor_levels <- function()
+{
+  log.out.data.server()
+}
+
+disconnect.testing.dataset.factor_levels.1 <- function()
 {
   log.out.data.server()
 }
