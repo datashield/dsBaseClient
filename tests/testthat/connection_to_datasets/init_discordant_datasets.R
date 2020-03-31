@@ -4,7 +4,7 @@ init.discordant.dataset.simple <- function(variables)
     {
       if (ds.test_env$driver == "OpalDriver")
       {
-        builder <- DSI::newDSLoginBuilder()
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
         builder$append(server = "discordant1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DISCORDANT.DISCORDANT_STUDY1")
         builder$append(server = "discordant2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DISCORDANT.DISCORDANT_STUDY2")
         builder$append(server = "discordant3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DISCORDANT.DISCORDANT_STUDY3")
