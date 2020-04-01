@@ -72,8 +72,6 @@ test_that("alternative formulae for nested groups", {
 # Switch to slope dataset
 #
 
-ds.ls()
-
 context("ds.glmerSLMA::arg::switch")
 
 disconnect.studies.dataset.cluster.int()
