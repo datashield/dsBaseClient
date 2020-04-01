@@ -88,12 +88,12 @@ context("ds.dataFrameSubset()::expt::multiple::some_columns::without_NA")
 test_that("numeric data",
 { 
  connect.all.datasets()
-  subset.by.cols.nonNA("D","INTEGER",1:4,"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
-  subset.by.cols.nonNA("D","NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
-  subset.by.cols.nonNA("D","NON_NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
-  subset.by.cols.nonNA("D","NUMERIC",c(3:7,10,15),"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
-  subset.by.cols.nonNA("D","POSITIVE_NUMERIC",c(2:5,12:18),"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
-  subset.by.cols.nonNA("D","NON_NEGATIVE_NUMERIC",c(1:7,13:18),"subset.server",local.df.list,list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","INTEGER",1:4,"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","NON_NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","NUMERIC",c(3:7,10,15),"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","POSITIVE_NUMERIC",c(2:5,12:18),"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
+  subset.by.cols.nonNA("D","NON_NEGATIVE_NUMERIC",c(1:7,13:18),"subset.server",list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1]))
   
 })
 
