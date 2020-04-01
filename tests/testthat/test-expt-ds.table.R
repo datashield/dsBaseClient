@@ -15,7 +15,7 @@ context("ds.table::expt::single")
 test_that("combined data set",
 {
   #PRW AND ALEX WILL WRITE SOME CONNECT AND DISCONNECT FUNCTIONS ONCE WE KNOW THE DATA ARE SUITABLE   - TO DO IMPORTANT !!!!!!!! COMPLETELY INEFFICIENT AT THE MOMENT 17/2/2020
-  #builder <- DSI::newDSLoginBuilder()
+  #builder <- DSI::newDSLoginBuilder(.silent = TRUE)
   #builder$append(server = "study1", url = "http://192.168.56.100:8080/", user = "administrator", password = "datashield_test&", table = "TESTING_GROUP.GROUP1", driver = "OpalDriver")    
   #builder$append(server = "study2", url = "http://192.168.56.100:8080/", user = "administrator", password = "datashield_test&", table = "TESTING_GROUP.GROUP2", driver = "OpalDriver")
   #logindata <- builder$build()
