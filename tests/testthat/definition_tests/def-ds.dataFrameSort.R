@@ -21,7 +21,7 @@ data.frame.name<-"TestData" #this parameter needs to change when creating the fu
 local.df<-list(dataset1,dataset2,dataset3)
 
 ## Connecting to the Opal servers
-builder <- DSI::newDSLoginBuilder()
+builder <- DSI::newDSLoginBuilder(.silent = TRUE)
 builder$append(server = "study1", 
                url = "http://192.168.56.100:8080/", 
                user = "administrator", password = "datashield_test&", 
