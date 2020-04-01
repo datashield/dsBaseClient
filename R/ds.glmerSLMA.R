@@ -275,7 +275,6 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
  if(!is.null(control_type) && is.null(control_value))
 	{
 	errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
-	print(errorMessage.cv)
 	return(list(errorMessage=errorMessage.cv))
 	}
 

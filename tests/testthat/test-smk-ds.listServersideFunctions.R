@@ -41,7 +41,7 @@ test_that("check results", {
       "glmDS2", "glmSLMADS2", "histogramDS1", "is.character",
       "is.factor", "is.list", "is.null", "is.numeric",
       "isNaDS", "isValidDS", "length", "lengthDS",
-      "levels", "lexisDS1", "listDisclosureSettingsDS", "ls",
+      "levels", "lexisDS1", "listDisclosureSettingsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "recodeValuesDS1", "rmDS", "scatterPlotDS",
@@ -50,7 +50,7 @@ test_that("check results", {
       "testObjExistsDS", "varDS"
     ))
 
-    res <- ds.listServersideFunctions()
+    expect_warning(res <- ds.listServersideFunctions(), "'ds.listServersideFunctions' is deprecated.", fixed=TRUE)
 
     expect_length(res, 2)
     expect_length(res$serverside.assign.functions, 7)

@@ -4,17 +4,11 @@ init.discordant.dataset.simple <- function(variables)
     {
       if (ds.test_env$driver == "OpalDriver")
       {
-        ds.test_env$server <- c("discordant1", "discordant2", "discordant3")
-        ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
-        ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
-        ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
-        ds.test_env$table <- c("DISCORDANT.DISCORDANT_STUDY1", "DISCORDANT.DISCORDANT_STUDY2", "DISCORDANT.DISCORDANT_STUDY3")
-        ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                      ds.test_env$url,
-                                                                      ds.test_env$table,
-                                                                      ds.test_env$user,
-                                                                      ds.test_env$password,
-                                                                      .silent = TRUE)
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+        builder$append(server = "discordant1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DISCORDANT.DISCORDANT_STUDY1")
+        builder$append(server = "discordant2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DISCORDANT.DISCORDANT_STUDY2")
+        builder$append(server = "discordant3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DISCORDANT.DISCORDANT_STUDY3")
+        ds.test_env$login.data <- builder$build()
       }
       else 
       {
