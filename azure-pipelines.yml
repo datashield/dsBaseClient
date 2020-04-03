@@ -94,10 +94,9 @@ jobs:
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       # sudo R -q -e "options(Ncpus=2);install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE)"
       
-      sudo R -q -e "devtools::install_github(repo='obiba/opalr', ref='master', dependencies=TRUE)"
-      sudo R -q -e "devtools::install_github(repo='datashield/DSI', ref='master', dependencies=TRUE)"
-      sudo R -q -e "devtools::install_github(repo='datashield/DSOpal', ref='master', dependencies=TRUE)"
-      sudo R -q -e "devtools::install_github(repo='datashield/DSLite', ref='master', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSI', ref='1.0.x', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSOpal', ref='1.0.x', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSLite', ref='1.0.x', dependencies=TRUE)"
     displayName: 'Install R client'
 
   - bash: |
