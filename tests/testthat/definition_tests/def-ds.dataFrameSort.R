@@ -43,19 +43,19 @@ connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol =
 ## Testing
 
   #Test the sorted data frame creation in the server
-.test.data.frame.creation<-function(data.frame.name,key.name){
+.test.data.frame.creation<-function(initial.df.name,key.name,df.created){
     # Create a sort data frame
-    sort.key.name<-paste(data.frame.name,key.name,sep="$")
-    ds.dataFrameSort(df.name = data.frame.name,
+    sort.key.name<-paste(initial.df.name,key.name,sep="$")
+    ds.dataFrameSort(df.name = initial.df.name,
                    sort.key.name = sort.key.name,
                    sort.descending = FALSE,
                    sort.alphabetic = FALSE,
                    sort.numeric = TRUE,
-                   newobj ="data.frame.name",
-                   datasources = connections)
-    type <- ds.class(data.frame.name)
-    exists <- ds.exists(data.frame.name)
-    cols.name <- ds.colnames(data.frame.name)
+                   newobj =df.created,
+                   datasources = ds.test_env$connections)
+    type <- ds.class(df.created, datasources = ds.test_env$connections)
+    exists <- ds.exists(df.created, datasources = ds.test_env$connections)
+    cols.name <- ds.colnames(df.created,datasources = ds.test_env$connections)
   
     expect_true(type[[1]][1]=="data.frame")
   
@@ -66,30 +66,34 @@ connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol =
   
     for (i in 1:length(cols.name))
     {
-        expect_equal(cols.name[[i]],colnames(local.df[[i]]))
+        expect_equal(cols.name[[i]],ds.colnames(initial.df.name, datasources = ds.test_env$connections)[[1]],ds.test_env$tolerance)
       }
   
   }
 
 
 
-.sort.numeric.increasing<-function(data.frame.name,key.name){
+.sort.numeric.increasing<-function(initial.df.name,key.name,df.created,local.df.list){
+  #Order the column names of the local data frames as in the server data frames
+  for(i in 1:length(local.df.list)){
+    local.df.list[[i]]<-local.df.list[[i]][,ds.colnames(initial.df.name,datasources = ds.test_env$connections)[[i]]]
+  }
   # Sort local dfs
   sort.local<-list()
-  for(i in 1:length(local.df)){
-      sort.local[[i]]<-local.df[[i]][order(local.df[[i]][,key.name]),]
+  for(i in 1:length(local.df.list)){
+      sort.local[[i]]<-local.df.list[[i]][order(local.df.list[[i]][,key.name]),]
   }
   # Sort server dfs
-  sort.key.name<-paste(data.frame.name,key.name,sep="$")
-  ds.dataFrameSort(df.name = data.frame.name,
+  sort.key.name<-paste(initial.df.name,key.name,sep="$")
+  ds.dataFrameSort(df.name = initial.df.name,
                    sort.key.name = sort.key.name,
                    sort.descending = FALSE,
                    sort.alphabetic = FALSE,
                    sort.numeric = TRUE,
-                   newobj ="sort.server.numeric.increasing",
+                   newobj =df.created,
                    datasources = connections)
     # Upload server-side testing data frames in the client-side (danger function)
-    server.data<-ds.DANGERdfEXTRACT("sort.server.numeric.increasing")
+    server.data<-ds.DANGERdfEXTRACT(df.created,datasources = ds.test_env$connections )
     server.data<-server.data$study.specific.df
     
   #test if the local data and server data is the same 
@@ -100,23 +104,27 @@ connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol =
   
 }
 
-.sort.numeric.descending<-function(data.frame.name,key.name){
+.sort.numeric.descending<-function(initial.df.name,key.name,df.created,local.df.list){
+  #Order the column names of the local data frames as in the server data frames
+  for(i in 1:length(local.df.list)){
+    local.df.list[[i]]<-local.df.list[[i]][,ds.colnames(initial.df.name,datasources = ds.test_env$connections)[[i]]]
+  }
   # Sort local dfs
   sort.local<-list()
-  for(i in 1:length(local.df)){
-    sort.local[[i]]<-local.df[[i]][order(local.df[[i]][,key.name],decreasing = TRUE),]
+  for(i in 1:length( local.df.list)){
+    sort.local[[i]]<- local.df.list[[i]][order( local.df.list[[i]][,key.name],decreasing = TRUE),]
   }
   # Sort server dfs
-  sort.key.name<-paste(data.frame.name,key.name,sep="$")
-  ds.dataFrameSort(df.name = data.frame.name,
+  sort.key.name<-paste(initial.df.name,key.name,sep="$")
+  ds.dataFrameSort(df.name = initial.df.name,
                    sort.key.name = sort.key.name,
                    sort.descending = TRUE,
                    sort.alphabetic = FALSE,
                    sort.numeric = TRUE,
-                   newobj ="sort.server.numeric.descending",
-                   datasources = connections)
+                   newobj =df.created,
+                   datasources =  ds.test_env$connections)
   # Upload server-side testing data frames in the client-side (danger function)
-  server.data<-ds.DANGERdfEXTRACT("sort.server.numeric.descending")
+  server.data<-ds.DANGERdfEXTRACT(df.created,ds.test_env$connections)
   server.data<-server.data$study.specific.df
   
   #test if the local data and server data is the same 

@@ -23,3 +23,6 @@ test_that("combined data set",
 })
 
 
+
+.sort.numeric.increasing "sort.server.numeric.increasing"
+.sort.numeric.descending "sort.server.numeric.descending"
