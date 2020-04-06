@@ -135,7 +135,7 @@ connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol =
 }
 
 
-.sort.lphabetic.increasing<-function(data.frame.name,key.name){
+.sort.alphabetic.increasing<-function(data.frame.name,key.name){
   # Sort local dfs
   sort.local<-list()
   for(i in 1:length(local.df)){
