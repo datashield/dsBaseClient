@@ -11,18 +11,54 @@
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
 
-###!!! test the data frame creation
+context("ds.dataFrameSort()::expt::multiple::df::creation")
+test_that('numeric data',
+          {  
+            connect.all.datasets()
+            .test.data.frame.creation("D","INTEGER",TRUE,"numeric","server.data")
+          })
+context("ds.dataFrameSort()::expt::multiple::numeric::ascending")
+test_that('numeric data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
+          })
+context("ds.dataFrameSort()::expt::multiple::numeric::descending")
+test_that('numeric data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
+          })
+context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
+test_that('numeric data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+          })
+context("ds.dataFrameSort()::expt::multiple::alphabetic::descending")
+test_that('numeric data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+          })
+context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
+test_that('character data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
+          })
+context("ds.dataFrameSort()::expt::multiple::alphabetic::descending")
+test_that('character data',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
+          })
 
 
 
-context("ds.dataFrameSort()::expt::numeric::increasing")
-test_that("combined data set",
-{
-  connect.all.datasets()
-  .sort.numeric.increasing("D","INTEGER")
-})
-
-
-
-.sort.numeric.increasing "sort.server.numeric.increasing"
-.sort.numeric.descending "sort.server.numeric.descending"

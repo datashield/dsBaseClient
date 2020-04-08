@@ -108,7 +108,7 @@ with missing values at each pair separately and then calculates the correlations
          y = 'gender',
          naAction = 'pairwise.complete',
          type = 'combine',
-         datasources = connections[1]) #only the first Opal server is used ("study1")
+         datasources = connections[1])#only the first Opal server is used ("study1")
 
   # clear the Datashield R sessions and logout
   datashield.logout(connections)

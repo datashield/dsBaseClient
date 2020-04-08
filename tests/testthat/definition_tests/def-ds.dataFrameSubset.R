@@ -21,20 +21,25 @@
     expect_true(exists[[i]])
   }
   
+  ###Test if the length of exists==connections lengths
+  
   for (i in 1:length(cols.name))
   {
     expect_equal(cols.name[[i]],ds.colnames(initial.df.name, datasources = ds.test_env$connections)[[1]],ds.test_env$tolerance)
   }
 }
 
+
 subset.by.rows.NA<-function(initial.df.name,V1.name,V2.name,boole,df.created,local.df.list){
   #Order the column names of the local data frames as in the server data frames
-  for(i in 1:length(local.df.list)){
+  for(i in 1:length(local.df.list))
+    {
     local.df.list[[i]]<-local.df.list[[i]][,ds.colnames(initial.df.name,datasources = ds.test_env$connections)[[i]]]
-  }
+    }
   #Local subset
   df.subset.local<-list ()
-  for (i in 1:length(local.df.list)){
+  for (i in 1:length(local.df.list))
+    {
   sub.local.text<-paste0("local.df.list","[[",i,"]]","$",V1.name,boole,"local.df.list","[[",i,"]]","$",V2.name)
   select.local.vec<-eval(parse(text=sub.local.text))
   select.local.vec[is.na(select.local.vec)==1]<-TRUE
@@ -53,9 +58,11 @@ subset.by.rows.NA<-function(initial.df.name,V1.name,V2.name,boole,df.created,loc
   #testing
   for (i in 1:length(df.subset.local))
   {
-    expect_equal(dim(df.subset.local[[i]]),ds.dim(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
+    expect_equal(dim(df.subset.local[[i]]),
+                 ds.dim(df.created, datasources = ds.test_env$connections)[[i]],
+                 ds.test_env$tolerance)
   }
-  
+##Look the variance, mean, max and min 
 }
 
 subset.by.rows.noNA<-function(initial.df.name,V1.name,V2.name,boole,df.created,local.df.list){
