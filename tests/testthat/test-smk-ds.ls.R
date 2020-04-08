@@ -44,7 +44,7 @@ test_that("simple ls", {
 })
 
 #
-# Done
+# Shutdown
 #
 
 context("ds.ls::smk::shutdown")
@@ -55,4 +55,8 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.ls::smk::down")
+#
+# Done
+#
+
+context("ds.ls::smk::done")
