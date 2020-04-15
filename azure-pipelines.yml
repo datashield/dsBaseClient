@@ -333,6 +333,8 @@ jobs:
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
 
+      git checkout master
+
       #git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
       # Make the directories if they dont already exist
