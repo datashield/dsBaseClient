@@ -361,8 +361,8 @@ jobs:
       git add logs/$(projectName)/$(branchName)/$(datetime).txt
 
       git commit -m "Azure auto test for $(projectName)/$(branchName) @ $(datetime)" -m "Much longer debug info here."
-      #git push
-      git push origin master
+      git push
+      #git push origin master
       exit 0
       
     workingDirectory: $(Pipeline.Workspace)/testStatus
