@@ -8,18 +8,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
+
+context("ds.dataFrameSort::expt::setup")
+
 source('connection_to_datasets/init_testing_datasets.R')
-source('definition_tests/def-ds.dataFrameSort.R')
+#source('definition_tests/def-ds.dataFrameSort.R')
 
 ###!!! test the data frame creation
 
-
-
-context("ds.dataFrameSort()::expt::numeric::increasing")
+context("ds.dataFrameSort::expt::numeric::increasing")
 test_that("combined data set",
 {
   connect.all.datasets()
-  .sort.numeric.increasing("D","INTEGER")
+#  .sort.numeric.increasing("D","INTEGER")
 })
 
-
+context("ds.dataFrameSort::expt::done")
