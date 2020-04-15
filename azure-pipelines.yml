@@ -65,7 +65,7 @@ jobs:
     repoName:    $(Build.Repository.Name)
     projectName: 'dsBaseClient'
     branchName:  $(Build.SourceBranchName)
-    test_filter: 'ds.asNumeric*'
+    test_filter: '*'
 
 
   steps:
@@ -333,9 +333,8 @@ jobs:
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
 
+      # This repo is checked out in detatched head state, so reconnect it here.
       git checkout master
-
-      #git clone https://datashield:$(GHPAT)@github.com/datashield/testStatus.git testStatus
 
       # Make the directories if they dont already exist
       mkdir --parents logs/$(projectName)/$(branchName)
@@ -349,7 +348,7 @@ jobs:
 
       # status.py JUnit_file.xml coverage_file.csv output_file.html local_repo_path remote_repo_name branch
       source/status.py logs/$(projectName)/$(branchName)/$(datetime).xml logs/$(projectName)/$(branchName)/$(datetime).csv status.html $(Pipeline.Workspace)/$(projectName) $(projectName) $(branchName)
-      #cd testStatus
+
       cp status.html docs/$(projectName)/$(branchName)/latest/index.html
 
       git add logs/$(projectName)/$(branchName)/coveragelist.csv
@@ -364,7 +363,6 @@ jobs:
 
       git commit -m "Azure auto test for $(projectName)/$(branchName) @ $(datetime)" -m "Much longer debug info here."
       git push
-      #git push origin master
       exit 0
       
     workingDirectory: $(Pipeline.Workspace)/testStatus
