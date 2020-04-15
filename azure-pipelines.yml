@@ -25,13 +25,13 @@ resources:
   repositories:
   - repository: testStatusRepo
     type: github
-    endpoint: azure_testStatus
+    endpoint: datashield-testing
     name: datashield/testStatus
     ref: master
     
   - repository: datashield-infrastructureRepo
     type: github
-    endpoint: azure_testStatus
+    endpoint: datashield-testing
     name: datashield/datashield-infrastructure
     ref: v6.0-dev
 
