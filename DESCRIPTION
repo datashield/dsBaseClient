@@ -10,5 +10,5 @@ Depends: R (>= 3.5.0),
 Imports:
     fields,
     metafor
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Encoding: UTF-8
