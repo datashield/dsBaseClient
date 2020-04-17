@@ -16,7 +16,8 @@ ds.lmerSLMA(
   control_type = NULL,
   control_value = NULL,
   optimizer = NULL,
-  verbose = 0
+  verbose = 0,
+  notify.of.progress = FALSE
 )
 }
 \arguments{
@@ -139,6 +140,9 @@ the development team can activate this argument so alternatives can be specified
 the parameter estimates. If > 1 verbose output is generated during the individual penalized 
 iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies'
 summary in the "iterations" slot. Default value = 0, implying no additional output.}
+
+\item{notify.of.progress}{specifies if console output should be produce to indicate
+progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
 most of the non-disclosive elements of the output list returned by lmer
