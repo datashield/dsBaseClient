@@ -6,7 +6,7 @@
 #' of the collaborating studies. It is only possible to get summaries of objects stored on the
 #' server-side. 
 #' It is however important to know if an object is defined (i.e. exists) on the server-side.
-#' This function checks if an object does really exists on the server-side.
+#' This function checks if an object does exist on the server-side.
 #' 
 #' Server function called: \code{exists}
 #' @param x a character string providing the name of the object to look for.

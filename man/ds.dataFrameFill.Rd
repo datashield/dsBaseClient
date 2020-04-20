@@ -11,7 +11,7 @@ ds.dataFrameFill(df.name = NULL, newobj = NULL, datasources = NULL)
 filled with extra columns of missing values.}
 
 \item{newobj}{a character string that provides the name for the output data frame
-that is stored on the data servers. 
+that is stored on the data servers. Default \code{dataframefill.newobj}. 
 Default value is the name of the input data frame with the suffix "_filled".}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -68,7 +68,7 @@ Server function called: \code{dataFrameFillDS}
   
   ds.dataFrameFill(df.name = "D",
                    newobj = "D.Fill",
-                   datasources = connections) #All servers are used  ("study1")
+                   datasources = connections) #All servers are used
 
 
   # Clear the Datashield R sessions and logout

@@ -1,5 +1,6 @@
 
 .test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created){
+    library(dsDangerClient)
     # Create a sort data frame
     sort.key.name<-paste(initial.df.name,key.name,sep="$")
     ds.dataFrameSort(df.name = initial.df.name,

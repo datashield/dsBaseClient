@@ -1,10 +1,11 @@
-#' @title ds.glm calling glmDS1, glmDS2
+#' @title Fits generalized linear model in the server-side
 #' @description Fits a generalized linear model (glm) on data from a single or multiple sources
+#' in the server-side. 
 #' @details Fits a glm on data from a single source or from multiple sources. In the latter case
 #' the data are co-analysed (when using ds.glm) by using an approach that is mathematically
 #' equivalent to placing all individual-level
 #' data from all sources in one central warehouse and analysing those data using the conventional
-#' glm() function in R. In this situation marked heterogeneity between sources should be corrected
+#' \code{glm()} function in R. In this situation marked heterogeneity between sources should be corrected
 #' (where possible) with fixed effects. e.g. if each study in a (binary) logistic regression
 #' analysis has an independent intercept, it is equivalent to allowing each study to have a
 #' different baseline risk of disease. This may also be viewed as being an IP (individual person)
@@ -63,6 +64,8 @@
 #' in each source and return the final estimates and standard errors (rather than score vectors
 #' and information matrices). It will then rely on functions in the
 #' R package metafor to meta-analyse the key parameters.
+#' 
+#' Server function called: \code{glmDS1} and \code{glmDS2}
 #'
 #' @param formula Denotes an object of class formula which is a character string describing
 #' the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()

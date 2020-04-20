@@ -10,7 +10,7 @@
 #' @param df.name a character string representing the name of the input data frame that will be
 #' filled with extra columns of missing values. 
 #' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. 
+#' that is stored on the data servers. Default \code{dataframefill.newobj}. 
 #' Default value is the name of the input data frame with the suffix "_filled". 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
@@ -32,7 +32,6 @@
 #'   require('dsBaseClient')
 #' 
 #'   builder <- DSI::newDSLoginBuilder()
-
 #'   builder$append(server = "study1", 
 #'                  url = "http://192.168.56.100:8080/", 
 #'                  user = "administrator", password = "datashield_test&", 
@@ -55,7 +54,7 @@
 #'   
 #'   ds.dataFrameFill(df.name = "D",
 #'                    newobj = "D.Fill",
-#'                    datasources = connections) #All servers are used  ("study1")
+#'                    datasources = connections) #All servers are used
 #'
 #'
 #'   # Clear the Datashield R sessions and logout

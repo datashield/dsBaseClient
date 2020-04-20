@@ -48,17 +48,15 @@ test_that('numeric data',
 context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
 test_that('character data',
           {  
+            #Convert character column into a character file
+            for(i in 1:length(local.df.list)){
+              local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
+            }
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
             .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort()::expt::multiple::alphabetic::descending")
-test_that('character data',
-          {  
-            connect.all.datasets()
-            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
-          })
+
 
 
 
