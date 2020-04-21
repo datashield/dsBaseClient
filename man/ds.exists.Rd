@@ -61,7 +61,7 @@ Server function called: \code{exists}
   # Check if the object exist in the server-side
   ds.exists(x = "D", 
             datasources = connections) #All opal servers are used
-  ds.exists(x = "D$LAB_TSC", 
+  ds.exists(x = "D", 
             datasources = connections[1]) #Only the first Opal server is used
             
   # clear the Datashield R sessions and logout

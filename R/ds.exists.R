@@ -51,8 +51,8 @@
 #'   # Check if the object exist in the server-side
 #'   ds.exists(x = "D", 
 #'             datasources = connections) #All opal servers are used
-#'   ds.exists(x = "D$LAB_TSC", 
-#'             datasources = connections[1]) #Only the first Opal server is used
+#'   ds.exists(x = "D", 
+#'             datasources = connections[1]) #Only the first Opal server is used (study1)
 #'             
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
