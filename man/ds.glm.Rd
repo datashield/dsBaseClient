@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glm.R
 \name{ds.glm}
 \alias{ds.glm}
-\title{ds.glm calling glmDS1, glmDS2}
+\title{Fits generalized linear model in the server-side}
 \usage{
 ds.glm(
   formula = NULL,
@@ -20,122 +20,46 @@ ds.glm(
 )
 }
 \arguments{
-\item{formula}{Denotes an object of class formula which is a character string describing
-the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
-function is also allowed by ds.glm. Many glms can
-be fitted very simply using a formula such as:
-"y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
-covariates. By default all such models also include an intercept (regression constant) term.
-If all you need to fit are straightforward models such as these, you do not need to read the
-remainder of this information about "formula". But if you need to fit a more complex
-model in a customised way, the following text gives a few additional pointers:
-As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
-variable "EVENT" as its
-outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
-"time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
-and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
-the model to include an intercept term which it would also have done by default (see above)
-but using "1" may usefully be contrasted with using "0" (as explained below), which removes
-the intercept term. The "*" between SEXF and AGE.60
-means fit all possible main effects and interactions for and between those two covariates.
-As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-last element being the simple interaction term representing the product
-of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
-(0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
-If the formula had instead been written as:
-"EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
-an intercept term and, because TID happens to be a six level factor this would mean
-that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
-using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-This is mathematically the same model, but conveniently, it means
-that the effect of each
-time period may now be estimated directly. For example, the effect of time
-period 3 is now obtained directly as the coefficient for TID3
-rather than the sum of the coefficients for the intercept and TID3
-which was the case using the original formula.}
+\item{formula}{an object of class formula describing
+the model to be fitted. For more details of model specification see 
+"Details".}
 
-\item{data}{A character string specifying the name of an (optional) dataframe that contains
-all of the variables in the glm formula. This avoids you having to specify the name of the
-dataframe in front of each covariate in the formula e.g. if the dataframe is
-called 'DataFrame' you
-avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
-Processing stops if a non existing data frame is indicated.}
+\item{data}{A character string specifying the name of an (optional) data frame that contains
+all of the variables in the glm formula.}
 
-\item{family}{This argument identifies the error distribution function to use in
-the model. At present
-ds.glm has been written to fit family="gaussian" (i.e. a
-conventional linear model with normally distributed errors), family="binomial"
-(i.e. a conventional
-unconditional logistic regression model), and family = "poisson" (i.e. a
-Poisson regression model - of which perhaps the most commonly used application
-is for survival analysis
-using Piecewise Exponential Regression (PER) which
-typically closely approximates Cox regression in its
-main estimates and standard
-errors. At present the gaussian family is automatically coupled with
-an 'identity' link function, the binomial family with a
-'logistic' link function and the poisson family with a 'log' link function. For the majority of
-applications typically
-encountered in epidemiology and medical statistics, one  these three classes of
-models will typically be what you need. However, if a particular user
-wishes us to implement an alternative family
-(e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
-probit) we can discuss how best to meet that request: it will almost certainly be possible,
-but we may seek a small amount of funding or practical in-kind support from
-the user in order to ensure that it can be carried outin a timely manner}
+\item{family}{identifies the error distribution function to use in
+the model. 
+This can be set as \code{"gaussian"}, \code{"binomial"} and \code{"poisson"}. 
+For more information see "Details".}
 
 \item{offset}{A character string specifying the name of a variable to be used as
-an offset. An offset is a component of a glm which may be viewed as a covariate
-with a known coefficient of 1.00 and so the coefficient does not need to be
-estimated by the model. As an example, an offset is needed to fit a piecewise
-exponential regression model. Unlike the standard glm() function in
-native R, ds.glm() only allows an offset
-to be set using the <offset> argument, it CANNOT be included directly in the
-formula via notation
-such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glm this model
-must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
-and ds.glm then incorporates
-it appropriately into the formula itself.}
+an offset. For more information see "Details".}
 
-\item{weights}{A character string specifying the name of a variable containing
-prior regression
-weights for the fitting process. Like offset, ds.glm does not allow a weights vector to be
+\item{weights}{a character string specifying the name of a variable containing
+prior regression weights for the fitting process. 
+\code{ds.glm} does not allow a weights vector to be
 written directly into the glm formula.}
 
-\item{checks}{This argument is a boolean. If TRUE ds.glm then undertakes a series
-of checks of
-the structural integrity of the model that can take several minutes. Specifically
-it verifies that the
-variables in the model are all defined (exist) on the server site at every study
-and that they have the correct characteristics required to fit a GLM. The default
-value is FALSE
-if an unexplained problem in the model fit is encountered.}
+\item{checks}{logical. If TRUE \code{ds.glm} checks the structural integrity 
+of the model. Default FALSE. For more information see "Details".}
 
-\item{maxit}{A numeric scalar denoting the maximum number of iterations that are permitted
-before ds.glm declares that the model has failed to converge. Logistic regression
-and Poisson regression
-models can require many iterations, particularly if the starting value of the
-regression constant is
-far away from its actual value that the glm is trying to estimate. In consequence
-we often set
-maxit=30 - but depending on the nature of the models you wish to fit, you may wish
-to be alerted
-much more quickly than this if there is a delay in convergence, or you may wish to
-all MORE iterations.}
+\item{maxit}{a numeric scalar denoting the maximum number of iterations that are permitted
+before \code{ds.glm} declares that the model has failed to converge.}
 
-\item{CI}{a numeric, the confidence interval.}
+\item{CI}{a numeric value specifying the confidence interval. Default 0.95.}
 
-\item{viewIter}{a boolean, tells whether the results of the intermediate iterations
-should be printed on screen or not. Default is FALSE (i.e. only final results are shown).}
+\item{viewIter}{logical. If TRUE the results of the intermediate iterations are 
+printed. If FALSE only final results are shown. Default FALSE.}
 
-\item{viewVarCov}{a boolean indicating whether to return the variance-covariance matrix
-of parameter estimates. TRUE=yes, FALSE=no, default=FALSE}
+\item{viewVarCov}{logical. If TRUE the variance-covariance matrix
+of parameter estimates is returned. Default FALSE.}
 
-\item{viewCor}{a boolean indicating whether to return the correlation matrix of
-parameter estimates. TRUE=yes, FALSE=no, default=FALSE.}
+\item{viewCor}{logical. If TRUE correlation matrix of
+parameter estimates is returned. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 The main elements of the output returned by ds.glm are
@@ -143,13 +67,14 @@ listed (below) as Example 1 under 'examples'.
 }
 \description{
 Fits a generalized linear model (glm) on data from a single or multiple sources
+in the server-side.
 }
 \details{
 Fits a glm on data from a single source or from multiple sources. In the latter case
 the data are co-analysed (when using ds.glm) by using an approach that is mathematically
 equivalent to placing all individual-level
 data from all sources in one central warehouse and analysing those data using the conventional
-glm() function in R. In this situation marked heterogeneity between sources should be corrected
+\code{glm()} function in R. In this situation marked heterogeneity between sources should be corrected
 (where possible) with fixed effects. e.g. if each study in a (binary) logistic regression
 analysis has an independent intercept, it is equivalent to allowing each study to have a
 different baseline risk of disease. This may also be viewed as being an IP (individual person)
@@ -208,9 +133,167 @@ It will fit the glms to completion
 in each source and return the final estimates and standard errors (rather than score vectors
 and information matrices). It will then rely on functions in the
 R package metafor to meta-analyse the key parameters.
+
+In \code{formula} Most shortcut notation for formulas allowed under R's standard \code{glm()}
+function is also allowed by \code{ds.glm}. 
+Many glms can be fitted very simply using a formula such as:
+
+\deqn{y~a+b+c+d} 
+
+which simply means fit a glm with \code{y} as the outcome variable and 
+\code{a}, \code{b}, \code{c} and \code{d} as covariates. 
+By default all such models also include an intercept (regression constant) term.
+If all you need to fit are straightforward models such as these, you do not need to read the
+remainder of this information about "formula". But if you need to fit a more complex
+model in a customised way, the following text gives a few additional pointers:
+
+ \deqn{EVENT~1+TID+SEXF*AGE.60}
+
+denotes fit a glm with the variable \code{EVENT} as its
+outcome with covariates \code{TID} (in this case a 6 level factor categorical variable denoting
+"time period" with values between 1 and 6), \code{SEXF} (also a factor variable denoting sex
+and \code{AGE.60} (a quantitative variable representing age-60 in years). The term "1" forces
+the model to include an intercept term which it would also have done by default (see above)
+but using "1" may usefully be contrasted with using "0" (as explained below), which removes
+the intercept term. The "*" between SEXF and AGE.60
+means fit all possible main effects and interactions for and between those two covariates.
+As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
+last element being the simple interaction term representing the product
+of SEXF level 1 in this case female and AGE.60). This takes the value 0 in all males
+(0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
+If the formula had instead been written as:
+"EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
+an intercept term and, because TID happens to be a six level factor this would mean
+that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
+using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
+This is mathematically the same model, but conveniently, it means
+that the effect of each
+time period may now be estimated directly. For example, the effect of time
+period 3 is now obtained directly as the coefficient for TID3
+rather than the sum of the coefficients for the intercept and TID3
+which was the case using the original formula.
+
+In \code{family}  At present 
+ds.glm has been written to fit family="gaussian" (i.e. a
+conventional linear model with normally distributed errors), family="binomial"
+(i.e. a conventional
+unconditional logistic regression model), and family = "poisson" (i.e. a
+Poisson regression model - of which perhaps the most commonly used application
+is for survival analysis
+using Piecewise Exponential Regression (PER) which
+typically closely approximates Cox regression in its
+main estimates and standard
+errors. At present the gaussian family is automatically coupled with
+an 'identity' link function, the binomial family with a
+'logistic' link function and the poisson family with a 'log' link function. For the majority of
+applications typically
+encountered in epidemiology and medical statistics, one  these three classes of
+models will typically be what you need. However, if a particular user
+wishes us to implement an alternative family
+(e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
+probit) we can discuss how best to meet that request: it will almost certainly be possible,
+but we may seek a small amount of funding or practical in-kind support from
+the user in order to ensure that it can be carried outin a timely manner
+
+An \code{offset} is a component of a glm which may be viewed as a covariate
+with a known coefficient of 1.00 and so the coefficient does not need to be
+estimated by the model. As an example, an offset is needed to fit a piecewise
+exponential regression model. Unlike the standard glm() function in
+native R, ds.glm() only allows an offset
+to be set using the <offset> argument, it CANNOT be included directly in the
+formula via notation
+such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glm this model
+must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
+and ds.glm then incorporates
+it appropriately into the formula itself.
+
+In \code{data} This avoids you having to specify the name of the
+dataframe in front of each covariate in the formula e.g. if the dataframe is
+called 'DataFrame' you
+avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
+Processing stops if a non existing data frame is indicated.
+
+In \code{checks}  that can take several minutes. Specifically
+it verifies that the
+variables in the model are all defined (exist) on the server site at every study
+and that they have the correct characteristics required to fit a GLM. The default
+value is FALSE
+if an unexplained problem in the model fit is encountered.
+
+In \code{maxit}  Logistic regression
+and Poisson regression
+models can require many iterations, particularly if the starting value of the
+regression constant is
+far away from its actual value that the glm is trying to estimate. In consequence
+we often set
+maxit=30 - but depending on the nature of the models you wish to fit, you may wish
+to be alerted
+much more quickly than this if there is a delay in convergence, or you may wish to
+all MORE iterations.
+
+
+Server function called: \code{glmDS1} and \code{glmDS2}
 }
 \examples{
 \dontrun{
+
+ ## Version 6, for version 5 see Wiki
+  # Connecting to the Opal servers
+  
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Fitting glm for survival analysis
+  
+  # make sure that the outcome is numeric 
+  ds.asNumeric(x.name = "D$cens",
+               newobj = "cens.num"
+               datasources = connections)
+               
+  # convert time id variable to a factor 
+               
+  ds.asFactor(input.var.name = "D$time.id",
+              newobj = "Tid.fac"
+              datasources = connections)
+              
+  # create in the server-side log(survtime)
+         
+  ds.log(x = "D$survtime",
+         newobj = "log.surv",
+         datasources = connections)
+  
+  ds.glm(formula = cens.num ~ 1 + Tid.fac + female * age.60,
+         data = "D",
+         family = "poisson", 
+         offset = "log.surv",
+         weights = NULL,
+         checks = FALSE,
+         maxit = 20,
+         CI = 0.95,
+         viewIter = FALSE,
+         viewVarCov = FALSE,
+         viewCor = FALSE,
+         datasources = connections)
+  
 #  Example 1:
 #The components of the standard output from ds.glm are listed below. Additional
 #explanatory material for some
@@ -468,11 +551,11 @@ R package metafor to meta-analyse the key parameters.
 #family='gaussian')
 #mod
 #
-# clear the Datashield R sessions and logout
-#datashield.logout(conns)
+# Clear the Datashield R sessions and logout
+datashield.logout(connections) 
 }
 
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }
