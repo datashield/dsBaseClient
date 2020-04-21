@@ -38,6 +38,20 @@ test_that("simple exists", {
 })
 
 
+# ds.exists(...) can't be used to check within environment
+context("ds.exists::smk")
+test_that("simple exists, with dollar", {
+    res <- ds.exists('D$LAB_TSC')
+
+    expect_length(res, 3)
+    expect_length(res$sim1, 1)
+    expect_equal(res$sim1, FALSE)
+    expect_length(res$sim2, 1)
+    expect_equal(res$sim2, FALSE)
+    expect_length(res$sim3, 1)
+    expect_equal(res$sim3, FALSE)
+})
+
 context("ds.exists::smk")
 test_that("simple exists", {
     ds.assign('D$LAB_TSC', 'exists_obj')
