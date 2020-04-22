@@ -62,7 +62,7 @@ Server function called: \code{exists}
   ds.exists(x = "D", 
             datasources = connections) #All opal servers are used
   ds.exists(x = "D", 
-            datasources = connections[1]) #Only the first Opal server is used
+            datasources = connections[1]) #Only the first Opal server is used (study1)
             
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
