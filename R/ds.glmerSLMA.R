@@ -124,6 +124,18 @@
 #' easy. This is because it would require evaluating and then activating a potentially
 #' complex text string on the serverside, which would potential create a
 #' hacking-in/disclosure risk.
+#' @param nAGQ integer scalar, defaulting to 1L. nAGQ refers to he number of points per
+#' axis for evaluating the adaptive Gauss-Hermite approximation to the log-likelihood.
+#' The default value of 1L, corresponds to the Laplace approximation. Values greater than
+#' 1 can produce greater accuracy in the evaluation of the log-likelihood at the expense of speed
+#' see also help for glmer() function in native R. A value of zero uses a faster but less exact
+#' form of parameter estimation for GLMMs by optimizing the random effects and the
+#' fixed-effects coefficients in the penalized iteratively reweighted least squares step.
+#' In our own practical experience, particularly with very large datasets, we
+#' have sometimes found it necessary TO SET nAGQ TO 0L when the model
+#' appears to converge perfectly well (e.g. verbose=2 demonstrates good initial
+#' convergence of both the log-likelihood and regression coefficients), but formal convergence does not get declared
+#' and so no output is produced, despite running the model for many iterations and relaxing control tolerances.
 #' @param verbose integer scalar. If > 0 verbose output is generated during the optimization of
 #' the parameter estimates. If > 1 verbose output is generated during the individual penalized 
 #' iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies'
@@ -198,7 +210,7 @@
 #' @export
 ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
-					   control_type = NULL, control_value = NULL, verbose = 0,
+					   control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
 					   start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
   
   
@@ -277,6 +289,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
  if(!is.null(control_type) && is.null(control_value))
 	{
 	errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
+#	print(errorMessage.cv)
 	return(list(errorMessage=errorMessage.cv))
 	}
 
@@ -291,15 +304,18 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
 	}else{
 	control_value.transmit<-NULL
 	}
-  
 
-  
+#check nAGQ is not null which would block the call  
+ if(is.null(nAGQ))
+ {
+ nAGQ<-1L
+ }
   
   #NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
 
 
   calltext <- call('glmerSLMADS2', formula, offset, weights, dataName, family, 
-					control_type, control_value.transmit, verbose, theta, fixef)
+					control_type, control_value.transmit, nAGQ, verbose, theta, fixef)
 					  
   study.summary <- datashield.aggregate(datasources, calltext)
 
@@ -331,31 +347,31 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
 
   if (notify.of.progress)
   {
-    if(!all.studies.valid)
+  if(!all.studies.valid)
+  {
+    for(sse in study.with.errors)
     {
-      for(sse in study.with.errors)
-      {
-        cat("\n","Error report from second serverside function for study",sse,"\n")
-        cat("############################################################","\n")
-        cat(unlist(study.summary[[sse]][[1]]),"\n")
-        cat(unlist(study.summary[[sse]][[2]]),"\n\n")
+      cat("\n","Error report from second serverside function for study",sse,"\n")
+      cat("############################################################","\n")
+      cat(unlist(study.summary[[sse]][[1]]),"\n")
+      cat(unlist(study.summary[[sse]][[2]]),"\n\n")
 
-        num.messages<-length(study.summary[[sse]])-2
-        for(m in 1:num.messages)
+      num.messages<-length(study.summary[[sse]])-2
+      for(m in 1:num.messages)
+      {
+        if(!is.null(unlist(study.summary[[sse]][[2+m]])))
         {
-          if(!is.null(unlist(study.summary[[sse]][[2+m]])))
-          {
-            cat(unlist(study.summary[[sse]][[2+m]]),"\n\n")
-          }
+          cat(unlist(study.summary[[sse]][[2+m]]),"\n\n")
         }
       }
     }
+  }
 
-    if(all.studies.valid)
-    {
-      cat("\nAll studies passed disclosure tests\n")
-      cat("Please check for convergence warnings in the study summaries\n\n\n")
-    }
+  if(all.studies.valid)
+  {
+    cat("\nAll studies passed disclosure tests\n")
+    cat("Please check for convergence warnings in the study summaries\n\n\n")
+  }
   }
 
 
@@ -541,18 +557,18 @@ for(q in 1:numstudies)
 		
 }
 
-  if (notify.of.progress)
-  { 
-    cat("Convergence information\n")
-    for(r in 1:numstudies)
-    {
-      cat(full.error.message[r],"\n")
-    }
-  }	
- 
+if (notify.of.progress)
+{
+cat("Convergence information\n")
+for(r in 1:numstudies)
+	{
+    cat(full.error.message[r],"\n")
+	}
+}	
+
    return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
               SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))
-  
+
 }
 
 # ds.glmerSLMA
