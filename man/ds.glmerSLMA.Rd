@@ -15,6 +15,7 @@ ds.glmerSLMA(
   family = NULL,
   control_type = NULL,
   control_value = NULL,
+  nAGQ = 1L,
   verbose = 0,
   start_theta = NULL,
   start_fixef = NULL,
@@ -141,6 +142,19 @@ made it possible to modify any or all control parameters even though that would 
 easy. This is because it would require evaluating and then activating a potentially
 complex text string on the serverside, which would potential create a
 hacking-in/disclosure risk.}
+
+\item{nAGQ}{integer scalar, defaulting to 1L. nAGQ refers to he number of points per
+axis for evaluating the adaptive Gauss-Hermite approximation to the log-likelihood.
+The default value of 1L, corresponds to the Laplace approximation. Values greater than
+1 can produce greater accuracy in the evaluation of the log-likelihood at the expense of speed
+see also help for glmer() function in native R. A value of zero uses a faster but less exact
+form of parameter estimation for GLMMs by optimizing the random effects and the
+fixed-effects coefficients in the penalized iteratively reweighted least squares step.
+In our own practical experience, particularly with very large datasets, we
+have sometimes found it necessary TO SET nAGQ TO 0L when the model
+appears to converge perfectly well (e.g. verbose=2 demonstrates good initial
+convergence of both the log-likelihood and regression coefficients), but formal convergence does not get declared
+and so no output is produced, despite running the model for many iterations and relaxing control tolerances.}
 
 \item{verbose}{integer scalar. If > 0 verbose output is generated during the optimization of
 the parameter estimates. If > 1 verbose output is generated during the individual penalized 
