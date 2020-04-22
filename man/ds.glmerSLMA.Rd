@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmerSLMA.R
 \name{ds.glmerSLMA}
 \alias{ds.glmerSLMA}
-\title{Fitting generalized linear mixed effect models}
+\title{Fitting generalized linear mixed effect models in the server-side}
 \usage{
 ds.glmerSLMA(
   formula = NULL,
@@ -157,103 +157,81 @@ Specify to retain more control over the optimisation. See glmer() for more detai
 progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
-most of the non-disclosive elements of the output list returned by glmer
-are returned from each study separately. Potentially disclosive elements
-such as individual-level residuals and linear predictors are blocked.
-The return results from each study appear first in the return list with one
-set of results from each study in the order they appear in datasources.
-As regards the elements within each study the most important
-elements are included last in the return list because they then appear at the
-bottom of a simple print out of the return object. The first list object
-in the return list from each study is called output.summary. If the primary
-output from the ds.glmerSLMA is being written to an object called outputName
-[i.e. out Name<-ds.glmerSLMA(.....) ] the R command outName[[1]][[2]] will list
-all immediately printable components of output.summary in study 2.
-Alternatively names(outName[[1]][[2]]) will list all of the output objects
-available in output.summary (not just the immediately printable ones):
-names(outName[[1]][[2]])
-[1] "methTitle"       "objClass"        "devcomp"         "isLmer"         
-[5] "useScale"        "logLik"          "family"          "link"           
-[9] "ngrps"           "coefficients"    "sigma"           "vcov"           
-[13] "varcor"          "AICtab"          "call"            "fitMsgs"        
-[17] "optinfo"         "errorMessage"    "disclosure.risk" "iterations"     
-[21] "control.info"
-If you now want to look at "control.info" which lists the settings of ALL of
-convergence control parameters when the model was fitted you can type:
-outName[[1]][[2]]$control.info 
-In reverse order, the key elements of the output object that are automatically printed are:
+\code{ds.glmerSLMA} returns a list of  elements mentioned 
+below separaletly foreach study separately.
 
-coefficients:- a matrix in which the first column contains the names of
-all of the regression parameters (coefficients) in the model, the second column
-contains the estimated values, the third their corresponding standard errors,
-the fourth the ratio of estimate/standard error and the fifth the p-value
-treating that as a standardised normal deviate
+\code{coefficients}: a matrix with 5 columns:
+   \itemize{
+   \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
+   \item{second}{: the estimated values} 
+   \item{third}{: corresponding standard errors of the stimated values} 
+   \item{fourth}{: the ratio of estimate/standard error} 
+   \item{fifth}{: the p-value treating that as a standardised normal deviate} 
+}
 
-CorrMatrix:- the correlation matrix of parameter estimates
+\code{CorrMatrix}: the correlation matrix of parameter estimates.
 
-VarCovMatrix:- the variance covariance matrix of parameter estimates
+\code{VarCovMatrix}: the variance covariance matrix of parameter estimates.
 
-weights:- the vector (if any) holding regression weights
+\code{weights}: the vector (if any) holding regression weights
 
-offset:- the vector (if any) holding an offset (enters glm with a coefficient of 1.0)
+\code{offset}: the vector (if any) holding an offset (enters glm with a coefficient of 1.0)
 
-cov.scaled:- equivalent to VarCovMatrix
+\code{cov.scaled}: equivalent to VarCovMatrix
 
-Nmissing:- the number of missing observations in the given study
+\code{Nmissing}: the number of missing observations in the given study
 
-Nvalid:- the number of valid (non-missing) observations in the given study
+\code{Nvalid}: the number of valid (non-missing) observations in the given study
 
-Ntotal:- the total number of observations in the given study (Nvalid+Nmissing)
+\code{Ntotal}: the total number of observations in the given study (Nvalid+Nmissing)
 
-data:- - equivalent to input parameter dataName (above)
+\code{data}: equivalent to input parameter dataName (above)
 
-call:- - summary of key elements of the call to fit the model
-
-There are a small number of more esoteric items of information returned
-by ds.glmerSLMA. Additional information about these can be found in the help
-file for the glmer() function in the lme4 package.
+code{call}: summary of key elements of the call to fit the model
 
 Once the study-specific output has been returned, the function returns a
 number of elements relating to the pooling of estimates across studies via
 study level meta-analysis. These are as follows:
 
-input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
+\code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
 estimates from each study. In combination with the corresponding standard errors
 (see input.se.matrix.for.SLMA) these can be imported directly into a study level
 meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
 
-input.se.matrix.for.SLMA:- a matrix containing the vector of standard error
+\code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
 estimates for coefficients from each study. In combination with the coefficients
 (see input.beta.matrix.for.SLMA) these can be imported directly into a study level
 meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
 
-SLMA.pooled.estimates:- a matrix containing pooled estimates for each
+\code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via
 random effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed effects meta-analysis (FE)
 
-convergence.error.message reports for each study whether the model converged.
+\code{convergence.error.message}:  reports for each study whether the model converged.
 If it did not some information about the reason for this is reported.
 }
 \description{
-ds.glmerSLMA fits a generalized linear mixed effects model
-(glme) - e.g. a logistic or Poisson regression model including both fixed and random effects
-- on data from one or multiple sources with pooling via SLMA (study level meta-analysis)
+\code{ds.glmerSLMA} fits a generalized linear mixed effects model
+(GLME) on data from one or multiple sources with pooling via SLMA (study level meta-analysis).
 }
 \details{
-ds.glmerSLMA is a clientside function calling glmerSLMADS2 on the serverside.
-The analytic work engine is the glmer function in R which sits in the lme4 package.
-ds.glmerSLMA fits a generalized linear mixed effects model (glme) - e.g. a logistic or
-Poisson regression model including both fixed and random effects - on data
-from a single or multiple sources. When there are multiple data sources,
-the glme is fitted to convergence in each data source independently and the
-estimates and standard errors returned to the client thereby enabling cross-study pooling
-using study level meta-analysis (SLMA). By default the SLMA is undertaken
-using the metafor package, but as the SLMA occurs on the clientside which, as far
-as the user is concerned is just a standard R environment, the user can choose to use
-any approach to meta-analysis they choose. Additional information about fitting 
-glmes using the glmer engine can be obtained using R help for glmer and the lme4 package
+\code{ds.glmerSLMA} fits a generalized linear mixed effects model (GLME) 
+- e.g. a logistic or Poisson regression model including both fixed and random effects -
+ on data from a single or multiple sources. 
+ 
+ This function is similar to \code{glmer} function from \code{lme4} package  in native R.
+ 
+ When there are multiple data sources, the GLME is fitted to convergence 
+ in each data source independently. The estimates and standard errors returned
+ to the client-side which enable cross-study pooling  using study level meta-analysis (SLMA).
+ The SLMA used by default \code{metafor} package  
+ but as the SLMA occurs on the client-side (a standard R environment), the user can choose 
+ any approach to meta-analysis. Additional information about fitting GLMES 
+ using \code{glmer} function can be obtained using R help for \code{glmer} and the \code{lme4} package. 
+
+Server function called: \code{glmerSLMADS2}
 }
 \author{
-Tom Bishop, with some additions by Paul Burton
+DataSHIELD Development Team
 }
