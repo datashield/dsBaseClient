@@ -65,7 +65,7 @@ with missing values at each pair separately and then calculates the correlations
  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
  and the total number of missing values aggregated from all the involved studies, are returned.
  
- Server function called: \code{covDS}
+ Server function called: \code{corDS}
 }
 \examples{
 \dontrun{
