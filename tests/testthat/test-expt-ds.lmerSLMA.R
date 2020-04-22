@@ -27,7 +27,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA()::expt::int::multiple")
+context("ds.lmerSLMA::expt::int::multiple")
 test_that("linear mixed model with 2 levels of hierarchy",
           {
 
@@ -66,8 +66,8 @@ test_that("linear mixed model with 2 levels of hierarchy",
             
             #check meta analyses are the same both locally and on the server
             
-            print(SLMA.pooled.ests.matrix)
-            print(res.server$SLMA.pooled.ests.matrix)
+#            print(SLMA.pooled.ests.matrix)
+#            print(res.server$SLMA.pooled.ests.matrix)
             
             expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = ds.test_env$tolerance, check.attributes = FALSE)
           }

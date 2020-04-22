@@ -121,6 +121,8 @@
 #' the parameter estimates. If > 1 verbose output is generated during the individual penalized 
 #' iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies'
 #' summary in the "iterations" slot. Default value = 0, implying no additional output.
+#' @param notify.of.progress specifies if console output should be produce to indicate
+#' progress. The default value for notify.of.progress is FALSE.
 #' @return most of the non-disclosive elements of the output list returned by lmer
 #' are returned from each study separately. Potentially disclosive elements
 #' such as individual-level residuals and linear predictors are blocked.
@@ -185,7 +187,7 @@
 #' @export
 ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, REML=TRUE, 
-					   control_type = NULL, control_value = NULL, optimizer = NULL, verbose = 0) {
+					   control_type = NULL, control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE) {
   
   
  #UNDER DSi
@@ -249,7 +251,6 @@ ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.meta
  if(!is.null(control_type) && is.null(control_value))
 	{
 	errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
-	print(errorMessage.cv)
 	return(list(errorMessage=errorMessage.cv))
 	}
 
@@ -266,7 +267,7 @@ ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.meta
 	}
  
  if(!is.null(optimizer)&&optimizer!="nloptwrap")
- 	{
+        {
 	errorMessage.opt<-"ERROR: the only optimizer currently available for lmer is 'nloptwrap', please respecify"
 	cat("\n",errorMessage.opt,"\n")
 	return(list(errorMessage=errorMessage.opt))
@@ -306,30 +307,33 @@ ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.meta
 
   }
 
-  if(!all.studies.valid)
+  if (notify.of.progress)
   {
-    for(sse in study.with.errors)
+    if(!all.studies.valid)
     {
-      cat("\n","Error report from second serverside function for study",sse,"\n")
-      cat("############################################################","\n")
-      cat(unlist(study.summary[[sse]][[1]]),"\n")
-      cat(unlist(study.summary[[sse]][[2]]),"\n\n")
-
-      num.messages<-length(study.summary[[sse]])-2
-      for(m in 1:num.messages)
+      for(sse in study.with.errors)
       {
-        if(!is.null(unlist(study.summary[[sse]][[2+m]])))
+        cat("\n","Error report from second serverside function for study",sse,"\n")
+        cat("############################################################","\n")
+        cat(unlist(study.summary[[sse]][[1]]),"\n")
+        cat(unlist(study.summary[[sse]][[2]]),"\n\n")
+
+        num.messages<-length(study.summary[[sse]])-2
+        for(m in 1:num.messages)
         {
-          cat(unlist(study.summary[[sse]][[2+m]]),"\n\n")
+          if(!is.null(unlist(study.summary[[sse]][[2+m]])))
+          {
+            cat(unlist(study.summary[[sse]][[2+m]]),"\n\n")
+          }
         }
       }
     }
-  }
 
-  if(all.studies.valid)
-  {
-    cat("\nAll studies passed disclosure tests\n")
-    cat("Please check for convergence warnings in the study summaries\n\n\n")
+    if(all.studies.valid)
+    {
+      cat("\nAll studies passed disclosure tests\n")
+      cat("Please check for convergence warnings in the study summaries\n\n\n")
+    }
   }
 
 
@@ -516,12 +520,14 @@ for(q in 1:numstudies)
 }
 
 
-cat("Convergence information\n")
-for(r in 1:numstudies)
-	{
-    cat(full.error.message[r],"\n")
-	}
-	
+  if (notify.of.progress)
+  {
+    cat("Convergence information\n")
+    for(r in 1:numstudies)
+    {
+      cat(full.error.message[r],"\n")
+    }
+  }
 
   return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
               SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))

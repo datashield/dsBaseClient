@@ -24,7 +24,7 @@
 #'  If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
 #'  and the total number of missing values aggregated from all the involved studies, are returned.
 #'  
-#'  Server function called: \code{covDS}
+#'  Server function called: \code{corDS}
 #' 
 #' @param x a character string providing the name of the input vector, data frame or matrix.
 #' @param y a character string providing the name of the input vector, data frame or matrix.
@@ -128,12 +128,12 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
 
   # call the server side function
   if(('matrix' %in% typ) | ('data.frame' %in% typ)){
-    calltext <- call("covDS", x, NULL, naAction)
+    calltext <- call("corDS", x, NULL, naAction)
   }else{
     if(!(is.null(y))){
-      calltext <- call("covDS", x, y, naAction)
+      calltext <- call("corDS", x, y, naAction)
     }else{
-      calltext <- call("covDS", x, NULL, naAction)
+      calltext <- call("corDS", x, NULL, naAction)
     }
   }
   output <- DSI::datashield.aggregate(datasources, calltext)

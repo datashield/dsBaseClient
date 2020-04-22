@@ -17,7 +17,8 @@ ds.glmerSLMA(
   control_value = NULL,
   verbose = 0,
   start_theta = NULL,
-  start_fixef = NULL
+  start_fixef = NULL,
+  notify.of.progress = FALSE
 )
 }
 \arguments{
@@ -151,6 +152,9 @@ more control over the optimisation. See glmer() for more details.}
 
 \item{start_fixef}{numeric vector of length equal to number of fixed effects (NB including intercept). 
 Specify to retain more control over the optimisation. See glmer() for more details.}
+
+\item{notify.of.progress}{specifies if console output should be produce to indicate
+progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
 most of the non-disclosive elements of the output list returned by glmer
