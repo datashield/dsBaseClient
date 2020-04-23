@@ -35,7 +35,7 @@ test_that("simplest ds.matrixDet", {
     expect_equal(res$is.object.created, "A data object <matrixdet.newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<matrixdet.newobj> appears valid in all sources")
 
-    check.class<-ds.class("matrixdet.newobj",datasources=ds.test_env$connection.opal)
+    check.class<-ds.class("matrixdet.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
     expect_equal(check.class$sim1, "det")

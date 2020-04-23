@@ -28,11 +28,11 @@ context("ds.listDisclosureSettings::smk::check results")
 test_that("check results", {
     res <- ds.listDisclosureSettings()
 
-    expect_equal(length(res$Opal.disclosure), 3)
+    expect_equal(length(res$ds.disclosure), 3)
 
-    sim1.res <- res$Opal.disclosure.settings$sim1
-    sim2.res <- res$Opal.disclosure.settings$sim2
-    sim3.res <- res$Opal.disclosure.settings$sim3
+    sim1.res <- res$ds.disclosure.settings$sim1
+    sim2.res <- res$ds.disclosure.settings$sim2
+    sim3.res <- res$ds.disclosure.settings$sim3
 
     expect_equal(length(sim1.res), 9)
     expect_equal(sim1.res$nfilter.tab, 3)

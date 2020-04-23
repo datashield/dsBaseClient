@@ -32,17 +32,8 @@ variables are of equivalent class in each study. By defaulting the checks to FAL
 time, and if you hit a problem that you cannot understand you can reset do.checks to TRUE and
 make sure that the input objects are correctly defined in all studies.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers; these
-objects hold also the data assign to R, as \code{dataframe}, from opal datasources. If no
-datasources are specified, DataSHIELD looks for opal objects. But, beware, if you have several
-different sets of opal objects in your analysis space, if you do not explicitly specify which
-ones you want, you may be asked to state which ones you want after every command or you may get
-a repeated warning about it after every command. In general, you will typically only need one
-set of opal objects in any one setting and so this problem will not arise. The datasources
-argument also allows you to restrict analysis to one or more specific studies rather than all
-studies. For example, if the Opal objects are called Opal.servers and there are five of them,
-datasources=Opal.servers[3], will restrict the analysis to the server listed third in your list
-of servers.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 If type = "combine" the function returns a list consisting of a four tables denoting:
@@ -55,7 +46,7 @@ original form. The output list also includes: Total_Nvalid (the total number of 
 [non-missing] observations across all groups in all studies; Total_Nmissing (the total number of
 observations with either or both x and y missing); and Total_Ntotal (the total number of
 observations [with data missing or not]). If type ="split", the mean, SD, Nvalid and SEM are
-reported by group and by study. The first four elements of the returned output list are 
+reported by group and by study. The first four elements of the returned output list are
 therefore: Mean_gp_study; StDev_gp_study; Nvalid_gp_study; and SEM_gp_study. If there are three
 studies and we are breaking things down by five groups in each study, each of the first four
 list elements consists of a table with five rows (one for each group) and three columns (one for
@@ -82,8 +73,8 @@ observations (Nmissing). Nvalid=Ntotal-Nmissing and all three quantities represe
 across all groups and all studies. If any one subgroup consists of between 1 and "nfilter"
 observations, the function simply reports that fact and suggests that you use a different
 grouping variable. As in other functions such as ds.table1D, the value of nfilter can be chosen
-by the data custodian when each Opal server is originally set up. By default it is set to 5.
-There are IMPORTANT DIFFERENCES between ds.meanSdGp compared to the function ds.meanByClass. 
+by the data custodian when each data repository server is originally set up. By default it is set to 5.
+There are IMPORTANT DIFFERENCES between ds.meanSdGp compared to the function ds.meanByClass.
 (A) ds.meanSdGp does not actually subset the data it simply calculates the required statistics
 and reports them. This means you cannot use this function if you wish to physically break the
 data into subsets. On the other hand, it makes the function very much faster than ds.meanByClass
@@ -92,7 +83,7 @@ three categorising factors, but ds.meanSdGp only allows one. However, this is no
 problem. If you have two factors (e.g. sex with two levels [0 and 1] and BMI.categorical with
 three levels [1,2,3]) you simply need to create a new factor that combines the two together in a
 way that gives each combination of levels a different value in the new factor. So, in the
-example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1, 
+example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1,
 newfactor=1; sex=0, BMI=2, newfactor=2; sex=0, BMI=3, newfactor=3; sex=1, BMI=1, newfactor=4;
 ds.assign command and you then use newfactor as the single categorising factor. (C) At present,
 ds.meanByClass calculates the sample size in each group to mean the TOTAL sample size (i.e. it
@@ -155,7 +146,7 @@ counts in subgroups.
 # $Total_Ntotal
 # [1] 3700
 #
-# Example 3: 
+# Example 3:
 # Calculate the mean, SD, Nvalid and SEM of the continuous variable SBP (systolic BP), broken
 # down by CVA (1 = had a stroke, 0 = no stroke) report the study-specific results only. The
 # output shows that there are inadequate numbers of stroke cases to carry out this particular
@@ -169,13 +160,13 @@ counts in subgroups.
 # they will not try to identify individuals or infer their characteristics, many researchers may
 # choose to turn the disclosure filter off (nfilter=0). But for particularly sensitive data, or
 # data obtained from official governmental sources, e.g. census data, there may simply be no
-# option but to pick a filter of say 4. 
+# option but to pick a filter of say 4.
 # ds.meanSdGp("SBP", "CVA", "split")
 # PRODUCES THIS OUTPUT
 # [1] "At least 1 cell count is 1-nfilter, please regroup"
 #
 # clear the Datashield R sessions and logout
-#datashield.logout(opals)
+#datashield.logout(conns)
 
 }
 

@@ -23,14 +23,14 @@ ds.densityGrid(
 'combine', a pooled grid density matrix is generated and one grid density matrix is generated
 for each study if \code{type} is set to 'split'.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a grid density matrix is returned
 }
 \description{
-This function generates a grid density object which can then be used to produced 
+This function generates a grid density object which can then be used to produced
 heatmap or contour plots. The cells with a count > 0 and < nfilter.tab are considered invalid
 and the count is set to 0. The function prints the number of invalid cells in for participating
 study.
@@ -50,7 +50,7 @@ and y vectors. These elements are set by the server side function \code{densityG
 
   # login and assign the required variables to R
   myvar <- list("LAB_TSC","LAB_HDL")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
   # Example1: generate a combined grid density object (the default behaviour)
   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL')
@@ -58,12 +58,12 @@ and y vectors. These elements are set by the server side function \code{densityG
   # Example2: generate a grid density object for each study separately
   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split")
 
-  # Example3: generate a grid density object where the number of intervals is set to 15, for 
+  # Example3: generate a grid density object where the number of intervals is set to 15, for
               each study separately
   ds.densityGrid(x='D$LAB_TSC', y='D$LAB_HDL', type="split", numints=15)
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

@@ -55,8 +55,8 @@ plot. If \code{vertical.axis} is set to 'Frequency' then the histogram of the fr
 is returned. If \code{vertical.axis} is set to 'Density' then the histogram of the densities
 is returned.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 one or more histogram objects and plots depending on the argument \code{type}
@@ -80,7 +80,7 @@ the single plots.
   data(logindata)
 
   # login to the servers
-  opals <- opal::datashield.login(logins=logindata, assign=TRUE)
+  conns <- datashield.login(logins=logindata, assign=TRUE)
 
   # Example 1: generate a histogram for each study separately (the default behaviour)
   ds.histogram(x='LD$PM_BMI_CONTINUOUS', type="split")
@@ -134,7 +134,7 @@ the single plots.
   lines(hist$mids, hist$density)
 
   # clear the Datashield R sessions and logout
-  opal::datashield.logout(opals)
+  DSI::datashield.logout(conns)
 
 }
 

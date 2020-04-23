@@ -35,14 +35,17 @@ test_that("Is List", {
 
   expect_length(res_ls, 3)
   expect_length(res_ls$sim1, 2)
-  expect_equal(res_ls$sim1[1], 'D')
-  expect_equal(res_ls$sim1[2], 'my_newobj')
+  expect_length(res_ls$sim1$objects.found, 2)
+  expect_equal(res_ls$sim1$objects.found[1], 'D')
+  expect_equal(res_ls$sim1$objects.found[2], 'my_newobj')
   expect_length(res_ls$sim3, 2)
-  expect_equal(res_ls$sim2[1], 'D')
-  expect_equal(res_ls$sim2[2], 'my_newobj')
+  expect_length(res_ls$sim2$objects.found, 2)
+  expect_equal(res_ls$sim2$objects.found[1], 'D')
+  expect_equal(res_ls$sim2$objects.found[2], 'my_newobj')
   expect_length(res_ls$sim3, 2)
-  expect_equal(res_ls$sim3[1], 'D')
-  expect_equal(res_ls$sim3[2], 'my_newobj')
+  expect_length(res_ls$sim3$objects.found, 2)
+  expect_equal(res_ls$sim3$objects.found[1], 'D')
+  expect_equal(res_ls$sim3$objects.found[2], 'my_newobj')
 
   res_class <- ds.class('my_newobj')
 

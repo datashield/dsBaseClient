@@ -2,18 +2,19 @@ init.studies.dataset.cnsim <- function(variables)
 {
     if (ds.test_env$secure_login_details)
     {
-        ds.test_env$server <- c("sim1", "sim2", "sim3")
-        ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
-        ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
-        ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
-        ds.test_env$table <- c("CNSIM.CNSIM1", "CNSIM.CNSIM2", "CNSIM.CNSIM3")
-        ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                      ds.test_env$url,
-                                                                      ds.test_env$table,
-                                                                      ds.test_env$user,
-                                                                      ds.test_env$password)
-
-        ds.test_env$stats.var <- variables
+      if (ds.test_env$driver == "OpalDriver")
+      {
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CNSIM.CNSIM1")
+        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CNSIM.CNSIM2")
+        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CNSIM.CNSIM3")
+        ds.test_env$login.data <- builder$build()
+      }
+      else 
+      {
+         ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
+      }
+      ds.test_env$stats.var <- variables
     }
 }
 
@@ -21,18 +22,19 @@ init.studies.dataset.dasim <- function(variables)
 {
     if (ds.test_env$secure_login_details)
     {
-        ds.test_env$server <- c("sim1", "sim2", "sim3")
-        ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
-        ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
-        ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
-        ds.test_env$table <- c("DASIM.DASIM1", "DASIM.DASIM2", "DASIM.DASIM3")
-        ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                      ds.test_env$url,
-                                                                      ds.test_env$table,
-                                                                      ds.test_env$user,
-                                                                      ds.test_env$password)
-
-        ds.test_env$stats.var <- variables
+      if (ds.test_env$driver == "OpalDriver")
+      {
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DASIM.DASIM1")
+        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DASIM.DASIM2")
+        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DASIM.DASIM3")
+        ds.test_env$login.data <- builder$build()
+      }
+      else 
+      {
+        ds.test_env$login.data <- DSLite::setupDASIMTest("dsBase", env = ds.test_env)
+      }
+      ds.test_env$stats.var <- variables
     }
 }
 
@@ -40,19 +42,73 @@ init.studies.dataset.survival <- function(variables)
 {
     if (ds.test_env$secure_login_details)
     {
-        ds.test_env$server <- c("survival1", "survival2", "survival3")
-        ds.test_env$url <- c(ds.test_env$ip_address_1,ds.test_env$ip_address_2,ds.test_env$ip_address_3)
-        ds.test_env$user <- c(ds.test_env$user_1,ds.test_env$user_2,ds.test_env$user_3)
-        ds.test_env$password <- c(ds.test_env$password_1,ds.test_env$password_2,ds.test_env$password_3)
-        ds.test_env$table <- c("SURVIVAL.EXPAND_WITH_MISSING1", "SURVIVAL.EXPAND_WITH_MISSING2", "SURVIVAL.EXPAND_WITH_MISSING3")
-        ds.test_env$login.data <- datashield.build.login.data.frame.o(ds.test_env$server,
-                                                                      ds.test_env$url,
-                                                                      ds.test_env$table,
-                                                                      ds.test_env$user,
-                                                                      ds.test_env$password)
-
-        ds.test_env$stats.var <- variables
+      if (ds.test_env$driver == "OpalDriver")
+      {
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+        builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "SURVIVAL.EXPAND_WITH_MISSING1")
+        builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "SURVIVAL.EXPAND_WITH_MISSING2")
+        builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "SURVIVAL.EXPAND_WITH_MISSING3")
+        ds.test_env$login.data <- builder$build()
+      }
+      else 
+      {
+        ds.test_env$login.data <- DSLite::setupSURVIVALTest("dsBase", env = ds.test_env)
+      }
+      ds.test_env$stats.var <- variables
     }
+}
+
+init.studies.dataset.cluster.int <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    #reading data from local files
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_INT1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_INT2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_INT3.csv", header = TRUE)
+    ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "cluster.int1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_INT1")
+      builder$append(server = "cluster.int2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_INT2")
+      builder$append(server = "cluster.int3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_INT3")
+      ds.test_env$login.data <- builder$build()
+    }
+    else 
+    {
+      #to do
+      #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
+}
+
+init.studies.dataset.cluster.slo <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    #reading data from local files
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_SLO1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_SLO2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_SLO3.csv", header = TRUE)
+    ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_SLO1")
+      builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_SLO2")
+      builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_SLO3")
+      ds.test_env$login.data <- builder$build()
+    }
+    else 
+    {
+      #to do
+      #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+
+  }
 }
 
 connect.studies.dataset.cnsim <- function(variables)
@@ -79,6 +135,22 @@ connect.studies.dataset.survival <- function(variables)
     log.in.data.server()
 }
 
+connect.studies.dataset.cluster.int <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cluster.int(variables)
+  log.in.data.server()
+}
+
+connect.studies.dataset.cluster.slo <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cluster.slo(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
     log.out.data.server()
@@ -94,3 +166,13 @@ disconnect.studies.dataset.survival <- function()
     log.out.data.server()
 }
 
+disconnect.studies.dataset.cluster.int <- function()
+{
+  log.out.data.server()
+}
+
+
+disconnect.studies.dataset.cluster.slo <- function()
+{
+  log.out.data.server()
+}

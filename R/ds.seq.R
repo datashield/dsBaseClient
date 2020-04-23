@@ -56,17 +56,10 @@
 #' in general vary.
 #' @param newobj This a character string providing a name for the output
 #' sequence vector which defaults to 'seq.newobj' if no name is specified.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)].
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the <newobj> argument (or default name newObj)
-#' which is written to the serverside. 
+#' which is written to the serverside.
 #' As well as writing the output object as <newobj>
 #' on the serverside, two validity messages are returned
 #' indicating whether <newobj> has been created in each data source and if so whether
@@ -87,12 +80,12 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 
 
 ###datasources
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
-  
+
 ###FROM.value.char
   # check FROM.value.char is valid
   FROM.valid<-1
@@ -137,7 +130,7 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
   return("Error: If LENGTH.OUT.value.char is non.NULL, it must be an integer in inverted commas eg '87187'")
 	}
 
-  
+
 ###ALONG.WITH.name
   # check if user has correctly provided the name of a column to hold ALONG.WITH.name
   if(!(is.null(ALONG.WITH.name) || is.character(ALONG.WITH.name))){
@@ -153,7 +146,7 @@ if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.na
 
 # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("seqDS", FROM.value.char,TO.value.char,BY.value.char,LENGTH.OUT.value.char,ALONG.WITH.name)
- opal::datashield.assign(datasources, newobj, calltext)
+ DSI::datashield.assign(datasources, newobj, calltext)
 
 
 #############################################################################################################
@@ -162,11 +155,11 @@ if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.na
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -208,14 +201,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -234,4 +227,3 @@ if(!no.errors){																								#
 
 }
 #ds.seq
-

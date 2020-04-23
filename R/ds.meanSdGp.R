@@ -11,8 +11,8 @@
 #' across all groups and all studies. If any one subgroup consists of between 1 and "nfilter"
 #' observations, the function simply reports that fact and suggests that you use a different
 #' grouping variable. As in other functions such as ds.table1D, the value of nfilter can be chosen
-#' by the data custodian when each Opal server is originally set up. By default it is set to 5.
-#' There are IMPORTANT DIFFERENCES between ds.meanSdGp compared to the function ds.meanByClass. 
+#' by the data custodian when each data repository server is originally set up. By default it is set to 5.
+#' There are IMPORTANT DIFFERENCES between ds.meanSdGp compared to the function ds.meanByClass.
 #'(A) ds.meanSdGp does not actually subset the data it simply calculates the required statistics
 #' and reports them. This means you cannot use this function if you wish to physically break the
 #' data into subsets. On the other hand, it makes the function very much faster than ds.meanByClass
@@ -21,7 +21,7 @@
 #' problem. If you have two factors (e.g. sex with two levels [0 and 1] and BMI.categorical with
 #' three levels [1,2,3]) you simply need to create a new factor that combines the two together in a
 #' way that gives each combination of levels a different value in the new factor. So, in the
-#' example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1, 
+#' example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1,
 #' newfactor=1; sex=0, BMI=2, newfactor=2; sex=0, BMI=3, newfactor=3; sex=1, BMI=1, newfactor=4;
 #  sex=1, BMI=2, newfactor=5; sex=1, BMI=3, newfactor=6. This calculation can be done with a single
 #' ds.assign command and you then use newfactor as the single categorising factor. (C) At present,
@@ -36,7 +36,7 @@
 #' and so it is logical to consider those counts as primary. The only reference ds.meanSdGp makes
 #' to missing counts is in the reporting of Ntotal and Nmissing overall (ie not broken down by
 #' group). For the future, we plan to extend ds.meanByClass to report both total and non-missing
-#' counts in subgroups. 
+#' counts in subgroups.
 #' @param x This must be named as a character string (e.g. "AGE"). It must denote a continuous
 #' variable of class numeric.
 #' @param y This must be named as a character string (e.g. "sex"). It must denote a categorical
@@ -52,17 +52,8 @@
 #' variables are of equivalent class in each study. By defaulting the checks to FALSE, we save
 #' time, and if you hit a problem that you cannot understand you can reset do.checks to TRUE and
 #' make sure that the input objects are correctly defined in all studies.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers; these
-#' objects hold also the data assign to R, as \code{dataframe}, from opal datasources. If no
-#' datasources are specified, DataSHIELD looks for opal objects. But, beware, if you have several
-#' different sets of opal objects in your analysis space, if you do not explicitly specify which
-#' ones you want, you may be asked to state which ones you want after every command or you may get
-#' a repeated warning about it after every command. In general, you will typically only need one
-#' set of opal objects in any one setting and so this problem will not arise. The datasources
-#' argument also allows you to restrict analysis to one or more specific studies rather than all
-#' studies. For example, if the Opal objects are called Opal.servers and there are five of them,
-#' datasources=Opal.servers[3], will restrict the analysis to the server listed third in your list
-#' of servers.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return If type = "combine" the function returns a list consisting of a four tables denoting:
 #' mean by group; standard deviation (SD) by group; number of non-missing observations (Nvalid) by
 #' group; and standard error of the mean (SEM) by group. All of these are COMBINED ACROSS STUDIES.
@@ -73,7 +64,7 @@
 #' [non-missing] observations across all groups in all studies; Total_Nmissing (the total number of
 #' observations with either or both x and y missing); and Total_Ntotal (the total number of
 #' observations [with data missing or not]). If type ="split", the mean, SD, Nvalid and SEM are
-#' reported by group and by study. The first four elements of the returned output list are 
+#' reported by group and by study. The first four elements of the returned output list are
 #' therefore: Mean_gp_study; StDev_gp_study; Nvalid_gp_study; and SEM_gp_study. If there are three
 #' studies and we are breaking things down by five groups in each study, each of the first four
 #' list elements consists of a table with five rows (one for each group) and three columns (one for
@@ -92,15 +83,15 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' # #load that contains the login details
 #' # data(logindata)
-#' 
+#'
 #' # #Example 1: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
 #' # #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
 #' # #and report the pooled results combined across studies.
 #' # ds.meanSdGp("AGE.60","TID.f","combine")
-#' 
+#'
 #' # #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
 #' # #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
 #' # #and report both study-specific results and the pooled results combined across studies. Do the
@@ -137,7 +128,7 @@
 #' # $Total_Ntotal
 #' # [1] 3700
 #' #
-#' # Example 3: 
+#' # Example 3:
 #' # Calculate the mean, SD, Nvalid and SEM of the continuous variable SBP (systolic BP), broken
 #' # down by CVA (1 = had a stroke, 0 = no stroke) report the study-specific results only. The
 #' # output shows that there are inadequate numbers of stroke cases to carry out this particular
@@ -151,23 +142,23 @@
 #' # they will not try to identify individuals or infer their characteristics, many researchers may
 #' # choose to turn the disclosure filter off (nfilter=0). But for particularly sensitive data, or
 #' # data obtained from official governmental sources, e.g. census data, there may simply be no
-#' # option but to pick a filter of say 4. 
+#' # option but to pick a filter of say 4.
 #' # ds.meanSdGp("SBP", "CVA", "split")
 #' # PRODUCES THIS OUTPUT
 #' # [1] "At least 1 cell count is 1-nfilter, please regroup"
 #' #
 #' # clear the Datashield R sessions and logout
-#' #datashield.logout(opals)
-#' 
+#' #datashield.logout(conns)
+#'
 #' }
 #'
-ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasources=NULL){ 
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasources=NULL){
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
@@ -175,7 +166,7 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
   if(is.null(y)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
@@ -187,9 +178,9 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
   yobj2lookfor <- ynames$holders
   xvariable <- xvarname
   yvariable <- yvarname
- 
+
   if(do.checks)
-  { 
+  {
     # check if the input object(s) is(are) defined in all the studies
     if(is.na(xobj2lookfor)){
       defined <- isDefined(datasources, xvarname)
@@ -205,24 +196,24 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
     typ1 <- checkClass(datasources, x)
     typ2 <- checkClass(datasources, y)
   }
- 
-  # names of the studies 
+
+  # names of the studies
   stdnames <- names(datasources)
-  
+
   # call the server side function that calculates mean and DS by group in each study
 
   calltext <- paste0("meanSdGpDS(", x, ",", y, ")")
-  output <- opal::datashield.aggregate(datasources, as.symbol(calltext))
+  output <- DSI::datashield.aggregate(datasources, as.symbol(calltext))
 
   numsources <- length(output)
 
   all.tables.valid<-1
-  for(i in 1:numsources){ 
+  for(i in 1:numsources){
     if(unlist(output[[i]]$Table_valid==FALSE)) all.tables.valid <- all.tables.valid-1
   }
 
   if(all.tables.valid<1){
-    warning.message<-"At least 1 cell count is 1-nfilter, please regroup" 
+    warning.message<-"At least 1 cell count is 1-nfilter, please regroup"
     return(warning.message)
   }
 
@@ -237,7 +228,7 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
 	  Nmissing <- 0
 	  Ntotal <- 0
 
-	  for(j in 1:numsources){ 
+	  for(j in 1:numsources){
 		mean.matrix <- rbind(mean.matrix,as.numeric(unlist(output[[j]][2])))
 		sd.matrix <- rbind(sd.matrix,as.numeric(unlist(output[[j]][3])))
 		n.matrix <- rbind(n.matrix,as.numeric(unlist(output[[j]][4])))
@@ -269,7 +260,7 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
       dimnames(SEM.gp) <- c(list(names.gp),list("SEM_gp"))
 
     }
- 
+
     # SPLIT OR BOTH
     if(type!="combine"){
 	  numsources <- length(output)
@@ -280,7 +271,7 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
 	  Nmissing <- 0
 	  Ntotal <- 0
 
-	  for(j in 1:numsources){ 
+	  for(j in 1:numsources){
 		mean.matrix <- rbind(mean.matrix,as.numeric(unlist(output[[j]][2])))
 		sd.matrix <- rbind(sd.matrix,as.numeric(unlist(output[[j]][3])))
 		n.matrix <- rbind(n.matrix,as.numeric(unlist(output[[j]][4])))
@@ -336,6 +327,6 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
       return(result)
     }
   }
-  
+
 }
 #ds.meanSdGp

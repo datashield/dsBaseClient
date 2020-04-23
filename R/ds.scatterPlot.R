@@ -47,8 +47,8 @@
 #' @param type a character which represents the type of graph to display. A scatter plot for
 #' combined data is generated when the \code{type} is set to 'combine'. One scatter plot for each
 #' single study is generated when the \code{type} is set to 'split' (default).
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return one or more scatter plots depending on the argument \code{type}
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
@@ -57,10 +57,10 @@
 #'
 #'   # load the file that contains the login details
 #'   data(logindata)
-#' 
+#'
 #'   # login to the servers
-#'   opals <- opal::datashield.login(logins=logindata, assign=TRUE)
-#' 
+#'   conns <- datashield.login(logins=logindata, assign=TRUE)
+#'
 #'   # Example 1: generate a scatter plot for each study separately (the default behaviour)
 #'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', type="split")
 #'
@@ -105,13 +105,13 @@
 #'                    noise=0.1, type='split')
 #'
 #'   # clear the Datashield R sessions and logout
-#'   opal::datashield.logout(opals)
+#'   DSI::datashield.logout(conns)
 #'
 #' }
 #'
 ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", datasources=NULL){
 
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(x)){
     stop("Please provide the x-variable", call.=FALSE)
   }
@@ -121,7 +121,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
   }
 
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
   # the input variable might be given as column table (i.e. D$object)
@@ -174,7 +174,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
 
   # call the server-side function that generates the x and y coordinates of the centroids
   call <- paste0("scatterPlotDS(", x, ",", y, ",", method.indicator, ",", k, ",", noise, ")")
-  output <- opal::datashield.aggregate(datasources, call)
+  output <- DSI::datashield.aggregate(datasources, call)
 
   pooled.points.x <- c()
   pooled.points.y <- c()

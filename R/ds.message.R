@@ -1,6 +1,6 @@
-#' 
+#'
 #' @title Return a 'studysideMessage' written by an assign function to serverside
-#' @description This function allows for error messages arising from the 
+#' @description This function allows for error messages arising from the
 #' running of a server-side assign function to be returned to the client-side
 #' @details Errors arising from aggregate server-side functions can be returned
 #' directly to the client-side. But this is not possible for server-side assign
@@ -16,13 +16,13 @@
 #' DataSHIELD can write a $studysideMessage, and as additional protection against
 #' unexpected ways that someone may try to get round this limitation, a
 #' $studysideMessage is a string that cannot exceed a length of nfilter.string
-#' a default of 80 characters.  
+#' a default of 80 characters.
 #' @param message.obj.name is a character string, containing the name of the list containing the
 #' message. As an example, the server-side function mergeDS enacts the
 #' command:    datashield.assign(datasources, "messageobj", calltext2)
 #' As a standard assign function its output is directed to the list object named
 #' (in this case) "messageobj". If a studysideMessage is written by DataSHIELD
-#' it can be found as messageobj$studysideMessage. To read it, you have to 
+#' it can be found as messageobj$studysideMessage. To read it, you have to
 #' issue the client-side command: ds.message('messageobj'). This tells DataSHIELD
 #' to look for the server-side object 'messageobj' and if it finds it, to return any
 #' text held in messageobj$studysideMessage. In order to help users to know the name
@@ -34,21 +34,17 @@
 #' of each call. In combination, these two notes alert the user to the fact that if there is
 #' an error, there may be additional information available in a studysideMessage, and also
 #' tells them how to retrieve that message.
-#' @param datasources specifies the particular opal object(s) to use, if it is not specified
-#' the default set of opals will be used. The default opals are always called default.opals.
-#' This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-#' If you wish to specify the second opal server in a set of three, the parameter is specified:
-#' e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-#' e.g. datasources=opals.em[2,3]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return a list object from each study, containing whatever message has been written by
 #' DataSHIELD into $studysideMessage.
 #' @author Burton PR
 #' @export
 ds.message<-function(message.obj.name=NULL,datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
   # Check if user has provided the name of the studyside list object that holds the required message
@@ -59,12 +55,10 @@ ds.message<-function(message.obj.name=NULL,datasources=NULL){
 
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("messageDS", message.obj.name)
-  output.message<-opal::datashield.aggregate(datasources, calltext)
-  
+  output.message<-DSI::datashield.aggregate(datasources, calltext)
+
 #RETURN COMPLETION INFORMATION TO .GlobalEnv
     message("\nMESSAGES FROM STUDYSIDE SERVERS ARE:-\n")
     return(Message=output.message)
 }
 #ds.message
-
-

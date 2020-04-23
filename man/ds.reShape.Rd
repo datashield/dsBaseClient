@@ -38,7 +38,7 @@ columns in wide format}
 \item{timevar.name, }{the variable in long format that differentiates multiple
 records from the same
 group or individual. If more than one record matches, the first will be taken. In the example,
-given under param v.names, it is the 'age' variable that discriminates the time at which 
+given under param v.names, it is the 'age' variable that discriminates the time at which
 each measurement was taken. For example, timevar.name='time.name'}
 
 \item{idvar.name, }{names of one or more variables in long format that identify multiple
@@ -50,14 +50,14 @@ in an 'individual.ID' vector which can be declared as <idvar.name>: idvar.name='
 \item{drop, }{a vector of names of variables to drop before reshaping. This can simplify the
 resultant output. For example,  drop=c('bmi.26','pm10.16','survtime','censor')}
 
-\item{direction, }{a character string, partially matched to either 'wide' to reshape from 
+\item{direction, }{a character string, partially matched to either 'wide' to reshape from
 long to wide format, or 'long' to reshape from wide to long format.}
 
 \item{sep, }{a character vector of length 1, indicating a separating character in the variable
 names in the wide format. This is used for creating good v.names and times arguments based
 on the names in the <varying> argument. This is also used to create variable names
 when reshaping
-to wide format. For example, in long format if sep='.', and systolic blood pressure is held in 
+to wide format. For example, in long format if sep='.', and systolic blood pressure is held in
 a column 'sbp', and age is recorded in years in a vector 'age' then depending how you
 set things up the column for sbp at age 7 in the wide format may be called
 'sbp.7' or 'sbp.age.7'}
@@ -66,15 +66,8 @@ set things up the column for sbp at age 7 in the wide format may be called
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
 to 'reshape.newobj'.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a reshaped data.frame converted from long to wide format or from wide to

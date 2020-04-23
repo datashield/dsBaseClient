@@ -76,7 +76,7 @@ the user in order to ensure that it can be carried outin a timely manner}
 
 \item{offset}{A character string specifying the name of a variable to be used as
 an offset. An offset is a component of a glm which may be viewed as a covariate
-with a known coefficient of 1.00 and so the coefficient does not need to be 
+with a known coefficient of 1.00 and so the coefficient does not need to be
 estimated by the model. As an example, an offset is needed to fit a piecewise
 exponential regression model. Unlike the standard glm() function in
 native R, ds.glmSLMA() only allows an offset
@@ -100,14 +100,14 @@ restricted maximum likelihood (REML), or fixed effects meta-analysis (FE).}
 \item{dataName}{A character string specifying the name of an (optional) dataframe that contains
 all of the variables in the glm formula. This avoids you having to specify the name of the
 dataframe in front of each covariate in the formula e.g. if the dataframe is
-called "DataFrame" you 
+called "DataFrame" you
 avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
 Processing stops if a non existing data frame is indicated.}
 
 \item{checks}{This argument is a boolean. If TRUE ds.glmSLMA then undertakes a series
 of checks of
 the structural integrity of the model that can take several minutes. Specifically
-it verifies that the 
+it verifies that the
 variables in the model are all defined (exist) on the server site at every study
 and that they have the correct characteristics required to fit a GLM. The default
 value is FALSE
@@ -127,21 +127,15 @@ to be alerted
 more quickly than this if there is a delay in convergence, or you may wish to
 allow MORE iterations.}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not specified
-the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or
-datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal
-servers in a set specify:
-e.g. datasources=opals.em[c(2,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 Many of the elements of the output list returned by ds.glmSLMA from
 each study separately are precisely
 equivalent to those returned by the glm() function in native R. However,
 potentially disclosive elements
-such as individual-level residuals and linear predictor values are blocked. 
+such as individual-level residuals and linear predictor values are blocked.
 The return results from each separate study appear first in the return list with
 the full set of results from each study presented in a block and the
 blocks listed in the order in which the studies appear in <datasources>.
@@ -227,7 +221,7 @@ meta-analysis (SLMA) package such as metafor to generate estimates pooled via SL
 
 SLMA.pooled.estimates:- if the argument <combine.with.metafor> = TRUE,
 ds.glmSLMA also returns a matrix containing pooled estimates for each
-regression coefficient across all studies with pooling under SLMA via 
+regression coefficient across all studies with pooling under SLMA via
 random effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed effects meta-analysis (FE)
 
@@ -241,7 +235,7 @@ with pooled co-analysis across studies being based on study level meta-analysis
 \details{
 ds.glmSLMA specifies the structure of a generalized linear model (glm)
 to be fitted separately on each study/data source. The model is first constructed
-and disclosure checked by glmSLMADS1. This aggregate function then returns its 
+and disclosure checked by glmSLMADS1. This aggregate function then returns its
 output to ds.glmSLMA which processes the information and uses it in a call to
 the second aggregate function glmSLMADS2. This call specifies and fits
 the required glm in each data source.
@@ -267,7 +261,7 @@ necessity to request additional work from individual studies if
 the modelling is to be extended to include analyses not subsumed
 in the original analytic plan. Additional analyses of this nature
 may, for example, include analyses based on interactions between covariates
-identified as having significant main effects in the original analysis. 
+identified as having significant main effects in the original analysis.
 From a mathematical perspective, the SLMA approach (using ds.glmSLMA)
 differs fundamentally from the usual approach using ds.glm
 in that the latter is mathematically equivalent

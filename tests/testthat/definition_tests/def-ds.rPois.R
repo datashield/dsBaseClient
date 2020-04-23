@@ -4,19 +4,19 @@ source("definition_tests/def-assign-stats.R")
 {
    if (size <= 0)
    {
-     expect_error(ds.rPois(samp.size = size,newobj=variable.created, datasources=ds.test_env$connection.opal))
+     expect_error(ds.rPois(samp.size = size,newobj=variable.created))
    }
    else if (size > (2^31-1))
    {
-     expect_error(ds.rPois(samp.size = size,newobj=variable.created, datasources=ds.test_env$connection.opal))
+     expect_error(ds.rPois(samp.size = size,newobj=variable.created))
    }
    else
    {
    
-      ds.rPois(samp.size = size,newobj=variable.created, datasources=ds.test_env$connection.opal)
-      exists <- ds.exists(variable.created,datasources=ds.test_env$connection.opal)
-      type <- ds.class(variable.created,datasources=ds.test_env$connection.opal)
-      sample.size <- ds.length(variable.created, type = "split", datasources=ds.test_env$connection.opal)
+      ds.rPois(samp.size = size,newobj=variable.created)
+      exists <- ds.exists(variable.created)
+      type <- ds.class(variable.created)
+      sample.size <- ds.length(variable.created, type = "split")
 
      
       for(index in 1:length(exists))
@@ -42,16 +42,14 @@ source("definition_tests/def-assign-stats.R")
     expect_error(ds.rPois(samp.size = size, 
                           newobj=variable.created,
                           seed.as.integer = seed,
-                          return.full.seed.as.set = FALSE,
-                          datasources=ds.test_env$connection.opal))
+                          return.full.seed.as.set = FALSE))
   }
   else if (size > (2^31-1))
   {
     expect_error(ds.rPois(samp.size = size,
                           newobj=variable.created, 
                           seed.as.integer = seed,
-                          return.full.seed.as.set = FALSE,
-                          datasources=ds.test_env$connection.opal))
+                          return.full.seed.as.set = FALSE))
   }
   
   else
@@ -60,11 +58,10 @@ source("definition_tests/def-assign-stats.R")
     ds.rPois(samp.size = size, 
              newobj=variable.created,
              seed.as.integer = seed,
-             return.full.seed.as.set = FALSE,
-             datasources=ds.test_env$connection.opal)
-    exists <- ds.exists(variable.created,datasources=ds.test_env$connection.opal)
-    type <- ds.class(variable.created,datasources=ds.test_env$connection.opal)
-    sample.size <- ds.length(variable.created, type = "split", datasources=ds.test_env$connection.opal)
+             return.full.seed.as.set = FALSE)
+    exists <- ds.exists(variable.created)
+    type <- ds.class(variable.created)
+    sample.size <- ds.length(variable.created, type = "split")
     
     for(index in 1:length(exists))
     {
@@ -89,8 +86,7 @@ source("definition_tests/def-assign-stats.R")
     expect_error(ds.rPois(samp.size = size,
                           newobj=variable.created, 
                           seed.as.integer = seed,
-                          return.full.seed.as.set = FALSE,
-                          datasources=ds.test_env$connection.opal))
+                          return.full.seed.as.set = FALSE))
   }
 }
 
@@ -101,8 +97,7 @@ source("definition_tests/def-assign-stats.R")
   expect_warning(ds.rPois(samp.size = size,
                           newobj=variable.created, 
                           seed.as.integer = seed,
-                          return.full.seed.as.set = FALSE,
-                          datasources=ds.test_env$connection.opal))
+                          return.full.seed.as.set = FALSE))
   
 }
 
@@ -111,8 +106,8 @@ source("definition_tests/def-assign-stats.R")
 {
   size <- 20000
   #create distribution on the server
-  ds.rPois(samp.size = size, lambda = lambda.first.dist, newobj="first.dist",seed.as.integer = seed.first.dist,datasources=ds.test_env$connection.opal)
-  ds.rPois(samp.size = size, lambda = lambda.second.dist, newobj="second.dist",seed.as.integer = seed.second.dist,datasources=ds.test_env$connection.opal)
+  ds.rPois(samp.size = size, lambda = lambda.first.dist, newobj="first.dist",seed.as.integer = seed.first.dist)
+  ds.rPois(samp.size = size, lambda = lambda.second.dist, newobj="second.dist",seed.as.integer = seed.second.dist)
   
   errors <- .compute.errors.between.distributions("first.dist","second.dist",size)
  
@@ -127,8 +122,8 @@ source("definition_tests/def-assign-stats.R")
   size <- 20000
   
   #create distribution on the server
-  ds.rPois(samp.size = size, lambda = lambda.first.dist, newobj="first.dist.diff",seed.as.integer = seed.first.dist,datasources=ds.test_env$connection.opal)
-  ds.rPois(samp.size = size, lambda = lambda.second.dist, newobj="second.dist.diff",seed.as.integer = seed.second.dist,datasources=ds.test_env$connection.opal)
+  ds.rPois(samp.size = size, lambda = lambda.first.dist, newobj="first.dist.diff",seed.as.integer = seed.first.dist)
+  ds.rPois(samp.size = size, lambda = lambda.second.dist, newobj="second.dist.diff",seed.as.integer = seed.second.dist)
   
   # compute errors
   errors <- .compute.errors.between.distributions("first.dist.diff","second.dist.diff",size)
@@ -143,7 +138,7 @@ source("definition_tests/def-assign-stats.R")
 .test.lambda.mean.var <- function(seed, lambda.vector)
 {
   size <- 20000
-  ds.rPois(samp.size = size, lambda = lambda.vector, newobj="first.dist",seed.as.integer = seed, datasources=ds.test_env$connection.opal)
+  ds.rPois(samp.size = size, lambda = lambda.vector, newobj="first.dist",seed.as.integer = seed)
   first.dist <- .calc.distribution.server("first.dist")
   expect_equal(first.dist[1],lambda.vector[1],tolerance = 10^1)
   expect_equal(first.dist[2],lambda.vector[1],tolerance = 10^1)

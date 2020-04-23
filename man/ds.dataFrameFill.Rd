@@ -14,9 +14,8 @@ compared to the data frames of the other studies used in the analysis.}
 \item{newobj}{a character string providing a name for the output data frame which defaults to
 the name "dataframefill.newobj" if no name is specified.}
 
-\item{datasources}{specifies the particular opal objects to use. If the \code{datasources}
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function ds.setDefaultOpals.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 The object specified by the \code{newobj} argument which is written to the serverside.

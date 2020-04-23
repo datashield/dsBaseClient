@@ -18,7 +18,7 @@
 #' {tapplyDS}, {tapply.assign} returns no results to the clientside, it is fundamentally
 #' non-disclosive and the number of observations in each unique indexing group does
 #' not need to be evaluated against nfilter.tab (the minimum allowable non-zero count
-#' in a contingency table). This means that tapplyDS.assign can be used, for example, 
+#' in a contingency table). This means that tapplyDS.assign can be used, for example,
 #' to break a dataset down into a small number of values for each individual and then to flag up
 #' which individuals have got at least one positive value for a binary outcome variable.
 #' This will almost inevitably generate some indexing groups smaller than nfilter.tab but
@@ -30,7 +30,7 @@
 #' serverside functions {tapplyDS} and {tapplyDS.assign} both start by stripping
 #' any observations which have missing (NA) values in either the outcome variable or in
 #' any one of the indexing factors. In consequence, the resultant analyses are always based
-#' on complete.cases.   
+#' on complete.cases.
 #' @param X.name, the name of the variable to be summarized. The user must set the name as a
 #' character string in inverted commas. For example: X.name="var.name"
 #' @param INDEX.names, the name of a single factor or a vector of names of factors to
@@ -40,7 +40,7 @@
 #' can coerce non-factor vectors into factors. However, this does not always work when
 #' using the DataSHIELD ds.tapply/ds.tapply.assign functions so if you are concerned that
 #' an indexing vector is not being treated correctly as a factor,
-#' please first declare it explicitly as a factor using {ds.asFactor}   
+#' please first declare it explicitly as a factor using {ds.asFactor}
 #' @param FUN.name, the name of one of the allowable summarizing functions to be applied
 #' specified in inverted commas. The present version of the
 #' function allows the user to choose one of five summarizing functions. These are
@@ -48,28 +48,21 @@
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
 #' to "tapply.assign.newobj".
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return an array of the summarized values created by the tapplyDS.assign function.
 #' This array is written as a newobj onto the serverside. It has the same number of
-#' dimensions as INDEX. 
+#' dimensions as INDEX.
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
 ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   ###X.name
   # check if user has provided the name of the column that holds X.name
   if(is.null(X.name)){
@@ -92,7 +85,7 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
     INDEX.names.transmit <- NULL
   }
 
-  ###FUN.name  
+  ###FUN.name
   # check if user has provided a valid summarizing function
   if(is.null(FUN.name)){
     return("Error: Please provide a valid summarizing function, as a character string")
@@ -105,8 +98,8 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("tapplyDS.assign", X.name, INDEX.names.transmit, FUN.name)
- 
-  opal::datashield.assign(datasources, newobj, calltext)
+
+  DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -114,11 +107,11 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
 #SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
 test.obj.name<-newobj																					 	#
 																											#																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -160,14 +153,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -185,7 +178,6 @@ if(!no.errors){																								#
 #############################################################################################################
 
 
-  
+
 }
 #ds.tapply.assign
-

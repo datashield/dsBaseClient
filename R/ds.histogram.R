@@ -40,8 +40,8 @@
 #' plot. If \code{vertical.axis} is set to 'Frequency' then the histogram of the frequencies
 #' is returned. If \code{vertical.axis} is set to 'Density' then the histogram of the densities
 #' is returned.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author Amadou Gaye, Demetris Avraam for DataSHIELD Development Team
 #' @export
@@ -52,7 +52,7 @@
 #'   data(logindata)
 #'
 #'   # login to the servers
-#'   opals <- opal::datashield.login(logins=logindata, assign=TRUE)
+#'   conns <- datashield.login(logins=logindata, assign=TRUE)
 #'
 #'   # Example 1: generate a histogram for each study separately (the default behaviour)
 #'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', type="split")
@@ -106,80 +106,80 @@
 #'   lines(hist$mids, hist$density)
 #'
 #'   # clear the Datashield R sessions and logout
-#'   opal::datashield.logout(opals)
+#'   DSI::datashield.logout(conns)
 #'
 #' }
 #'
 ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
   xnames <- extract(x)
   varname <- xnames$elements
   obj2lookfor <- xnames$holders
-  
+
   # check if the input object(s) is(are) defined in all the studies
   if(is.na(obj2lookfor)){
     defined <- isDefined(datasources, varname)
   }else{
     defined <- isDefined(datasources, obj2lookfor)
   }
-  
+
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
-  
+
   # the input object must be a numeric or an integer vector
   if(!('integer' %in% typ) & !('numeric' %in% typ)){
     message(paste0(x, " is of type ", typ, "!"))
     stop("The input object must be an integer or numeric vector.", call.=FALSE)
   }
-  
+
   # the argument vertical.axis must be "Frequency" or "Density"
   if(vertical.axis != 'Frequency' & vertical.axis != 'Density'){
     stop('Function argument "vertical.axis" has to be either "Frequency" or "Density"', call.=FALSE)
   }
-  
+
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
     stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
   }
-  
+
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
-  
+
   # number of studies
   num.sources <- length(datasources)
-  
+
   if(method=='smallCellsRule'){ method.indicator <- 1 }
   if(method=='deterministic'){ method.indicator <- 2 }
   if(method=='probabilistic'){ method.indicator <- 3 }
-  
-  # call the server-side function that returns the range of the vector from each study 
+
+  # call the server-side function that returns the range of the vector from each study
   cally1 <- paste0("histogramDS1(", x, ",", method.indicator, ",", k, ",", noise, ")")
-  ranges <- unique(unlist(opal::datashield.aggregate(datasources, as.symbol(cally1))))
-  
+  ranges <- unique(unlist(DSI::datashield.aggregate(datasources, as.symbol(cally1))))
+
   # produce the 'global' range
   range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
   min <- range.arg[1]
   max <- range.arg[2]
-  
+
   # call the server-side function that generates the histogram object to plot
   call <- paste0("histogramDS2(", x, ",", num.breaks, ",", min, ",", max, ",", method.indicator, ",", k, ",", noise, ")")
-  outputs <- opal::datashield.aggregate(datasources, call)
-  
+  outputs <- DSI::datashield.aggregate(datasources, call)
+
   hist.objs <- vector("list", length(datasources))
   invalidcells <- vector("list", length(datasources))
-  
+
   for(i in 1:length(datasources)){
     output <- outputs[[i]]
     if(is.null(output)){
@@ -188,7 +188,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
     hist.objs[[i]] <- output$histobject
     invalidcells[[i]] <- output$invalidcells
   }
-  
+
   # if type is set to 'combine' then combine the histogram objects
   # 'breaks' and 'mids' are the same for all studies
   if(type=='combine'){
@@ -200,14 +200,14 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
     }
     global.density <- global.density/3
     global.intensities <- global.density
-    
+
     # generate the combined histogram object to plot
     combined.histobject <- hist.objs[[1]]
     combined.histobject$counts <- global.counts
     combined.histobject$density <- global.density
     combined.histobject$intensities <- combined.histobject$density
   }
-  
+
   # plot the individual histograms on the same graph
   # if the argument 'type'="combine" plot a combined histogram and if 'type'="split" plot single
   # histograms for each study separately
@@ -253,6 +253,6 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
       stop('Function argument "type" has to be either "combine" or "split"')
     }
   }
-  
+
 }
 # ds.histogram

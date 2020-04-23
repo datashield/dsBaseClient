@@ -2,48 +2,73 @@
 % Please edit documentation in R/ds.asList.R
 \name{ds.asList}
 \alias{ds.asList}
-\title{ds.asList calling aggregate function asListDS}
+\title{Converts a server-side R object into a list}
 \usage{
 ds.asList(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{the name of the input object to be coerced to class
-list. Must be specified in inverted commas e.g. x.name="input.object.name"}
+\item{x.name}{a character string providing the name of the input object to be coerced to 
+a list.}
 
-\item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to aslist.newobj}
+\item{newobj}{a character string that provides the name for the output object
+that is stored on the data servers. Default \code{aslist.newobj}.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-it should be specified without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or by default <x.name>.list
-if the <newobj> argument is NULL) which is written to the serverside.
-In addition, two validity messages are returned. The first confirms an output
-object has been created, the second states its class. The way that {as.list}
-coerces objects to list depends on the class of the object, but in general
-the class of the output object should usually be 'list'
+\code{ds.asList} returns the R object converted into a list 
+which is written to the server-side. Also, two validity messages are returned to the
+client-side indicating the name of the \code{newobj} which 
+has been created in each data source and if 
+it is in a valid form.
 }
 \description{
-this function is based on the native R function {as.list}
+Coerces an R object into a list.
+This function is based on the native R function \code{as.list}.
 }
 \details{
-See details of the native R function {as.list}.
-Unlike most other class coercing functions the serverside function
-that is called is an aggregate function rather than an assign function.
-This is because the {datashield.assign} function in opal deals
-specially with a created object (<newobj>) if it is of class list.
-Reconfiguring the function as an aggregate function
-works around this problem.
+Server function called: \code{asListDS}
+}
+\examples{
+\dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Converting the R object into a List
+  ds.asList(x.name = "D",
+  newobj = "D.asList", 
+  datasources = connections[1]) #only the first Opal server is used ("study1")
+  ds.class(x = "D.asList", datasources = connections[1])   
+              
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+}   
 }
 \author{
-Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+DataSHIELD Development Team
 }

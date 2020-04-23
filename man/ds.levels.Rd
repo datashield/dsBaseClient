@@ -9,8 +9,8 @@ ds.levels(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character, the name of a factor variable}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 levels of x
@@ -28,7 +28,7 @@ This is just a wrapper function for the server side function.
   data(logindata)
 
   # login
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
   ds.levels(x='D$PM_BMI_CATEGORICAL')
@@ -37,7 +37,7 @@ This is just a wrapper function for the server side function.
   ds.levels(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

@@ -18,8 +18,8 @@ If \code{type} is set to 'both' or 'b', both sets of outputs are produced.}
 components. Defaults to checks=FALSE to save time. It is suggested that checks
 should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 The function retrieves the dimension of the object in the form of a vector where the first
@@ -40,24 +40,24 @@ dimensions returned from each study.
   data(logindata)
 
   # login and assign all the stored variables.
-  opals <- datashield.login(logins=logindata, assign=TRUE)
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: Get the dimension of the assigned datasets in each study
-  ds.dim(x='D', type='split')
+  ds.dim(x='D', type='combine')
 
   # Example 2: Get the pooled dimension of the assigned datasets
   ds.dim(x='D', type='combine')
 
-  # Example 3: Get the dimension of the datasets in each single study
-  # and the pooled dimension - default
-  ds.dim(x='D', type='both') 
+  # Example 3: Get the dimension og the datasets in each single study
+  # and the pooled dimension  - default
+  ds.dim(x='D')
 
   # Example 4: Input has to be either matrix, data frame or an array
   # In the below example, the input is a vector so it will not work.
   ds.dim(x='D$LAB_TSC')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

@@ -12,9 +12,8 @@
 #' compared to the data frames of the other studies used in the analysis.
 #' @param newobj a character string providing a name for the output data frame which defaults to
 #' the name "dataframefill.newobj" if no name is specified.
-#' @param datasources specifies the particular opal objects to use. If the \code{datasources}
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function ds.setDefaultOpals.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return The object specified by the \code{newobj} argument which is written to the serverside.
 #' In addition, two validity messages are returned indicating whether the \code{newobj} has been
 #' created in each data source and if so whether it is in a valid form.
@@ -23,9 +22,9 @@
 #'
 ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # if no connections details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
   # check if user has provided the name of the data.frame to be subsetted
@@ -79,7 +78,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   calltext <- call("dataFrameFillDS", df.name, allNames.transmit)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################
   # DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED
@@ -89,7 +88,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   # CALL SEVERSIDE FUNCTION
   calltext <- call("testObjExistsDS", test.obj.name)
-  object.info <- opal::datashield.aggregate(datasources, calltext)
+  object.info <- DSI::datashield.aggregate(datasources, calltext)
 
   # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS
   # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS
@@ -117,7 +116,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   calltext <- call("messageDS", test.obj.name)
-  studyside.message <- opal::datashield.aggregate(datasources, calltext)
+  studyside.message <- DSI::datashield.aggregate(datasources, calltext)
 
   no.errors <- TRUE
   for(nd in 1:num.datasources){

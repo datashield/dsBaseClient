@@ -9,8 +9,8 @@ ds.exists(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character, the name of the object to look for.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a boolean, TRUE if the object is on the server side and FALSE otherwise
@@ -20,7 +20,7 @@ this function is similar to R function \code{exists}
 }
 \details{
 In DataSHIELD it is not possible to see the data sitting on the servers
-of the collaborating studies. It is only possible to get summaries of objects stored on the 
+of the collaborating studies. It is only possible to get summaries of objects stored on the
 server side. It is however important to know if an object is defined (i.e. exists) son the server
 side. This function checks if an object do really exists on the server side. Further information
 about the object can be obtained using functions such as \code{ds.class}, \code{length} etc...
@@ -33,7 +33,7 @@ about the object can be obtained using functions such as \code{ds.class}, \code{
 
   # login and assign the required variables to R
   myvar <- list("LAB_TSC")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
   # assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
   ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
@@ -42,7 +42,7 @@ about the object can be obtained using functions such as \code{ds.class}, \code{
   ds.exists(x='labtsc')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rBinom.R
 \name{ds.rBinom}
 \alias{ds.rBinom}
-\title{ds.rBinom calling rBinomDS and setSeedDS}
+\title{Generates Binomial distribution in the server-side}
 \usage{
 ds.rBinom(
   samp.size = 1,
@@ -15,115 +15,121 @@ ds.rBinom(
 )
 }
 \arguments{
-\item{samp.size}{the length of the random number vector to be created in each source.
-<samp.size> can be a numeric scalar and this then specifies the length of the
-random vectors in each source to be the same. If it is a numeric vector
-it enables the random vectors to be of different lengths in each source but the
-numeric vector must be of length equal to the number of data sources being used.
-Often, one wishes to generate random vectors of
-length equal to the length of standard vectors in
-each source. To do this most easily, issue a command such as:
-numobs.list<-ds.length('varname',type='split') where varname is an arbitrary
-vector of standard length in all sources. Then issue command:
-numobs<-unlist(numobs.list) to make numobs numeric rather than a list. Finally,
-declare samp.size=numobs as the first argument for the ds.rBinom function
-Please note that because (in this case) numobs is a clientside vector it
-should be specified without inverted commas (unlike the serverside vectors
-which may be used for the <size> and <prob> arguments [see below]).}
+\item{samp.size}{an integer value or an integer vector that defines the length of 
+the random numeric vector to be created in each source.}
 
-\item{size}{a scalar that must be a positive integer - see "details" above.
-It cannot be specified as a numeric with a decimal point. You can also specify
-the <size> argument to be a serverside vector equal in length
-to the random number vector you want to generate and this allows the
-size to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.sizes) you must
-specify the argument as a character string (..., size="vector.of.sizes"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <size> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
-Default value for <size> = 1 which simulates binary outcomes (all observations 0 or 1).}
+\item{size}{a positive integer that specifies the number of Bernoulli trials.}
 
-\item{prob}{a numeric scalar in range 0 > prob > 1 which specifies the
-probability of a positive response (i.e. 1 rather than 0) - see "details" above.
-Alternatively you can specify the <prob> argument
-to be a serverside vector equal in length
-to the random number vector you want to generate and this allows
-prob to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.probs) you must
-specify the argument as a character string (..., prob="vector.of.probs"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <prob> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
-Default value for <prob> = 0.5 (equivalent to tossing an unbiased coin).}
+\item{prob}{a numeric scalar value or vector  in range 0 > prob > 1 which specifies the
+probability of a positive response (i.e. 1 rather than 0).}
 
-\item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'rbinom.newobj' if no name is specified.}
+\item{newobj}{a character string that provides the name for the output variable 
+that is stored on the data servers. Default \code{rbinom.newobj}.}
 
-\item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
-in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-the seed in each study is set as 938*1 in the first study in the set of
-data sources being used, 938*2 in the second, up to 938*N in the Nth study.
-If <seed.as.integer> is set as 0 all sources will start with the seed value
-0 and all the random number generators will therefore start from the same position.
-If you want to use the same starting seed in all studies but do not wish it to
-be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
-As an example, if the <seed.as.integer> value is 78326 then the seed
-in each source will be set at 78326*1 = 78326 because the vector of datasources
-being used in each call to the function will always be of length 1 and so the
-source-specific seed multiplier will also be 1. The function ds.rBinom
-calls the serverside assign function setSeedDS to create the random seeds in
-each source}
+\item{seed.as.integer}{an integer or a NULL value which provides the 
+random seed in each data source.}
 
-\item{return.full.seed.as.set}{logical, if TRUE will return the full
-random number seed in each data source (a numeric vector of length 626). If
-FALSE it will only return the trigger seed value you have provided: eg if
-<seed.as.integer> = 32 and there are three studies, the ds.rBinom function will
-return: "$integer.seed.as.set.by.source", [1]  32  64 96, rather than the three
-vectors each of length 626 that represent the full seeds generated in each source.
-Default is FALSE.}
+\item{return.full.seed.as.set}{logical, if TRUE will return the full random number seed 
+in each data source (a numeric vector of length 626). If FALSE it will only return the 
+trigger seed value you have provided. Default is FALSE.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-Writes the pseudorandom number vector with the characteristics specified
-in the function call as a new serverside vector in each data source. Also returns
-key information to the clientside: the random seed trigger as specified by you in each
-source + (if requested) the full 626 length random seed vector this generated in
-each source (see info for the argument <return.full.seed.as.set>). The ds.rBinom
-function also returns a vector reporting the length of the pseudorandom vector
-created in each source.
+\code{ds.rBinom} returns random number vectors 
+with a Binomial distribution for each study, 
+taking into account the values specified in each parameter of the function.
+The output vector is written to the server-side. 
+If requested, it also returned to the client-side the full 626 lengths 
+random seed vector generated in each source 
+(see info for the argument \code{return.full.seed.as.set}).
 }
 \description{
-Generates random (pseudorandom) numbers from a binomial distribution
+Generates random (pseudorandom) non-negative integers from a Binomial distribution.
+Also, \code{ds.rBinom} allows creating different vector lengths in each server.
 }
 \details{
-An assign function that creates a vector of pseudorandom numbers
-in each data source. This function generates random numbers distributed with a
-binomial distribution - the situation that arises when individual observations
-can either be 0 or 1 with a given probability. The value observed for each
-observation (0 or 1) may formally be called a "Bernoulli trial". This being
-the case two arguments determine the binomial distribution to be generated
-using ds.rBinom: <size> and <prob>. The argument <prob> determines the
-probability of a positive response (i.e. the probability of observing 1 rather 0)
-in a single observation and it must lie strictly in the range 0 > prob >1.
-The argument <size> allows the observations to be considered in groups. For example
-if size=5 an observation consists of a group of 5 Bernoulli trials and the
-simulated outcome can either be 0,1,2,3,4 or 5. If <size> = 1 all observations are
-either 0 or 1 and this therefore allows one to simulate binary data. The 
-argument <size> must be specified as an integer not as a numeric with a decimal point.
-The arguments of ds.rBinom also allow one to specify the length of the output vector
-in each source.
+Creates a vector of random or pseudorandom non-negative integer values 
+distributed with a Binomial distribution. The ds.rBinom function's arguments specify 
+the number of trials, the success probability, the length and the seed of the output 
+vector in each source.
+
+To specify a different \code{size} in each source, you can use a character vector 
+\code{(..., size="vector.of.sizes"...)} 
+or the \code{datasources} parameter to create the random vector for one source at a time,
+changing \code{size} as required.
+The default value for \code{size = 1} which simulates binary outcomes (all observations 0 or 1).
+
+To specify different \code{prob} in each source, you can use an integer or  character vector 
+\code{(..., prob="vector.of.probs"...)} or the \code{datasources} parameter to create the random 
+vector for one source at a time, changing \code{prob} as required.
+
+If \code{seed.as.integer} is an integer 
+e.g. 5 and there is more than one source (N) the seed is set as 5*N. 
+For example, in the first study the seed is set as 938*1, 
+in the second as  938*2  
+up to 938*N in the Nth study.
+
+If \code{seed.as.integer} is set as 0 all sources will start with the seed value
+0 and all the random number generators will, therefore, start from the same position. 
+Besides, to use the same starting seed in all studies but do not wish it to
+be 0, you can use \code{datasources} argument to generate the random number 
+vectors one source at a time. 
+
+Server functions called: \code{rBinomDS} and \code{setSeedDS}.
+}
+\examples{
+\dontrun{
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  #Generating the vectors in the Opal servers
+  ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
+  size=as.character(c(10,23,5)),   #Bernoulli trials change in each source 
+  prob=c(0.6,0.1,0.5), #Probability  changes in each source 
+  newobj="Binom.dist", 
+  seed.as.integer=45, 
+  return.full.seed.as.set=FALSE,
+  datasources=connections)   #all the Opal servers are used, in this case 3 
+                             #(see above the connection to the servers) 
+
+  ds.rBinom(samp.size=15,    
+            size=4,          
+            prob=0.7, 
+            newobj="Binom.dist", 
+            seed.as.integer=324, 
+            return.full.seed.as.set=FALSE, 
+            datasources=connections[2]) #only the second  Opal server is used ("study2")
+            
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

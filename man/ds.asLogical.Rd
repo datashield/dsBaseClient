@@ -2,49 +2,73 @@
 % Please edit documentation in R/ds.asLogical.R
 \name{ds.asLogical}
 \alias{ds.asLogical}
-\title{ds.asLogical calling assign function asLogicalDS}
+\title{Converts a server-side R object into a logical class}
 \usage{
 ds.asLogical(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{the name of the input object to be coerced to class
-logical. Must be specified in inverted commas.}
+\item{x.name}{a character string providing the name of the 
+input object to be coerced to a logical.}
 
-\item{newobj}{the name of the new output variable. If this argument is set
-to NULL, the name of the new variable is defaulted to aslogical.newobj}
+\item{newobj}{a character string that provides the name for the output object
+that is stored on the data servers. Default \code{aslogical.newobj}.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-it should be specified without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or by default <x.name>.logic
-if the <newobj> argument is NULL) which is written to the serverside.
-In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study there may
-be a studysideMessage that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message(<newobj>) it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message(<newobj>)
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.asLogical} returns the R object converted into a logical
+that is written to the server-side. Also, two validity messages are returned
+to the client-side indicating the name of the \code{newobj} which 
+has been created in each data source and if 
+it is in a valid form.
 }
 \description{
-this function is based on the native R function {as.logical}
+Coerces an R object into a logical class.
+This function is based on the native R function \code{as.logical}.
 }
 \details{
-See details of the native R function {as.logical}.
+Server function called: \code{asLogicalDS}
+}
+\examples{
+\dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Converting the R object into a logical
+  ds.asLogical(x.name = "D$LAB_TSC", 
+               newobj = "logical.obj", 
+               datasources =connections[1]) #only the first Opal server is used ("study1")
+  ds.class(x = "logical.obj", datasources = connections[1])  
+               
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+}   
 }
 \author{
-Paul Burton, for DataSHIELD Development Team
+DataSHIELD Development Team
 }

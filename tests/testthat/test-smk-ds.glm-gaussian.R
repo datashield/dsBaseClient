@@ -83,7 +83,7 @@ test_that("glm_gaussian, with check", {
 context("ds.glm::smk::gaussian::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "LAB_TRIG", "LAB_TSC"))
 })
 
 disconnect.studies.dataset.cnsim()

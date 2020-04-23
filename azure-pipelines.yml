@@ -33,7 +33,8 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v5.1-dev
+    ref: v6.0-dev
+
 
 
 #########################################################################################
@@ -119,6 +120,7 @@ jobs:
     condition: succeeded()
 
 
+
     #####################################################################################
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
@@ -133,13 +135,10 @@ jobs:
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"  
       
-      #sudo R -q -e "devtools::install_github(repo='datashield/DSI', ref='1.0.x', dependencies=TRUE)"
-      #sudo R -q -e "devtools::install_github(repo='datashield/DSOpal', ref='1.0.x', dependencies=TRUE)"
-      #sudo R -q -e "devtools::install_github(repo='datashield/DSLite', ref='1.0.x', dependencies=TRUE)"
-      
-      sudo R -q -e "devtools::install_github(repo='datashield/opal', ref='master')"
-      sudo R -q -e "devtools::install_github(repo='datashield/opaladmin', ref='master')"
-      
+      sudo R -q -e "devtools::install_github(repo='datashield/DSI', ref='1.0.x', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSOpal', ref='1.0.x', dependencies=TRUE)"
+      sudo R -q -e "devtools::install_github(repo='datashield/DSLite', ref='1.0.x', dependencies=TRUE)"
+            
     displayName: 'Install all dependencies for dsBaseClient'
     condition: succeeded()
 
@@ -149,6 +148,7 @@ jobs:
     # devtools::document() been run before commiting?
     # If previous steps have failed then don't run.
   - bash: |
+
   
       pwd
       

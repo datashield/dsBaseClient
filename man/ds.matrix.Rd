@@ -22,7 +22,7 @@ in the matrix and these will fill the matrix column by column or
 row by row depending whether the argument <byrow> is FALSE (default) or TRUE.
 If the mdata vector is not the same length as the total number of elements
 in the matrix to be created, the values in mdata will be used repeatedly until
-all elements in the matrix are full. 
+all elements in the matrix are full.
 If mdata is a scalar, all elements in the matrix will take that value.
 The <mdata> argument can be specified either as a character string specifying
 the name of a serverside scalar or vector,
@@ -69,15 +69,8 @@ and a list of length one as row names only.}
 is to be written. If no <newobj> argument is specified or it is NULL
 the output matrix names defaults to "matrix.newobj"}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the object specified by the <newobj> argument (or default name "new_matrix")

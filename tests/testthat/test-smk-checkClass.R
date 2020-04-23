@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("checkClass::smk::simple test")
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$GENDER")
+    res <- checkClass(ds.test_env$connections, "D$GENDER")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -34,7 +34,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_TSC")
+    res <- checkClass(ds.test_env$connections, "D$LAB_TSC")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -42,7 +42,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_TRIG")
+    res <- checkClass(ds.test_env$connections, "D$LAB_TRIG")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -50,7 +50,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$LAB_HDL")
+    res <- checkClass(ds.test_env$connections, "D$LAB_HDL")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -58,7 +58,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$DIS_CVA")
+    res <- checkClass(ds.test_env$connections, "D$DIS_CVA")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -66,7 +66,7 @@ test_that("simple test", {
 })
 
 test_that("simple test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$DIS_AMI")
+    res <- checkClass(ds.test_env$connections, "D$DIS_AMI")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -77,7 +77,7 @@ test_that("data.frame test", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors)
 
-    res <- checkClass(ds.test_env$connection.opal, "dataframe.newobj")
+    res <- checkClass(ds.test_env$connections, "dataframe.newobj")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -85,7 +85,7 @@ test_that("data.frame test", {
 })
 
 test_that("missing test", {
-    res <- checkClass(ds.test_env$connection.opal, "D$TEST")
+    res <- checkClass(ds.test_env$connections, "D$TEST")
 
     expect_length(res, 1)
     expect_equal(class(res), "character")
@@ -98,7 +98,7 @@ test_that("missing test", {
 
 context("checkClass::smk::shutdown")
 
-test_that("shtudown", {
+test_that("shutdown", {
     ds_expect_variables(c("D", "dataframe.newobj"))
 })
 
