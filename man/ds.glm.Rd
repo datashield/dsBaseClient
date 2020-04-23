@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glm.R
 \name{ds.glm}
 \alias{ds.glm}
-\title{Fits generalized linear model in the server-side}
+\title{Fits generalized linear model}
 \usage{
 ds.glm(
   formula = NULL,
@@ -21,11 +21,11 @@ ds.glm(
 }
 \arguments{
 \item{formula}{an object of class formula describing
-the model to be fitted. For more details of model specification see 
+the model to be fitted. For more information see 
 "Details".}
 
 \item{data}{A character string specifying the name of an (optional) data frame that contains
-all of the variables in the glm formula.}
+all of the variables in the GLM formula.}
 
 \item{family}{identifies the error distribution function to use in
 the model. 
@@ -38,7 +38,7 @@ an offset. For more information see "Details".}
 \item{weights}{a character string specifying the name of a variable containing
 prior regression weights for the fitting process. 
 \code{ds.glm} does not allow a weights vector to be
-written directly into the glm formula.}
+written directly into the GLM formula.}
 
 \item{checks}{logical. If TRUE \code{ds.glm} checks the structural integrity 
 of the model. Default FALSE. For more information see "Details".}
@@ -68,7 +68,7 @@ The main elements that \code{ds.glm} returns are:
    \item{\code{Nvalid}}{: total number of valid observational units across all studies} 
    \item{\code{Nmissing}}{: total number of observational units across all studies with at least
                             one data item missing}
-   \item{\code{Ntotal}}{: total observational units across all studies.  
+   \item{\code{Ntotal}}{: total of observational units across all studies.  
                           Sum of valid and missing units}
    \item{\code{disclosure.risk}}{: risk of disclosure. 
                                    The value 1 indicates that one of the disclosure traps 
@@ -79,31 +79,37 @@ The main elements that \code{ds.glm} returns are:
    \item{\code{iter}}{: total number of iterations before convergence achieved}
    \item{\code{family}}{: error family and link function}
    \item{\code{formula}}{: model formula }
-   \item{\code{coefficients}}
+   \item{\code{coefficients}}{: a matrix with 5 columns:
+                              (1) the names of all of the regression parameters 
+                                  (coefficients) in the model
+                              (2) the estimated values
+                              (3) corresponding standard errors of the estimated values
+                              (4) the ratio of estimate/standard error
+                              (5) the p-value treating that as a standardised normal deviate}
    \item{\code{dev}}{: residual deviance}
    \item{\code{df}}{: residual degrees of freedom. \code{nb} residual degrees of freedom + number of
    parameters in model = \code{nsubs}}
-   \item{\code{output.information}}{: reminder to user that there 
+   \item{\code{output.information}}{: reminder to the user that there 
                                      is more information at the top of the output}
 }
 
    Estimated coefficients and standard errors etc expanded with estimated confidence intervals
    with % coverage specified by \code{ci} argument. 
    For poisson model,
-    output is generated on scale of linear predictor (log rates and log rate ratios) 
-   and on the natural scale after exponentiation (rates and rate ratios). 
+   the output is generated on the scale of the linear predictor (log rates and log rate ratios) 
+   and the natural scale after exponentiation (rates and rate ratios). 
    
 
 listed (below) as Example 1 under 'examples'.
 }
 \description{
-Fits a generalized linear model (glm) on data from a single or multiple sources
-in the server-side.
+Fits a generalized linear model (GLM) on data from single or multiple sources
+on the server-side.
 }
 \details{
-Fits a glm on data from a single source or from multiple sources. In the latter case
-the data are co-analysed (when using ds.glm) by using an approach that is mathematically
-equivalent to placing all individual-level
+Fits a GLM on data from a single source or multiple sources on the server-side.
+In the latter case, the data are co-analysed (when using \code{ds.glm}) 
+by using an approach that is mathematically equivalent to placing all individual-level
 data from all sources in one central warehouse and analysing those data using the conventional
 \code{glm()} function in R. In this situation marked heterogeneity between sources should be corrected
 (where possible) with fixed effects. e.g. if each study in a (binary) logistic regression
@@ -111,12 +117,12 @@ analysis has an independent intercept, it is equivalent to allowing each study t
 different baseline risk of disease. This may also be viewed as being an IP (individual person)
 meta-analysis with fixed effects.
 
-Privacy protected iterative fitting of a glm is explained here:
+Privacy protected iterative fitting of a GLM is explained here:
 
 (1) Begin with a guess for the coefficient vector to start iteration 1 (let's call it
-beta.vector[1]). Using beta.vector[1], run iteration 1 with each source
+\code{beta.vector[1]}). Using \code{beta.vector[1]}, run iteration 1 with each source
 calculating the resultant score vector (and information matrix) generated
-by its data - given beta.vector[1] -
+by its data - given \code{beta.vector[1]} -
 as the sum of the score vector components (and the sum of the components of the
 information matrix) derived from each individual data record in that source. NB in most models
 the starting values in beta.vector[1] are set to be zero for all parameters.
@@ -176,7 +182,7 @@ which simply means fit a glm with \code{y} as the outcome variable and
 \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
 By default all such models also include an intercept (regression constant) term.
 
-Instead if you need to fit a more complex
+Instead, if you need to fit a more complex
 model in a customised way, the following text gives a few additional pointers:
 
  \deqn{EVENT~1+TID+SEXF*AGE.60}
@@ -203,12 +209,12 @@ period 3 is now obtained directly as the coefficient for TID3
 rather than the sum of the coefficients for the intercept and TID3
 which was the case using the original formula.
 
-In \code{family} \code{ds.glm} can fit three types of models:
+In the \code{family} argument can be specified three types of models to fit:
 
  \itemize{
    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
-   \item{\code{"binomial"}}{: a conventional unconditional logistic regression model}
-   \item{\code{"poisson"}}{: Poisson regression model which is most used insurvival analysis. 
+   \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
+   \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
     The model used Piecewise Exponential Regression (PER) which typically closely approximates
     Cox regression in its main estimates and standard errors.}
 }
@@ -228,8 +234,8 @@ For example, if the data frame is called \code{DataFrame} you
 avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
 
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
-on the server site at every study
-and that they have the correct characteristics required to fit a GLM. 
+on the server-site at every study
+and that they have the correct characteristics required to fit the model. 
 It is suggested to make \code{checks} argument TRUE if an unexplained
  problem in the model fit is encountered because the running process takes several minutes.
 
@@ -239,7 +245,62 @@ regression constant is far away from its actual value that the GLM
 is trying to estimate. In consequence we often set \code{maxit=30}
 but depending on the nature of the models you wish to fit, you may wish
 to be alerted much more quickly than this if there is a delay in convergence, 
-or you may wish to all MORE iterations.
+or you may wish to all more iterations.
+
+
+Privacy protected iterative fitting of a GLM is explained here:
+
+(1) Begin with a guess for the coefficient vector to start iteration 1 (let's call it
+\code{beta.vector[1]}). Using \code{beta.vector[1]}, run iteration 1 with each source
+calculating the resultant score vector (and information matrix) generated
+by its data - given \code{beta.vector[1]} -
+as the sum of the score vector components (and the sum of the components of the
+information matrix) derived from each individual data record in that source. NB in most models
+the starting values in \code{beta.vector[1]} are set to be zero for all parameters.
+
+(2) Transmit the resultant score vector and information matrix from each source
+back to the clientside
+server (CS) at the analysis centre. Let's denote
+\code{SCORE[1][j]} and \code{INFORMATION.MATRIX[1][j]} as the
+score vector and information matrix generated by study \code{j} at the end of the 1st iteration.
+
+(3) CS sums the score vectors, and equivalently the information matrices, across all studies
+(i.e. \code{j = 1:S}, where \code{S} is the number of studies). Note that,
+given \code{beta.vector[1]}, this gives precisely the same final sums
+for the score
+vectors and information matrices as would have been obtained if all data had been in one
+central warehoused database and the overall score vector and information matrix at the end of
+the first iteration had been calculated
+(as is standard) by simply summing across all individuals. The only difference is that
+instead of directly adding all values across
+all individuals, we first sum across all individuals in each data source and
+then sum those study
+totals across all studies - i.e. this generates the same ultimate sums
+
+(4) CS then calculates sum(SCORES)\%*\% inverse(sum(INFORMATION.MATRICES)) -
+heuristically this may be
+viewed as being "the sum of the score vectors divided (NB 'matrix division') by the sum of the
+information matrices". If one uses the conventional algorithm (IRLS)
+to update generalized linear models from iteration to iteration this quantity happens to be
+precisely the vector to be added to the
+current value of beta.vector (i.e. \code{beta.vector[1]}) to obtain
+\code{beta.vector[2]} which is the improved estimate of the beta.vector to be used in iteration 2.
+This updating algorithm is often  called the IRLS (Iterative Reweighted Least
+Squares) algorithm
+- which is closely related to the Newton
+Raphson approach but uses the expected information rather than
+the observed information.
+
+(5) Repeat steps (2)-(4) until the model converges (using the standard R
+convergence criterion).
+NB An alternative way to coherently pool the glm across multiple sources is to fit each
+glm to completion (i.e. multiple iterations until convergence) in each source and then return
+the final parameter estimates and standard errors to the CS where they could be pooled using
+study-level meta-analysis. An alternative function ds.glmSLMA allows you to do this.
+It will fit the glms to completion
+in each source and return the final estimates and standard errors (rather than score vectors
+and information matrices). It will then rely on functions in the
+R package metafor to meta-analyse the key parameters.
 
 
 Server function called: \code{glmDS1} and \code{glmDS2}
@@ -279,16 +340,16 @@ Server function called: \code{glmDS1} and \code{glmDS2}
   
   # make sure that the outcome is numeric 
   ds.asNumeric(x.name = "D$cens",
-               newobj = "cens.num"
+               newobj = "cens.num",
                datasources = connections)
                
   # convert time id variable to a factor 
                
   ds.asFactor(input.var.name = "D$time.id",
-              newobj = "Tid.fac"
+              newobj = "Tid.fac",
               datasources = connections)
               
-  # create in the server-side log(survtime)
+  # create in the server-side the log(survtime) variable
          
   ds.log(x = "D$survtime",
          newobj = "log.surv",
@@ -311,7 +372,7 @@ Server function called: \code{glmDS1} and \code{glmDS2}
   datashield.logout(connections) 
   
   # Example 2: run a logistic regression without interaction
-  # For this example we are going to load other type of data  
+  # For this example we are going to load another type of data  
   
   builder <- DSI::newDSLoginBuilder()
   builder$append(server = "study1", 
@@ -340,8 +401,8 @@ Server function called: \code{glmDS1} and \code{glmDS2}
                 
   mod #visualize the results of the model
 
-# Example 3: fit a standard gaussian linear model with an interaction
-# We are using the same data as in the example 2. It is not necessary to
+# Example 3: fit a standard Gaussian linear model with an interaction
+# We are using the same data as in example 2. It is not necessary to
 # connect again to the server 
 
 mod <- ds.glm(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
