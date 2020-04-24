@@ -1,45 +1,20 @@
-#' @title ds.glmSLMA calling glmSLMADS1, glmSLMADS2
-#' @description Fits a generalized linear model (glm) on data from a single or multiple sources
-#' with pooled co-analysis across studies being based on study level meta-analysis
-#' @details ds.glmSLMA specifies the structure of a generalized linear model (glm)
-#' to be fitted separately on each study/data source. The model is first constructed
-#' and disclosure checked by glmSLMADS1. This aggregate function then returns its
-#' output to ds.glmSLMA which processes the information and uses it in a call to
-#' the second aggregate function glmSLMADS2. This call specifies and fits
-#' the required glm in each data source.
-#' Unlike glmDS2 (called by the more commonly used generalized linear modelling
-#' client-side function ds.glm) the requested model is then fitted to completion
-#' on the data in each study rather than iteration by iteration on all studies
-#' combined. At the end of this SLMA fitting process
-#' glmSLMADS2 returns study-specific parameter estimates
-#' and standard errors to the client. These can then be pooled using random
-#' effects (or fixed effects) meta-analysis - eg using the metafor package.
-#' This mode of model fitting may
-#' reasonably be called study level meta-analysis (SLMA) although the analysis
-#' is based on estimates and standard errors derived from direct analysis of
-#' the individual level data in each study rather than from published study
-#' summaries (as is often the case with SLMA of clinical trials etc).
-#' Furthermore, unlike common approaches to study-level meta-analysis
-#' adopted by large multi-study research consortia (eg in the combined analysis
-#' of identical genomic markers across multiple studies), the parallel
-#' analyses (in every study) under ds.glmSLMA are
-#' controlled entirely from one client. This avoids the time-consuming
-#' need to ask each study to run its own analyses and the consequent
-#' necessity to request additional work from individual studies if
-#' the modelling is to be extended to include analyses not subsumed
-#' in the original analytic plan. Additional analyses of this nature
-#' may, for example, include analyses based on interactions between covariates
-#' identified as having significant main effects in the original analysis.
-#' From a mathematical perspective, the SLMA approach (using ds.glmSLMA)
-#' differs fundamentally from the usual approach using ds.glm
+#' @title Fits Generalized Linear Model via Study-Level Meta-Analysis
+#' @description Fits a generalized linear model (GLM) on data from a single or multiple sources
+#' with pooled co-analysis across studies being based on SLMA (Study-Level Meta-Analysis). 
+#' @details \code{ds.glmSLMA} specifies the structure of a generalized linear model 
+#' to be fitted separately on each study or data source. 
+#' From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
+#' differs fundamentally from the usual approach using \code{ds.glm}
 #' in that the latter is mathematically equivalent
 #' to placing all individual-level data from all sources in
 #' one central warehouse and analysing those data as one combined dataset using the
-#' conventional glm() function in R. However, although this
+#' conventional \code{glm()} function in R. 
+#' 
+#' However, although this
 #' may sound to be preferable under all circumstances, the SLMA approach
 #' actually offers key inferential advantages when there is marked heterogeneity
 #' between sources that cannot simply be corrected with fixed effects each reflecting a study
-#' or centre-effect. In particular, fixed effects cannot simply be used in this way when there
+#' or centre-effect. In particular, fixed effects cannot simply be used in this way when 
 #' there is heterogeneity in the effect that is of scientific interest.
 #' @param formula Denotes an object of class formula which is a character string describing
 #' the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
@@ -74,6 +49,9 @@
 #' period 3 is now obtained directly as the coefficient for TID3
 #' rather than the sum of the coefficients for the intercept and TID3
 #' which was the case using the original formula.
+#' 
+#' Server function called: \code{glmSLMADS1} and \code{glmSLMADS2}
+#' 
 #' @param family This argument identifies the error distribution function to use in
 #' the model. At present
 #' ds.glm has been written to fit family="gaussian" (i.e. a
