@@ -12,34 +12,32 @@
 # Set up
 #
 
-init.all.datasets()
+context("vm-test::_::setup")
+
+init.testing.datasets()
 
 #
 # Tests
 #
 
 #connect to a server
-context("VM problems")
+context("vm-test::_::tests::vm")
+
 test_that("The virtual machine is loaded. ",
-{      
-    expect_true(url.exists(ds.test_env$ping_address, timeout=5))
+{
+    response <- httr::HEAD(url=ds.test_env$ping_address, config=config(timeout=5))
+    expect_equal(http_status(response)$reason, "OK")
 })
 
-if (ds.test_env$context == ds.test_env$contexts[1])
-{
-    log.in.data.server()
-}
+#
+# Shutdown
+#
 
-test_that("The number of servers the same has setup",
-{
-    expect_true(length(ds.test_env$connection.opal) == length(ds.test_env$server))
-})
+context("vm-test::_::shutdown")
 
 #
 # Done
 #
 
-if (ds.test_env$context == ds.test_env$contexts[1])
-{
-    log.out.data.server()
-}
+context("vm-test::_::done")
+
