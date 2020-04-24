@@ -1,36 +1,61 @@
 #'
-#' @title Checks if an object is defined on the server side
-#' @description this function is similar to R function \code{exists}
-#' @details In DataSHIELD it is not possible to see the data sitting on the servers
+#' @title Checks if an object is defined on the server-side
+#' @description Looks if an R object of the given name is defined on the server-side. 
+#' This function is similar to the R function \code{exists}. 
+#' @details In DataSHIELD it is not possible to see the data on the servers
 #' of the collaborating studies. It is only possible to get summaries of objects stored on the
-#' server side. It is however important to know if an object is defined (i.e. exists) son the server
-#' side. This function checks if an object do really exists on the server side. Further information
-#' about the object can be obtained using functions such as \code{ds.class}, \code{length} etc...
-#' @param x a character, the name of the object to look for.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return a boolean, TRUE if the object is on the server side and FALSE otherwise
-#' @author Gaye, A.
-#' @seealso \link{ds.class} to check the type of an object.
+#' server-side. 
+#' It is however important to know if an object is defined (i.e. exists) on the server-side.
+#' This function checks if an object does exist on the server-side.
+#' 
+#' Server function called: \code{exists}
+#' @param x a character string providing the name of the object to look for.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.exists} returns a logical object. 
+#' TRUE if the object is on the server-side and FALSE otherwise.
+#' @author DataSHIELD Development Team
+#' @seealso \code{\link{ds.class}} to check the type of an object.
+#' @seealso \code{\link{ds.length}} to check the length of an object.
+#' @seealso \code{\link{ds.dim}} to check the dimension of an object.
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load the file that contains the login details
-#'   data(logindata)
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'   # login and assign the required variables to R
-#'   myvar <- list("LAB_TSC")
-#'   conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#'
-#'   # assign 'LAB_TSC' in the dataframe D to a new variable 'labtsc'
-#'   ds.assign(toAssign='D$LAB_TSC', newobj='labtsc')
-#'
-#'   # now let us check if the variable 'labtsc' does now 'exist' on the server side
-#'   ds.exists(x='labtsc')
-#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Check if the object exist in the server-side
+#'   ds.exists(x = "D", 
+#'             datasources = connections) #All opal servers are used
+#'   ds.exists(x = "D", 
+#'             datasources = connections[1]) #Only the first Opal server is used (study1)
+#'             
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
+#'   datashield.logout(connections)
 #'
 #' }
 #'
