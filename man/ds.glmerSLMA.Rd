@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmerSLMA.R
 \name{ds.glmerSLMA}
 \alias{ds.glmerSLMA}
-\title{Fitting generalized linear mixed effect models in the server-side}
+\title{Fitting Generalized Linear Mixed-Effect Models}
 \usage{
 ds.glmerSLMA(
   formula = NULL,
@@ -25,16 +25,16 @@ ds.glmerSLMA(
 \item{formula}{an object of class formula describing the model to be fitted. 
 For more information see "Details".}
 
-\item{offset}{A character string specifying the name of a variable to be used as
+\item{offset}{a character string specifying the name of a variable to be used as
 an offset.}
 
-\item{weights}{A character string specifying the name of a variable containing
+\item{weights}{a character string specifying the name of a variable containing
 prior regression weights for the fitting process.}
 
 \item{combine.with.metafor}{logical. If TRUE the
 estimates and standard errors for each regression coefficient are pooled across
 studies using random-effects meta-analysis under maximum likelihood (ML),
-restricted maximum likelihood (REML), or fixed-effects meta-analysis (FE). Default TRUE.}
+restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Default TRUE.}
 
 \item{dataName}{a character string specifying the name of a data frame
 that contains all of the variables in the GLME formula. For more information see "Details".}
@@ -52,7 +52,7 @@ This can be set as \code{"binomial"} or \code{"poisson"}.
 For more information see "Details".}
 
 \item{control_type}{an optional character string vector specifying the nature of a parameter
-(or parameters) to be modified in the 'convergence control options' which can be viewed or
+(or parameters) to be modified in the \code{convergence control options} which can be viewed or
 modified via the \code{glmerControl} function of the package \code{lme4}. 
 For more information see "Details".}
 
@@ -60,14 +60,15 @@ For more information see "Details".}
 control parameter corresponding to the \code{control-type}. 
 For more information see "Details".}
 
-\item{verbose}{integer. If \eqn{verbose > 0} verbose output is generated during the optimization of
-the parameter estimates. If \eqn{verbose > 1} verbose output is generated during the individual penalized 
-iteratively reweighted least squares (PIRLS) steps. Default value = 0 which means no additional output.}
+\item{verbose}{an integer value. If \eqn{verbose > 0} the output is generated during the optimization of
+the parameter estimates. If \eqn{verbose > 1} the output is generated during the individual penalized 
+iteratively reweighted least squares (PIRLS) steps. Default \code{verbose} 
+ value is 0 which means no additional output.}
 
-\item{start_theta}{numeric vector of length equal to number of random effects. Specify to retain
+\item{start_theta}{a numeric vector of length equal to the number of random effects. Specify to retain
 more control over the optimisation. See \code{glmer()} for more details.}
 
-\item{start_fixef}{numeric vector of length equal to the number of fixed effects (NB including the intercept). 
+\item{start_fixef}{a numeric vector of length equal to the number of fixed effects (NB including the intercept). 
 Specify to retain more control over the optimisation. See \code{glmer()} for more details.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
@@ -86,9 +87,9 @@ below separately for each study.
    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 }
 
-\code{CorrMatrix}: the correlation matrix of parameter estimates.
+\code{CorrMatrix}: the correlation matrix of parameter estimates
 
-\code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
+\code{VarCovMatrix}: the variance-covariance matrix of parameter estimates
 
 \code{weights}: the vector (if any) holding regression weights
 
@@ -100,7 +101,8 @@ below separately for each study.
 
 \code{Nvalid}: the number of valid (non-missing) observations in the given study
 
-\code{Ntotal}: the total number of observations in the given study (Nvalid+Nmissing)
+\code{Ntotal}: the total number of observations 
+                       in the given study (\code{Nvalid} + \code{Nmissing})
 
 \code{data}: equivalent to input parameter dataName (above)
 
@@ -110,23 +112,19 @@ Once the study-specific output has been returned, the function returns the
 number of elements relating to the pooling of estimates across studies via
 study level meta-analysis. These are as follows:
 
-input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
-estimates from each study. In combination with the corresponding standard errors
-(see input.se.matrix.for.SLMA) these can be imported directly into a study level
-meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
+\code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
+estimates from each study
 
-input.se.matrix.for.SLMA:- a matrix containing the vector of standard error
-estimates for coefficients from each study. In combination with the coefficients
-(see input.beta.matrix.for.SLMA) these can be imported directly into a study level
-meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
+\code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
+estimates for coefficients from each study
 
-SLMA.pooled.estimates:- a matrix containing pooled estimates for each
+\code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via
 random-effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed-effects meta-analysis (FE)
 
 \code{convergence.error.message}:  reports for each study whether the model converged.
-If it did not some information about the reason for this is reported.
+If it did not some information about the reason for this is reported
 }
 \description{
 \code{ds.glmerSLMA} fits a generalized linear mixed-effects model
@@ -137,7 +135,7 @@ If it did not some information about the reason for this is reported.
 - e.g. a logistic or Poisson regression model including both fixed and random effects -
  on data from single or multiple sources. 
  
- This function is similar to \code{glmer} function from \code{lme4} package  in native R.
+ This function is similar to \code{glmer} function from \code{lme4} package in native R.
  
  When there are multiple data sources, the GLME is fitted to convergence 
  in each data source independently. The estimates and standard errors returned
@@ -175,7 +173,7 @@ It is suggested to make \code{checks} argument TRUE if an unexplained
 problem in the model fit is encountered because the running process takes several minutes.
 
 
-In the \code{family} argument can be specified TWO types of models to fit:
+In the \code{family} argument can be specified two types of models to fit:
  \itemize{
    \item{\code{"binomial"}}{: logistic regression models}
    \item{\code{"poisson"}}{: poisson regression models}
@@ -183,52 +181,28 @@ In the \code{family} argument can be specified TWO types of models to fit:
 
 Note if you are fitting a gaussian model (a standard linear mixed
 model) you should use \code{ds.lmerSLMA} and not \code{ds.glmerSLMA}. 
-For more information you can see R help for \code{glm} and \code{glmer}. 
+For more information you can see R help for \code{lmer} and \code{glmer}. 
 
-In \code{control_type} At present only one such parameter can be modified,
+In \code{control_type} at present only one such parameter can be modified,
 namely the tolerance of the convergence criterion to the gradient of the log-likelihood 
 at the maximum likelihood achieved. We have enabled this because our practical experience
 suggests that in situations where the model looks to have converged with sensible parameter
 values but formal convergence is not being declared if we allow the model to be more
 tolerant to a non-zero gradient the same parameter values are obtained but formal
-convergence is declared. The default value for the check.conv.grad is 0.001 (note this
-differs from the default of 0.002 for ds.lmerSLMA) but by specifying
-control_type = "check.conv.grad" and specifying a specific value for the control_value
-argument, you can change check.conv.grad to, for example, 0.01. If control_type is specified
-as any character string other than "check.conv.grad" processing will stop and an error message
-will be returned. If control_type is not specified or is declared as NULL, all control
-parameters will take their default values (e.g. check.conv.grad will be set to 0.001).
-If users need additional control parameters to be modified, the development team can enable
-additional valid character strings to be specified for control_type. We have deliberately not
-made it possible to modify any or all control parameters even though that would be relatively
-easy. This is because it would require evaluating and then activating a potentially
-complex text string on the server-side, which would potentially create a
-hacking-in/disclosure risk.
+convergence is declared. The default value for the \code{check.conv.grad} is \code{0.001} (note that
+the default value of this argument in \code{ds.lmerSLMA} is  \code{0.002}). 
 
-In \code{control_value} At present (see control_type)
-the only parameter this can be is the convergence tolerance "check.conv.grad". In
+In \code{control_value} at present (see \code{control_type})
+the only parameter this can be is the convergence tolerance \code{check.conv.grad}. In
 general, models will be identified as having converged more readily if the value set
-for "check.conv.grad" is increased from its default (0.001) to, say, 0.01. Please note
+for \code{check.conv.grad} is increased from its default value (\code{0.001}).  Please note
 that the risk of doing this is that the model is also more likely to be declared
 as having converged at a local maximum that is not the global maximum likelihood.
 This will not generally be a problem if the likelihood surface is well behaved but if
 you have a problem with convergence you might usefully compare all the parameter
-estimates and standard errors obtained using the default tolerance (0.001) even though
+estimates and standard errors obtained using the default tolerance (\code{0.001}) even though
 that has not formally converged with those obtained after convergence using the higher
-tolerance. In our experience when the problem has simply been that a well behaved
-model is simply failing to be declared as converged the two sets of parameters are
-almost the same. If they are quite different you may have a badly behaved likelihood
-surface and rather than simply allowing the model to converge by changing "check.conv.grad"
-you probably ought to explore the likelihood surface in more detail - possibly by exploring
-the impact of changing a range of the different control parameters via glmerControl (see
-native R help for glmerControl). In the first instance you can potentially study this by
-fitting the model on the data from a single study using lmer itself in native R.
-If users need additional control parameters to be modified, the development team can enable
-additional valid character strings to be specified for control_type. We have deliberately not
-made it possible to modify any or all control parameters even though that would be relatively
-easy. This is because it would require evaluating and then activating a potentially
-complex text string on the server-side, which would potential create a
-hacking-in/disclosure risk.
+tolerance. 
 
 Server function called: \code{glmerSLMADS2}
 }
@@ -260,7 +234,43 @@ Server function called: \code{glmerSLMADS2}
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
+  # Select all rows without missing values
   
+  ds.completeCases(x1 = "D", newobj = "D.comp", datasources = connections)
+  
+  # Fit a Poisson regression model
+  
+  ds.glmerSLMA(formula = "LAB_TSC ~ LAB_HDL + (1 | GENDER)",
+               offset = NULL,
+               dataName = "D.comp",
+               datasources = connections,
+               family = "poisson")
+               
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections)
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CLUSTER.CLUSTER_SLO1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CLUSTER.CLUSTER_SLO2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CLUSTER.CLUSTER_SLO3", driver = "OpalDriver")
+  logindata <- builder$build()
+   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
+               
+   # Fit a Logistic regression model
+  
+  ds.glmerSLMA(formula = "Male ~  private+diabetes + (1 | age)",
+               dataName = "D",
+               datasources = connections,
+               family = "binomial")
   
   
   # Clear the Datashield R sessions and logout
