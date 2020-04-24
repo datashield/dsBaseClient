@@ -13,7 +13,7 @@
 #' If \code{naAction} is set to \code{'casewise.complete'}, then the function omits all the rows
 #' in the whole data frame that include at least one cell with a missing value before the calculation of correlations.
 #' If \code{naAction} is set to \code{'pairwise.complete'} (default),
-#'  then the function divides the input data frame to 
+#' then the function divides the input data frame to 
 #' subset data frames formed by each pair between two variables 
 #' (all combinations are considered) and omits the rows
 #' with missing values at each pair separately and then calculates the correlations of those pairs.
@@ -74,9 +74,9 @@
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # Calculate the correlation between two vectors
-#'   ds.assign(newobj='labhdl', toAssign='D$LAB_HDL')
-#'   ds.assign(newobj='labtsc', toAssign='D$LAB_TSC')
-#'   ds.assign(newobj='gender', toAssign='D$GENDER')
+#'   ds.assign(newobj='labhdl', toAssign='D$LAB_HDL',datasources = connections)
+#'   ds.assign(newobj='labtsc', toAssign='D$LAB_TSC',datasources = connections)
+#'   ds.assign(newobj='gender', toAssign='D$GENDER',datasources = connections)
 #'   ds.cor(x = 'labhdl',
 #'          y = 'labtsc',
 #'          naAction = 'pairwise.complete',
@@ -86,7 +86,7 @@
 #'          y = 'gender',
 #'          naAction = 'pairwise.complete',
 #'          type = 'combine',
-#'          datasources = connections[1]) #only the first Opal server is used ("study1")
+#'          datasources = connections[1])#only the first Opal server is used ("study1")
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
