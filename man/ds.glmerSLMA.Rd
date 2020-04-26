@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmerSLMA.R
 \name{ds.glmerSLMA}
 \alias{ds.glmerSLMA}
-\title{Fitting Generalized Linear Mixed-Effect Models}
+\title{Fitting Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis}
 \usage{
 ds.glmerSLMA(
   formula = NULL,
@@ -267,7 +267,7 @@ Server function called: \code{glmerSLMADS2}
                
    # Fit a Logistic regression model
   
-  ds.glmerSLMA(formula = "Male ~  private+diabetes + (1 | age)",
+  ds.glmerSLMA(formula = "Male ~  incid_rate +diabetes + (1 | age)",
                dataName = "D",
                datasources = connections,
                family = "binomial")

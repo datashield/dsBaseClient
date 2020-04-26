@@ -211,7 +211,7 @@
 #'                
 #'    # Fit a Logistic regression model
 #'   
-#'   ds.glmerSLMA(formula = "Male ~  private+diabetes + (1 | age)",
+#'   ds.glmerSLMA(formula = "Male ~  incid_rate +diabetes + (1 | age)",
 #'                dataName = "D",
 #'                datasources = connections,
 #'                family = "binomial")

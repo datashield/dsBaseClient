@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmSLMA.R
 \name{ds.glmSLMA}
 \alias{ds.glmSLMA}
-\title{ds.glmSLMA calling glmSLMADS1, glmSLMADS2}
+\title{Fits Generalized Linear Model via Study-Level Meta-Analysis}
 \usage{
 ds.glmSLMA(
   formula = NULL,
@@ -49,7 +49,9 @@ that the effect of each
 time period may now be estimated directly. For example, the effect of time
 period 3 is now obtained directly as the coefficient for TID3
 rather than the sum of the coefficients for the intercept and TID3
-which was the case using the original formula.}
+which was the case using the original formula.
+
+Server function called: \code{glmSLMADS1} and \code{glmSLMADS2}}
 
 \item{family}{This argument identifies the error distribution function to use in
 the model. At present
@@ -229,49 +231,24 @@ there are a small number of more esoteric items of information returned
 by ds.glmSLMA. Additional information about these can be found in the help
 }
 \description{
-Fits a generalized linear model (glm) on data from a single or multiple sources
-with pooled co-analysis across studies being based on study level meta-analysis
+Fits a generalized linear model (GLM) on data from a single or multiple sources
+with pooled co-analysis across studies being based on SLMA (Study-Level Meta-Analysis).
 }
 \details{
-ds.glmSLMA specifies the structure of a generalized linear model (glm)
-to be fitted separately on each study/data source. The model is first constructed
-and disclosure checked by glmSLMADS1. This aggregate function then returns its
-output to ds.glmSLMA which processes the information and uses it in a call to
-the second aggregate function glmSLMADS2. This call specifies and fits
-the required glm in each data source.
-Unlike glmDS2 (called by the more commonly used generalized linear modelling
-client-side function ds.glm) the requested model is then fitted to completion
-on the data in each study rather than iteration by iteration on all studies
-combined. At the end of this SLMA fitting process
-glmSLMADS2 returns study-specific parameter estimates
-and standard errors to the client. These can then be pooled using random
-effects (or fixed effects) meta-analysis - eg using the metafor package.
-This mode of model fitting may
-reasonably be called study level meta-analysis (SLMA) although the analysis
-is based on estimates and standard errors derived from direct analysis of
-the individual level data in each study rather than from published study
-summaries (as is often the case with SLMA of clinical trials etc).
-Furthermore, unlike common approaches to study-level meta-analysis
-adopted by large multi-study research consortia (eg in the combined analysis
-of identical genomic markers across multiple studies), the parallel
-analyses (in every study) under ds.glmSLMA are
-controlled entirely from one client. This avoids the time-consuming
-need to ask each study to run its own analyses and the consequent
-necessity to request additional work from individual studies if
-the modelling is to be extended to include analyses not subsumed
-in the original analytic plan. Additional analyses of this nature
-may, for example, include analyses based on interactions between covariates
-identified as having significant main effects in the original analysis.
-From a mathematical perspective, the SLMA approach (using ds.glmSLMA)
-differs fundamentally from the usual approach using ds.glm
+\code{ds.glmSLMA} specifies the structure of a generalized linear model 
+to be fitted separately on each study or data source. 
+From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
+differs fundamentally from the usual approach using \code{ds.glm}
 in that the latter is mathematically equivalent
 to placing all individual-level data from all sources in
 one central warehouse and analysing those data as one combined dataset using the
-conventional glm() function in R. However, although this
+conventional \code{glm()} function in R. 
+
+However, although this
 may sound to be preferable under all circumstances, the SLMA approach
 actually offers key inferential advantages when there is marked heterogeneity
 between sources that cannot simply be corrected with fixed effects each reflecting a study
-or centre-effect. In particular, fixed effects cannot simply be used in this way when there
+or centre-effect. In particular, fixed effects cannot simply be used in this way when 
 there is heterogeneity in the effect that is of scientific interest.
 }
 \author{
