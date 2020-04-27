@@ -2,37 +2,79 @@
 % Please edit documentation in R/ds.dataFrameFill.R
 \name{ds.dataFrameFill}
 \alias{ds.dataFrameFill}
-\title{ds.dataFrameFill calling dataFrameFillDS}
+\title{Creates missing values columns in the server-side}
 \usage{
 ds.dataFrameFill(df.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
 \item{df.name}{a character string representing the name of the input data frame that will be
-filled with extra columns with missing values if a number of variables is missing from it
-compared to the data frames of the other studies used in the analysis.}
+filled with extra columns of missing values.}
 
-\item{newobj}{a character string providing a name for the output data frame which defaults to
-the name "dataframefill.newobj" if no name is specified.}
+\item{newobj}{a character string that provides the name for the output data frame
+that is stored on the data servers. Default \code{dataframefill.newobj}. 
+Default value is the name of the input data frame with the suffix "_filled".}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified 
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The object specified by the \code{newobj} argument which is written to the serverside.
-In addition, two validity messages are returned indicating whether the \code{newobj} has been
-created in each data source and if so whether it is in a valid form.
+\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
+is written to the server-side. Also, two validity messages are returned to the
+client-side indicating the name of the \code{newobj} that has been created in each data source
+and if it is in a valid form.
 }
 \description{
-Adds extra columns with missing values in a dataframe one for each variable is not
-included in the dataframe but is included in the relevant datafram of another datasource.
+Adds extra columns with missing values in a data frame on the server-side.
 }
 \details{
 This function checks if the input data frames have the same variables (i.e. the same
 column names) in all of the used studies. When a study does not have some of the variables, the
 function generates those variables as vectors of missing values and combines them as columns to
-the input data frame. Then, the "complete" in terms of the columns dataframe is saved in each
-server with a name specified by the argument \code{newobj}.
+the input data frame. 
+
+Server function called: \code{dataFrameFillDS}
+}
+\examples{
+\dontrun{
+
+  ## Version 6, for version 5 see the Wiki 
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                 
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Fill the data frame with NA columns
+  
+  ds.dataFrameFill(df.name = "D",
+                   newobj = "D.Fill",
+                   datasources = connections) #All servers are used
+
+
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+}
 }
 \author{
-Demetris Avraam for DataSHIELD Development Team
+DataSHIELD Development Team
 }
