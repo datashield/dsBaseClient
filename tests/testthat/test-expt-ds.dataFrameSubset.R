@@ -1,0 +1,87 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
+source("connection_to_datasets/init_testing_datasets.R")
+source("definition_tests/def-ds.dataFrameSubset.R")
+
+
+context("ds.dataFrameSubset()::expt::multiple::all_columns")
+test_that('numeric data',
+{  
+   connect.all.datasets()
+  .test.data.frame.creation("D","INTEGER","NUMERIC",">","subset.server")
+  .test.data.frame.creation("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",">=","subset.server")
+  .test.data.frame.creation("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC","<=","subset.server")
+  .test.data.frame.creation("D","NON_NEGATIVE_NUMERIC","NON_NEGATIVE_INTEGER","<=","subset.server")
+  .test.data.frame.creation("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER","<=","subset.server")
+  .test.data.frame.creation("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=","subset.server")
+})
+
+context("ds.dataFrameSubset()::expt::multiple::all_columns::subset_by_rows")
+test_that("numeric data",
+{ 
+  connect.all.datasets()
+  local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+  subset.by.rows("D","INTEGER","NUMERIC",">",TRUE,"subset.server",local.df.list)
+  subset.by.rows("D","INTEGER","NUMERIC",">",FALSE,"subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",">=",TRUE,"subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",">=",FALSE,"subset.server",local.df.list)
+  subset.by.rows("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC","<=",TRUE,"subset.server",local.df.list)
+  subset.by.rows("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC","<=",FALSE,"subset.server",local.df.list)
+  #subset.by.rows("D","NON_NEGATIVE_NUMERIC","NON_NEGATIVE_INTEGER",TRUE,"<=","subset.server",local.df.list)
+  #subset.by.rows("D","NON_NEGATIVE_NUMERIC","NON_NEGATIVE_INTEGER",FALSE,"<=","subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER","<=",TRUE,"subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER","<=",FALSE,"subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=",TRUE,"subset.server",local.df.list)
+  subset.by.rows("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=",FALSE,"subset.server",local.df.list)
+})
+
+
+
+
+context("ds.dataFrameSubset()::expt::multiple::subset_by_rows_columns")
+test_that("numeric data",
+{ 
+ connect.all.datasets()
+ local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+ subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",TRUE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",FALSE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",c(1,4,6:9),">=",TRUE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",c(1,4,6:9),">=",FALSE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC",c(2,4,9:16),"<=",TRUE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC",c(2,4,9:16),"<=",FALSE,"subset.server",local.df.list)
+ #subset.by.rows.cols("D","NON_NEGATIVE_NUMERIC","NON_NEGATIVE_INTEGER",c(3,6,10:13),"<=",TRUE,"subset.server",local.df.list)
+ #subset.by.rows.cols("D","NON_NEGATIVE_NUMERIC","NON_NEGATIVE_INTEGER",c(3,6,10:13),"<=",FALSE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER",c(1:7,10:13),"<=",TRUE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER",c(1:7,10:13),"<=",FALSE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",TRUE,"subset.server",local.df.list)
+ subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",FALSE,"subset.server",local.df.list)
+})
+
+
+
+context("ds.dataFrameSubset()::expt::multiple::all_rows_subset_by_columns")
+test_that("numeric data",
+{ 
+  connect.all.datasets()
+  local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+  #subset.by.cols("D","INTEGER",1:4,"subset.server",local.df.list)
+  #subset.by.cols("D","NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",local.df.list)
+  #subset.by.cols("D","NON_NEGATIVE_INTEGER",c(2,5,10:15),"subset.server",local.df.list)
+  #subset.by.cols("D","NUMERIC",c(3:7,10,15),"subset.server",local.df.list)
+  #subset.by.cols("D","POSITIVE_NUMERIC",c(2:5,12:14),"subset.server",local.df.list)
+  #subset.by.cols("D","NON_NEGATIVE_NUMERIC",c(1:7,13:16),"subset.server",local.df.list)
+})
+
+
+
+
+
+          
