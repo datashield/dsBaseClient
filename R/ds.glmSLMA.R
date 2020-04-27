@@ -1,196 +1,162 @@
-#' @title ds.glmSLMA calling glmSLMADS1, glmSLMADS2
-#' @description Fits a generalized linear model (glm) on data from a single or multiple sources
-#' with pooled co-analysis across studies being based on study level meta-analysis
-#' @details ds.glmSLMA specifies the structure of a generalized linear model (glm)
-#' to be fitted separately on each study/data source. The model is first constructed
-#' and disclosure checked by glmSLMADS1. This aggregate function then returns its
-#' output to ds.glmSLMA which processes the information and uses it in a call to
-#' the second aggregate function glmSLMADS2. This call specifies and fits
-#' the required glm in each data source.
-#' Unlike glmDS2 (called by the more commonly used generalized linear modelling
-#' client-side function ds.glm) the requested model is then fitted to completion
-#' on the data in each study rather than iteration by iteration on all studies
-#' combined. At the end of this SLMA fitting process
-#' glmSLMADS2 returns study-specific parameter estimates
-#' and standard errors to the client. These can then be pooled using random
-#' effects (or fixed effects) meta-analysis - eg using the metafor package.
-#' This mode of model fitting may
-#' reasonably be called study level meta-analysis (SLMA) although the analysis
-#' is based on estimates and standard errors derived from direct analysis of
-#' the individual level data in each study rather than from published study
-#' summaries (as is often the case with SLMA of clinical trials etc).
-#' Furthermore, unlike common approaches to study-level meta-analysis
-#' adopted by large multi-study research consortia (eg in the combined analysis
-#' of identical genomic markers across multiple studies), the parallel
-#' analyses (in every study) under ds.glmSLMA are
-#' controlled entirely from one client. This avoids the time-consuming
-#' need to ask each study to run its own analyses and the consequent
-#' necessity to request additional work from individual studies if
-#' the modelling is to be extended to include analyses not subsumed
-#' in the original analytic plan. Additional analyses of this nature
-#' may, for example, include analyses based on interactions between covariates
-#' identified as having significant main effects in the original analysis.
-#' From a mathematical perspective, the SLMA approach (using ds.glmSLMA)
-#' differs fundamentally from the usual approach using ds.glm
+#' @title Fits Generalized Linear Model via Study-Level Meta-Analysis
+#' @description Fits a generalized linear model (GLM) on data from a single or multiple sources
+#' with pooled co-analysis across studies being based on SLMA (Study-Level Meta-Analysis). 
+#' @details \code{ds.glmSLMA} specifies the structure of a Generalized Linear Model 
+#' to be fitted separately on each study or data source. 
+#' From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
+#' differs fundamentally from the usual approach using \code{ds.glm}
 #' in that the latter is mathematically equivalent
 #' to placing all individual-level data from all sources in
 #' one central warehouse and analysing those data as one combined dataset using the
-#' conventional glm() function in R. However, although this
+#' conventional \code{glm()} function in R. 
+#' 
+#' However, although this
 #' may sound to be preferable under all circumstances, the SLMA approach
 #' actually offers key inferential advantages when there is marked heterogeneity
-#' between sources that cannot simply be corrected with fixed effects each reflecting a study
-#' or centre-effect. In particular, fixed effects cannot simply be used in this way when there
+#' between sources that cannot simply be corrected with fixed-effects each reflecting a study
+#' or centre-effect. In particular, fixed effects cannot simply be used in this way when 
 #' there is heterogeneity in the effect that is of scientific interest.
-#' @param formula Denotes an object of class formula which is a character string describing
-#' the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
-#' function is also allowed by ds.glmSLMA. Many glms can
-#' be fitted very simply using a formula such as:
-#' "y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
-#' covariates. By default all such models also include an intercept (regression constant) term.
-#' If all you need to fit are straightforward models such as these, you do not need to read the
-#' remainder of this information about "formula". But if you need to fit a more complex
-#' model in a customised way, the following text gives a few additional pointers:
-#' As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
-#' variable "EVENT" as its
-#' outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
-#' "time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
-#' and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
-#' the model to include an intercept term which it would also have done by default (see above)
-#' but using "1" may usefully be contrasted with using "0" (as explained below), which removes
-#' the intercept term. The "*" between SEXF and AGE.60
+#' 
+#' In \code{formula} Most shortcut notation for formulas allowed under R's standard \code{glm()}
+#' function is also allowed by \code{ds.glmSLMA}. 
+#' 
+#' Many glms can be fitted very simply using a formula such as:
+#' 
+#' \deqn{y~a+b+c+d} 
+#' 
+#' which simply means fit a glm with \code{y} as the outcome variable and 
+#' \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
+#' By default all such models also include an intercept (regression constant) term.
+#' 
+#' Instead, if you need to fit a more complex
+#' model, for example:
+#' 
+#'  \deqn{EVENT~1+TID+SEXF*AGE.60}
+#'
+#' In the above model the outcome variable is \code{EVENT} 
+#' and the  covariates 
+#' \code{TID} (factor variable with level values between 1 and 6 denoting the period of time ), 
+#' \code{SEXF} (factor variable denoting sex)
+#' and \code{AGE.60} (quantitative variable representing age-60 in years). 
+#' The term \code{1} forces
+#' the model to include an intercept term, in contrast if you use the term \code{0} the 
+#' intercept term is removed. The \code{*} symbol  between \code{SEXF} and \code{AGE.60}
 #' means fit all possible main effects and interactions for and between those two covariates.
-#' As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-#' last element being the simple interaction term representing the product
-#' of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
-#' (0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
-#' If the formula had instead been written as:
-#' "EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
-#' an intercept term and, because TID happens to be a six level factor this would mean
-#' that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
-#' using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-#' This is mathematically the same model, but conveniently, it means
-#' that the effect of each
-#' time period may now be estimated directly. For example, the effect of time
-#' period 3 is now obtained directly as the coefficient for TID3
-#' rather than the sum of the coefficients for the intercept and TID3
-#' which was the case using the original formula.
-#' @param family This argument identifies the error distribution function to use in
-#' the model. At present
-#' ds.glm has been written to fit family="gaussian" (i.e. a
-#' conventional linear model with normally distributed errors), family="binomial"
-#' (i.e. a conventional
-#' unconditional logistic regression model), and family = "poisson" (i.e. a
-#' Poisson regression model - of which perhaps the most commonly used application
-#' is for survival analysis
-#' using Piecewise Exponential Regression (PER) which
-#' typically closely approximates Cox regression in its
-#' main estimates and standard
-#' errors. At present the gaussian family is automatically coupled with
-#' an 'identity' link function, the binomial family with a
-#' 'logistic' link function and the poisson family with a 'log' link function. For the majority of
-#' applications typically
-#' encountered in epidemiology and medical statistics, one  these three classes of
-#' models will typically be what you need. However, if a particular user
+#'  This takes the value 0 in all males \code{0 * AGE.60} 
+#'  and in females  \code{1 * AGE.60}. 
+#'  This model is in the example 1 of  the section \strong{Examples}. In this case the logarithm of 
+#'  the survival time is added as an offset (\code{log(survtime)}).
+#' 
+#' In the \code{family} argument can be specified three types of models to fit:
+#' 
+#'  \itemize{
+#'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
+#'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
+#'    \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
+#'     The model used Piecewise Exponential Regression (PER) which typically closely approximates
+#'     Cox regression in its main estimates and standard errors.}
+#' }
+#' 
+#' 
+#' At present the gaussian family is automatically coupled with
+#' an \code{identity} link function, the binomial family with a
+#' \code{logistic} link function and the poisson family with a \code{log} link function. 
+#' 
+#' However, if a particular user
 #' wishes us to implement an alternative family
-#' (e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
+#' (e.g. \code{gamma}) or an alternative family/link combination (e.g. binomial with
 #' probit) we can discuss how best to meet that request: it will almost certainly be possible,
 #' but we may seek a small amount of funding or practical in-kind support from
-#' the user in order to ensure that it can be carried outin a timely manner
-#' @param offset  A character string specifying the name of a variable to be used as
-#' an offset. An offset is a component of a glm which may be viewed as a covariate
-#' with a known coefficient of 1.00 and so the coefficient does not need to be
-#' estimated by the model. As an example, an offset is needed to fit a piecewise
-#' exponential regression model. Unlike the standard glm() function in
-#' native R, ds.glmSLMA() only allows an offset
-#' to be set using the <offset> argument, it CANNOT be included directly in the
-#' formula via notation
-#' such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glmSLMA this model
-#' must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
-#' and ds.glmSLMA then incorporates
-#' it appropriately into the formula itself.
-#' @param weights A character string specifying the name of a variable containing
-#' prior regression
-#' weights for the fitting process. Like offset, ds.glmSLMA does not allow a weights vector to be
-#' written directly into the glm formula.
-#' @param dataName A character string specifying the name of an (optional) dataframe that contains
-#' all of the variables in the glm formula. This avoids you having to specify the name of the
-#' dataframe in front of each covariate in the formula e.g. if the dataframe is
-#' called "DataFrame" you
-#' avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
-#' Processing stops if a non existing data frame is indicated.
-#' @param checks This argument is a boolean. If TRUE ds.glmSLMA then undertakes a series
-#' of checks of
-#' the structural integrity of the model that can take several minutes. Specifically
-#' it verifies that the
-#' variables in the model are all defined (exist) on the server site at every study
-#' and that they have the correct characteristics required to fit a GLM. The default
-#' value is FALSE
-#  because the checks markedly increase fitting time
-#' and so it is suggested that the argument <checks> is only made TRUE
-#' if an unexplained problem in the model fit is encountered.
-#' @param maxit A numeric scalar denoting the maximum number of iterations that
-#' are permitted
-#' before ds.glm declares that the model has failed to converge. Logistic regression
-#' and Poisson regression
+#' the user in order to ensure that it can be carried outin a timely manner.
+#' 
+#'  The \code{dataName} argument avoids you having to specify the name of the
+#' data frame in front of each covariate in the formula. 
+#' For example, if the data frame is called \code{DataFrame} you
+#' avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
+#' 
+#' The \code{checks} argument verifies that the variables in the model are all defined (exist) 
+#' on the server-site at every study
+#' and that they have the correct characteristics required to fit the model. 
+#' It is suggested to make \code{checks} argument TRUE if an unexplained
+#'  problem in the model fit is encountered because the running process takes several minutes.
+#'  
+#' In \code{maxit} Logistic regression and Poisson regression
 #' models can require many iterations, particularly if the starting value of the
-#' regression constant is
-#' far away from its actual value that the glm is trying to estimate. In consequence
-#' we choose to set
-#' maxit=30 - but depending on the nature of the models you wish to fit, you may wish
-#' to be alerted
-#' more quickly than this if there is a delay in convergence, or you may wish to
-#' allow MORE iterations.
-#' @param combine.with.metafor This argument is Boolean. If TRUE (the default) the
+#' regression constant is far away from its actual value that the GLM
+#' is trying to estimate. In consequence we often set \code{maxit=30}
+#' but depending on the nature of the models you wish to fit, you may wish
+#' to be alerted much more quickly than this if there is a delay in convergence, 
+#' or you may wish to all more iterations.
+#' 
+#' 
+#' Server functions called: \code{glmSLMADS1} and \code{glmSLMADS2}
+#' @param formula an object of class formula describing
+#' the model to be fitted. For more information see 
+#' \strong{Details}.  
+#' @param family identifies the error distribution function to use in
+#' the model. 
+#' @param offset  a character string specifying the name of a variable to be used as
+#' an offset.\code{ds.glmSLMA} does not allow an offset vector to be
+#' written directly into the GLM formula.  
+#' @param weights a character string specifying the name of a variable containing
+#' prior regression
+#' weights for the fitting process. \code{ds.glmSLMA} does not allow a weights vector to be
+#' written directly into the GLM formula.
+#' @param dataName a character string specifying the name of an (optional) data frame that contains
+#' all of the variables in the GLM formula. 
+#' @param checks logical. If TRUE \code{ds.glmSLMA} checks the structural integrity 
+#' of the model. Default FALSE. For more information see \strong{Details}.
+#' @param maxit a numeric scalar denoting the maximum number of iterations that
+#' are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
+#' For more information see \strong{Details}.
+#' @param combine.with.metafor logical. If TRUE the
 #' estimates and standard errors for each regression coefficient are pooled across
-#' studies using random effects meta-analysis under maximum likelihood (ML),
-#' restricted maximum likelihood (REML), or fixed effects meta-analysis (FE).
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return Many of the elements of the output list returned by ds.glmSLMA from
-#' each study separately are precisely
-#' equivalent to those returned by the glm() function in native R. However,
+#' studies using random-effects meta-analysis under maximum likelihood (ML),
+#' restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Default TRUE. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return Many of the elements of the output list returned by \code{ds.glmSLMA} are 
+#' equivalent to those returned by the \code{glm()} function in native R. However,
 #' potentially disclosive elements
-#' such as individual-level residuals and linear predictor values are blocked.
-#' The return results from each separate study appear first in the return list with
-#' the full set of results from each study presented in a block and the
-#' blocks listed in the order in which the studies appear in <datasources>.
-#' As regards the elements within each study the most important
-#' elements are included last in the return list because they then appear at the
-#' bottom of a simple print out of the return object. In reverse order, these
-#' key elements are listed below. In addition to the elements reflecting the
-#' primary results of the analysis, ds.glmSLMA also returns a range of error
-#' messages if the model fails indicating why failure may have occurred and
-#' in particular detailing any disclosure traps that may have been
-#' @return coefficients:- a matrix in which the first column contains the names of
-#' all of the regression parameters (coefficients) in the model, the second column
-#' contains the estimated values of the coefficients (called estimates),
-#' the third the corresponding standard errors,
-#' the fourth the ratio corresponding to the value of each estimate divided by its
-#' standard error and the fifth the p-value
-#' treating that ratio as a standardised normal deviate (a simple Wald test).
-#' @return family:- indicates the error distribution and link function used
-#' in the glm
-#' @return formula:- see description of formula as an input parameter (above)
-#' @return df.resid:- the residual degrees of freedom around the model
-#' @return deviance.resid:- the residual deviance around the model
-#' @return df.null:- the degrees of freedom around the null model (with just an intercept)
-#' @return dev.null:- the deviance around the null model (with just an intercept)
-#' @return CorrMatrix:- the correlation matrix of parameter estimates
-#' @return VarCovMatrix:- the variance covariance matrix of parameter estimates
-#' @return weights:- the vector (if any) holding regression weights
-#' @return offset:- the vector (if any) holding an offset (enters glm with a
+#' such as individual-level residuals and linear predictor values are blocked. 
+#' In this case, only non-disclosive elements are returned from each study separately.
+#' 
+#' The list of elements returned by \code{ds.glmSLMA} is mentioned below: 
+#' 
+#' @return \code{coefficients}: a matrix with 5 columns:
+#'    \itemize{
+#'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
+#'    \item{second}{: the estimated values} 
+#'    \item{third}{: corresponding standard errors of the estimated values} 
+#'    \item{fourth}{: the ratio of estimate/standard error} 
+#'    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
+#' }
+#' @return \code{family}: indicates the error distribution and link function used
+#' in  GLM
+#' @return \code{formula}: model formula, see description of formula as an input parameter (above)
+#' @return \code{df.resid}: the residual degrees of freedom around the model
+#' @return \code{deviance.resid}: the residual deviance around the model
+#' @return \code{df.null}: the degrees of freedom around the null model (with just an intercept)
+#' @return \code{dev.null}: the deviance around the null model (with just an intercept)
+#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates
+#' @return \code{VarCovMatrix}: the variance covariance matrix of parameter estimates
+#' @return \code{weights}: the vector (if any) holding regression weights
+#' @return \code{offset}: the vector (if any) holding an offset (enters glm with a
 #' coefficient of 1.00)
-#' @return cov.scaled:- equivalent to VarCovMatrix
-#' @return cov.unscaled:- equivalent to VarCovMatrix but assuming dispersion (scale)
+#' @return \code{cov.scaled}: equivalent to \code{VarCovMatrix}
+#' @return \code{cov.unscaled}: equivalent to VarCovMatrix but assuming dispersion (scale)
 #' parameter is 1
-#' @return Nmissing:- the number of missing observations in the given study
-#' @return Nvalid:- the number of valid (non-missing) observations in the given study
-#' @return Ntotal:- the total number of observations in the given study (Nvalid+Nmissing)
-#' @return data:- - equivalent to input parameter dataName (above)
-#' @return dispersion:- - the estimated dispersion parameter: deviance.resid/df.resid for
+#' @return \code{Nmissing}: the number of missing observations in the given study
+#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study
+#' @return \code{Ntotal}: the total number of observations in the given study 
+#'                        (\code{Nvalid} + \code{Nmissing})
+#' @return \code{data}: equivalent to input parameter \code{dataName} (above)
+#' @return \code{dispersion}: the estimated dispersion parameter: deviance.resid/df.resid for
 #' a gaussian family multiple regression model, 1.00 for logistic and poisson regression
-#' @return call:- - summary of key elements of the call to fit the model
-#' @return na.action:- - chosen method of dealing with NAs. Usually, na.action=na.omit
+#' @return \code{call}:  summary of key elements of the call to fit the model
+#' @return \code{na.action}:  chosen method of dealing with missing values.
+#'  Usually, \code{na.action = na.omit}
 #' indicating any individual (or more strictly any "observational unit")
 #' that has any data missing that are needed for the model is
 #' exluded from the fit, even if all the rest of the required data are present.
@@ -200,24 +166,128 @@
 #' you may exclude extra individuals from the analysis
 #' and this can seriously distort inferential tests based on assuming models are
 #' nested (eg likelihood ratio tests).
-#' @return iter:- the number of iterations required to achieve convergence
-#' file for the glm() function in native R.
-#' @return input.beta.matrix.for.SLMA:- a matrix containing the vector of coefficient
-#' estimates from each study. In combination with the corresponding standard errors
-#' (see input.se.matrix.for.SLMA) these can be imported directly into a study level
-#' meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
-#' @return input.se.matrix.for.SLMA:- a matrix containing the vector of standard error
-#' estimates for coefficients from each study. In combination with the coefficients
-#' (see input.beta.matrix.for.SLMA) these can be imported directly into a study level
-#' meta-analysis (SLMA) package such as metafor to generate estimates pooled via SLMA
-#' @return SLMA.pooled.estimates:- if the argument <combine.with.metafor> = TRUE,
-#' ds.glmSLMA also returns a matrix containing pooled estimates for each
+#' @return \code{iter}: the number of iterations required to achieve convergence
+#' file for the \code{glm()} function in native R.
+#' @return Once the study-specific output has been returned, the function returns the
+#' number of elements relating to the pooling of estimates across studies via
+#' study level meta-analysis. These are as follows:
+#' @return \code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
+#' estimates from each study.
+#' @return \code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
+#' estimates for coefficients from each study.
+#' @return \code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 #' regression coefficient across all studies with pooling under SLMA via
 #' random effects meta-analysis under maximum likelihood (ML), restricted maximum
 #' likelihood (REML) or via fixed effects meta-analysis (FE)
-#' @return there are a small number of more esoteric items of information returned
-#' by ds.glmSLMA. Additional information about these can be found in the help
-#' @author Paul Burton for DataSHIELD Development Team
+#' @return \code{convergence.error.message}:  reports for each study whether the model converged.
+#' If it did not some information about the reason for this is reported
+#' @author DataSHIELD Development Team
+#' @examples
+#' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see Wiki
+#'   # Connecting to the Opal servers
+#'   
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'   
+#'   # Example 1: Fitting GLM for survival analysis
+#'   # For this analysis we need to load survival data from the server 
+#'   
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Fit the GLM 
+#'   
+#'   # make sure that the outcome is numeric 
+#'   ds.asNumeric(x.name = "D$cens",
+#'                newobj = "EVENT",
+#'                datasources = connections)
+#'                
+#'   # convert time id variable to a factor 
+#'                
+#'   ds.asFactor(input.var.name = "D$time.id",
+#'               newobj = "TID",
+#'               datasources = connections)
+#'               
+#'   # create in the server-side the log(survtime) variable
+#'          
+#'   ds.log(x = "D$survtime",
+#'          newobj = "log.surv",
+#'          datasources = connections)
+#'   
+#'   ds.glmSLMA(formula = EVENT ~ 1 + TID + female * age.60,
+#'          data = "D",
+#'          family = "poisson", 
+#'          offset = "log.surv",
+#'          weights = NULL,
+#'          checks = FALSE,
+#'          maxit = 20,
+#'          datasources = connections)
+#'          
+#'   # Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
+#'   
+#'   # Example 2: run a logistic regression without interaction
+#'   # For this example we are going to load another type of data  
+#'   
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Fit the logistic regression model
+#' 
+#'   mod <- ds.glmSLMA(formula = "DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL",
+#'                 data = "D",
+#'                 family = "binomial",
+#'                 datasources = connections)
+#'                 
+#'   mod #visualize the results of the model
+#' 
+#' # Example 3: fit a standard Gaussian linear model with an interaction
+#' # We are using the same data as in example 2. It is not necessary to
+#' # connect again to the server 
+#' 
+#' mod <- ds.glmSLMA(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
+#'               data = "D",
+#'               family = "gaussian",
+#'               datasources = connections)
+#' mod
+#' 
+#' # Clear the Datashield R sessions and logout
+#' datashield.logout(connections) 
+#' }
+#'
 #' @export
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
 checks=FALSE, maxit=30, datasources=NULL) {
