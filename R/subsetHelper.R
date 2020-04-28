@@ -14,7 +14,7 @@
 subsetHelper <- function(dts, data, rs=NULL, cs=NULL){
 
   # if the size of the requested subset is greater than that of original inform the user and stop the process
-  dims <- DSI::datashield.aggregate(dts, paste0("dim(", data, ")"))
+  dims <- DSI::datashield.aggregate(dts, call("dimDS", data))
   fail <- c(0,0)
 
   if(!(is.null(rs))){
