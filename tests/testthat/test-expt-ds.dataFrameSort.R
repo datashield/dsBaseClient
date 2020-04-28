@@ -12,47 +12,131 @@ source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
 
 context("ds.dataFrameSort()::expt::multiple::df::creation")
-test_that('numeric data',
+test_that('all datasets',
           {  
             connect.all.datasets()
+            .test.data.frame.creation("D","LOGICAL",TRUE,"numeric","server.data")
             .test.data.frame.creation("D","INTEGER",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","POSITIVE_INTEGER",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","NUMERIC",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","IDENTIFIER",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","CATEGORY",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
+            .test.data.frame.creation("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
 context("ds.dataFrameSort()::expt::multiple::numeric::ascending")
-test_that('numeric data',
+test_that('all datasets',
           {  
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
-          })
-context("ds.dataFrameSort()::expt::multiple::numeric::descending")
-test_that('numeric data',
-          {  
-            connect.all.datasets()
-            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
-          })
-context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
-test_that('numeric data',
-          {  
-            connect.all.datasets()
-            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
-          })
-context("ds.dataFrameSort()::expt::multiple::alphabetic::descending")
-test_that('numeric data',
-          {  
-            connect.all.datasets()
-            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
-          })
-context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
-test_that('character data',
-          {  
-            #Convert character column into a character file
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
+              local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
             }
+            .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_NUMERIC",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","IDENTIFIER",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","CATEGORY",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER_ONE_CHANGE",FALSE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","FACTOR_INTEGER",FALSE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","CHARACTER",FALSE,"numeric","server.data",local.df.list)
+            
+            
+          })
+context("ds.dataFrameSort()::expt::multiple::numeric::descending")
+test_that('all datasets',
+          {  
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
+            for(i in 1:length(local.df.list)){
+              local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
+              local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+            }
+            .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","IDENTIFIER",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","CATEGORY",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .test.data.frame.sorting("D","FACTOR_INTEGER",TRUE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","FACTOR_CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            
+            
           })
+
+
+context("ds.dataFrameSort()::expt::multiple::alphabetic::ascending")
+test_that('all datasets',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            for(i in 1:length(local.df.list)){
+              local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
+              local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+            }
+            .test.data.frame.sorting("D","LOGICAL",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_NUMERIC",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","IDENTIFIER",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","CATEGORY",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER_ONE_CHANGE",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","FACTOR_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
+            
+            
+            
+            
+            
+            
+            
+          })
+context("ds.dataFrameSort()::expt::multiple::alphabetic::descending")
+test_that('all datasets',
+          {  
+            connect.all.datasets()
+            local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
+            for(i in 1:length(local.df.list)){
+              local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
+              local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+            }
+            .test.data.frame.sorting("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","POSITIVE_NUMERIC",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","IDENTIFIER",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","CATEGORY",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","INTEGER_ONE_CHANGE",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","FACTOR_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","FACTOR_CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
+            .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
+            
+            
+          })
+
+

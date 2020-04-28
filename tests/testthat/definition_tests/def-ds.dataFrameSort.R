@@ -46,7 +46,7 @@
                        na.last = TRUE)
       
     }else{
-      order.key<-order(local.df.list[[i]][,key.name],
+      order.key<-order(as.numeric(local.df.list[[i]][,key.name]),
                        decreasing = sort.descending,
                        na.last = TRUE)
       
