@@ -1,5 +1,5 @@
 #' @title Fits Generalized Linear Model via Study-Level Meta-Analysis
-#' @description Fits a generalized linear model (GLM) on data from a single or multiple sources
+#' @description Fits a generalized linear model (GLM) on data from single or multiple sources
 #' with pooled co-analysis across studies being based on SLMA (Study-Level Meta-Analysis). 
 #' @details \code{ds.glmSLMA} specifies the structure of a Generalized Linear Model 
 #' to be fitted separately on each study or data source. 
@@ -12,7 +12,7 @@
 #' 
 #' However, although this
 #' may sound to be preferable under all circumstances, the SLMA approach
-#' actually offers key inferential advantages when there is marked heterogeneity
+#' offers key inferential advantages when there is marked heterogeneity
 #' between sources that cannot simply be corrected with fixed-effects each reflecting a study
 #' or centre-effect. In particular, fixed effects cannot simply be used in this way when 
 #' there is heterogeneity in the effect that is of scientific interest.
@@ -35,7 +35,7 @@
 #'
 #' In the above model the outcome variable is \code{EVENT} 
 #' and the  covariates 
-#' \code{TID} (factor variable with level values between 1 and 6 denoting the period of time ), 
+#' \code{TID} (factor variable with level values between 1 and 6 denoting the period time), 
 #' \code{SEXF} (factor variable denoting sex)
 #' and \code{AGE.60} (quantitative variable representing age-60 in years). 
 #' The term \code{1} forces
@@ -44,7 +44,7 @@
 #' means fit all possible main effects and interactions for and between those two covariates.
 #'  This takes the value 0 in all males \code{0 * AGE.60} 
 #'  and in females  \code{1 * AGE.60}. 
-#'  This model is in the example 1 of  the section \strong{Examples}. In this case the logarithm of 
+#'  This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
 #'  the survival time is added as an offset (\code{log(survtime)}).
 #' 
 #' In the \code{family} argument can be specified three types of models to fit:
@@ -67,7 +67,7 @@
 #' (e.g. \code{gamma}) or an alternative family/link combination (e.g. binomial with
 #' probit) we can discuss how best to meet that request: it will almost certainly be possible,
 #' but we may seek a small amount of funding or practical in-kind support from
-#' the user in order to ensure that it can be carried outin a timely manner.
+#' the user to ensure that it can be carried out promptly.
 #' 
 #'  The \code{dataName} argument avoids you having to specify the name of the
 #' data frame in front of each covariate in the formula. 
@@ -133,36 +133,36 @@
 #'    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 #' }
 #' @return \code{family}: indicates the error distribution and link function used
-#' in  GLM
-#' @return \code{formula}: model formula, see description of formula as an input parameter (above)
-#' @return \code{df.resid}: the residual degrees of freedom around the model
-#' @return \code{deviance.resid}: the residual deviance around the model
-#' @return \code{df.null}: the degrees of freedom around the null model (with just an intercept)
-#' @return \code{dev.null}: the deviance around the null model (with just an intercept)
-#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates
-#' @return \code{VarCovMatrix}: the variance covariance matrix of parameter estimates
-#' @return \code{weights}: the vector (if any) holding regression weights
+#' in  GLM.
+#' @return \code{formula}: model formula, see description of formula as an input parameter (above).
+#' @return \code{df.resid}: the residual degrees of freedom around the model.
+#' @return \code{deviance.resid}: the residual deviance around the model.
+#' @return \code{df.null}: the degrees of freedom around the null model (with just an intercept).
+#' @return \code{dev.null}: the deviance around the null model (with just an intercept).
+#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates.
+#' @return \code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
+#' @return \code{weights}: the vector (if any) holding regression weights.
 #' @return \code{offset}: the vector (if any) holding an offset (enters glm with a
-#' coefficient of 1.00)
-#' @return \code{cov.scaled}: equivalent to \code{VarCovMatrix}
+#' coefficient of 1.00).
+#' @return \code{cov.scaled}: equivalent to \code{VarCovMatrix}.
 #' @return \code{cov.unscaled}: equivalent to VarCovMatrix but assuming dispersion (scale)
-#' parameter is 1
-#' @return \code{Nmissing}: the number of missing observations in the given study
-#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study
+#' parameter is 1.
+#' @return \code{Nmissing}: the number of missing observations in the given study.
+#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study.
 #' @return \code{Ntotal}: the total number of observations in the given study 
-#'                        (\code{Nvalid} + \code{Nmissing})
-#' @return \code{data}: equivalent to input parameter \code{dataName} (above)
+#'                        (\code{Nvalid} + \code{Nmissing}).
+#' @return \code{data}: equivalent to input parameter \code{dataName} (above).
 #' @return \code{dispersion}: the estimated dispersion parameter: deviance.resid/df.resid for
-#' a gaussian family multiple regression model, 1.00 for logistic and poisson regression
-#' @return \code{call}:  summary of key elements of the call to fit the model
+#' a gaussian family multiple regression model, 1.00 for logistic and poisson regression.
+#' @return \code{call}:  summary of key elements of the call to fit the model.
 #' @return \code{na.action}:  chosen method of dealing with missing values.
 #'  Usually, \code{na.action = na.omit}
 #' indicating any individual (or more strictly any "observational unit")
 #' that has any data missing that are needed for the model is
-#' exluded from the fit, even if all the rest of the required data are present.
+#' excluded from the fit, even if all the rest of the required data are present.
 #' These required data include: the outcome variable, covariates,
 #' or any values in a regression weight vector or offset vector. As a
-#' side effect of this, when you include additional covariates in model
+#' side effect of this, when you include additional covariates in the model
 #' you may exclude extra individuals from the analysis
 #' and this can seriously distort inferential tests based on assuming models are
 #' nested (eg likelihood ratio tests).
@@ -170,17 +170,17 @@
 #' file for the \code{glm()} function in native R.
 #' @return Once the study-specific output has been returned, the function returns the
 #' number of elements relating to the pooling of estimates across studies via
-#' study level meta-analysis. These are as follows:
+#' study-level meta-analysis. These are as follows:
 #' @return \code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
 #' estimates from each study.
 #' @return \code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
 #' estimates for coefficients from each study.
 #' @return \code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 #' regression coefficient across all studies with pooling under SLMA via
-#' random effects meta-analysis under maximum likelihood (ML), restricted maximum
-#' likelihood (REML) or via fixed effects meta-analysis (FE)
+#' random-effects meta-analysis under maximum likelihood (ML), restricted maximum
+#' likelihood (REML) or via fixed-effects meta-analysis (FE).
 #' @return \code{convergence.error.message}:  reports for each study whether the model converged.
-#' If it did not some information about the reason for this is reported
+#' If it did not some information about the reason for this is reported.
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{

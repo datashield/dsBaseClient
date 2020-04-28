@@ -48,7 +48,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 
 \item{REML}{logical. If TRUE the REstricted Maximum Likelihood (REML)
 is used for parameter optimization. 
-If FALSE the parameters are optimized using standard ML (maximum likelihood).Default TRUE. 
+If FALSE the parameters are optimized using standard ML (maximum likelihood). Default TRUE. 
 For more information see \strong{Details}.}
 
 \item{control_type}{an optional character string vector specifying the nature of a parameter
@@ -92,57 +92,57 @@ below separately for each study.
    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 }
 
-\code{CorrMatrix}: the correlation matrix of parameter estimates
+\code{CorrMatrix}: the correlation matrix of parameter estimates.
 
-\code{VarCovMatrix}: the variance-covariance matrix of parameter estimates
+\code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
 
-\code{weights}: the vector (if any) holding regression weights
+\code{weights}: the vector (if any) holding regression weights.
 
-\code{offset}: the vector (if any) holding an offset (enters glm with a coefficient of 1.0)
+\code{offset}: the vector (if any) holding an offset.
 
-\code{cov.scaled}: equivalent to VarCovMatrix
+\code{cov.scaled}: equivalent to \code{VarCovMatrix}.
 
-\code{Nmissing}: the number of missing observations in the given study
+\code{Nmissing}: the number of missing observations in the given study.
 
-\code{Nvalid}: the number of valid (non-missing) observations in the given study
+\code{Nvalid}: the number of valid (non-missing) observations in the given study.
 
 \code{Ntotal}: the total number of observations 
-                       in the given study (\code{Nvalid} + \code{Nmissing})
+                       in the given study (\code{Nvalid} + \code{Nmissing}).
 
-\code{data}: equivalent to input parameter dataName (above)
+\code{data}: equivalent to input parameter \code{dataName} (above).
 
-\code{call}: summary of key elements of the call to fit the model
+\code{call}: summary of key elements of the call to fit the model.
 
-There are a small number of more esoteric items of information returned
+There are a small number of more esoteric items of the information returned
 by \code{ds.lmerSLMA}. Additional information about these can be found in the help
-file for the code{lmer()} function in the \code{lme4} package.
+file for the \code{lmer()} function in the \code{lme4} package.
 
-Once the study-specific output has been returned, the function returns a
-number of elements relating to the pooling of estimates across studies via
-study level meta-analysis. These are as follows:
+Once the study-specific output has been returned, the function returns
+several elements relating to the pooling of estimates across studies via
+study-level meta-analysis. These are as follows:
 
 \code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
-estimates from each study
+estimates from each study.
 
 \code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
-estimates for coefficients from each study
+estimates for coefficients from each study.
 
 \code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via
 random-effects meta-analysis under maximum likelihood (ML), restricted maximum
-likelihood (REML) or via fixed-effects meta-analysis (FE)
+likelihood (REML) or via fixed-effects meta-analysis (FE).
 
 \code{convergence.error.message}:  reports for each study whether the model converged.
-If it did not some information about the reason for this is reported
+If it did not some information about the reason for this is reported.
 }
 \description{
-\code{ds.lmerSLMA} fits a linear mixed effects model (lme) - can include both
-fixed and random effects - on data from one or multiple sources with pooling via SLMA
+\code{ds.lmerSLMA} fits a Linear Mixed-Effects Model (lme) - can include both
+fixed and random-effects - on data from one or multiple sources with pooling via SLMA
 (Study-Level Meta-Analysis)
 }
 \details{
 \code{ds.lmerSLMA} fits a Linear Mixed Effects Model (lme) - can include both fixed and random
-effects - on data from a single or multiple sources.
+effects - on data from single or multiple sources.
 
 This function is similar to \code{lmer} function from \code{lme4} package in native R.
 
@@ -158,7 +158,7 @@ obtained using R help for \code{lmer} and the \code{lme4} package.
 In \code{formula} most shortcut notation allowed by  \code{lmer()} function is
 also allowed by \code{ds.lmerSLMA}. Many LMEs can be fitted very simply using a formula like:
 \deqn{y~a+b+(1|c)}
-which simply means fit a LME with \code{y} as the outcome variable with \code{a} and \code{b}
+which simply means fit an LME with \code{y} as the outcome variable with \code{a} and \code{b}
 as fixed effects, and \code{c} as a random effect or grouping factor.
 
 It is also possible to fit models with random slopes by specifying a model such as 
@@ -178,21 +178,21 @@ and that they have the correct characteristics required to fit the model.
 It is suggested to make \code{checks} argument TRUE if an unexplained
 problem in the model fit is encountered because the running process takes several minutes.
 
-\code{REML} can help mitigate
-bias associated with the fixed effects. See help on the \code{lmer()} function for more details.
+\code{REML} can help to mitigate
+bias associated with the fixed-effects. See help on the \code{lmer()} function for more details.
 
 In \code{control_type} at present only one such parameter can be modified,
 namely the tolerance of the convergence criterion to the gradient of the log-likelihood 
 at the maximum likelihood achieved. We have enabled this because our practical experience
 suggests that in situations where the model looks to have converged with sensible parameter
-values but formal convergence is not being declared, if we allow the model to be more
+values but formal convergence is not being declared if we allow the model to be more
 tolerant to a non-zero gradient the same parameter values are obtained but formal
 convergence is declared. The default value for the \code{check.conv.grad} is \code{0.002}. 
 
 \code{control_value} At present (see \code{control_type})
 the only parameter this can be is the convergence tolerance \code{check.conv.grad}. In
 general, models will be identified as having converged more readily if the value set
-for \code{check.conv.grad} is increased from its default (0.002).  Please note
+for \code{check.conv.grad} is increased from its default (\code{0.002}).  Please note
 that the risk of doing this is that the model is also more likely to be declared
 as having converged at a local maximum that is not the global maximum likelihood.
 This will not generally be a problem if the likelihood surface is well behaved but if
@@ -222,38 +222,6 @@ Server function called: \code{lmerSLMADS2}
   builder$append(server = "study1", 
                  url = "http://192.168.56.100:8080/", 
                  user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
-  builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
-  builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
-  logindata <- builder$build()
-  
-  # Log onto the remote Opal training servers
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  # Select all rows without missing values
-  
-  ds.completeCases(x1 = "D", newobj = "D.comp", datasources = connections)
-  
-  # Fit the lmer
-  
-  ds.lmerSLMA(formula = "LAB_TSC ~ LAB_HDL + (1 | GENDER)",
-               offset = NULL,
-               dataName = "D.comp",
-               datasources = connections)
-               
-  # Clear the Datashield R sessions and logout
-  datashield.logout(connections)
-  
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
                  table = "CLUSTER.CLUSTER_SLO1", driver = "OpalDriver")
   builder$append(server = "study2", 
                  url = "http://192.168.56.100:8080/", 
@@ -265,19 +233,17 @@ Server function called: \code{lmerSLMADS2}
                  table = "CLUSTER.CLUSTER_SLO3", driver = "OpalDriver")
   logindata <- builder$build()
   
-Log onto the remote Opal training servers
+   #Log onto the remote Opal training servers
    connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
                
   # Select all rows without missing values
   ds.completeCases(x1 = "D", newobj = "D.comp", datasources = connections)
-  # Fit a Logistic regression model
+ 
+  # Fit the lmer
+  
   ds.lmerSLMA(formula = "BMI ~  incid_rate + diabetes + (1 | Male)",
                dataName = "D.comp",
                datasources = connections)
-  ds.glmerSLMA(formula = "Male ~  incid_rate +age + (1 | diabetes)",
-  dataName = "D",
-  datasources = connections,
-  family = "binomial")
   
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 

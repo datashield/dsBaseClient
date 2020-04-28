@@ -175,33 +175,33 @@
 #' 
 #' The list of elements returned by \code{ds.glm} is mentioned below: 
 #' 
-#' @return \code{Nvalid}: total number of valid observational units across all studies
+#' @return \code{Nvalid}: total number of valid observational units across all studies.
 #' @return \code{Nmissing}: total number of observational units across all studies with at least
-#'                             one data item missing
+#'                             one data item missing.
 #' @return \code{Ntotal}: total of observational units across all studies, the  
-#'                           sum of valid and missing units
+#'                           sum of valid and missing units.
 #' @return \code{disclosure.risk}: risk of disclosure,
 #'                                    the value 1 indicates that one of the disclosure traps 
-#'                                    has been triggered in that study
-#' @return \code{errorMessage}: explanation for any errors or disclosure risks identified
+#'                                    has been triggered in that study.
+#' @return \code{errorMessage}: explanation for any errors or disclosure risks identified.
 #' @return \code{nsubs}: total number of observational units used by \code{ds.glm} function. 
-#'                        \code{nb} usually is the same as \code{nvalid}
-#' @return \code{iter}: total number of iterations before convergence achieved
-#' @return \code{family}: error family and link function
-#' @return \code{formula}: model formula, see description of formula as an input parameter (above)
+#'                        \code{nb} usually is the same as \code{nvalid}.
+#' @return \code{iter}: total number of iterations before convergence achieved.
+#' @return \code{family}: error family and link function.
+#' @return \code{formula}: model formula, see description of formula as an input parameter (above).
 #' @return \code{coefficients}: a matrix with 5 columns:
 #'    \itemize{
-#'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
-#'    \item{second}{: the estimated values} 
-#'    \item{third}{: corresponding standard errors of the estimated values} 
-#'    \item{fourth}{: the ratio of estimate/standard error} 
-#'    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
+#'    \item{First}{: the names of all of the regression parameters (coefficients) in the model}
+#'    \item{second}{: the estimated values}
+#'    \item{third}{: corresponding standard errors of the estimated values}
+#'    \item{fourth}{: the ratio of estimate/standard error}.
+#'    \item{fifth}{: the p-value treating that as a standardised normal deviate}
 #'     }
-#' @return \code{dev}: residual deviance
+#' @return \code{dev}: residual deviance.
 #' @return \code{df}: residual degrees of freedom. \code{nb} residual degrees of freedom + number of
-#'    parameters in model = \code{nsubs}
+#'    parameters in model = \code{nsubs}.
 #' @return \code{output.information}: reminder to the user that there 
-#'                                      is more information at the top of the output
+#'                                      is more information at the top of the output.
 #' 
 #' 
 #' @return Also, the estimated coefficients and standard errors expanded with estimated confidence intervals

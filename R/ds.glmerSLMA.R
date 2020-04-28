@@ -19,7 +19,7 @@
 #' also allowed by \code{ds.glmerSLMA}. 
 #' Many GLMEs can be fitted very simply using a formula like:
 #' \deqn{y~a+b+(1|c)} 
-#' which simply means fit a GLME  with \code{y} as the outcome variable (e.g. 
+#' which simply means fit an GLME  with \code{y} as the outcome variable (e.g. 
 #' a binary case-control using a logistic regression model or a count or a survival
 #' time using a Poisson regression model), \code{a} and \code{b}
 #' as fixed effects, and \code{c} as a random effect or grouping factor. 
@@ -130,30 +130,30 @@
 #'    \item{fourth}{: the ratio of estimate/standard error} 
 #'    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 #' }
-#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates
-#' @return \code{VarCovMatrix}: the variance-covariance matrix of parameter estimates
-#' @return \code{weights}: the vector (if any) holding regression weights
-#' @return \code{offset}: the vector (if any) holding an offset (enters glm with a coefficient of 1.0)
-#' @return \code{cov.scaled}: equivalent to VarCovMatrix
-#' @return \code{Nmissing}: the number of missing observations in the given study
-#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study
+#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates.
+#' @return \code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
+#' @return \code{weights}: the vector (if any) holding regression weights.
+#' @return \code{offset}: the vector (if any) holding an offset.
+#' @return \code{cov.scaled}: equivalent to \code{VarCovMatrix}.
+#' @return \code{Nmissing}: the number of missing observations in the given study.
+#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study.
 #' @return \code{Ntotal}: the total number of observations 
-#'                        in the given study (\code{Nvalid} + \code{Nmissing})
-#' @return \code{data}: equivalent to input parameter dataName (above)
-#' @return \code{call}: summary of key elements of the call to fit the model
+#'                        in the given study (\code{Nvalid} + \code{Nmissing}).
+#' @return \code{data}: equivalent to input parameter \code{dataName} (above).
+#' @return \code{call}: summary of key elements of the call to fit the model.
 #' @return Once the study-specific output has been returned, the function returns the
 #' number of elements relating to the pooling of estimates across studies via
-#' study level meta-analysis. These are as follows:
+#' study-level meta-analysis. These are as follows:
 #' @return \code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
-#' estimates from each study
+#' estimates from each study.
 #' @return \code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
-#' estimates for coefficients from each study
+#' estimates for coefficients from each study.
 #' @return \code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
 #' regression coefficient across all studies with pooling under SLMA via
 #' random-effects meta-analysis under maximum likelihood (ML), restricted maximum
-#' likelihood (REML) or via fixed-effects meta-analysis (FE)
+#' likelihood (REML) or via fixed-effects meta-analysis (FE).
 #' @return \code{convergence.error.message}: reports for each study whether the model converged.
-#' If it did not some information about the reason for this is reported
+#' If it did not some information about the reason for this is reported.
 #' @examples 
 #' \dontrun{
 #' 
@@ -234,16 +234,16 @@
 #' @export
 ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
-					   control_type = NULL, control_value = NULL, verbose = 0,
-					   start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
+                       control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
+                       start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
   
   
- #UNDER DSi
- # look for DS connections
+  #UNDER DSi
+  # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
- 
+  
   
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -307,49 +307,53 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
     fixef = NULL
   }
   
-
-#Sort out control_type and control_value
- 
- if(!is.null(control_type) && is.null(control_value))
-	{
-	errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
-	return(list(errorMessage=errorMessage.cv))
-	}
-
-	if(!is.null(control_value))
-	{
-		if(is.character(control_value))
-		{
-		control_value.transmit<-control_value
-		}else{
-		control_value.transmit<-as.character(control_value)
-		}
-	}else{
-	control_value.transmit<-NULL
-	}
   
-
+  #Sort out control_type and control_value
   
+  if(!is.null(control_type) && is.null(control_value))
+  {
+    errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
+    #	print(errorMessage.cv)
+    return(list(errorMessage=errorMessage.cv))
+  }
+  
+  if(!is.null(control_value))
+  {
+    if(is.character(control_value))
+    {
+      control_value.transmit<-control_value
+    }else{
+      control_value.transmit<-as.character(control_value)
+    }
+  }else{
+    control_value.transmit<-NULL
+  }
+  
+  #check nAGQ is not null which would block the call  
+  if(is.null(nAGQ))
+  {
+    nAGQ<-1L
+  }
   
   #NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
-
-
+  
+  
   calltext <- call('glmerSLMADS2', formula, offset, weights, dataName, family, 
-					control_type, control_value.transmit, verbose, theta, fixef)
-					  
+                   control_type, control_value.transmit, nAGQ, verbose, theta, fixef)
+  
   study.summary <- datashield.aggregate(datasources, calltext)
-
-
-
+  
+  
+  
   numstudies<-length(datasources)
-
+  
   numstudies<-length(datasources)
-
+  
   study.include.in.analysis<-NULL
   study.with.errors<-NULL
   all.studies.valid<-1
   no.studies.valid<-1
-
+  
   for(j in 1:numstudies)
   {
     ss1<-study.summary[[j]]
@@ -357,14 +361,14 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
     {
       study.include.in.analysis<-c(study.include.in.analysis,j)
       no.studies.valid<-0
-
+      
     }else{
       study.with.errors<-c(study.with.errors,j)
       all.studies.valid<-0
     }
-
+    
   }
-
+  
   if (notify.of.progress)
   {
     if(!all.studies.valid)
@@ -375,7 +379,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
         cat("############################################################","\n")
         cat(unlist(study.summary[[sse]][[1]]),"\n")
         cat(unlist(study.summary[[sse]][[2]]),"\n\n")
-
+        
         num.messages<-length(study.summary[[sse]])-2
         for(m in 1:num.messages)
         {
@@ -386,76 +390,76 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
         }
       }
     }
-
+    
     if(all.studies.valid)
     {
       cat("\nAll studies passed disclosure tests\n")
       cat("Please check for convergence warnings in the study summaries\n\n\n")
     }
   }
-
-
-
+  
+  
+  
   #MAKE SURE THAT IF SOME STUDIES HAVE MORE PARAMETERS IN THE
   #FITTED glm (eg BECAUSE OF ALIASING) THE FINAL RETURN MATRICES
   #HAVE ENOUGH ROWS TO FIT THE MAXIMUM LENGTH
-
-
+  
+  
   numcoefficients.max<-0
-
+  
   for(g in study.include.in.analysis){
     if(length(study.summary[[g]]$coefficients[,1])>numcoefficients.max){
       numcoefficients.max<-length(study.summary[[g]]$coefficients[,1])
     }
   }
-
+  
   numcoefficients<-numcoefficients.max
-
+  
   betamatrix<-matrix(NA,nrow<-numcoefficients,ncol=numstudies)
   sematrix<-matrix(NA,nrow<-numcoefficients,ncol=numstudies)
-
-
+  
+  
   for(k in study.include.in.analysis){
     betamatrix[,k]<-study.summary[[k]]$coefficients[,1]
     sematrix[,k]<-study.summary[[k]]$coefficients[,2]
   }
-
+  
   ################################################
   #ANNOTATE OUTPUT MATRICES WITH STUDY INDICATORS#
   ################################################
-
+  
   study.names.list<-NULL
   betas.study.names.list<-NULL
   ses.study.names.list<-NULL
-
-
-
+  
+  
+  
   for(v in 1:numstudies){
-
+    
     study.names.list<-c(study.names.list,paste0("study",as.character(v)))
     betas.study.names.list<-c(betas.study.names.list,paste0("betas study ",as.character(v)))
     ses.study.names.list<-c(ses.study.names.list,paste0("ses study ",as.character(v)))
   }
-
+  
   dimnames(betamatrix)<-list(dimnames(study.summary[[1]]$coefficients)[[1]], betas.study.names.list)
   dimnames(sematrix)<-list(dimnames(study.summary[[1]]$coefficients)[[1]], ses.study.names.list)
-
+  
   output.summary.text<-paste0("list(")
-
+  
   for(u in 1:numstudies){
     output.summary.text<-paste0(output.summary.text,"study",as.character(u),"=study.summary[[",as.character(u),"]],"," ")
   }
-
+  
   output.summary.text.save<-output.summary.text
   output.summary.text<-paste0(output.summary.text,"input.beta.matrix.for.SLMA=as.matrix(betamatrix),input.se.matrix.for.SLMA=as.matrix(sematrix))")
-
-
+  
+  
   output.summary<-eval(parse(text=output.summary.text))
   #######################END OF ANNOTATION CODE
-
+  
   SLMA.pooled.ests.matrix<-matrix(NA,nrow<-numcoefficients,ncol=6)
-
-
+  
+  
   if(!combine.with.metafor){
     return(output.summary)
   }
@@ -549,44 +553,44 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
     SLMA.pooled.ests.matrix[p,6]<-rma.FE$se
     
   }
-
-test.error.message<-FALSE
-full.error.message<-rep("",numstudies)
-
-
-for(q in 1:numstudies)
-{
-if(!is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
-	{
-	test.error.message<-TRUE
-	}
-}  
-
-for(q in 1:numstudies)
-{
-	if(is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
-	{
-	full.error.message[q]<-paste0("Study",q,": no convergence error reported")
-	}
-	
-	
-	if(!is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
-	{
-		full.error.message[q]<-paste0("Study",q,": ",output.summary[[q]]$optinfo$conv$lme4$messages)
-	}
-		
-}
-
+  
+  test.error.message<-FALSE
+  full.error.message<-rep("",numstudies)
+  
+  
+  for(q in 1:numstudies)
+  {
+    if(!is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
+    {
+      test.error.message<-TRUE
+    }
+  }  
+  
+  for(q in 1:numstudies)
+  {
+    if(is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
+    {
+      full.error.message[q]<-paste0("Study",q,": no convergence error reported")
+    }
+    
+    
+    if(!is.null(output.summary[[q]]$optinfo$conv$lme4$messages))
+    {
+      full.error.message[q]<-paste0("Study",q,": ",output.summary[[q]]$optinfo$conv$lme4$messages)
+    }
+    
+  }
+  
   if (notify.of.progress)
-  { 
+  {
     cat("Convergence information\n")
     for(r in 1:numstudies)
     {
       cat(full.error.message[r],"\n")
     }
   }	
- 
-   return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
+  
+  return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
               SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))
   
 }
