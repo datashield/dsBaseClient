@@ -48,7 +48,7 @@ schedules:
     always: true
 
 jobs:
-- job: Build_and_run_tests
+- job: build_and_run_tests
 
   timeoutInMinutes: 120
 
@@ -369,7 +369,9 @@ jobs:
 
 #####################################################################################
 # Parse and save the test results 
-- job: Record_test_status
+- job: record_test_status
+  dependsOn: build_and_run_tests
+  
   steps:
 
   - checkout: testStatusRepo
