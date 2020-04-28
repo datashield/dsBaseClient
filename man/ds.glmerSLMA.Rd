@@ -61,6 +61,10 @@ For more information see \strong{Details}.}
 control parameter corresponding to the \code{control-type}. 
 For more information see \strong{Details}.}
 
+\item{nAGQ}{an integer value indicating the number of points per axis for evaluating the adaptive 
+Gauss-Hermite approximation to the log-likelihood. Defaults 1, corresponding to the Laplace approximation.
+For more information see  R \code{glmer} function help.}
+
 \item{verbose}{an integer value. If \eqn{verbose > 0} the output is generated during the optimization of
 the parameter estimates. If \eqn{verbose > 1} the output is generated during the individual penalized 
 iteratively reweighted least squares (PIRLS) steps. Default \code{verbose} 
