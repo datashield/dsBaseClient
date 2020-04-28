@@ -72,44 +72,7 @@
 #' you have a problem with convergence you might usefully compare all the parameter
 #' estimates and standard errors obtained using the default tolerance (\code{0.001}) even though
 #' that has not formally converged with those obtained after convergence using the higher
-#' tolerance. In our experience when the problem has simply been that a well behaved
-#' model is simply failing to be declared as converged the two sets of parameters are
-#' almost the same. If they are quite different you may have a badly behaved likelihood
-#' surface and rather than simply allowing the model to converge by changing "check.conv.grad"
-#' you probably ought to explore the likelihood surface in more detail - possibly by exploring
-#' the impact of changing a range of the different control parameters via glmerControl (see
-#' native R help for glmerControl). In the first instance you can potentially study this by
-#' fitting the model on the data from a single study using lmer itself in native R.
-#' If users need additional control parameters to be modified, the development team can enable
-#' additional valid character strings to be specified for control_type. We have deliberately not
-#' made it possible to modify any or all control parameters even though that would be relatively
-#' easy. This is because it would require evaluating and then activating a potentially
-#' complex text string on the serverside, which would potential create a
-#' hacking-in/disclosure risk.
-#' @param nAGQ integer scalar, defaulting to 1L. nAGQ refers to he number of points per
-#' axis for evaluating the adaptive Gauss-Hermite approximation to the log-likelihood.
-#' The default value of 1L, corresponds to the Laplace approximation. Values greater than
-#' 1 can produce greater accuracy in the evaluation of the log-likelihood at the expense of speed
-#' see also help for glmer() function in native R. A value of zero uses a faster but less exact
-#' form of parameter estimation for GLMMs by optimizing the random effects and the
-#' fixed-effects coefficients in the penalized iteratively reweighted least squares step.
-#' In our own practical experience, particularly with very large datasets, we
-#' have sometimes found it necessary TO SET nAGQ TO 0L when the model
-#' appears to converge perfectly well (e.g. verbose=2 demonstrates good initial
-#' convergence of both the log-likelihood and regression coefficients), but formal convergence does not get declared
-#' and so no output is produced, despite running the model for many iterations and relaxing control tolerances.
-#' @param verbose integer scalar. If > 0 verbose output is generated during the optimization of
-#' the parameter estimates. If > 1 verbose output is generated during the individual penalized 
-#' iteratively reweighted least squares (PIRLS) steps. The output is contained in each studies'
-#' summary in the "iterations" slot. Default value = 0, implying no additional output.
-#' @param start_theta numeric vector of length equal to number of random effects. Specify to retain
-#' more control over the optimisation. See glmer() for more details.
-#' @param start_fixef numeric vector of length equal to number of fixed effects (NB including intercept). 
-#' Specify to retain more control over the optimisation. See glmer() for more details.
-#' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return \code{ds.glmerSLMA} returns a list of  elements mentioned 
-#' below separaletly foreach study separately. 
+#' tolerance. 
 #' 
 #' Server function called: \code{glmerSLMADS2} 
 #' 
@@ -141,7 +104,7 @@
 #' @param control_value numeric representing the new value which you want to allocate the
 #' control parameter corresponding to the \code{control-type}. 
 #' For more information see \strong{Details}.
-#' @param nAGQ an integer value indicating the number of points per axis for evaluating the adaptive 
+#' @param nAGQ 	an integer value indicating the number of points per axis for evaluating the adaptive 
 #' Gauss-Hermite approximation to the log-likelihood. Defaults 1, corresponding to the Laplace approximation.
 #' For more information see  R \code{glmer} function help. 
 #' @param verbose an integer value. If \eqn{verbose > 0} the output is generated during the optimization of
@@ -274,8 +237,9 @@
 #' @export
 ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
-		       control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
-		       start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
+                       control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
+                       start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
+  
   
   #UNDER DSi
   # look for DS connections
@@ -345,6 +309,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
   }else{
     fixef = NULL
   }
+  
   
   #Sort out control_type and control_value
   
@@ -417,7 +382,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
         cat("############################################################","\n")
         cat(unlist(study.summary[[sse]][[1]]),"\n")
         cat(unlist(study.summary[[sse]][[2]]),"\n\n")
-
+        
         num.messages<-length(study.summary[[sse]])-2
         for(m in 1:num.messages)
         {
@@ -435,6 +400,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
       cat("Please check for convergence warnings in the study summaries\n\n\n")
     }
   }
+  
   
   
   #MAKE SURE THAT IF SOME STUDIES HAVE MORE PARAMETERS IN THE
@@ -629,7 +595,7 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
   
   return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
               SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))
-
+  
 }
 
 # ds.glmerSLMA

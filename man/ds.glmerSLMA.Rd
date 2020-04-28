@@ -80,11 +80,6 @@ Specify to retain more control over the optimisation. See \code{glmer()} for mor
 progress. Default  FALSE.}
 }
 \value{
-\code{ds.glmerSLMA} returns a list of  elements mentioned 
-below separaletly foreach study separately. 
-
-Server function called: \code{glmerSLMADS2}
-
 Many of the elements of the output list returned by \code{ds.glmerSLMA} are 
 equivalent to those returned by the \code{glmer()} function in native R. However,
 potentially disclosive elements
@@ -217,20 +212,9 @@ This will not generally be a problem if the likelihood surface is well behaved b
 you have a problem with convergence you might usefully compare all the parameter
 estimates and standard errors obtained using the default tolerance (\code{0.001}) even though
 that has not formally converged with those obtained after convergence using the higher
-tolerance. In our experience when the problem has simply been that a well behaved
-model is simply failing to be declared as converged the two sets of parameters are
-almost the same. If they are quite different you may have a badly behaved likelihood
-surface and rather than simply allowing the model to converge by changing "check.conv.grad"
-you probably ought to explore the likelihood surface in more detail - possibly by exploring
-the impact of changing a range of the different control parameters via glmerControl (see
-native R help for glmerControl). In the first instance you can potentially study this by
-fitting the model on the data from a single study using lmer itself in native R.
-If users need additional control parameters to be modified, the development team can enable
-additional valid character strings to be specified for control_type. We have deliberately not
-made it possible to modify any or all control parameters even though that would be relatively
-easy. This is because it would require evaluating and then activating a potentially
-complex text string on the serverside, which would potential create a
-hacking-in/disclosure risk.
+tolerance. 
+
+Server function called: \code{glmerSLMADS2}
 }
 \examples{
 \dontrun{
