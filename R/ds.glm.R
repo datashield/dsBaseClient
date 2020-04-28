@@ -1,16 +1,16 @@
-#' @title Fits generalized linear model 
-#' @description Fits a generalized linear model (GLM) on data from a single or multiple sources
-#' in the server-side. 
-#' @details Fits a GLM on data from a single source or from multiple sources on the server-side.
-#' In the latter case the data are co-analysed (when using \code{ds.glm}) 
+#' @title Fits Generalized Linear Model 
+#' @description Fits a Generalized Linear Model (GLM) on data from single or multiple sources
+#' on the server-side. 
+#' @details Fits a GLM on data from a single source or multiple sources on the server-side.
+#' In the latter case, the data are co-analysed (when using \code{ds.glm}) 
 #' by using an approach that is mathematically equivalent to placing all individual-level
 #' data from all sources in one central warehouse and analysing those data using the conventional
-#' \code{glm()} function in R. In this situation marked heterogeneity between sources 
-#' should be corrected (where possible) with fixed effects. 
-#' e.g. if each study in a (binary) logistic regression
+#' \code{glm()} function in R. In this situation marked heterogeneity between sources should be corrected
+#' (where possible) with fixed effects. For example, if each study in a (binary) logistic regression
 #' analysis has an independent intercept, it is equivalent to allowing each study to have a
 #' different baseline risk of disease. This may also be viewed as being an IP (individual person)
 #' meta-analysis with fixed effects.
+#'
 #' 
 #' In \code{formula} most shortcut notation for formulas allowed under R's standard \code{glm()}
 #' function is also allowed by \code{ds.glm}. 
@@ -23,53 +23,55 @@
 #' \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
 #' By default all such models also include an intercept (regression constant) term.
 #' 
-#' Instead if you need to fit a more complex
-#' model in a customised way, the following text gives a few additional pointers:
+#' Instead, if you need to fit a more complex
+#' model, for example:
 #' 
 #'  \deqn{EVENT~1+TID+SEXF*AGE.60}
 #'
-#' denotes fit a GLM with the variable \code{EVENT} as the outcome 
-#' and with the covariates \code{TID} (factor categorical variable with level values 
-#' between 1 and 6  denoting the time period), \code{SEXF} (factor variable denoting sex)
-#' and \code{AGE.60} (a quantitative variable representing age-60 in years). 
-#' The term \code{1} forces the model to include an intercept term. 
-#' Instead if you use the term \code{0} the intercept term is removed. 
-#' The \code{*} symbol between \code{SEXF} and \code{AGE.60}
+#' In the above model the outcome variable is \code{EVENT} 
+#' and the  covariates 
+#' \code{TID} (factor variable with level values between 1 and 6 denoting the period time), 
+#' \code{SEXF} (factor variable denoting sex)
+#' and \code{AGE.60} (quantitative variable representing age-60 in years). 
+#' The term \code{1} forces
+#' the model to include an intercept term, in contrast if you use the term \code{0} the 
+#' intercept term is removed. The \code{*} symbol  between \code{SEXF} and \code{AGE.60}
 #' means fit all possible main effects and interactions for and between those two covariates.
-#' This takes the value 0 in all males (\code{0*AGE.60}), 
-#' and the same value as AGE.60 (\code{1*AGE.60}) in females.
+#'  This takes the value 0 in all males \code{0 * AGE.60} 
+#'  and in females  \code{1 * AGE.60}.
+#'  This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
+#'  the survival time is added as an offset (\code{log(survtime)}).  
+#'  
+
 #' 
-#' In \code{family} argument can be specified three types of models to fit:
+#' In the \code{family} argument can be specified three types of models to fit:
 #' 
 #'  \itemize{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
-#'    \item{\code{"poisson"}}{: Poisson regression model which is most used insurvival analysis. 
+#'    \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
 #'     The model used Piecewise Exponential Regression (PER) which typically closely approximates
 #'     Cox regression in its main estimates and standard errors.}
 #' }
 #' 
 #' 
-#' The gaussian family is automatically coupled with
-#' an 'identity' link function, the binomial family with a
-#' 'logistic' link function and the poisson family with a 'log' link function. 
+#' At present the gaussian family is automatically coupled with
+#' an \code{identity} link function, the binomial family with a
+#' \code{logistic} link function and the poisson family with a \code{log} link function. 
 #' 
-#' In \code{ds.glm} the offset cannot be included directly in the
-#' formula via notation such as \eqn{y~a+b+c+d+offset(offset.vector.name)}.
-#' In this case you need to use the \code{offset} argument. 
 #' 
 #' The \code{data} argument avoids you having to specify the name of the
 #' data frame in front of each covariate in the formula. 
 #' For example, if the data frame is called \code{DataFrame} you
-#' avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}.
+#' avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
 #' 
 #' The \code{checks} argument verifies that the variables in the model are all defined (exist) 
-#' on the server site at every study
-#' and that they have the correct characteristics required to fit a GLM. 
+#' on the server-side at every study
+#' and that they have the correct characteristics required to fit the model. 
 #' It is suggested to make \code{checks} argument TRUE if an unexplained
 #'  problem in the model fit is encountered because the running process takes several minutes.
 #' 
-#' In \code{maxit}  Logistic and Poisson regression
+#' In \code{maxit}  Logistic regression and Poisson regression
 #' models can require many iterations, particularly if the starting value of the
 #' regression constant is far away from its actual value that the GLM
 #' is trying to estimate. In consequence we often set \code{maxit=30}
@@ -105,9 +107,9 @@
 #' instead of directly adding all values across
 #' all individuals, we first sum across all individuals in each data source and
 #' then sum those study
-#' totals across all studies - i.e. this generates EXACTLY the same ultimate sums
+#' totals across all studies - i.e. this generates the same ultimate sums
 #'
-#' (4) CS then calculates sum(SCORES)\%*\% inverse(sum(INFORMATION.MATRICES)) -
+#' (4) CS then calculates \code{sum(SCORES)\%*\% inverse(sum(INFORMATION.MATRICES))} -
 #' heuristically this may be
 #' viewed as being "the sum of the score vectors divided (NB 'matrix division') by the sum of the
 #' information matrices". If one uses the conventional algorithm (IRLS)
@@ -137,71 +139,77 @@
 #'
 #' @param formula an object of class formula describing
 #' the model to be fitted. For more information see 
-#' "Details". 
-#' @param family the error distribution function to use in
+#' \strong{Details}. 
+#' @param family identifies the error distribution function to use in
 #' the model. 
 #' This can be set as \code{"gaussian"}, \code{"binomial"} and \code{"poisson"}. 
-#' For more information see "Details".
+#' For more information see \strong{Details}.
 #' @param offset  a character string specifying the name of a variable to be used as
-#' an offset. For more information see "Details".  
+#' an offset. \code{ds.glm} does not allow an offset vector to be
+#' written directly into the GLM formula. For more information see \strong{Details}.  
 #' @param weights a character string specifying the name of a variable containing
 #' prior regression weights for the fitting process. 
 #' \code{ds.glm} does not allow a weights vector to be
 #' written directly into the GLM formula.
-#' @param data a character string specifying the name of a data frame that contains
+#' @param data a character string specifying the name of an (optional) data frame that contains
 #' all of the variables in the GLM formula. 
 #' @param checks logical. If TRUE \code{ds.glm} checks the structural integrity 
-#' of the model. Default FALSE. For more information see "Details".  
+#' of the model. Default FALSE. For more information see \strong{Details}.  
 #' @param maxit a numeric scalar denoting the maximum number of iterations that are permitted
 #' before \code{ds.glm} declares that the model has failed to converge.
-#' @param CI a numeric value specifying the confidence interval. Default 0.95. 
+#' @param CI a numeric value specifying the confidence interval. Default \code{0.95}. 
 #' @param viewIter logical. If TRUE the results of the intermediate iterations are 
-#' printed. If FALSE only the final results are shown. Default FALSE.  
+#' printed. If FALSE only final results are shown. Default FALSE.  
 #' @param viewVarCov logical. If TRUE the variance-covariance matrix
 #' of parameter estimates is returned. Default FALSE. 
-#' @param viewCor logical. If TRUE correlation matrix of
+#' @param viewCor logical. If TRUE the correlation matrix of
 #' parameter estimates is returned. Default FALSE.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return The main elements that \code{ds.glm} returns are: 
+#' @return Many of the elements of the output list returned by \code{ds.glm} are 
+#' equivalent to those returned by the \code{glm()} function in native R. However,
+#' potentially disclosive elements
+#' such as individual-level residuals and linear predictor values are blocked. 
+#' In this case, only non-disclosive elements are returned from each study separately.
 #' 
+#' The list of elements returned by \code{ds.glm} is mentioned below: 
+#' 
+#' @return \code{Nvalid}: total number of valid observational units across all studies.
+#' @return \code{Nmissing}: total number of observational units across all studies with at least
+#'                             one data item missing.
+#' @return \code{Ntotal}: total of observational units across all studies, the  
+#'                           sum of valid and missing units.
+#' @return \code{disclosure.risk}: risk of disclosure,
+#'                                    the value 1 indicates that one of the disclosure traps 
+#'                                    has been triggered in that study.
+#' @return \code{errorMessage}: explanation for any errors or disclosure risks identified.
+#' @return \code{nsubs}: total number of observational units used by \code{ds.glm} function. 
+#'                        \code{nb} usually is the same as \code{nvalid}.
+#' @return \code{iter}: total number of iterations before convergence achieved.
+#' @return \code{family}: error family and link function.
+#' @return \code{formula}: model formula, see description of formula as an input parameter (above).
+#' @return \code{coefficients}: a matrix with 5 columns:
 #'    \itemize{
-#'    \item{\code{Nvalid}}{: total number of valid observational units across all studies} 
-#'    \item{\code{Nmissing}}{: total number of observational units across all studies with at least
-#'                             one data item missing}
-#'    \item{\code{Ntotal}}{: total observational units across all studies.  
-#'                           Sum of valid and missing units}
-#'    \item{\code{disclosure.risk}}{: risk of disclosure. 
-#'                                    The value 1 indicates that one of the disclosure traps 
-#'                                    has been triggered in that study}
-#'    \item{\code{errorMessage}}{: explanation for any errors or disclosure risks identified}
-#'    \item{\code{nsubs}}{: total number of observational units used by \code{ds.glm}. 
-#'                        \code{nb} usually is the same as \code{nvalid}}
-#'    \item{\code{iter}}{: total number of iterations before convergence achieved}
-#'    \item{\code{family}}{: error family and link function}
-#'    \item{\code{formula}}{: model formula }
-#'    \item{\code{coefficients}}{: a matrix with 5 columns:
-#'                               (1) the names of all of the regression parameters 
-#'                                   (coefficients) in the model
-#'                               (2) the estimated values
-#'                               (3) corresponding standard errors of the stimated values
-#'                               (4) the ratio of estimate/standard error
-#'                               (5) the p-value treating that as a standardised normal deviate}
-#'    \item{\code{dev}}{: residual deviance}
-#'    \item{\code{df}}{: residual degrees of freedom. \code{nb} residual degrees of freedom + number of
-#'    parameters in model = \code{nsubs}}
-#'    \item{\code{output.information}}{: reminder to user that there 
-#'                                      is more information at the top of the output}
-#' }
+#'    \item{First}{: the names of all of the regression parameters (coefficients) in the model}
+#'    \item{second}{: the estimated values}
+#'    \item{third}{: corresponding standard errors of the estimated values}
+#'    \item{fourth}{: the ratio of estimate/standard error}.
+#'    \item{fifth}{: the p-value treating that as a standardised normal deviate}
+#'     }
+#' @return \code{dev}: residual deviance.
+#' @return \code{df}: residual degrees of freedom. \code{nb} residual degrees of freedom + number of
+#'    parameters in model = \code{nsubs}.
+#' @return \code{output.information}: reminder to the user that there 
+#'                                      is more information at the top of the output.
 #' 
-#'    Estimated coefficients and standard errors etc. expanded with estimated confidence intervals
-#'    with \% coverage specified by \code{ci} argument. 
-#'    For poisson model,
-#'     output is generated on scale of linear predictor (log rates and log rate ratios) 
-#'    and on the natural scale after exponentiation (rates and rate ratios). 
-#'    
 #' 
+#' @return Also, the estimated coefficients and standard errors expanded with estimated confidence intervals
+#'    with \% coverage specified by \code{ci} argument are returned. 
+#'    For the poisson model,
+#'    the output is generated on the scale of the linear predictor (log rates and log rate ratios) 
+#'    and the natural scale after exponentiation (rates and rate ratios). 
+#'
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -239,22 +247,22 @@
 #'   
 #'   # make sure that the outcome is numeric 
 #'   ds.asNumeric(x.name = "D$cens",
-#'                newobj = "cens.num"
+#'                newobj = "EVENT",
 #'                datasources = connections)
 #'                
 #'   # convert time id variable to a factor 
 #'                
 #'   ds.asFactor(input.var.name = "D$time.id",
-#'               newobj = "Tid.fac"
+#'               newobj = "TID",
 #'               datasources = connections)
 #'               
-#'   # create in the server-side log(survtime)
+#'   # create in the server-side the log(survtime) variable
 #'          
 #'   ds.log(x = "D$survtime",
 #'          newobj = "log.surv",
 #'          datasources = connections)
 #'   
-#'   ds.glm(formula = cens.num ~ 1 + Tid.fac + female * age.60,
+#'   ds.glm(formula = EVENT ~ 1 + TID + female * age.60,
 #'          data = "D",
 #'          family = "poisson", 
 #'          offset = "log.surv",
@@ -271,7 +279,7 @@
 #'   datashield.logout(connections) 
 #'   
 #'   # Example 2: run a logistic regression without interaction
-#'   # For this example we are going to load other type of data  
+#'   # For this example we are going to load another dataset  
 #'   
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
@@ -300,9 +308,8 @@
 #'                 
 #'   mod #visualize the results of the model
 #' 
-#' # Example 3: fit a standard gaussian linear model with an interaction
-#' # We are using the same data as in the example 2. It is not necessary to
-#' # connect again to the server 
+#' # Example 3: fit a standard Gaussian linear model with an interaction
+#' # We are using the same data as in example 2. 
 #' 
 #' mod <- ds.glm(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
 #'               data = "D",
