@@ -48,7 +48,7 @@ schedules:
     always: true
 
 jobs:
-- job: DataSHIELD_CI
+- job: Build and run tests
 
   timeoutInMinutes: 120
 
@@ -81,10 +81,6 @@ jobs:
 
   - checkout: datashield-infrastructureRepo
     path: 'datashield-infrastructure'
-
-  - checkout: testStatusRepo
-    path: 'testStatus'
-    persistCredentials: true
 
 
     #####################################################################################
@@ -319,6 +315,66 @@ jobs:
     condition: succeededOrFailed()
 
 
+    #####################################################################################
+    # Output the environment information to the console. This is useful for debugging.
+    # Always do this, even if some of the above has failed or the job has been cacelled.
+  - bash: |
+  
+      echo 'BranchName: '$(branchName)
+      echo 'ProjectName: '$(projectName)
+      echo 'RepoName: '$(repoName)
+      
+      echo -e "\n#############################"
+      echo -e "ls /: ######################"
+      ls $(Pipeline.Workspace)
+    
+      echo -e "\n#############################"
+      echo -e "lscpu: ######################"
+      lscpu
+      
+      echo -e "\n#############################"
+      echo -e "memory: #####################"
+      free -m
+      
+      echo -e "\n#############################"
+      echo -e "env: ########################"
+      env
+      
+      echo -e "\n#############################"
+      echo -e "Puppet version: #############"
+      /opt/puppetlabs/bin/puppet --version
+      /opt/puppetlabs/puppet/bin/r10k version
+      
+      echo -e "\n#############################"
+      echo -e "Rprofile: ###################"
+      cat $(Pipeline.Workspace)/dsBaseClient/.Rprofile
+      
+      echo -e "\n#############################"
+      echo -e "R installed.packages(): #####"
+      R -e 'installed.packages()'
+      
+      echo -e "\n#############################"
+      echo -e "R sessionInfo(): ############"
+      R -e 'sessionInfo()'
+
+      sudo apt install tree -y
+      pwd
+      echo -e "\n#############################"
+      echo -e "File tree: ##################"
+      tree $(Pipeline.Workspace)
+
+    displayName: 'Environment info'
+    condition: always()
+
+
+#####################################################################################
+# Parse and save the test results 
+- job: Record test status
+  steps:
+
+  - checkout: testStatusRepo
+    path: 'testStatus'
+    persistCredentials: true
 
     #####################################################################################
     # Checkout the testStatus repo, add the results from here, push back to GH.
@@ -375,53 +431,3 @@ jobs:
 
 
 
-    #####################################################################################
-    # Output the environment information to the console. This is useful for debugging.
-    # Always do this, even if some of the above has failed or the job has been cacelled.
-  - bash: |
-  
-      echo 'BranchName: '$(branchName)
-      echo 'ProjectName: '$(projectName)
-      echo 'RepoName: '$(repoName)
-      
-      echo -e "\n#############################"
-      echo -e "ls /: ######################"
-      ls $(Pipeline.Workspace)
-    
-      echo -e "\n#############################"
-      echo -e "lscpu: ######################"
-      lscpu
-      
-      echo -e "\n#############################"
-      echo -e "memory: #####################"
-      free -m
-      
-      echo -e "\n#############################"
-      echo -e "env: ########################"
-      env
-      
-      echo -e "\n#############################"
-      echo -e "Puppet version: #############"
-      /opt/puppetlabs/bin/puppet --version
-      /opt/puppetlabs/puppet/bin/r10k version
-      
-      echo -e "\n#############################"
-      echo -e "Rprofile: ###################"
-      cat $(Pipeline.Workspace)/dsBaseClient/.Rprofile
-      
-      echo -e "\n#############################"
-      echo -e "R installed.packages(): #####"
-      R -e 'installed.packages()'
-      
-      echo -e "\n#############################"
-      echo -e "R sessionInfo(): ############"
-      R -e 'sessionInfo()'
-
-      sudo apt install tree -y
-      pwd
-      echo -e "\n#############################"
-      echo -e "File tree: ##################"
-      tree $(Pipeline.Workspace)
-
-    displayName: 'Environment info'
-    condition: always()
