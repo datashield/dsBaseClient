@@ -36,6 +36,7 @@ resources:
     ref: v6.0-dev
 
 
+
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
@@ -119,6 +120,7 @@ jobs:
     condition: succeeded()
 
 
+
     #####################################################################################
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
@@ -146,6 +148,7 @@ jobs:
     # devtools::document() been run before commiting?
     # If previous steps have failed then don't run.
   - bash: |
+
   
       pwd
       

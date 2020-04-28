@@ -1,30 +1,57 @@
 #'
-#' @title Computes the exponential function
-#' @description This function is similar to R function \code{exp}.
-#' @details this is a wrapper that calls the exponential function on the server site.
-#' @param x a charcater, the name of a numerical vector.
-#' @param newobj the name of the new vector. If this argument is set to \code{NULL}, the name of the new 
-#' variable is the name 'exp.newobj'
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return nothing is returned to the client, the new object is stored on the server side.
-#' @author Gaye, A.; Isaeva, J.
+#' @title Generates the exponential distribution in the server-side
+#' @description Computes the exponential distribution for a specified numeric vector. 
+#' This function is similar to R function \code{exp}.
+#' @details 
+#' 
+#' Server function called: \code{exp}. 
+#' 
+#' @param x a character string providing the name of a numerical vector.
+#' @param newobj a character string that provides the name for the output variable
+#' that is stored on the data servers. Default \code{exp.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.exp} returns the exponential distribution for each study of the numeric vector 
+#' specified in the argument \code{x}. The created vectors are stored in the server-side. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load that contains the login details
-#'   data(logindata)
-#'
-#'   # login and assign specific variable(s)
-#'   myvar <- list("PM_BMI_CONTINUOUS")
-#'   conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#'
+#'   ## Version 6, for version 5 see the Wiki 
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
 #'   # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
-#'   ds.exp(x='D$PM_BMI_CONTINUOUS')
+#'   ds.exp(x = "D$PM_BMI_CONTINUOUS",
+#'          newobj = "exp.PM_BMI_CONTINUOUS",
+#'          datasources = connections[1]) #only the first Opal server is used (study1)
 #'
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
+#'   datashield.logout(connections) 
 #'
 #' }
 #'
