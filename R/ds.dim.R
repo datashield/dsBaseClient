@@ -126,8 +126,8 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- paste0("dimDS(", x, ")")
-  dimensions <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("dimDS", x)
+  dimensions <- DSI::datashield.aggregate(datasources, cally)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
@@ -146,16 +146,16 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
 
   if(type=="combine"){
     out <- pooled.dim
-	names(out) <- paste0('dimensions of ', x, ' in combined studies')
+	  names(out) <- paste0('dimensions of ', x, ' in combined studies')
   }else{
     if(type=="split"){
 	  out <- dimensions
 	  names(out) <- outputnames
     }else{
-	  if(type=="both"){
+	    if(type=="both"){
         out <- c(dimensions, pooled.dim)
-		names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
-	  }else{
+		    names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
+	    }else{
         stop('Function argument "type" has to be either "both", "combine" or "split"')
       }
     }
