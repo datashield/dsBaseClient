@@ -89,7 +89,7 @@ jobs:
   - checkout: testStatusRepo
     path: 'testStatus'
     persistCredentials: true
-    condition: eq(variables['Build.Reason'], 'PullRequest')
+    condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
 
 
 
@@ -378,7 +378,7 @@ jobs:
       
     workingDirectory: $(Pipeline.Workspace)/testStatus
     displayName: 'Parse test results'
-    condition: eq(variables['Build.Reason'], 'PullRequest')
+    condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
 
 
     #####################################################################################
