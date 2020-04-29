@@ -30,7 +30,7 @@ variables:
   repoName:    $(Build.Repository.Name)
   projectName: 'dsBaseClient'
   branchName:  $(Build.SourceBranchName)
-  test_filter: '*'
+  test_filter: 'ds.asNumeric*'
 
 
 
