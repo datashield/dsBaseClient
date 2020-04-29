@@ -19,6 +19,21 @@
 #########################################################################################
 
 
+#####################################################################################
+# These should all be constant, except test_filter. This can be used to test subsets
+# of test files in the testthat directory. Options are like:
+# '*'               <- Run all tests
+# 'ds.asNumeric*'   <- Run all ds.asNumeric tests, i.e. all the arg, smk etc tests.
+# '*_smk_*'         <- Run all the smoke tests for all functions.
+variables:
+  datetime:    $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
+  repoName:    $(Build.Repository.Name)
+  projectName: 'dsBaseClient'
+  branchName:  $(Build.SourceBranchName)
+  test_filter: '*'
+
+
+
 #########################################################################################
 # Need to define all the GH repos and their access tokens, see:
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
@@ -56,18 +71,6 @@ jobs:
   pool:
     vmImage: 'Ubuntu 16.04'
 
-  #####################################################################################
-  # These should all be constant, except test_filter. This can be used to test subsets
-  # of test files in the testthat directory. Options are like:
-  # '*'               <- Run all tests
-  # 'ds.asNumeric*'   <- Run all ds.asNumeric tests, i.e. all the arg, smk etc tests.
-  # '*_smk_*'         <- Run all the smoke tests for all functions.
-  variables:
-    datetime:    $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
-    repoName:    $(Build.Repository.Name)
-    projectName: 'dsBaseClient'
-    branchName:  $(Build.SourceBranchName)
-    test_filter: '*'
 
 
   steps:
