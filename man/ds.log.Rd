@@ -2,49 +2,75 @@
 % Please edit documentation in R/ds.log.R
 \name{ds.log}
 \alias{ds.log}
-\title{Computes logarithms, by default natural logarithms}
+\title{Computes logarithms in the server-side}
 \usage{
 ds.log(x = NULL, base = exp(1), newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a vector.}
+\item{x}{a character string providing the name of a numerical vector.}
 
-\item{base}{a numrical, the base with respect to which logarithms are computed.}
+\item{base}{a positive number, the base for which logarithms are computed.
+Default \code{exp(1)}.}
 
-\item{newobj}{the name of the new variable. If this argument is set to NULL, the name of the new 
-variable is the name 'log.newobj'}
+\item{newobj}{a character string that provides the name for the output variable
+that is stored on the server-side. Default \code{log.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+\code{ds.log} returns a vector for each study of the transformed values for the numeric vector 
+specified in the argument \code{x}. The created vectors are stored in the server-side.
 }
 \description{
-This function is similar to R function \code{log}.
+Computes the logarithms for a specified numeric vector. 
+This function is similar to the R \code{log} function. by default natural logarithms.
 }
 \details{
-this is simply a wrapper for the server side function.
+Server function called: \code{log}
 }
 \examples{
 \dontrun{
 
-  # load that contains the login details
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki 
+  # Connecting to the Opal servers
 
-  # login and assign specific variable(s)
-  myvar <- list("LAB_TSC")
-  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # Compute natural logarithm of LAB_TSC
-  ds.log(x='D$LAB_TSC')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                 
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Calculating the log value of the 'PM_BMI_CONTINUOUS' variable
+  
+  ds.log(x = "D$PM_BMI_CONTINUOUS",
+         base = exp(2),
+         newobj = "log.PM_BMI_CONTINUOUS",
+         datasources = connections[1]) #only the first Opal server is used (study1)
 
   # clear the Datashield R sessions and logout
-  datashield.logout(conns)
-
+  datashield.logout(connections) 
 }
 
 }
 \author{
-Gaye, A.; Isaeva, J.
+DataSHIELD Development Team
 }
