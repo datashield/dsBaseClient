@@ -11,6 +11,39 @@
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
 
+context("ds.dataFrameSort()::expt::multiple::correct_parameter_class")
+test_that('all datasets',
+          {  
+            connect.all.datasets()
+            .test.function.parameters("D","D$LOGICAL",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$INTEGER",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$POSITIVE_INTEGER",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$NEGATIVE_INTEGER",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$NUMERIC",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$POSITIVE_NUMERIC",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$NEGATIVE_NUMERIC",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$IDENTIFIER",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$CATEGORY",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
+          })
+context("ds.dataFrameSort()::expt::multiple::incorrect_parameter_class")
+test_that('all datasets',
+          {  
+            connect.all.datasets()
+            .test.function.parameters(D,"D$LOGICAL",TRUE,"numeric","server.data")
+            .test.function.parameters(2,"D$INTEGER",TRUE,"numeric","server.data")
+            #.test.function.parameters("D",D$INTEGER,TRUE,"numeric","server.data") class function give the error
+            .test.function.parameters("D","LHD",TRUE,"alphabetic","server.data")
+            .test.function.parameters("D$NEGATIVE_INTEGER",TRUE,"numeric","server.data")
+            .test.function.parameters("D","D$NUMERIC",10,"numeric","server.data")
+            .test.function.parameters("D","D$POSITIVE_NUMERIC","D","numeric","server.data")
+            .test.function.parameters("D","D$NEGATIVE_NUMERIC",TRUE,23,"server.data")
+            .test.function.parameters("D","D$IDENTIFIER",TRUE,"CHARACTER","server.data")
+            .test.function.parameters("D","D$CATEGORY",TRUE,"numeric",server.data)
+            .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"numeric",23)
+            .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
+          })
 context("ds.dataFrameSort()::expt::multiple::df::creation")
 test_that('all datasets',
           {  
@@ -135,8 +168,14 @@ test_that('all datasets',
             .test.data.frame.sorting("D","FACTOR_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
-            
-            
           })
+
+
+
+
+
+
+
+
 
 
