@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("ds.levels::smk::setup")
+context("ds.levels::disc::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -23,39 +23,35 @@ test_that("setup", {
 #
 # Tests
 #
-
-context("ds.levels::smk")
+context("ds.levels::disc")
 test_that("simple levels", {
-    res <- ds.levels("D$PM_BMI_CATEGORICAL")
+    res <- ds.levels("D$GENDER")
+    
     expect_length(res, 3)
     expect_length(res$sim1, 2)
     expect_length(res$sim1$ValidityMessage, 1)
-    expect_equal(res$sim1$ValidityMessage, "VALID ANALYSIS")
-    expect_length(res$sim1$Levels, 3)
-    expect_equal(res$sim1$Levels[1], "1")
-    expect_equal(res$sim1$Levels[2], "2")
-    expect_equal(res$sim1$Levels[3], "3")
+    expect_equal(res$sim1$ValidityMessage, "FAILED: Result less than nfilter.subset")
+    expect_length(res$sim1$Levels, 1)
+    expect_equal(res$sim1$Levels, NA)
+    
     expect_length(res$sim2, 2)
     expect_length(res$sim2$ValidityMessage, 1)
-    expect_equal(res$sim2$ValidityMessage, "VALID ANALYSIS")
-    expect_length(res$sim2$Levels, 3)
-    expect_equal(res$sim2$Levels[1], "1")
-    expect_equal(res$sim2$Levels[2], "2")
-    expect_equal(res$sim2$Levels[3], "3")
+    expect_equal(res$sim2$ValidityMessage, "FAILED: Result less than nfilter.subset")
+    expect_length(res$sim2$Levels, 1)
+    expect_equal(res$sim2$Levels, NA)
+    
     expect_length(res$sim3, 2)
     expect_length(res$sim3$ValidityMessage, 1)
-    expect_equal(res$sim3$ValidityMessage, "VALID ANALYSIS")
-    expect_length(res$sim3$Levels, 3)
-    expect_equal(res$sim3$Levels[1], "1")
-    expect_equal(res$sim3$Levels[2], "2")
-    expect_equal(res$sim3$Levels[3], "3")
+    expect_equal(res$sim3$ValidityMessage, "FAILED: Result less than nfilter.subset")
+    expect_length(res$sim3$Levels, 1)
+    expect_equal(res$sim3$Levels, NA)
 })
 
 #
 # Done
 #
 
-context("ds.levels::smk::shutdown")
+context("ds.levels::disc::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -63,5 +59,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.levels::smk::done")
-
+context("ds.levels::disc::done")
