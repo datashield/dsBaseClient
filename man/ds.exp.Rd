@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.exp.R
 \name{ds.exp}
 \alias{ds.exp}
-\title{Generates the exponential distribution in the server-side}
+\title{Computes the exponentials in the server-side}
 \usage{
 ds.exp(x = NULL, newobj = NULL, datasources = NULL)
 }
@@ -17,11 +17,11 @@ If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.exp} returns the exponential distribution for each study of the numeric vector 
+\code{ds.exp} returns a vector for each study of the exponential values for the numeric vector 
 specified in the argument \code{x}. The created vectors are stored in the server-side.
 }
 \description{
-Computes the exponential distribution for a specified numeric vector. 
+Computes the exponential values for a specified numeric vector. 
 This function is similar to R function \code{exp}.
 }
 \details{

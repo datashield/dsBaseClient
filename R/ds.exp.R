@@ -1,6 +1,6 @@
 #'
-#' @title Generates the exponential distribution in the server-side
-#' @description Computes the exponential distribution for a specified numeric vector. 
+#' @title Computes the exponentials in the server-side
+#' @description Computes the exponential values for a specified numeric vector. 
 #' This function is similar to R function \code{exp}.
 #' @details 
 #' 
@@ -12,7 +12,7 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.exp} returns the exponential distribution for each study of the numeric vector 
+#' @return \code{ds.exp} returns a vector for each study of the exponential values for the numeric vector 
 #' specified in the argument \code{x}. The created vectors are stored in the server-side. 
 #' @author DataSHIELD Development Team
 #' @export
