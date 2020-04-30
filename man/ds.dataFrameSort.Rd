@@ -2,34 +2,31 @@
 % Please edit documentation in R/ds.dataFrameSort.R
 \name{ds.dataFrameSort}
 \alias{ds.dataFrameSort}
-\title{Sorting data frames in several Opal servers}
+\title{Sorting data frames in the server-side}
 \usage{
 ds.dataFrameSort(
   df.name = NULL,
   sort.key.name = NULL,
   sort.descending = FALSE,
-  sort.alphabetic = FALSE,
-  sort.numeric = FALSE,
+  sort.method = "default",
   newobj = NULL,
   datasources = NULL
 )
 }
 \arguments{
 \item{df.name}{a character string providing the name of the data frame
-to be sorted}
+to be sorted.}
 
 \item{sort.key.name}{a character string providing the name for the sort key.}
 
 \item{sort.descending}{logical, if TRUE the data frame will be sorted.
-by the sort key in descending order. Default = FALSE (sort order ascending)}
+by the sort key in descending order. Default = FALSE (sort order ascending).}
 
-\item{sort.alphabetic}{logical, if TRUE the sort key is 
-treated as if alphabetic Default=FALSE.}
+\item{sort.method}{a character string that specifies the method to be used 
+to sort the data frame. This can be set as 
+\code{"alphabetic"},\code{"a"} or \code{"numeric"}, \code{"n"}.}
 
-\item{sort.numeric}{logical, if TRUE the sort key is treated as if numeric
-Default=FALSE.}
-
-\item{newobj}{a character string which provides the name for the output data frame 
+\item{newobj}{a character string that provides the name for the output data frame 
 that is stored on the data servers. Default \code{dataframesort.newobj}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
@@ -38,8 +35,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The sorted dataframe is written to the serverside. 
-In addition, two validity messages are returned
+\code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
+Also, two validity messages are returned to the client-side
 indicating the name of the \code{newobj} which 
 has been created in each data source and if 
 it is in a valid form.
@@ -48,16 +45,26 @@ it is in a valid form.
 Sorts a data frame using a specified sort key.
 }
 \details{
-\code{ds.dataFrameSort} sorts a specified
-data.frame on the serverside using a sort key also on the serverside. The
+It sorts a specified
+data.frame on the serverside using a sort key also on the server-side. The
 sort key can either sit in the data.frame or outside it. 
 The sort key can be forced to be interpreted as alphabetic or numeric. 
 
-When sorting numbers in a  ascending (default) manner the negative values 
-get ordered first and the missing values last. 
-Instead when sorting characters the missing values get ordered first. 
+When a numeric vector is sorted alphabetically, the order can look confusing. 
+For example, if we have a numeric vector to sort:\cr 
+vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 112, NA)\cr
 
-Server functions called: dataFrameSortDS.
+When sorting numbers in an ascending (default) manner,
+the largest negative numbers get ordered first 
+leading up to the largest positive numbers
+and finally (by default in R) NAs being positioned at the end of the vector:\cr
+numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA)\cr
+
+Instead, if the same vector is sorted alphabetically the the resultant vector is: 
+
+alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA)\cr
+
+Server function called: \code{dataFrameSortDS}.
 }
 \examples{
 \dontrun{
@@ -90,8 +97,7 @@ Server functions called: dataFrameSortDS.
   ds.dataFrameSort(df.name = "D",
                    sort.key.name = "D$LAB_TSC",
                    sort.descending = TRUE,
-                   sort.alphabetic = FALSE,
-                   sort.numeric = TRUE,
+                   sort.method = "numeric",
                    newobj = "df.sort",
                    datasources = connections[1]) #only the first Opal server is used ("study1")
                    

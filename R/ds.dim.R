@@ -1,53 +1,86 @@
 #'
-#' @title Retrieves the dimension of an object
-#' @description This function is similar to R function \code{dim}
-#' @details The function returns the dimension of the input object (e.g. array, matrix or data frame)
-#' from each single study and the pooled dimension of the object by summing up the individual 
+#' @title Retrieves the dimension of a server-side R object
+#' @description Gives the dimensions of an R object on the server-side. 
+#' This function is similar to R function \code{dim}. 
+#' @details The function returns the dimension of the server-side 
+#' input object (e.g. array, matrix or data frame)
+#' from every single study and the pooled dimension of the object by summing up the individual 
 #' dimensions returned from each study.
-#' @param x a character, the name of R table object, for example a matrix, array or data frame
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global dimension is returned. 
-#' If \code{type} is set to 'split', 'splits' or 's', the dimension is returned separately for each study.
-#' If \code{type} is set to 'both' or 'b', both sets of outputs are produced.
-#' @param checks a Boolean indicator of whether to undertake optional checks of model
-#' components. Defaults to checks=FALSE to save time. It is suggested that checks
-#' should only be undertaken once the function call has failed.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return The function retrieves the dimension of the object in the form of a vector where the first
+#' 
+#' In \code{checks} parameter is suggested that checks should only be undertaken once the 
+#' function call has failed.
+#' 
+#' Server function called: \code{dimDS}
+#' 
+#' @param x a character string providing the name of the input object. 
+#' @param type a character string that represents the type of analysis to carry out. 
+#' If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
+#'  the global dimension is returned. 
+#' If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+#' the dimension is returned separately for each study.
+#' If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
+#' Default \code{'both'}. 
+#' @param checks logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
+#' Default FALSE.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.dim} retrieves to the client-side the dimension of the object 
+#' in the form of a vector where the first
 #' element indicates the number of rows and the second element indicates the number of columns.
-#' @author Amadou Gaye, Julia Isaeva, Demetris Avraam, for DataSHIELD Development Team
-#' @seealso \link{ds.dataFrame} to generate a table of type dataframe.
-#' @seealso \link{ds.changeRefGroup} to change the reference level of a factor.
-#' @seealso \link{ds.colnames} to obtain the column names of a matrix or a data frame
-#' @seealso \link{ds.asMatrix} to coerce an object into a matrix type.
-#' @seealso \link{ds.length} to obtain the size of a vector.
+#' @author DataSHIELD Development Team
+#' @seealso \code{\link{ds.dataFrame}} to generate a table of the type data frame.
+#' @seealso \code{\link{ds.changeRefGroup}} to change the reference level of a factor.
+#' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
+#' @seealso \code{\link{ds.asMatrix}} to coerce an object into a matrix type.
+#' @seealso \code{\link{ds.length}} to obtain the size of a vector.
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load that contains the login details
-#'   data(logindata)
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'   # login and assign all the stored variables.
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
 #'
-#'   # Example 1: Get the dimension of the assigned datasets in each study
-#'   ds.dim(x='D', type='combine')
-#'
-#'   # Example 2: Get the pooled dimension of the assigned datasets
-#'   ds.dim(x='D', type='combine')
-#'
-#'   # Example 3: Get the dimension og the datasets in each single study
-#'   # and the pooled dimension  - default
-#'   ds.dim(x='D')
-#'
-#'   # Example 4: Input has to be either matrix, data frame or an array
-#'   # In the below example, the input is a vector so it will not work.
-#'   ds.dim(x='D$LAB_TSC')
+#'   # Calculate the dimension
+#'   ds.dim(x="D", 
+#'          type="combine", #global dimension
+#'          checks = FALSE,
+#'          datasources = connections)#all opal servers are used
+#'   ds.dim(x="D",
+#'          type = "both",#separate dimension for each study
+#'                        #and the pooled dimension (default) 
+#'          checks = FALSE,
+#'          datasources = connections)#all opal servers are used
+#'   ds.dim(x="D", 
+#'          type="split", #separate dimension for each study
+#'          checks = FALSE,
+#'          datasources = connections[1])#only the first opal server is used ("study1")
 #'
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
+#'   datashield.logout(connections)
 #'
 #' }
 #'
@@ -93,8 +126,8 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- paste0("dimDS(", x, ")")
-  dimensions <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("dimDS", x)
+  dimensions <- DSI::datashield.aggregate(datasources, cally)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
@@ -113,16 +146,16 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
 
   if(type=="combine"){
     out <- pooled.dim
-	names(out) <- paste0('dimensions of ', x, ' in combined studies')
+	  names(out) <- paste0('dimensions of ', x, ' in combined studies')
   }else{
     if(type=="split"){
 	  out <- dimensions
 	  names(out) <- outputnames
     }else{
-	  if(type=="both"){
+	    if(type=="both"){
         out <- c(dimensions, pooled.dim)
-		names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
-	  }else{
+		    names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
+	    }else{
         stop('Function argument "type" has to be either "both", "combine" or "split"')
       }
     }

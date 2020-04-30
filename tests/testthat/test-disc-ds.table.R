@@ -25,8 +25,8 @@ test_that("table disclosure", {
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
   myvectors <- c('factorCharacter', 'factorInteger')
   ds.dataFrame(x=myvectors, newobj="tablesource")
- # print(ds.ls())
-  print(ds.colnames("tablesource"))
+#  print(ds.ls())
+#  print(ds.colnames("tablesource"))
 #  table.res <- ds.table(rvar='tablesource$D.FACTOR_INTEGER', cvar='tablesource$D.FACTOR_CHARACTER', newobj="new_table")
   table.res <- ds.table(rvar='tablesource$factorCharacter', cvar='tablesource$factorInteger', newobj="new_table")
 

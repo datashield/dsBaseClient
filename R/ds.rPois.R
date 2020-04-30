@@ -1,7 +1,7 @@
-#' @title Generates Poisson distribution in several Opal servers 
+#' @title Generates Poisson distribution in the server-side
 #' @description Generates random (pseudorandom) non-negative integers
 #' with a Poisson distribution. 
-#' In addition,  \code{ds.rPois} allows to create different vector length in each server. 
+#' Besides,  \code{ds.rPois} allows creating different vector lengths in each server. 
 #' @details Creates a vector of random or pseudorandom non-negative integer values 
 #' distributed with a Poisson distribution in each data source. 
 #' The \code{ds.rPois} function's arguments specify lambda, 
@@ -14,38 +14,39 @@
 #' Default value for  \code{lambda> = 1}.
 #' 
 #' If \code{seed.as.integer} is an integer 
-#' e.g. 5 and there are more than one sources (N) the seed is set as 5*N. 
+#' e.g. 5 and there is more than one source (N) the seed is set as 5*N. 
 #' For example, in the first study the seed is set as 938*1, 
 #' in the second as  938*2  
 #' up to 938*N in the Nth study.
 #' 
 #' If \code{seed.as.integer} is set as 0 all sources will start with the seed value
-#' 0 and all the random number generators will therefore start from the same position. 
-#' In addition, to use the same starting seed in all studies but do not wish it to
+#' 0 and all the random number generators will, therefore, start from the same position. 
+#' Also, to use the same starting seed in all studies but do not wish it to
 #' be 0, you can use \code{datasources} argument to generate the random number 
 #' vectors one source at a time. 
 #' 
-#' Server functions called: rPoisDS and setSeedDS.
+#' Server functions called: \code{rPoisDS} and \code{setSeedDS}.
 #'  
 #' @param samp.size an integer value or an integer vector that defines the length of the
 #' random numeric vector to be created in each source. 
-#' @param lambda the number of event mean per interval. 
-#' @param newobj a character string  which provides the name for the output variable 
+#' @param lambda the number of events mean per interval. 
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer or a NULL value which provides the random seed
 #' in each data source.   
-#' @param return.full.seed.as.set logical, if TRUE will returns the full
+#' @param return.full.seed.as.set logical, if TRUE will return the full
 #' random number seed in each data source (a numeric vector of length 626). If
-#' FALSE it will only returns the trigger seed value you have provided. 
+#' FALSE it will only return the trigger seed value you have provided. 
 #' Default is FALSE.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.rPois} returns random number vectors with a Poisson distribution for each study, 
 #' taking into  account the values specified in each parameter of the function. 
-#' The created vectors are stored in the Opal servers.  
-#' If requested, it also gives the full 626 length random seed vector generated in
-#' each source (see info for the argument  <return.full.seed.as.set>).
+#' The created vectors are stored in the server-side.  
+#' If requested, it also returned to the client-side the full
+#' 626 lengths random seed vector generated in each source 
+#'  (see info for the argument  \code{return.full.seed.as.set}).
 #' 
 #' @examples 
 #' 
@@ -96,7 +97,7 @@
 #'   # Clear the Datashield R sessions and logout
 #'   datashield.logout(connections) 
 #' }
-#' @author Paul Burton for DataSHIELD Development Team
+#' @author DataSHIELD Development Team
 #' @export
 ds.rPois<-function(samp.size=1,lambda=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 

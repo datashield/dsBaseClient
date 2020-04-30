@@ -1,51 +1,106 @@
 #'
-#' @title ds.Boole
-#' @description Converts the individual elements of a vector or other object into Boolean
-#' indicators(TRUE/FALSE or 1/0) based on the standard set of Boolean operators:
-#' ==, !=, >, >=, <, <=.
-#' @details A combination of operators reflected in AND can be obtained by multiplying two or more
-#' binary/Boolean vectors together: observations taking the value 1 in every vector will then
-#' take the value 1 while all others will take the value 0. The combination OR can be obtained by
-#' adding two or more vectors and then then reapply ds.Boole using the operator >= 1: any
-#' observation taking the value 1 in one or more vectors will take the value 1 in the final vector.
+#' @title Converts a server-side R object into Boolean indicators
+#' @description It compares R objects using the standard set of 
+#' Boolean operators (\code{==, !=, >, >=, <, <=}) to create a
+#' vector with Boolean indicators that can be of class logical (\code{TRUE/FALSE}) 
+#' or numeric (\code{1/0}). 
+#' 
+#' @details A combination of different Boolean operators using \code{AND} operator
+#' can be obtained by multiplying two or more
+#' binary/Boolean vectors together. In this way, observations taking the value 1 in every vector
+#' will then take the value 1 in the final vector (after multiplication)
+#' while all others will take the value 0. Instead the combination using  \code{OR} operator
+#' can be obtained by the sum of two or more vectors and applying   
+#' \code{ds.Boole} using the operator \code{>= 1}. 
+#' 
+#' In \code{na.assign} if \code{'NA'} is specified, the missing values 
+#' remain as \code{NA}s in the output vector. If \code{'1'} or \code{'0'} is specified the 
+#' missing values are converted to 1 or 0 respectively or \code{TRUE}
+#' or \code{FALSE} depending on the argument \code{numeric.output}.
+#' 
+#' 
+#' 
+#' Server function called: \code{BooleDS}
+#' 
 #' @param V1 A character string specifying the name of the vector to which the Boolean operator
-#' is to be applied
-#' @param V2 A character string specifying the name of the vector or scalar to which <V1> is to
-#' be compared. So, if <V2> is a scalar (e.g. '4') and the Boolean operator is '<=', the
-#' output vector will be a binary/Boolean variable with elements taking the value 1 or TRUE
-#' if the corresponding element of <V1> is 4 or less and 0 or FALSE otherwise. On the other
-#' hand, if <V2> is a vector and the Boolean operator is '==', the output vector will be a
-#' binary/Boolean variable with elements taking the value 1 or TRUE if the corresponding
-#' elements of <V1> and <V2> are equal and 0 or FALSE otherwise. If <V2> is a vector rather than
-#' a scalar it must be of the same length as <V1>
+#' is to be applied. 
+#' @param V2 A character string specifying the name of the vector  to compare with \code{V1}. 
 #' @param Boolean.operator A character string specifying one of six possible Boolean operators:
-#' '==', '!=', '>', '>=', '<', '<='
-#' @param numeric.output a TRUE/FALSE indicator defaulting to TRUE determining whether the final
-#' output variable should be of class numeric (1/0) or class logical (TRUE/FALSE). It is easy
-#' to convert a logical class variable to numeric using the ds.asNumeric() function and to
-#' convert a numeric (1/0) variable to logical you can apply ds.Boole with <Boolean.operator>
-#' '==', <V2> the scalar '1' and <numeric.output> FALSE.
-#' @param na.assign A character string taking values 'NA', '1' or '0'. If 'NA' then any NA
-#' values in the input vector remain as NAs in the output vector. If '1' or '0' NA values in
-#' the input vector are all converted to 1 or 0 respectively.
-#' @param newobj A character string specifying the name of the vector to which the output
-#' vector is to be written. If no <newobj> argument is specified, the output vector defaults
-#' to "boole.newobj".
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return the object specified by the <newobj> argument (or default name <V1>_Boole)
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.Boole also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' \code{'==', '!=', '>', '>=', '<'} and \code{'<='}. 
+#' @param numeric.output logical. If TRUE the output variable should be of class numeric (\code{1/0}).
+#' If FALSE the output variable should be of class logical (\code{TRUE/FALSE}). 
+#' Default TRUE. 
+#' @param na.assign A character string taking values \code{'NA'},\code{'1'} or \code{'0'}.
+#' Default \code{'NA'}. For more information see details. 
+#' @param newobj 	a character string that provides the name for the output 
+#' object that is stored on the data servers. Default \code{boole.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.Boole} returns the object specified by the \code{newobj} argument 
+#' which is written to the server-side. Also, two validity messages are returned
+#' to the client-side indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
+#' it is in a valid form.
+#' @examples 
+#' 
+#' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'
+#'   # Generating Boolean indicators
+#'   ds.Boole(V1 = "D$LAB_TSC",
+#'            V2 = "D$LAB_TRIG",
+#'            Boolean.operator = ">",
+#'            numeric.output = TRUE, #Output vector of 0 and 1
+#'            na.assign = "NA",      
+#'            newobj = "Boole.vec",
+#'            datasources = connections[1]) #only the first server is used ("study1")
+#'            
+#'   ds.Boole(V1 = "D$LAB_TSC",
+#'            V2 = "D$LAB_TRIG",
+#'            Boolean.operator = "<",
+#'            numeric.output = FALSE, #Output vector of TRUE and FALSE 
+#'            na.assign = "1", #NA values are converted to TRUE
+#'            newobj = "Boole.vec",
+#'            datasources = connections[2]) #only the second server is used ("study2") 
+#'                       
+#'   ds.Boole(V1 = "D$LAB_TSC",
+#'            V2 = "D$LAB_TRIG",
+#'            Boolean.operator = ">",
+#'            numeric.output = TRUE, #Output vector of 0 and 1
+#'            na.assign = "0", #NA values are converted to 0      
+#'            newobj = "Boole.vec",
+#'            datasources = connections) #All servers are used
+#'   
+#'   # Clear the Datashield R sessions and logout           
+#'   datashield.logout(connections)
+#' }
+#'  
 #' @author DataSHIELD Development Team
 #' @export
 #'

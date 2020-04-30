@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rbind.R
 \name{ds.rbind}
 \alias{ds.rbind}
-\title{Combines R objects by rows to generate a matrix in the Opal servers}
+\title{Combines R objects by rows in the server-side}
 \usage{
 ds.rbind(
   x = NULL,
@@ -19,32 +19,33 @@ ds.rbind(
 \item{DataSHIELD.checks}{logical, if TRUE checks that all
 input objects exist and are of an appropriate class.}
 
-\item{force.colnames}{can be NULL or a vector of characters which 
+\item{force.colnames}{can be NULL or a vector of characters that 
 specifies column names of the output object.}
 
-\item{newobj}{a character string which provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{rbind.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
-\item{notify.of.progress}{specifies if console output should be produce to indicate
-progress. The default value for notify.of.progress is FALSE.}
+\item{notify.of.progress}{specifies if console output should be produced to indicate
+progress. Default FALSE.}
 }
 \value{
-ds.rbind returns a matrix combining the rows of the R objects specified in the function. 
-The created matrix is stored in the in the Opal servers. 
-It also returns two messages with the name of <newobj>
+\code{ds.rbind} returns a matrix combining the rows of the 
+R objects specified in the function
+which is written to the server-side. 
+It also returns two messages to the client-side with the name of \code{newobj}
 that has been created in each data source and \code{DataSHIELD.checks} result.
 }
 \description{
-Take a sequence of vector, matrix or data-frame arguments
-and combine them by rows to produce a matrix.
+It takes a sequence of vector, matrix or data-frame arguments
+and combines them by rows to produce a matrix.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined  by rows to produce a matrix in the Opal servers.
+is combined  by rows to produce a matrix on the server-side.
 
 In \code{DataSHIELD.checks} the checks are relatively slow. 
 Default \code{DataSHIELD.checks} value is FALSE. 
@@ -54,7 +55,7 @@ of the first object specified in the \code{x} argument.
 The vector of column names must have the same number of elements as 
 the columns in the output object.
 
-Server functions called: rbindDS.
+Server functions called: \code{rbindDS}.
 }
 \examples{
 
@@ -85,14 +86,14 @@ Server functions called: rbindDS.
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  #Combining R objects by rows in the Opal servers
+  #Combining R objects by rows 
    
                    
-  ds.rbind(x = "D", #data frames in the Opal servers to be conbined 
+  ds.rbind(x = "D", #data frames in the server-side to be conbined 
                     #(see above the connection to the Opal servers) 
            DataSHIELD.checks = FALSE,
            force.colnames = NULL,
-           newobj = "D.bind", # name for the output object that is stored in the data servers
+           newobj = "D.rbind", # name for the output object that is stored in the data servers
            datasources = connections, # All Opal servers are used 
                                       #(see above the connection to the Opal servers)
            notify.of.progress = FALSE)
@@ -103,5 +104,5 @@ Server functions called: rbindDS.
 
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

@@ -1,41 +1,41 @@
-#' @title Generates a data frame object in several Opal servers 
+#' @title Generates a data frame object in the server-side 
 #' @description Creates a data frame from its elemental components:
-#'  pre-existing data frames, single variables or matrices
-#' @details  \code{ds.dataFrame} function creates a data frame by combining
-#' pre-existing data.frames, matrices or variables.
+#'  pre-existing data frames, single variables or matrices.
+#' @details It creates a data frame by combining
+#' pre-existing data frames, matrices or variables.
 #' 
-#' The length of all component variables, and the number of rows 
+#' The length of all component variables and the number of rows 
 #' of the  data frames or matrices must be the same.  The output 
 #' data frame will have the same number of rows. 
 #' 
-#' Server functions called: dataFrameDS
+#' Server function called: \code{dataFrameDS}
 #' 
-#' @param x a character string which provides the name of the objects
+#' @param x a character string that provides the name of the objects
 #' to be combined.
-#' @param row.names	NULL, integer or character string which provides the
+#' @param row.names	NULL, integer or character string that provides the
 #'  row names of the output data frame.
-#' @param check.rows if TRUE then the rows are checked for consistency of
+#' @param check.rows logical. If TRUE then the rows are checked for consistency of
 #' length and names. Default is FALSE. 
 #' @param check.names logical. If TRUE the column names 
-#' in the data frame are checked to ensure that are unique. Default is TRUE. 
+#' in the data frame are checked to ensure that is unique. Default is TRUE. 
 #' @param stringsAsFactors logical. If true the character vectors are
 #' converted to factors. Default TRUE.
 #' @param completeCases logical. If TRUE rows with one or more 
 #' missing values will be deleted from the output data frame.
 #' Default is FALSE.
-#' @param DataSHIELD.checks logical. If TRUE undertakes all DataSHIELD checks (time
-#' consuming). Default FALSE. 
-#' @param newobj a character string  which provides the name for the output data frame  
+#' @param DataSHIELD.checks logical. If TRUE undertakes all DataSHIELD checks 
+#' (time-consuming). Default FALSE. 
+#' @param newobj a character string that provides the name for the output data frame  
 #' that is stored on the data servers. Default \code{dataframe.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}. 
-#' @param notify.of.progress specifies if console output should be produce to indicate
+#' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default is FALSE.
-#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument.
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating name of the \code{newobj} that has been created in each data source and if 
-#' it is in a valid form.
+#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument
+#' which is written to the serverside. Also, two validity messages are returned to the
+#' client-side indicating the name of the \code{newobj} that has been created in each data source
+#' and if it is in a valid form.
 #' @examples 
 #' 
 #' \dontrun{

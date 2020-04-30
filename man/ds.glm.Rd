@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glm.R
 \name{ds.glm}
 \alias{ds.glm}
-\title{ds.glm calling glmDS1, glmDS2}
+\title{Fits Generalized Linear Model}
 \usage{
 ds.glm(
   formula = NULL,
@@ -20,160 +20,205 @@ ds.glm(
 )
 }
 \arguments{
-\item{formula}{Denotes an object of class formula which is a character string describing
-the model to be fitted. Most shortcut notation for formulas allowed under R's standard glm()
-function is also allowed by ds.glm. Many glms can
-be fitted very simply using a formula such as:
-"y~a+b+c+d" which simply means fit a glm with y as the outcome variable with a, b, c and d as
-covariates. By default all such models also include an intercept (regression constant) term.
-If all you need to fit are straightforward models such as these, you do not need to read the
-remainder of this information about "formula". But if you need to fit a more complex
-model in a customised way, the following text gives a few additional pointers:
-As an example, the formula: "EVENT~1+TID+SEXF*AGE.60" denotes fit a glm with the
-variable "EVENT" as its
-outcome with covariates TID (in this case a 6 level factor [categorical] variable denoting
-"time period" with values between 1 and 6), SEXF (also a factor variable denoting sex
-and AGE.60 (a quantitative variable representing age-60 in years). The term "1" forces
-the model to include an intercept term which it would also have done by default (see above)
-but using "1" may usefully be contrasted with using "0" (as explained below), which removes
-the intercept term. The "*" between SEXF and AGE.60
-means fit all possible main effects and interactions for and between those two covariates.
-As SEXF is a factor this is equivalent to writing SEXF+AGE.60+SEXF1:AGE.60 (the
-last element being the simple interaction term representing the product
-of SEXF level 1 [in this case female] and AGE.60). This takes the value 0 in all males
-(0 * AGE.60), and the same value as AGE.60 (1 * AGE.60) in females.
-If the formula had instead been written as:
-"EVENT~0+TID+SEXF*AGE.60" the 0 would mean do NOT fit
-an intercept term and, because TID happens to be a six level factor this would mean
-that the first six model parameters which were originally intercept+TID2+TID3+TID4+TID5+TID6
-using the first formula will now become TID1+TID2+TID3+TID4+TID5+TID6.
-This is mathematically the same model, but conveniently, it means
-that the effect of each
-time period may now be estimated directly. For example, the effect of time
-period 3 is now obtained directly as the coefficient for TID3
-rather than the sum of the coefficients for the intercept and TID3
-which was the case using the original formula.}
+\item{formula}{an object of class formula describing
+the model to be fitted. For more information see 
+\strong{Details}.}
 
-\item{data}{A character string specifying the name of an (optional) dataframe that contains
-all of the variables in the glm formula. This avoids you having to specify the name of the
-dataframe in front of each covariate in the formula e.g. if the dataframe is
-called 'DataFrame' you
-avoid having to write: "DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d"
-Processing stops if a non existing data frame is indicated.}
+\item{data}{a character string specifying the name of an (optional) data frame that contains
+all of the variables in the GLM formula.}
 
-\item{family}{This argument identifies the error distribution function to use in
-the model. At present
-ds.glm has been written to fit family="gaussian" (i.e. a
-conventional linear model with normally distributed errors), family="binomial"
-(i.e. a conventional
-unconditional logistic regression model), and family = "poisson" (i.e. a
-Poisson regression model - of which perhaps the most commonly used application
-is for survival analysis
-using Piecewise Exponential Regression (PER) which
-typically closely approximates Cox regression in its
-main estimates and standard
-errors. At present the gaussian family is automatically coupled with
-an 'identity' link function, the binomial family with a
-'logistic' link function and the poisson family with a 'log' link function. For the majority of
-applications typically
-encountered in epidemiology and medical statistics, one  these three classes of
-models will typically be what you need. However, if a particular user
-wishes us to implement an alternative family
-(e.g. 'gamma') or an alternative family/link combination (e.g. binomial with
-probit) we can discuss how best to meet that request: it will almost certainly be possible,
-but we may seek a small amount of funding or practical in-kind support from
-the user in order to ensure that it can be carried outin a timely manner}
+\item{family}{identifies the error distribution function to use in
+the model. 
+This can be set as \code{"gaussian"}, \code{"binomial"} and \code{"poisson"}. 
+For more information see \strong{Details}.}
 
-\item{offset}{A character string specifying the name of a variable to be used as
-an offset. An offset is a component of a glm which may be viewed as a covariate
-with a known coefficient of 1.00 and so the coefficient does not need to be
-estimated by the model. As an example, an offset is needed to fit a piecewise
-exponential regression model. Unlike the standard glm() function in
-native R, ds.glm() only allows an offset
-to be set using the <offset> argument, it CANNOT be included directly in the
-formula via notation
-such as  "y~a+b+c+d+offset(offset.vector.name)". So in ds.glm this model
-must be specified as: formula="y~a+b+c+d", ..., offset="offset.vector.name"
-and ds.glm then incorporates
-it appropriately into the formula itself.}
+\item{offset}{a character string specifying the name of a variable to be used as
+an offset. \code{ds.glm} does not allow an offset vector to be
+written directly into the GLM formula. For more information see \strong{Details}.}
 
-\item{weights}{A character string specifying the name of a variable containing
-prior regression
-weights for the fitting process. Like offset, ds.glm does not allow a weights vector to be
-written directly into the glm formula.}
+\item{weights}{a character string specifying the name of a variable containing
+prior regression weights for the fitting process. 
+\code{ds.glm} does not allow a weights vector to be
+written directly into the GLM formula.}
 
-\item{checks}{This argument is a boolean. If TRUE ds.glm then undertakes a series
-of checks of
-the structural integrity of the model that can take several minutes. Specifically
-it verifies that the
-variables in the model are all defined (exist) on the server site at every study
-and that they have the correct characteristics required to fit a GLM. The default
-value is FALSE
-if an unexplained problem in the model fit is encountered.}
+\item{checks}{logical. If TRUE \code{ds.glm} checks the structural integrity 
+of the model. Default FALSE. For more information see \strong{Details}.}
 
-\item{maxit}{A numeric scalar denoting the maximum number of iterations that are permitted
-before ds.glm declares that the model has failed to converge. Logistic regression
-and Poisson regression
-models can require many iterations, particularly if the starting value of the
-regression constant is
-far away from its actual value that the glm is trying to estimate. In consequence
-we often set
-maxit=30 - but depending on the nature of the models you wish to fit, you may wish
-to be alerted
-much more quickly than this if there is a delay in convergence, or you may wish to
-all MORE iterations.}
+\item{maxit}{a numeric scalar denoting the maximum number of iterations that are permitted
+before \code{ds.glm} declares that the model has failed to converge.}
 
-\item{CI}{a numeric, the confidence interval.}
+\item{CI}{a numeric value specifying the confidence interval. Default \code{0.95}.}
 
-\item{viewIter}{a boolean, tells whether the results of the intermediate iterations
-should be printed on screen or not. Default is FALSE (i.e. only final results are shown).}
+\item{viewIter}{logical. If TRUE the results of the intermediate iterations are 
+printed. If FALSE only final results are shown. Default FALSE.}
 
-\item{viewVarCov}{a boolean indicating whether to return the variance-covariance matrix
-of parameter estimates. TRUE=yes, FALSE=no, default=FALSE}
+\item{viewVarCov}{logical. If TRUE the variance-covariance matrix
+of parameter estimates is returned. Default FALSE.}
 
-\item{viewCor}{a boolean indicating whether to return the correlation matrix of
-parameter estimates. TRUE=yes, FALSE=no, default=FALSE.}
+\item{viewCor}{logical. If TRUE the correlation matrix of
+parameter estimates is returned. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The main elements of the output returned by ds.glm are
-listed (below) as Example 1 under 'examples'.
+Many of the elements of the output list returned by \code{ds.glm} are 
+equivalent to those returned by the \code{glm()} function in native R. However,
+potentially disclosive elements
+such as individual-level residuals and linear predictor values are blocked. 
+In this case, only non-disclosive elements are returned from each study separately.
+
+The list of elements returned by \code{ds.glm} is mentioned below:
+
+\code{Nvalid}: total number of valid observational units across all studies.
+
+\code{Nmissing}: total number of observational units across all studies with at least
+                            one data item missing.
+
+\code{Ntotal}: total of observational units across all studies, the  
+                          sum of valid and missing units.
+
+\code{disclosure.risk}: risk of disclosure,
+                                   the value 1 indicates that one of the disclosure traps 
+                                   has been triggered in that study.
+
+\code{errorMessage}: explanation for any errors or disclosure risks identified.
+
+\code{nsubs}: total number of observational units used by \code{ds.glm} function. 
+                       \code{nb} usually is the same as \code{nvalid}.
+
+\code{iter}: total number of iterations before convergence achieved.
+
+\code{family}: error family and link function.
+
+\code{formula}: model formula, see description of formula as an input parameter (above).
+
+\code{coefficients}: a matrix with 5 columns:
+   \itemize{
+   \item{First}{: the names of all of the regression parameters (coefficients) in the model}
+   \item{second}{: the estimated values}
+   \item{third}{: corresponding standard errors of the estimated values}
+   \item{fourth}{: the ratio of estimate/standard error}.
+   \item{fifth}{: the p-value treating that as a standardised normal deviate}
+    }
+
+\code{dev}: residual deviance.
+
+\code{df}: residual degrees of freedom. \code{nb} residual degrees of freedom + number of
+   parameters in model = \code{nsubs}.
+
+\code{output.information}: reminder to the user that there 
+                                     is more information at the top of the output.
+
+Also, the estimated coefficients and standard errors expanded with estimated confidence intervals
+   with \% coverage specified by \code{ci} argument are returned. 
+   For the poisson model,
+   the output is generated on the scale of the linear predictor (log rates and log rate ratios) 
+   and the natural scale after exponentiation (rates and rate ratios).
 }
 \description{
-Fits a generalized linear model (glm) on data from a single or multiple sources
+Fits a Generalized Linear Model (GLM) on data from single or multiple sources
+on the server-side.
 }
 \details{
-Fits a glm on data from a single source or from multiple sources. In the latter case
-the data are co-analysed (when using ds.glm) by using an approach that is mathematically
-equivalent to placing all individual-level
+Fits a GLM on data from a single source or multiple sources on the server-side.
+In the latter case, the data are co-analysed (when using \code{ds.glm}) 
+by using an approach that is mathematically equivalent to placing all individual-level
 data from all sources in one central warehouse and analysing those data using the conventional
-glm() function in R. In this situation marked heterogeneity between sources should be corrected
-(where possible) with fixed effects. e.g. if each study in a (binary) logistic regression
+\code{glm()} function in R. In this situation marked heterogeneity between sources should be corrected
+(where possible) with fixed effects. For example, if each study in a (binary) logistic regression
 analysis has an independent intercept, it is equivalent to allowing each study to have a
 different baseline risk of disease. This may also be viewed as being an IP (individual person)
 meta-analysis with fixed effects.
 
-Privacy protected iterative fitting of a glm is explained here:
+
+In \code{formula} most shortcut notation for formulas allowed under R's standard \code{glm()}
+function is also allowed by \code{ds.glm}. 
+
+Many GLMs can be fitted very simply using a formula such as:
+
+\deqn{y~a+b+c+d} 
+
+which simply means fit a GLM with \code{y} as the outcome variable and 
+\code{a}, \code{b}, \code{c} and \code{d} as covariates. 
+By default all such models also include an intercept (regression constant) term.
+
+Instead, if you need to fit a more complex
+model, for example:
+
+ \deqn{EVENT~1+TID+SEXF*AGE.60}
+
+In the above model the outcome variable is \code{EVENT} 
+and the  covariates 
+\code{TID} (factor variable with level values between 1 and 6 denoting the period time), 
+\code{SEXF} (factor variable denoting sex)
+and \code{AGE.60} (quantitative variable representing age-60 in years). 
+The term \code{1} forces
+the model to include an intercept term, in contrast if you use the term \code{0} the 
+intercept term is removed. The \code{*} symbol  between \code{SEXF} and \code{AGE.60}
+means fit all possible main effects and interactions for and between those two covariates.
+ This takes the value 0 in all males \code{0 * AGE.60} 
+ and in females  \code{1 * AGE.60}.
+ This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
+ the survival time is added as an offset (\code{log(survtime)}).  
+ 
+
+In the \code{family} argument can be specified three types of models to fit:
+
+ \itemize{
+   \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
+   \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
+   \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
+    The model used Piecewise Exponential Regression (PER) which typically closely approximates
+    Cox regression in its main estimates and standard errors.}
+}
+
+
+At present the gaussian family is automatically coupled with
+an \code{identity} link function, the binomial family with a
+\code{logistic} link function and the poisson family with a \code{log} link function. 
+
+
+The \code{data} argument avoids you having to specify the name of the
+data frame in front of each covariate in the formula. 
+For example, if the data frame is called \code{DataFrame} you
+avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
+
+The \code{checks} argument verifies that the variables in the model are all defined (exist) 
+on the server-side at every study
+and that they have the correct characteristics required to fit the model. 
+It is suggested to make \code{checks} argument TRUE if an unexplained
+ problem in the model fit is encountered because the running process takes several minutes.
+
+In \code{maxit}  Logistic regression and Poisson regression
+models can require many iterations, particularly if the starting value of the
+regression constant is far away from its actual value that the GLM
+is trying to estimate. In consequence we often set \code{maxit=30}
+but depending on the nature of the models you wish to fit, you may wish
+to be alerted much more quickly than this if there is a delay in convergence, 
+or you may wish to all more iterations.
+
+
+Privacy protected iterative fitting of a GLM is explained here:
 
 (1) Begin with a guess for the coefficient vector to start iteration 1 (let's call it
-beta.vector[1]). Using beta.vector[1], run iteration 1 with each source
+\code{beta.vector[1]}). Using \code{beta.vector[1]}, run iteration 1 with each source
 calculating the resultant score vector (and information matrix) generated
-by its data - given beta.vector[1] -
+by its data - given \code{beta.vector[1]} -
 as the sum of the score vector components (and the sum of the components of the
 information matrix) derived from each individual data record in that source. NB in most models
-the starting values in beta.vector[1] are set to be zero for all parameters.
+the starting values in \code{beta.vector[1]} are set to be zero for all parameters.
 
 (2) Transmit the resultant score vector and information matrix from each source
 back to the clientside
 server (CS) at the analysis centre. Let's denote
-SCORE[1][j] and INFORMATION.MATRIX[1][j] as the
-score vector and information matrix generated by study j at the end of the 1st iteration.
+\code{SCORE[1][j]} and \code{INFORMATION.MATRIX[1][j]} as the
+score vector and information matrix generated by study \code{j} at the end of the 1st iteration.
 
 (3) CS sums the score vectors, and equivalently the information matrices, across all studies
-(i.e. j=1:S, where S is the number of studies). Note that,
-given beta.vector[1], this gives precisely the same final sums
+(i.e. \code{j = 1:S}, where \code{S} is the number of studies). Note that,
+given \code{beta.vector[1]}, this gives precisely the same final sums
 for the score
 vectors and information matrices as would have been obtained if all data had been in one
 central warehoused database and the overall score vector and information matrix at the end of
@@ -182,16 +227,16 @@ the first iteration had been calculated
 instead of directly adding all values across
 all individuals, we first sum across all individuals in each data source and
 then sum those study
-totals across all studies - i.e. this generates EXACTLY the same ultimate sums
+totals across all studies - i.e. this generates the same ultimate sums
 
-(4) CS then calculates sum(SCORES)%*%inverse(sum(INFORMATION.MATRICES)) -
+(4) CS then calculates \code{sum(SCORES)\%*\% inverse(sum(INFORMATION.MATRICES))} -
 heuristically this may be
 viewed as being "the sum of the score vectors divided (NB 'matrix division') by the sum of the
 information matrices". If one uses the conventional algorithm (IRLS)
 to update generalized linear models from iteration to iteration this quantity happens to be
 precisely the vector to be added to the
-current value of beta.vector (i.e. beta.vector[1]) to obtain
-beta.vector[2] which is the improved estimate of the beta.vector to be used in iteration 2.
+current value of beta.vector (i.e. \code{beta.vector[1]}) to obtain
+\code{beta.vector[2]} which is the improved estimate of the beta.vector to be used in iteration 2.
 This updating algorithm is often  called the IRLS (Iterative Reweighted Least
 Squares) algorithm
 - which is closely related to the Newton
@@ -208,271 +253,120 @@ It will fit the glms to completion
 in each source and return the final estimates and standard errors (rather than score vectors
 and information matrices). It will then rely on functions in the
 R package metafor to meta-analyse the key parameters.
+
+
+Server functions called: \code{glmDS1} and \code{glmDS2}
 }
 \examples{
 \dontrun{
-#  Example 1:
-#The components of the standard output from ds.glm are listed below. Additional
-#explanatory material for some
-#components appears in square brackets in CAPITALIZED font. The model fitted here
-#is a poisson regression model -
-#a piecewise exponential regression model. It regresses a 1/0
-#([died,failed]/[survived,censored]) numeric outcome held in the variable 'EVENT'
-#on SEXF (a factor with male=0 and female=1) and AGE.60 ([age - 60] in years). The
-#'*' in the formula denotes inclusion of both main effects
-#and interactions for these covariates. When this formula is interpreted by ds.glm
-#itself it separates these out for clarity
-#when constructing the list of regression coefficients in the model. So, e.g., the
-#final coefficient is named 'SEXF1:AGE.60' where
-#the notation ':' indicates the interaction between SEXF and AGE.60. TID.f is a
-#six level factor that allows the baseline hazard
-#to vary across six different time periods that are precisely the same in each
-#study: in this particular example the periods
-#are 0-2 years, 2-3 years, 3-6 yrs, 6-6.5 years, 6.5-8 years and 8-10 years. The
-#'1' in the formula explicitly forces the model
-#to include an intercept, which means that the baseline (log) rate of death in
-#each period may be obtained as the sum of
-#the coefficient for the intercept + the coefficient for the corresponding period.
-#So, for example, the baseline (log)rate
-#of death in period 1 is approximately -0.988 + (-1.114) = -2.102. If this is
-#exponentiated one obtains the value 0.1222
-#an estimated event rate of 0.1222 events per annum. If the notation '0' had been
-#used instead of '1', no intercept would
-#have been fitted and the coefficient for period 2 would have been -2.102 directly
-#estimating the baseline log rate in
-#period 2.
-#
-#$Nvalid [TOTAL NUMBER OF VALID OBSERVATIONAL UNITS ACROSS ALL STUDIES]
-#[1] 6254
-#
-#$Nmissing [TOTAL NUMBER OF OBSERVATIONAL UNITS ACROSS ALL STUDIES WITH AT LEAST
-#ONE DATA ITEM MISSING]
-#[1] 134
-#
-#$Ntotal [TOTAL OBSERVATIONAL UNITS ACROSS ALL STUDIES - SUM OF VALID AND MISSING UNITS]
-#[1] 6388
-#
-#$disclosure.risk
-#       RISK OF DISCLOSURE [THE VALUE 1 INDICATES THAT ONE OF THE DISCLOSURE TRAPS
-#HAS BEEN TRIGGERED IN THAT STUDY]
-#study1                  0
-#study2                  0
-#study3                  0
-#
-#$errorMessage
-#       ERROR MESSAGES [EXPLANATION FOR ANY ERRORS OR DISCLOSURE RISKS IDENTIFIED]
-#study1 "No errors"
-#study2 "No errors"
-#study3 "No errors"
-#
-#$nsubs [TOTAL NUMBER OF OBSERVATIONAL UNITS USED BY ds.glm - NB USUALLY SAME AS $Nvalid]
-#[1] 6254
-#
-#$iter [TOTAL NUMBER OF ITERATIONS BEFORE CONVERGENCE ACHIEVED]
-#[1] 9
-#
-#$family [ERROR FAMILY AND LINK FUNCTION]
-#Family: poisson
-#Link function: log
-#
-#
-#$formula [MODEL FORMULA]
-#[1] "EVENT ~ 1 + TID.f + SEXF * AGE.60 + offset(LOG.SURV)"
-#
-#
-#[ESTIMATED COEFFICIENTS AND STANDARD ERRORS etc EXPANDED WITH ESTIMATED CONFIDENCE INTERVALS
-#WITH \% COVERAGE SPECIFIED BY CI= ARGUMENT. FOR POISSON MODEL, OUTPUT IS GENERATED
-#ON SCALE OF LINEAR PREDICTOR (LOG RATES AND LOG RATE RATIOS)
-#AND ON THE NATURAL SCALE AFTER EXPONENTIATION (RATES AND RATE RATIOS)]
-#
-#OUTPUT WRAPPED (AND MESSY) TO FIT IN WIDTH CONSTRAINT FOR R HELP FILE
-#
-#$coefficients
-#                  Estimate  Std. Error      z-value       p-value low0.95CI.LP high0.95CI.LP
-#(Intercept)  -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681
-#-0.908578037       0.37218402    0.34364172      0.4030970
-#TID.f2       -1.1135769332 0.113156582  -9.84102663  7.494215e-23 -1.335359758
-#-0.891794109       0.32838226    0.26306352      0.4099197
-#TID.f3       -2.4132187489 0.145110041 -16.63026714  4.207143e-62 -2.697629203
-#-2.128808294       0.08952667    0.06736503      0.1189790
-#TID.f4       -0.9834247291 0.202670688  -4.85232836  1.220204e-06 -1.380651979
-#-0.586197480       0.37402796    0.25141458      0.5564391
-#TID.f5       -1.2752840562 0.152704468  -8.35132119  6.750358e-17 -1.574579313
-#-0.975988799       0.27935161    0.20709466      0.3768196
-#TID.f6       -1.0459413608 0.141295558  -7.40250701  1.336371e-13 -1.322875566
-#-0.769007156       0.35136091    0.26636824      0.4634730
-#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124
-#-0.506195048       0.53580602    0.47626964      0.6027848
-#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474
-#0.048065578       1.04375995    1.03830905      1.0492395
-#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288
-#0.007717547       0.99965919    0.99163589      1.0077474
-#
-#$dev [RESIDUAL DEVIANCE]
-#[1] 5266.551
-#
-#$df [RESIDUAL DEGREES OF FREEDOM - NB RESIDUAL DEGREES OF FREEDOM + NUMBER OF
-#PARAMETERS IN MODEL = $nsubs]
-#[1] 6245
-#
-#$output.information [REMINDER TO USER THAT THERE IS MORE INFORMATION AT THE TOP OF THE OUTPUT]
-#[1] "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
-#
-#  Example 2:
-#EXAMPLE 2 DIFFERS FROM EXAMPLE 1 PRIMARILY IN HAVING '0' RATHER THAN '1' IN THE
-#MODEL FORMULA. THIS FORCES THE MODEL
-#NOT TO INCLUDE A REGRESSION INTERCEPT. BECAUSE THE SECOND COVARIATE TID.f IS A
-#FACTOR, REMOVAL OF THE INTERCEPT IN
-#THIS WAY MEANS THAT THE REGRESSION PARAMETERS ASSOCIATED WITH THE TID.F COVARIATE
-#EACH DIRECTLY ESTIMATE THE LOG RATE IN
-#EACH TIME PERIOD. SO, FOR EXAMPLE, TID.f2 DIRECTLY ESTIMATES THE LOG RATE IN
-#PERIOD 2, I.E. 2.1019 WHICH IS PRECISELY
-#EQUIVALENT TO THE ESTIMATE DERIVED FROM THE SUM OF INTERCEPT AND TID.f2 IN
-#EXAMPLE 1 (ABOVE).
-#
-#
-#$nsubs
-#[1] 6254
-#
-#$iter
-#[1] 9
-#
-#$family
-#Family: poisson
-#Link function: log
-#
-#
-#$formula
-#[1] "EVENT ~ 0 + TID.f + SEXF * AGE.60 + offset(LOG.SURV)"
-#
-#
-#OUTPUT WRAPPED (AND MESSY) TO FIT IN WIDTH CONSTRAINT FOR R HELP FILE
-#
-#$coefficients
-#                  Estimate  Std. Error      z-value       p-value low0.95CI.LP
-#high0.95CI.LP EXPONENTIATED RR low0.95CI.EXP high0.95CI.EXP
-#TID.f1       -0.9883668593 0.040709331 -24.27863194 3.296958e-130 -1.068155681
-#-0.908578037       0.37218402    0.34364172     0.40309701
-#TID.f2       -2.1019437924 0.111730815 -18.81257014  5.957806e-79 -2.320932166
-#-1.882955419       0.12221863    0.09818202     0.15213980
-#TID.f3       -3.4015856082 0.144060220 -23.61224772 2.884936e-123 -3.683938452
-#-3.119232765       0.03332039    0.02512383     0.04419106
-#TID.f4       -1.9717915884 0.201948314  -9.76384278  1.609388e-22 -2.367603011
-#-1.575980166       0.13920723    0.09370507     0.20680475
-#TID.f5       -2.2636509154 0.151818841 -14.91021073  2.828585e-50 -2.561210376
-#-1.966091454       0.10397020    0.07721123     0.14000300
-#TID.f6       -2.0343082201 0.140582544 -14.47056064  1.859503e-47 -2.309844942
-#-1.758771498       0.13077092    0.09927664     0.17225635
-#SEXF1        -0.6239830856 0.060097042 -10.38292508  2.965473e-25 -0.741771124
-#-0.506195048       0.53580602    0.47626964     0.60278479
-#AGE.60        0.0428295263 0.002671504  16.03198917  7.639759e-58  0.037593474
-#0.048065578       1.04375995    1.03830905     1.04923946
-#SEXF1:AGE.60 -0.0003408707 0.004111513  -0.08290639  9.339260e-01 -0.008399288
-#0.007717547       0.99965919    0.99163589     1.00774740
-#
-#$dev
-#[1] 5266.551
-#
-#$df
-#[1] 6245
-#
-#$output.information
-#[1] "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
-#
-#  Example 3:
-#EXAMPLE 3 DIFFERS FROM EXAMPLE 2 PRIMARILY BECAUSE IT INCLUDES A REGRESSION
-#WEIGHT VECTOR. IN THIS PARTICULAR
-#CASE THE VECTOR WEIGHTS4 IS SIMPLY A VECTOR OF 4s AND, FROM A THEORETICAL
-#PERSPECTIVE, THIS SHOULD SIMPLY MAKE EACH SINGLE
-#OBSERVATION EQUIVALENT TO 4 OBSERVATIONS. THIS SHOULD INCREASE THE DEVIANCE AND
-#RESIDUAL DEVIANCE BY A FACTOR OF FOUR
-#WHICH IT DOES (5266.551*4=21066.2). FURTHERMORE, BECAUSE THE STANDARD ERROR OF
-#PARAMETER ESTIMATES IS INVERSELY RELATED TO THE
-#SQUARE ROOT OF THE NUMBER OF OBSERVATIONS, EACH STANDARD ERROR SHOULD BE HALVED
-#(1/sqrt(4) = 0.5) WHICH CAN AGAIN BE SEEN
-#TO BE TRUE, AND THE ESTIMATED VALUE OF z-STATISTICS DOUBLED.
-#
-#$iter
 
-#[1] 9
-#
-#$family
-#
-#Family: poisson
-#Link function: log
-#
-#
-#$formula
-#[1] "EVENT ~ 0 + TID.f + SEXF * AGE.60 + offset(LOG.SURV) + weights(WEIGHTS4)"
-#
-#
-#OUTPUT WRAPPED (AND MESSY) TO FIT IN WIDTH CONSTRAINT FOR R HELP FILE
-#
-#$coefficients
-#                  Estimate  Std. Error     z-value       p-value low0.95CI.LP
-#high0.95CI.LP EXPONENTIATED RR low0.95CI.EXP high0.95CI.EXP
-#TID.f1       -0.9883668593 0.020354665 -48.5572639  0.000000e+00  -1.02826127
-#-0.948472448       0.37218402    0.35762824     0.38733224
-#TID.f2       -2.1019437924 0.055865407 -37.6251403  0.000000e+00  -2.21143798
-#-1.992449606       0.12221863    0.10954301     0.13636099
-#TID.f3       -3.4015856082 0.072030110 -47.2244954  0.000000e+00  -3.54276203
-#-3.260409187       0.03332039    0.02893330     0.03837269
-#TID.f4       -1.9717915884 0.100974157 -19.5276856  6.386915e-85  -2.16969730
-#-1.773885877       0.13920723    0.11421218     0.16967238
-#TID.f5       -2.2636509154 0.075909421 -29.8204215 2.123826e-195  -2.41243065
-#-2.114871185       0.10397020    0.08959725     0.12064883
-#TID.f6       -2.0343082201 0.070291272 -28.9411213 3.629743e-184  -2.17207658
-#-1.896539859       0.13077092    0.11394076     0.15008704
-#SEXF1        -0.6239830856 0.030048521 -20.7658502  8.815359e-96  -0.68287710
-#-0.565089067       0.53580602    0.50516150     0.56830953
-#AGE.60        0.0428295263 0.001335752  32.0639783 1.401856e-225   0.04021150
-#0.045447552       1.04375995    1.04103093     1.04649612
-#SEXF1:AGE.60 -0.0003408707 0.002055757  -0.1658128  8.683043e-01  -0.00437008
-#0.003688338       0.99965919    0.99563946     1.00369515
-#
-#$dev
-#[1] 21066.2
-#
-#$df
-#[1] 6245
-#
-#$output.information
-#[1] "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
-#
-# load the file that contains the login details
-#data(glmLoginData)
-#
-# login and assign all the variables to R
-#conns <- datashield.login(logins=glmLoginData, assign=TRUE)
-#
-# EXAMPLE 4: RUN A LOGISTIC REGRESSION WITHOUT INTERACTION (E.G. DIABETES
-#PREDICTION USING BMI AND HDL LEVELS AND GENDER)
-#mod <- ds.glm(formula='D$DIS_DIAB~D$GENDER+D$PM_BMI_CONTINUOUS+D$LAB_HDL',
-#family='binomial')
-#mod
-#
-# EXAMPLE 5: RUN THE SAME GLM MODEL WITHOUT AN INTERCEPT
-# (produces separate baseline estimates for Male and Female)
-#mod <- ds.glm(formula='D$DIS_DIAB~0+D$GENDER+D$PM_BMI_CONTINUOUS+D$LAB_HDL',
-#family='binomial')
-#mod
-#
-# EXAMPLE 6: RUN THE SAME GLM MODEL WITH AN INTERACTION BETWEEN GENDER AND
-#PM_BMI_CONTINUOUS
-#mod <- ds.glm(formula='D$DIS_DIAB~D$GENDER*D$PM_BMI_CONTINUOUS+D$LAB_HDL',
-#family='binomial')
-#mod
-#
-# Example 7: FIT A STANDARD GAUSSIAN LINEAR MODEL WITH AN INTERACTION
-#mod <- ds.glm(formula='D$PM_BMI_CONTINUOUS~D$DIS_DIAB*D$GENDER+D$LAB_HDL',
-#family='gaussian')
-#mod
-#
-# clear the Datashield R sessions and logout
-#datashield.logout(conns)
+ ## Version 6, for version 5 see Wiki
+  # Connecting to the Opal servers
+  
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+  
+  # Example 1: Fitting GLM for survival analysis
+  # For this analysis we need to load survival data from the server 
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Fit the GLM 
+  
+  # make sure that the outcome is numeric 
+  ds.asNumeric(x.name = "D$cens",
+               newobj = "EVENT",
+               datasources = connections)
+               
+  # convert time id variable to a factor 
+               
+  ds.asFactor(input.var.name = "D$time.id",
+              newobj = "TID",
+              datasources = connections)
+              
+  # create in the server-side the log(survtime) variable
+         
+  ds.log(x = "D$survtime",
+         newobj = "log.surv",
+         datasources = connections)
+  
+  ds.glm(formula = EVENT ~ 1 + TID + female * age.60,
+         data = "D",
+         family = "poisson", 
+         offset = "log.surv",
+         weights = NULL,
+         checks = FALSE,
+         maxit = 20,
+         CI = 0.95,
+         viewIter = FALSE,
+         viewVarCov = FALSE,
+         viewCor = FALSE,
+         datasources = connections)
+         
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+  
+  # Example 2: run a logistic regression without interaction
+  # For this example we are going to load another dataset  
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Fit the logistic regression model
+
+  mod <- ds.glm(formula = "DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL",
+                data = "D",
+                family = "binomial",
+                datasources = connections)
+                
+  mod #visualize the results of the model
+
+# Example 3: fit a standard Gaussian linear model with an interaction
+# We are using the same data as in example 2. 
+
+mod <- ds.glm(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
+              data = "D",
+              family = "gaussian",
+              datasources = connections)
+mod
+
+# Clear the Datashield R sessions and logout
+datashield.logout(connections) 
 }
 
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }
