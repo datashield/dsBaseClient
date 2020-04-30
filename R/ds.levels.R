@@ -61,7 +61,7 @@ ds.levels = function(x=NULL, datasources=NULL) {
     stop("The input object must be a factor.", call.=FALSE)
   }
 
-  cally <- paste0("levels(", x, ")")
+  cally <- paste0("levelsDS(", x, ")")
   levels_all <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   return(levels_all)
