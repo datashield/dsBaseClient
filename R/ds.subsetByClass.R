@@ -83,7 +83,7 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
     dtname <- x
     for(i in 1:numsources){
       cols <- DSI::datashield.aggregate(datasources[i], paste0("colnames(", x, ")"))
-      dims <- DSI::datashield.aggregate(datasources[i], paste0("dim(", x, ")"))
+      dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
       tracker <-c()
       for(j in 1:dims[[1]][2]){
         cally <- paste0("class(", dtname, "$", cols[[1]][j], ")")
