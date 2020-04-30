@@ -42,8 +42,8 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
           cally <- call("exists", tnames[[qq]][i])
           def <-  unlist(DSI::datashield.aggregate(dtsources[qq], cally))
           if(def){
-            cally <- paste0("dim(", tnames[[qq]][i], ")")
-            temp <- unlist(DSI::datashield.aggregate(dtsources[qq], as.symbol(cally)))
+            cally <- call("dimDS", tnames[[qq]][i])
+            temp <- unlist(DSI::datashield.aggregate(dtsources[qq], cally))
             lengths <- append(lengths, temp[1])
           }else{
             lengths <- append(lengths, 0)

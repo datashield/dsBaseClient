@@ -1,135 +1,86 @@
+#'
+#' @title Sorting data frames in the server-side
+#' @description Sorts a data frame using a specified sort key.
+#' @details It sorts a specified
+#' data.frame on the serverside using a sort key also on the server-side. The
+#' sort key can either sit in the data.frame or outside it. 
+#' The sort key can be forced to be interpreted as alphabetic or numeric. 
 #' 
-#' @title Sorting and reordering data frames, vectors or matrices
-#' @description Sorts a data frame using a specified alphanumeric or numeric sort key
-#' @details Clientside function ds.dataFrameSort calls serverside
-#' assign function dataFrameSortDS.
-#' A data frame is a list of variables all with the same number of rows,
-#' which is of class 'data.frame'. A vector or a matrix can be
-#' added to, or coerced into, a data frame (using function [ds.dataFrame])
-#' and this means that they too can be sorted/reordered using ds.dataFrameSort.
-#' The function [ds.dataFrameSort] will sort a specified
-#' data frame on the serverside using a sort key also on the serverside. The
-#' sort key can either sit in the data frame or outside it. The sort key
-#' can be either alphanumeric or numeric. In either case the sort order
-#' can be left as default/natural (numeric key leads to numerical ordering,
-#' alphanumeric key leads to alphabetic sorting). Alternatively the sort
-#' method can be forced to be numeric or alphabetic using the <sort.method>
-#' argument. However, users
-#' should be aware that numeric sorting of alphanumerics or alphabetic sorting
-#' of numerics leads to entirely predictable but potentially surprising/confusing
-#' results. For further details, see information for <sort.method> argument (below).
-#' @param df.name a character string providing the name for the serverside
-#' data.frame to be sorted.
+#' When a numeric vector is sorted alphabetically, the order can look confusing. 
+#' For example, if we have a numeric vector to sort:\cr 
+#' vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 112, NA)\cr
+#' 
+#' When sorting numbers in an ascending (default) manner,
+#' the largest negative numbers get ordered first 
+#' leading up to the largest positive numbers
+#' and finally (by default in R) NAs being positioned at the end of the vector:\cr
+#' numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA)\cr
+#' 
+#' Instead, if the same vector is sorted alphabetically the the resultant vector is: 
+#'
+#' alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA)\cr
+#' 
+#' Server function called: \code{dataFrameSortDS}. 
+#' 
+#' @param df.name a character string providing the name of the data frame
+#' to be sorted.
 #' @param sort.key.name a character string providing the name for the sort key.
-#' This will be a serverside vector which may sit inside the data frame to be
-#' sorted or independently in the serverside analysis environment. But, if it
-#' sits outside the data frame it must then be the same length
-#' as the data frame.
-#' @param sort.method A character string taking one of the values: "default",
-#' "d", "alphabetic", "a", "numeric", "n", or NULL. Default value is "default".
-#' The sort key can be either alphabetic/alphanumeric
-#' or numeric. In either case the sort order can be left as default/natural
-#' (i.e. a numeric key leads to ordering numerically, an alphanumeric key leads
-#' to ordering alphabetically) or, alternatively, it can be forced
-#' to be numerically sorted or alphabetically sorted using the <sort.method>
-#' argument. However, if you force a non-default interpretation of a sort.key
-#' (e.g. ordering based on a numeric key is forced to be alphabatic) you need
-#' to be prepared for unexpected results. Thus, although we are all well used to
-#' seeing numbers sorted numerically, and character strings (words) sorted
-#' alphabetically when a numeric vector is sorted alphabetically, the order can
-#' initially appear very confusing. Thus, if we have a numeric vector to sort:
-#' vector.2.sort = (-192 76 841 NA 1670 163 147 101 -112 -231 -9 119 112 NA),
-#' then our expectation from a numeric ordering would be:
-#' numeric = (-231 -192 -112 -9 76 101 112 119 147 163 841 1670 NA NA)
-#' with the numerically ordered vector (with an ascending sort) starting with
-#' the largest negative numbers and leading up to the largest positive numbers
-#' and finally (by default in R) NAs being positioned at the end of the vector.
-#' In contrast, if the same vector is sorted alphabetically, the resultant vector is:
-#' alphabetic = (-112 -192 -231 -9 101 112 119 147 163 1670 76 841 NA NA)
-#' To make sense of this, imagine that "1" is denoted as "c", "2" as "d" ... "9" as "k",
-#' convert "-" to "a" and "0" to "b". This means that, in this new alphabet, "-"
-#' precedes "0" and these are then followed by the numbers "1" to "9". The vector now reads
-#' alphabetic = (accd ackd adec ak cbc ccd cck cfi che chib ih jfc NA NA) and
-#' what appeared very confusing before is now clearly alphabetically. This "new"
-#' alphabet is called "ASCII" coding which is long-standing ordering of most
-#' standard characters that can be obtained from a computer keyboard:
-# "-" = 45, "0" = 48 (17), "1" = 1=49, "2" = 50, ...., "9" = 57. Furthermore, "." = 46
-#' and "e" = 101 allowing you to code and alphabetically sort decimal numbers and
-#' numbers in scientific format (e.g. 5.781e3 for 5781) as well as integers. Under
-#' ASCII ordering the usual Roman alphabet letters are represented as follows:
-#' "A"=65, "B"=66, ..., "Z"=90, "a"=97, "b"=98, "z"=122. Using this encoding you
-#' can work out the expected alphabetic ordering of strings containing any
-#' combination of Roman letters and real numeric values (including negative numbers
-#' and those with any number of digits before and after a decimal point). Please
-#' note that the empty/blank character "" has ASCII code 32. This means that if you
-#' alphabetically sort a set of character strings, missing values (often coded as
-#' "blank") will be default be placed first rather than last as happens with
-#' numeric sorting of a numeric vector with missings coded as NA.
-#' One additional reason for focusing on this issue (other than understanding
-#' how ds.dataFrameSort works) is that Opal sometimes sorts its data tables
-#' alphabetically using ID. This means that if ID is a number running from
-#' 1 to 100, the alphabetically sorted dataset contains data rows in the order
-#' 1, 10, 100, 11, 12 ... 19, 2, 20, 21 ... which can be very confusing unless
-#' understand why. One of the reasons for using the ds.dataFrameSort()
-#' function is therefore to re-sort a data.frame derived from an Opal data table
-#' so its order is more natural (1,2 ... 100). It should be noted that
-#' if you force numeric sorting of an alphanumeric vector, only character strings
-#' that are actually numeric will be sorted e.g. "7", "3.861",
-#' "0", "0.000", "-83", "-1078.4", "-8.534e23". All other "non-numeric"
-#' character strings will
-#' generate NAs and all of these will be placed at the end of the sorted list
-#' in the order in which they originally appeared (or in reverse order if
-#' <sort.descending> is TRUE). If there are no truly numeric character strings
-#' in the sort key vector, the entire order of the vector or data frame
-#' that is being sorted will remain precisely as it was originally (or 
-#' reversed if <sort.descending> is TRUE). 
-#' AS OF 2/4/20 THERE IS A BUG IN THE WAY THAT SOME IMPLEMENTATIONS OF R
-#' APPEAR TO SORT NUMERIC VECTORS ALPHABETICALLY. SPECIFICALLY, RATHER
-#' THAN FOLLOWING THE FULLY ASCII ENCODING METHOD DESCRIBED ABOVE
-#' A VECTOR OF MIXED NEGATIVE AND POSITIVE NUMBERS OR INTEGERS IS
-#' SORTED BY ABSOLUTE VALUE (ASCENDING OR DESCENDING DEPENDING ON
-#' THE VALUE OF <sort.descending> AND THE ORIGINAL SIGN (+ OR -)
-#' OF THE ORIGINAL VALUES IS THEN APPENDED AFTER THE REORDERING. THUS, IF:
-#' vector.2.sort = (-192 76 841 NA 1670 163 147 101 -112 -231 -9 119 112 NA),
-#' then an alphabetic sort on one of these incorrect implementations of R leads to:
-#' (-9   76  101  -112  112  119  147  163  -192  -231  841 1670 NA NA)
-#' Rather than the correct alphabetic sort (see above):
-#' (-112 -192 -231 -9 101 112 119 147 163 1670 76 841 NA NA).
-#' WE ARE CURRENTLY EXPLORING THE PRECISE CAUSE OF THIS ERROR AND WILL REPORT
-#' THE BUG TO R IF IT APPEARS TO BE A CODING BUG IN THE R CODE.
-#' @param sort.descending logical, if TRUE the data.frame will be sorted
+#' @param sort.descending logical, if TRUE the data frame will be sorted.
 #' by the sort key in descending order. Default = FALSE (sort order ascending).
-#' Ascending numeric sorting of a numeric vector orders the values in a
-#' naturally increasing manner with large negative values first. The positioning of NAs
-#' (missing values) defaults to last. Alphabetic sorting is discussed in detail
-#' under the information for the <sort.method> argument. 
-#' @param newobj This a character string providing a name for the output
-#' data.frame which defaults to 'dataframesort.newobj' if no name is specified.
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
-#' @return the object specified by the <newobj> argument (or default name
-#' 'dataframesort.newobj')
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.dataFrameSort() also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton, with critical error identification by
-#' Leire Abarrategui-Martinez, for DataSHIELD Development Team, 2/4/2020
+#' @param sort.method a character string that specifies the method to be used 
+#' to sort the data frame. This can be set as 
+#' \code{"alphabetic"},\code{"a"} or \code{"numeric"}, \code{"n"}. 
+#' @param newobj a character string that provides the name for the output data frame 
+#' that is stored on the data servers. Default \code{dataframesort.newobj}.   
+#' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
+#' Also, two validity messages are returned to the client-side
+#' indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
+#' it is in a valid form.
+#' @examples 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Sorting the data frame
+#'   ds.dataFrameSort(df.name = "D",
+#'                    sort.key.name = "D$LAB_TSC",
+#'                    sort.descending = TRUE,
+#'                    sort.method = "numeric",
+#'                    newobj = "df.sort",
+#'                    datasources = connections[1]) #only the first Opal server is used ("study1")
+#'                    
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
+#' @author DataSHIELD Development Team
 #' @export
 ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE,
                            sort.method="default", newobj=NULL, datasources=NULL){
