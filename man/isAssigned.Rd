@@ -22,6 +22,6 @@ This is an internal function.
 \details{
 After calling an assign function it is important
 to know whether or not the action has been completed by
-cjhecking if the output actually exists on the server side.
+checking if the output actually exists on the server side.
 }
 \keyword{internal}
