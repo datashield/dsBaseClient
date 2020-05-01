@@ -32,8 +32,16 @@ meanByClassHelper0b = function(x, outvar, covar, type, datasources){
   # categories in each of the categorical variables
   classes <- vector("list", length(covar))
   for(i in 1:length(covar)){
-    cally <- paste0("levels(",paste0(x, '$', covar[i]), ")")
-    classes[[i]] <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    cally <- paste0("levelsDS(",paste0(x, '$', covar[i]), ")")
+
+    all.study.levels <- list()
+    full.levels.resp <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    for (index in 1:length(full.levels.resp)) {
+      if (any(is.na(full.levels.resp[[i]]$Levels)))
+        stop(paste0("Failed to get levels from study: ", full.levels.resp[[i]]$ValidityMessage), call.=FALSE)
+      all.study.levels[[index]] <- full.levels.resp[[i]]$Levels
+    }
+    classes[[i]] <- all.study.levels
   }
 
   # loop through the datasources and break down the original dataset by the specified categorical variable
