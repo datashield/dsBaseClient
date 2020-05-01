@@ -1,31 +1,34 @@
 #'
-#' @title Generates a heatmap plot
-#' @description Generates a heatmap plot of the pooled data or one plot for each dataset.
-#' @details The function first generates a density grid and uses it to plot the graph.
+#' @title Generates a Heat Map plot
+#' @description Generates a heat map plot of the pooled data or one plot for each dataset.
+#' @details The \code{ds.heatmapPlot} function first generates a density grid 
+#' and uses it to plot the graph.
 #' Cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 #' disclosure. A message is printed to inform the user about the number of invalid cells.
 #' The ranges returned by each study and used in the process of getting the grid density matrix
 #' are not the exact minumum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
-#' @param x a character, the name of a numerical vector
-#' @param y a character, the name of a numerical vector
-#' @param type a character which represents the type of graph to display.
-#' If \code{type} is set to 'combine', a combined heatmap plot displayed and
-#' if \code{type} is set to 'split', each heatmap is plotted separately.
-#' @param show a character which represents where the plot should focus
-#' If \code{show} is set to 'all', the ranges of the variables are used as plot limits
-#' If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.
-#' @param numints a number of intervals for a density grid object.
-#' @param method a character which defines which heatmap will be created. If \code{method}
-#' is set to 'smallCellsRule' (default option), the heatmap of the actual variables is
+#' @param x a character string specifying the name of a numerical vector.
+#' @param y a character string specifying the name of a numerical vector.
+#' @param type a character string that represents the type of graph to display.
+#' If \code{type} is set to \code{'combine'}, a combined heatmap plot displayed and
+#' if \code{type} is set to \code{'split'}, each heat map is plotted separately.
+#' Default \code{'combine'}. 
+#' @param show a character string that represents where the plot should focus
+#' If \code{show} is set to \code{'all'}, the ranges of the variables are used as plot limits
+#' If \code{show} is set to \code{'zoomed'}, the plot is zoomed to the region where the actual data are.
+#' Default \code{'all'}. 
+#' @param numints a number of intervals for a density grid object. Default \code{20}. 
+#' @param method a character string that defines which heat map will be created. If \code{method}
+#' is set to \code{'smallCellsRule'}, the heatmap of the actual variables is
 #' created but grids with low counts are replaced with grids with zero counts. If \code{method} is
 #' set to 'deterministic' the heatmap of the scaled centroids of each k nearest neighbours of the
 #' original variables is created, where the value of \code{k} is set by the user. If the
 #' \code{method} is set to 'probabilistic', then the heatmap of 'noisy' variables is generated. The
 #' added noise follows a normal distribution with zero mean and variance equal to a percentage of
 #' the initial variance of each input variable. This percentage is specified by the user in the
-#' argument \code{noise}.
+#' argument \code{noise}. Default \code{'smallCellsRule'}. 
 #' @param k the number of the nearest neghbours for which their centroid is calculated.
 #' The user can choose any value for k equal to or greater than the pre-specified threshold
 #' used as a disclosure control for this method and lower than the number of observations
