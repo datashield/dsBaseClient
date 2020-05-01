@@ -78,9 +78,15 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   }
 
   # get the current number of levels
-  cally <- paste0("levels(", x, ")")
+  cally <- paste0("levelsDS(", x, ")")
   xx <- DSI::datashield.aggregate(datasources, as.symbol(cally))
-  if(length(unique(unlist(xx))) > length(newCategories)){
+  all.study.levels <- c()
+  for (study.levels in xx) {
+    if (any(is.na(study.levels$Levels)))
+       stop(paste0("Failed to get levels from study: ", study.levels$ValidityMessage), call.=FALSE)
+    all.study.levels <- c(all.study.levels, study.levels$Levels)
+  }
+  if(length(unique(all.study.levels)) > length(newCategories)){
     stop("The number of levels you specified is smaller than the levels of the input vector!", call.=FALSE)
   }
 

@@ -3,7 +3,7 @@
 #' @description This is an internal function.
 #' @details After calling an assign function it is important
 #' to know whether or not the action has been completed by
-#' cjhecking if the output actually exists on the server side.
+#' checking if the output actually exists on the server side.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param newobj a character, the name the object to look for.
