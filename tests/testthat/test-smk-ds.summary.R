@@ -41,13 +41,31 @@ test_that("summary_character_variable", {
 })
 
 context("ds.summary::smk::summary of a factor variable")
-res <- ds.summary(x='D$GENDER')
+ds.asFactor('D$PM_BMI_CATEGORICAL', newobj="a_factor")
+res <- ds.summary(x='a_factor')
 test_that("summary_factor_variable", {
+  expect_length(res, 3)
+  expect_length(res$sim1, 6)
   expect_equal(res$sim1$class, "factor")
+  expect_equal(res$sim1$length, 2163)
+  expect_equal(res$sim1$categories, c("1", "2", "3"))
+  expect_equal(res$sim1$`count of '1'`, 641)
+  expect_equal(res$sim1$`count of '2'`, 816)
+  expect_equal(res$sim1$`count of '3'`, 609)
+  expect_length(res$sim2, 6)
+  expect_equal(res$sim2$class, "factor")
   expect_equal(res$sim2$length, 3088)
-  expect_equal(res$sim3$`count of '0'`, 2091)
-  expect_equal(res$sim1$categories[[1]], "0")
-  expect_equal(res$sim1$categories[[2]], "1")
+  expect_equal(res$sim2$categories, c("1", "2", "3"))
+  expect_equal(res$sim2$`count of '1'`, 899)
+  expect_equal(res$sim2$`count of '2'`, 1173)
+  expect_equal(res$sim2$`count of '3'`, 866)
+  expect_length(res$sim3, 6)
+  expect_equal(res$sim3$class, "factor")
+  expect_equal(res$sim3$length, 4128)
+  expect_equal(res$sim3$categories, c("1", "2", "3"))
+  expect_equal(res$sim3$`count of '1'`, 1213)
+  expect_equal(res$sim3$`count of '2'`, 1556)
+  expect_equal(res$sim3$`count of '3'`, 1154)
 })
 
 context("ds.summary::smk::summary of a data frame")
@@ -64,10 +82,10 @@ test_that("summary_data_frame", {
 # Tear down
 #
 
-context("ds.summary::smk::setup")
+context("ds.summary::smk::teardown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "a_character"))
+    ds_expect_variables(c("D", "a_character", "a_factor"))
 })
 
 disconnect.studies.dataset.cnsim()
