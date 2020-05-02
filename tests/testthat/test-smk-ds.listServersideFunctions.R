@@ -41,7 +41,7 @@ test_that("check results", {
       "glmDS2", "glmSLMADS2", "histogramDS1", "is.character",
       "is.factor", "is.list", "is.null", "is.numeric",
       "isNaDS", "isValidDS", "length", "lengthDS",
-      "levels", "lexisDS1", "listDisclosureSettingsDS",
+      "levelsDS", "lexisDS1", "listDisclosureSettingsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "recodeValuesDS1", "rmDS", "scatterPlotDS",

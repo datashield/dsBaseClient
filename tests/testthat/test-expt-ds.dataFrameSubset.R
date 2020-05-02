@@ -16,7 +16,7 @@ context("ds.dataFrameSubset()::expt::multiple::all_columns")
 test_that('numeric data',
 {  
    connect.all.datasets()
-   print(ds.colnames("D"))
+#   print(ds.colnames("D"))
   .test.data.frame.creation("D","INTEGER","NUMERIC",">","subset.server")
   .test.data.frame.creation("D","POSITIVE_INTEGER","POSITIVE_NUMERIC",">=","subset.server")
   .test.data.frame.creation("D","NEGATIVE_INTEGER","NEGATIVE_NUMERIC","<=","subset.server")
@@ -24,10 +24,3 @@ test_that('numeric data',
   .test.data.frame.creation("D","POSITIVE_INTEGER","NON_NEGATIVE_INTEGER","<=","subset.server")
   .test.data.frame.creation("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=","subset.server")
 })
-
-
-
-
-
-
-          

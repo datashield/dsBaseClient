@@ -107,7 +107,8 @@ ds.summary <- function(x=NULL, datasources=NULL){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('length(', x, ')' )))[[1]]
-        categories <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('levels(', x, ')' )))[[1]]
+        levels.resp <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('levelsDS(', x, ')' )))[[1]]
+        categories <- levels.resp$Levels
         freq <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l, 'categories'=categories)
         for(j in 1:length(categories)){
