@@ -1,5 +1,32 @@
 
-.test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created){
+.test.function.parameters<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
+  {
+  class.charac.parram<-list(initial.df.name,key.name,sort.method)
+  for(i in 1:length(class.charac.parram)){
+    
+     if(class(class.charac.parram[[i]])!="character")
+        {
+         expect_error(ds.dataFrameSort(df.name = initial.df.name,
+                                       sort.key.name = key.name,
+                                       sort.descending = sort.descending,
+                                       sort.method = sort.method,
+                                       newobj =df.created, 
+                                      datasources =test_env$connections))
+      }
+  }
+  if(class(sort.descending)!="logical")
+    {
+    expect_error(ds.dataFrameSort(df.name = initial.df.name,
+                                  sort.key.name = key.name,
+                                  sort.descending = sort.descending,
+                                  sort.method = sort.method,
+                                  newobj =df.created, 
+                                  datasources = test_env$connections))
+  }
+  
+}
+.test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
+  {
     library(dsDangerClient)
     # Create a sort data frame
     sort.key.name<-paste(initial.df.name,key.name,sep="$")
@@ -33,7 +60,8 @@
 
 
 
-.test.data.frame.sorting <-function(initial.df.name,key.name,sort.descending,sort.method,df.created,local.df.list){
+.test.data.frame.sorting <-function(initial.df.name,key.name,sort.descending,sort.method,df.created,local.df.list)
+  {
 
   # Sort local dfs
   sort.local<-list()
@@ -46,7 +74,7 @@
                        na.last = TRUE)
       
     }else{
-      order.key<-order(local.df.list[[i]][,key.name],
+      order.key<-order(as.numeric(local.df.list[[i]][,key.name]),
                        decreasing = sort.descending,
                        na.last = TRUE)
       

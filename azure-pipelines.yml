@@ -14,8 +14,24 @@
 #
 # The only things that should ever be changed are the repo branches in the resources.
 #
-# TODO: cut back on sudo use. 
+# TODO: cut back on sudo use.
+# TODO: Maybe use stages instead of jobs?
 #########################################################################################
+
+
+#####################################################################################
+# These should all be constant, except test_filter. This can be used to test subsets
+# of test files in the testthat directory. Options are like:
+# '*'               <- Run all tests
+# 'ds.asNumeric*'   <- Run all ds.asNumeric tests, i.e. all the arg, smk etc tests.
+# '*_smk_*'         <- Run all the smoke tests for all functions.
+variables:
+  datetime:    $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
+  repoName:    $(Build.Repository.Name)
+  projectName: 'dsBaseClient'
+  branchName:  $(Build.SourceBranchName)
+  test_filter: '*'
+
 
 
 #########################################################################################
@@ -48,25 +64,13 @@ schedules:
     always: true
 
 jobs:
-- job: DataSHIELD_CI
+- job: build_and_run_tests
 
   timeoutInMinutes: 120
 
   pool:
     vmImage: 'Ubuntu 16.04'
 
-  #####################################################################################
-  # These should all be constant, except test_filter. This can be used to test subsets
-  # of test files in the testthat directory. Options are like:
-  # '*'               <- Run all tests
-  # 'ds.asNumeric*'   <- Run all ds.asNumeric tests, i.e. all the arg, smk etc tests.
-  # '*_smk_*'         <- Run all the smoke tests for all functions.
-  variables:
-    datetime:    $[format('{0:yyyyMMddHHmmss}', pipeline.startTime)]
-    repoName:    $(Build.Repository.Name)
-    projectName: 'dsBaseClient'
-    branchName:  $(Build.SourceBranchName)
-    test_filter: '*'
 
 
   steps:
@@ -85,6 +89,8 @@ jobs:
   - checkout: testStatusRepo
     path: 'testStatus'
     persistCredentials: true
+    condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
+
 
 
     #####################################################################################
@@ -320,6 +326,7 @@ jobs:
 
 
 
+
     #####################################################################################
     # Checkout the testStatus repo, add the results from here, push back to GH.
     # TODO: Automatically pull in better email/name info from somewhere.
@@ -371,8 +378,7 @@ jobs:
       
     workingDirectory: $(Pipeline.Workspace)/testStatus
     displayName: 'Parse test results'
-    condition: succeededOrFailed()
-
+    condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
 
 
     #####################################################################################
@@ -425,3 +431,20 @@ jobs:
 
     displayName: 'Environment info'
     condition: always()
+
+
+
+
+
+
+
+#####################################################################################
+# Parse and save the test results once the build_and_run_tests job is done.
+# Dont run this if it is a PullRequest though. It will get run when it is fully
+# committed to the branch.
+#- job: record_test_status
+#  dependsOn: build_and_run_tests
+#  condition: ne(variables['Build.Reason'], 'PullRequest')
+  
+#  steps:
+
