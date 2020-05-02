@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.heatmapPlot.R
 \name{ds.heatmapPlot}
 \alias{ds.heatmapPlot}
-\title{Generates a heatmap plot}
+\title{Generates a Heat Map plot}
 \usage{
 ds.heatmapPlot(
   x = NULL,
@@ -17,124 +17,165 @@ ds.heatmapPlot(
 )
 }
 \arguments{
-\item{x}{a character, the name of a numerical vector}
+\item{x}{a character string specifying the name of a numerical vector.}
 
-\item{y}{a character, the name of a numerical vector}
+\item{y}{a character string specifying the name of a numerical vector.}
 
-\item{type}{a character which represents the type of graph to display.
-If \code{type} is set to 'combine', a combined heatmap plot displayed and
-if \code{type} is set to 'split', each heatmap is plotted separately.}
+\item{type}{a character string that represents the type of graph to display.
+\code{type} argument can be set as \code{'combine'} or \code{'split'}. 
+Default \code{'combine'}.
+For more information see \strong{Details}.}
 
-\item{show}{a character which represents where the plot should focus
-If \code{show} is set to 'all', the ranges of the variables are used as plot limits
-If \code{show} is set to 'zoomed', the plot is zoomed to the region where the actual data are.}
+\item{show}{a character string that represents where the plot should be focused. 
+\code{show} argument can be set as \code{'all'} or \code{'zoomed'}. 
+Default \code{'all'}. 
+For more information see \strong{Details}.}
 
-\item{numints}{a number of intervals for a density grid object.}
+\item{numints}{the number of intervals for a density grid object. 
+Default \code{numints} value is \code{20}.}
 
-\item{method}{a character which defines which heatmap will be created. If \code{method}
-is set to 'smallCellsRule' (default option), the heatmap of the actual variables is
-created but grids with low counts are replaced with grids with zero counts. If \code{method} is
-set to 'deterministic' the heatmap of the scaled centroids of each k nearest neighbours of the
-original variables is created, where the value of \code{k} is set by the user. If the
-\code{method} is set to 'probabilistic', then the heatmap of 'noisy' variables is generated. The
-added noise follows a normal distribution with zero mean and variance equal to a percentage of
-the initial variance of each input variable. This percentage is specified by the user in the
-argument \code{noise}.}
+\item{method}{a character string that defines which heat map will be created. 
+The \code{method} argument can be set as \code{'smallCellsRule'}, 
+\code{'deterministic'} or \code{'probabilistic'}. 
+Default \code{'smallCellsRule'}. 
+For more information see \strong{Details}.}
 
-\item{k}{the number of the nearest neghbours for which their centroid is calculated.
-The user can choose any value for k equal to or greater than the pre-specified threshold
-used as a disclosure control for this method and lower than the number of observations
-minus the value of this threshold. By default the value of k is set to be equal to 3
-(we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-uses the default value but the study has set a bigger threshold. The value of k is used only
-if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
-argument \code{method} is set to 'probabilistic' or 'smallCellsRule'.}
+\item{k}{the number of the nearest neighbours for which their centroid is calculated. 
+Default \code{k} value is \code{3}. 
+For more information see \strong{Details}.}
 
 \item{noise}{the percentage of the initial variance that is used as the variance of the embedded
-noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
-the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The user can choose
-any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
-By default the value of noise is set to be equal to 0.25.}
+noise if the argument \code{method} is set to \code{'probabilistic'}. 
+Default \code{noise} value is  \code{0.25}.
+For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a heatmap plot
+\code{ds.heatmapPlot} returns to the client-side a heat map plot and a message specifying 
+the number of invalid cells in each study.
 }
 \description{
-Generates a heatmap plot of the pooled data or one plot for each dataset.
+Generates a heat map plot of the pooled data or one plot for each dataset.
 }
 \details{
-The function first generates a density grid and uses it to plot the graph.
+The \code{ds.heatmapPlot} function first generates a density grid 
+and uses it to plot the graph.
 Cells of the grid density matrix that hold a count of less than the filter set by
 DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 disclosure. A message is printed to inform the user about the number of invalid cells.
 The ranges returned by each study and used in the process of getting the grid density matrix
-are not the exact minumum and maximum values but rather close approximates of the real
+are not the exact minimum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
+
+In the argument \code{type} can be specified two types of graphics to display:
+ \itemize{
+   \item{\code{'combine'}}{: a combined heat map plot is displayed} 
+   \item{\code{'split'}}{: each heat map is plotted separately}
+    }
+
+In the argument \code{show} can be specified two options:
+ \itemize{
+   \item{\code{'all'}}{: the ranges of the variables are used as plot limits} 
+   \item{\code{'zoomed'}}{: the plot is zoomed to the region where the actual data are}
+    }
+
+In the argument \code{method} can be specified 3 different heat map to be created:
+ \itemize{
+   \item{\code{'smallCellsRule'}}{: the heat map of the actual variables is
+    created but grids with low counts are replaced with grids with zero counts} 
+   \item{\code{'deterministic'}}{: the heat map of the scaled centroids of each 
+         \code{k} nearest neighbours of the
+        original variables are created, where the value of \code{k} is set by the user} 
+   \item{\code{'probabilistic'}}{:  the heat map of \code{'noisy'} variables is generated. 
+          The added noise follows a normal distribution with 
+          zero mean and variance equal to a percentage of
+          the initial variance of each input variable. 
+          This percentage is specified by the user in the
+          argument \code{noise}} 
+ 
+    }
+
+In \code{k} argument the user can choose any value for 
+\code{k} equal to or greater than the pre-specified threshold
+used as a disclosure control for this method and lower than the number of observations
+minus the value of this threshold. By default the value of \code{k} is set to be equal to 3
+(we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
+uses the default value but the study has set a bigger threshold. 
+The value of \code{k} is used only
+if the argument \code{method} is set to \code{'deterministic'}. 
+Any value of \code{k} is ignored if the
+argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
+
+The value of \code{noise} is used only if the argument 
+\code{method} is set to \code{'probabilistic'}.
+Any value of \code{noise} is ignored if the argument 
+\code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. 
+The user can choose any value for \code{noise} equal 
+to or greater than the pre-specified threshold \code{'nfilter.noise'}.
 }
 \examples{
 \dontrun{
 
-  # load the file that contains the login details
-  data(logindata)
+## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
 
-  # login and assign the required variables to R
-  conns <- datashield.login(logins=logindata, assign=TRUE)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # Example 1: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
-  # and 'LAB_HDL' using the method 'smallCellsRule' (default method) that applies a stochastic
-  # noise in the extreme values of the variables' range.
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Compute the heat map plot 
+  # Example 1: Plot a combined (default) heat map plot of the variables 'LAB_TSC'
+  # and 'LAB_HDL' using the method 'smallCellsRule' (default)
+  ds.heatmapPlot(x = 'D$LAB_TSC',
+                 y = 'D$LAB_HDL',
+                 datasources = connections) #all servers are used
+                 
+  # Example 2: Plot a split heat map  plot of the variables 'LAB_TSC'
+  # and 'LAB_HDL' using the method 'smallCellsRule' (default)
+  ds.heatmapPlot(x = 'D$LAB_TSC', 
+                 y = 'D$LAB_HDL',
+                 method = 'smallCellsRule', 
+                 type = 'split',
+                 datasources = connections[1]) #only the first server is used (study1)
+                 
+  # Example 3: Plot a combined heat map plot using the method 'deterministic' centroids of each 
+  k = 7 nearest neighbours for numints = 40
+  ds.heatmapPlot(x = 'D$LAB_TSC',
+                 y = 'D$LAB_HDL', 
+                 numints = 40, 
+                 method = 'deterministic',
+                 k = 7,
+                 type = 'split',
+                 datasources = connections[2]) #only the second server is used (study2)
 
-  # Example 2: the same as example 1
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='combine')
-
-  # Example 3: similar as example 2 but for type='split'
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="smallCellsRule", type='split')
-
-  # Example 4: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
-  # and 'LAB_HDL' using the method 'deterministic' that plots the exact heatmap plot of the
-  # centroids of each 3 (default number) nearest neighbours.
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic")
-
-  # Example 5: the same as example 4
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='combine')
-
-  # Example 6: similar as example 5 for type='split'
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=3, type='split')
-
-  # Example 7: similar as example 6 for k=7
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="deterministic", k=7, type='split')
-
-  # Example 8: similar as example 7 for numints=40
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', numints=40, method="deterministic", k=7,
-                 type='split')
-
-  # Example 9: Plot a combined (default behaviour) heatmap plot of the variables 'LAB_TSC'
-  # and 'LAB_HDL' using the method 'probabilistic' that plots the exact heatmap plot of the
-  # noisy data
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic")
-
-  # Example 10: the same as example 9
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=0.25, type='combine')
-
-  # Example 11: the same as example 10 but for bigger level of noise
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='combine')
-
-  # Example 12: the same as example 11 but for type='split'
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$LAB_HDL', method="probabilistic", noise=2, type='split')
-
-  # Example 13: if any of the input variables is a factor then the function fails
-  ds.heatmapPlot(x='D$LAB_TSC', y='D$GENDER')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(conns)
+  datashield.logout(connections)
 
 }
 
 }
 \author{
-Julia Isaeva, Amadou Gaye, Demetris Avraam for DataSHIELD Development Team
+DataSHIELD Development Team
 }
