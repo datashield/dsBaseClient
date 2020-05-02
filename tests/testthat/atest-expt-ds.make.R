@@ -346,7 +346,7 @@ test_that("multiply a constant value to all the values of a vector",
 {
   connect.dataset.1()
   constant.value <- sample(2:200,1)
-  print(constant.value)
+#  print(constant.value)
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"*", result.local = (ds.test_env$local.values.1[,6] * constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values.1[,7] * constant.value))
   .test.operation.constant('D$POSITIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values.1[,8] * constant.value))
