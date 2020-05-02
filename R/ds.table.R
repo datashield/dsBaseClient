@@ -181,7 +181,7 @@
 #' Further information
 #' about the visible material passed to the clientside, and the optional
 #' table object written to the serverside can be seen under 'details' (above).
-#' @author Paul Burton for DataSHIELD Development Team, 13/11/2019
+#' @author Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
 #' @export
 ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
 					report.chisq.tests=FALSE,
@@ -442,13 +442,20 @@ numsources<-length(table.out)
 
 if(num.valid.studies>0&&num.valid.studies<numsources.orig)
 {
-validity.message<-"At least one study failed for reasons identified by 'error.messages'"
-	cat("\n",validity.message,"\n")
-	for(ns in 1:numsources.orig)
-		{
-		cat("\nStudy",ns,": ",error.messages[[ns]])
-		}
-		cat("\n\n")
+validity.message<-"At least one study failed for reasons identified by 'error.messages':"
+
+for(ns in 1:numsources.orig)
+	{
+	message.add<-paste0("Study",ns,": ",error.messages[[ns]])
+	validity.message<-c(validity.message,message.add)
+	}
+
+#	cat("\n",validity.message,"\n")
+#	for(ns in 1:numsources.orig)
+#		{
+#		cat("\nStudy",ns,": ",error.messages[[ns]])
+#		}
+#		cat("\n\n")
 
 #table.out<-table.out.valid
 #numsources<-length(table.out)
@@ -1740,7 +1747,7 @@ options(warn=0)
 	
 
  }#END third dim=1 loop
-}
+####was }
 
 if(table.assign)
 	{
@@ -1763,5 +1770,6 @@ if(table.assign)
 	
 	return(return.list.final)
 	}
-}
+  }
+ }
 #ds.table
