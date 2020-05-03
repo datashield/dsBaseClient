@@ -181,7 +181,7 @@
 #' Further information
 #' about the visible material passed to the clientside, and the optional
 #' table object written to the serverside can be seen under 'details' (above).
-#' @author Paul Burton for DataSHIELD Development Team, 13/11/2019
+#' @author Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
 #' @export
 ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
 					report.chisq.tests=FALSE,
@@ -261,7 +261,65 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
  {
  force.nfilter.transmit<-force.nfilter
  }
-
+ #CALL THE asFactorDS1 SERVER SIDE FUNCTION (AN AGGREGATE FUNCTION)
+ # FOR rvar, cvar AND stvar  
+ #TO DETERMINE ALL OF THE LEVELS REQUIRED
+ 
+ rvar.asfactor.calltext <- call("asFactorDS1", rvar)
+ rvar.all.levels <- DSI::datashield.aggregate(datasources, rvar.asfactor.calltext)
+ 
+ numstudies <- length(datasources)
+ 
+ rvar.all.levels.all.studies <- NULL
+ 
+ for(j in 1:numstudies){
+   rvar.all.levels.all.studies <- c(rvar.all.levels.all.studies,rvar.all.levels[[j]])
+ }
+ 
+ rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
+ 
+ rvar.all.unique.levels.transmit <- paste0(rvar.all.unique.levels, collapse=",")
+ 
+ ########################################################
+ 
+ if(!is.null(cvar)){
+   cvar.asfactor.calltext <- call("asFactorDS1", cvar)
+   cvar.all.levels <- DSI::datashield.aggregate(datasources, cvar.asfactor.calltext)
+   
+   numstudies <- length(datasources)
+   
+   cvar.all.levels.all.studies <- NULL
+   
+   for(j in 1:numstudies){
+     cvar.all.levels.all.studies <- c(cvar.all.levels.all.studies,cvar.all.levels[[j]])
+   }
+   
+   cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
+   
+   cvar.all.unique.levels.transmit <- paste0(cvar.all.unique.levels, collapse=",")
+ }else{
+   cvar.all.unique.levels.transmit<-NULL
+ }
+ ########################################################
+ 
+ if(!is.null(stvar)){
+   stvar.asfactor.calltext <- call("asFactorDS1", stvar)
+   stvar.all.levels <- DSI::datashield.aggregate(datasources, stvar.asfactor.calltext)
+   
+   numstudies <- length(datasources)
+   
+   stvar.all.levels.all.studies <- NULL
+   
+   for(j in 1:numstudies){
+     stvar.all.levels.all.studies <- c(stvar.all.levels.all.studies,stvar.all.levels[[j]])
+   }
+   
+   stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
+   
+   stvar.all.unique.levels.transmit <- paste0(stvar.all.unique.levels, collapse=",")
+ }else{
+   stvar.all.unique.levels.transmit<-NULL
+ }
 
 #ASSIGN TABLE TO SERVERSIDE IF REQUIRED
 if(table.assign)
@@ -272,10 +330,13 @@ if(table.assign)
 		newobj<-"newTable"
 		}
 		
+
 # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION
  
   calltext.assign <- call("tableDS.assign", rvar.transmit=rvar.transmit, cvar.transmit=cvar.transmit,
-                    stvar.transmit=stvar.transmit,
+                    stvar.transmit=stvar.transmit, rvar.all.unique.levels.transmit=rvar.all.unique.levels.transmit,
+                    cvar.all.unique.levels.transmit=cvar.all.unique.levels.transmit,
+                    stvar.all.unique.levels.transmit=stvar.all.unique.levels.transmit,
                     exclude.transmit=exclude.transmit, useNA.transmit=useNA.transmit
 					)
 	
@@ -286,7 +347,9 @@ DSI::datashield.assign(datasources, newobj, calltext.assign)
 # CALL THE MAIN SERVER SIDE AGGREGATE FUNCTION
 
   calltext <- call("tableDS", rvar.transmit=rvar.transmit, cvar.transmit=cvar.transmit,
-                    stvar.transmit=stvar.transmit,
+                    stvar.transmit=stvar.transmit,rvar.all.unique.levels.transmit=rvar.all.unique.levels.transmit,
+                   cvar.all.unique.levels.transmit=cvar.all.unique.levels.transmit,
+                   stvar.all.unique.levels.transmit=stvar.all.unique.levels.transmit,
                     exclude.transmit=exclude.transmit, useNA.transmit=useNA.transmit,
 					force.nfilter.transmit=force.nfilter.transmit)
 
@@ -379,13 +442,20 @@ numsources<-length(table.out)
 
 if(num.valid.studies>0&&num.valid.studies<numsources.orig)
 {
-validity.message<-"At least one study failed for reasons identified by 'error.messages'"
-	cat("\n",validity.message,"\n")
-	for(ns in 1:numsources.orig)
-		{
-		cat("\nStudy",ns,": ",error.messages[[ns]])
-		}
-		cat("\n\n")
+validity.message<-"At least one study failed for reasons identified by 'error.messages':"
+
+for(ns in 1:numsources.orig)
+	{
+	message.add<-paste0("Study",ns,": ",error.messages[[ns]])
+	validity.message<-c(validity.message,message.add)
+	}
+
+#	cat("\n",validity.message,"\n")
+#	for(ns in 1:numsources.orig)
+#		{
+#		cat("\nStudy",ns,": ",error.messages[[ns]])
+#		}
+#		cat("\n\n")
 
 #table.out<-table.out.valid
 #numsources<-length(table.out)
@@ -1677,7 +1747,7 @@ options(warn=0)
 	
 
  }#END third dim=1 loop
-}
+####was }
 
 if(table.assign)
 	{
@@ -1700,5 +1770,6 @@ if(table.assign)
 	
 	return(return.list.final)
 	}
-}
+  }
+ }
 #ds.table
