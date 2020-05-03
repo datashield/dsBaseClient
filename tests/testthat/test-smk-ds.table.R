@@ -70,7 +70,7 @@ disconnect.all.datasets()
 
 # connect.dataset.1()
 #
-# context("ds.table::smkgrouptest")
+# context("ds.table::smk::group test")
 # test_that("simple table", {
 #
 #   GROUP1 <- read.csv("data_files/GROUP1.csv")
