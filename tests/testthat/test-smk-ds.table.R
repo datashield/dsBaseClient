@@ -31,8 +31,7 @@ test_that("simple table", {
   myvectors <- c('factorInteger', 'factorCharacter')
   res <- ds.dataFrame(x=myvectors, newobj="tablesource")
   subset.res <- ds.dataFrameSubset(df.name="tablesource", V1.name="factorInteger", V2.name='6', Boolean.operator="!=", newobj="tablesource_subset")
-  
-  
+
   expect_length(subset.res, 2)
   expect_equal(subset.res$is.object.created, "A data object <tablesource_subset> has been created in all specified data sources")
   expect_equal(subset.res$validity.check, "<tablesource_subset> appears valid in all sources")
@@ -69,21 +68,24 @@ test_that("shutdown", {
 
 disconnect.all.datasets()
 
-
-connect.testing.group.dataset.1()
-context("ds.table::smkgrouptest")
-test_that("simple table", {
-  
-  GROUP1 <- read.csv("data_files/GROUP1.csv")
-  GROUP2 <- read.csv("data_files/GROUP2_test.csv")
-  
-  server.result <- ds.table("D$COLOURS", "D$POSITIVE.NUMBERS") ##############it works!!! ###############
-  
-  expect_length(server.result, 2)
-  expect_length(server.result$output.list, 9)
-  expect_equal(class(server.result$output.list), "list")
-}  
-)
-disconnect.testing.group.dataset.1()
+# connect.dataset.1()
+#
+# context("ds.table::smk::group test")
+# test_that("simple table", {
+#
+#   GROUP1 <- read.csv("data_files/GROUP1.csv")
+#   GROUP2 <- read.csv("data_files/GROUP2_test.csv")
+#
+#   print(ds.colnames("D"))
+#
+#   server.result <- ds.table("D$COLOURS", "D$POSITIVE.NUMBERS") ##############it works!!! ###############
+#
+#   expect_length(server.result, 2)
+#   expect_length(server.result$output.list, 9)
+#   expect_equal(class(server.result$output.list), "list")
+# }  
+# )
+#
+# disconnect.dataset.1()
 
 context("ds.table::smk::done")

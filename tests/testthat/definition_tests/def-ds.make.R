@@ -120,7 +120,7 @@ source("definition_tests/def-assign-stats.R")
   operation <- paste("(", variable.created, inverse.operator, constant.value,")",sep="")
   variable.created.inverse <- paste(variable.created, ".inv",sep="")
   result.server.inverse <- ds.make(operation,variable.created.inverse)
-  print(result.server.inverse)
+  #print(result.server.inverse)
   
   
   #distribution the inverse set

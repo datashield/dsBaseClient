@@ -24,7 +24,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA::smk phase 1")
+context("ds.lmerSLMA::smk::phase 1")
 test_that("simple lmerSLMA", {
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = "D")
 
