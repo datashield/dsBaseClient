@@ -219,5 +219,5 @@ statistically important, the <suppress.chisq.warnings> argument
 can be set to TRUE to block the warnings. However, it is defaulted to FALSE.
 }
 \author{
-Paul Burton for DataSHIELD Development Team, 13/11/2019
+Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
 }
