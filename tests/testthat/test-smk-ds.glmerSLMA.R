@@ -95,7 +95,7 @@ test_that("setup", {
 # Tests phase 2
 #
 
-context("ds.glmerSLMA::smk:test - phase 2")
+context("ds.glmerSLMA::smk::test - phase 2")
 
 test_that("check slope formulae", {
 #    res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', family='poisson', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)

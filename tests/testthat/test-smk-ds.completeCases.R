@@ -24,7 +24,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.completeCases::sm::data.frame")
+context("ds.completeCases::smk::data.frame")
 test_that("completeCases data.frame", {
     ds.dataFrame(c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$LAB_GLUC_ADJUSTED", "D$PM_BMI_CONTINUOUS", "D$DIS_CVA", "D$MEDI_LPD", "D$DIS_DIAB", "D$DIS_AMI", "D$GENDER", "D$PM_BMI_CATEGORICAL"), newobj="df")
 
