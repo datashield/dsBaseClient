@@ -284,7 +284,7 @@ jobs:
       echo "Number of testsuites with issues: "$issue_count
       echo "Testsuites with issues:"
       echo $(sed 's/failures="0" errors="0"//' test_results.xml | grep errors=)
-      exit $($issue_count)
+      exit $issue_count
 
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Check for errors & Failures in JUnit file'
