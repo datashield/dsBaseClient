@@ -65,7 +65,7 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
           entries <- c(ll, mean.sd)
         }
       }else{
-        cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
+        cally <- paste0("lengthDS(", paste0(tablename,'$',variables[z]), ")")
         lengths <- DSI::datashield.aggregate(dtsources, as.symbol(cally))
         ll <- sum(unlist(lengths))
         mm <- round(getPooledMean(dtsources, paste0(tablename,'$',variables[z])),2)

@@ -66,8 +66,8 @@ glmChecks <- function(formula, data, offset, weights, datasources){
           if(!(out[[1]])){
             stop(paste0("'", myterms[1], "' is not defined in ", stdnames[j], "!"), call.=FALSE)
           }else{
-            cally <- paste0("colnames(", myterms[1], ")")
-            clnames <- unlist(DSI::datashield.aggregate(datasources[j], as.symbol(cally)))
+            cally <- call("colnamesDS", myterms[1])
+            clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(myterms[2] %in% clnames)){
               stop(paste0("'", myterms[2], "' is not defined in ", stdnames[j], "!"), call.=FALSE)
             }else{
@@ -78,8 +78,8 @@ glmChecks <- function(formula, data, offset, weights, datasources){
           }
         }else{
           if(!(is.null(data))){
-            cally <- paste0("colnames(", data, ")")
-            clnames <- unlist(DSI::datashield.aggregate(datasources[j], as.symbol(cally)))
+            cally <- call("colnamesDS", data)
+            clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(elts[i] %in% clnames)){
               dd <- isDefined(datasources, elts[i])
               call0 <- paste0("isNaDS(", elts[i], ")")

@@ -71,7 +71,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
   # check that, for each study,  all the columns of the input table are of 'numeric' type
   dtname <- x
   for(i in 1:numsources){
-    cols <- DSI::datashield.aggregate(datasources[i], paste0("colnames(", x, ")"))
+    cols <- DSI::datashield.aggregate(datasources[i], call("colnamesDS", x))
     for(j in 1:dim2[i]){
       cally <- paste0("class(", dtname, "$", cols[[1]][j], ")")
       res <- DSI::datashield.aggregate(datasources[i], cally)

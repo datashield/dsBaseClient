@@ -12,7 +12,7 @@
 #' The vector of column names must have the same number of elements as 
 #' the columns in the output object.
 #' 
-#' Server functions called: \code{rbindDS}. 
+#' Server functions called: \code{colnamesDS}, \code{rbindDS}. 
 #' 
 #' 
 #' @param x a character vector with the  name of the objects to be combined.  
@@ -150,15 +150,13 @@ if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
 	colname.vector<-c(colname.vector,test.df)
         if (notify.of.progress)
             cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
-	}
-else
-	{
-	calltext2<-paste0('colnames(', test.df, ')')
-    df.names <- DSI::datashield.aggregate(datasources, as.symbol(calltext2))
-	 colname.vector<-c(colname.vector,df.names[[1]])
-         if (notify.of.progress)
-              cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
-        }
+	}else{
+	  calltext2 <- call("colnamesDS", test.df)
+    df.names <- DSI::datashield.aggregate(datasources, calltext2)
+	  colname.vector <- c(colname.vector,df.names[[1]])
+	  if (notify.of.progress)
+	    cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+  }
 }
 if (notify.of.progress)
     cat("\nBoth steps completed\n")
