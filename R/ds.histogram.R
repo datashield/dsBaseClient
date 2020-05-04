@@ -1,114 +1,155 @@
 #'
 #' @title Generates a histogram plot
-#' @description This function plots a non-disclosive histogram
-#' @details It calls a datashield server side function that produces the
-#' histogram objects to plot. Two options are possible as identified by the argument
-#' \code{method}. The first option creates a histogram that excludes bins with
-#' counts smaller than the allowed threshold. The second option creates a histogram
-#' of the centroids of each k nearest neighbours. The function allows for the user to plot
-#' disctinct histograms (one for each study) or a combine histogram that merges
+#' @description \code{ds.histogram} function plots a non-disclosive histogram in the client-side. 
+#' @details \code{ds.histogram} function allows the user to plot
+#' distinct histograms (one for each study) or a combined histogram that merges
 #' the single plots.
-#' @param x a charcater, the name of the vector of values for which the histogram is desired.
-#' @param type a character which represent the type of graph to display. If \code{type} is set to
-#' 'combine', a histogram that merges the single plot is displayed. Each histogram is plotted
-#' separately if \code{type} is set to 'split'.
-#' @param num.breaks a numeric specifying the number of breaks of the histogram. The default value
-#' is set to 10.
-#' @param method a character which defines which histogram will be created. If \code{method}
-#' is set to 'smallCellsRule' (default option), the histogram of the actual variable is
-#' created but bins with low counts are removed. If \code{method} is set to 'deterministic'
-#' the histogram of the scaled centroids of each k nearest neighbours of the original variable
-#' where the value of \code{k} is set by the user. If the \code{method} is set
-#' to 'probabilistic', then the histogram shows the original distribution disturbed by the addition
-#' of random stochastic noise. The added noise follows a normal distribution with zero mean and
-#' variance equal to a percentage of the initial variance of the input variable. This percentage is
-#' specified by the user in the argument \code{noise}.
-#' @param k the number of the nearest neghbours for which their centroid is calculated.
-#' The user can choose any value for k equal to or greater than the pre-specified threshold
+#' 
+#' In the argument \code{type} can be specified two types of graphics to display:
+#'  \itemize{
+#'    \item{\code{'combine'}}{: a histogram that merges the single plot is displayed.} 
+#'    \item{\code{'split'}}{: each histogram is plotted separately.}
+#'     }
+#'     
+#' In the argument \code{method} can be specified 3 different histograms to be created:
+#'  \itemize{
+#'    \item{\code{'smallCellsRule'}}{: the histogram of the actual variable is
+#'           created but bins with low counts are removed.} 
+#'    \item{\code{'deterministic'}}{: the histogram of the scaled centroids of each 
+#'          \code{k} nearest neighbours of the original variable
+#'          where the value of \code{k} is set by the user.} 
+#'    \item{\code{'probabilistic'}}{: the histogram shows the original distribution disturbed 
+#'          by the addition of random stochastic noise.
+#'          The added noise follows a normal distribution with zero mean and
+#'          variance equal to a percentage of the initial variance of the input variable. 
+#'          This percentage is specified by the user in the argument \code{noise}.} 
+#'  
+#'     }
+#' 
+#' 
+#' In the \code{k} argument the user can choose any value for \code{k} equal 
+#' to or greater than the pre-specified threshold
 #' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of k is set to be equal to 3
+#' minus the value of this threshold. By default the value of \code{k} is set to be equal to 3
 #' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-#' uses the default value but the study has set a bigger threshold. The value of k is used only
-#' if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
-#' argument \code{method} is set to 'probabilistic' or 'smallCellsRule'.
-#' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
-#' the argument \code{method} is set to 'deterministic' or 'smallCellsRule'. The user can choose
-#' any value for noise equal to or greater than the pre-specified threshold 'nfilter.noise'.
+#' uses the default value but the study has set a bigger threshold. 
+#' The value of \code{k} is used only if the argument 
+#' \code{method} is set to \code{'deterministic'}. 
+#' Any value of k is ignored if the
+#' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
+#' 
+#' In the \code{noise} argument the percentage of the initial variance 
+#' that is used as the variance of the embedded
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. 
+#' Any value of noise is ignored if the argument 
+#' \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. 
+#' The user can choose any value for noise equal to or greater 
+#' than the pre-specified threshold \code{'nfilter.noise'}.
 #' By default the value of noise is set to be equal to 0.25.
-#' @param vertical.axis, a character which defines what is shown in the vertical axis of the
-#' plot. If \code{vertical.axis} is set to 'Frequency' then the histogram of the frequencies
-#' is returned. If \code{vertical.axis} is set to 'Density' then the histogram of the densities
-#' is returned.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' 
+#' In the argument  \code{vertical.axis} can be specified two types of histograms:
+#' \itemize{
+#'    \item{\code{'Frequency'}}{: the histogram of the frequencies
+#'     is returned.} 
+#'    \item{\code{'Density'}}{: the histogram of the densities
+#'     is returned.}
+#'     }
+#' 
+#' Server function called: \code{histogramDS2}
+#' @param x a character string specifying the name of a numerical vector.
+#' @param type a character string that represents the type of graph to display.
+#' The \code{type} argument can be set as \code{'combine'} or \code{'split'}. 
+#' Default \code{'split'}.
+#' For more information see \strong{Details}.
+#' @param num.breaks a numeric specifying the number of breaks of the histogram. Default value
+#' is \code{10}.
+#' @param method a character string that defines which histogram will be created.
+#' The \code{method} argument can be set as \code{'smallCellsRule'}, 
+#' \code{'deterministic'} or \code{'probabilistic'}. 
+#' Default \code{'smallCellsRule'}.  
+#' For more information see \strong{Details}.
+#' @param k the number of the nearest neighbours for which their centroid is calculated. 
+#' Default \code{k} value is \code{3}.
+#' For more information see \strong{Details}. 
+#' @param noise the percentage of the initial variance that is used as the variance of the embedded
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. 
+#' Default \code{noise} value is  \code{0.25}.
+#' For more information see \strong{Details}.
+#' @param vertical.axis, a character string that defines what is shown in the vertical axis of the
+#' plot. The \code{vertical.axis} argument can be set as \code{'Frequency'} or \code{'Density'}.
+#' Default \code{'Frequency'}. 
+#' For more information see \strong{Details}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return one or more histogram objects and plots depending on the argument \code{type}
-#' @author Amadou Gaye, Demetris Avraam for DataSHIELD Development Team
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load that contains the login details
-#'   data(logindata)
-#'
-#'   # login to the servers
-#'   conns <- datashield.login(logins=logindata, assign=TRUE)
-#'
-#'   # Example 1: generate a histogram for each study separately (the default behaviour)
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', type="split")
+#' ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Compute the histogram
+#'   # Example 1: generate a histogram for each study separately 
+#'   ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
+#'               type = "split",
+#'               datasources = connections) #all studies are used
 #'
 #'   # Example 2: generate a combined histogram with the default small cells counts
 #'                suppression rule
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='smallCellsRule', type='combine')
+#'   ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
+#'                method = 'smallCellsRule',
+#'                type = 'combine',
+#'                datasources = connections[1]) #only the first study is used (study1)
 #'
-#'   # Example 3: if a variable is of type factor then the function returns an error
-#'   ds.histogram(x='LD$PM_BMI_CATEGORICAL')
+#'   # Example 3: if a variable is of type factor the function returns an error
+#'   ds.histogram(x = 'D$PM_BMI_CATEGORICAL',
+#'                datasources = connections)
 #'
-#'   # Example 4: generate a combined histogram with the deterministic method
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='deterministic', type='combine')
+#'   # Example 4: generate a combined histogram with the deterministic method for k=50
+#'   ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
+#'                k = 50, 
+#'                method = 'deterministic',
+#'                type = 'combine',
+#'                datasources = connections[2])#only the second study is used (study2)
 #'
-#'   # Example 5: same as Example 4 but with k=50
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=50, method='deterministic', type='combine')
 #'
-#'   # Example 6: same as Example 4 but with k=1740 (here we see that as k increases we have
-#'                big utility loss)
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='combine')
-#'
-#'   # Example 7: same as Example 6 but for split analysis
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=1740, method='deterministic', type='split')
-#'
-#'   # Example 7: if k is less than the pre-specified threshold then the function returns an error
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', k=2, method='deterministic')
-#'
-#'   # Example 8: generate a combined histogram with the probabilistic method
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine')
-#'
-#'   # Example 9: generate a histogram with the probabilistic method for each study separately
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split')
-#'
-#'   # Example 10: same as Example 9 but with higher level of noise
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.5, type='split')
-#'
-#'   # Example 11: if 'noise' is less than the pre-specified threshold then the function returns
-#'                 an error
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', noise=0.1, type='split')
-#'
-#'   # Example 12: same as Example 9 but with bigger number of breaks
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30)
-#'
-#'   # Example 13: same as Example 12 but the vertical axis shows densities instead of frequencies
-#'   ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='split', num.breaks=30,
-#'                  vertical.axis='Density')
-#'
-#'   # Example 14: create a histogram and the probability density on the plot
-#'   hist <- ds.histogram(x='LD$PM_BMI_CONTINUOUS', method='probabilistic', type='combine',
-#'                          num.breaks=30, vertical.axis='Density')
+#'   # Example 5: create a histogram and the probability density on the plot
+#'   hist <- ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
+#'                        method = 'probabilistic', type='combine',
+#'                        num.breaks = 30, 
+#'                        vertical.axis = 'Density',
+#'                        datasources = connections)
 #'   lines(hist$mids, hist$density)
-#'
+#' 
 #'   # clear the Datashield R sessions and logout
-#'   DSI::datashield.logout(conns)
+#'   datashield.logout(connections)
+#'   }
 #'
-#' }
 #'
 ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
 

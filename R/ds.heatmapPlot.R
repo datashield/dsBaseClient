@@ -38,7 +38,7 @@
 #'  
 #'     }
 #' 
-#' In \code{k} argument the user can choose any value for 
+#' In the \code{k} argument the user can choose any value for 
 #' \code{k} equal to or greater than the pre-specified threshold
 #' used as a disclosure control for this method and lower than the number of observations
 #' minus the value of this threshold. By default the value of \code{k} is set to be equal to 3
@@ -48,7 +48,7 @@
 #' if the argument \code{method} is set to \code{'deterministic'}. 
 #' Any value of \code{k} is ignored if the
 #' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
-
+#'
 #' 
 #' The value of \code{noise} is used only if the argument 
 #' \code{method} is set to \code{'probabilistic'}.
@@ -57,6 +57,7 @@
 #' The user can choose any value for \code{noise} equal 
 #' to or greater than the pre-specified threshold \code{'nfilter.noise'}.
 #' 
+#' Server function called: \code{heatmapPlotDS}
 #' @param x a character string specifying the name of a numerical vector.
 #' @param y a character string specifying the name of a numerical vector.
 #' @param type a character string that represents the type of graph to display.
