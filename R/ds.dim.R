@@ -126,7 +126,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- call("dimDS", x)
+  cally <- paste0("dimDS(", x,")")
   dimensions <- DSI::datashield.aggregate(datasources, cally)
 
   # names of the studies to be used in the output
