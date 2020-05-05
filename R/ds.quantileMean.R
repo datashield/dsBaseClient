@@ -75,7 +75,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
-  lengths <- DSI::datashield.aggregate(datasources, as.symbol(cally2))
+  lengths <- DSI::datashield.aggregate(datasources, cally2)
   cally3 <- paste0("numNaDS(", x, ")")
   numNAs <- DSI::datashield.aggregate(datasources, cally3)
   global.quantiles <- rep(0, length(quants[[1]])-1)
