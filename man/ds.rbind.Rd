@@ -55,7 +55,7 @@ of the first object specified in the \code{x} argument.
 The vector of column names must have the same number of elements as 
 the columns in the output object.
 
-Server functions called: \code{rbindDS}.
+Server functions called: \code{colnamesDS}, \code{rbindDS}.
 }
 \examples{
 
