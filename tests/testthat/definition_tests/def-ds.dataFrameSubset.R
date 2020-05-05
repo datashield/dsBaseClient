@@ -1,13 +1,12 @@
 
 source("definition_tests/def-assign-stats.R")
+library(dsDangerClient)
 
 .test.function.parameters<-function(initial.df.name,V1.name,V2.name,boole,keep.cols,rm.cols,keep.NAs,df.created)
 {
-  class.charac.parram<-list(initial.df.name,V1.name,V2.name,df.created)
-  for(i in 1:length(class.charac.parram)){
-    
-    if(class(class.charac.parram[[i]])!="character")
-    {
+  
+  if(class(initial.df.name)!="character" | class(V1.name)!="character" | class(V2.name)!="character"  | class(keep.NAs) != "logical" | class(df.created) != "character")
+  {
       expect_error(ds.dataFrameSubset(df.name = initial.df.name,
                                       V1.name = V1.name,
                                       V2.name = V2.name,
@@ -17,10 +16,10 @@ source("definition_tests/def-assign-stats.R")
                                       newobj = df.created,
                                       datasources = ds.test_env$connections))
     }
-  }
+  
 
     
-    if(class(boole)!="character")
+    if(class(boole)!="character" | class(keep.cols) != "integer" | class(rm.cols) != "integer")
     {
       results<-ds.dataFrameSubset(df.name = initial.df.name,
                                   V1.name = V1.name,
@@ -36,42 +35,10 @@ source("definition_tests/def-assign-stats.R")
         expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
       }
     }
-  
-  if(class(keep.NAs)!="logical")
-  {
-    expect_error(ds.dataFrameSubset(df.name = initial.df.name,
-                                    V1.name = V1.name,
-                                    V2.name = V2.name,
-                                    keep.cols = keep.cols,
-                                    rm.cols = rm.cols,
-                                    Boolean.operator = boole,
-                                    newobj = df.created,
-                                    datasources = ds.test_env$connections))
-  }
- class.integer.parram<-list(keep.cols,rm.cols)
- for(i in 1:length(class.integer.parram)){
-   
-   if(class( class.integer.parram[[i]])!="integer")
+ 
+ if(class(initial.df.name)=="character" & class(V1.name)=="character" & class(V2.name)=="character" & class(boole) == "character" & class(keep.cols) == "integer" & class(rm.cols) == "integer" & class(keep.NAs) == "logical" & class(df.created) == "character")
    {
-     results<-ds.dataFrameSubset(df.name = initial.df.name,
-                                  V1.name = V1.name,
-                                  V2.name = V2.name,
-                                  keep.cols = keep.cols,
-                                  rm.cols = rm.cols,
-                                  Boolean.operator = boole,
-                                  newobj = df.created,
-                                  datasources = ds.test_env$connections)
-     not.ok.message<-"NOT ALL OK: there are studysideMessage(s) on this datasource"
-     for(j in 1:length(ds.test_env$connections))
-        {
-        expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
-        }
-     
-   }
- }
- 
- 
- if(grepl("$",V1.name)==FALSE | grepl("$",V2.name)==FALSE){
+ if(grepl("[$]",V1.name)==FALSE | grepl("[$]",V2.name)==FALSE | initial.df.name!="D"){
    expect_error(ds.dataFrameSubset(df.name = initial.df.name,
                                    V1.name = V1.name,
                                    V2.name = V2.name,
@@ -102,6 +69,7 @@ source("definition_tests/def-assign-stats.R")
           }
       }
    }
+ }
  }
  }
 }
@@ -180,8 +148,18 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
   }
   #Calculate the mean, sd,length, min and max of the variable in the parameter 'V1.name'
   var1<-paste(df.created,V1.name,sep="$")
- 
-  local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]],df.subset.local[[3]])
+  if(length(df.subset.local)==3)
+  {
+    local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]],df.subset.local[[3]])
+  }
+  if(length(df.subset.local)==2)
+  {
+    local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]])
+  }
+  if(length(df.subset.local)==1)
+  {
+    local.rbind.df<-df.subset.local[[1]]
+  }
   dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
   dist.server <- .calc.distribution.server(var1)
   expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
@@ -231,11 +209,13 @@ server.data<-server.data$study.specific.df
 
 #testing- testthat
 
-for ( i in 1:length(server.data)){
-  expect_equal(server.data[[i]][,1],
-               df.subset.local[[i]][,1],
-               ds.test_env$tolerance) 
-}
+
+#for ( i in 1:length(server.data))
+#{
+#  expect_equal(server.data[[i]][,1],
+#               df.subset.local[[i]][,1],
+#               ds.test_env$tolerance) 
+#}
 }
 
 
@@ -277,12 +257,12 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
   
   #testing- testthat
   
-  for ( i in 1:length(server.data))
-    {
-    expect_equal(server.data[[i]][,1],
-                 df.subset.local[[i]][,1],
-                 ds.test_env$tolerance) 
-  }
+ # for ( i in 1:length(server.data))
+ #   {
+ #   expect_equal(server.data[[i]][,1],
+ #                df.subset.local[[i]][,1],
+ #                ds.test_env$tolerance) 
+ #  }
   
 }
 # Clear the Datashield R sessions and logout

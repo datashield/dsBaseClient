@@ -1,20 +1,7 @@
 
 .test.function.parameters<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
   {
-  class.charac.parram<-list(initial.df.name,key.name,sort.method)
-  for(i in 1:length(class.charac.parram)){
-    
-     if(class(class.charac.parram[[i]])!="character")
-        {
-         expect_error(ds.dataFrameSort(df.name = initial.df.name,
-                                       sort.key.name = key.name,
-                                       sort.descending = sort.descending,
-                                       sort.method = sort.method,
-                                       newobj =df.created, 
-                                      datasources =test_env$connections))
-      }
-  }
-  if(class(sort.descending)!="logical")
+  if(class(initial.df.name)!="character" | class(key.name)!="character" | class(sort.method)!="character" | class(sort.descending) != "logical"  | class(df.created)!="character")
     {
     expect_error(ds.dataFrameSort(df.name = initial.df.name,
                                   sort.key.name = key.name,
@@ -24,7 +11,41 @@
                                   datasources = test_env$connections))
   }
   
+  if(class(initial.df.name)=="character" & class(key.name)=="character" & class(sort.method)=="character" & class(sort.descending) == "logical"  & class(df.created)=="character")
+  {
+    if(grepl("[$]",key.name)==FALSE | initial.df.name!="D"){
+      expect_error(ds.dataFrameSort(df.name = initial.df.name,
+                                    sort.key.name = key.name,
+                                    sort.descending = sort.descending,
+                                    sort.method = sort.method,
+                                    newobj =df.created, 
+                                    datasources =test_env$connections))
+    }else{
+      var.exist<-substr(key.name, 3, nchar(key.name))
+      for(j in 1:length(ds.test_env$connections)){
+          var.in.df<-var.exist %in% ds.colnames("D", datasources = ds.test_env$connections)[[j]] 
+          if(var.in.df==FALSE)
+          {
+            results<-ds.dataFrameSort(df.name = initial.df.name,
+                                      sort.key.name = key.name,
+                                      sort.descending = sort.descending,
+                                      sort.method = sort.method,
+                                      newobj =df.created, 
+                                      datasources =test_env$connections)
+            not.ok.message<-"NOT ALL OK: there are studysideMessage(s) on this datasource"
+            for(j in 1:length(ds.test_env$connections))
+            {
+              expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
+            }
+          }
+        
+      }
+    }
+  }
+  
 }
+
+
 .test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
   {
     library(dsDangerClient)
