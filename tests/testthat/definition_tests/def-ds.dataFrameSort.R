@@ -8,7 +8,7 @@
                                   sort.descending = sort.descending,
                                   sort.method = sort.method,
                                   newobj =df.created, 
-                                  datasources = test_env$connections))
+                                  datasources = ds.test_env$connections))
   }
   
   if(class(initial.df.name)=="character" & class(key.name)=="character" & class(sort.method)=="character" & class(sort.descending) == "logical"  & class(df.created)=="character")
@@ -19,7 +19,7 @@
                                     sort.descending = sort.descending,
                                     sort.method = sort.method,
                                     newobj =df.created, 
-                                    datasources =test_env$connections))
+                                    datasources =ds.test_env$connections))
     }else{
       var.exist<-substr(key.name, 3, nchar(key.name))
       for(j in 1:length(ds.test_env$connections)){
@@ -127,8 +127,6 @@
 }
 
 
-# Clear the Datashield R sessions and logout
-datashield.logout(connections) 
 
 
 
