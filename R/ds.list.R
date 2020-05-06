@@ -1,33 +1,54 @@
 #'
-#' @title Function to construct a list object
+#' @title Constructs a list of objects in the server-side
 #' @description This is similar to the R function \code{list}.
 #' @details If the objects to coerce into a list are for example vectors held in a matrix
-#' or a dataframe the names of the elements in the list are the names of columns.
-#' @param x a character, the names of the objects to coerce into a list.
-#' @param newobj the name of the output object. If this argument is set to \code{NULL}, 
-#' the name of the new object is 'list.newobj'.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return  nothing is returned to the client, the new object is stored on the server side.
-#' @author Gaye, A.; Isaeva, J.
+#' or a data frame the names of the elements in the list are the names of columns.
+#' 
+#' Server function called: \code{listDS}
+#' @param x a character string specifying the names of the objects to coerce into a list.
+#' @param newobj 	a character string that provides the name for the output variable 
+#' that is stored on the data servers. Default \code{list.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.list} returns a list of objects for each study that is stored on the server-side.  
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'  # load the file that contains the login details
-#'  data(logindata)
-#'
-#'  # login and assign the required variables to R
-#'  myvar <- list("LAB_TSC","LAB_HDL")
-#'  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
 #'  # combine the 'LAB_TSC' and 'LAB_HDL' variables into a list
 #'  myobjects <- c('D$LAB_TSC', 'D$LAB_HDL')
-#'  ds.list(x=myobjects)
-#'
-#'  # clear the Datashield R sessions and logout
-#'  datashield.logout(conns)
-#'
+#'  ds.list(x = myobjects,
+#'          newobj = "new.list",
+#'          datasources = connections)
+#'   
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
 #' }
 #'
 ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
