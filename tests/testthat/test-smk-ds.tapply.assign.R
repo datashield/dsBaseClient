@@ -38,26 +38,26 @@ test_that("simplest 'ds.tapply.assign', fun=mean", {
 
     res.length <- ds.length("fun_mean.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_mean.newobj in sim1`, 2)
-    expect_equal(res.length$`length of fun_mean.newobj in sim2`, 2)
-    expect_equal(res.length$`length of fun_mean.newobj in sim3`, 2)
-    expect_equal(res.length$`total length of fun_mean.newobj in all studies combined`, 6)
+    expect_equal(res.length$`length of fun_mean.newobj in sim1`, 1)
+    expect_equal(res.length$`length of fun_mean.newobj in sim2`, 1)
+    expect_equal(res.length$`length of fun_mean.newobj in sim3`, 1)
+    expect_equal(res.length$`total length of fun_mean.newobj in all studies combined`, 3)
 })
 
 context("ds.tapply.assign::smk::fun=sd")
 test_that("simplest 'ds.tapply.assign', fun=sd", {
     list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sd', newobj="fun_sd.newobj")
-    
+
     expect_length(list, 2)
     expect_equal(list$is.object.created, "A data object <fun_sd.newobj> has been created in all specified data sources", fixed=TRUE)
     expect_equal(list$validity.check, "<fun_sd.newobj> appears valid in all sources", fixed=TRUE)
-    
+
     res.length <- ds.length("fun_sd.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_sd.newobj in sim1`, 2)
-    expect_equal(res.length$`length of fun_sd.newobj in sim2`, 2)
-    expect_equal(res.length$`length of fun_sd.newobj in sim3`, 2)
-    expect_equal(res.length$`total length of fun_sd.newobj in all studies combined`, 6)
+    expect_equal(res.length$`length of fun_sd.newobj in sim1`, 1)
+    expect_equal(res.length$`length of fun_sd.newobj in sim2`, 1)
+    expect_equal(res.length$`length of fun_sd.newobj in sim3`, 1)
+    expect_equal(res.length$`total length of fun_sd.newobj in all studies combined`, 3)
 })
 
 context("ds.tapply.assign::smk::fun=sum")
@@ -67,29 +67,29 @@ test_that("simplest 'ds.tapply.assign', fun=sum", {
     expect_length(list, 2)
     expect_equal(list$is.object.created, "A data object <fun_sum.newobj> has been created in all specified data sources", fixed=TRUE)
     expect_equal(list$validity.check, "<fun_sum.newobj> appears valid in all sources", fixed=TRUE)
-    
+
     res.length <- ds.length("fun_sum.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_sum.newobj in sim1`, 2)
-    expect_equal(res.length$`length of fun_sum.newobj in sim2`, 2)
-    expect_equal(res.length$`length of fun_sum.newobj in sim3`, 2)
-    expect_equal(res.length$`total length of fun_sum.newobj in all studies combined`, 6)
+    expect_equal(res.length$`length of fun_sum.newobj in sim1`, 1)
+    expect_equal(res.length$`length of fun_sum.newobj in sim2`, 1)
+    expect_equal(res.length$`length of fun_sum.newobj in sim3`, 1)
+    expect_equal(res.length$`total length of fun_sum.newobj in all studies combined`, 3)
 })
 
 context("ds.tapply.assign::smk::fun=quantile")
 test_that("simplest 'ds.tapply.assign', fun=quantile", {
     list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='quantile', newobj="fun_quantile.newobj")
-    
+
     expect_length(list, 2)
     expect_equal(list$is.object.created, "A data object <fun_quantile.newobj> has been created in all specified data sources", fixed=TRUE)
     expect_equal(list$validity.check, "<fun_quantile.newobj> appears valid in all sources", fixed=TRUE)
-    
+
     res.length <- ds.length("fun_quantile.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim1`, 2)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim2`, 2)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim3`, 2)
-    expect_equal(res.length$`total length of fun_quantile.newobj in all studies combined`, 6)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim1`, 1)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim2`, 1)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim3`, 1)
+    expect_equal(res.length$`total length of fun_quantile.newobj in all studies combined`, 3)
 })
 
 #
@@ -103,5 +103,9 @@ test_that("shutdown", {
 })
 
 disconnect.studies.dataset.cnsim()
+
+#
+# Done
+#
 
 context("ds.tapply.assign::smk::done")
