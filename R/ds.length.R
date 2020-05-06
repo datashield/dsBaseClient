@@ -102,8 +102,8 @@ ds.length = function(x=NULL, type='both', checks='FALSE', datasources=NULL){
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- paste0("lengthDS(", x, ")")
-  lengths <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("lengthDS", x)
+  lengths <- DSI::datashield.aggregate(datasources, cally)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
