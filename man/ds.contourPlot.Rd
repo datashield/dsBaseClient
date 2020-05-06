@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.contourPlot.R
 \name{ds.contourPlot}
 \alias{ds.contourPlot}
-\title{Generates a contour plot using server-side data}
+\title{Generates a contour plot}
 \usage{
 ds.contourPlot(
   x = NULL,
@@ -38,7 +38,7 @@ set to \code{'deterministic'} the contour of the scaled centroids of each k near
 original variables is created, where the value of \code{k} is set by the user. If the
 \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated.}
 
-\item{k}{the number of the nearest neghbours for which their centroid is calculated. For more information
+\item{k}{the number of the nearest neighbours for which their centroid is calculated. For more information
 see details.}
 
 \item{noise}{the percentage of the initial variance that is used as the variance of the embedded
@@ -52,11 +52,13 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.contourPlot} returns a contour plot to the client-side.
 }
 \description{
-It generates a contour plot of the pooled data or one plot for each dataset.
+It generates a contour plot of the pooled data
+or one plot for each dataset on the client-side.
 }
 \details{
-The function first generates a density grid and uses it to plot the graph.
-Cells of the grid density matrix that hold a count of less than the filter set by
+The \code{ds.contourPlot} function first generates 
+a density grid and uses it to plot the graph.
+The cells of the grid density matrix that hold a count of less than the filter set by
 DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 disclosure. A message is printed to inform the user about the number of invalid cells.
 

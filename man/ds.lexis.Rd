@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.lexis.R
 \name{ds.lexis}
 \alias{ds.lexis}
-\title{ds.lexis calling lexisDS1, lexisDS2, lexisDS3}
+\title{Create an object of class Lexis to represent follow-up in multiple states on multiple time scales.}
 \usage{
 ds.lexis(
   data = NULL,
@@ -175,6 +175,7 @@ will be blocked and an explanatory error message will be stored on each server. 
 can then be read using the command: ds.message("messageobj"). Third, the assign function
 lexisDS3 simplifies the final output so that the object specified by the \code{expandDF}
 argument is the actual dataframe rather than a table within a list.
+Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3}
 }
 \examples{
 \dontrun{
