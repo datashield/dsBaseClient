@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.var::smk::split")
 test_that("simple var, split", {
-    var.res <- ds.var(x = 'D$LAB_TSC', type='split', datasources = ds.test_env$connection.opal)
+    var.res <- ds.var(x = 'D$LAB_TSC', type='split')
 
     expect_length(var.res, 3)
     expect_length(var.res$Variance.by.Study, 12)
@@ -51,7 +51,7 @@ test_that("simple var, split", {
 
 context("ds.var::smk::combine")
 test_that("simple var, combine", {
-    var.res <- ds.var(x = 'D$LAB_TSC', type='combine', datasources = ds.test_env$connection.opal)
+    var.res <- ds.var(x = 'D$LAB_TSC', type='combine')
 
     expect_length(var.res, 3)
     expect_length(var.res$Global.Variance, 4)
@@ -68,7 +68,7 @@ test_that("simple var, combine", {
 
 context("ds.var::smk::both")
 test_that("simple var, both", {
-    var.res <- ds.var(x = 'D$LAB_TSC', type='both', datasources = ds.test_env$connection.opal)
+    var.res <- ds.var(x = 'D$LAB_TSC', type='both')
 
     expect_length(var.res, 4)
     expect_length(var.res$Variance.by.Study, 12)

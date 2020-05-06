@@ -7,10 +7,10 @@
 ds.summary(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a numeric or factor variable}
+\item{x}{a numeric or factor variable.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 the returned information depends on the class of the objects.
@@ -20,9 +20,9 @@ Provides some insight about an object. Unlike the similar R function
 only a limited class of objects can be used as input to reduce the risk of disclosure.
 }
 \details{
-The class and size of the object are returned and various other information are 
+The class and size of the object are returned and various other information are
 also returned depending of the class of the object. Potentially disclosive information
-such as the minimum and maximum values of numeric vectors are not returned. The summary 
+such as the minimum and maximum values of numeric vectors are not returned. The summary
 is given for each study separately.
 }
 \examples{
@@ -31,8 +31,8 @@ is given for each study separately.
   # load the login data
   data(logindata)
 
-  # login and assign all the variable held in the opal database
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  # login and assign all the variable held in the data repository
+  conns <- datashield.login(logins=logindata,assign=TRUE)
 
   # Example 1: suummary of a numerical variable
   ds.summary(x='D$LAB_TSC')
@@ -41,7 +41,7 @@ is given for each study separately.
   ds.summary(x='D$GENDER')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

@@ -1,4 +1,4 @@
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-assign-stats.R")
 
 .test.copy.data <-function(variable.name, variable.created, some.values)
@@ -8,7 +8,7 @@ source("definition_tests/def-assign-stats.R")
   dist.server.original <- .calc.distribution.server(variable.name)
   
   #create a new object with the same values. calculate distribution of new object
-  ds.make(variable.name,variable.created,datasources = ds.test_env$connection.opal)
+  ds.make(variable.name,variable.created)
   dist.server.new.object <- .calc.distribution.server(variable.created)
  
   #compare the results between the local and server data distribution.
@@ -24,7 +24,7 @@ source("definition_tests/def-assign-stats.R")
 {
   #build expressions and applies on the server
   operation <- paste("(",first.variable.name, arithmetic.operator, second.variable.name,")",sep="")
-  ds.make(operation,variable.created,datasources = ds.test_env$connection.opal)
+  ds.make(operation,variable.created)
   
   #distribution the results between the local and server data.
   dist.local <- .calc.distribution.locally(result.local)
@@ -40,7 +40,7 @@ source("definition_tests/def-assign-stats.R")
 {
   #build expressions and applies on the server
   operation <- paste("(",first.variable.name, arithmetic.operator, constant.value,")",sep="")
-  ds.make(operation,variable.created,datasources = ds.test_env$connection.opal)
+  ds.make(operation,variable.created)
   
   #distribution the results between the local and server data.
   dist.local <- .calc.distribution.locally(result.local)
@@ -59,7 +59,7 @@ source("definition_tests/def-assign-stats.R")
 
    #build expressions and applies on the server
    operation <- paste("(",first.variable.name, arithmetic.operator, constant.value,")",sep="")
-   result.server <- ds.make(operation,variable.created,datasources = ds.test_env$connection.opal)
+   result.server <- ds.make(operation,variable.created)
    
    #distribution the results server data.
    dist.server.new.object <- .calc.distribution.server(variable.created)
@@ -82,12 +82,12 @@ source("definition_tests/def-assign-stats.R")
   
   #create a new object with the same values. calculate distribution of new object
   variable.created.cp <- paste(variable.created, "_cp", sep="")
-  ds.make(first.variable.name,variable.created.cp,datasources = ds.test_env$connection.opal)
+  ds.make(first.variable.name,variable.created.cp)
   dist.server.new.object <- .calc.distribution.server(variable.created)
   
   #apply the operator to the server
   operation <- paste("(",variable.created.cp, arithmetic.operator, constant.value,")",sep="")
-  ds.make(operation,variable.created,datasources = ds.test_env$connection.opal)
+  ds.make(operation,variable.created)
   
   #distribution second changes
   dist.server.result <- .calc.distribution.server(variable.created)
@@ -111,7 +111,7 @@ source("definition_tests/def-assign-stats.R")
 
   #build expressions and applies on the server
   operation <- paste("(",first.variable.name, arithmetic.operator, constant.value,")",sep="")
-  result.server <- ds.make(operation,variable.created,datasources = ds.test_env$connection.opal)
+  result.server <- ds.make(operation,variable.created)
   
   #distribution the results server data.
   dist.server.prime <- .calc.distribution.server(variable.created)
@@ -119,8 +119,8 @@ source("definition_tests/def-assign-stats.R")
   #build expressions and applies on the server - inverse
   operation <- paste("(", variable.created, inverse.operator, constant.value,")",sep="")
   variable.created.inverse <- paste(variable.created, ".inv",sep="")
-  result.server.inverse <- ds.make(operation,variable.created.inverse,datasources = ds.test_env$connection.opal)
-  print(result.server.inverse)
+  result.server.inverse <- ds.make(operation,variable.created.inverse)
+  #print(result.server.inverse)
   
   
   #distribution the inverse set

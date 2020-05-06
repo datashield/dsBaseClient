@@ -7,17 +7,18 @@
 ds.listDisclosureSettings(datasources = NULL)
 }
 \arguments{
-\item{datasources}{a list of the particular Opal servers to have their values listed}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list containing the current settings of the nfilters in each study specified
 }
 \description{
-Lists current values for disclosure control filters in all Opal servers
+Lists current values for disclosure control filters in all data repository servers
 }
 \details{
 This function lists out the current values of the eight disclosure filters in each of
-the Opal servers specified by datasources. Eight filters can currently be set:
+the data repository servers specified by datasources. Eight filters can currently be set:
 (1) nfilter.tab, the minimum non-zero cell count allowed in any cell if a contingency table is
 to be returned. This applies to one dimensional and two dimensional tables of counts tabulated
 across one or two factors and to tables of a mean of a quantitative variable tabulated across a
@@ -58,12 +59,12 @@ disclosure.
 }
 \examples{
 \dontrun{
-#WORKING EXAMPLES NOT PROVIDED (MULTIPLE OPALS AND R SESSIONS MAKE THIS DIFFICULT)
-##Client-side function call to list current disclosure settings in all Opal servers
+#WORKING EXAMPLES NOT PROVIDED (MULTIPLE DATA REPOS AND R SESSIONS MAKE THIS DIFFICULT)
+##Client-side function call to list current disclosure settings in all data repository servers
 #ds.listDisclosureSettings()
 #
 ##Equivalent call directly to server-side function to list current disclosure settings in all
-##Opal servers not recommended unless you are experienced DataSHIELD user
+##data repository servers not recommended unless you are experienced DataSHIELD user
 #ds.look("listDisclosureSettingsDS()")
 #
 ##Call to client-side function and save output as an R object to refer to later
@@ -71,9 +72,9 @@ disclosure.
 ##Interrogate ouput later
 #current.DisclosureSettings[[1]]
 #
-#Restrict call to list disclosure settings only to the first, or second Opals
-#ds.listDisclosureSettings(datasources=opals.em[1])
-#ds.listDisclosureSettings(datasources=opals.em[2])
+#Restrict call to list disclosure settings only to the first, or second DS connection
+#ds.listDisclosureSettings(datasources=conns.em[1])
+#ds.listDisclosureSettings(datasources=conns.em[2])
 #
 }
 

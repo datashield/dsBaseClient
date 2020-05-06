@@ -32,7 +32,7 @@ test_that("simple test", {
     expect_equal(res$is.object.created, "A data object <recodevalues_newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<recodevalues_newobj> appears valid in all sources")
 
-    new.res <- ds.class("recodevalues_newobj", datasources=ds.test_env$connection.opal)
+    new.res <- ds.class("recodevalues_newobj")
 
     expect_length(new.res, 3)
     expect_equal(new.res$survival1, "numeric")

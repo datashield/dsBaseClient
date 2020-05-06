@@ -7,14 +7,10 @@
 ds.testObjExists(test.obj.name = NULL, datasources = NULL)
 }
 \arguments{
-\item{test.obj.name}{a character string specifying the name of the object to search for e.g. "TID.f"}
+\item{test.obj.name}{a character string specifying the name of the object to search for e.g. "TID.f".}
 
-\item{datasources}{specifies the particular opal object(s) to use, if it is not specified
-the default set of opals will be used. The default opals are always called default.opals.
-This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-If you wish to specify the second opal server in a set of three, the parameter is specified:
-e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-e.g. datasources=opals.em[2,3]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 If the specified data object exists and is of a valid class (i.e. is not null) in every one of the
@@ -25,7 +21,7 @@ class "null", the $return message is of the form: "Error: A valid data object TI
 "It is either ABSENT and/or has no valid content/class, for details see return.info above". The list return.info then includes
 a list of each data source with an indication of whether the data object being tested exists at all e.g. for study 3 return of
 the list object $return.info$study3$test.obj.exists = FALSE implies that the tested object does not exist
-even as a name in study 3 while return of the list object $return.info$study3$test.obj.class = "ABSENT" implies 
+even as a name in study 3 while return of the list object $return.info$study3$test.obj.class = "ABSENT" implies
 that even if the tested object exists as a name in study 3 it does not have a valid class (so contains no data etc)
 }
 \description{

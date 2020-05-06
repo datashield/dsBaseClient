@@ -1,11 +1,11 @@
-#' 
+#'
 #' @title ds.make
 #' @description Makes (calculates) a new object in the R environment on the
 #' server side. ds.make is equivalent to ds.assign, but runs slightly faster.
 #' It defines a datashield object via an allowed function or an arithmetic
 #' expression hence creating a new object
 #' in the server side R environments. The function is a wrapper for
-#' the 'opal' package function 'datashield.assign'.
+#' the DSI package function 'datashield.assign'.
 #' @details If no newobj name is provided, the new object is named 'make.newobj' by default,
 #' otherwise the name can be specified using the newobj argument.
 #' If the newObject is created successfully, the function will verify its
@@ -40,7 +40,7 @@
 #' the error seems also to be circumvented. This is presumably because the first element
 #' of the arithmetic function is of length equal to xvar and it then knows to
 #' replicate the 5.3 that many times in the second part of the expression.
-#' The second work-around is obviously easier, but it is worth knowing about the 
+#' The second work-around is obviously easier, but it is worth knowing about the
 #' first trick because creating a vector of ones of equal length to another vector
 #' can be useful in other settings. Equally the call:
 #' ds.make('indID-indID','ZEROS') to create a vector of zeros of that same
@@ -50,18 +50,14 @@
 #' and complex (many brackets) expressions can always be broken down into a series of simple steps - e.g.
 #' see example 1 below. If toAssign is a simple pre-existing data object, it will simply be copied and assigned as having a second name
 #' as specified by the newobject argument - e.g. see example 1 below. One bug identified
-#' @param newobj the name of the new object
-#' @param datasources specifies the particular opal object(s) to use, if it is not specified
-#' the default set of opals will be used. The default opals are always called default.opals.
-#' This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-#' If you wish to specify the second opal server in a set of three, the parameter is specified:
-#' e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-#' e.g. datasources=opals.em[2,3]
+#' @param newobj the name of the new object.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return the object specified by the newobj argument (or default name newObject) is written to the
 #' serverside and a validity message indicating whether the newobject has been correctly
 #' created at each source is returned to the client. If it has not been correctly created the return object
 #' return.info details in which source the problem exists and whether: (a) the object exists at all; (b) it has meaningful
-#' content indicated by a valid class. 
+#' content indicated by a valid class.
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -71,33 +67,33 @@
 #' ##CONVERT PROPORTIONS IN prop.rand TO log(odds) IN logodds.rand
 #' #ds.make("(prop.rand)/(1-prop.rand)","odds.rand")
 #' #ds.make("log(odds.rand)","logodds.rand")
-#' 
-#' 
+#'
+#'
 #'
 #' ##EXAMPLE 2
 #' ##MISCELLANEOUS ARITHMETIC OPERATORS: ARBITRARY CALCULATION
 #' ##USE DEFAULT NEW OBJECT NAME
 #' #ds.make("((age.60+bmi.26)*(noise.56-pm10.16))/3.2")
-#' 
-#' 
+#'
+#'
 #'
 #' ##EXAMPLE 3
 #' ##MISCELLANEOUS OPERATORS WITHIN FUNCTIONS (female.n is binary 1/0 so female.n2 = female.n
 #' ##and so they cancel out in code for second call to ds.make and so that call is
-#' ##equivalent to copying log.surv to output.test.1)  
+#' ##equivalent to copying log.surv to output.test.1)
 #' #ds.make("female.n^2","female.n2")
-#' #ds.make("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1") 
+#' #ds.make("(2*female.n)+(log.surv)-(female.n2*2)","output.test.1")
 #' #ds.make("exp(output.test.1)","output.test")
 #' }
-#' 
+#'
 ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
-  
+
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
   }
@@ -108,7 +104,7 @@ ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
   }
 
   # now do the business
-  opal::datashield.assign(datasources, newobj, as.symbol(toAssign))
+  DSI::datashield.assign(datasources, newobj, as.symbol(toAssign))
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -120,11 +116,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -166,14 +162,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#
@@ -192,6 +188,4 @@ if(!no.errors){																								#
 
 }
 
-# ds.make  
-
-  
+# ds.make

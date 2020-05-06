@@ -9,23 +9,23 @@ ds.var(x = NULL, type = "split", checks = FALSE, datasources = NULL)
 \arguments{
 \item{x}{a character, the name of a numerical vector.}
 
-\item{type}{a character which represents the type of analysis to carry out. 
-If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global variance is calculated 
+\item{type}{a character which represents the type of analysis to carry out.
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global variance is calculated
 if \code{type} is set to 'split', 'splits' or 's', the variance is calculated separately for each study.
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
 
 \item{checks}{a Boolean indicator of whether to undertake optional checks of model
 components. Defaults to checks=FALSE to save time. It is suggested that checks
-should only be undertaken once the function call has failed}
+should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 a list including: Variance.by.Study = estimated variance in each study separately (if type = split or both), with Nmissing
 (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
 also reported separately for each study; Global.Variance = Variance, Nmissing, Nvalid, Ntotal across all studies combined
-(if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether 
+(if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether
 a full analysis was possible or whether one or more studies had fewer valid observations than the nfilter
 threshold for the minimum cell size in a contingency table.
 }
@@ -34,11 +34,11 @@ Computes the variance of a given vector
 This function is similar to the R function \code{var}.
 }
 \details{
-It is a wrapper for the server side function. 
+It is a wrapper for the server side function.
 The server side function returns a list with the sum of the input variable, the sum of squares
 of the input variable, the number of missing values, the number of valid values, the number of
 total lenght of the variable, and a study message indicating whether the number of valid is less
-than the disclosure threshold. The variance is calculated at the client side by the formula 
+than the disclosure threshold. The variance is calculated at the client side by the formula
 $\deqn{var(X)}{\frac{\sum{x_i^2}}{N-1}-\frac{(\sum{x_i})^2}{N(N-1)}}$
 }
 \examples{
@@ -49,7 +49,7 @@ $\deqn{var(X)}{\frac{\sum{x_i^2}}{N-1}-\frac{(\sum{x_i})^2}{N(N-1)}}$
 
   # login and assign specific variable(s)
   myvar <- list('LAB_TSC')
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
 
   # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
   ds.var(x='D$LAB_TSC')
@@ -58,7 +58,7 @@ $\deqn{var(X)}{\frac{\sum{x_i^2}}{N-1}-\frac{(\sum{x_i})^2}{N(N-1)}}$
   ds.var(x='D$LAB_TSC', type='split')
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(conns)
 
 }
 

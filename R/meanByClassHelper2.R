@@ -1,12 +1,12 @@
-#' 
+#'
 #' @title Generates a table for pooled results
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to produce the final table
-#' if the user sets the parmater 'type' to combine (the default behaviour of 'ds.meanByClass')
-#' @param dtsources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
+#' if the user sets the parmater 'type' to combine (the default behaviour of 'ds.meanByClass').
+#' @param dtsources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param tablenames a character vector, the name of the subset tables
-#' @param variables a character vector, the names of the continuous variables to computes a mean for. 
+#' @param variables a character vector, the names of the continuous variables to computes a mean for.
 #' @param invalidrecorder a list, holds informations about invalid subsets in each study.
 #' @keywords internal
 #' @return a matrix, a table which contains the length, mean and standard deviation of each of the
@@ -40,10 +40,10 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         for(qq in 1:length(dtsources)){
           # check if the subset table exists (when the initial table is invalid no subsequent subset is created)
           cally <- call("exists", tnames[[qq]][i])
-          def <-  unlist(opal::datashield.aggregate(dtsources[qq], cally))
+          def <-  unlist(DSI::datashield.aggregate(dtsources[qq], cally))
           if(def){
-            cally <- paste0("dim(", tnames[[qq]][i], ")")
-            temp <- unlist(opal::datashield.aggregate(dtsources[qq], as.symbol(cally)))
+            cally <- call("dimDS", tnames[[qq]][i])
+            temp <- unlist(DSI::datashield.aggregate(dtsources[qq], cally))
             lengths <- append(lengths, temp[1])
           }else{
             lengths <- append(lengths, 0)
@@ -66,7 +66,7 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         }
       }else{
         cally <- paste0("length(", paste0(tablename,'$',variables[z]), ")")
-        lengths <- opal::datashield.aggregate(dtsources, as.symbol(cally))
+        lengths <- DSI::datashield.aggregate(dtsources, as.symbol(cally))
         ll <- sum(unlist(lengths))
         mm <- round(getPooledMean(dtsources, paste0(tablename,'$',variables[z])),2)
         sdv <- round(getPooledVar(dtsources, paste0(tablename,'$',variables[z])),2)

@@ -25,31 +25,33 @@ test_that("setup", {
 #
 
 context("ds.recodeLevels::smk")
-ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
-levels <- ds.levels(x='bmi_new')
 test_that("new levels", {
+    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
+    levels <- ds.levels(x='bmi_new')
+
     expected <- c("normal", "overweight", "obesity")
     expect_length(levels, 3)
-    expect_length(levels$sim1, 3)
-    expect_equal(levels$sim1, expected)
-    expect_length(levels$sim2, 3)
-    expect_equal(levels$sim2, expected)
-    expect_length(levels$sim3, 3)
-    expect_equal(levels$sim3, expected)
+    expect_length(levels$sim1$Levels, 3)
+    expect_equal(levels$sim1$Levels, expected)
+    expect_length(levels$sim2$Levels, 3)
+    expect_equal(levels$sim2$Levels, expected)
+    expect_length(levels$sim3$Levels, 3)
+    expect_equal(levels$sim3$Levels, expected)
 })
 
-context("ds.recodeLevels::smk::no opals or newobj")
-ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
-levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
+context("ds.recodeLevels::smk::no connections or newobj")
 test_that("new levels auto", {
+    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
+    levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
+
     expected <- c("normal", "overweight", "obesity")
     expect_length(levels, 3)
-    expect_length(levels$sim1, 3)
-    expect_equal(levels$sim1, expected)
-    expect_length(levels$sim2, 3)
-    expect_equal(levels$sim2, expected)
-    expect_length(levels$sim3, 3)
-    expect_equal(levels$sim3, expected)
+    expect_length(levels$sim1$Levels, 3)
+    expect_equal(levels$sim1$Levels, expected)
+    expect_length(levels$sim2$Levels, 3)
+    expect_equal(levels$sim2$Levels, expected)
+    expect_length(levels$sim3$Levels, 3)
+    expect_equal(levels$sim3$Levels, expected)
 })
 
 #
