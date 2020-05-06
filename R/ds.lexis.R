@@ -1,5 +1,5 @@
 #'
-#' @title ds.lexis calling lexisDS1, lexisDS2, lexisDS3
+#' @title Create an object of class Lexis to represent follow-up in multiple states on multiple time scales.
 #' @description Takes a dataframe containing survival data and expands it by converting records at
 #' the level of individual subjects (survival time, censoring status, IDs and other variables) into
 #' multiple records over a series of pre-defined time intervals. For each survival interval the
@@ -75,6 +75,7 @@
 #' can then be read using the command: ds.message("messageobj"). Third, the assign function
 #' lexisDS3 simplifies the final output so that the object specified by the \code{expandDF}
 #' argument is the actual dataframe rather than a table within a list.
+#' Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3} 
 #' @param data is a character string. This specifies the name of a dataframe containing the
 #' survival data to be expanded. Often, the dataframe will also hold the original
 #' total-survival-time and final-censoring variables but the lexis function is deliberately set up
