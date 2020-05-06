@@ -186,9 +186,12 @@
 ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
 					report.chisq.tests=FALSE,
 					exclude = NULL,
-					useNA = c("ifany"),suppress.chisq.warnings=FALSE,
-					table.assign=FALSE, newobj=NULL,
-					datasources=NULL, force.nfilter=NULL)
+					useNA = c("ifany"),
+					suppress.chisq.warnings=FALSE,
+					table.assign=FALSE, 
+					newobj=NULL,
+					datasources=NULL, 
+					force.nfilter=NULL)
 		 
  {
   # if no connection login details are provided look for 'connection' objects in the environment
@@ -220,7 +223,7 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
   }
 
 
- #All arguments should be directly transmitable
+ #All arguments should be directly transmittable
  rvar.transmit<-rvar
  
  if(is.null(cvar))
