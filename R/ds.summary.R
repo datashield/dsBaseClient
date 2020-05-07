@@ -75,7 +75,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     for(i in 1:numsources){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
-        dims <- DSI::datashield.aggregate(datasources[i], paste0('dimDS(', x, ')'))
+        dims <- DSI::datashield.aggregate(datasources[i], call('dimDS', x))
         r <- dims[[1]][1]
         c <- dims[[1]][2]
         cols <- (DSI::datashield.aggregate(datasources[i], call('colnamesDS', x)))[[1]]
@@ -92,7 +92,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     for(i in 1:numsources){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
-        l <- DSI::datashield.aggregate(datasources[i], paste0('lengthDS(', x, ')'))[[1]]
+        l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
         stdsummary <- list('class'=typ, 'length'=l)
         finalOutput[[i]] <- stdsummary
       }else{
@@ -106,7 +106,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     for(i in 1:numsources){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
-        l <- DSI::datashield.aggregate(datasources[i], paste0('lengthDS(', x, ')'))[[1]]
+        l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
         levels.resp <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('levelsDS(', x, ')' )))[[1]]
         categories <- levels.resp$Levels
         freq <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
@@ -127,7 +127,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     for(i in 1:numsources){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
-        l <- DSI::datashield.aggregate(datasources[i], paste0('lengthDS(', x, ')'))[[1]]
+        l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
         q <- (DSI::datashield.aggregate(datasources[i], as.symbol(paste0('quantileMeanDS(', x, ')' ))))[[1]]
         stdsummary <- list('class'=typ, 'length'=l, 'quantiles & mean'=q)
         finalOutput[[i]] <- stdsummary
@@ -141,7 +141,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("list" %in% typ){
     for(i in 1:numsources){
-      l <- DSI::datashield.aggregate(datasources[i], paste0('lengthDS(', x, ')'))[[1]]
+      l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
       elts <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('namesDS(', x, ')' )))[[1]]
       if(is.null(elts)){
         stdsummary <- list('class'=typ, 'length'=l)
@@ -157,7 +157,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
     for(i in 1:numsources){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
-        l <- DSI::datashield.aggregate(datasources[i], paste0('lengthDS(', x, ')'))[[1]]
+        l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
         freq <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
         stdsummary <- list('class'=typ, 'length'=l)
         for(j in 1:length(2)){
