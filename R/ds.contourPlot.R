@@ -1,8 +1,10 @@
 #'
-#' @title Generates a contour plot using server-side data
-#' @description It generates a contour plot of the pooled data or one plot for each dataset.
-#' @details The function first generates a density grid and uses it to plot the graph.
-#' Cells of the grid density matrix that hold a count of less than the filter set by
+#' @title Generates a contour plot 
+#' @description  It generates a contour plot of the pooled data
+#' or one plot for each dataset on the client-side. 
+#' @details The \code{ds.contourPlot} function first generates 
+#' a density grid and uses it to plot the graph.
+#' The cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
 #' disclosure. A message is printed to inform the user about the number of invalid cells.
 #' 
@@ -44,7 +46,7 @@
 #' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 #' original variables is created, where the value of \code{k} is set by the user. If the
 #' \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated. 
-#' @param k the number of the nearest neghbours for which their centroid is calculated. For more information
+#' @param k the number of the nearest neighbours for which their centroid is calculated. For more information
 #' see details. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
 #' noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details. 
