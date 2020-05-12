@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.matrixDimnames.R
 \name{ds.matrixDimnames}
 \alias{ds.matrixDimnames}
-\title{ds.matrixDimnames calling assign function matrixDimnamesDS}
+\title{Specifies the dimnames of the server-side matrix}
 \usage{
 ds.matrixDimnames(
   M1 = NULL,
@@ -29,13 +29,12 @@ the column names for a matrix with 9 columns;
 dimnames=list(c("a","cc","73",8,"h"),NULL) specifies just
 the row names for a matrix with 5 rows.}
 
-\item{newobj}{A character string specifying the name of the matrix to which the output
-is to be written. If no <newobj> argument is specified or it is NULL
-the output matrix names defaults to "matrixdimnames.newobj"
-name specified by the <M1> argument.}
+\item{newobj}{a character string that provides the name for the output 
+variable that is stored on the data servers.Default \code{matrixdimnames.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 the object specified by the <newobj> argument (or default name "<M1>_dimnames")
@@ -54,12 +53,11 @@ will return the message: "ALL OK: there are no studysideMessage(s) on this datas
 }
 \description{
 Adds dimnames (row names, column names or both) to
-a matrix on the serverside.
+a matrix on the server-side.
 }
 \details{
-Adds dimnames (row names, column names or both) to
-a matrix on the serverside. Similar to the {dimnames} function
-in native R.
+This function is similar to the native R \code{dimnames} function.
+Server function called: \code{matrixDimnamesDS}
 }
 \author{
 Paul Burton for DataSHIELD Development Team

@@ -1,9 +1,8 @@
-#' @title ds.matrixDimnames calling assign function matrixDimnamesDS
+#' @title Specifies the dimnames of the server-side matrix
 #' @description Adds dimnames (row names, column names or both) to
-#' a matrix on the serverside.
-#' @details Adds dimnames (row names, column names or both) to
-#' a matrix on the serverside. Similar to the {dimnames} function
-#' in native R.
+#' a matrix on the server-side.
+#' @details This function is similar to the native R \code{dimnames} function.
+#' Server function called: \code{matrixDimnamesDS}
 #' @param M1 Specifies the name of the serverside matrix to which
 #' dimnames are to be added. Specified as a character string in
 #' inverted commas: e.g. M1="matrix.name"
@@ -19,12 +18,11 @@
 #' the column names for a matrix with 9 columns;
 #' dimnames=list(c("a","cc","73",8,"h"),NULL) specifies just
 #' the row names for a matrix with 5 rows.
-#' @param newobj A character string specifying the name of the matrix to which the output
-#' is to be written. If no <newobj> argument is specified or it is NULL
-#' the output matrix names defaults to "matrixdimnames.newobj"
-#' name specified by the <M1> argument.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param newobj a character string that provides the name for the output 
+#' variable that is stored on the data servers.Default \code{matrixdimnames.newobj}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return the object specified by the <newobj> argument (or default name "<M1>_dimnames")
 #' which is written to the serverside. In addition, two validity messages are returned
 #' indicating whether <newobj> has been created in each data source and if so whether
