@@ -1,28 +1,82 @@
-#' @title ds.matrixInvert calling assign function matrixInvertDS
-#' @description Inverts a square matrix A and writes the output to the serverside
-#' @details Undertakes standard matrix inversion. This operation is only
-#' possible if the number of columns and rows of A are the same and the matrix
-#' is non-singular - positive definite (eg there is no row or column that is all zeros)
-#' @param M1  A character string specifying the name of the matrix to be inverted
-#' @param newobj A character string specifying the name of the matrix to which the output
-#' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "matrixinvert.newobj"
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return the object specified by the <newobj> argument (or default name <M1>_inverted)
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.matrixInvert also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton for DataSHIELD Development Team
+#' @title Inverts a server-side square matrix
+#' @description Inverts a square matrix and writes the output to the server-side
+#' @details This operation is only
+#' possible if the number of columns and rows of  the matrix are the same and it
+#' is non-singular-positive definite (e.g. there is no row or column that is all zeros). 
+#' 
+#' Server function called: \code{matrixInvertDS}
+#' @param M1  A character string specifying the name of the matrix to be inverted.
+#' @param newobj a character string that provides the name for the output 
+#' variable that is stored on the data servers.
+#' Default \code{matrixinvert.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrixInvert} returns to the server-side the inverts square matrix. 
+#' Also, two validity messages are returned to the client-side 
+#' indicating whether the new object has been created in each data source and if so whether
+#' it is in a valid form. 
+#' @author DataSHIELD Development Team
+#' @examples
+#' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'             
+#'   #Example 1: Invert the server-side matrix
+#'   
+#'   #Create the server-side vector 
+#'   
+#'   ds.rUnif(samp.size = 9,
+#'            min = -10.5,
+#'            max = 10.5,
+#'            newobj = "ss.vector.9",
+#'            seed.as.integer = 5575,
+#'            force.output.to.k.decimal.places = 0,
+#'            datasources = connections)
+#'            
+#'   #Create the server-side matrix
+#'            
+#'   ds.matrix(mdata = "ss.vector.9",
+#'             from = "serverside.vector",
+#'             nrows.scalar = 3,
+#'             ncols.scalar = 4,
+#'             byrow = TRUE,
+#'             newobj = "matrix",
+#'             datasources = connections)
+#'    
+#'   #Invert the matrix
+#'   
+#'   ds.matrixInvert(M1 = "matrix",
+#'                   newobj = "matrix.invert",
+#'                   datasources = connections)
+#'   
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
+#' }
 #' @export
 #'
 ds.matrixInvert<-function(M1=NULL, newobj=NULL, datasources=NULL){

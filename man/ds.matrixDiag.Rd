@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.matrixDiag.R
 \name{ds.matrixDiag}
 \alias{ds.matrixDiag}
-\title{ds.matrixDiag calling assign function matrixDiagDS}
+\title{Calculates matrix diagonals in the server-side}
 \usage{
 ds.matrixDiag(
   x1 = NULL,
@@ -13,91 +13,191 @@ ds.matrixDiag(
 )
 }
 \arguments{
-\item{x1}{This argument determines the input object. Depending on the
-specified value of the <aim> argument it may be a character string
-identifying the name of a serverside vector or scalar. Alternatively,
-it may be a single number e.g. 29, or a vector specified as
-e.g. c(3,5,-2,8) or it can be the name (but not in inverted commas) of
-a clientside scalar or clientside vector which have already been assigned
-values e.g. scalar.s<-83, x1=scalar.s; or vector.v<-c(7,0,-2,3:9), x1=vector.v.}
+\item{x1}{a character string specifying
+the name of a server-side scalar or vector. Also, a numeric value or vector
+specified from the client-side can be speficied. This argument depends 
+on the value specified in \code{aim}.
+For more information see \strong{Details}.}
 
-\item{aim}{a character string specifying what behaviour is required
-of the function. It must take one of five values:
-"serverside.vector.2.matrix"; "serverside.scalar.2.matrix";
-"serverside.matrix.2.vector"; "clientside.vector.2.matrix";
-or "clientside.scalar.2.matrix"}
+\item{aim}{a character string specifying the behaviour of the function.
+This can be set as: 
+\code{"serverside.vector.2.matrix"}, \code{"serverside.scalar.2.matrix"},
+\code{"serverside.matrix.2.vector"}, \code{"clientside.vector.2.matrix"}
+or \code{"clientside.scalar.2.matrix"}.
+For more information see \strong{Details}.}
 
-\item{nrows.scalar}{if this takes value k, it forces the output
-matrix to have k rows and k columns. If x1 is a scalar, this argument
-must be set as otherwise the dimensions of the square matrix are undefined.
-If x1 is a vector and no value is set for the <nrows.scalar> argument the
-dimensions of the square matrix are defined by the length of the vector. If
-x1 is a vector and the <nrows.scalar> is set at k, the vector will be used
-repeatedly to fill up the diagonal. If for example the vector is of length
-7 and <nrows.scalar> is specified as 18, a square diagonal matrix with
-18 rows and 18 columns will be created with the vector repeated twice from
-element 1,1 to element 14,14 and the first 4 elements of the vector will
-fill diagonal elements 15,15 to 18,18. All off diagonal elements will be 0.
-The <nrows.scalar> argument can either be set as a number, a clientside
-scalar holding a single number or a character string representing the
-name of a serverside scalar.}
+\item{nrows.scalar}{an integer specifying the dimensions of the matrix 
+note that the matrix is square (same number of rows and columns).  
+If this argument is not specified the matrix dimensions are 
+defined by the length of the vector. 
+For more information see \strong{Details}.}
 
-\item{newobj}{A character string specifying the name of the output object
-to be written to the serverside which may be a matrix or a vector
-depending on the value of the <aim> argument.If no <newobj> argument is
-specified, the output object name defaults to "matrixdiag.newobj".}
+\item{newobj}{a character string that provides the name for the output 
+variable that is stored on the data servers. Default \code{matrixdiag.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the matrix or vector specified by the <newobj> argument
-(or default name diag)
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.matrixDiag also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.matrixDiag} returns to the server-side the square matrix diagonal. 
+Also, two validity messages are returned
+indicating whether the new object has been created in each data source and if so whether
+it is in a valid form.
 }
 \description{
-Extracts the diagonal vector from a square matrix A or
-creates a diagonal matrix A based on a vector or a scalar value and
-writes the output to the serverside
+Extracts the diagonal vector from a square matrix  or
+creates a diagonal matrix  based on a vector or a scalar value 
+on the server-side.
 }
 \details{
-Depending on the specified value of the <aim> argument this
-function behaves differently. If aim=="serverside.vector.2.matrix"
-the function takes a serverside vector and writes out a square matrix with
-the vector as its diagonal and all off-diagonal values = 0. The dimensions
+The function behaviour is different depending on the 
+value specified in the \code{aim} argument:\cr
+(1) \code{If aim = "serverside.vector.2.matrix"}
+the function takes a server-side vector and writes out a square matrix with
+the vector as its diagonal and all off-diagonal \code{values = 0}. The dimensions
 of the output matrix are determined by the length of the vector.
-If the vector is of length k, the output matrix has k rows and k columns.
-If aim=="serverside.scalar.2.matrix"
-the function takes a serverside scalar and writes out a square matrix with all
+If the vector length is \code{k}, the output matrix has \code{k} rows and \code{k} columns.\cr
+(2) If \code{aim = "serverside.scalar.2.matrix"}
+the function takes a server-side scalar and writes out a square matrix with all
 diagonal values equal to the value of the scalar
-and all off diagonal values = 0. The dimensions of the square
-matrix are determined by the value of the <nrows.scalar> argument;
-If aim=="serverside.matrix.2.vector"
-the function takes a square serverside matrix and extracts
-its diagonal values as a vector which is written to the serverside;
-If aim=="clientside.vector.2.matrix"
-the function takes a vector specified on the clientside
-and writes out a square matrix to the serverside with
-the vector as its diagonal and all off-diagonal values = 0. The dimensions
-of the output matrix are determined by the length of the vector.
-If the vector is of length k, the output matrix has k rows and k columns;
-If aim=="clientside.scalar.2.matrix"
-the function takes a scalar specified on the clientside
+and all off-diagonal \code{values = 0}. The dimensions of the square
+matrix are determined by the value of the \code{nrows.scalar} argument.\cr
+(3) If \code{aim = "serverside.matrix.2.vector"}
+the function takes a square server-side matrix and extracts
+its diagonal values as a vector which is written to the server-side.\cr
+(4) If \code{aim = "clientside.vector.2.matrix"}
+the function takes a vector specified on the client-side
+and writes out a square matrix to the server-side with
+the vector as its diagonal and all off-diagonal \code{values = 0}. The dimensions
+of the output matrix are determined by the length of the vector.\cr
+(5) If \code{aim = "clientside.scalar.2.matrix"}
+the function takes a scalar specified on the client-side
 and writes out a square matrix with all diagonal values equal
 to the value of the scalar. The dimensions of the square
-matrix are determined by the value of the <nrows.scalar> argument.
+matrix are determined by the value of the \code{nrows.scalar} argument.
+
+If \code{x1} is a vector and the \code{nrows.scalar} 
+is set as \code{k}, the vector will be used
+repeatedly to fill up the diagonal. For example, the vector is of length
+7 and \code{nrows.scalar = 18}, a square diagonal matrix with
+18 rows and 18 columns will be created. 
+
+Server function called: \code{matrixDiagDS}
+}
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Example 1: Create a square matrix with the server-side vector as its diagonal
+  #and all the other values = 0
+  
+  # Create a vector in the server-side 
+  
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+   
+            
+  #Calculate the diagonal of the matrix
+  
+  ds.matrixDiag(x1 = "ss.vector.9",
+                aim = "serverside.vector.2.matrix",
+                nrows.scalar = NULL,
+                newobj = "matrix.diag1",
+                datasources = connections)
+                
+  #Example 2: Create a square matrix with the server-side scalar as all diagonal values 
+  and all the other values = 0
+  
+  #Create a scalar in the server-side
+  
+  ds.rUnif(samp.size = 1,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.scalar",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  #Calculate the diagonal of the matrix
+           
+ ds.matrixDiag(x1 = "ss.scalar",
+               aim = "serverside.scalar.2.matrix",
+               nrows.scalar = 4,
+               newobj = "matrix.diag2",
+               datasources = connections)
+               
+ #Example 3: Create a vector that contains the server-side matrix diagonal values
+ 
+ #Create a matrix in the server-side
+ 
+ ds.matrix(mdata = 10,
+           from = "clientside.scalar",
+           nrows.scalar = 3,
+           ncols.scalar = 8,
+           newobj = "ss.matrix",
+           datasources = connections)
+           
+ #Extract the diagonal of the matrix
+     
+ ds.matrixDiag(x1 = "ss.matrix",
+               aim = "serverside.matrix.2.vector",
+               nrows.scalar = NULL,
+               newobj = "vector.diag3",
+               datasources = connections)
+                   
+ #Example 4: Create a square matrix with the client-side vector as a diagonal
+ and all the other values = 0
+ 
+ ds.matrixDiag(x1 = c(2,6,9,10),
+               aim = "clientside.vector.2.matrix",
+               nrows.scalar = NULL,
+               newobj = "matrix.diag4",
+               datasources = connections)
+               
+ #Example 5: Create a square matrix with the client-side scalar as all diagonal values 
+ and all the other values = 0
+ 
+ ds.matrixDiag(x1 = 4,
+               aim = "clientside.scalar.2.matrix",
+               nrows.scalar = 5,
+               newobj = "matrix.diag5",
+               datasources = connections)
+  
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

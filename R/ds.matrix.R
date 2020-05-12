@@ -53,8 +53,6 @@
 #' indicating whether the new matrix has been created in each data source and if so whether
 #' it is in a valid form.
 #' @author DataSHIELD Development Team
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' 
@@ -132,7 +130,8 @@
 #'            
 #'   ds.matrix(mdata = "ss.vector.9",
 #'             from = "serverside.vector",
-#'             nrows.scalar = 5,ncols.scalar = 9,
+#'             nrows.scalar = 5,
+#'             ncols.scalar = 9,
 #'             byrow = TRUE,
 #'             dimnames = list(c("a","b","c","d","e")),
 #'             newobj = "sv.block.9.dimnames1",
@@ -143,7 +142,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-#'
+#' @export
 ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
                    dimnames = NULL, newobj=NULL, datasources=NULL){
 
