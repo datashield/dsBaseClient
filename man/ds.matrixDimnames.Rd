@@ -12,53 +12,98 @@ ds.matrixDimnames(
 )
 }
 \arguments{
-\item{M1}{Specifies the name of the serverside matrix to which
-dimnames are to be added. Specified as a character string in
-inverted commas: e.g. M1="matrix.name"}
+\item{M1}{a character string specifying
+the name of a server-side matrix.}
 
-\item{dimnames}{A dimnames attribute for the matrix: NULL or a list of
-length 2 giving
-the row and column names respectively. An empty list is treated as NULL,
-and a list of length one as row names only. Components in the list can
-be specified as character strings (e.g. "a", "name3" or "77"), or numbers
-(e.g. 1,-8, 1:10). Examples include:
-dimnames=list(c("a","cc","73",8,"h"),c("1","b","d","8","ghhj",1:4)) specifies
-the row names and column names for a matrix with 5 rows and 9 columns;
-dimnames=list(NULL,c("1","b","d","8","ghhj",1:4)) specifies just
-the column names for a matrix with 9 columns;
-dimnames=list(c("a","cc","73",8,"h"),NULL) specifies just
-the row names for a matrix with 5 rows.}
+\item{dimnames}{a list of length 2 giving
+the row and column names respectively. 
+An empty list is treated as NULL.}
 
 \item{newobj}{a character string that provides the name for the output 
-variable that is stored on the data servers.Default \code{matrixdimnames.newobj}.}
+variable that is stored on the data servers. Default \code{matrixdimnames.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or default name "<M1>_dimnames")
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.matrixDimnames also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.matrixDimnames} returns to the server-side
+the matrix with specified row and column names. 
+Also, two validity messages are returned to the client-side 
+indicating the new object that has been created in each data source and if so whether
+it is in a valid form.
 }
 \description{
-Adds dimnames (row names, column names or both) to
+Adds the row names, the column names or both to
 a matrix on the server-side.
 }
 \details{
 This function is similar to the native R \code{dimnames} function.
+
 Server function called: \code{matrixDimnamesDS}
 }
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+            
+  #Example 1: Create a matrix in the server-side using a server-side vector 
+  
+  #Create the server-side vector 
+  
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  #Create the server-side matrix
+           
+  ds.matrix(mdata = "ss.vector.9",
+            from = "serverside.vector",
+            nrows.scalar = 3,
+            ncols.scalar = 4,
+            byrow = TRUE,
+            newobj = "matrix",
+            datasources = connections)
+   
+  #Specify the column and row names of the matrix
+  
+  ds.matrixDimnames(M1 = "matrix",
+                    dimnames = list(c("a","b","c"),c("a","b","c","d")),
+                    newobj = "matrix.dimnames",
+                    datasources = connections)
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
+}
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

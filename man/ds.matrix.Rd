@@ -159,7 +159,8 @@ Server function called: \code{matrixDS}
            
   ds.matrix(mdata = "ss.vector.9",
             from = "serverside.vector",
-            nrows.scalar = 5,ncols.scalar = 9,
+            nrows.scalar = 5,
+            ncols.scalar = 9,
             byrow = TRUE,
             dimnames = list(c("a","b","c","d","e")),
             newobj = "sv.block.9.dimnames1",
@@ -169,7 +170,6 @@ Server function called: \code{matrixDS}
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
 }
-
 
 }
 \author{
