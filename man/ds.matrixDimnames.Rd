@@ -71,7 +71,7 @@ Server function called: \code{matrixDimnamesDS}
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
             
-  #Example 1: Create a matrix in the server-side using a server-side vector 
+  #Example 1: Set the row and column names of a server-side matrix
   
   #Create the server-side vector 
   
