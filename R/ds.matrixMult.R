@@ -1,31 +1,97 @@
-#' @title ds.matrixMult calling assign function matrixMultDS
-#' @description Calculates the matrix product of two matrices and writes output to serverside
-#' @details Undertakes standard matrix multiplication where with input matrices A and B with
-#' dimensions A: mxn and B: nxp the output C has dimensions mxp and each elemnt C[i,j] has
-#' value equal to the dot product of row i of A and column j of B where the dot product
-#' is obtained as sum(A[i,1]*B[1,j] + A[i,2]*B[2,j] + .... + A[i,n]*B[n,j]). This calculation
-#' is only valid if the number of columns of A is the same as the number of rows of B
-#' @param M1  A character string specifying the name of the first matrix (M1)
-#' @param M2  A character string specifying the name of the second matrix (M2)
-#' @param newobj A character string specifying the name of the matrix to which the output
-#' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "matrixmult.newobj"
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return the object specified by the <newobj> argument (or default name <M1>_<M2>)
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.matrixMult also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton for DataSHIELD Development Team
+#' @title Calculates tow matrix multiplication in the server-side
+#' @description Calculates the matrix product of two matrices and 
+#' writes output to the server-side. 
+#' @details Undertakes standard matrix multiplication wherewith input matrices 
+#' \code{A} and \code{B} with dimensions \code{A: m x n} and \code{B: n x p} 
+#' the output matrix \code{C} has dimensions \code{m x p}. This calculation
+#' is only valid if the number of columns of \code{A} 
+#' is the same as the number of rows of \code{B}. 
+#' 
+#' Server function called: \code{matrixMultDS}
+#' @param M1  a character string specifying the name of the first matrix.
+#' @param M2  a character string specifying the name of the second matrix.
+#' @param newobj a character string that provides the name for the output 
+#' variable that is stored on the data servers. Default \code{matrixmult.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrixMult} returns to the server-side 
+#' the result of the two matrix multiplication.
+#' Also, two validity messages are returned to the client-side 
+#' indicating whether the new object  has been created in each data source and if so whether
+#' it is in a valid form.
+#' @author DataSHIELD Development Team
+#' 
+#' @examples
+#' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'             
+#'   #Example 1: Multiplicate two server-side matrix
+#'   
+#'   #Create the server-side vector 
+#'   
+#'   ds.rUnif(samp.size = 9,
+#'            min = -10.5,
+#'            max = 10.5,
+#'            newobj = "ss.vector.9",
+#'            seed.as.integer = 5575,
+#'            force.output.to.k.decimal.places = 0,
+#'            datasources = connections)
+#'            
+#'   #Create the server-side matrixes
+#'            
+#'   ds.matrix(mdata = "ss.vector.9",#using the created vector
+#'             from = "serverside.vector",
+#'             nrows.scalar = 5,
+#'             ncols.scalar = 4,
+#'             byrow = TRUE,
+#'             newobj = "matrix1",
+#'             datasources = connections)
+#'             
+#'    ds.matrix(mdata = 10,
+#'              from = "clientside.scalar",
+#'              nrows.scalar = 4,
+#'              ncols.scalar = 6,
+#'              byrow = TRUE,
+#'              newobj = "matrix2",
+#'              datasources = connections)
+#'
+#'   #Multiplicate the matrixes
+#'   
+#'   ds.matrixMult(M1 = "matrix1", 
+#'                 M2 = "matrix2", 
+#'                 newobj = "matrix.mult", 
+#'                 datasources = connections)
+
+#'   
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
+#' }
 #' @export
 #'
 ds.matrixMult<-function(M1=NULL, M2=NULL, newobj=NULL, datasources=NULL){

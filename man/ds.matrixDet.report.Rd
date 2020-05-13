@@ -2,47 +2,92 @@
 % Please edit documentation in R/ds.matrixDet.report.R
 \name{ds.matrixDet.report}
 \alias{ds.matrixDet.report}
-\title{ds.matrixDet.report calling aggregate function matrixDetDS1}
+\title{Returns matrix determinant to the client-side}
 \usage{
 ds.matrixDet.report(M1 = NULL, logarithm = FALSE, datasources = NULL)
 }
 \arguments{
-\item{M1}{A character string specifying the name of the matrix for which
-determinant to be calculated}
+\item{M1}{a character string specifying the name of the matrix.}
 
-\item{logarithm}{logical. Default is FALSE, which returns the
-determinant itself, TRUE returns the logarithm of the modulus of the determinant.}
+\item{logarithm}{logical. If TRUE the logarithm of the modulus of the determinant
+is calculated. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the matrix determinant for A to the clientside. Calculated separately
-for each study. The determinant is reported as a two component list. Element 1
-is $modulus and element 2 is $sign. If logarithm=FALSE: $modulus reports the
-absolute value of the determinant and is therefore always positive. $sign
-indicates whether the determinant is positive ($sign=1) or negative ($sign=-1).
-$modulus has an attribute [attr(,"logarithm")] which is FALSE if the argument
-<logarithm> was FALSE - this enables you to look at results post-hoc to determine
-whether the logarithm argument was TRUE or FALSE. If you wish to generate the
-actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.
-If logarithm=TRUE: $modulus reports the log (to base e) of the absolute value
-of the determinant. $sign again reports whether the determinant is positive
-($sign=1) or negative ($sign=-1). The attribute of $modulus [attr(,"logarithm")]
-is now TRUE. If you wish to generate the actual determinant when logarithm=TRUE
-you calculate exp($modulus)*$sign. If the function fails in any study for
-a reason which is identified, an explanatory error message is returned
-instead of the object containing the calculated matrix determinant
+\code{ds.matrixDet.report} returns to the client-side
+the determinant of a matrix that is stored on the server-side.
 }
 \description{
-Calculates the determinant of a square matrix A and returns
-the result to the clientside
+Calculates the determinant of a square matrix  and returns
+the result to the client-side
 }
 \details{
-Calculates the determinant of a square matrix (for additional
-information see help for {determinant} function in native R). This operation is only
-possible if the number of columns and rows of A are the same.
+Calculates and returns to the client-side
+the determinant of a square matrix on the server-side. 
+This function is similar to the native R \code{determinant} function.  
+This operation is only
+possible if the number of columns and rows of the matrix are the same.
+
+Server function called: \code{matrixDetDS1}
+}
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Create the matrix in the server-side
+  
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  ds.matrix(mdata = "ss.vector.9",
+            from = "serverside.vector",
+            nrows.scalar = 9,ncols.scalar = 9,
+            byrow = TRUE,
+            newobj = "matrix",
+            datasources = connections)
+            
+  #Calculate the determinant of the matrix
+  
+  ds.matrixDet.report(M1 = "matrix", 
+                      logarithm = FALSE, 
+                      datasources = connections)
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

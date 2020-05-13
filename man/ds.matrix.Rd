@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.matrix.R
 \name{ds.matrix}
 \alias{ds.matrix}
-\title{ds.matrix calling assign function matrixDS}
+\title{Creates a matrix on the server-side}
 \usage{
 ds.matrix(
   mdata = NA,
@@ -16,160 +16,162 @@ ds.matrix(
 )
 }
 \arguments{
-\item{mdata}{specifies the elements of the matrix to be created. If it
-is a vector it should usually be the same length as the total number of elements
-in the matrix and these will fill the matrix column by column or
-row by row depending whether the argument <byrow> is FALSE (default) or TRUE.
-If the mdata vector is not the same length as the total number of elements
-in the matrix to be created, the values in mdata will be used repeatedly until
-all elements in the matrix are full.
-If mdata is a scalar, all elements in the matrix will take that value.
-The <mdata> argument can be specified either as a character string specifying
-the name of a serverside scalar or vector,
-or a numeric value (or numeric object) representing a scalar specified from the
-clientside. Zeros, negative values and NAs are all allowed.}
+\item{mdata}{a character string specifying
+the name of a server-side scalar or vector. Also, a numeric value representing a
+scalar specified from the client-side can be speficied. 
+Zeros, negative values and NAs are all allowed.
+For more information see \strong{Details}.}
 
-\item{from}{a character string specifying the source and nature of <mdata>.
-Can only take values "serverside.vector", "serverside.scalar" or "clientside.scalar"
-This argument must be specified - NULL values not permitted. Defaults to
-"clientside.scalar"}
+\item{from}{a character string specifying the source and nature of \code{mdata}.
+This can be set as \code{"serverside.vector"}, \code{"serverside.scalar"}
+or \code{"clientside.scalar"}. Default \code{"clientside.scalar"}.}
 
-\item{nrows.scalar}{specifies the number of rows in the matrix to be created.
-It can be a character string specifying the name of a serverside scalar: e.g.
-if a serverside scalar named "ss.scalar" exists and holds the value 23,
-then by specifying nrows.scalar="ss.scalar", the matrix to be created will
-have 23 rows. Alternatively it can be specified as
-a numeric value (or numeric object) representing a scalar specified from the
-clientside: e.g. nrows.scalar=14 or equivalently
-scalar.value<- 14; nrows.scalar=scalar.value. This will create a matrix
-with 14 rows. A zero, negative, NULL or missing value is not permitted}
+\item{nrows.scalar}{an integer or a character string that specifies the number 
+of rows in the matrix to be created.
+For more information see \strong{Details}.}
 
-\item{ncols.scalar}{specifies the number of columns in the matrix to be created.
-It can be a character string specifying the name of a serverside scalar: e.g.
-if a serverside scalar named "ss.scalar" exists and holds the value 23,
-then by specifying ncols.scalar="ss.scalar", the matrix to be created will
-have 23 columns. Alternatively it can be specified as
-a numeric value (or numeric object) representing a scalar specified from the
-clientside: e.g. ncols.scalar=14 or equivalently
-scalar.value<- 14; ncols.scalar=scalar.value. This will create a matrix
-with 14 columns. A zero, negative, NULL or missing value is not permitted}
+\item{ncols.scalar}{an integer or a character string that specifies 
+the number of columns in the matrix to be created.}
 
-\item{byrow}{a logical value specifying whether, when <mdata> is a vector,
-the matrix created should be filled row by row (byrow=TRUE) i.e.
-starting at the first element of
-first row, filling that row and then moving to the first element of the second
-row and filling that row etc until all elements of the matrix are full or
-column by column (byrow=FALSE). Default = FALSE.}
+\item{byrow}{logical. If TRUE and \code{mdata} is a vector the matrix
+created should be filled row by row. If FALSE the matrix created should 
+be filled column by column. Default = FALSE.}
 
-\item{dimnames}{A dimnames attribute for the matrix: NULL or a list of length 2 giving
-the row and column names respectively. An empty list is treated as NULL,
-and a list of length one as row names only.}
+\item{dimnames}{a list of length 2 giving
+the row and column names respectively.}
 
-\item{newobj}{A character string specifying the name of the matrix to which the output
-is to be written. If no <newobj> argument is specified or it is NULL
-the output matrix names defaults to "matrix.newobj"}
+\item{newobj}{a character string that provides the name for the output 
+variable that is stored on the data servers. Default \code{matrix.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or default name "new_matrix")
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.matrix also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.matrix} returns the created matrix which is written on the server-side. 
+In addition, two validity messages are returned
+indicating whether the new matrix has been created in each data source and if so whether
+it is in a valid form.
 }
 \description{
-Creates a matrix A on the serverside
+Creates a matrix on the server-side 
+with dimensions specified by \code{nrows.scalar} 
+and \code{ncols.scalar} arguments and assigns the 
+values of all its elements based on the \code{mdata} argument.
 }
 \details{
-Similar to the {matrix()} function in native R. Creates a matrix
-with dimensions specified by <nrows.scalar> and <ncols.scalar> arguments
-and assigns the values of all its elements based on the <mdata> argument
+This function is similar to the R native function \code{matrix()}. 
+
+If in the \code{mdata} argument a vector is specified this should have 
+the same length as the total number of elements
+in the matrix. If this is not TRUE  the values in \code{mdata}
+will be used repeatedly until all elements in the matrix are full.
+If \code{mdata} argument is a scalar, all elements in the matrix will take that value.
+
+
+In the \code{nrows.scalar} argument can be a character string specifying 
+the name of a server-side scalar. For example,  
+if a server-side scalar named \code{ss.scalar} exists and holds the value 23,
+then by specifying \code{nrows.scalar = "ss.scalar"}, the matrix created will
+have 23 rows. Also this argument can be 
+a numeric value from the
+client-side. The same rules are applied to \code{ncols.scalar} argument but in this 
+case the column numbers are specified. 
+In both arguments a zero, negative, NULL or missing value is not permitted. 
+
+
+Server function called: \code{matrixDS}
 }
 \examples{
 \dontrun{
 
-ds.matrix(mdata=-13,from="clientside.scalar", nrows.scalar=3,ncols.scalar=8,newobj="cs.block")
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-ds.matrix(NA,from="clientside.scalar", nrows.scalar=4,ncols.scalar=5,newobj="cs.block.NA")
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-clientside.input.scalar<-837
-ds.matrix(clientside.input.scalar,from="clientside.scalar", nrows.scalar=7,ncols.scalar=3,
-          newobj="cs.block.input")
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Example 1: create a matrix with -13 value in all elements
+  
+  ds.matrix(mdata = -13,
+            from = "clientside.scalar",
+            nrows.scalar = 3,
+            ncols.scalar = 8,
+            newobj = "cs.block",
+            datasources = connections)
+            
+  #Example 2: create a matrix of missing values 
 
-clientside.input.nrows.scalar<-11
-ds.matrix(clientside.input.scalar,from="clientside.scalar",
-          nrows.scalar=clientside.input.nrows.scalar,ncols.scalar=3,
-          newobj="cs.block.input.nrows")
+  ds.matrix(NA,
+            from = "clientside.scalar",
+            nrows.scalar = 4,
+            ncols.scalar = 5,
+            newobj = "cs.block.NA",
+            datasources = connections)
 
-ds.rUnif(samp.size=1,min=0.5,max=10.5,newobj="block.scalar",seed.as.integer=761728,
-           force.output.to.k.decimal.places = 0)
+  #Example 3: create a matrix using a server-side vector
+  #create a vector in the server-side
+  
+  ds.rUnif(samp.size = 45,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector",
+           seed.as.integer = 8321,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  ds.matrix(mdata = "ss.vector",
+            from = "serverside.vector",
+            nrows.scalar = 5,
+            ncols.scalar = 9,
+            newobj = "sv.block",
+            datasources = connections)
+            
+  #Example 4: create a matrix using a server-side vector and specifying
+  #the row a column names
 
-ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
-          newobj="ss.block")
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  ds.matrix(mdata = "ss.vector.9",
+            from = "serverside.vector",
+            nrows.scalar = 5,
+            ncols.scalar = 9,
+            byrow = TRUE,
+            dimnames = list(c("a","b","c","d","e")),
+            newobj = "sv.block.9.dimnames1",
+            datasources = connections)
 
-ds.make("log(block.scalar*(-1))","block.scalar.NA")
-
-ds.matrix("block.scalar.NA",from="serverside.scalar", nrows.scalar=9,ncols.scalar=7,
-          newobj="ss.block.NA")
-
-ds.matrix("block.scalar",from="serverside.scalar", nrows.scalar="block.scalar",
-          ncols.scalar="block.scalar",newobj="ss.block.square")
-
-ds.rUnif(samp.size=45,min=-10.5,max=10.5,newobj="ss.vector",seed.as.integer=8321,
-           force.output.to.k.decimal.places = 0)
-ds.matrix("ss.vector",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          newobj="sv.block")
-
-ds.rUnif(samp.size=5,min=-10.5,max=10.5,newobj="ss.vector.5",seed.as.integer=551625,
-           force.output.to.k.decimal.places = 0)
-ds.matrix("ss.vector.5",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          newobj="sv.block.5")
-
-ds.rUnif(samp.size=9,min=-10.5,max=10.5,newobj="ss.vector.9",seed.as.integer=5575,
-           force.output.to.k.decimal.places = 0)
-ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
-          newobj="sv.block.9")
-
-ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          newobj="sv.block.9.ragged")
-
-ds.rUnif(samp.size=12,min=-10.5,max=10.5,newobj="ss.vector.12",seed.as.integer=778172,
-           force.output.to.k.decimal.places = 0)
-
-ds.matrix("ss.vector.12",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          newobj="sv.block.12.ragged")
-
-ds.recodeValues("ss.vector", c(-10),c(NA),newobj="ss.vector.NA")
-ds.matrix("ss.vector.NA",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          newobj="sv.block.NA")
-
-ds.matrix("ss.vector.NA",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,
-          byrow=TRUE,newobj="sv.byrow.block")
-
-ds.matrix(NA, nrows.scalar=7,ncols.scalar=6,newobj="empty.matrix")
-
-ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
-dimnames=list(c("a","b","c","d","e")),newobj="sv.block.9.dimnames1")
-
-ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
-dimnames=list(c("a","b","c","d","e"),c(10*(9:1))),newobj="sv.block.9.dimnames12")
-
-#No specification of newobj
-ds.matrix("ss.vector.9",from="serverside.vector", nrows.scalar=5,ncols.scalar=9,byrow=TRUE,
-dimnames=list(c("a","b","c","d","e"),c(10*(9:1))))
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
 }
 
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }
