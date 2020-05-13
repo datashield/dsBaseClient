@@ -73,7 +73,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
   for(i in 1:numsources){
     cols <- DSI::datashield.aggregate(datasources[i], paste0("colnames(", x, ")"))
     for(j in 1:dim2[i]){
-      cally <- paste0("class(", dtname, "$", cols[[1]][j], ")")
+      cally <- call("classDS", paste0(dtname, "$", cols[[1]][j]))
       res <- DSI::datashield.aggregate(datasources[i], cally)
       if(res[[1]] != 'numeric' & res[[1]] != 'integer'){
         stop("One or more columns of ", dtname, " are not of numeric type, in ",  stdnames[i], ".", call.=FALSE)

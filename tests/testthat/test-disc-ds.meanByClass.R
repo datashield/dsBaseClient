@@ -22,7 +22,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC","LAB_HDL","GENDER","DIS_DIAB","PM_B
 
 context("ds.meanByClass::disc::test errors")
 test_that("meanByClass_erros", {
-    expect_error(ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='datashield'), 'Failed to get levels from study: FAILED: Result less than nfilter.subset', fixed=TRUE)
+#    expect_error(ds.meanByClass(x='D', outvar='LAB_HDL', covar='GENDER', type='split'), 'Failed to get levels from study: FAILED: Result less than nfilter.subset', fixed=TRUE)
 })
 
 #

@@ -157,17 +157,18 @@ if(!is.null(transmit.object))
 			original.code.problem<-TRUE
 			for(m in 1:length.rs)
 			{
-			if(transmit.object.split[k+m-1]!=replacement.string.split[m])
+			  if(transmit.object.split[k+m-1]!=replacement.string.split[m])
 				{
-				original.code.problem<-FALSE
-				}
+				  original.code.problem<-FALSE
+			  }
+			}
+
 			if(original.code.problem==TRUE)
-				{
+			{
 	#			return.message<-paste0("Warning: Code replacing wildcard (i.e. '",replacement string,"' appears in your original code -please respecify")
 				return.message<-paste0("Warning: Code replacing wildcard (i.e. '",input.string,
 				"') is '",replacement.string,"' but this appears in your original search filter string - please respecify")
 				return(return.message)
-				}
 			}
 		}
 	}

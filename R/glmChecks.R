@@ -60,7 +60,7 @@ glmChecks <- function(formula, data, offset, weights, datasources){
       for(j in 1: length(datasources)){
         # check if the variable is defined on the server site
         myterms <- unlist(strsplit(elts[i], split='$', fixed=TRUE))
-        if(length(myterms) > 1){
+        if(length(myterms) == 1){
           cally <- call("exists", myterms[1])
           out <- DSI::datashield.aggregate(datasources[j], cally)
           if(!(out[[1]])){

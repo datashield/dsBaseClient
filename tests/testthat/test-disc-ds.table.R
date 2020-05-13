@@ -13,37 +13,42 @@
 # Set up
 #
 
+context("ds.table::disc::setup")
+
 connect.all.datasets()
 
 #
 # Tests
 #
 
-context("ds.table::disc")
+context("ds.table::disc::tests")
 test_that("table disclosure", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
   myvectors <- c('factorCharacter', 'factorInteger')
   ds.dataFrame(x=myvectors, newobj="tablesource")
-#  print(ds.ls())
-#  print(ds.colnames("tablesource"))
-#  table.res <- ds.table(rvar='tablesource$D.FACTOR_INTEGER', cvar='tablesource$D.FACTOR_CHARACTER', newobj="new_table")
+
   table.res <- ds.table(rvar='tablesource$factorCharacter', cvar='tablesource$factorInteger', newobj="new_table")
 
-  expect_equal(table.res$validity.message,"At least one study failed for reasons identified by 'error.messages'")
-  
-  expect_length(table.res,2)
-#  print("---")
-#  print(table.res[1])
-#  print(length(table.res[[1]]))
-#  print("---") 
-  expect_length(table.res[[1]],9)
-  ################### check expect length of table.res to be 2....
-  
-  ### length of output list should be 6
-}
-)
+  expect_length(table.res, 2)
+  expect_length(table.res$output.list, 9)
+  expect_length(table.res$validity.message, 4)
+  expect_equal(table.res$validity.message[1], "At least one study failed for reasons identified by 'error.messages':", fixed = TRUE)
+  expect_equal(table.res$validity.message[2], "Study1: No errors reported from this study", fixed = TRUE)
+  expect_equal(table.res$validity.message[3], "Study2: Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3", fixed = TRUE)
+  expect_equal(table.res$validity.message[4], "Study3: No errors reported from this study", fixed = TRUE)
+})
+
+#
+# Shutdown
+#
+
+context("ds.table::disc::shutdown")
+
+disconnect.all.datasets()
+
 #
 # Done
 #
-disconnect.all.datasets()
+
+context("ds.table::disc::done")
