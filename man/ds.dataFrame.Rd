@@ -68,7 +68,7 @@ The length of all component variables and the number of rows
 of the  data frames or matrices must be the same.  The output 
 data frame will have the same number of rows. 
 
-Server function called: \code{dataFrameDS}
+Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
 }
 \examples{
 
