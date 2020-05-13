@@ -8,33 +8,40 @@
 #' 
 
 #' There are important differences between \code{ds.meanSdGp} function compared to 
-#' the function \code{ds.meanByClass}.\cr
+#' the function \code{ds.meanByClass}:
+#' 
 #' (A) \code{ds.meanSdGp} does not actually subset the data it simply calculates the required statistics
 #' and reports them. This means you cannot use this function if you wish to physically break the
-#' data into subsets. On the other hand, it makes the function very much faster than ds.meanByClass
+#' data into subsets. On the other hand, it makes the function very much faster than \code{ds.meanByClass}
 #' if you do not need to create physical subsets. \cr
 #' (B) \code{ds.meanByClass} allows you to specify up to
-#' three categorising factors, but ds.meanSdGp only allows one. However, this is not a serious
-#' problem. If you have two factors (e.g. sex with two levels [0 and 1] and BMI.categorical with
-#' three levels [1,2,3]) you simply need to create a new factor that combines the two together in a
+#' three categorising factors, but \code{ds.meanSdGp} only allows one. However, this is not a serious
+#' problem. If you have two factors (e.g. sex with two levels \code{[0,1]} and \code{BMI.categorical} with
+#' three levels \code{[1,2,3]}) you simply need to create a new factor that combines the two together in a
 #' way that gives each combination of levels a different value in the new factor. So, in the
-#' example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1,
-#' newfactor=1; sex=0, BMI=2, newfactor=2; sex=0, BMI=3, newfactor=3; sex=1, BMI=1, newfactor=4;
-#  sex=1, BMI=2, newfactor=5; sex=1, BMI=3, newfactor=6. This calculation can be done with a single
-#' ds.assign command and you then use newfactor as the single categorising factor. \cr
+#' example given, the calculation \code{newfactor = (3*sex) + BMI} gives you six values: \cr
+#' (1) \code{sex = 0} and \code{BMI = 1} -> \code{newfactor = 1} \cr
+#' (2) \code{sex = 0} and \code{BMI = 2} -> \code{newfactor = 2} \cr
+#' (3) \code{sex = 0} and \code{BMI = 3} -> \code{newfactor = 3} \cr
+#' (4) \code{sex = 1} and \code{BMI = 1} -> \code{newfactor = 4} \cr
+#' (5) \code{sex = 1} and \code{BMI = 2} -> \code{newfactor = 5} \cr
+#' (6) \code{sex = 1} and \code{BMI = 3} -> \code{newfactor = 6} \cr
 #' 
 #' (C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the 
-#' TOTAL sample size (i.e. it
-#' includes all observations in each group regardless whether or not they include missing values
+#' total sample size (i.e. it
+#' includes all observations in each group regardless of whether or not they include missing values
 #' for the continuous variable or the factor). The calculation of sample size in each group by
-#' ds.meanSdGp always reports the number of observations that are non-missing both for the
-#' continuous variable and the factor. This makes sense - in the case of ds.meanByClass, the total
-#' size of the physical subsets was important, but when it comes down only to ds.meanSdGp which
+#' \code{ds.meanSdGp} always reports the number of observations that are non-missing both for the
+#' continuous variable and the factor. This makes sense - in the case of \code{ds.meanByClass},
+#' the total size of the physical subsets was important, 
+#' but when it comes down only to \code{ds.meanSdGp} which
 #' undertakes analysis without physical subsetting,  it is only the observations with non-missing
 #' values in both variables that contribute to the calculation of means and SDs within each group
-#' and so it is logical to consider those counts as primary. The only reference ds.meanSdGp makes
-#' to missing counts is in the reporting of Ntotal and Nmissing overall (ie not broken down by
-#' group). For the future, we plan to extend ds.meanByClass to report both total and non-missing
+#' and so it is logical to consider those counts as primary. The only reference \code{ds.meanSdGp} makes
+#' to missing counts is in the reporting of \code{Ntotal} and \code{Nmissing} overall (ie not broken down by
+#' group). 
+#' 
+#' For the future, we plan to extend \code{ds.meanByClass} to report both total and non-missing
 #' counts in subgroups.
 #' 
 #' Depending on the variable \code{type} can be carried out different analysis:\cr
@@ -52,43 +59,14 @@
 #' Default \code{"both"}. 
 #' For more information see \strong{Details}.  
 #' @param do.checks logical. If TRUE the administrative checks
-#' are undertaken to ensure that the input objects are defined in all studies, and that the
+#' are undertaken to ensure that the input objects are defined in all studies and that the
 #' variables are of equivalent class in each study. 
 #' Default is FALSE to save time.  
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return If type = "combine" the function returns a list consisting of a four tables denoting:
-#' mean by group; standard deviation (SD) by group; number of non-missing observations (Nvalid) by
-#' group; and standard error of the mean (SEM) by group. All of these are COMBINED ACROSS STUDIES.
-#' For information, SEM = SD/sqrt(Nvalid). These are all returned in list format with names:
-#' Mean_gp, StDev_gp, Nvalid_gp and SEM_gp. If you need to use them in their original class (e.g.
-#' matrix), you need to use the conventional R function unlist() to convert them back to their
-#' original form. The output list also includes: Total_Nvalid (the total number of valid
-#' [non-missing] observations across all groups in all studies; Total_Nmissing (the total number of
-#' observations with either or both x and y missing); and Total_Ntotal (the total number of
-#' observations [with data missing or not]). If type ="split", the mean, SD, Nvalid and SEM are
-#' reported by group and by study. The first four elements of the returned output list are
-#' therefore: Mean_gp_study; StDev_gp_study; Nvalid_gp_study; and SEM_gp_study. If there are three
-#' studies and we are breaking things down by five groups in each study, each of the first four
-#' list elements consists of a table with five rows (one for each group) and three columns (one for
-#' each study). The returned output also includes Total_Nvalid, Total_Nmissing and Total_Ntotal as
-#' before. If type = "both" the output is precisely the same as with type="split" and each of its
-#' components has the same name, but each table (e.g. Mean_gp_study) will now have an extra column
-#' on the right had side (so a fourth column in the example above) which contains the appropriate
-#' combined value in each group across all studies together. In other words, the four columns
-#' replicate the results obtained when type = "combine". CRUCIALLY, IF ONE OR MORE OF THE GROUPS IN
-#' ANY OF THE STUDIES CONTAINS BETWEEN 1 and nfilter OBSERVATIONS, the returned output list will
-#' ONLY include the warning: [1] "At least 1 cell count is 1-nfilter, please regroup".
-#' 
-#' It also reports the total number of observations (=Ntotal), the
-#' total number of valid observations, i.e. non-missing observations = observations where neither
-#' the continuous variable nor the factor is misssing, (Nvalid) and the total number of missing
-#' observations (Nmissing). Nvalid=Ntotal-Nmissing and all three quantities represent the sum
-#' across all groups and all studies. If any one subgroup consists of between 1 and "nfilter"
-#' observations, the function simply reports that fact and suggests that you use a different
-#' grouping variable. As in other functions such as ds.table1D, the value of nfilter can be chosen
-#' by the data custodian when each data repository server is originally set up. By default it is set to 5.
+#' @return \code{ds.meanSdGp} returns to the client-side the mean, SD, Nvalid and SEM combined
+#' across studies and/or separately for each study, depending on the argument \code{type}. 
 #' 
 #' @author DataSHIELD Development Team
 #' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
@@ -124,22 +102,23 @@
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
 #'
-#'   #Example 1: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
-#'   #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
+#'   #Example 1: Calculate the mean, SD, Nvalid and SEM of the continuous variable age.60 (age in
+#'   #years centralised at 60), broken down by time.id (a six level factor relating to survival time)
 #'   #and report the pooled results combined across studies.
 #'  
-#'   ds.meanSdGp(x = "D$AGE.60",
-#'               y = "D$TID.f",
+#'   ds.meanSdGp(x = "D$age.60",
+#'               y = "D$time.id",
 #'               type = "combine",
 #'               do.checks = FALSE,
 #'               datasources = connections)
 #'               
-#'   #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
-#'   #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
+#'   #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable age.60 (age in
+#'   #years centralised at 60), broken down by time.id (a six level factor relating to survival time)
 #'   #and report both study-specific results and the pooled results combined across studies.
 #'   #Save the returned output to msg.b.
-#'   ds.meanSdGp(x = "D$AGE.60",
-#'               y = "D$SEXF",
+#'   
+#'   ds.meanSdGp(x = "D$age.60",
+#'               y = "D$time.id",
 #'               type = "both",
 #'               do.checks = FALSE,
 #'               datasources = connections)  

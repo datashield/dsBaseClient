@@ -19,7 +19,7 @@ ds.meanByClass(
 
 \item{covar}{a character vector specifying the names of up to 3 categorical variables}
 
-\item{type}{a character that represents the type of analysis to carry out.
+\item{type}{a character string that represents the type of analysis to carry out.
 \code{type} can be set as: \code{'combine'} or \code{'split'}. 
 Default \code{'combine'}. 
 For more information see \strong{Details}.}
@@ -30,8 +30,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.meanByClass} returns to the client-side a table or a list of tables that 
-hold the length 
-of the numeric variable(s) and their mean
+hold the length of the numeric variable(s) and their mean
 and standard deviation in each subgroup (subset).
 }
 \description{
@@ -77,25 +76,20 @@ parameter \code{datasources}.
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
   
+  
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  # Example 1: calculate the pooled mean proportion for LAB_HDL across GENDER categories where
-  # both vectors are in a table structure "D"
+  #Calculate mean by class
   
-  ds.meanByClass(x = "D$LAB_HDL~D$GENDER",
-                 outvar = NULL,
-                 covar = NULL,
+  ds.meanByClass(x = "D",
+                 outvar = c('LAB_HDL','LAB_TSC'),
+                 covar = c('PM_BMI_CATEGORICAL'),
                  type = "combine",
                  datasources = connections)
                  
-  # Example 2: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status
-  # categories 
-  
-  ds.meanByClass(x = "D",
-                 outvar = c("LAB_HDL","LAB_TSC"),
-                 covar = c("GENDER","PM_BMI_CATEGORICAL","DIS_DIAB"),
+  ds.meanByClass(x = "D$LAB_HDL~D$PM_BMI_CATEGORICAL",
                  type = "combine",
-                 datasources = connections[1])#only the first server is used("study1")   
+                 datasources = connections[1])#Only the frist server is used ("study1")  
              
   # clear the Datashield R sessions and logout
   datashield.logout(connections)

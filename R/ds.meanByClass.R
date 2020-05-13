@@ -58,25 +58,20 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 #'   logindata <- builder$build()
 #'   
+#'   
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   # Example 1: calculate the pooled mean proportion for LAB_HDL across GENDER categories where
-#'   # both vectors are in a table structure "D"
+#'   #Calculate mean by class
 #'   
-#'   ds.meanByClass(x = "D$LAB_HDL~D$GENDER",
-#'                  outvar = NULL,
-#'                  covar = NULL,
+#'   ds.meanByClass(x = "D",
+#'                  outvar = c('LAB_HDL','LAB_TSC'),
+#'                  covar = c('PM_BMI_CATEGORICAL'),
 #'                  type = "combine",
 #'                  datasources = connections)
 #'                  
-#'   # Example 2: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status
-#'   # categories 
-#'   
-#'   ds.meanByClass(x = "D",
-#'                  outvar = c("LAB_HDL","LAB_TSC"),
-#'                  covar = c("GENDER","PM_BMI_CATEGORICAL","DIS_DIAB"),
+#'   ds.meanByClass(x = "D$LAB_HDL~D$PM_BMI_CATEGORICAL",
 #'                  type = "combine",
-#'                  datasources = connections[1])#only the first server is used("study1")   
+#'                  datasources = connections[1])#Only the frist server is used ("study1")  
 #'              
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
