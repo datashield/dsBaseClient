@@ -4,19 +4,16 @@
 #' a single factor.
 #' @details This function calculates the mean, standard deviation (SD), N (number of observations)
 #' and the standard error of the mean (SEM) of a continuous variable broken down into subgroups
-#' defined by a single factor. It also reports the total number of observations (=Ntotal), the
-#' total number of valid observations, i.e. non-missing observations = observations where neither
-#' the continuous variable nor the factor is misssing, (Nvalid) and the total number of missing
-#' observations (Nmissing). Nvalid=Ntotal-Nmissing and all three quantities represent the sum
-#' across all groups and all studies. If any one subgroup consists of between 1 and "nfilter"
-#' observations, the function simply reports that fact and suggests that you use a different
-#' grouping variable. As in other functions such as ds.table1D, the value of nfilter can be chosen
-#' by the data custodian when each data repository server is originally set up. By default it is set to 5.
-#' There are IMPORTANT DIFFERENCES between ds.meanSdGp compared to the function ds.meanByClass.
-#'(A) ds.meanSdGp does not actually subset the data it simply calculates the required statistics
+#' defined by a single factor. 
+#' 
+
+#' There are important differences between \code{ds.meanSdGp} function compared to 
+#' the function \code{ds.meanByClass}.\cr
+#' (A) \code{ds.meanSdGp} does not actually subset the data it simply calculates the required statistics
 #' and reports them. This means you cannot use this function if you wish to physically break the
 #' data into subsets. On the other hand, it makes the function very much faster than ds.meanByClass
-#' if you do not need to create physical subsets. (B) ds.meanByClass allows you to specify up to
+#' if you do not need to create physical subsets. \cr
+#' (B) \code{ds.meanByClass} allows you to specify up to
 #' three categorising factors, but ds.meanSdGp only allows one. However, this is not a serious
 #' problem. If you have two factors (e.g. sex with two levels [0 and 1] and BMI.categorical with
 #' three levels [1,2,3]) you simply need to create a new factor that combines the two together in a
@@ -24,8 +21,10 @@
 #' example given, the calculation newfactor=(3*sex)+BMI gives you six values: sex=0, BMI=1,
 #' newfactor=1; sex=0, BMI=2, newfactor=2; sex=0, BMI=3, newfactor=3; sex=1, BMI=1, newfactor=4;
 #  sex=1, BMI=2, newfactor=5; sex=1, BMI=3, newfactor=6. This calculation can be done with a single
-#' ds.assign command and you then use newfactor as the single categorising factor. (C) At present,
-#' ds.meanByClass calculates the sample size in each group to mean the TOTAL sample size (i.e. it
+#' ds.assign command and you then use newfactor as the single categorising factor. \cr
+#' 
+#' (C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the 
+#' TOTAL sample size (i.e. it
 #' includes all observations in each group regardless whether or not they include missing values
 #' for the continuous variable or the factor). The calculation of sample size in each group by
 #' ds.meanSdGp always reports the number of observations that are non-missing both for the
@@ -37,23 +36,28 @@
 #' to missing counts is in the reporting of Ntotal and Nmissing overall (ie not broken down by
 #' group). For the future, we plan to extend ds.meanByClass to report both total and non-missing
 #' counts in subgroups.
-#' @param x This must be named as a character string (e.g. "AGE"). It must denote a continuous
-#' variable of class numeric.
-#' @param y This must be named as a character string (e.g. "sex"). It must denote a categorical
+#' 
+#' Depending on the variable \code{type} can be carried out different analysis:\cr
+#' (1) \code{"combine"}: a pooled table of results is generated. \cr
+#' (2) \code{"split"} a table of results is generated for each study. \cr
+#' (3) \code{"both"} both sets of outputs are produced.
+#' 
+#' Server function called: \code{meanSdGpDS}
+#' @param x a character string specifying the name of a numeric continuous
+#' variable.
+#' @param y  a character string specifying the name of a categorical
 #' variable of class factor.
-#' @param type This must be specified as a character string ("combine", "split" or "both"). If
-#' "combine" the results for each group are reported combined over all studies. If "split" the
-#' table of means by group (for example) has a separate column for each study. If "both" the tables
-#' each have an additional column reporting the sum across all studies in each group in addition to
-#' the columns (produced by "split") for each study alone. This parameter defaults to "both" unless
-#' "combine" or "split" are specified.
-#' @param do.checks This parameter defaults to FALSE. It determines whether administrative checks
+#' @param type a character string that represents the type of analysis to carry out.
+#' This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}. 
+#' Default \code{"both"}. 
+#' For more information see \strong{Details}.  
+#' @param do.checks logical. If TRUE the administrative checks
 #' are undertaken to ensure that the input objects are defined in all studies, and that the
-#' variables are of equivalent class in each study. By defaulting the checks to FALSE, we save
-#' time, and if you hit a problem that you cannot understand you can reset do.checks to TRUE and
-#' make sure that the input objects are correctly defined in all studies.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' variables are of equivalent class in each study. 
+#' Default is FALSE to save time.  
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return If type = "combine" the function returns a list consisting of a four tables denoting:
 #' mean by group; standard deviation (SD) by group; number of non-missing observations (Nvalid) by
 #' group; and standard error of the mean (SEM) by group. All of these are COMBINED ACROSS STUDIES.
@@ -76,80 +80,72 @@
 #' replicate the results obtained when type = "combine". CRUCIALLY, IF ONE OR MORE OF THE GROUPS IN
 #' ANY OF THE STUDIES CONTAINS BETWEEN 1 and nfilter OBSERVATIONS, the returned output list will
 #' ONLY include the warning: [1] "At least 1 cell count is 1-nfilter, please regroup".
-#' @author Burton PR
-#' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
-#' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold,
+#' 
+#' It also reports the total number of observations (=Ntotal), the
+#' total number of valid observations, i.e. non-missing observations = observations where neither
+#' the continuous variable nor the factor is misssing, (Nvalid) and the total number of missing
+#' observations (Nmissing). Nvalid=Ntotal-Nmissing and all three quantities represent the sum
+#' across all groups and all studies. If any one subgroup consists of between 1 and "nfilter"
+#' observations, the function simply reports that fact and suggests that you use a different
+#' grouping variable. As in other functions such as ds.table1D, the value of nfilter can be chosen
+#' by the data custodian when each data repository server is originally set up. By default it is set to 5.
+#' 
+#' @author DataSHIELD Development Team
+#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
+#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
 #' columns and rows.
 #' @export
 #' @examples
 #' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#' # #load that contains the login details
-#' # data(logindata)
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
-#' # #Example 1: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
-#' # #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
-#' # #and report the pooled results combined across studies.
-#' # ds.meanSdGp("AGE.60","TID.f","combine")
 #'
-#' # #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
-#' # #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
-#' # #and report both study-specific results and the pooled results combined across studies. Do the
-#' # #checks for consistency of variables in all studies. Save the returned output to msg.b.
-#' # msg.b <- ds.meanSdGp("AGE.60", "SEXF", "both", do.checks=TRUE)
-#' # msg.b
-#' # PRODUCES THIS OUTPUT
-#' # $Mean_gp_study
-#' #           study1    study2   COMBINE
-#' # SEXF_1 -4.099893 -5.199134 -4.568966
-#' # SEXF_2 -2.384477 -3.057421 -2.690300
-#' #
-#' # $StDev_gp_study
-#' #          study1   study2  COMBINE
-#' # SEXF_1 13.67313 14.52537 14.04313
-#' # SEXF_2 14.87182 14.64741 14.77026
-#' #
-#' # $Nvalid_gp_study
-#' #        study1 study2 COMBINE
-#' # SEXF_1    931    693    1624
-#' # SEXF_2   1108    923    2031
-#' #
-#' # $SEM_gp_study
-#' #           study1    study2   COMBINE
-#' # SEXF_1 0.4481188 0.5517731 0.3484744
-#' # SEXF_2 0.4467804 0.4821253 0.3277427
-#' #
-#' # $Total_Nvalid
-#' # [1] 3655
-#' #
-#' # $Total_Nmissing
-#' # [1] 45
-#' #
-#' # $Total_Ntotal
-#' # [1] 3700
-#' #
-#' # Example 3:
-#' # Calculate the mean, SD, Nvalid and SEM of the continuous variable SBP (systolic BP), broken
-#' # down by CVA (1 = had a stroke, 0 = no stroke) report the study-specific results only. The
-#' # output shows that there are inadequate numbers of stroke cases to carry out this particular
-#' # analysis: at least one cell contains between 1 and nfilter (the chosen value of the disclosure
-#' # filter - typically 4) observations. Given that the CVA grouping is as simple as it can be, it
-#' # is impossible to regroup in this setting. The only option would be to have chosen a different
-#' # level for the nfilter. If it is 0, there is no limitation on cell counts: but whether or not
-#' # cell counts in the range, say, 1-4 are to be viewed as providing a significant risk is
-#' # something that should be decided before the analysis starts. In reality, for many biomedical
-#' # studies, particularly when data users have signed a data access agreement explicitly stating
-#' # they will not try to identify individuals or infer their characteristics, many researchers may
-#' # choose to turn the disclosure filter off (nfilter=0). But for particularly sensitive data, or
-#' # data obtained from official governmental sources, e.g. census data, there may simply be no
-#' # option but to pick a filter of say 4.
-#' # ds.meanSdGp("SBP", "CVA", "split")
-#' # PRODUCES THIS OUTPUT
-#' # [1] "At least 1 cell count is 1-nfilter, please regroup"
-#' #
-#' # clear the Datashield R sessions and logout
-#' #datashield.logout(conns)
-#'
+#'   #Example 1: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
+#'   #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
+#'   #and report the pooled results combined across studies.
+#'  
+#'   ds.meanSdGp(x = "D$AGE.60",
+#'               y = "D$TID.f",
+#'               type = "combine",
+#'               do.checks = FALSE,
+#'               datasources = connections)
+#'               
+#'   #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable AGE.60 (age in
+#'   #years centralised at 60), broken down by TID.f (a six level factor relating to survival time)
+#'   #and report both study-specific results and the pooled results combined across studies.
+#'   #Save the returned output to msg.b.
+#'   ds.meanSdGp(x = "D$AGE.60",
+#'               y = "D$SEXF",
+#'               type = "both",
+#'               do.checks = FALSE,
+#'               datasources = connections)  
+#'              
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
 #' }
 #'
 ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasources=NULL){

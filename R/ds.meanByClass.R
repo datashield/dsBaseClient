@@ -1,58 +1,85 @@
 #'
 #' @title  Computes the mean and standard deviation across categories
-#' @description This function calculates the mean and SD of a continuous variable for each class
-#' of up to 3 categorical variables.
-#' @details The functions splits the input dataset into subsets (one for each category) and calculates
+#' @description This function calculates the mean and  the standard deviation (SD)
+#'  of a continuous variable for each class of up to 3 categorical variables.
+#' @details The function splits the input dataset into subsets (one for each category) and calculates
 #' the mean and SD of the specified numeric variables. It is important to note that the process of
 #' generating the final table(s) can be time consuming particularly if the subsetting is done across
-#' more than one categorical variable and the run-time lengthens if the parameter 'split' is set to
-#' 'split' as a table is then produced for each study. It is therefore advisable to run the function
-#' only for the studies of the user really interested in but including only those studies in the
-#' parameter 'datasources'.
-#' @param x a character, the name of the dataset to get the subsets from or a text formula of the
-#' form 'A~B' where A is a single continuous vector and B a single factor vector
-#' @param outvar a character vector, the names of the continuous variables
-#' @param covar a character vector, the names of up to 3 categorical variables
-#' @param type a character which represents the type of analysis to carry out. If \code{type} is set to
-#' 'combine', a pooled table of results is generated. If \code{type} is set to 'split', a table of results
-#' is genrated for each study.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return a table or a list of tables that hold the length of the numeric variable(s) and their mean
+#' more than one categorical variable and the run-time lengthens if the parameter \code{type} is set to
+#' \code{'split'} as a table is then produced for each study. It is therefore advisable to run the function
+#' only for the studies of the user interested in but including only those studies in the
+#' parameter \code{datasources}.
+#' 
+#'  Depending on the variable \code{type} can be carried out two analysis:\cr
+#'  (1) \code{'combine'}: a pooled table of results is generated. \cr
+#'  (2) \code{'split'}: a table of results is generated for each study. 
+#'  
+#' 
+#' @param x a character string specifying the name of the dataset or a text formula.
+#' @param outvar a character vector specifying the names of the continuous variables.
+#' @param covar a character vector specifying the names of up to 3 categorical variables
+#' @param type a character string that represents the type of analysis to carry out.
+#' \code{type} can be set as: \code{'combine'} or \code{'split'}. 
+#' Default \code{'combine'}. 
+#' For more information see \strong{Details}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.meanByClass} returns to the client-side a table or a list of tables that 
+#' hold the length of the numeric variable(s) and their mean
 #' and standard deviation in each subgroup (subset).
 #' @export
-#' @author Gaye, A.
-#' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
-#' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
+#' @author DataSHIELD Development Team
+#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
+#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @examples
 #' \dontrun{
 #'
-#'   # load that contains the login details
-#'   data(logindata)
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
 #'   # Example 1: calculate the pooled mean proportion for LAB_HDL across GENDER categories where
-#'   # both vectors are in a tabe structure "D"
-#'   # login and assign LAB_HDL and GENDER to a table "D"
-#'   conns <- datashield.login(logins=logindata,assign=TRUE, variables=list('LAB_HDL', 'GENDER'))
-#'   ds.meanByClass(x='D$LAB_HDL~D$GENDER')
-#'
-#'   # Example 2: calculate the mean proportion for LAB_HDL across GENDER categories where both
-#'   # vectors are 'loose' (i.e. not in a table)
-#'   # assign both LAB_HDL and GENDER to vectors not held in a table
-#'   ds.assign("D$LAB_HDL", "ldl")
-#'   ds.assign("D$GENDER", "sex")
-#'   ds.meanByClass(x='ldl~sex')
-#'   datashield.logout(conns)
-#'
-#'   # Example 3: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status
-#'   # categories login and assign all the variables stored
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
-#'   ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL',
-#'                  'DIS_DIAB'))
-#'
+#'   # both vectors are in a table structure "D"
+#'   
+#'   ds.meanByClass(x = "D$LAB_HDL~D$GENDER",
+#'                  outvar = NULL,
+#'                  covar = NULL,
+#'                  type = "combine",
+#'                  datasources = connections)
+#'                  
+#'   # Example 2: calculate the mean proportion for LAB_HDL across gender, bmi and diabetes status
+#'   # categories 
+#'   
+#'   ds.meanByClass(x = "D",
+#'                  outvar = c("LAB_HDL","LAB_TSC"),
+#'                  covar = c("GENDER","PM_BMI_CATEGORICAL","DIS_DIAB"),
+#'                  type = "combine",
+#'                  datasources = connections[1])#only the first server is used("study1")   
+#'              
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
-#'
+#'   datashield.logout(connections)
 #' }
 #'
 ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){
