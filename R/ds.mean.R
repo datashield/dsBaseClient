@@ -1,6 +1,6 @@
 #'
 #' @title Computes server-side vector statistical mean 
-#' @description THis function computes the statistical mean
+#' @description This function computes the statistical mean
 #'  of a given server-side vector. 
 #'
 #' @details  This function is similar to the R function \code{mean}.
@@ -10,7 +10,7 @@
 #' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, 
 #' \code{'combines'} or \code{'c'}, a global mean is calculated.\cr
 #' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
-#'  the mean is calculated separately for each study.
+#'  the mean is calculated separately for each study. \cr
 #' (3) If \code{type} is set to \code{'both'} or \code{'b'}, 
 #' both sets of outputs are produced.
 #' 
@@ -24,7 +24,7 @@
 #' the \code{isDefined} internal function checks whether the key variables have been created.
 #' 
 #' Server function called: \code{meanDS}
-#' @param x a character spacifying the name of a numerical vector.
+#' @param x a character specifying the name of a numerical vector.
 #' @param type a character string that represents the type of analysis to carry out.
 #' This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 #' \code{'split'}, \code{'splits'}, \code{'s'},
@@ -34,28 +34,28 @@
 #' components will be undertaken. Default is FALSE to save time. 
 #' It is suggested that checks
 #' should only be undertaken once the function call has failed. 
-#' @param save.mean.Nvalid logical. If TRUE generated values of the mean and of 
+#' @param save.mean.Nvalid logical. If TRUE generated values of the mean and 
 #' the number of valid (non-missing) observations will be saved  on the data servers. 
 #' Default FALSE. 
-#' For more information see\strong{Details}. 
+#' For more information see \strong{Details}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.mean} returns to the client-side a list including: \cr
 #' 
 #' \code{Mean.by.Study}:  estimated mean, \code{Nmissing}
-#' (number of missing observations) and  \code{Nvalid} (number of valid observations), 
+#' (number of missing observations), \code{Nvalid} (number of valid observations) and
 #' \code{Ntotal} (sum of missing and valid observations) 
 #' separately foe each study (if \code{type = split} or \code{type = both}). \cr
-#' \code{Global.Mean}: stimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
+#' \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 #' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 #' \code{Nstudies}: number of studies being analysed. \cr
 #' \code{ValidityMessage}: indicates if the analysis was possible. \cr
 #' 
 #' If \code{save.mean.Nvalid} is set as TRUE, the objects 
 #' \code{Nvalid.all.studies}, \code{Nvalid.study.specific},
-#' \code{mean.all.studies}, and \code{mean.study.specific} are written to the server-side. 
-#' returned to the client side a list contaiting this objects: \cr
+#' \code{mean.all.studies} and \code{mean.study.specific} are written to the server-side. 
+#' 
 #' @author DataSHIELD Development Team
 #' @seealso \code{ds.quantileMean} to compute quantiles.
 #' @seealso \code{ds.summary} to generate the summary of a variable.
