@@ -180,6 +180,16 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
   calltext1 <- call("asFactorDS1", input.var.name)
   all.levels <- DSI::datashield.aggregate(datasources, calltext1)
 
+  failed.levels <- FALSE
+  for (levels in all.levels) {
+    levels.prefix <- substring(levels, 1, 7)
+    if (any("FAILED:" == levels.prefix))
+      failed.levels <- TRUE
+  }
+  if (failed.levels) {
+    stop("Failed to obtain levels: ", paste0(unlist(all.levels), collapse=", "), call. = TRUE)
+  }
+
   numstudies <- length(datasources)
 
   all.levels.all.studies <- NULL
