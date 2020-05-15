@@ -87,7 +87,7 @@ test_that("simple test, split, casewise.complete", {
     expect_true("matrix" %in% class(res[[1]]$`Number of missing values casewise`))
     expect_true("matrix" %in% class(res[[1]]$`Correlation Matrix`))
     expect_true("matrix" %in% class(res[[1]]$`Number of complete cases used`))
-    expect_equak(res[[1]]$`Error message`, NA)
+    expect_equal(res[[1]]$`Error message`, NA)
     expect_length(res[[2]], 5)
     expect_true("matrix" %in% class(res[[2]]$`Number of missing values in each variable`))
     expect_true("matrix" %in% class(res[[2]]$`Number of missing values casewise`))
