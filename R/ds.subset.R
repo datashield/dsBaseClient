@@ -73,6 +73,7 @@
 #' }
 #'
 ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL, datasources=NULL){
+  .Deprecated("ds.dataFrameSubset")
 
   # look for DS connections
   if(is.null(datasources)){

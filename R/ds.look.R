@@ -72,6 +72,7 @@
 #' @export
 #' 
 ds.look<-function(toAggregate=NULL, checks=FALSE, datasources=NULL){
+  .Deprecated()
 
 #####################################################################################
 #MODULE 1: IDENTIFY DEFAULT DS CONNECTIONS  													              #

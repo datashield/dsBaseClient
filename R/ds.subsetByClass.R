@@ -52,6 +52,7 @@
 #' }
 #'
 ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datasources=NULL){
+  .Deprecated("ds.dataFrameSubset")
 
   # look for DS connections
   if(is.null(datasources)){

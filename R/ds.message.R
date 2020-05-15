@@ -41,6 +41,7 @@
 #' @author Burton PR
 #' @export
 ds.message<-function(message.obj.name=NULL,datasources=NULL){
+  .Deprecated()
 
   # look for DS connections
   if(is.null(datasources)){
