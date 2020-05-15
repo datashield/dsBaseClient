@@ -32,9 +32,9 @@ test_that("simple test, from dataframe variables", {
     expect_equal(res$validity.check, "<cbind_newobj> appears valid in all sources")
 
     res1 <- ds.class("cbind_newobj")
-    expect_equal(res1$survival1, "matrix")
-    expect_equal(res1$survival2, "matrix")
-    expect_equal(res1$survival3, "matrix")
+    expect_true("matrix" %in% res1$survival1)
+    expect_true("matrix" %in% res1$survival2)
+    expect_true("matrix" %in% res1$survival3)
 
     res.dim <- ds.dim("cbind_newobj")
     expect_length(res.dim, 4)
@@ -90,9 +90,9 @@ test_that("simple test, from root variables", {
     ds.rm("age.60")
 
     res1 <- ds.class("cbind_newobj")
-    expect_equal(res1$survival1, "matrix")
-    expect_equal(res1$survival2, "matrix")
-    expect_equal(res1$survival3, "matrix")
+    expect_true("matrix" %in% res1$survival1)
+    expect_true("matrix" %in% res1$survival2)
+    expect_true("matrix" %in% res1$survival3)
 
     res.dim <- ds.dim("cbind_newobj")
     expect_length(res.dim, 4)
