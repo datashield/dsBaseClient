@@ -94,9 +94,9 @@ test_that("completeCases matrix", {
     res.mat.class <- ds.class("mat")
 
     expect_length(res.mat.class, 3)
-    expect_equal(res.mat.class$sim1, "matrix")
-    expect_equal(res.mat.class$sim2, "matrix")
-    expect_equal(res.mat.class$sim3, "matrix")
+    expect_true("matrix" %in% res.mat.class$sim1)
+    expect_true("matrix" %in% res.mat.class$sim2)
+    expect_true("matrix" %in% res.mat.class$sim3)
 
     res.mat_new.class <- ds.class("mat_new")
 
