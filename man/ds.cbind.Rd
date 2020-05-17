@@ -7,7 +7,6 @@
 ds.cbind(
   x = NULL,
   DataSHIELD.checks = FALSE,
-  force.colnames = NULL,
   newobj = NULL,
   datasources = NULL,
   notify.of.progress = FALSE
@@ -16,11 +15,11 @@ ds.cbind(
 \arguments{
 \item{x}{a character vector with the  name of the objects to be combined.}
 
-\item{DataSHIELD.checks}{logical, if TRUE checks that all
-input objects exist and are of an appropriate class.}
-
-\item{force.colnames}{can be NULL or a vector of characters that specifies 
-column names of the output object.}
+\item{DataSHIELD.checks}{logical, by defauls is FALSE, but if TRUE does four checks: 
+1. the input object(s) is(are) defined in all the studies
+2. the input object(s) is(are) of the same legal class in all the studies
+3. if there are any duplicated column names in the input objects in each study
+4. the number of rows is the same in all componets to be cbind}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{cbind.newobj}.}
@@ -31,31 +30,37 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
+
+\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
+column names of the output object. If is not NULL the user should take some caution - see Details.}
 }
 \value{
-\code{ds.cbind} returns a matrix combining the columns of the R 
+\code{ds.cbind} returns a data frame combining the columns of the R 
 objects specified in the function which is written to the server-side. 
 It also returns to the client-side two messages with the name of \code{newobj}
 that has been created in each data source and \code{DataSHIELD.checks} result.
 }
 \description{
-Take a sequence of vector, matrix or data-frame arguments
-and combine them by column to produce a matrix.
+Takes a sequence of vector, matrix or data-frame arguments
+and combines them by column to produce a data-frame.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined column by column to produce a matrix 
-that is written to the server-side. 
+is combined column by column to produce a data-frame that is written to the server-side. 
 
-This function is similar to the native function \code{cbind}.
+This function is similar to the native R function \code{cbind}.
 
 In \code{DataSHIELD.checks} the checks are relatively slow. 
-Default \code{DataSHIELD.checks} value is FALSE. 
+Default \code{DataSHIELD.checks} value is FALSE.
 
-If \code{force.colnames} is NULL column names are inferred from the names or column names
-of the first object specified in the \code{x} argument.
-The vector of column names must have the same number of elements as 
-the columns in the output object. 
+If \code{force.colnames} is NULL (which is reccommended), the column names are inferred
+from the names or column names of the first object specified in the \code{x} argument.
+If this argument is not NULL, then the column names of the assigned data.frame have the
+same order as the characters specified by the user in this argument. Therefore, the
+vector of \code{force.colnames} must have the same number of elements as the columns in
+the output object. In a multi-site DataSHIELD setting to use this argument, the user should
+make sure that each study has the same number of names and column names of the input elements
+specified in the \code{x} argument and in the same order in all the studies. 
 
 Server function called: \code{cbindDS}
 }
@@ -88,16 +93,26 @@ Server function called: \code{cbindDS}
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  #Combining R objects by columns 
-    ds.cbind(x = "D", #data frames in the server-side to be conbined
-                      #(see above the connection to the Opal servers)
-             DataSHIELD.checks = FALSE,
-             force.colnames = NULL,
-             newobj = "D.cbind",
-             datasources = connections,
-             notify.of.progress = FALSE)# All Opal servers are used 
-                                        #(see above the connection to the Opal servers)
-   
+  # Example 1: Assign the exponent of a numeric variable at each server and cbind it 
+  # to the dataframe D
+  ds.exp(x = "D$LAB_HDL", newobj = "LAB_HDL.exp", datasources = connections) 
+  ds.cbind(x = c("D", "LAB_HDL.exp"), DataSHIELD.checks = FALSE,
+             newobj = "D.cbind.1", datasources = connections)
+             
+  # Example 2: If there are duplicated column names in the input objects the function adds
+  # a suffix '.k' to the kth replicate". If also the argument DataSHIELD.checks is set to TRUE
+  # the function returns a warning message notifying the user for the existence of any duplicated
+  # column names in each study
+  ds.cbind(x = c("exp", "exp"), DataSHIELD.checks = TRUE,
+             newobj = "D.cbind.2", datasources = connections)
+  ds.colnames(x = "D.cbind.2", datasources = connections)            
+             
+  # Example 3: Generate a random normally distributed variable of length 100 at each study,
+  # and cbind it to the dataframe D. This example fails and  returns an error as the length
+  # of the generated variable "norm.var" is not the same as the number of rows in the dataframe D
+  ds.rNorm(samp.size = 100, newobj = "norm.var", datasources = connections) 
+  ds.cbind(x = c("D", "norm.var"), DataSHIELD.checks = FALSE,
+             newobj = "D.cbind.3", datasources = connections)                 
                    
   # Clear the Datashield R sessions and logout  
   datashield.logout(connections) 
@@ -105,5 +120,5 @@ Server function called: \code{cbindDS}
 
 }
 \author{
-DataSHIELD Development Team
+Paul Burton and Demetris Avraam for DataSHIELD Development Team
 }
