@@ -152,19 +152,22 @@ ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newob
     } 
     
     # check that the number of rows is the same in all componets to be cbind
-    nrows <- c()
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(typ %in% c('data.frame', 'matrix')){
-        nrows[i] <- ds.dim(x=x[i], type='split', datasources=datasources[i])[[1]][1]
+    for(j in 1:length(datasources)){
+      nrows <- list()
+      for(i in 1:length(x)){
+        typ <- checkClass(datasources, x[i])
+        if(typ %in% c('data.frame', 'matrix')){
+          nrows[[i]] <- ds.dim(x=x[i], type='split', datasources=datasources[j])[[1]][1]
+        }
+        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
+          nrows[[i]] <- ds.length(x[i], type='split', datasources=datasources[j])[[1]]
+        }
       }
-      if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
-        nrows[i] <- ds.length(x[i], type='split', datasources=datasources[i])[[1]]
+      nrows <- unlist(nrows)
+      if(any(nrows != nrows[1])){
+        stop("The number of rows is not the same in all of the components to be cbind", call.=FALSE)
       }
-    }
-    if(any(nrows != nrows[1])){
-      stop("The number of rows is not the same in all of the components to be cbind", call.=FALSE)
-    }
+    }  
     
   }
   
