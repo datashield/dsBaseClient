@@ -7,6 +7,7 @@
 ds.cbind(
   x = NULL,
   DataSHIELD.checks = FALSE,
+  force.colnames = NULL,
   newobj = NULL,
   datasources = NULL,
   notify.of.progress = FALSE
@@ -21,6 +22,9 @@ ds.cbind(
 3. if there are any duplicated column names in the input objects in each study
 4. the number of rows is the same in all componets to be cbind}
 
+\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
+column names of the output object. If is not NULL the user should take some caution - see Details.}
+
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{cbind.newobj}.}
 
@@ -30,9 +34,6 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
-
-\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
-column names of the output object. If is not NULL the user should take some caution - see Details.}
 }
 \value{
 \code{ds.cbind} returns a data frame combining the columns of the R 
