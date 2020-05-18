@@ -30,5 +30,5 @@ Detailed instructions on how to install DataSHIELD are at https://www.datashield
 | ---------------------------- | ------------| 
 | obiba CRAN                   | Where you probably should install DataSHIELD from. |
 | releases                     | Stable releases. |
-| master branch                | Mostly in snyc with the latest release, changes rarely. |
+| master branch                | Mostly in sync with the latest release, changes rarely. |
 | v6.0-dev branch (or similar) | Bleeding endge development. We make no claims that this branch is fully functional at any given time. |
