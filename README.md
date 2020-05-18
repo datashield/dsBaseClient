@@ -6,10 +6,10 @@ DataSHIELD client side base R library.
 
 
 
-| Branch   | dsBase       | dsBaseClient |
-| -------- | -----------  | -----------  |
-| Master   | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=master)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&branchName=master) | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=master)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&branchName=master) |
-| v6.0-dev | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0-dev)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&branchName=v6.0-dev) | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0-dev)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&branchName=v6.0-dev) |
+| Branch   | dsBase status | dsBaseClient status | dsBaseClient tests |
+| -------- | ------------  | ------------------- | ------------------ |
+| Master   | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=master)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&branchName=master) | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=master)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&branchName=master) | [Tests](https://datashield.github.io/testStatus/dsBaseClient/master/latest/) |
+| v6.0-dev | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0-dev)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&branchName=v6.0-dev) | [![Build Status](https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0-dev)](https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&branchName=v6.0-dev) | [Tests](https://datashield.github.io/testStatus/dsBaseClient/v6.0-dev/latest/) |
 
 
 
