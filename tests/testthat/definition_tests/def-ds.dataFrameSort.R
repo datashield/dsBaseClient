@@ -48,7 +48,6 @@
 
 .test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
   {
-    library(dsDangerClient)
     # Create a sort data frame
     sort.key.name<-paste(initial.df.name,key.name,sep="$")
     ds.dataFrameSort(df.name = initial.df.name,
@@ -86,6 +85,8 @@
 
   # Sort local dfs
   sort.local<-list()
+  sort.local.dim<-list()
+  sort.local.colnames<-list()
   for(i in 1:length(local.df.list))
     {
     if (sort.method=="alphabetic")
@@ -101,6 +102,7 @@
       
     }
     sort.local[[i]]<-local.df.list[[i]][order.key,]
+    sort.local.dim[[i]]<-dim(local.df.list[[i]])
     }
   # Sort server dfs
   sort.key.name<-paste(initial.df.name,key.name,sep="$")
@@ -110,19 +112,58 @@
                    sort.method = sort.method,
                    newobj =df.created,
                    datasources = ds.test_env$connections)
+  sort.server.dim<-ds.dim(df.created,
+                          datasources = ds.test_env$connections)
+  sort.key.name.class<-ds.class(sort.key.name, datasources = ds.test_env$connections)[[1]]
   
-    # Upload server-side testing data frames in the client-side (danger function)
-    server.data<-ds.DANGERdfEXTRACT(df.created,
-                                    datasources = ds.test_env$connections)
-    server.data<-server.data$study.specific.df
+  for (i in 1:length(ds.test_env$connections))
+  {
+    expect_equal(sort.local.dim[[i]],
+                 sort.server.dim[[i]],
+                 ds.test_env$tolerance)
+  }
+  
+  
+  
+  if(sort.key.name.class == "integer" | sort.key.name.class == "numeric" & sort.method == "numeric" )
+    {
+     sorted.key.name<-list()
+     sort.server.mean<-list()
+     sort.server.var<-list()
+     len.key.server<-sort.server.dim[[1]][1]
+     for(l in 1:3)
+       {
+     i<-c(1,(len.key.server/2)-2.5,len.key.server-5)
+     j<-c(5,(len.key.server/2)+2.5,len.key.server)
+     sorted.key.name<-paste(df.created,"$",key.name,"[",i[l],":",j[l],"]",sep="")
     
-  #testing- testthat
+     sort.server.mean[[l]]<-ds.mean(sorted.key.name, type = "c", datasources = ds.test_env$connections)[[1]][1]
+     #sort.server.var[[l]]<-ds.var(sorted.key.name, type = "c", datasources = ds.test_env$connections)[[1]][1]
+     }
+     
+     
+       #expect_equal(sort.server.var[[1]],
+                    #sort.server.var[[2]],
+                    #ds.test_env$tolerance)
+       #expect_equal(sort.server.var[[2]],
+                    #sort.server.var[[3]],
+                    #ds.test_env$tolerance)
+     
+     if (sort.descending == TRUE & sort.method == "numeric")
+     {
+       expect_true(sort.server.mean[[1]] > sort.server.mean[[2]])
+       expect_true(sort.server.mean[[2]] > sort.server.mean[[3]])
+     }
+     if (sort.descending == FALSE & sort.method == "numeric")
+     {
+       expect_true(sort.server.mean[[1]] < sort.server.mean[[2]])
+       expect_true(sort.server.mean[[2]] < sort.server.mean[[3]])
+     }
+     
+     
+    
+   }
   
-  for ( i in 1:length(server.data)){
-      expect_equal(server.data[[i]][,key.name],
-                   sort.local[[i]][,key.name],
-                   ds.test_env$tolerance) 
-    }
   
 }
 

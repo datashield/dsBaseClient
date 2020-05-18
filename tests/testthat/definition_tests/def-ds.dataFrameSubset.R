@@ -1,6 +1,5 @@
 
 source("definition_tests/def-assign-stats.R")
-library(dsDangerClient)
 
 .test.function.parameters<-function(initial.df.name,V1.name,V2.name,boole,keep.cols,rm.cols,keep.NAs,df.created)
 {
@@ -202,10 +201,7 @@ subset.by.rows.cols<-function(initial.df.name,V1.name,V2.name,keep.cols,boole,ke
   }
   
 
-# Upload server-side testing data frames in the client-side (danger function)
-server.data<-ds.DANGERdfEXTRACT(df.created,
-                                datasources = ds.test_env$connections)
-server.data<-server.data$study.specific.df
+
 
 #testing- testthat
 
@@ -250,19 +246,6 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
     expect_equal(dim(df.subset.local[[i]]),ds.dim(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
     expect_equal(colnames(df.subset.local[[i]]),ds.colnames(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
   }
-  # Upload server-side testing data frames in the client-side (danger function)
-  server.data<-ds.DANGERdfEXTRACT(df.created,
-                                  datasources = ds.test_env$connections)
-  server.data<-server.data$study.specific.df
-  
-  #testing- testthat
-  
- # for ( i in 1:length(server.data))
- #   {
- #   expect_equal(server.data[[i]][,1],
- #                df.subset.local[[i]][,1],
- #                ds.test_env$tolerance) 
- #  }
   
 }
 # Clear the Datashield R sessions and logout
