@@ -13,6 +13,10 @@ ds.names(x = NULL, datasources = NULL)
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
+\value{
+\code{ds.names} returns to the client-side the names
+of a list stored on the server-side.
+}
 \description{
 Function to get the names of an object that is stored on the server-side.
 }
