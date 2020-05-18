@@ -96,7 +96,7 @@
 #' @author Paul Burton and Demetris Avraam for DataSHIELD Development Team
 #' @export
 #' 
-ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
