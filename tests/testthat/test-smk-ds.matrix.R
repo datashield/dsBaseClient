@@ -37,9 +37,9 @@ test_that("simplest ds.matrix", {
     check.class<-ds.class("matrix.newobj",datasources=ds.test_env$connections)
 
     expect_length(check.class, 3)
-    expect_equal(check.class$sim1, "matrix")
-    expect_equal(check.class$sim2, "matrix")
-    expect_equal(check.class$sim3, "matrix")
+    expect_true("matrix" %in% check.class$sim1)
+    expect_true("matrix" %in% check.class$sim2)
+    expect_true("matrix" %in% check.class$sim3)
 })
 
 #

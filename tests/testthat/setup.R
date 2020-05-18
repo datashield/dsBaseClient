@@ -13,6 +13,8 @@
 
 context("setup")
 
+library(lme4)
+
 library(DSOpal)
 library(DSLite)
 library(dsBaseClient)

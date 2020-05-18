@@ -93,9 +93,9 @@ test_that("with fixed.dummy.vars of TRUE", {
 
     res <- ds.class("TID.mat1")
 
-    expect_equal("matrix", res$`survival1`)
-    expect_equal("matrix", res$`survival2`)
-    expect_equal("matrix", res$`survival3`)
+    expect_true("matrix" %in% res$`survival1`)
+    expect_true("matrix" %in% res$`survival2`)
+    expect_true("matrix" %in% res$`survival3`)
 })
 
 test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
@@ -103,9 +103,9 @@ test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
 
     res <- ds.class("TID.mat6")
 
-    expect_equal("matrix", res$`survival1`)
-    expect_equal("matrix", res$`survival2`)
-    expect_equal("matrix", res$`survival3`)
+    expect_true("matrix" %in% res$`survival1`)
+    expect_true("matrix" %in% res$`survival2`)
+    expect_true("matrix" %in% res$`survival3`)
 })
 
 #

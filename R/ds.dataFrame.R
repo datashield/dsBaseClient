@@ -8,7 +8,7 @@
 #' of the  data frames or matrices must be the same.  The output 
 #' data frame will have the same number of rows. 
 #' 
-#' Server function called: \code{dataFrameDS}
+#' Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
 #' 
 #' @param x a character string that provides the name of the objects
 #' to be combined.
@@ -152,20 +152,17 @@ for(j in 1:length(x))
 {
 test.df<-x[j]
 
-if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
-	{
-	colname.vector<-c(colname.vector,test.df)
-        if (notify.of.progress)
-            cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
-	}
-else
-	{
-	calltext2<-paste0('colnames(', test.df, ')')
-    df.names <- DSI::datashield.aggregate(datasources, as.symbol(calltext2))
-	 colname.vector<-c(colname.vector,df.names[[1]])
-         if (notify.of.progress)
-             cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
-        }
+  if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
+    colname.vector <- c(colname.vector,test.df)
+    if (notify.of.progress)
+      cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+  }else{
+    calltext2 <- call('colnamesDS', test.df)
+    df.names <- DSI::datashield.aggregate(datasources, calltext2)
+    colname.vector <- c(colname.vector,df.names[[1]])
+    if (notify.of.progress)
+      cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+  }
 }
 if (notify.of.progress)
     cat("\nBoth steps completed\n")
