@@ -27,11 +27,31 @@ test_that("setup", {
 context("ds.glmerSLMA::arg::testing")
 test_that("simple glmerSLMA tesing (mis)use of arguments", {
     expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), " Please provide a valid 'family' argument!", fixed=TRUE)
-    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D', family = 'poisson'), "object 'mg' not found", fixed=TRUE)
-    expect_error(ds.glmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D'), "Command 'glmerSLMADS2(diab_dis ~ trtGrp + Male + yyy1xxxidDoctorzzz, NULL, \n    NULL, \"D\", \"poisson\", NULL, NULL, 1L, 0, NULL, NULL)' failed on 'cluster.int1': Error while evaluating 'dsBase::glmerSLMADS2(diab_dis~trtGrp+Male+yyy1xxxidDoctorzzz, NULL, NULL, \"D\", \"poisson\", NULL, NULL, 1L, 0, NULL, NULL)' -> Error in eval(predvars, data, env) : object 'diab_dis' not found\n", fixed=TRUE)
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D', family = 'poisson'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
+    expect_error(ds.glmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
     res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'xtol_rel')
     expect_equal(res$errorMessage, "ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7",fixed=TRUE)
-    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'check.conv.grad',control_value = 'nothing'), "Command 'glmerSLMADS2(incid_rate ~ trtGrp + Male + yyy1xxxidDoctorzzz, \n    NULL, NULL, \"D\", \"poisson\", \"check.conv.grad\", \"nothing\", \n    1L, 0, NULL, NULL)' failed on 'cluster.int1': Error while evaluating 'dsBase::glmerSLMADS2(incid_rate~trtGrp+Male+yyy1xxxidDoctorzzz, NULL, NULL, \"D\", \"poisson\", \"check.conv.grad\", \"nothing\", 1L, 0, NULL, NULL)' -> Error in lme4::.makeCC(\"warning\", tol = NA, relTol = NULL) : \n  must have a numeric 'tol' component\n", fixed=TRUE)
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'check.conv.grad',control_value = 'nothing'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
     expect_error(ds.glmerSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
 })
 
