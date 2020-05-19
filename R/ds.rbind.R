@@ -153,8 +153,8 @@ if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
 	}
 else
 	{
-	calltext2<-paste0('colnames(', test.df, ')')
-    df.names <- DSI::datashield.aggregate(datasources, as.symbol(calltext2))
+	  calltext2 <- call('colnamesDS', test.df)
+    df.names <- DSI::datashield.aggregate(datasources, calltext2)
 	 colname.vector<-c(colname.vector,df.names[[1]])
          if (notify.of.progress)
               cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
