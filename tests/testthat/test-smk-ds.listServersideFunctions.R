@@ -34,7 +34,7 @@ test_that("check results", {
     ))
     aggregate.functions <- factor(c(
       "NROW", "alphaPhiDS", "asFactorDS1", "asListDS",
-      "checkNegValueDS", "classDS", "colnames", "cor.test",
+      "checkNegValueDS", "classDS", "colnames", "corTestDS",
       "covDS", "dataFrameSubsetDS1",
       "densityGridDS", "dim", "dimDS",
       "exists", "glmDS1", "glmDS1", "glmDS2",
