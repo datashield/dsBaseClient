@@ -159,9 +159,9 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
   {
     local.rbind.df<-df.subset.local[[1]]
   }
-  dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
-  dist.server <- .calc.distribution.server(var1)
-  expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
+  #dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
+  #dist.server <- .calc.distribution.server(var1)
+  #expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
 }
 
 
