@@ -27,25 +27,49 @@ test_that("setup", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function ['‘]dsAggregate['’] for signature ['‘]\"NULL\"['’]", fixed=FALSE)
+    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "object 'n' not found", fixed=FALSE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 0)
 })
 
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 1)
+    expect_equal(errs$sim1, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_length(errs$sim2, 1)
+    expect_equal(errs$sim2, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_length(errs$sim3, 1)
+    expect_equal(errs$sim3, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
 })
 
 context("ds.foobar::arg::aggregate")
 test_that("non existent aggregate foobarDS", {
     calltext <- call("fooBarDS")
     expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=calltext))
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 1)
+    expect_equal(errs$sim1, "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_length(errs$sim2, 1)
+    expect_equal(errs$sim2, "Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_length(errs$sim3, 1)
+    expect_equal(errs$sim3, "Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
 })
 
 context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function ['‘]dsAssignExpr['’] for signature ['‘]\"NULL\"['’]", fixed=FALSE)
+    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "object 'n' not found", fixed=FALSE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 0)
 })
 
 #context("ds.foobar::arg::assign")
@@ -60,12 +84,24 @@ context("ds.foobar::arg::assign")
 test_that("NULL value", {
     calltext <- call("fooBarDS")
     expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=NULL), "Not a valid table name", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 0)
 })
 
 context("ds.foobar::arg::assign")
 test_that("non existent assign foobarDS", {
     calltext <- call("fooBarDS")
     expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=calltext))
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 1)
+    expect_equal(errs$sim1, "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
+    expect_length(errs$sim2, 1)
+    expect_equal(errs$sim2, "Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
+    expect_length(errs$sim3, 1)
+    expect_equal(errs$sim3, "Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
 })
 
 #

@@ -26,11 +26,32 @@ test_that("setup", {
 
 context("ds.lmerSLMA::arg")
 test_that("simple lmerSLMA tesing (mis)use of arguments", {
-    expect_error(ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D'), "object 'mg' not found", fixed=TRUE)
-    expect_error(ds.lmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), "Command 'lmerSLMADS2(diab_dis ~ trtGrp + Male + yyy1xxxidDoctorzzz, NULL, \n    NULL, \"D\", TRUE, NULL, NULL, NULL, 0)' failed on 'cluster.int1': Error while evaluating 'dsBase::lmerSLMADS2(diab_dis~trtGrp+Male+yyy1xxxidDoctorzzz, NULL, NULL, \"D\", TRUE, NULL, NULL, NULL, 0)' -> Error in eval(predvars, data, env) : object 'diab_dis' not found\n", fixed=TRUE)
+    expect_error(ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
+    expect_error(ds.lmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel')
     expect_equal(res$errorMessage, "ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7", fixed=TRUE)
-    expect_error(ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel',control_value = 'nothing'), "Command 'lmerSLMADS2(incid_rate ~ trtGrp + Male + yyy1xxxidDoctorzzz, \n    NULL, NULL, \"D\", TRUE, \"xtol_rel\", \"nothing\", NULL, 0)' failed on 'cluster.int1': Error while evaluating 'dsBase::lmerSLMADS2(incid_rate~trtGrp+Male+yyy1xxxidDoctorzzz, NULL, NULL, \"D\", TRUE, \"xtol_rel\", \"nothing\", NULL, 0)' -> Error in summary(mg) : object 'mg' not found\n", fixed=TRUE)
+    expect_error(ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel',control_value = 'nothing'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
     expect_error(ds.lmerSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
 })
 
