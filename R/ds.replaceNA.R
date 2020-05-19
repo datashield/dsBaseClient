@@ -1,49 +1,81 @@
 #'
-#' @title Replaces the missing values in a vector
+#' @title Replaces the missing values in a server-side vector
 #' @description This function identifies missing values and replaces them by a value or
 #' values specified by the analyst.
-#' @details This function is used when the analyst prefer or requires complete vectors.
+#' @details This function is used when the analyst prefers or requires complete vectors.
 #' It is then possible the specify one value for each missing value by first returning
-#' the number of missing values using the function \code{ds.numNA} but in most cases
+#' the number of missing values using the function \code{ds.numNA} but in most cases,
 #' it might be more sensible to replace all missing values by one specific value e.g.
 #' replace all missing values in a vector by the mean or median value. Once the missing
 #' values have been replaced a new vector is created.
-#' NOTE: If the vector is within a table structure such as a data frame the new vector is
-#' appended to table structure so that the table hold hold both the vector with and without
-#' missing values. The latter is, by default, given a different that indicates its 'completeness'.
-#' @param x a character, the name of the vector to process.
-#' @param forNA a list which contains the replacement value(s), a vector one or more values
-#' for each study. The length of the list must be equal to the number of servers the analyst
-#' is connected to.
-#' @param newobj a character, the name of the new vector in which missing values have been replaced.
-#' If no name is specified the default name is 'replacena.newobj'
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return a new vector or table structure with the same class is stored on the server site.
-#' @author Gaye, A.
+#' 
+#' \strong{Note}: If the vector is within a table structure such as a data frame the new vector is
+#' appended to table structure so that the table holds both the vector with and without
+#' missing values. 
+#' 
+#' Server function called: \code{numNaDS}
+#' @param x a character string specifying the the name of the vector. 
+#' @param forNA a list that contains the replacement value(s), a vector one or more values
+#' for each study. The length of the list must be equal to the number of servers (studies). 
+#' @param newobj a character string that provides the name for the output object
+#' that is stored on the data servers. Default \code{replacena.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.replaceNA} returns to the server-side a new vector or table structure 
+#' with the missing values replaced by the specified values.
+#'  The class of the vector is the same as the initial vector. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   # Connecting to the Opal servers
+#' 
+#'     require('DSI')
+#'     require('DSOpal')
+#'     require('dsBaseClient')
 #'
-#'   # load that contains the login details
-#'   data(logindata)
-#'
-#'   # login and assign all the stored variables.
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
-#'
+#'     builder <- DSI::newDSLoginBuilder()
+#'     builder$append(server = "study1", 
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'     builder$append(server = "study2", 
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'     builder$append(server = "study3",
+#'                    url = "http://192.168.56.100:8080/", 
+#'                    user = "administrator", password = "datashield_test&", 
+#'                    table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'     logindata <- builder$build()
+#' 
+#'   # Log onto the remote Opal training servers
+#'     connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#' 
 #'   # Replace missing values in variable 'LAB_HDL' by the mean value in each study
-#'   # first let us get the mean value for 'LAB_HDL' in each study
-#'   ds.mean(x='D$LAB_HDL', type='split')
+#'   
+#'   # Get the mean value of  'LAB_HDL' for each study
+#'   
+#'   mean<-ds.mean(x = "D$LAB_HDL",
+#'                 type = "split",
+#'                 datasources = connections)
 #'
-#'   # replace missing values in the variable 'LAB_HDL' in dataf frame 'D' by
-#'   # the mean value and name the new variable 'HDL.noNA'.
-#'   ds.replaceNA(x='D$LAB_HDL', forNA=list(1.569416, 1.556648), newobj='HDL.noNA')
+#'   # Replace the missing values using the mean for each study
+#'   
+#'   ds.replaceNA(x = "D$LAB_HDL",
+#'                forNA = list(mean[[1]][1], mean[[1]][2], mean[[1]][3]),
+#'                newobj = "HDL.noNA",
+#'                datasources = connections)
 #'
-#'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
-#'
-#' }
-#'
+#'   # Clear the Datashield R sessions and logout  
+#'   datashield.logout(connections) 
+#' } 
+
+
+
 ds.replaceNA = function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
 
   # look for DS connections
