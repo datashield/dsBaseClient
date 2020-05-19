@@ -61,6 +61,7 @@
 #' }   
 #'
 ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources=NULL){
+  .Deprecated("ds.recodeValues")
 
   # look for DS connections
   if(is.null(datasources)){

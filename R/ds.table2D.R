@@ -88,6 +88,7 @@
 #' }
 #'
 ds.table2D <- function(x=NULL, y=NULL, type='both', warningMessage=TRUE, datasources=NULL){
+  .Deprecated("ds.table")
 
   # look for DS connections
   if(is.null(datasources)){

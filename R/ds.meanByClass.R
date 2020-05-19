@@ -78,6 +78,7 @@
 #' }
 #'
 ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', datasources=NULL){
+  .Deprecated("ds.meanSdGp")
 
   # look for DS connections
   if(is.null(datasources)){
