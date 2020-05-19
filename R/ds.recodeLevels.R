@@ -1,51 +1,64 @@
 #'
-#' @title Recodes the levels of a factor vector
-#' @description The function replaces the levels of a factor by the specified ones.
-#' @details It uses the R function 'levels()' on the client side to alter the current levels.
+#' @title Recodes the levels of a server-side factor vector 
+#' @description The function replaces the levels of a factor by the specified new ones.
+#' @details This function is similar to native R function \code{levels()}. 
+#' 
 #' It can for example be used to merge two classes into one, to add a level(s) to a vector
 #' or to rename (i.e. re-label) the levels of a vector.
-#' @param x, a character, the name of a factor variable.
-#' @param newCategories, a character vector, the new levels. Its length MUST be equal or greater
+#' 
+#' Server function called: \code{levels()}
+
+#' @param x  a character string specifying  the name of a factor variable.
+#' @param newCategories a character vector specifying the new levels. Its length must  be equal or greater
 #' to the current number of levels.
-#' @param newobj, a character, the name of the new factor vector. If no name is specified
-#' for the new variable it is named 'recodelevels.newobj'.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @return nothing is returned to the client, the new object is stored on the server side.
-#' @author Gaye, A.
+#' @param newobj a character string that provides the name for the output object
+#' that is stored on the data servers. Default \code{recodelevels.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.recodeLevels} returns to the server-side a variable of type factor
+#' with the replaces levels. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'   # load that contains the login details
-#'   data(logindata)
-#'
-#'   # login and assign all the variables
-#'   conns <- datashield.login(logins=logindata,assign=TRUE)
-#'
-#'   # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
-#'   ds.levels(x='D$PM_BMI_CATEGORICAL')
-#'
-#'   # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other
-#'   # two levels.
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
-#'   ds.levels(x='BMI_CAT_NEW1')
-#'
-#'   # Example2: add a 4th and empty level to categorical bmi to create a new variable
-#'   # we know the current categories are '1', '2' and '3' so we add '4'
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
-#'   ds.levels(x='BMI_CAT_NEW2')
-#'
-#'   # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'),
-#'                   newobj='BMI_CAT_NEW3')
-#'   ds.levels(x='BMI_CAT_NEW3')
-#'
-#'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
-#'
-#' }
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Recode the levels of a factor variable
+#'   
+#'   ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
+#'                   newCategories = c("1","2","3"),
+#'                   newobj = "BMI_CAT",
+#'                   datasources = connections)
+#'                  
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
 #'
 ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources=NULL){
 
