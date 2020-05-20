@@ -37,8 +37,13 @@ converted to factors. Default TRUE.}
 missing values will be deleted from the output data frame.
 Default is FALSE.}
 
-\item{DataSHIELD.checks}{logical. If TRUE undertakes all DataSHIELD checks 
-(time-consuming). Default FALSE.}
+\item{DataSHIELD.checks}{logical. Default FALSE. If TRUE undertakes all DataSHIELD checks 
+(time-consuming) which are:
+1. the input object(s) is(are) defined in all the studies
+2. the input object(s) is(are) of the same legal class in all the studies
+3. if there are any duplicated column names in the input objects in each study
+4. the number of rows of the  data frames or matrices and the length of all component variables
+are the same}
 
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default \code{dataframe.newobj}.}
