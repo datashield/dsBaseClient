@@ -62,7 +62,8 @@ Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
   myvar <- list("LAB_TSC","LAB_HDL")
    
   # Log onto the remote Opal training servers
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, variables = myvar, symbol = "D") 
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, 
+  variables = myvar, symbol = "D") 
 
   
   #Calculate the colSums
