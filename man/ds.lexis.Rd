@@ -257,9 +257,7 @@ Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3}
 
 }
 \seealso{
-\code{\link{ds.glm}} for genralized linear models
-
-\code{\link{ds.gee}} for generalized estimating equation models
+\code{\link{ds.glm}} for genralized linear models.
 }
 \author{
 DataSHIELD Development Team

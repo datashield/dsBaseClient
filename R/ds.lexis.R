@@ -162,8 +162,7 @@
 #' the expanded version of the input table.
 #' 
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.glm}} for genralized linear models
-#' @seealso \code{\link{ds.gee}} for generalized estimating equation models
+#' @seealso \code{\link{ds.glm}} for genralized linear models. 
 #' @export
 #' @examples
 #' \dontrun{
