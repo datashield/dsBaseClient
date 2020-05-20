@@ -45,14 +45,16 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 
 #'   logindata <- builder$build()
-
+#'   myvar <- list("LAB_TSC","LAB_HDL")
+#'    
 #'   # Log onto the remote Opal training servers
-#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, variables = myvar, symbol = "D") 
 #'
-#'   #Calculate the rowSums 
+#'   
+#'   #Calculate the colSums
 #'   
 #'   ds.rowColCalc(x = "D",
-#'                 operation = "rowSums", 
+#'                 operation = "colSums", 
 #'                 newobj = "D.rowSums", 
 #'                 datasources = connections)
 #'                 
