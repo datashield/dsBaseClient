@@ -1,55 +1,47 @@
 #'
 #' @title Generates non-disclosive scatter plots
 #' @description This function uses two disclosure control methods to generate non-disclosive
-#' scatter plots of two continuous variables. 
+#' scatter plots of two server-side continuous variables. 
 #' @details As the generation of a scatter plot from original data is disclosive and is not
 #' permitted in DataSHIELD, this function allows the user to plot non-disclosive scatter plots.
 #' 
 #' If the argument \code{method} is set to \code{'deterministic'}, the server-side function searches
-#' for the \code{k-1} nearest neigbours of each single data point and calculates the centroid 
+#' for the \code{k-1} nearest neighbors of each single data point and calculates the centroid 
 #' of such \code{k} points. 
 #' The proximity is defined by the minimum Euclidean distances of z-score transformed data.
+#' 
 #' When the coordinates of all centroids are estimated the function applies scaling to expand the
 #' centroids back to the dispersion of the original data. The scaling is achieved by multiplying
 #' the centroids with a scaling factor that is equal to the ratio between the standard deviation of
 #' the original variable and the standard deviation of the calculated centroids. The coordinates of
-#' the scaled centroids are then returned to the client.The value of \code{k} in this deterministic
-#' approach, is specified by the user. The suggested and default value is equal to 3 which is also
+#' the scaled centroids are then returned to the client-side.
+#' 
+#' The value of \code{k} is specified by the user. 
+#' The suggested and default value is equal to 3 which is also
 #' the suggested minimum threshold that is used to prevent disclosure which is specified in the
 #' protection filter \code{nfilter.kNN}. When the value of \code{k} increases, 
 #' the disclosure risk decreases but the utility loss increases.
+#' The value of \code{k} is used only
+#' if the argument \code{method} is set to \code{'deterministic'}. 
+#' Any value of \code{k} is ignored if the
+#' argument \code{method} is set to \code{'probabilistic'}.
 #' 
 #' If the argument \code{method} is set to \code{'probabilistic'}, 
-#' the server side function generates a random normal noise of zero mean
-#' and variance equal to 10% of the variance of each \code{x} and \code{y} variable.
+#' the server-side function generates a random normal noise of zero mean
+#' and variance equal to 10\% of the variance of each \code{x} and \code{y} variable.
 #' The noise is added to each \code{x} and \code{y} variable and the disturbed by the addition of
-#' noise data are returned to the client. Note that the seed random number generator is fixed to a
+#' \code{noise} data are returned to the client-side. Note that the seed random number generator is fixed to a
 #' specific number generated from the data and therefore the user gets the same figure every time
 #' that chooses the probabilistic method in a given set of variables.
+#' The value of \code{noise} is used only if the argument \code{method} is set to \code{'probabilistic'}.
+#' Any value of \code{noise} is ignored if
+#' the argument \code{method} is set to \code{'deterministic'}. 
 #' 
-#' If the \code{method} is set to \code{'deteministic'}
-#' (default), then the scatter plot shows the scaled centroids of each k nearest neighbours of the
-#' original variables where the value of \code{k} is set by the user. If the \code{method} is set
-#' to \code{'probabilistic'}, then the scatter plot shows the original data disturbed by the addition of
-#' random stochastic noise. The added noise follows a normal distribution with zero mean and
-#' variance equal to a percentage of the initial variance of each variable. This percentage is
-#' specified by the user in the argument \code{noise}.
-#' 
-#' In \code{k}  The user can choose any value for k equal to or greater than the pre-specified threshold
-#' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of k is set to be equal to 3
-#' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-#' uses the default value but the study has set a bigger threshold. The value of k is used only
-#' if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
-#' argument \code{method} is set to 'probabilistic'.
-#' 
-#' In \code{noise} argument  Any value of noise is ignored if
-#' the argument \code{method} is set to 'deterministic'. The user can choose any value for noise
-#' equal to or greater than the pre-specified threshold 'nfilter.noise'.
-#' 
-#' In \code{type} argument A scatter plot for
-#' combined data is generated when the \code{type} is set to 'combine'. One scatter plot for each
-#' single study is generated when the \code{type} is set to 'split' (default).
+#' In \code{type} argument can be set two graphics to display:\cr
+#' (1) If \code{type = 'combine'}  a scatter plot for
+#' combined data is generated.\cr
+#' (2) If \code{type = 'split'}  one scatter plot for each
+#' study is generated. 
 #' 
 #' Server function called: \code{scatterPlotDS}
 #' @param x a character string specifying  the name of a numeric vector. 
@@ -60,7 +52,7 @@
 #' This argument can be set as \code{'deteministic'} or \code{'probabilistic'}.
 #' Default \code{'deteministic'}. 
 #' For more information see \strong{Details}. 
-#' @param k the number of the nearest neghbours for which their centroid is calculated.
+#' @param k the number of the nearest neighbors  for which their centroid is calculated.
 #' Default 3. 
 #' For more information see \strong{Details}. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
@@ -69,6 +61,7 @@
 #' @param type a character that represents the type of graph to display.
 #' This can be set as \code{'combine'} or \code{'split'}. 
 #' Default \code{'split'}. 
+#' For more information see \strong{Details}.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
