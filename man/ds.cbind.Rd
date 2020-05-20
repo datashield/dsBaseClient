@@ -16,14 +16,16 @@ ds.cbind(
 \arguments{
 \item{x}{a character vector with the  name of the objects to be combined.}
 
-\item{DataSHIELD.checks}{logical, by defauls is FALSE, but if TRUE does four checks: 
-1. the input object(s) is(are) defined in all the studies
-2. the input object(s) is(are) of the same legal class in all the studies
-3. if there are any duplicated column names in the input objects in each study
-4. the number of rows is the same in all componets to be cbind}
+\item{DataSHIELD.checks}{logical. if TRUE does four checks:\cr
+1. the input object(s) is(are) defined in all the studies.\cr
+2. the input object(s) is(are) of the same legal class in all the studies.\cr
+3. if there are any duplicated column names in the input objects in each study.\cr
+4. the number of rows is the same in all components to be cbind.\cr
+Default FALSE.}
 
 \item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
-column names of the output object. If is not NULL the user should take some caution - see Details.}
+column names of the output object. If it is not NULL the user should take some caution. 
+For more information see \strong{Details}.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{cbind.newobj}.}
@@ -54,7 +56,7 @@ This function is similar to the native R function \code{cbind}.
 In \code{DataSHIELD.checks} the checks are relatively slow. 
 Default \code{DataSHIELD.checks} value is FALSE.
 
-If \code{force.colnames} is NULL (which is reccommended), the column names are inferred
+If \code{force.colnames} is NULL (which is recommended), the column names are inferred
 from the names or column names of the first object specified in the \code{x} argument.
 If this argument is not NULL, then the column names of the assigned data.frame have the
 same order as the characters specified by the user in this argument. Therefore, the
@@ -95,25 +97,42 @@ Server function called: \code{cbindDS}
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
   # Example 1: Assign the exponent of a numeric variable at each server and cbind it 
-  # to the dataframe D
-  ds.exp(x = "D$LAB_HDL", newobj = "LAB_HDL.exp", datasources = connections) 
-  ds.cbind(x = c("D", "LAB_HDL.exp"), DataSHIELD.checks = FALSE,
-             newobj = "D.cbind.1", datasources = connections)
+  # to the data frame D
+  
+  ds.exp(x = "D$LAB_HDL",
+         newobj = "LAB_HDL.exp",
+         datasources = connections) 
+         
+  ds.cbind(x = c("D", "LAB_HDL.exp"),
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.1",
+           datasources = connections)
              
   # Example 2: If there are duplicated column names in the input objects the function adds
   # a suffix '.k' to the kth replicate". If also the argument DataSHIELD.checks is set to TRUE
   # the function returns a warning message notifying the user for the existence of any duplicated
   # column names in each study
-  ds.cbind(x = c("exp", "exp"), DataSHIELD.checks = TRUE,
-             newobj = "D.cbind.2", datasources = connections)
-  ds.colnames(x = "D.cbind.2", datasources = connections)            
+  
+  ds.cbind(x = c("LAB_HDL.exp", "LAB_HDL.exp"), 
+           DataSHIELD.checks = TRUE,
+           newobj = "D.cbind.2",
+           datasources = connections)
+           
+  ds.colnames(x = "D.cbind.2",
+              datasources = connections)            
              
   # Example 3: Generate a random normally distributed variable of length 100 at each study,
-  # and cbind it to the dataframe D. This example fails and  returns an error as the length
-  # of the generated variable "norm.var" is not the same as the number of rows in the dataframe D
-  ds.rNorm(samp.size = 100, newobj = "norm.var", datasources = connections) 
-  ds.cbind(x = c("D", "norm.var"), DataSHIELD.checks = FALSE,
-             newobj = "D.cbind.3", datasources = connections)                 
+  # and cbind it to the data frame D. This example fails and  returns an error as the length
+  # of the generated variable "norm.var" is not the same as the number of rows in the data frame D
+  
+  ds.rNorm(samp.size = 100,
+           newobj = "norm.var",
+           datasources = connections) 
+           
+  ds.cbind(x = c("D", "norm.var"), 
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.3", 
+           datasources = connections)                 
                    
   # Clear the Datashield R sessions and logout  
   datashield.logout(connections) 
@@ -121,5 +140,5 @@ Server function called: \code{cbindDS}
 
 }
 \author{
-Paul Burton and Demetris Avraam for DataSHIELD Development Team
+DataSHIELD Development Team
 }

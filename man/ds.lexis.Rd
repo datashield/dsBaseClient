@@ -98,24 +98,29 @@ default, named by combining the name of the original collapsed dataframe (as spe
 set, the expanded dataframe will be called alice_expanded on each study server.
 }
 \description{
-Takes a dataframe containing survival data and expands it by converting records at
+This function takes a data frame containing survival data and expands it by converting records at
 the level of individual subjects (survival time, censoring status, IDs and other variables) into
 multiple records over a series of pre-defined time intervals. For each survival interval the
-expanded dataframe contains variables denoting the surival time and the censoring status in that
+expanded data frame contains variables denoting the surival time and the censoring status in that
 specific interval, a unique ID for every time interval and carries copies of other IDs and
-variables. This function is particularly meant to be used in preparing data for a piecewise
+variables. 
+
+This function is particularly meant to be used in preparing data for a piecewise
 regression analysis (PAR). Although the time intervals have to be pre-specified and are
 arbitrary, even a vaguely reasonable set of time intervals will give results very similar to a
 Cox regression analysis. The key issue is to choose survival intervals such that the baseline
 hazard (risk of death/disease/failure) within each interval is reasonably constant while the
 baseline hazard can vary freely between intervals. Even if the choice of intervals is very poor
 the ultimate results are typically qualitatively similar to Cox regression. Increasing the
-number of intervals will inevitably improve the approximation to the true baseline hazard - but
+number of intervals will inevitably improve the approximation to the true baseline hazard, but
 the addition of many more unecessary time intervals slows the analysis and can become disclosive
-and yet will not improve the fit of the model. If the number of failures in one or more time
+and yet will not improve the fit of the model. 
+
+If the number of failures in one or more time
 periods is a given study is less than the specified disclosure filter determining minimum
-acceptable cell size in a table (nfilter.tab) then the expanded dataframe is not created in that
-study, and a studyside message to this effect is made available in that study via ds.message()
+acceptable cell size in a table (\code{nfilter.tab}) 
+then the expanded data frame is not created in that study, and a study-side message 
+to this effect is made available in that study via \code{ds.message()} function.
 }
 \details{
 The function ds.lexis splits the survival interval time of subjects into pre-specified
