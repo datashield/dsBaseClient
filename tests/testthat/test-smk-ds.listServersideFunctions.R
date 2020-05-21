@@ -34,13 +34,13 @@ test_that("check results", {
     ))
     aggregate.functions <- factor(c(
       "NROW", "alphaPhiDS", "asFactorDS1", "asListDS",
-      "checkNegValueDS", "classDS", "colnames", "cor.test",
+      "checkNegValueDS", "classDS", "colnamesDS", "corTestDS",
       "covDS", "dataFrameSubsetDS1",
-      "densityGridDS", "dim", "dimDS",
+      "densityGridDS", "dimDS",
       "exists", "glmDS1", "glmDS1", "glmDS2",
       "glmDS2", "glmSLMADS2", "histogramDS1", "is.character",
       "is.factor", "is.list", "is.null", "is.numeric",
-      "isNaDS", "isValidDS", "length", "lengthDS",
+      "isNaDS", "isValidDS", "lengthDS",
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
