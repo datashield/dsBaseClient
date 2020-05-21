@@ -17,7 +17,8 @@
      {
         for(i in 1:length(list.variables))
         {
-          expect_true(cols.name[[server]][i] == list.variables[i])
+          list.variable <- strsplit(list.variables[i], '\\$')[[1]][2]
+          expect_equal(cols.name[[server]][i], list.variable)
         }
      }
      
