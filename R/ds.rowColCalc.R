@@ -63,7 +63,7 @@
 #'   datashield.logout(connections) 
 #'
 #' }
-#'
+#' @export
 ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections

@@ -77,7 +77,6 @@ Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
   datashield.logout(connections) 
 
 }
-
 }
 \author{
 DataSHIELD Development Team
