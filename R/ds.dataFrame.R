@@ -23,8 +23,13 @@
 #' @param completeCases logical. If TRUE rows with one or more 
 #' missing values will be deleted from the output data frame.
 #' Default is FALSE.
-#' @param DataSHIELD.checks logical. If TRUE undertakes all DataSHIELD checks 
-#' (time-consuming). Default FALSE. 
+#' @param DataSHIELD.checks logical. Default FALSE. If TRUE undertakes all DataSHIELD checks 
+#' (time-consuming) which are:
+#' 1. the input object(s) is(are) defined in all the studies
+#' 2. the input object(s) is(are) of the same legal class in all the studies
+#' 3. if there are any duplicated column names in the input objects in each study
+#' 4. the number of rows of the  data frames or matrices and the length of all component variables
+#' are the same
 #' @param newobj a character string that provides the name for the output data frame  
 #' that is stored on the data servers. Default \code{dataframe.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -85,7 +90,7 @@
 #' }
 #' @author DataSHIELD Development Team
 #' @export
-ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,stringsAsFactors=TRUE,completeCases=FALSE,DataSHIELD.checks=FALSE,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
+ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=TRUE, stringsAsFactors=TRUE, completeCases=FALSE, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -108,117 +113,129 @@ ds.dataFrame<-function(x=NULL,row.names=NULL,check.rows=FALSE,check.names=TRUE,s
   varnames <- xnames$elements
   obj2lookfor <- xnames$holders
 
-if(DataSHIELD.checks)
-{
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
+  if(DataSHIELD.checks){
+    
+    # check if the input object(s) is(are) defined in all the studies
+    for(i in 1:length(varnames)){
+      if(is.na(obj2lookfor[i])){
+        defined <- isDefined(datasources, varnames[i])
+      }else{
+        defined <- isDefined(datasources, obj2lookfor[i])
+      }
     }
-  }
-
-  # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
-  for(i in 1:length(x)){
-    typ <- checkClass(datasources, x[i])
-    if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-      stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
+    
+    # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
+    for(i in 1:length(x)){
+      typ <- checkClass(datasources, x[i])
+      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
+        stop("Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
+      }
     }
+    
+    # check that there are no duplicated column names in the input components
+    for(j in 1:length(datasources)){
+      colNames <- list()
+      for(i in 1:length(x)){
+        typ <- checkClass(datasources, x[i])
+        if(typ %in% c('data.frame', 'matrix')){
+          colNames[[i]] <- ds.colnames(x=x[i], datasources=datasources[j])
+        }
+        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
+          colNames[[i]] <- as.character(x[i])
+        }
+        colNames <- unlist(colNames)
+        if(anyDuplicated(colNames) != 0){
+          cat("\n Warning: Some column names in study", j, "are duplicated and a suffix '.k' will be added to the kth replicate \n")
+        }  
+      }  
+    } 
+    
+    # check that the number of rows is the same in all componets to be cbind
+    for(j in 1:length(datasources)){
+      nrows <- list()
+      for(i in 1:length(x)){
+        typ <- checkClass(datasources, x[i])
+        if(typ %in% c('data.frame', 'matrix')){
+          nrows[[i]] <- ds.dim(x=x[i], type='split', datasources=datasources[j])[[1]][1]
+        }
+        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
+          nrows[[i]] <- ds.length(x[i], type='split', datasources=datasources[j])[[1]]
+        }
+      }
+      nrows <- unlist(nrows)
+      if(any(nrows != nrows[1])){
+        stop("The number of rows is not the same in all of the input components", call.=FALSE)
+      }
+    }  
+    
   }
-
+  
   # check newobj not actively declared as null
   if(is.null(newobj)){
     newobj <- "df_new"
   }
-}
 
-#CREATE THE VECTOR OF COLUMN NAMES
-  colname.vector<-NULL
-  class.vector<-NULL
-
-for(j in 1:length(x))
-{
-testclass.var<-x[j]
-
-calltext1<-call('classDS', testclass.var)
-next.class <- DSI::datashield.aggregate(datasources, calltext1)
-class.vector<-c(class.vector,next.class[[1]])
-if (notify.of.progress)
-    cat("\n",j," of ", length(x), " elements to combine in step 1 of 2\n")
-}
-
-for(j in 1:length(x))
-{
-test.df<-x[j]
-
-  if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
-    colname.vector <- c(colname.vector,test.df)
-    if (notify.of.progress)
-      cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
-  }else{
-    calltext2 <- call('colnamesDS', test.df)
-    df.names <- DSI::datashield.aggregate(datasources, calltext2)
-    colname.vector <- c(colname.vector,df.names[[1]])
-    if (notify.of.progress)
-      cat("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+  # CREATE THE VECTOR OF COLUMN NAMES
+  colname.list <- list()
+  for (std in 1:length(datasources)){  
+    colname.vector <- NULL
+    class.vector <- NULL
+    for(j in 1:length(x)){
+      testclass.var <- x[j]
+      calltext1 <- call('classDS', testclass.var)
+      next.class <- DSI::datashield.aggregate(datasources[std], calltext1)
+      class.vector <- c(class.vector, next.class[[1]])
+      if (notify.of.progress){
+        cat("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
+      }  
+    }
+    for(j in 1:length(x)){
+      test.df <- x[j]
+      if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
+        colname.vector <- c(colname.vector, test.df)
+        if (notify.of.progress){
+          cat("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+        }  
+      }else{
+        calltext2 <- call('colnamesDS', test.df)
+        df.names <- DSI::datashield.aggregate(datasources[std], calltext2)
+        colname.vector <- c(colname.vector, df.names[[1]])
+        if (notify.of.progress){
+          cat("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+        }  
+      }
+    }
+    colname.list[[std]] <- colname.vector
   }
-}
-if (notify.of.progress)
-    cat("\nBoth steps completed\n")
-
-#CHECK FOR DUPLICATE NAMES IN COLUMN NAME VECTOR AND ADD ".k" TO THE kth REPLICATE
-num.duplicates<-rep(0,length(colname.vector))
-
-if(length(colname.vector)==1){
-num.duplicates<-0
-}else{
-if(length(colname.vector>=2))
-{
-for(j in length(colname.vector):2)
-{
-	for(k in (j-1):1)
-	{
-	if(colname.vector[j]==colname.vector[k])
-		{
-		num.duplicates[j]<-num.duplicates[j]+1
-		}
-	}
-}
-}
-}
-num.duplicates.c<-as.character(num.duplicates)
-
-
-
-
-for(m in 1:length(colname.vector))
-{
-if(num.duplicates[m]!="0")
-	{
-
-	colname.vector[m]<-paste0(colname.vector[m],".",num.duplicates.c[m])
-	}
-}
-
-
+  
+  if (notify.of.progress){
+    cat("\nBoth steps in all studies completed\n")
+  }
+  
+  # prepare vectors for transmission
+  x.names.transmit <- paste(x, collapse=",")
+  colnames.transmit <- list()
+  for (std in 1:length(datasources)){
+    colnames.transmit[[std]] <- paste(colname.list[[std]], collapse=",")
+  }
+  
+  if(!is.null(row.names)){
+    row.names.transmit <- paste(row.names, collapse=",")
+  }
+  
  ###############################
   # call the server side function
   #The serverside function dataFrameDS calls dsBase::dataFrameDS in dsBase repository
-  if(is.null(row.names)){
-    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),",
-                     'NULL',",", check.rows,",", check.names,
-                     ",list(","'",paste(colname.vector,collapse="','"),"'","),"
-                     ,stringsAsFactors,",",completeCases,")")
-  }else{
-    cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),",
-                     "list(","'",paste(row.names,collapse="','"),"'","),",
-                     check.rows,",", check.names,
-                     ",list(","'",paste(colname.vector,collapse="','"),"'","),"
-                     ,stringsAsFactors,",",completeCases,")")
+  for(std in 1:length(datasources)){
+    if(is.null(row.names)){
+      cally <- call("dataFrameDS", x.names.transmit, NULL, check.rows, check.names,
+                    colnames.transmit[[std]], stringsAsFactors, completeCases)
+    }else{
+      cally <- call("dataFrameDS", x.names.transmit, row.names.transmit, check.rows, check.names,
+                    colnames.transmit[[std]], stringsAsFactors, completeCases)
+    }
+    DSI::datashield.assign(datasources[std], newobj, cally)
   }
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
