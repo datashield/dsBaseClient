@@ -1,13 +1,26 @@
 #'
-#' @title ds.listClientsideFunctions calling no server-side functions
+#' @title Client-side functions
 #' @description Lists all current client-side functions
-#' @details Depending on choice of arguments can list all client-side functions
-#' or any combination of: dsBaseClient, dsGraphicsClient, dsModellingClient,
-#' dsStatsClient, or userDefinedClient. Operates by directly interrogating
-#' the R objects stored in the input client packages and objects with name
-#' "ds. ....." in .GlobalEnv
-#' @return list containing all functions in each or all of these five classes
-#' @author Paul Burton for DataSHIELD Development Team
+#' @details This function operates by directly interrogating
+#' the R objects stored in the input client packages and objects of name
+#' starting with \code{ds.} character in \code{.GlobalEnv}. 
+#' 
+#' This function does not call any server-side function. 
+#' @return \code{ds.listClientsideFunctions} returns a list containing 
+#' all  server-side functions. 
+#' @author DataSHIELD Development Team
+#' 
+#' @examples 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   #Library with all DataSHIELD functions
+#'   require('dsBaseClient')
+#'   
+#'   #Visualise all functions
+#'   ds.listClientsideFunctions()
+#'   
+#' }   
 #' @export
 ds.listClientsideFunctions  <-function(){
 

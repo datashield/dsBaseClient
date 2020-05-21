@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.lexis.R
 \name{ds.lexis}
 \alias{ds.lexis}
-\title{Create an object of class Lexis to represent follow-up in multiple states on multiple time scales.}
+\title{Represents follow-up in multiple states on multiple time scales}
 \usage{
 ds.lexis(
   data = NULL,
@@ -52,39 +52,22 @@ the expanded version of the input table.
 \description{
 This function takes a data frame containing survival data and expands it by converting records at
 the level of individual subjects (survival time, censoring status, IDs and other variables) into
-multiple records over a series of pre-defined time intervals. For each survival interval the
-expanded data frame contains variables denoting the surival time and the censoring status in that
-specific interval, a unique ID for every time interval and carries copies of other IDs and
-variables. 
-
-This function is particularly meant to be used in preparing data for a piecewise
-regression analysis (PAR). Although the time intervals have to be pre-specified and are
-arbitrary, even a vaguely reasonable set of time intervals will give results very similar to a
-Cox regression analysis. The key issue is to choose survival intervals such that the baseline
-hazard (risk of death/disease/failure) within each interval is reasonably constant while the
-baseline hazard can vary freely between intervals. Even if the choice of intervals is very poor
-the ultimate results are typically qualitatively similar to Cox regression. Increasing the
-number of intervals will inevitably improve the approximation to the true baseline hazard, but
-the addition of many more unecessary time intervals slows the analysis and can become disclosive
-and yet will not improve the fit of the model. 
-
-If the number of failures in one or more time
-periods is a given study is less than the specified disclosure filter determining minimum
-acceptable cell size in a table (\code{nfilter.tab}) 
-then the expanded data frame is not created in that study, and a study-side message 
-to this effect is made available in that study via \code{ds.message()} function.
+multiple records over a series of pre-defined time intervals.
 }
 \details{
 The function \code{ds.lexis} splits the survival interval time of subjects into pre-specified
 sub-intervals that are each assumed to encompass a constant base-line hazard which means a
 constant instantaneous risk of death). In the expanded dataset a row is included for every
-interval in which a given individual is followed - regardless how short or long that period may
+interval in which a given individual is followed - regardless of how short or long that period may
 be. Each row includes:\cr
-(1) a variable (CENSOR) indicating failure status for a particular
-interval in that interval also known as censoring status (failed = 1, died, relapsed, developed a
-disease etc, 0= e.g. lost-to-follow-up or passed right through the interval without failing);\cr
-(2) an exposure-time variable (SURVTIME) indicating the duration of exposure-to-risk-of-failure
-the corresponding individual experienced in that interval before he/she failed or was censored).
+(1) \strong{CENSOR}: a variable indicating failure status for a particular
+interval in that interval also known as censoring status. 
+This variable can take two values: \strong{1} representing that the patient
+has died, relapsed or developed a
+disease. \strong{0} representing the lost-to-follow-up 
+or passed right through the interval without failing. \cr
+(2) \strong{SURVTIME} an exposure-time variable indicating the duration of exposure-to-risk-of-failure
+the corresponding individual experienced in that interval before he/she failed or was censored.
 
 To illustrate, an individual who survives through 5 such intervals and then dies/fails in the
 6th interval will be allocated a 0 value for the failure status/censoring variable in the first
@@ -93,61 +76,32 @@ total length of the relevant interval in each of the first five intervals, and t
 length of time they survived in the sixth interval before they failed or were censored. If they
 survive through the first interval and they are censored in the second interval, the
 failure-status variable will take the value 0 in both intervals.\cr
-(3) The expanded data set also
-includes a unique ID (UID.expanded)in a form such as 77.13 which identifies that row of the
-dataset as relating to the 77th individual in the input data set (in whatever order they have
-been placed by the data repository 
-[which is often different to the original numeric order of the IDs that were
-actually specified to the data repository]) and his/her experience 
+(3) \strong{UID.expanded} the expanded data set also
+includes a unique ID in a form such as 77.13 which identifies that row of the
+dataset as relating to the 77th individual in the input data set and his/her experience 
 (exposure-time and failure status)in the
-14th interval. Note that .N indicates the (N+1)th interval because interval 1 has no
-suffix.\cr
-(4) In addition to UID.expanded, the expanded dataframe also includes a simpler variable
-IDSEQ which is simply the first part of UID.expanded (before the '.'). The value of this
+14th interval. Note that \code{.N} indicates the \code{(N+1)}th interval because 
+interval 1 has no suffix.\cr
+(4) \strong{IDSEQ} the first part of \code{UID.expanded} (before the \code{'.'}). 
+The value of this
 variable is repeated in every row to which the corresponding individual contributes data (i.e.
-to every row corresponding to an interval in which that individual was followed) (5) Finally,
-the expanded dataset contains any other variables pertaining to each individual that the user
-would like to  carry forwarded to a survival analysis based on the expanded data. Typically,
+to every row corresponding to an interval in which that individual was followed).\cr
+(5) The expanded dataset contains any other variables about each individual that the user
+would like to  carry forward to a survival analysis based on the expanded data. Typically,
 this will include the original ID as specified to the data repository, the total survival time (equivalent to
 the sum of the exposure times across all intervals) and the ultimate failure-status in the final
 interval to which they were exposed.  The value of each of these variables is also repeated in
-every row corresponding to an interval in which that individual was followed. The clientside
-function ds.lexis calls three server side functions. First lexisDS1 which is an aggregate
-function. This identifies the maximum survival time in each study (with a positive random value
-added to prevent disclosure). When these are all returned to the clientside, the maximum of
-these maxima us selected and this ensures that the end of the final exposure period will always
-include all of the events in all studies. The value of this maximum maximum is returned as part
-of the output of ds.lexis - REMEMBER IT INCLUDES A RANDOM ADDITION SO IT WILL ALWAYS BE LARGER
-THAN THE ACTUAL LARGEST SURVIVAL TIME BUT THIS DOESN'T MATTER TOO MUCH THOUGH IF IT IS LARGE
-RELATIVE TO THE REAL LENGTH OF THE FINAL SURVIVAL PERIOD, IT WILL DISTORT (REDUCE) THE ESTIMATE
-OF THE BASELINE HAZARD IN THE FINAL TIME PERIOD. IN THE UNLIKELY EVENT THAT THIS IS A PROBLEM
-FOR ANYONE, WE COULD EXPLORE A WORK ROUND IN A LATER VERSION OF DataSHIELD. Second, lexisDS2
-undertakes the actual expansion to produce the new dataframe. The function lexisDS2, which is an
-aggregate function, also checks the arguments to identify disclosure risks. This includes any
-attempts to send illegal character strings to the serverside as part of the intervalWidth
-argument. It also checks that the total length of the intervalWidth vector (effectively the
-total number of intervals specified) does not exceed nfilter.glm*length of vectors in the
-collapsed dataframe (before expansion to produce expandDF. This is because intervalWidth defines
-a numeric vector (completely determined by the user) which might be used to create and define
-subsets if the vector you defined was the same length as the primary data vectors in the model.
-In addition lexisDS2 checks the number of failures in each time interval and if one or more
-intervals in a study contain fewer than the value of nfilter.tab (the minimum valid non-zero
-cell count in a table) set by the server administrator for that study, the test will be failed
-for the relevant server. If any of these tests are failed, creation of the expanded dataframe
-will be blocked and an explanatory error message will be stored on each server. These messages
-can then be read using the command: ds.message("messageobj"). Third, the assign function
-lexisDS3 simplifies the final output so that the object specified by the \code{expandDF}
-argument is the actual dataframe rather than a table within a list.
+every row corresponding to an interval in which that individual was followed. 
 
 In \code{intervalWidth} argument if the total sum of the duration across all intervals is less 
 than the maximum follow-up of any individual in
 any contributing study, a final interval will be added by \code{ds.lexis} extending from the end of the
 last interval specified to the maximum follow-up time. If a single numeric value is specified
 rather than a vector, \code{ds.lexis} will keep adding intervals of the length specified until the
-maximum follow-up time in any single study is exceeded. This argument is subject to a number of
+maximum follow-up time in any single study is exceeded. This argument is subject to
 disclosure checks. 
 
-\code{idCol} argument must be a numeric or character. Note that when a particular variable is
+The \code{idCol} argument must be a numeric or character. Note that when a particular variable is
 identified as being the main ID to the data repository when the data are first transferred 
 to the data repository (i.e. before
 DataSHIELD is used), that ID often ends up being of class character and will then be sorted in
@@ -162,7 +116,7 @@ expanded dataset. But the nature and order of the original ID
 variable held in \code{idCol} doesn't
 matter to \code{ds.lexis}. Provided every individual appears only once 
 in the original data set (before expansion) the order does not matter because 
-\code{ds.lexis} works on its own unique numeric vector
+\code{ds.lexis} works on its unique numeric vector
 that is allocated from \code{1:M} (where there are \code{M} individuals) 
 in whatever order they appear in the original dataset. 
 
@@ -173,11 +127,11 @@ contain only a total survival time variable
 and every individual starts follow-up at time 0, the entry times should all
 be specified as zero, and the exit times as the total survival time. 
 So, \code{entryCol} should either be the name of the column 
-holding the entry time of each individual, or else if no \code{entryCol} is
+holding the entry time of each individual or else if no \code{entryCol} is
 specified it will be defaulted to zero anyway and put into a variable 
 called \code{starttime} in the expanded data set.
 
-In \code{exitCol} argument if the entry times (\code{entryCol}) are set, 
+In \code{exitCol} argument, if the entry times (\code{entryCol}) are set, 
 or defaulted, to zero, the \code{exitCol} variable should contain the total survival times.
 
 If \code{variables} argument is not set (is
@@ -188,6 +142,22 @@ If neither the \code{data} or
 exposure time and failure/censoring status
 variables which may still be useful for plotting survival data once these become available.
 
+This function is particularly meant to be used in preparing data for a piecewise
+regression analysis (PAR). Although the time intervals have to be pre-specified and are
+arbitrary, even a vaguely reasonable set of time intervals will give results very similar to a
+Cox regression analysis. The key issue is to choose survival intervals such that the baseline
+hazard (risk of death/disease/failure) within each interval is reasonably constant while the
+baseline hazard can vary freely between intervals. Even if the choice of intervals is very poor
+the ultimate results are typically qualitatively similar to Cox regression. Increasing the
+number of intervals will inevitably improve the approximation to the true baseline hazard, but
+the addition of many more unnecessary time intervals slows the analysis and can become disclosive
+and yet will not improve the fit of the model. 
+
+If the number of failures in one or more 
+periods in a given study is less than the specified disclosure filter determining minimum
+acceptable cell size in a table (\code{nfilter.tab}) 
+then the expanded data frame is not created in that study, and a study-side message 
+to this effect is made available in that study via \code{ds.message()} function.
 
 
 Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3}
@@ -257,7 +227,7 @@ Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3}
 
 }
 \seealso{
-\code{\link{ds.glm}} for genralized linear models.
+\code{\link{ds.glm}} for generalized linear models.
 }
 \author{
 DataSHIELD Development Team
