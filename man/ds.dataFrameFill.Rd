@@ -64,11 +64,22 @@ Server function called: \code{dataFrameFillDS}
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
+  #Create two data frames with one different column
+  
+  ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
+                     "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
+               newobj = "df1",
+               datasources = connections[1])
+               
+  ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL","D$LAB_GLUC_ADJUSTED"),
+               newobj = "df1",
+               datasources = connections[2])
+  
   # Fill the data frame with NA columns
   
-  ds.dataFrameFill(df.name = "D",
+  ds.dataFrameFill(df.name = "df1",
                    newobj = "D.Fill",
-                   datasources = connections) #All servers are used
+                   datasources = connections[c(1,2)]) #All servers are used
 
 
   # Clear the Datashield R sessions and logout

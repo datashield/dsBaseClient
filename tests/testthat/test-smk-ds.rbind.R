@@ -33,9 +33,9 @@ test_that("simple test", {
 
     res1 <- ds.class("rbind_newobj")
 
-    expect_equal(res1$survival1, "matrix")
-    expect_equal(res1$survival2, "matrix")
-    expect_equal(res1$survival3, "matrix")
+    expect_true("matrix" %in% res1$survival1)
+    expect_true("matrix" %in% res1$survival2)
+    expect_true("matrix" %in% res1$survival3)
 })
 
 #

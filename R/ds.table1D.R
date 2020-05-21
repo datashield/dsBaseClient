@@ -63,6 +63,7 @@
 #' }
 #'
 ds.table1D <- function(x=NULL, type='combine', warningMessage=TRUE, datasources=NULL){
+  .Deprecated("ds.table")
 
   # look for DS connections
   if(is.null(datasources)){

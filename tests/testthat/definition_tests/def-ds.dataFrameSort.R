@@ -1,33 +1,53 @@
 
 .test.function.parameters<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
   {
-  class.charac.parram<-list(initial.df.name,key.name,sort.method)
-  for(i in 1:length(class.charac.parram)){
-    
-     if(class(class.charac.parram[[i]])!="character")
-        {
-         expect_error(ds.dataFrameSort(df.name = initial.df.name,
-                                       sort.key.name = key.name,
-                                       sort.descending = sort.descending,
-                                       sort.method = sort.method,
-                                       newobj =df.created, 
-                                      datasources =test_env$connections))
-      }
-  }
-  if(class(sort.descending)!="logical")
+  if(class(initial.df.name)!="character" | class(key.name)!="character" | class(sort.method)!="character" | class(sort.descending) != "logical"  | class(df.created)!="character")
     {
     expect_error(ds.dataFrameSort(df.name = initial.df.name,
                                   sort.key.name = key.name,
                                   sort.descending = sort.descending,
                                   sort.method = sort.method,
                                   newobj =df.created, 
-                                  datasources = test_env$connections))
+                                  datasources = ds.test_env$connections))
+  }
+  
+  if(class(initial.df.name)=="character" & class(key.name)=="character" & class(sort.method)=="character" & class(sort.descending) == "logical"  & class(df.created)=="character")
+  {
+    if(grepl("[$]",key.name)==FALSE | initial.df.name!="D"){
+      expect_error(ds.dataFrameSort(df.name = initial.df.name,
+                                    sort.key.name = key.name,
+                                    sort.descending = sort.descending,
+                                    sort.method = sort.method,
+                                    newobj =df.created, 
+                                    datasources =ds.test_env$connections))
+    }else{
+      var.exist<-substr(key.name, 3, nchar(key.name))
+      for(j in 1:length(ds.test_env$connections)){
+          var.in.df<-var.exist %in% ds.colnames("D", datasources = ds.test_env$connections)[[j]] 
+          if(var.in.df==FALSE)
+          {
+            results<-ds.dataFrameSort(df.name = initial.df.name,
+                                      sort.key.name = key.name,
+                                      sort.descending = sort.descending,
+                                      sort.method = sort.method,
+                                      newobj =df.created, 
+                                      datasources =test_env$connections)
+            not.ok.message<-"NOT ALL OK: there are studysideMessage(s) on this datasource"
+            for(j in 1:length(ds.test_env$connections))
+            {
+              expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
+            }
+          }
+        
+      }
+    }
   }
   
 }
+
+
 .test.data.frame.creation<-function(initial.df.name,key.name,sort.descending,sort.method,df.created)
   {
-    library(dsDangerClient)
     # Create a sort data frame
     sort.key.name<-paste(initial.df.name,key.name,sep="$")
     ds.dataFrameSort(df.name = initial.df.name,
@@ -65,6 +85,8 @@
 
   # Sort local dfs
   sort.local<-list()
+  sort.local.dim<-list()
+  sort.local.colnames<-list()
   for(i in 1:length(local.df.list))
     {
     if (sort.method=="alphabetic")
@@ -80,6 +102,7 @@
       
     }
     sort.local[[i]]<-local.df.list[[i]][order.key,]
+    sort.local.dim[[i]]<-dim(local.df.list[[i]])
     }
   # Sort server dfs
   sort.key.name<-paste(initial.df.name,key.name,sep="$")
@@ -89,25 +112,62 @@
                    sort.method = sort.method,
                    newobj =df.created,
                    datasources = ds.test_env$connections)
+  sort.server.dim<-ds.dim(df.created,
+                          datasources = ds.test_env$connections)
+  sort.key.name.class<-ds.class(sort.key.name, datasources = ds.test_env$connections)[[1]]
   
-    # Upload server-side testing data frames in the client-side (danger function)
-    server.data<-ds.DANGERdfEXTRACT(df.created,
-                                    datasources = ds.test_env$connections)
-    server.data<-server.data$study.specific.df
+  for (i in 1:length(ds.test_env$connections))
+  {
+    expect_equal(sort.local.dim[[i]],
+                 sort.server.dim[[i]],
+                 ds.test_env$tolerance)
+  }
+  
+  
+  
+  if(sort.key.name.class == "integer" | sort.key.name.class == "numeric" & sort.method == "numeric" )
+    {
+     sorted.key.name<-list()
+     sort.server.mean<-list()
+     sort.server.var<-list()
+     len.key.server<-sort.server.dim[[1]][1]
+     for(l in 1:3)
+       {
+     i<-c(1,(len.key.server/2)-2.5,len.key.server-5)
+     j<-c(5,(len.key.server/2)+2.5,len.key.server)
+     sorted.key.name<-paste(df.created,"$",key.name,"[",i[l],":",j[l],"]",sep="")
     
-  #testing- testthat
+     sort.server.mean[[l]]<-ds.mean(sorted.key.name, type = "c", datasources = ds.test_env$connections)[[1]][1]
+     #sort.server.var[[l]]<-ds.var(sorted.key.name, type = "c", datasources = ds.test_env$connections)[[1]][1]
+     }
+     
+     
+       #expect_equal(sort.server.var[[1]],
+                    #sort.server.var[[2]],
+                    #ds.test_env$tolerance)
+       #expect_equal(sort.server.var[[2]],
+                    #sort.server.var[[3]],
+                    #ds.test_env$tolerance)
+     
+     if (sort.descending == TRUE & sort.method == "numeric")
+     {
+       expect_true(sort.server.mean[[1]] > sort.server.mean[[2]])
+       expect_true(sort.server.mean[[2]] > sort.server.mean[[3]])
+     }
+     if (sort.descending == FALSE & sort.method == "numeric")
+     {
+       expect_true(sort.server.mean[[1]] < sort.server.mean[[2]])
+       expect_true(sort.server.mean[[2]] < sort.server.mean[[3]])
+     }
+     
+     
+    
+   }
   
-  for ( i in 1:length(server.data)){
-      expect_equal(server.data[[i]][,key.name],
-                   sort.local[[i]][,key.name],
-                   ds.test_env$tolerance) 
-    }
   
 }
 
 
-# Clear the Datashield R sessions and logout
-datashield.logout(connections) 
 
 
 

@@ -21,7 +21,7 @@ connect.studies.dataset.survival(list("survtime", "time.id"))
 context("ds.corTest::arg")
 
 test_that("simple arg test", {
-    expect_error(ds.corTest(), "x=NULL. Please provide the names of the 1st vector!", fixed=TRUE)
+    expect_error(ds.corTest(), "x=NULL. Please provide the names of the 1st numeric vector!", fixed=TRUE)
     expect_error(ds.corTest(x="D$survtime"), "y=NULL. Please provide the names of the 2nd numeric vector!", fixed=TRUE)
 })
 
