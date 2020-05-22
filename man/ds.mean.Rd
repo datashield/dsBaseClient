@@ -41,7 +41,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{Mean.by.Study}:  estimated mean, \code{Nmissing}
 (number of missing observations), \code{Nvalid} (number of valid observations) and
 \code{Ntotal} (sum of missing and valid observations) 
-separately foe each study (if \code{type = split} or \code{type = both}). \cr
+separately for each study (if \code{type = split} or \code{type = both}). \cr
 \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 \code{Nstudies}: number of studies being analysed. \cr

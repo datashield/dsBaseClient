@@ -1,51 +1,80 @@
 #'
-#' @title ds.var calling aggregate function varDS
-#' @description Computes the variance of a given vector
-#' This function is similar to the R function \code{var}.
-#' @details It is a wrapper for the server side function.
-#' The server side function returns a list with the sum of the input variable, the sum of squares
-#' of the input variable, the number of missing values, the number of valid values, the number of
-#' total lenght of the variable, and a study message indicating whether the number of valid is less
-#' than the disclosure threshold. The variance is calculated at the client side by the formula
-#' $\deqn{var(X)}{\frac{\sum{x_i^2}}{N-1}-\frac{(\sum{x_i})^2}{N(N-1)}}$
-#' @param x a character, the name of a numerical vector.
-#' @param type a character which represents the type of analysis to carry out.
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global variance is calculated
-#' if \code{type} is set to 'split', 'splits' or 's', the variance is calculated separately for each study.
-#' if \code{type} is set to 'both' or 'b', both sets of outputs are produced
-#' @param checks a Boolean indicator of whether to undertake optional checks of model
-#' components. Defaults to checks=FALSE to save time. It is suggested that checks
+#' @title Computes server-side vector variance 
+#' @description Computes the variance of a given server-side vector. 
+#' @details This function is similar to the R function \code{var}.
+#' 
+#' The function can carry out 3 types of analysis depending on
+#' the argument \code{type}:\cr
+#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, 
+#' \code{'combines'} or \code{'c'}, a global variance is calculated.\cr
+#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
+#'  the variance is calculated separately for each study. \cr
+#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, 
+#' both sets of outputs are produced.
+#' 
+#' Server function called: \code{varDS}
+#' @param x a character specifying the name of a numerical vector.
+#' @param type a character string that represents the type of analysis to carry out.
+#' This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
+#' \code{'split'}, \code{'splits'}, \code{'s'},
+#' \code{'both'} or \code{'b'}. 
+#' For more information see \strong{Details}.
+#' @param checks logical. If TRUE  optional checks of model
+#' components will be undertaken. Default is FALSE to save time. 
+#' It is suggested that checks
 #' should only be undertaken once the function call has failed.
 #' @param datasources  a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return a list including: Variance.by.Study = estimated variance in each study separately (if type = split or both), with Nmissing
-#' (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
-#' also reported separately for each study; Global.Variance = Variance, Nmissing, Nvalid, Ntotal across all studies combined
-#' (if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether
-#' a full analysis was possible or whether one or more studies had fewer valid observations than the nfilter
-#' threshold for the minimum cell size in a contingency table.
-#' @author Amadou Gaye, Demetris Avraam, for DataSHIELD Development Team
+#' @return \code{ds.var} returns to the client-side a list including:\cr
+#' 
+#'  \code{Variance.by.Study}: estimated variance, \code{Nmissing}
+#' (number of missing observations), \code{Nvalid} (number of valid observations) and
+#' \code{Ntotal} (sum of missing and valid observations) 
+#' separately for each study (if \code{type = split} or \code{type = both}).\cr
+#' \code{Global.Variance}: estimated variance, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
+#' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
+#' \code{Nstudies}: number of studies being analysed. \cr
+#' \code{ValidityMessage}: indicates if the analysis was possible. \cr
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load that contains the login details
-#'   data(logindata)
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'   # login and assign specific variable(s)
-#'   myvar <- list('LAB_TSC')
-#'   conns <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#'
-#'   # Example 1: compute the pooled variance of the variable 'LAB_TSC' - default behaviour
-#'   ds.var(x='D$LAB_TSC')
-#'
-#'   # Example 2: compute the variance of each study separately
-#'   ds.var(x='D$LAB_TSC', type='split')
-#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   #Calculate the variance of a vector in the server-side
+#'   
+#'   ds.var(x = "D$LAB_TSC",
+#'           type = "split",
+#'           checks = FALSE,
+#'           datasources = connections)
+#'              
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(conns)
-#'
+#'   datashield.logout(connections)
 #' }
 #'
 ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
