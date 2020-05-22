@@ -35,7 +35,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.tapply.assign} returns an array of the summarized values.
-The array written to the server-side. It has the same number of
+The array is written to the server-side. It has the same number of
 dimensions as INDEX.
 }
 \description{
