@@ -1,6 +1,7 @@
 #' @title Applies a Function Over a Server-Side Ragged Array
 #' @description Apply one of a selected range of functions to summarize an
 #' outcome variable over one or more indexing factors. 
+#' The resultant summary is written to the client-side. 
 #' @details This function is similar to a native R function \code{tapply()}.
 #' It applies one of a selected range of functions to each cell 
 #' of a ragged array, that is to each (non-empty)

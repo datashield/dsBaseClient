@@ -35,7 +35,8 @@ It has the same number of dimensions as INDEX.
 }
 \description{
 Apply one of a selected range of functions to summarize an
-outcome variable over one or more indexing factors.
+outcome variable over one or more indexing factors. 
+The resultant summary is written to the client-side.
 }
 \details{
 This function is similar to a native R function \code{tapply()}.
