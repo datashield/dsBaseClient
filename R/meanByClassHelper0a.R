@@ -33,14 +33,13 @@ meanByClassHelper0a = function(a, b, type, datasources){
   }
   v <- c(v1, v2)
   newD <- "X"
-  cally <-  paste0("dataFrameDS(list(",paste(x,collapse=","),"),",
-                   'NULL',",", FALSE,",", TRUE,
-                   ",list(","'",paste(v,collapse="','"),"'","),"
-                   ,TRUE,",",FALSE,")")
-  DSI::datashield.assign(datasources, newD, as.symbol(cally))
+
+  x.names.transmit   <- paste(x, collapse=",")
+  col.names.transmit <- paste(v, collapse=',')
+  cally <- call("dataFrameDS", x.names.transmit, NULL, FALSE, TRUE, col.names.transmit, TRUE, FALSE)
+  DSI::datashield.assign(datasources, newD, cally)
 
   # get the 'loose' names of the variables and call the function that generate the results
-
 
   output <- meanByClassHelper0b(newD, v1, v2, type, datasources)
   return(output)
