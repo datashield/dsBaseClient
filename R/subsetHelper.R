@@ -3,8 +3,9 @@
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.subset' to ensure that the requested subset
 #' is not larger than the original object.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param data a string character, the name of the dataframe or the factor vector and the range of the subset.
 #' @param rs a vector of two integers, the indices of the rows de extract.
 #' @param cs a vector of two integers or one or more characters.

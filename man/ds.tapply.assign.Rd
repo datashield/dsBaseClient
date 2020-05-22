@@ -34,8 +34,9 @@ function allows the user to choose one of five summarizing functions. These are
 vector is to be written. If no <newobj> argument is specified, the output vector defaults
 to "tapply.assign.newobj".}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 an array of the summarized values created by the tapplyDS.assign function.

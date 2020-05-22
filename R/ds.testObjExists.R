@@ -7,8 +7,9 @@
 #' are embedded into other functions that create an object and you then wish to test whether it has successfully
 #' been created e.g. ds.make, ds.asFactor
 #' @param test.obj.name a character string specifying the name of the object to search for e.g. "TID.f".
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return If the specified data object exists and is of a valid class (i.e. is not null) in every one of the
 #' datasources specified by the datasources argument,  the function returns a list with a single element
 #' $return.message which is of the form: "A valid copy of data object <TID.f> exists in all specified data sources".

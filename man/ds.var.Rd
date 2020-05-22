@@ -18,8 +18,9 @@ if \code{type} is set to 'both' or 'b', both sets of outputs are produced}
 components. Defaults to checks=FALSE to save time. It is suggested that checks
 should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 a list including: Variance.by.Study = estimated variance in each study separately (if type = split or both), with Nmissing

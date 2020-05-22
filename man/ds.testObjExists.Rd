@@ -9,8 +9,9 @@ ds.testObjExists(test.obj.name = NULL, datasources = NULL)
 \arguments{
 \item{test.obj.name}{a character string specifying the name of the object to search for e.g. "TID.f".}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 If the specified data object exists and is of a valid class (i.e. is not null) in every one of the

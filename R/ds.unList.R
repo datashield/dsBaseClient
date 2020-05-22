@@ -19,8 +19,9 @@
 #' It must be specified in inverted commas e.g. x.name="input.object.name"
 #' @param newobj the name of the new output variable. If this argument is set
 #' to NULL, the name of the new variable is defaulted to unlist.newobj
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return the object specified by the <newobj> argument (or by default <x.name>.unlist
 #' if the <newobj> argument is NULL) which is written to the serverside.
 #' As well as writing the output object as <newobj>

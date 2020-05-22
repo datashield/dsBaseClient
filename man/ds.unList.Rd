@@ -13,8 +13,9 @@ It must be specified in inverted commas e.g. x.name="input.object.name"}
 \item{newobj}{the name of the new output variable. If this argument is set
 to NULL, the name of the new variable is defaulted to unlist.newobj}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 the object specified by the <newobj> argument (or by default <x.name>.unlist

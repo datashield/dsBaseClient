@@ -16,8 +16,9 @@
 #' @param checks a Boolean indicator of whether to undertake optional checks of model
 #' components. Defaults to checks=FALSE to save time. It is suggested that checks
 #' should only be undertaken once the function call has failed.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return a list including: Variance.by.Study = estimated variance in each study separately (if type = split or both), with Nmissing
 #' (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
 #' also reported separately for each study; Global.Variance = Variance, Nmissing, Nvalid, Ntotal across all studies combined

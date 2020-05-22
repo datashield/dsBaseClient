@@ -48,8 +48,9 @@
 #' @param newobj A character string specifying the name of the vector to which the output
 #' vector is to be written. If no <newobj> argument is specified, the output vector defaults
 #' to "tapply.assign.newobj".
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return an array of the summarized values created by the tapplyDS.assign function.
 #' This array is written as a newobj onto the serverside. It has the same number of
 #' dimensions as INDEX.
