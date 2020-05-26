@@ -349,22 +349,20 @@ jobs:
       cp $(Pipeline.Workspace)/logs/test_results.xml logs/$(projectName)/$(branchName)/
       cp $(Pipeline.Workspace)/logs/test_results.xml logs/$(projectName)/$(branchName)/$(datetime).xml
 
+      cp $(Pipeline.Workspace)/logs/$(datetime).txt logs/$(projectName)/$(branchName)/
+      
       # Run the script to parse the results and build the html pages.
       # status.py JUnit_file.xml coverage_file.csv output_file.html local_repo_path remote_repo_name branch
-      source/status.py logs/$(projectName)/$(branchName)/$(datetime).xml logs/$(projectName)/$(branchName)/$(datetime).csv status.html $(Pipeline.Workspace)/$(projectName) $(projectName) $(branchName)
-
+      source/status.py logs/$(projectName)/$(branchName)/$(datetime).xml logs/$(projectName)/$(branchName)/$(datetime).csv logs/$(projectName)/$(branchName)/$(datetime).txt status.html $(Pipeline.Workspace)/$(projectName) $(projectName) $(branchName)
+      
       cp status.html docs/$(projectName)/$(branchName)/latest/index.html
-
       git add logs/$(projectName)/$(branchName)/coveragelist.csv
       git add logs/$(projectName)/$(branchName)/test_results.xml
       git add logs/$(projectName)/$(branchName)/$(datetime).xml
       git add logs/$(projectName)/$(branchName)/$(datetime).csv
-      git add docs/$(projectName)/$(branchName)/latest/index.html
-
-      # copy versions file into repo tree and add
-      cp $(Pipeline.Workspace)/logs/$(datetime).txt logs/$(projectName)/$(branchName)/
       git add logs/$(projectName)/$(branchName)/$(datetime).txt
-
+      git add docs/$(projectName)/$(branchName)/latest/index.html
+      
       git commit -m "Azure auto test for $(projectName)/$(branchName) @ $(datetime)" -m "Debug info:\nProjectName:$(projectName)\nBranchName:$(branchName)\nDataTime:$(datetime)"
       git push
       exit 0
