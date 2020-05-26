@@ -5,7 +5,7 @@
 #' @details In addition to computing covariances; this function produces a table outlining the
 #' number of complete cases and a table outlining the number of missing values to allow for the
 #' user to decide about the 'relevance' of the covariance based on the number of complete
-#' cases included in the covariance calculations.
+#' cases included in the covariance calculations. 
 #' 
 #' If the argument \code{y} is not NULL, the dimensions of the object have to be 
 #' compatible with the argument \code{x}. 
@@ -38,12 +38,14 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.cov} returns  a list containing the number of missing values in each variable, the number of missing variables
+#' @return \code{ds.cov} returns a list containing the number of missing values in each variable, the number of missing values
 #' casewise or pairwise depending on the argument \code{naAction}, the covariance matrix, the number of used complete cases
-#' and an error message which indicates whether or not the input variables pass the disclosure control (i.e. none of them
-#' is dichotomous with a level having fewer counts than the pre-specified threshold). If any of the input variables do not
-#' pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
-#' the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
+#' and an error message which indicates whether or not the input variables pass the disclosure controls. The first disclosure
+#' control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
+#' percentage is pre-specified by the 'nfilter.glm). The second disclosure control checks that none of them is dichotomous
+#' with a level having fewer counts than the pre-specified 'nfilter.tab' threshold. If any of the input variables do not pass 
+#' the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
+#' the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{
@@ -138,7 +140,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     }
   }
   output <- DSI::datashield.aggregate(datasources, calltext)
-
+  
   if (type=="split"){
     covariance <- list()
     results <- list()
@@ -179,11 +181,11 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       combined.error.message <- list()
       for(i in 1:length(stdnames)){
         combined.sums.of.products <- combined.sums.of.products + output[[i]][[1]]
-	  combined.sums <- combined.sums + output[[i]][[2]]
+	      combined.sums <- combined.sums + output[[i]][[2]]
         combined.complete.cases <- combined.complete.cases + output[[i]][[3]]
         combined.missing.cases.vector <- combined.missing.cases.vector + output[[i]][[4]][[1]]
         combined.missing.cases.matrix <- combined.missing.cases.matrix + output[[i]][[4]][[2]]
-	  combined.error.message[[i]] <- output[[i]][[5]]
+	      combined.error.message[[i]] <- output[[i]][[5]]
       }
 
 	combined.covariance <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
