@@ -33,10 +33,12 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.cor} returns a list containing the number of missing values in each variable,
 the number of missing variables casewise or
 pairwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
-and an error message which indicates whether or not the input variables pass the disclosure control (i.e. none of them
-is dichotomous with a level having fewer counts than the pre-specified threshold). If any of the input variables do not
-pass the disclosure control then all the output values are replaced with NAs. If all the variables are valid and pass
-the control, then the output matrices are returned and also an error message is returned but it is replaced by NA.
+and an error message which indicates whether or not the input variables pass the disclosure controls. The first disclosure
+control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
+percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
+with a level having fewer counts than the pre-specified 'nfilter.tab' threshold. If any of the input variables do not
+pass the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
+the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 }
 \description{
 This function calculates the correlation of two variables or the correlation
