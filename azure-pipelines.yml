@@ -47,7 +47,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: tag/6.0
+    ref: 6.0
 
 
 
