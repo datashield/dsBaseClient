@@ -2,52 +2,84 @@
 % Please edit documentation in R/ds.rm.R
 \name{ds.rm}
 \alias{ds.rm}
-\title{ds.rm calling aggregate function rmDS}
+\title{Deletes server-side R object}
 \usage{
 ds.rm(x.name = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name, }{the name of the object to be deleted specified in
-inverted commas. For example: x.name='object.name'.}
+\item{x.name}{a character string specifying the object to be deleted.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified 
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the specified object is deleted from the serverside. If this
-is successful the message "Object <x.name> successfully deleted" is returned
-to the clientside (where x.name is the name of the object to be deleted).
-If the object to be deleted is already absent on a given
-source, that source will return the message: "Object to be deleted, i.e. <x.name> ,
-does not exist so does not need deleting". Finally, if the specified name
-of the object to be deleted is too long (>nfilter.stringShort) there is
-a potential disclosure risk (active code hidden in the name) and the
-serverside function returns a message such as: "Disclosure risk, number of characters
-in x.name must not exceed nfilter.stringShort which is currently set at: 25" where
-'25' is the current setting of the R_Option value of nfilter.stringShort.
+The \code{ds.rm}  function deletes from the server-side 
+the specified object.  If this 
+is successful the message \code{"Object <x.name> successfully deleted"} is returned
+to the client-side.
 }
 \description{
-deletes an R object on the serverside
+deletes an R object on the server-side
 }
 \details{
-this clientside function calls a serverside function
-based on the rm() function in native R. This is the
-aggregate function rmDS. The fact that it is an aggregate
-function maybe surprising because it modifies an object
-on the serverside, and would therefore be expected to be an assign function.
+This function is similar to the native R function 
+\code{rm()}.
+
+The fact that it is an aggregate
+function may be surprising because it modifies an object
+on the server-side, and would, therefore, be expected to be an assign function.
 However, as an assign function the last step in running it
-would be to write the modified object as newobj. But this would
+would be to write the modified object as \code{newobj}. But this would
 fail because the effect of the function is to delete the object and so
 it would be impossible to write it anywhere. Please note that although
-this calls an aggregate function there is no <type> argument.
+this calls an aggregate function there is no \code{type} argument.
+
+Server function called: \code{rmDS}
+}
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Create an object in the server-side
+  
+  ds.assign(toAssign = "D$LAB_TSC",
+            newobj = "labtsc",
+            datasources = connections)
+  
+  #Delete "labtsc" object from the server-side
+  
+  ds.rm(x.name = "labtsc",
+        datasources = connections)
+             
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

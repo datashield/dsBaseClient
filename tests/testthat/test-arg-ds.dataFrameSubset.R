@@ -12,7 +12,13 @@
 # Set up
 #
 
+context("ds.dataFrameSubset::arg::setup")
+
 connect.studies.dataset.cnsim(list("LAB_TSC"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
@@ -23,8 +29,21 @@ test_that("dataFrameSubset_erros", {
     expect_error(ds.dataFrameSubset(), "Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", fixed=TRUE)
 })
 
+
+#
+# Shutdown
+#
+
+context("ds.dataFrameSubset::arg::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
+disconnect.studies.dataset.cnsim()
+
 #
 # Done
 #
 
-disconnect.studies.dataset.cnsim()
+context("ds.dataFrameSubset::arg::done")

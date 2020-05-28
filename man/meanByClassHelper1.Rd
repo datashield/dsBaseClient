@@ -7,7 +7,8 @@
 meanByClassHelper1(dtsource, tables, variable, categories)
 }
 \arguments{
-\item{dtsource}{an opal object(s) obtained after login in to opal servers;}
+\item{dtsource}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{tables}{a character vector, the tables to breakdown}
 
@@ -22,7 +23,7 @@ a character the names of the new subset tables.
 This is an internal function.
 }
 \details{
-This function is called by the function 'ds.meanByClass' to break down 
+This function is called by the function 'ds.meanByClass' to break down
 the initial table by the specified categorical variables.
 }
 \author{

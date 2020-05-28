@@ -1,60 +1,85 @@
-#' 
-#' @title ds.asInteger calling assign function asIntegerDS
-#' @description This function is based on the native R function \code{as.integer}.
-#' @details This function is based on the native R function \code{as.integer} (see help file
-#' of function \code{as.integer} in native R). The only difference is that the DataSHIELD 
+#' @title Converts a server-side R object into an integer class 
+#' @description Coerces an R object into an integer class.
+#' This function is based on the native R function \code{as.integer}.
+#' @details This function is based on the native R function \code{as.integer}. 
+#'  The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
-#' those to integers. This addition is important for the case where the input object is of class
-#' factor having integers as levels. In that case, the native R \code{as.integer} function returns
-#' the underlying level codes and not the values as integers. For example \code{as.integer} in R
-#' converts the factor vector:
-#' 0 1 1 2 1 0 1 0 2 2 2 1
-#' Levels: 0 1 2
+#' those to integers. This addition, 
+#' it is important for the case where the input object is of class
+#' factor having integers as levels. 
+#' In that case, the native R \code{as.integer} function returns
+#' the underlying level codes and not the values as integers.
+#'  For example \code{as.integer} in R
+#' converts the factor vector: \cr
+#' [1] 0 1 1 2 1 0 1 0 2 2 2 1 \cr
+#'  Levels: 0 1 2  \cr
 #' to the following integer vector:
-#' 1 2 2 3 2 1 2 1 3 3 3 2
-#' For more information see the warning section in the help file of \code{factor} in native R.
-#' In contrast DataSHIELD converts an inpuct factor with integer levels to its original integer values.
-#' @param x.name the name of the input object to be coerced to class
-#' integer. Must be specified in inverted commas.
-#' @param newobj the name of the new output variable. If this argument is set
-#' to NULL, the name of the new variable is defaulted to asinteger.newobj
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If an explicit <datasources> argument is to be set,
-#' it should be specified without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
-#' @return the object specified by the <newobj> argument (or by default <x.name>.int
-#' if the <newobj> argument is NULL) which is written to the serverside.
-#' In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study there may
-#' be a studysideMessage that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message(<newobj>) it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message(<newobj>)
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
-#' @export
+#' 1 2 2 3 2 1 2 1 3 3 3 2 \cr
+#' 
+#' Server function called: \code{asIntegerDS}
+#' 
+#' @param x.name a character string providing the name of the input object to be coerced to 
+#' an integer.  
+#' @param newobj a character string that provides the name for the output object
+#'  that is stored on the data servers. Default \code{asinteger.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.asInteger} returns the R object converted into an integer
+#' that is written to the server-side. Also, two validity messages are returned to the
+#' client-side indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
+#' it is in a valid form.
+#' @examples 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Converting the R object into an integer
+#'   ds.asInteger(x.name = "D$LAB_TSC",
+#'                   newobj = "int.obj",
+#'                   datasources = connections[1]) #only the first Opal server is used ("study1")
+#'   ds.class(x = "int.obj", datasources = connections[1])   
+#'   
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
+#' @author DataSHIELD Development Team
+#' @export
 ds.asInteger <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "asinteger.newobj"
@@ -62,65 +87,82 @@ ds.asInteger <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # call the server side function that does the job
   calltext <- call("asIntegerDS", x.name)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
-  #############################################################################################################
-  # DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                 
+#############################################################################################################
+#DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
+																											#
+#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
+test.obj.name<-newobj																					 	#
+																											#																											#																											#
+# CALL SEVERSIDE FUNCTION                                                                                	#
+calltext <- call("testObjExistsDS", test.obj.name)													 	#
+																											#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
+																											#
+# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
+# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
+num.datasources<-length(object.info)																	 	#
+																											#
+																											#
+obj.name.exists.in.all.sources<-TRUE																	 	#
+obj.non.null.in.all.sources<-TRUE																		 	#
+																											#
+for(j in 1:num.datasources){																			 	#
+	if(!object.info[[j]]$test.obj.exists){																 	#
+		obj.name.exists.in.all.sources<-FALSE															 	#
+		}																								 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+		obj.non.null.in.all.sources<-FALSE																 	#
+		}																								 	#
+	}																									 	#
+																											#
+if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
+																											#
+	return.message<-																					 	#
+    paste0("A data object <", test.obj.name, "> has been created in all specified data sources")		 	#
+																											#
+																											#
+	}else{																								 	#
+																											#
+    return.message.1<-																					 	#
+	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")	#
+																											#
+	return.message.2<-																					 	#
+	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 	#
+																											#
+	return.message.3<-																					 	#
+	paste0("Please use ds.ls() to identify where missing")												 	#
+																											#
+																											#
+	return.message<-list(return.message.1,return.message.2,return.message.3)							 	#
+																											#
+	}																										#
+																											#
+	calltext <- call("messageDS", test.obj.name)															#
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
+	no.errors<-TRUE																							#
+	for(nd in 1:num.datasources){																			#
+		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
+		no.errors<-FALSE																					#
+		}																									#
+	}																										#
+																											#
+																											#
+	if(no.errors){																							#
+	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
+	return(list(is.object.created=return.message,validity.check=validity.check))						    #
+	}																										#
+																											#
+if(!no.errors){																								#
+	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
+	return(list(is.object.created=return.message,validity.check=validity.check,					    		#
+	            studyside.messages=studyside.message))			                                            #
+	}																										#
+																											#
+#END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
+#############################################################################################################
 
-  # SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION
-  test.obj.name <- newobj
-
-  # CALL SEVERSIDE FUNCTION
-  calltext <- call("testObjExistsDS", test.obj.name)
-  object.info <- opal::datashield.aggregate(datasources, calltext)
-
-  # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS
-  # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS
-  num.datasources <- length(object.info)
-
-  obj.name.exists.in.all.sources <- TRUE
-  obj.non.null.in.all.sources <- TRUE
-
-  for(j in 1:num.datasources){
-    if(!object.info[[j]]$test.obj.exists){
-	obj.name.exists.in.all.sources <- FALSE
-    }
-    if(object.info[[j]]$test.obj.class=="ABSENT"){
-	 obj.non.null.in.all.sources <- FALSE
-    }
-  }
-
-  if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){
-    return.message <- paste0("A data object <", test.obj.name, "> has been created in all specified data sources")
-  }else{
-    return.message.1 <- paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")
-    return.message.2 <-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")
-    return.message.3 <- paste0("Please use ds.ls() to identify where missing")
-    return.message <- list(return.message.1, return.message.2, return.message.3)
-  }
-
-  calltext <- call("messageDS", test.obj.name)
-  studyside.message <- opal::datashield.aggregate(datasources, calltext)
-  
-  no.errors <- TRUE
-  for(nd in 1:num.datasources){
-    if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){
-      no.errors <- FALSE
-    }
-  }	
-
-  if(no.errors){
-    validity.check <- paste0("<", test.obj.name, "> appears valid in all sources")
-    return(list(is.object.created=return.message, validity.check=validity.check))
-  }
-
-  if(!no.errors){
-    validity.check <- paste0("<", test.obj.name, "> invalid in at least one source. See studyside.messages:")
-    return(list(is.object.created=return.message, validity.check=validity.check, studyside.messages=studyside.message))
-  }
-
-  # END OF CHECK OBJECT CREATED CORRECTLY MODULE
-  #############################################################################################################
-  
 }
 # ds.asInteger

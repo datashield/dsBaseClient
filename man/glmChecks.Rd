@@ -9,28 +9,28 @@ glmChecks(formula, data, offset, weights, datasources)
 \arguments{
 \item{formula}{a character, a regression formula given as a string character}
 
-\item{data}{a character, the name of an optional data frame containing the variables in 
+\item{data}{a character, the name of an optional data frame containing the variables in
 in the \code{formula}.}
 
-\item{offset}{null or a numreric vector that can be used to specify an a priori known component to be 
+\item{offset}{null or a numreric vector that can be used to specify an a priori known component to be
 included in the linear predictor during fitting.}
 
-\item{weights}{a character, the name of an optional vector of 'prior weights' to be used in the fitting 
+\item{weights}{a character, the name of an optional vector of 'prior weights' to be used in the fitting
 process. Should be NULL or a numeric vector.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{
 an integer 0 if check was passed and 1 if failed
 }
 \description{
-This is an internal function required by the client function \code{ds.glm} 
+This is an internal function required by the client function \code{ds.glm}
 to verify all the variables and ensure the process does not halt inadvertanly.
 }
 \details{
-the variables are checked to ensure they are defined, not empty (i.e. are not missing 
-at complete) and evantually (if 'offset' or 'weights') are of 'numeric' with non negative value 
+the variables are checked to ensure they are defined, not empty (i.e. are not missing
+at complete) and evantually (if 'offset' or 'weights') are of 'numeric' with non negative value
 (if 'weights').
 }
 \author{

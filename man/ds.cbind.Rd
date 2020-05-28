@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.cbind.R
 \name{ds.cbind}
 \alias{ds.cbind}
-\title{ds.cbind calling cbindDS}
+\title{Combines R objects by columns in the server-side}
 \usage{
 ds.cbind(
   x = NULL,
@@ -14,94 +14,131 @@ ds.cbind(
 )
 }
 \arguments{
-\item{x}{This is a vector of character strings representing the names of the elemental
-components to be combined  For example, the call:
-ds.cbind(x=c('DF_input','matrix.m','var_age'),newobj='cbind_output') will
-combine a pre-existing data.frame called DF_input with a matrix and a variable
-called var_age. The output will be the object cbind_output in which
-the first columns will be the columns of DF_input, to their right
-the next block of columns are from matrix.m and the final column will
-be the variable var_age. As many
-elemental components as needed may be combined in any order e.g. 3 data.frames,
-7 variables and 2 matrices. For convenience the x argument can alternatively
-be specified in a two step procedure, the first being a call to
-the native R environment on the client server:
-x.components<-c('DF_input1','matrix.m','DF_input2', 'var_age'); 
-ds.cbind(x=x.components,newobj='DF_output'). In order to
-disambiguate column names, if the same column name appears several times
-the suffix '.1' will be appended to the second instance, '.2' to the
-third and, generally, .(n-1) to the nth instance. Disambiguation
-does not occur if column names are user specified using <force.colnames>}
+\item{x}{a character vector with the  name of the objects to be combined.}
 
-\item{DataSHIELD.checks}{logical, if TRUE checks are made that all
-input objects exist and are of an appropriate class. These checks
-are relatively slow and so the <DataSHIELD.checks> argument is
-defaulted to FALSE}
+\item{DataSHIELD.checks}{logical. if TRUE does four checks:\cr
+1. the input object(s) is(are) defined in all the studies.\cr
+2. the input object(s) is(are) of the same legal class in all the studies.\cr
+3. if there are any duplicated column names in the input objects in each study.\cr
+4. the number of rows is the same in all components to be cbind.\cr
+Default FALSE.}
 
-\item{force.colnames}{NULL or a vector of character strings representing
-the required column names of the output object. For example:
-force.colnames=c("colname1","name.of.second.column", "lastcol") for an
-output object with three columns. If <force.colnames> is NULL
-column names are inferred from the names or column names of
-the input objects - please see 'details' for disambiguation.
-If <force.colnames> is not NULL, there is no disambiguation
-so you can force columns to have the same names should you
-so wish.The vector of column names must have
-the same number of elements as there are columns in the output
-object. If the length of the column name vector is incorrect a
-studysideMessage is returned: "Number of column names
-does not match number of columns in output object. Here 'N' names
-are required.Please see help for {ds.cbind} function" where 'N'
-is the actual number of columns in the output object}
+\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
+column names of the output object. If it is not NULL the user should take some caution. 
+For more information see \strong{Details}.}
 
-\item{newobj}{This a character string providing a name for the output
-data.frame which defaults to 'cbind.newobj' if no name is specified.}
+\item{newobj}{a character string that provides the name for the output variable 
+that is stored on the data servers. Defaults \code{cbind.newobj}.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
-\item{notify.of.progress}{specifies if console output should be produce to indicate
-progress. The default value for notify.of.progress is FALSE.}
+\item{notify.of.progress}{specifies if console output should be produced to indicate
+progress. Default FALSE.}
 }
 \value{
-the object specified by the <newobj> argument (or default name <cbind.out>).
-which is written to the serverside. Just like the {cbind} function in
-native R, the output object is of class matrix unless one or more
-of the input objects is a data.frame in which case the class of the
-output object is data.frame. In the latter case, if an object of
-class matrix is required one may use the {ds.asMatrix} function.
-As well as writing the output object as <newobj>
-on the serverside, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.cbind() also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("<newobj>") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("<newobj>")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.cbind} returns a data frame combining the columns of the R 
+objects specified in the function which is written to the server-side. 
+It also returns to the client-side two messages with the name of \code{newobj}
+that has been created in each data source and \code{DataSHIELD.checks} result.
 }
 \description{
-Take a sequence of vector, matrix or data-frame arguments
-and combine them by column to produce a matrix.
+Takes a sequence of vector, matrix or data-frame arguments
+and combines them by column to produce a data-frame.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined column by column to produce a matrix written to the
-which is written to the serverside. For more details see 
-the native R function {cbind}. The handling of argument <x>
-is the same as for {ds.dataFrame}
+is combined column by column to produce a data-frame that is written to the server-side. 
+
+This function is similar to the native R function \code{cbind}.
+
+In \code{DataSHIELD.checks} the checks are relatively slow. 
+Default \code{DataSHIELD.checks} value is FALSE.
+
+If \code{force.colnames} is NULL (which is recommended), the column names are inferred
+from the names or column names of the first object specified in the \code{x} argument.
+If this argument is not NULL, then the column names of the assigned data.frame have the
+same order as the characters specified by the user in this argument. Therefore, the
+vector of \code{force.colnames} must have the same number of elements as the columns in
+the output object. In a multi-site DataSHIELD setting to use this argument, the user should
+make sure that each study has the same number of names and column names of the input elements
+specified in the \code{x} argument and in the same order in all the studies. 
+
+Server function called: \code{cbindDS}
+}
+\examples{
+
+\dontrun{
+  ## Version 6, for version 5 see the Wiki 
+  
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  # Example 1: Assign the exponent of a numeric variable at each server and cbind it 
+  # to the data frame D
+  
+  ds.exp(x = "D$LAB_HDL",
+         newobj = "LAB_HDL.exp",
+         datasources = connections) 
+         
+  ds.cbind(x = c("D", "LAB_HDL.exp"),
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.1",
+           datasources = connections)
+             
+  # Example 2: If there are duplicated column names in the input objects the function adds
+  # a suffix '.k' to the kth replicate". If also the argument DataSHIELD.checks is set to TRUE
+  # the function returns a warning message notifying the user for the existence of any duplicated
+  # column names in each study
+  
+  ds.cbind(x = c("LAB_HDL.exp", "LAB_HDL.exp"), 
+           DataSHIELD.checks = TRUE,
+           newobj = "D.cbind.2",
+           datasources = connections)
+           
+  ds.colnames(x = "D.cbind.2",
+              datasources = connections)            
+             
+  # Example 3: Generate a random normally distributed variable of length 100 at each study,
+  # and cbind it to the data frame D. This example fails and  returns an error as the length
+  # of the generated variable "norm.var" is not the same as the number of rows in the data frame D
+  
+  ds.rNorm(samp.size = 100,
+           newobj = "norm.var",
+           datasources = connections) 
+           
+  ds.cbind(x = c("D", "norm.var"), 
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.3", 
+           datasources = connections)                 
+                   
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
+  }
+
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

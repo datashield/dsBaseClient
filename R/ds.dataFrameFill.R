@@ -1,31 +1,83 @@
 #'
-#' @title ds.dataFrameFill calling dataFrameFillDS
-#' @description Adds extra columns with missing values in a dataframe one for each variable is not
-#' included in the dataframe but is included in the relevant datafram of another datasource.
+#' @title Creates missing values columns in the server-side
+#' @description Adds extra columns with missing values in a data frame on the server-side. 
 #' @details This function checks if the input data frames have the same variables (i.e. the same
 #' column names) in all of the used studies. When a study does not have some of the variables, the
 #' function generates those variables as vectors of missing values and combines them as columns to
-#' the input data frame. Then, the "complete" in terms of the columns dataframe is saved in each
-#' server with a name specified by the argument \code{newobj}.
+#' the input data frame. 
+#' 
+#' Server function called: \code{dataFrameFillDS}
 #' @param df.name a character string representing the name of the input data frame that will be
-#' filled with extra columns with missing values if a number of variables is missing from it
-#' compared to the data frames of the other studies used in the analysis.
-#' @param newobj a character string providing a name for the output data frame which defaults to
-#' the name "dataframefill.newobj" if no name is specified.
-#' @param datasources specifies the particular opal objects to use. If the \code{datasources}
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function ds.setDefaultOpals.
-#' @return The object specified by the \code{newobj} argument which is written to the serverside.
-#' In addition, two validity messages are returned indicating whether the \code{newobj} has been
-#' created in each data source and if so whether it is in a valid form.
-#' @author Demetris Avraam for DataSHIELD Development Team
+#' filled with extra columns of missing values. 
+#' @param newobj a character string that provides the name for the output data frame  
+#' that is stored on the data servers. Default \code{dataframefill.newobj}. 
+#' Default value is the name of the input data frame with the suffix "_filled". 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
+#' is written to the server-side. Also, two validity messages are returned to the
+#' client-side indicating the name of the \code{newobj} that has been created in each data source
+#' and if it is in a valid form.
+#' @author DataSHIELD Development Team
+#' 
+#' @examples 
+#' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki 
+#'   # Connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#' 
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   #Create two data frames with one different column
+#'   
+#'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
+#'                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
+#'                newobj = "df1",
+#'                datasources = connections[1])
+#'                
+#'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL","D$LAB_GLUC_ADJUSTED"),
+#'                newobj = "df1",
+#'                datasources = connections[2])
+#'   
+#'   # Fill the data frame with NA columns
+#'   
+#'   ds.dataFrameFill(df.name = "df1",
+#'                    newobj = "D.Fill",
+#'                    datasources = connections[c(1,2)]) #All servers are used
+#'
+#'
+#'   # Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
+#' }
 #' @export
 #'
 ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # if no connections details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
   # check if user has provided the name of the data.frame to be subsetted
@@ -79,7 +131,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   calltext <- call("dataFrameFillDS", df.name, allNames.transmit)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################
   # DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED
@@ -89,7 +141,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   # CALL SEVERSIDE FUNCTION
   calltext <- call("testObjExistsDS", test.obj.name)
-  object.info <- opal::datashield.aggregate(datasources, calltext)
+  object.info <- DSI::datashield.aggregate(datasources, calltext)
 
   # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS
   # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS
@@ -117,7 +169,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   calltext <- call("messageDS", test.obj.name)
-  studyside.message <- opal::datashield.aggregate(datasources, calltext)
+  studyside.message <- DSI::datashield.aggregate(datasources, calltext)
 
   no.errors <- TRUE
   for(nd in 1:num.datasources){

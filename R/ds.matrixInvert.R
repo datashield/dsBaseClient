@@ -1,44 +1,91 @@
-#' @title ds.matrixInvert calling assign function matrixInvertDS
-#' @description Inverts a square matrix A and writes the output to the serverside 
-#' @details Undertakes standard matrix inversion. This operation is only
-#' possible if the number of columns and rows of A are the same and the matrix
-#' is non-singular - positive definite (eg there is no row or column that is all zeros)
-#' @param M1  A character string specifying the name of the matrix to be inverted
-#' @param newobj A character string specifying the name of the matrix to which the output
-#' is to be written. If no <newobj> argument is specified, the output matrix names defaults
-#' to "matrixinvert.newobj"
-#' @param datasources specifies the particular opal object(s) to use. If the <datasources>
-#' argument is not specified the default set of opals will be used. The default opals
-#' are called default.opals and the default can be set using the function
-#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
-#' @return the object specified by the <newobj> argument (or default name <M1>_inverted)
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' ds.matrixInvert also returns any studysideMessages that can explain the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
-#' @author Paul Burton for DataSHIELD Development Team
+#' @title Inverts a server-side square matrix
+#' @description Inverts a square matrix and writes the output to the server-side
+#' @details This operation is only
+#' possible if the number of columns and rows of  the matrix are the same and it
+#' is non-singular-positive definite (e.g. there is no row or column that is all zeros). 
+#' 
+#' Server function called: \code{matrixInvertDS}
+#' @param M1  A character string specifying the name of the matrix to be inverted.
+#' @param newobj a character string that provides the name for the output 
+#' variable that is stored on the data servers.
+#' Default \code{matrixinvert.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrixInvert} returns to the server-side the inverts square matrix. 
+#' Also, two validity messages are returned to the client-side 
+#' indicating whether the new object has been created in each data source and if so whether
+#' it is in a valid form. 
+#' @author DataSHIELD Development Team
+#' @examples
+#' \dontrun{
+#' 
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'             
+#'   #Example 1: Invert the server-side matrix
+#'   
+#'   #Create the server-side vector 
+#'   
+#'   ds.rUnif(samp.size = 9,
+#'            min = -10.5,
+#'            max = 10.5,
+#'            newobj = "ss.vector.9",
+#'            seed.as.integer = 5575,
+#'            force.output.to.k.decimal.places = 0,
+#'            datasources = connections)
+#'            
+#'   #Create the server-side matrix
+#'            
+#'   ds.matrix(mdata = "ss.vector.9",
+#'             from = "serverside.vector",
+#'             nrows.scalar = 3,
+#'             ncols.scalar = 4,
+#'             byrow = TRUE,
+#'             newobj = "matrix",
+#'             datasources = connections)
+#'    
+#'   #Invert the matrix
+#'   
+#'   ds.matrixInvert(M1 = "matrix",
+#'                   newobj = "matrix.invert",
+#'                   datasources = connections)
+#'   
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
+#' }
 #' @export
 #'
 ds.matrixInvert<-function(M1=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){
     return("Error: Please provide the name of the matrix representing M1")
@@ -51,7 +98,7 @@ ds.matrixInvert<-function(M1=NULL, newobj=NULL, datasources=NULL){
 
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("matrixInvertDS", M1)
-  opal::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -63,11 +110,11 @@ test.obj.name<-newobj																					 	#
 #return(test.obj.name)																					 	#
 #}                                                                                   					 	#
 																											#
-																											#							
+																											#
 # CALL SEVERSIDE FUNCTION                                                                                	#
 calltext <- call("testObjExistsDS", test.obj.name)													 	#
 																											#
-object.info<-opal::datashield.aggregate(datasources, calltext)												 	#
+object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
 																											#
 # CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
 # AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
@@ -109,14 +156,14 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#
 																											#
 	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-opal::datashield.aggregate(datasources, calltext)											#
-																											#	
+    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
+																											#
 	no.errors<-TRUE																							#
 	for(nd in 1:num.datasources){																			#
 		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
 		no.errors<-FALSE																					#
 		}																									#
-	}																										#	
+	}																										#
 																											#
 																											#
 	if(no.errors){																							#

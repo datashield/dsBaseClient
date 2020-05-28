@@ -1,96 +1,115 @@
+#'
+#' @title Recodes the levels of a server-side factor vector 
+#' @description The function replaces the levels of a factor by the specified new ones.
+#' @details This function is similar to native R function \code{levels()}. 
 #' 
-#' @title Recodes the levels of a factor vector
-#' @description The function replaces the levels of a factor by the specified ones.
-#' @details It uses the R function 'levels()' on the client side to alter the current levels.
-#' It can for example be used to merge two classes into one, to add a level(s) to a vector 
+#' It can for example be used to merge two classes into one, to add a level(s) to a vector
 #' or to rename (i.e. re-label) the levels of a vector.
-#' @param x, a character, the name of a factor variable.
-#' @param newCategories, a character vector, the new levels. Its length MUST be equal or greater 
+#' 
+#' Server function called: \code{levels()}
+
+#' @param x  a character string specifying  the name of a factor variable.
+#' @param newCategories a character vector specifying the new levels. Its length must  be equal or greater
 #' to the current number of levels.
-#' @param newobj, a character, the name of the new factor vector. If no name is specified
-#' for the new variable it is named 'recodelevels.newobj'.
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' By default an internal function looks for 'opal' objects in the environment and sets this parameter. 
-#' @return nothing is returned to the client, the new object is stored on the server side.
-#' @author Gaye, A.
+#' @param newobj a character string that provides the name for the output object
+#' that is stored on the data servers. Default \code{recodelevels.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.recodeLevels} returns to the server-side a variable of type factor
+#' with the replaces levels. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #' 
-#'   # load that contains the login details
-#'   data(logindata)
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #'
-#'   # login and assign all the variables
-#'   opals <- datashield.login(logins=logindata,assign=TRUE)
-#' 
-#'   # let s first check the levels in the categorical variable 'PM_BMI_CATEGORICAL'
-#'   ds.levels(x='D$PM_BMI_CATEGORICAL')
-#' 
-#'   # Example1: merge the levels '2' and '3' to obtain only two levels (i.e. '1' and '2')
-#'   # this is the same as recoding level '3' as '2' whilst keeping the same labels for the other
-#'   # two levels.
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','2'), newobj='BMI_CAT_NEW1')
-#'   ds.levels(x='BMI_CAT_NEW1')
-#' 
-#'   # Example2: add a 4th and empty level to categorical bmi to create a new variable
-#'   # we know the current categories are '1', '2' and '3' so we add '4'
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('1','2','3','4'), newobj='BMI_CAT_NEW2')
-#'   ds.levels(x='BMI_CAT_NEW2')
-#' 
-#'   # Example3: re-label the levels of the categorical bmi "low", "mid" and "high"
-#'   ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('low','mid','high'),
-#'                   newobj='BMI_CAT_NEW3')
-#'   ds.levels(x='BMI_CAT_NEW3')
-#' 
-#'   # clear the Datashield R sessions and logout
-#'   datashield.logout(opals)
-#' 
-#' }
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Recode the levels of a factor variable
+#'   
+#'   ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
+#'                   newCategories = c("1","2","3"),
+#'                   newobj = "BMI_CAT",
+#'                   datasources = connections)
+#'                  
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
 #'
 ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+  .Deprecated("ds.recodeValues")
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     message(" ALERT!")
     message(" Please provide a valid numeric of character vector")
     stop(" End of process!", call.=FALSE)
   }
-  
+
   if(is.null(newCategories)){
     message(" ALERT!")
     message(" Please specify the new categories to recode to")
     stop(" End of process!", call.=FALSE)
   }
-  
+
   # check if the input object(s) is(are) defined in all the studies
   defined <- isDefined(datasources,x)
-  
+
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
-  
+
   # if input vector is not a factor stop
   if(!('factor' %in% typ)){
     stop("The input vector must be a factor!", call.=FALSE)
   }
-  
+
   # get the current number of levels
-  cally <- paste0("levels(", x, ")")
-  xx <- opal::datashield.aggregate(datasources, as.symbol(cally))
-  if(length(unique(unlist(xx))) > length(newCategories)){
+  cally <- paste0("levelsDS(", x, ")")
+  xx <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  all.study.levels <- c()
+  for (study.levels in xx) {
+    if (any(is.na(study.levels$Levels)))
+       stop(paste0("Failed to get levels from study: ", study.levels$ValidityMessage), call.=FALSE)
+    all.study.levels <- c(all.study.levels, study.levels$Levels)
+  }
+  if(length(unique(all.study.levels)) > length(newCategories)){
     stop("The number of levels you specified is smaller than the levels of the input vector!", call.=FALSE)
   }
-  
+
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
   xnames <- extract(x)
   varname <- xnames[length(xnames)]
-  
+
   # if no name was provided for the new variable give it a default name
   if(is.null(newobj)){
     newobj <- paste(varname, "_new", sep="")
@@ -99,11 +118,11 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   # get the names and number of the studies/datasources
   stdnames <- names(datasources)
   numstudies <- length(stdnames)
-  
+
   # do the business
   cally <- paste0("recodeLevelsDS(", x, ", c(","'",paste(newCategories,collapse="','"),"')",")")
-  opal::datashield.assign(datasources, newobj, as.symbol(cally))
-  
+  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
+
   # check that the new object has been created and display a message accordingly
   finalcheck <- isAssigned(datasources, newobj)
 }

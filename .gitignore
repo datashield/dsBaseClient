@@ -6,6 +6,7 @@
 .Rproj.user
 .RData
 .DS_Store
+*.swp
 inst/tests/test-template.R
 azure-pipelines.Rout
 tests/testthat/connection_to_datasets/local_settings.csv

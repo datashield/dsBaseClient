@@ -11,13 +11,18 @@
 # Datashield test suite set up
 #
 
-library(opal)
+context("setup")
+
+library(lme4)
+
+library(DSOpal)
+library(DSLite)
 library(dsBaseClient)
-library(RCurl)
 
 source("dstest_functions/ds_expect_variables.R")
-
 source("connection_to_datasets/login_details.R")
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("connection_to_datasets/init_studies_datasets.R")
 source("connection_to_datasets/init_discordant_datasets.R")
+
+context("setup - done")

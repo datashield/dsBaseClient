@@ -29,11 +29,11 @@ ds.test_env$MAX <- 5
   value <- c(0.0,0.0,0.0,0.0,0.0)
   
   # compute dispersion and centrality
-  mean.from.servers <- ds.mean(x=name.variable,type='combine', check=TRUE,save.mean.Nvalid=FALSE, datasources=ds.test_env$connection.opal)
-  var.from.servers <- ds.var(x=name.variable,type='combine',   datasources=ds.test_env$connection.opal)
+  mean.from.servers <- ds.mean(x=name.variable,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  var.from.servers <- ds.var(x=name.variable,type='combine')
   
   # compute range
-  levels <- ds.asFactor(name.variable, newobj.name = "factors", datasources=ds.test_env$connection.opal)
+  levels <- ds.asFactor(name.variable, newobj.name = "factors")
   vector <- (as.numeric(unlist(levels[[1]])))
   server.min <- min(vector)
   server.max <- max(vector)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.rUnif.R
 \name{ds.rUnif}
 \alias{ds.rUnif}
-\title{ds.rUnif calling rUnifDS and setSeedDS}
+\title{Generates Uniform  distribution in the server-side}
 \usage{
 ds.rUnif(
   samp.size = 1,
@@ -16,112 +16,140 @@ ds.rUnif(
 )
 }
 \arguments{
-\item{samp.size}{the length of the random number vector to be created in each source.
-<samp.size> can be a numeric scalar and this then specifies the length of the
-random vectors in each source to be the same. If it is a numeric vector
-it enables the random vectors to be of different lengths in each source but the
-numeric vector must be of length equal to the number of data sources being used.
-Often, one wishes to generate random vectors of length equal to the length of
-standard vectors in each source. To do this most easily, issue a command such as:
-numobs.list<-ds.length('varname',type='split') where varname is an arbitrary
-vector of standard length in all sources. Then issue command:
-numobs<-unlist(numobs.list) to make numobs numeric rather than a list. Finally,
-declare samp.size=numobs as the first argument for the ds.rUnif function
-Please note that because (in this case) numobs is a clientside vector it
-should be specified without inverted commas (unlike the serverside vectors
-which may be used for the <min> and <max> arguments [see below]).}
+\item{samp.size}{an integer value or an integer vector that defines the 
+length of the random numeric vector to be created in each source.}
 
-\item{min}{a numeric scalar specifying the minimum of the range across which
-the random numbers will be generated in each source. Alternatively you can specify
-the <min> argument to be a serverside vector equal in length
-to the random number vector you want to generate. This allows 
-min to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.mins) you must
-specify the argument as a character string (..., min="vector.of.mins"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <min> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
-Default value for <min> = 0.}
+\item{min}{a numeric scalar that specifies the minimum value of the 
+random numbers in the distribution.}
 
-\item{max}{a numeric scalar specifying the maximum of the range across which
-the random numbers will be generated in each source. Alternatively you can specify
-the <max> argument to be a serverside vector equal in length
-to the random number vector you want to generate. This allows 
-max to vary by observation in the dataset. If you wish to specify
-a serverside vector in this way (e.g. called vector.of.maxs) you must
-specify the argument as a character string (..., max="vector.of.maxs"...).
-If you simply wish to specify a single but different value in each
-source, then you can specify <max> as a scalar and use the
-<datasources> argument to create the random vectors one source at a time.
-Default value for <max> = 1}
+\item{max}{a numeric scalar that specifies the maximum value of the 
+random numbers in the distribution.}
 
-\item{newobj}{This a character string providing a name for the output
-random number vector which defaults to 'runif.newobj' if no name is specified.}
+\item{newobj}{a character string that provides the name for the output variable 
+that is stored on the data servers. Default \code{newObject}.}
 
-\item{seed.as.integer}{a numeric scalar or a NULL which primes the random seed
-in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-the seed in each study is set as 938*1 in the first study in the set of
-data sources being used, 938*2 in the second, up to 938*N in the Nth study.
-If <seed.as.integer> is set as 0 all sources will start with the seed value
-0 and all the random number generators will therefore start from the same position.
-If you want to use the same starting seed in all studies but do not wish it to
-be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
-As an example, if the <seed.as.integer> value is 78326 then the seed
-in each source will be set at 78326*1 = 78326 because the vector of datasources
-being used in each call to the function will always be of length 1 and so the
-source-specific seed multiplier will also be 1. The function ds.rUnif
-calls the serverside assign function setSeedDS to create the random seeds in
-each source}
+\item{seed.as.integer}{an integer or a NULL value which provides the random 
+seed in each data source.}
 
-\item{return.full.seed.as.set}{logical, if TRUE will return the full
-random number seed in each data source (a numeric vector of length 626). If
-FALSE it will only return the trigger seed value you have provided: eg if
-<seed.as.integer> = 32 and there are three studies, the ds.rUnif function will
-return: "$integer.seed.as.set.by.source", [1]  32  64 96, rather than the three
-vectors each of length 626 that represent the full seeds generated in each source.
-Default is FALSE.}
+\item{return.full.seed.as.set}{logical, if TRUE will return the full random number 
+seed in each data source (a numeric vector of length 626). If FALSE it will only 
+return the trigger seed value you have provided. Default is FALSE.}
 
-\item{force.output.to.k.decimal.places}{scalar integer. Forces the output random
-number vector to have k decimal places. If 0 rounds it coerces
-decimal random number output to integer, a k in range 1-8 forces output to
-have k decimal places. If k = 9, no rounding occurs of native output. NOTE
-IF YOU WANT CATEGORIES WITH EQUAL PROBABILITY (PARTICULARLY WHEN CREATING
-INTEGERS) YOU SHOULD EXTEND THE SIMULATION RANGE AT BOTH ENDS: IF K = 0 AND
-YOU WISH TO GENERATE INTEGERS WITH EQUAL PROBABILITY IN THE RANGE 1-10, YOU
-SHOULD SPECIFY <min>=0.5 AND <max>=10.5. Default value for k =9.}
+\item{force.output.to.k.decimal.places}{an integer or 
+an integer vector that forces the output random 
+numbers vector to have k decimals.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-Writes the pseudorandom number vector with the characteristics specified
-in the function call as a new serverside vector in each data source. Also returns
-key information to the clientside: the random seed trigger as specified by you in each
-source + (if requested) the full 626 length random seed vector this generated in
-each source (see info for the argument <return.full.seed.as.set>). The ds.rUnif
-function also returns a vector reporting the length of the pseudorandom vector
-created in each source.
+\code{ds.Unif} returns random number vectors with a uniform distribution for each study,
+taking into account the values specified in each parameter of the function.
+The created vectors are stored in the server-side. If requested, it also returned to the 
+client-side the full 626 lengths random seed vector generated in each source
+(see info for the argument \code{return.full.seed.as.set}).
 }
 \description{
-Generates random (pseudorandom) numbers with a uniform distribution
+Generates uniformly distributed random (pseudorandom) scalar numbers.
+Besides, \code{ds.rUnif} allows creating different vector lengths in each server.
 }
 \details{
-An assign function that creates a vector of pseudorandom numbers
-in each data source. This function generates random numbers distributed with a
-uniform probability across a range specified with a minimum and maximum.
-The function's arguments specify the length of the output vector in each source
-and the minimum and maximum of the range across which the uniform distribution to
-be generated.
+It creates a vector of pseudorandom numbers distributed 
+with a uniform probability in each data source. 
+The \code{ds.Unif} function's arguments specify 
+the minimum and maximum of the uniform distribution 
+and the length and the seed of the output vector in each source.
+
+To specify different \code{min} values in each source, 
+you can use a character vector \code{(..., min="vector.of.mins"...)}
+or the \code{datasources} parameter to create the random vector for one source at a time, 
+changing the \code{min} value as required.
+Default value for \code{min = 0}. 
+
+To specify different \code{max} values in each source, 
+you can use a character vector \code{(..., max="vector.of.maxs"...)}
+or the \code{datasources} parameter to create the random vector for one source at a time, 
+changing the \code{max} value as required.
+Default value for \code{max = 1}. 
+
+If \code{seed.as.integer} is an integer 
+e.g. 5 and there is more than one source (N) the seed is set as 5*N. 
+For example, in the first study the seed is set as 938*1, 
+in the second as  938*2  
+up to 938*N in the Nth study.
+
+If \code{seed.as.integer} is set as 0 all sources will start with the seed value
+0 and all the random number generators will, therefore, start from the same position. 
+Also, to use the same starting seed in all studies but do not wish it to
+be 0, you can use \code{datasources} argument to generate 
+the random number vectors one source at  a time. 
+
+In \code{force.output.to.k.decimal.places} the range of k is 1-8 decimals. 
+If \code{k = 0} the output random numbers are forced to an integer.  
+If \code{k = 9}, no rounding of output numbers occurs. 
+The default value of \code{force.output.to.k.decimal.places = 9}.
+If you wish to generate integers with equal probabilities in the range 1-10
+you should specify  \code{min = 0.5} and \code{max = 10.5}. 
+Default value for \code{k = 9}.
+
+Server functions called: \code{rUnifDS} and \code{setSeedDS}.
+}
+\examples{
+
+\dontrun{
+
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  # Generating the vectors in the Opal servers
+
+  ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
+           min = as.character(c(0,2,5)), #different minumum value of the function in each source
+           max = as.character(c(2,5,9)), #different maximum value of the function in each source
+           newobj = "Unif.dist",
+           seed.as.integer = 234,
+           return.full.seed.as.set = FALSE,
+           force.output.to.k.decimal.places = c(1,2,3),
+           datasources = connections)   #all the Opal servers are used, in this case 3 
+                                        #(see above the connection to the servers) 
+
+  ds.rUnif(samp.size = 12,
+           min = 0,
+           max = 2,
+           newobj = "Unif.dist",
+           seed.as.integer = 12345,
+           return.full.seed.as.set = FALSE,
+           force.output.to.k.decimal.places = 2,
+           datasources = connections[2]) #only the second  Opal server is used ("study2")
+           
+  # Clear the Datashield R sessions and logout           
+  datashield.logout(connections)
+}
+ 
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

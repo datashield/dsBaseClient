@@ -31,13 +31,13 @@ test_that("simple test", {
     ds.dataFrame(x=spec_vectors_1, newobj="test_1_df")
     ds.dataFrame(x=spec_vectors_2, newobj="test_2_df")
 
-    res <- ds.merge(x.name="test_1_df", y.name="test_2_df", by.x.names="D$LAB_TSC", by.y.names="D$LAB_TSC", newobj="merge_newobj")
+    res <- ds.merge(x.name="test_1_df", y.name="test_2_df", by.x.names="LAB_TSC", by.y.names="LAB_TSC", newobj="merge_newobj")
 
     expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <merge_newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<merge_newobj> appears valid in all sources")
 
-    class.res <- ds.class("merge_newobj", datasources=ds.test_env$connection.opal)
+    class.res <- ds.class("merge_newobj")
 
     expect_length(class.res, 3)
     expect_equal(class.res$sim1, "data.frame")
