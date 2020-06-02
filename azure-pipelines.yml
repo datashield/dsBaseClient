@@ -50,7 +50,6 @@ resources:
     ref: refs/tags/6.0.1
 
 
-
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
