@@ -2,51 +2,100 @@
 % Please edit documentation in R/ds.matrixTranspose.R
 \name{ds.matrixTranspose}
 \alias{ds.matrixTranspose}
-\title{ds.matrixTranspose calling assign function matrixTransposeDS}
+\title{Transposes a server-side matrix}
 \usage{
 ds.matrixTranspose(M1 = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{M1}{A character string specifying the name of the matrix to be transposed}
+\item{M1}{a character string specifying the name of the matrix.}
 
-\item{newobj}{A character string specifying the name of the matrix to which the output
-is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to "matrixtranspose.newobj"}
+\item{newobj}{a character string that provides the name for the output 
+variable that is stored on the data servers. 
+Default \code{matrixtranspose.newobj}.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the object specified by the <newobj> argument (or default name <M1>_transposed)
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.matrixInvert also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.matrixTranspose} returns to the server-side the transpose matrix. 
+Also, two validity messages are returned to the client-side 
+indicating whether the new object has been created in each data source and if so whether
+it is in a valid form.
 }
 \description{
-Transposes a matrix A and writes the output to the serverside
+Transposes a matrix and writes the output to the server-side
 }
 \details{
-Undertakes standard matrix transposition. This operation converts matrix
-A to matrix C where element C[i,j] of matrix C equals element A[j,i] of matrix
-A. Matrix A therefore has the same number of rows as matrix C has columns and
-vice versa.
+This operation converts matrix
+\code{A} to matrix \code{C} where element \code{C[i,j]} of 
+matrix \code{C} equals element \code{A[j,i]} of matrix
+\code{A}. Matrix \code{A}, therefore, has the same number 
+of rows as matrix \code{C} has columns and vice versa.
+
+Server function called: \code{matrixTransposeDS}
+}
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+            
+  #Example 1: Transpose the server-side matrix
+  
+  #Create the server-side vector 
+  
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  #Create the server-side matrix
+           
+  ds.matrix(mdata = "ss.vector.9",
+            from = "serverside.vector",
+            nrows.scalar = 3,
+            ncols.scalar = 4,
+            byrow = TRUE,
+            newobj = "matrix",
+            datasources = connections)
+   
+  #Transpose the matrix
+  
+  ds.matrixTranspose(M1 = "matrix",
+                     newobj = "matrix.transpose",
+                     datasources = connections)
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

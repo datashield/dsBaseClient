@@ -2,47 +2,76 @@
 % Please edit documentation in R/ds.names.R
 \name{ds.names}
 \alias{ds.names}
-\title{Gets the names of items in a list}
+\title{Gets the names of a server-side list}
 \usage{
 ds.names(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of an object of type list.}
+\item{x}{a character string specifying the name of the list.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-The names of the list's elements for each study
+\code{ds.names} returns to the client-side the names
+of a list stored on the server-side.
 }
 \description{
-This function is similar to the R function \code{names}.
+Function to get the names of an object that is stored on the server-side.
 }
 \details{
+This function is similar to the R function \code{names}.
 In DataSHIELD the use of this function is restricted to objects of type list.
+
+Server function called: \code{namesDS}
 }
 \examples{
 \dontrun{
 
-  # load the login data
-  data(logindata)
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-  # login and assign some variables to R
-  myvar <- list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # generates subset tables from the table assigned above (by default the table name is 'D')
-  ds.subsetByClass(x='D', subsets='subclasses')
-
-  # the above object 'subsets' is a list, let us display the names of elements in 'subsets'
-  ds.names('subclasses')
-
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Create a list in the server-side 
+  
+  ds.asList(x.name = "D",
+            newobj = "D.list",
+            datasources = connections)
+            
+  #Get the names of the list
+  
+  ds.names(x = "D.list",
+           datasources = connections)
+ 
+  
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(connections)
 
 }
 
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

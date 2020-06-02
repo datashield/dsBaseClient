@@ -1,117 +1,132 @@
 #'
 #' @title Generates non-disclosive scatter plots
 #' @description This function uses two disclosure control methods to generate non-disclosive
-#' scatter plots of two continuous variables
+#' scatter plots of two server-side continuous variables. 
 #' @details As the generation of a scatter plot from original data is disclosive and is not
 #' permitted in DataSHIELD, this function allows the user to plot non-disclosive scatter plots.
-#' If the argument \code{method} is set to 'deterministic', the server side function searches
-#' for the k-1 nearest neigbours of each single data point and calculates the centroid of such k
-#' points. The proximity is defined by the minimum Euclidean distances of z-score transformed data.
+#' 
+#' If the argument \code{method} is set to \code{'deterministic'}, the server-side function searches
+#' for the \code{k-1} nearest neighbors of each single data point and calculates the centroid 
+#' of such \code{k} points. 
+#' The proximity is defined by the minimum Euclidean distances of z-score transformed data.
+#' 
 #' When the coordinates of all centroids are estimated the function applies scaling to expand the
 #' centroids back to the dispersion of the original data. The scaling is achieved by multiplying
 #' the centroids with a scaling factor that is equal to the ratio between the standard deviation of
 #' the original variable and the standard deviation of the calculated centroids. The coordinates of
-#' the scaled centroids are then returned to the client.The value of k in this deterministic
-#' approach, is specified by the user. The suggested and default value is equal to 3 which is also
+#' the scaled centroids are then returned to the client-side.
+#' 
+#' The value of \code{k} is specified by the user. 
+#' The suggested and default value is equal to 3 which is also
 #' the suggested minimum threshold that is used to prevent disclosure which is specified in the
-#' protection filter 'nfilter.kNN'. When the value of k increases, the disclosure risk decreases
-#' but the utility loss increases.
-#' If the argument \code{method} is set to 'probabilistic', the server side function generates a
-#' random normal noise of zero mean and variance equal to 10% of the variance of each $x$ and $y$
-#' variable. The noise is added to each $x$ and $y$ variable and the disturbed by the addition of
-#' noise data are returned to the client. Note that the seed random number generator is fixed to a
+#' protection filter \code{nfilter.kNN}. When the value of \code{k} increases, 
+#' the disclosure risk decreases but the utility loss increases.
+#' The value of \code{k} is used only
+#' if the argument \code{method} is set to \code{'deterministic'}. 
+#' Any value of \code{k} is ignored if the
+#' argument \code{method} is set to \code{'probabilistic'}.
+#' 
+#' If the argument \code{method} is set to \code{'probabilistic'}, 
+#' the server-side function generates a random normal noise of zero mean
+#' and variance equal to 10\% of the variance of each \code{x} and \code{y} variable.
+#' The noise is added to each \code{x} and \code{y} variable and the disturbed by the addition of
+#' \code{noise} data are returned to the client-side. Note that the seed random number generator is fixed to a
 #' specific number generated from the data and therefore the user gets the same figure every time
 #' that chooses the probabilistic method in a given set of variables.
-#' @param x a character, the name of a numeric vector, the x-variable.
-#' @param y a character, the name of a numeric vector, the y-variable.
-#' @param method a character which specifies the method that is used to generated non-disclosive
-#' coordinates to be displayed in a scatter plot. If the \code{method} is set to 'deteministic'
-#' (default), then the scatter plot shows the scaled centroids of each k nearest neighbours of the
-#' original variables where the value of \code{k} is set by the user. If the \code{method} is set
-#' to 'probabilistic', then the scatter plot shows the original data disturbed by the addition of
-#' random stochastic noise. The added noise follows a normal distribution with zero mean and
-#' variance equal to a percentage of the initial variance of each variable. This percentage is
-#' specified by the user in the argument \code{noise}.
-#' @param k the number of the nearest neghbours for which their centroid is calculated.
-#' The user can choose any value for k equal to or greater than the pre-specified threshold
-#' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of k is set to be equal to 3
-#' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-#' uses the default value but the study has set a bigger threshold. The value of k is used only
-#' if the argument \code{method} is set to 'deterministic'. Any value of k is ignored if the
-#' argument \code{method} is set to 'probabilistic'.
+#' The value of \code{noise} is used only if the argument \code{method} is set to \code{'probabilistic'}.
+#' Any value of \code{noise} is ignored if
+#' the argument \code{method} is set to \code{'deterministic'}. 
+#' 
+#' In \code{type} argument can be set two graphics to display:\cr
+#' (1) If \code{type = 'combine'}  a scatter plot for
+#' combined data is generated.\cr
+#' (2) If \code{type = 'split'}  one scatter plot for each
+#' study is generated. 
+#' 
+#' Server function called: \code{scatterPlotDS}
+#' @param x a character string specifying  the name of a numeric vector. 
+#' @param y a character string specifying  the name of a numeric vector.
+#' @param method a character string that specifies the 
+#' method that is used to generated non-disclosive
+#' coordinates to be displayed in a scatter plot. 
+#' This argument can be set as \code{'deteministic'} or \code{'probabilistic'}.
+#' Default \code{'deteministic'}. 
+#' For more information see \strong{Details}. 
+#' @param k the number of the nearest neighbors  for which their centroid is calculated.
+#' Default 3. 
+#' For more information see \strong{Details}. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument \code{method} is set to 'probabilistic'. Any value of noise is ignored if
-#' the argument \code{method} is set to 'deterministic'. The user can choose any value for noise
-#' equal to or greater than the pre-specified threshold 'nfilter.noise'.
-#' @param type a character which represents the type of graph to display. A scatter plot for
-#' combined data is generated when the \code{type} is set to 'combine'. One scatter plot for each
-#' single study is generated when the \code{type} is set to 'split' (default).
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return one or more scatter plots depending on the argument \code{type}
-#' @author Demetris Avraam for DataSHIELD Development Team
+#' noise if the argument \code{method} is set to \code{'probabilistic'}.
+#' For more information see \strong{Details}. 
+#' @param type a character that represents the type of graph to display.
+#' This can be set as \code{'combine'} or \code{'split'}. 
+#' Default \code{'split'}. 
+#' For more information see \strong{Details}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
+#' plots depending on the argument \code{type}. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # load the file that contains the login details
-#'   data(logindata)
+#'   ## Version 6, for version 5 see the Wiki 
+#'   # Connecting to the Opal servers
 #' 
-#'   # login to the servers
-#'   opals <- opal::datashield.login(logins=logindata, assign=TRUE)
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
 #' 
-#'   # Example 1: generate a scatter plot for each study separately (the default behaviour)
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', type="split")
+#'   builder <- DSI::newDSLoginBuilder()
+
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+
+#'   logindata <- builder$build()
+
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
-#'   # Example 2: generate a combined scatter plot with the default deterministic method
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=3,
-#'                    method='deterministic')
+#'   #Example 1: generate a scatter plot for each study separately
+#'   #Using the default deterministic method and k = 10
+#'   
+#'   ds.scatterPlot(x = "D$PM_BMI_CONTINUOUS",
+#'                  y = "D$LAB_GLUC_ADJUSTED",
+#'                  method = "deterministic",
+#'                  k = 10,
+#'                  type = "split",
+#'                  datasources = connections)
 #'
-#'   # Example 3: if a variable is of type factor the scatter plot is not created
-#'   ds.scatterPlot(x='LD$PM_BMI_CATEGORICAL', y='LD$LAB_GLUC_ADJUSTED')
-#'
-#'   # Example 4: same as Example 2 but with k=50
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=50,
-#'                    method='deterministic', type='combine')
-#'
-#'   # Example 5: same as Example 2 but with k=1740 (here we see that as k increases we have big
-#'                utility loss)
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
-#'                    method='deterministic', type='combine')
-#'
-#'   # Example 6: same as Example 5 but for split analysis
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=1740,
-#'                    method='deterministic', type='split')
-#'
-#'   # Example 7: if k is less than the specified threshold then the scatter plot is not created
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', k=2,
-#'                    method='deterministic')
-#'
-#'   # Example 8: generate a combined scatter plot with the probabilistic method
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
-#'                    type='combine')
-#'
-#'   # Example 9: generate a scatter plot with the probabilistic method for each study separately
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
-#'                    type='split')
-#'
-#'   # Example 10: same as Example 9 but with higher level of noise
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
-#'                    noise=0.5, type='split')
-#'
-#'   # Example 11: if 'noise' is less than the specified threshold then the scatter plot is not created
-#'   ds.scatterPlot(x='LD$PM_BMI_CONTINUOUS', y='LD$LAB_GLUC_ADJUSTED', method='probabilistic',
-#'                    noise=0.1, type='split')
-#'
-#'   # clear the Datashield R sessions and logout
-#'   opal::datashield.logout(opals)
+#'   #Example 2: generate a combined scatter plot with the probabilistic method
+#'   #and noise = 0.5
+#'   
+#'   ds.scatterPlot(x = "D$PM_BMI_CONTINUOUS",
+#'                  y = "D$LAB_GLUC_ADJUSTED",
+#'                  method = "probabilistic",
+#'                  noise = 0.5,
+#'                  type = "combine",
+#'                  datasources = connections)
+#'                    
+#'   #Clear the Datashield R sessions and logout
+#'   datashield.logout(connections) 
 #'
 #' }
 #'
 ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", datasources=NULL){
 
-  # if no opal login details are provided look for 'opal' objects in the environment
+  # look for DS connections
   if(is.null(x)){
     stop("Please provide the x-variable", call.=FALSE)
   }
@@ -121,7 +136,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
   }
 
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
 
   # the input variable might be given as column table (i.e. D$object)
@@ -174,7 +189,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
 
   # call the server-side function that generates the x and y coordinates of the centroids
   call <- paste0("scatterPlotDS(", x, ",", y, ",", method.indicator, ",", k, ",", noise, ")")
-  output <- opal::datashield.aggregate(datasources, call)
+  output <- DSI::datashield.aggregate(datasources, call)
 
   pooled.points.x <- c()
   pooled.points.y <- c()

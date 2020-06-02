@@ -2,50 +2,82 @@
 % Please edit documentation in R/ds.summary.R
 \name{ds.summary}
 \alias{ds.summary}
-\title{Generates the summary of an object}
+\title{Generates the summary of a server-side object}
 \usage{
 ds.summary(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a numeric or factor variable}
+\item{x}{a character string specifying the name of a numeric or factor variable.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the returned information depends on the class of the objects.
+\code{ds.summary} returns to the client-side the class and 
+size of the server-side object. 
+Also other information is returned depending on the class of the object.
+For example, potentially disclosive information
+such as the minimum and maximum values of numeric vectors are not returned. 
+The summary is given for each study separately.
 }
 \description{
-Provides some insight about an object. Unlike the similar R function
-only a limited class of objects can be used as input to reduce the risk of disclosure.
+Generates the summary of a server-side object.
 }
 \details{
-The class and size of the object are returned and various other information are 
-also returned depending of the class of the object. Potentially disclosive information
-such as the minimum and maximum values of numeric vectors are not returned. The summary 
-is given for each study separately.
+This function provides some insight about an object. Unlike the similar native R 
+\code{summary} function
+only a limited class of objects can be used as input to reduce the risk of disclosure.
+For example, the minimum and the maximum values of a numeric vector
+ are not given to the client because they are potentially disclosive. 
+ 
+server functions called: \code{isValidDS}, \code{dimDS} and \code{colnamesDS}
 }
 \examples{
 \dontrun{
 
-  # load the login data
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki 
+  
+  # Connecting to the Opal servers
 
-  # login and assign all the variable held in the opal database
-  opals <- datashield.login(logins=logindata,assign=TRUE)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # Example 1: suummary of a numerical variable
-  ds.summary(x='D$LAB_TSC')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
 
-  # Example 1: suummary of a binary variable
-  ds.summary(x='D$GENDER')
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Calculate the summary of a numeric variable
+  
+  ds.summary(x = "D$LAB_TSC",
+             datasources = connections)
+ 
+  #Calculate the summary of a factor variable
 
-  # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  ds.summary(x = "D$PM_BMI_CATEGORICAL",
+             datasources = connections)
+                                
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
 
 }
 
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

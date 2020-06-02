@@ -1,69 +1,112 @@
+#'
+#' @title Computes server-side vector statistical mean 
+#' @description This function computes the statistical mean
+#'  of a given server-side vector. 
+#'
+#' @details  This function is similar to the R function \code{mean}.
 #' 
-#' @title Computes the statistical mean of a given vector
-#' @description This function is similar to the R function \code{mean}.
-#' @details It is a wrapper for the server side function.
-#' @param x a character, typically the name of a numerical vector
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', a global mean is calculated 
-#' if \code{type} is set to 'split', 'splits' or 's', the mean is calculated separately for each study.
-#' if \code{type} is set to 'both' or 'b', both sets of outputs are produced
-#' @param checks a Boolean indicator of whether to undertake optional checks of model
-#' components. Defaults to checks=FALSE to save time. It is suggested that checks
-#' should only be undertaken once the function call has failed
-#' @param save.mean.Nvalid a Boolean indicator of whether the user wishes to save the
-#' generated values of the mean and of the number of valid (non-missing) observations into
-#' the R environments at each of the data servers. Will save study-specific means and Nvalids
-#' as well as the global equivalents across all studies combined. Once the estimated means and Nvalids
-#' are written into the server-side R environments, they can be used directly to centralize 
+#' The function can carry out 3 types of analysis depending on
+#' the argument \code{type}:\cr
+#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, 
+#' \code{'combines'} or \code{'c'}, a global mean is calculated.\cr
+#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
+#'  the mean is calculated separately for each study. \cr
+#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, 
+#' both sets of outputs are produced.
+#' 
+#' If the argument \code{save.mean.Nvalid} is set to TRUE 
+#'  study-specific means and \code{Nvalids}
+#' as well as the global equivalents across all studies combined 
+#' are saved in the server-side. 
+#' Once the estimated means and \code{Nvalids}
+#' are written into the server-side R environments, they can be used directly to centralize
 #' the variable of interest around its global mean or its study-specific means. Finally,
-#' the isDefined internal function checks whether the key variables have been created.
-#' @param datasources specifies the particular opal object(s) to use, if it is not specified
-#' the default set of opals will be used. The default opals are always called default.opals.
-#' This parameter is set without inverted commas: e.g. datasources=opals.em or datasources=default.opals
-#' If you wish to specify the second opal server in a set of three, the parameter is specified:
-#' e.g. datasources=opals.em[2]. If you wish to specify the first and third opal servers in a set specify:
-#' e.g. datasources=opals.em[2,3]
-#' @return a list including: Mean.by.Study = estimated mean in each study separately (if type = split or both), with Nmissing
-#' (number of missing observations), Nvalid (number of valid observations), Ntotal (sum of missing and valid observations)
-#' also reported separately for each study; Global.Mean = Mean, Nmissing, Nvalid, Ntotal across all studies combined
-#' (if type = combine or both); Nstudies = number of studies being analysed; ValidityMessage indicates whether 
-#' a full analysis was possible or whether one or more studies had fewer valid observations than the nfilter
-#' threshold for the minimum cell size in a contingency table. If save.mean.Nvalid=TRUE, ds.mean writes
-#' the objects "Nvalid.all.studies", "Nvalid.study.specific", "mean.all.studies", and "mean.study.specific"
-#' to the serverside on each server 
-#' @author Burton PR; Gaye A; Isaeva I;
+#' the \code{isDefined} internal function checks whether the key variables have been created.
+#' 
+#' Server function called: \code{meanDS}
+#' @param x a character specifying the name of a numerical vector.
+#' @param type a character string that represents the type of analysis to carry out.
+#' This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
+#' \code{'split'}, \code{'splits'}, \code{'s'},
+#' \code{'both'} or \code{'b'}. 
+#' For more information see \strong{Details}. 
+#' @param checks logical. If TRUE  optional checks of model
+#' components will be undertaken. Default is FALSE to save time. 
+#' It is suggested that checks
+#' should only be undertaken once the function call has failed. 
+#' @param save.mean.Nvalid logical. If TRUE generated values of the mean and 
+#' the number of valid (non-missing) observations will be saved  on the data servers. 
+#' Default FALSE. 
+#' For more information see \strong{Details}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.mean} returns to the client-side a list including: \cr
+#' 
+#' \code{Mean.by.Study}:  estimated mean, \code{Nmissing}
+#' (number of missing observations), \code{Nvalid} (number of valid observations) and
+#' \code{Ntotal} (sum of missing and valid observations) 
+#' separately for each study (if \code{type = split} or \code{type = both}). \cr
+#' \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
+#' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
+#' \code{Nstudies}: number of studies being analysed. \cr
+#' \code{ValidityMessage}: indicates if the analysis was possible. \cr
+#' 
+#' If \code{save.mean.Nvalid} is set as TRUE, the objects 
+#' \code{Nvalid.all.studies}, \code{Nvalid.study.specific},
+#' \code{mean.all.studies} and \code{mean.study.specific} are written to the server-side. 
+#' 
+#' @author DataSHIELD Development Team
 #' @seealso \code{ds.quantileMean} to compute quantiles.
 #' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
 #' @examples
 #' \dontrun{
+#'
+#'  ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
 #' 
-#' #  # load that contains the login details
-#' #  data(logindata)
-#' #  library(opal)
-#' #
-#' #  # login and assign specific variable(s)
-#' #  myvar <- list('LAB_TSC')
-#' #  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
-#' #
-#' #  # Example 1: compute the pooled statistical mean of the variable 'LAB_TSC' - default behaviour
-#' #  ds.mean(x='D$LAB_TSC')
-#' #
-#' #  # Example 2: compute the statistical mean of each study separately
-#' #  ds.mean(x='D$LAB_TSC', type='split')
-#' #
-#' #  # clear the Datashield R sessions and logout
-#' #  datashield.logout(opals)
-#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   #Calculate the mean of a vector in the server-side
+#'   
+#'   ds.mean(x = "D$LAB_TSC",
+#'           type = "split",
+#'           checks = FALSE,
+#'           save.mean.Nvalid = FALSE,
+#'           datasources = connections)
+#'              
+#'   # clear the Datashield R sessions and logout
+#'   datashield.logout(connections)
 #' }
 #'
 ds.mean <- function(x=NULL, type='split', checks=FALSE, save.mean.Nvalid=FALSE, datasources=NULL){
 
 #####################################################################################
-#MODULE 1: IDENTIFY DEFAULT OPALS                                                   #
-  # if no opal login details are provided look for 'opal' objects in the environment#
+#MODULE 1: IDENTIFY DEFAULT DS CONNECTIONS                                          #
+  # look for DS connections                                                         #
   if(is.null(datasources)){                                                         #
-    datasources <- findLoginObjects()                                               #
+    datasources <- datashield.connections_find()                                    #
   }                                                                                 #
 #####################################################################################
 
@@ -118,7 +161,7 @@ if(type != 'combine' & type != 'split' & type != 'both')                        
 
 
   cally <- paste0("meanDS(", x, ")")
-  ss.obj <- opal::datashield.aggregate(datasources, as.symbol(cally))
+  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   Nstudies <- length(datasources)
   ss.mat <- matrix(as.numeric(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,1:4]),nrow=Nstudies)
@@ -136,23 +179,23 @@ if(type != 'combine' & type != 'split' & type != 'both')                        
 
   dimnames(ss.mat.combined) <- c(list("studiesCombined"),list(names(ss.obj[[1]])[1:4]))
 
-  # IF save.mean.Nvalid==TRUE - KEY STUDY SPECIFIC STATISTICS ON APPROPRIATE OPAL SERVERS WITH ASSIGN FUNCTION
+  # IF save.mean.Nvalid==TRUE - KEY STUDY SPECIFIC STATISTICS ON APPROPRIATE DATA REPOSITORY SERVERS WITH ASSIGN FUNCTION
   if(save.mean.Nvalid==TRUE){
 
     for(j in 1:Nstudies){
-      selected.opal <- datasources[j]
+      selected.conn <- datasources[j]
       mean.study.specific <- ss.mat[j,1]
       Nvalid.study.specific <- ss.mat[j,3]
       # SAVE VALIDITY MESSAGE
-      opal::datashield.assign(selected.opal, "mean.study.specific", as.symbol(mean.study.specific))
-      opal::datashield.assign(selected.opal, "Nvalid.study.specific", as.symbol(Nvalid.study.specific))
+      DSI::datashield.assign(selected.conn, "mean.study.specific", as.symbol(mean.study.specific))
+      DSI::datashield.assign(selected.conn, "Nvalid.study.specific", as.symbol(Nvalid.study.specific))
     }
 
-    # SAVE KEY GLOBAL STATISTICS ON ALL OPAL SERVERS WITH ASSIGN FUNCTION
+    # SAVE KEY GLOBAL STATISTICS ON ALL DATA REPOSITORY SERVERS WITH ASSIGN FUNCTION
     mean.all.studies <- ss.mat.combined[1,1]
     Nvalid.all.studies <- ss.mat.combined[1,3]
-    opal::datashield.assign(datasources, "mean.all.studies", as.symbol(mean.all.studies))
-    opal::datashield.assign(datasources, "Nvalid.all.studies", as.symbol(Nvalid.all.studies))
+    DSI::datashield.assign(datasources, "mean.all.studies", as.symbol(mean.all.studies))
+    DSI::datashield.assign(datasources, "Nvalid.all.studies", as.symbol(Nvalid.all.studies))
 
 #############################################################################
 # MODULE 5: CHECK DATA OBJECTS SUCCESSFULLY CREATED                         #

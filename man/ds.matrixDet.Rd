@@ -2,69 +2,101 @@
 % Please edit documentation in R/ds.matrixDet.R
 \name{ds.matrixDet}
 \alias{ds.matrixDet}
-\title{ds.matrixDet calling assign function matrixDetDS2}
+\title{Calculates de determinant of a matrix in the server-side}
 \usage{
 ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE, datasources = NULL)
 }
 \arguments{
-\item{M1}{A character string specifying the name of the matrix for which
-determinant to be calculated}
+\item{M1}{a character string specifying the name of the matrix.}
 
-\item{newobj}{A character string specifying the name of the matrix to which the output
-is to be written. If no <newobj> argument is specified, the output matrix names defaults
-to 'matrixdet.newobj'}
+\item{newobj}{a character string that provides the name for the output 
+variable that is stored on the data servers. Default \code{matrixdet.newobj}.}
 
-\item{logarithm}{logical. Default is FALSE, which returns the
-determinant itself, TRUE returns the logarithm of the modulus of the determinant.}
+\item{logarithm}{logical. If TRUE the logarithm of the modulus of the determinant
+is calculated. Default FALSE.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-the calculated determinant of the matrix as a serverside object
-with its name specified by the <newobj> argument (or default name <M1>_det).
-The determinant is reported as a two component list. Element 1
-is $modulus and element 2 is $sign. If logarithm=FALSE: $modulus reports the
-absolute value of the determinant and is therefore always positive. $sign 
-indicates whether the determinant is positive ($sign=1) or negative ($sign=-1).
-$modulus has an attribute [attr(,"logarithm")] which is FALSE if the argument
-<logarithm> was FALSE - this enables you to look at results post-hoc to determine
-whether the logarithm argument was TRUE or FALSE. If you wish to generate the
-actual determinant if logarithm=FALSE it is easiest to calculate $modulus*$sign.   
-If logarithm=TRUE: $modulus reports the log (to base e) of the absolute value
-of the determinant. $sign again reports whether the determinant is positive
-($sign=1) or negative ($sign=-1). The attribute of $modulus [attr(,"logarithm")]
-is now TRUE. If you wish to generate the actual determinant when logarithm=TRUE
-you calculate exp($modulus)*$sign. In addition to the calculated matrix
-determinant, two validity messages are also returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.matrixDet also returns any studysideMessages that can explain the error in creating
-the full output object. As well as appearing on the screen at run time,if you wish to
-see the relevant studysideMessages at a later date you can use the {ds.message}
-function. If you type ds.message("newobj") it will print out the relevant
-studysideMessage from any datasource in which there was an error in creating <newobj>
-and a studysideMessage was saved. If there was no error and <newobj> was created
-without problems no studysideMessage will have been saved and ds.message("newobj")
-will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+\code{ds.matrixDet} returns the determinant of an existing matrix on the server-side. 
+The created new object is stored on the server-side. 
+Also, two validity messages are returned
+indicating whether the matrix has been created in each data source and if so whether
+it is in a valid form.
 }
 \description{
-Calculates the determinant of a square matrix A 
-and writes it as a data object to the serverside
+Calculates the determinant of a square matrix that is 
+written on the server-side. 
+This operation is only 
+possible if the number of columns and rows of the matrix are the same.
 }
 \details{
-Calculates the determinant of a square matrix (for additional
-information see help for {determinant} function in native R). This operation is only
-possible if the number of columns and rows of A are the same.
+Calculates the determinant of a square matrix on the server-side.
+This function is similar to the native R \code{determinant} function. 
+
+
+Server function called: \code{matrixDetDS2}
+}
+\examples{
+\dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Create the matrix in the server-side
+  
+  ds.rUnif(samp.size = 9,
+           min = -10.5,
+           max = 10.5,
+           newobj = "ss.vector.9",
+           seed.as.integer = 5575,
+           force.output.to.k.decimal.places = 0,
+           datasources = connections)
+           
+  ds.matrix(mdata = "ss.vector.9",
+            from = "serverside.vector",
+            nrows.scalar = 9,ncols.scalar = 9,
+            byrow = TRUE,
+            newobj = "matrix",
+            datasources = connections)
+            
+  #Calculate the determinant of the matrix
+  
+  ds.matrixDet(M1 = "matrix", 
+               newobj = "matrixDet", 
+               logarithm = FALSE, 
+               datasources = connections)
+  
+
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+}
 }
 \author{
-Paul Burton for DataSHIELD Development Team
+DataSHIELD Development Team
 }

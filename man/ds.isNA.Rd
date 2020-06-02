@@ -2,48 +2,72 @@
 % Please edit documentation in R/ds.isNA.R
 \name{ds.isNA}
 \alias{ds.isNA}
-\title{Checks if a vector is empty}
+\title{Checks if a server-side vector is empty}
 \usage{
 ds.isNA(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of the vector to check.}
+\item{x}{a character string specifying the name of the vector to check.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-By default an internal function looks for 'opal' objects in the environment and sets this parameter.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-a boolean 'TRUE' if the vector is empty (all values are 'NA') and 'FALSE'  otherwise.
+\code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
+(all values are NA), FALSE otherwise.
 }
 \description{
-this function is similar to R function \code{is.na} but instead of a vector 
+this function is similar to R function \code{is.na} but instead of a vector
 of booleans it returns just one boolean to tell if all the elements are missing values.
 }
 \details{
-In certain analyses such as GLM none of the variable should be missing at complete
+In certain analyses such as GLM none of the variables should be missing at complete
 (i.e. missing value for each observation). Since in DataSHIELD it is not possible to see the data
 it is important to know whether or not a vector is empty to proceed accordingly.
+
+Server function called: \code{isNaDS}
 }
 \examples{
 \dontrun{
 
-  # load the login data
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
 
-  # login and assign specific variable(s)
-  myvar <- list("LAB_HDL")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
   # check if all the observation of the variable 'LAB_HDL' are missing (NA)
-  ds.isNA(x='D$LAB_HDL')
+  ds.isNA(x = 'D$LAB_HDL',
+          datasources = connections) #all servers are used
+  ds.isNA(x = 'D$LAB_HDL',
+          datasources = connections[1]) #only the first server is used (study1) 
+ 
 
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(connections)
 
 }
-
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

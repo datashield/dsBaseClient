@@ -2,53 +2,69 @@
 % Please edit documentation in R/ds.numNA.R
 \name{ds.numNA}
 \alias{ds.numNA}
-\title{Gets the number of missing values in a vector}
+\title{Gets the number of missing values in a server-side vector}
 \usage{
 ds.numNA(x = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of a vector to check for missing entries.}
+\item{x}{a character string specifying the name of the vector.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
+objects obtained after login. If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-for an array, \code{NULL} or a vector of mode \code{integer}
+\code{ds.numNA} returns to the client-side the number of missing values
+on a server-side vector.
 }
 \description{
-In DataSHIELD it is not possible to visualize the data. This
-function helps to know the number of missing values in a vector to eventually use a 
-vector of equal length (i.e. the count of missing entries) to replace the missing values.
+This function helps to know the number of missing values
+in a vector that is stored on the server-side.
 }
 \details{
-The vector to check for missing values might be a in a table structure or not. 
 The number of missing entries are counted and the total for each study is returned.
+
+Server function called: \code{numNaDS}
 }
 \examples{
 \dontrun{
-
-  # load that contains the login details
-  data(logindata)
-
-  # login and assign all the stored variables.
-  opals <- datashield.login(logins=logindata,assign=TRUE)
-
-  # Example 1: Get the number of missing values in the variable 'LAB_HDL' held in the table 'D'. 
-  ds.numNA(x='D$LAB_HDL')
-
-  # Example 2: Assign the above variable and check the number of missing values on the now loose 
-  # variable 'LAB_HDL'.
-  ds.assign(toAssign='D$LAB_HDL', newobj='labhdl')
+ ## Version 6, for version 5 see the Wiki
   
-  # Example 3: Get the pooled dimension of the assigned datasets
-  ds.numNA(x='labhdl')
+  # connecting to the Opal servers
 
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Get the number of missing values on a server-side vector 
+  
+  ds.numNA(x = "D$LAB_TSC",
+           datasources = connections)
+  
   # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  datashield.logout(connections)
+
 
 }
 
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

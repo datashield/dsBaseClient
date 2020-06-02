@@ -2,35 +2,69 @@
 % Please edit documentation in R/ds.listServersideFunctions.R
 \name{ds.listServersideFunctions}
 \alias{ds.listServersideFunctions}
-\title{ds.listServersideFunctions calling no server-side functions}
+\title{Server-side functions}
 \usage{
 ds.listServersideFunctions(datasources = NULL)
 }
 \arguments{
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
-argument is not specified the default set of opals will be used. The default opals
-are called default.opals and the default can be set using the function
-{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
-If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-list containing all serverside functions by study. Firstly lists assign
-and then aggregate functions.
+\code{ds.listServersideFunctions} returns to the client-side 
+a list containing all server-side functions separately for each study. 
+Firstly lists assign and then aggregate functions.
 }
 \description{
 Lists all current server-side functions
 }
 \details{
-Uses dsadmin.get_methods function from opaladmin package to list all
-assign and aggregate functions on the available opal servers. The only choice of
-arguments is in datasources; i.e. which studies to interrogate. Once the studies have 
-been selected ds.listServersideFunctions lists all assign functions for all 
+Uses \code{\link{datashield.methods}} function from \code{DSI} package to list all
+assign and aggregate functions on the available data repository servers.
+The only choice of arguments is in \code{datasources}; i.e. which studies to interrogate. 
+Once the studies have
+been selected \code{ds.listServersideFunctions} lists all assign functions for all
 of these studies and then all aggregate functions for all of them.
+
+This function does not call any server-side function.
+}
+\examples{
+\dontrun{
+ 
+  ## Version 6, for version 5 see Wiki
+  # Connecting to the Opal servers
+  
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
+  
+  # List server-side functions
+  
+  ds.listServersideFunctions(datasources = connections)
+            
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
+}
 }
 \author{
-Burton, PR.
+DataSHIELD Development Team
 }

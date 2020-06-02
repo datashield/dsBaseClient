@@ -42,9 +42,9 @@ test_that("glm_binomial", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7485)
     expect_equal(res$iter, 9)
-    expect_equal(class(res$family), "family")
+    expect_true("family" %in% class(res$family))
     expect_equal(res$formula, "D$DIS_DIAB ~ D$GENDER * D$PM_BMI_CONTINUOUS + D$LAB_HDL")
-    expect_equal(class(res$coefficients), "matrix")
+    expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 1036.031, tolerance=0.00001)
     expect_equal(res$df, 7480)
     expect_equal(res$output.information, "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES")
@@ -68,9 +68,9 @@ test_that("glm_binomial, with check", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7485)
     expect_equal(res$iter, 9)
-    expect_equal(class(res$family), "family")
+    expect_true("family" %in% class(res$family))
     expect_equal(res$formula, "D$DIS_DIAB ~ D$GENDER * D$PM_BMI_CONTINUOUS + D$LAB_HDL")
-    expect_equal(class(res$coefficients), "matrix")
+    expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 1036.031, tolerance=0.00001)
     expect_equal(res$df, 7480)
     expect_equal(res$output.information, "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES")
@@ -83,7 +83,7 @@ test_that("glm_binomial, with check", {
 context("ds.glm::smk::binomial::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "DIS_DIAB", "GENDER", "LAB_HDL", "PM_BMI_CONTINUOUS"))
 })
 
 disconnect.studies.dataset.cnsim()

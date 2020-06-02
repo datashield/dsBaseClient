@@ -1,68 +1,96 @@
-#' 
-#' @title Returns the levels attribute of a factor
-#' @description This function is similar to R function \code{levels}
-#' @details This is just a wrapper function for the server side function.
-#' @param  x a character, the name of a factor variable
-#' @param datasources a list of opal object(s) obtained after login in to opal servers;
-#' these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.
-#' @return levels of x
-#' @author Gaye, A.; Isaeva, J.
+#'
+#' @title Levels attributes of a server-side factor
+#' @description This function provides access to the level attribute of
+#' a factor variable stored on the server-side. 
+#' This function is similar to R function \code{levels}. 
+#' @details 
+#' Server function called: \code{levelsDS}
+#' @param  x a character string specifying  the name of a factor variable. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.levels} returns to the client-side the levels of a factor 
+#' class variable stored in the server-side. 
+#' @author DataSHIELD Development Team
 #' @export
 #' @examples
 #' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
 #' 
-#'   # load that contains the login details
-#'   data(logindata)
-#' 
-#'   # login
-#'   opals <- datashield.login(logins=logindata,assign=TRUE)
-#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
 #'   # Example 1: Get the levels of the PM_BMI_CATEGORICAL variable
-#'   ds.levels(x='D$PM_BMI_CATEGORICAL')
-#' 
-#'   # Example 2: Get the levels of the LAB_TSC   SHOULD NOT WORK AS IT IS A CONTINUOUS VARIABLE
-#'   ds.levels(x='D$LAB_TSC')
-#' 
+#'   ds.levels(x = 'D$PM_BMI_CATEGORICAL',
+#'             datasources = connections)#all servers are used
+#'   ds.levels(x = 'D$PM_BMI_CATEGORICAL',
+#'             datasources = connections[2])#only the second server is used (study2)
+#'
+#'   # Example 2: Get the levels of the LAB_TSC variable
+#'   # This example should not work because LAB_TSC is a continuous variable
+#'   ds.levels(x = 'D$LAB_TSC',
+#'             datasources = connections)
+#'   
 #'   # clear the Datashield R sessions and logout
-#'   datashield.logout(opals)
-#' 
+#'   datashield.logout(connections)
+#'
 #' }
-#' 
+#'
 ds.levels = function(x=NULL, datasources=NULL) {
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
+
+  # look for DS connections
   if(is.null(datasources)){
-    datasources <- findLoginObjects()
+    datasources <- datashield.connections_find()
   }
-  
+
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
   # we have to make sure the function deals with each case
   xnames <- extract(x)
   varname <- xnames$elements
   obj2lookfor <- xnames$holders
-  
+
   # check if the input object(s) is(are) defined in all the studies
   if(is.na(obj2lookfor)){
     defined <- isDefined(datasources, varname)
   }else{
     defined <- isDefined(datasources, obj2lookfor)
   }
-  
+
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
-  
+
   # the input object must be a factor
   if(!('factor' %in% typ)){
     stop("The input object must be a factor.", call.=FALSE)
-  }  
-  
-  cally <- paste0("levels(", x, ")")
-  levels_all <- opal::datashield.aggregate(datasources, as.symbol(cally))
-  
+  }
+
+  cally <- paste0("levelsDS(", x, ")")
+  levels_all <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+
   return(levels_all)
 }

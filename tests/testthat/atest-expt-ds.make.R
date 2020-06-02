@@ -1,4 +1,4 @@
-source("connection_to_datasets/init_all_datasets.R")
+source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.make.R")
 source("definition_tests/def-assign-stats.R")
 
@@ -346,7 +346,7 @@ test_that("multiply a constant value to all the values of a vector",
 {
   connect.dataset.1()
   constant.value <- sample(2:200,1)
-  print(constant.value)
+#  print(constant.value)
   .test.operation.constant('D$INTEGER',constant.value,'NUMERIC_created',"*", result.local = (ds.test_env$local.values.1[,6] * constant.value))
   .test.operation.constant('D$NON_NEGATIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values.1[,7] * constant.value))
   .test.operation.constant('D$POSITIVE_INTEGER',constant.value,'NUMERIC_created',"*",result.local = (ds.test_env$local.values.1[,8] * constant.value))

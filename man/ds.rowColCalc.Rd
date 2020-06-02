@@ -2,52 +2,82 @@
 % Please edit documentation in R/ds.rowColCalc.R
 \name{ds.rowColCalc}
 \alias{ds.rowColCalc}
-\title{Computes sums and means of rows or columns of numeric matrix or data frame}
+\title{Computes rows and columns sums and means in the server-side}
 \usage{
 ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character, the name of a matrix or a dataframe}
+\item{x}{a character string specifying  the name of a matrix or a data frame.}
 
-\item{operation}{a character string which indicates the operation to carry out:
-"rowSums", "colSums", "rowMeans" or "colMeans".}
+\item{operation}{a character string that indicates the operation to carry out:
+\code{"rowSums"}, \code{"colSums"}, \code{"rowMeans"} or \code{"colMeans"}.}
 
-\item{newobj}{the name of the new object. If this argument is set to NULL, the name of the new 
-variable, set by default, is 'rowcolcalc.newobj'.}
+\item{newobj}{a character string that provides the name for the output variable 
+that is stored on the data servers. Default \code{rowcolcalc.newobj}.}
 
-\item{datasources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-nothing is returned to the client, the new object is stored on the server side.
+\code{ds.rowColCalc} returns to the server-side  rows and columns sums and means.
 }
 \description{
-The function is similar to R base functions 'rowSums', 'colSums',
-'rowMeans' and 'colMeans' with some restrictions.
+Computes sums and means of rows or columns 
+of a numeric matrix or data frame on the server-side.
 }
 \details{
-The results of calculation are not returned to the user if they are potentially 
+The function is similar to R base functions \code{rowSums}, \code{colSums},
+\code{rowMeans} and \code{colMeans} with some restrictions.
+
+The results of the calculation are not returned to the user if they are potentially
 revealing i.e. if the number of rows is less than the allowed number of observations.
+
+Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
 }
 \examples{
 \dontrun{
 
-  # load that contains the login details
-  data(logindata)
+  ## Version 6, for version 5 see the Wiki 
+  # Connecting to the Opal servers
 
-  # login and assign two variables
-  myvar  <-  list("LAB_TSC","LAB_HDL")
-  opals <- datashield.login(logins=logindata,assign=TRUE,variables=myvar)
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
 
-  # calculate the sum of each row of the above assigned dataset (default name 'D')
-  ds.rowColCalc(x='D', operation='rowSums', newobj='rsum_D')
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  myvar <- list("LAB_TSC","LAB_HDL")
+   
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, 
+  variables = myvar, symbol = "D") 
 
-  # clear the Datashield R sessions and logout
-  datashield.logout(opals)
+  
+  #Calculate the colSums
+  
+  ds.rowColCalc(x = "D",
+                operation = "colSums", 
+                newobj = "D.rowSums", 
+                datasources = connections)
+                
+  #Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
 
 }
-
 }
 \author{
-Gaye, A.
+DataSHIELD Development Team
 }

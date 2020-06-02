@@ -30,8 +30,8 @@ context("ds.asFactor::smk::force.factor.levels")
 test_that("with no force.factor.levels", {
     ds.asFactor("TID", "TID.f1")
 
-    res1 <- ds.class("TID.f1", datasources=ds.test_env$connection.opal)
-    res2 <- ds.table1D("TID.f1", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("TID.f1")
+    res2 <- ds.table1D("TID.f1")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -42,8 +42,8 @@ test_that("with no force.factor.levels", {
 test_that("with forced.factor.levels of 1:6", {
     ds.asFactor("TID", "TID.f2", forced.factor.levels=1:6)
 
-    res1 <- ds.class("TID.f2", datasources=ds.test_env$connection.opal)
-    res2 <- ds.table1D("TID.f2", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("TID.f2")
+    res2 <- ds.table1D("TID.f2")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -54,8 +54,8 @@ test_that("with forced.factor.levels of 1:6", {
 test_that("with force.factor.levels of 0:10", {
     ds.asFactor("TID", "TID.f3", forced.factor.levels=0:10)
 
-    res1 <- ds.class("TID.f3", datasources=ds.test_env$connection.opal)
-    res2 <- ds.table1D("TID.f3", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("TID.f3")
+    res2 <- ds.table1D("TID.f3")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -66,8 +66,8 @@ test_that("with force.factor.levels of 0:10", {
 test_that("with force.factor.levels of 2:3", {
     ds.asFactor("TID", "TID.f4", forced.factor.levels=2:3)
 
-    res1 <- ds.class("TID.f4", datasources=ds.test_env$connection.opal)
-    res2 <- ds.table1D("TID.f4", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("TID.f4")
+    res2 <- ds.table1D("TID.f4")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -78,8 +78,8 @@ test_that("with force.factor.levels of 2:3", {
 test_that("with force.factor.levels of c(1,2,3,4,'a','h',5)", {
     ds.asFactor("TID", "TID.f5", forced.factor.levels=c(1,2,3,4,'a','h',5))
 
-    res1 <- ds.class("TID.f5", datasources=ds.test_env$connection.opal)
-    res2 <- ds.table1D("TID.f5", datasources=ds.test_env$connection.opal)
+    res1 <- ds.class("TID.f5")
+    res2 <- ds.table1D("TID.f5")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -91,21 +91,21 @@ context("ds.asFactor::smk::fixed.dummy.vars")
 test_that("with fixed.dummy.vars of TRUE", {
     ds.asFactor("TID", "TID.mat1", fixed.dummy.vars=TRUE)
 
-    res <- ds.class("TID.mat1", datasources=ds.test_env$connection.opal)
+    res <- ds.class("TID.mat1")
 
-    expect_equal("matrix", res$`survival1`)
-    expect_equal("matrix", res$`survival2`)
-    expect_equal("matrix", res$`survival3`)
+    expect_true("matrix" %in% res$`survival1`)
+    expect_true("matrix" %in% res$`survival2`)
+    expect_true("matrix" %in% res$`survival3`)
 })
 
 test_that("with fixed.dummy.vars of TRUE and baseline.level of 6", {
     ds.asFactor("TID", "TID.mat6", fixed.dummy.vars=TRUE,baseline.level=6)
 
-    res <- ds.class("TID.mat6", datasources=ds.test_env$connection.opal)
+    res <- ds.class("TID.mat6")
 
-    expect_equal("matrix", res$`survival1`)
-    expect_equal("matrix", res$`survival2`)
-    expect_equal("matrix", res$`survival3`)
+    expect_true("matrix" %in% res$`survival1`)
+    expect_true("matrix" %in% res$`survival2`)
+    expect_true("matrix" %in% res$`survival3`)
 })
 
 #

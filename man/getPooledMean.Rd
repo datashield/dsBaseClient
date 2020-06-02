@@ -7,8 +7,8 @@
 getPooledMean(dtsources, x)
 }
 \arguments{
-\item{dtsources}{a list of opal object(s) obtained after login in to opal servers;
-these objects hold also the data assign to R, as \code{dataframe}, from opal datasources.}
+\item{dtsources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{x}{a character, the name of a numeric vector}
 }
@@ -19,8 +19,8 @@ a pooled mean
 This is an internal function.
 }
 \details{
-This function is called to avoid calling the client function 'ds.mean' 
-which may stop the process due to some checks not required when computing a mean inside 
+This function is called to avoid calling the client function 'ds.mean'
+which may stop the process due to some checks not required when computing a mean inside
 a function.
 }
 \keyword{internal}
