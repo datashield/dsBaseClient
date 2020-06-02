@@ -93,6 +93,9 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
   
+      # Work-around for tempory Bazel's apt repository issue.
+      curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+
       # Purge the default mysql installed on the VM as it is incompatible with our stuff.
       sudo service mysql stop
       sudo apt-get update
