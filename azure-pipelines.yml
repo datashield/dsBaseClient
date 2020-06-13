@@ -47,7 +47,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: refs/tags/6.0.1
+    ref: v6.1-dev
 
 
 #########################################################################################
@@ -125,7 +125,7 @@ jobs:
   - bash: |
       
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/"
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
       sudo apt-get update
       
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
