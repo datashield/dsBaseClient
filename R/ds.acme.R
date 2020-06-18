@@ -11,7 +11,7 @@
 #'
 
 ds.acme <- function(model, Set, type.data = "SummarizedExperiment", threshold = NULL, 
-                    reference = NULL, annotCols=NULL, datasources=NULL)
+                    reference = NULL, datasources=NULL)
 {   
     # if no opal login details are provided look for 'opal' objects in the environment
     if (is.null(datasources))
@@ -38,16 +38,9 @@ ds.acme <- function(model, Set, type.data = "SummarizedExperiment", threshold = 
       covariable_names <- NULL
     }
     
-    if (!is.null(annotCols))
-    {
-      annotCols <- paste(annotCols, collapse=",")
-    }
-
     # call the server side function
-    calltext <- call("acmeDS",Set, type,variable_names, covariable_names, annotCols, threshold, reference)
-
+    calltext <- call("acmeDS",Set, variable_names, covariable_names,type, threshold, reference)
     output <- datashield.aggregate(datasources, calltext)
-  
     return(output)
 }
 #ds.acme

@@ -4,12 +4,19 @@
 \alias{ds.acme}
 \title{ds.acme function template}
 \usage{
-ds.acme(name = NULL, datasources = NULL)
+ds.acme(
+  model,
+  Set,
+  type.data = "SummarizedExperiment",
+  threshold = NULL,
+  reference = NULL,
+  datasources = NULL
+)
 }
 \arguments{
-\item{name}{a character vector containing "a name"}
-
 \item{datasources}{specifies the particular 'connection object(s)' to use.}
+
+\item{name}{a character vector containing "a name"}
 }
 \value{
 character vector containing "a message"
