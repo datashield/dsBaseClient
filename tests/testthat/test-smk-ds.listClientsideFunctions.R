@@ -104,6 +104,7 @@ test_that("check results", {
         "ds.scatterPlot",
         "ds.seq",
         "ds.setDefaultOpals",
+        "ds.skewness",
         "ds.setSeed",
         "ds.subset",
         "ds.subsetByClass",
