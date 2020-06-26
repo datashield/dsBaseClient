@@ -44,7 +44,7 @@ test_that("check results", {
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
-      "recodeValuesDS1", "rmDS", "scatterPlotDS",
+      "recodeValuesDS1", "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
       "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
       "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
       "testObjExistsDS", "varDS"
