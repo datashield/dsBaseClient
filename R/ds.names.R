@@ -73,6 +73,10 @@ ds.names <- function(xname=NULL, datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  if(is.null(xname)){
+    stop("Please provide the name of the input list!", call.=FALSE)
+  }
+
   calltext<-call("namesDS", xname)
   output<-datashield.aggregate(datasources,calltext)
   return(output)
