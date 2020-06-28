@@ -25,12 +25,31 @@ test_that("setup", {
 #
 
 context("ds.subsetByClass::smk")
-test_that("gender", {
-    res <- ds.subsetByClass(x='D', subsets='subclasses')
+test_that("gender implicit", {
+    res <- ds.subsetByClass(x='D', subsets='subclasses1')
 
     expect_true(is.null(res))
 
-    check <- ds.names('subclasses')
+    check <- ds.names('subclasses1')
+
+    expect_length(check, 3)
+    expect_length(check$sim1, 2)
+    expect_equal(check$sim1[1], 'GENDER.level_0')
+    expect_equal(check$sim1[2], 'GENDER.level_1')
+    expect_length(check$sim2, 2)
+    expect_equal(check$sim2[1], 'GENDER.level_0')
+    expect_equal(check$sim2[2], 'GENDER.level_1')
+    expect_length(check$sim3, 2)
+    expect_equal(check$sim3[1], 'GENDER.level_0')
+    expect_equal(check$sim3[2], 'GENDER.level_1')
+})
+
+test_that("gender explicit", {
+    res <- ds.subsetByClass(x='D', subsets='subclasses2', variables='GENDER')
+
+    expect_true(is.null(res))
+
+    check <- ds.names('subclasses2')
 
     expect_length(check, 3)
     expect_length(check$sim1, 2)
@@ -51,7 +70,7 @@ test_that("gender", {
 context("ds.subsetByClass::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "subclasses"))
+    ds_expect_variables(c("D", "subclasses1", "subclasses2"))
 })
 
 disconnect.studies.dataset.cnsim()
