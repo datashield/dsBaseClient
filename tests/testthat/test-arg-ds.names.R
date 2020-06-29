@@ -21,7 +21,15 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.names::arg::test errors")
 test_that("simple ds.names errors", {
     expect_error(ds.names(), "Please provide the name of the input list!", fixed=TRUE)
-    expect_error(ds.names(x="D$LAB_TSC"), "The input object must be a list.", fixed=TRUE)
+
+    res <- ds.names(x="D$LAB_TSC")
+
+    expect_length(res, 3)
+    expect_length(res$sim1, 2)
+    expect_length(res$sim1$error.message, 1)
+    expect_equal(res$sim1$error.message, "The input object is not of class <list>", fixed=TRUE)
+    expect_length(res$sim1$trace.message, 1)
+    expect_equal(res$sim1$trace.message, "numeric")
 })
 
 #

@@ -42,7 +42,7 @@ test_that("dataFrameFill_donothing", {
     expect_equal(colnamesD$sim3[2], "LAB_TRIG")
     expect_equal(colnamesD$sim3[3], "LAB_HDL")
 
-    expect_error(ds.dataFrameFill(df.name="D", newobj="filled_df"), "The dataframes have the same variables!")
+    expect_error(ds.dataFrameFill(df.name="D", newobj="filled_df"), "The dataframes have the same variables. There are no missing variables to fill!")
 })
 
 #
