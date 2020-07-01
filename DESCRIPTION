@@ -1,12 +1,13 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.0.0
+Version: 6.0.1
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: DataSHIELD client functions for the client side.
 License: GPL-3
-Depends: R (>= 3.5.0),
-    DSI
+Depends:
+    R (>= 3.5.0),
+    DSI (>= 1.1.0)
 Imports:
     fields,
     metafor
