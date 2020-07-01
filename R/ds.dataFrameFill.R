@@ -116,12 +116,14 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   # if the datasets share the same variables then the function stops
   check.indicator <- c()
   for (i in 1:length(datasources)){
-    if(length(column.names[[i]])==length(allNames)){check.indicator[i] <- 0}
-    else{check.indicator[i] <- 1}
+    if(length(setdiff(allNames,column.names[[i]])) > 0){
+      check.indicator[i] <- 1
+    }else{
+      check.indicator[i] <- 0}
   }
 
   if(sum(check.indicator)==0){
-    stop("The dataframes have the same variables!", call.=FALSE)
+    stop("The dataframes have the same variables. There are no missing variables to fill!", call.=FALSE)
   }
 
   if(!is.null(allNames)){
@@ -130,7 +132,19 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     allNames.transmit <- NULL
   }
 
-  calltext <- call("dataFrameFillDS", df.name, allNames.transmit)
+  # get the class of each variable in the dataframes
+  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x))})
+  class.vect1 <- lapply(class.list, function(x){unlist(x)})
+  class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
+  class.vect2 <- unname(unlist(class.vect2))
+  
+  if(!is.null(class.vect2)){
+    class.vect.transmit <- paste(class.vect2,collapse=",")
+  }else{
+    class.vect.transmit <- NULL
+  }
+  
+  calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit)
   DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################

@@ -33,7 +33,7 @@ test_that("check results", {
       "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
     ))
     aggregate.functions <- factor(c(
-      "NROW", "alphaPhiDS", "asFactorDS1", "asListDS",
+      "NROW", "asFactorDS1", "asListDS",
       "checkNegValueDS", "classDS", "colnamesDS", "corTestDS",
       "covDS", "dataFrameSubsetDS1",
       "densityGridDS", "dimDS",
