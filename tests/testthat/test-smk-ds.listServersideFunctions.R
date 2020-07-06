@@ -40,7 +40,7 @@ test_that("check results", {
       "exists", "glmDS1", "glmDS1", "glmDS2",
       "glmDS2", "glmSLMADS2", "histogramDS1", "is.character",
       "is.factor", "is.list", "is.null", "is.numeric",
-      "isNaDS", "isValidDS", "lengthDS",
+      "isNaDS", "isValidDS", "kurtosisDS1", "kurtosisDS2", "lengthDS",
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",

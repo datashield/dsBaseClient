@@ -61,6 +61,7 @@ test_that("check results", {
         "ds.histogram",
         "ds.isNA",
         "ds.isValid",
+        "ds.kurtosis",
         "ds.length",
         "ds.levels",
         "ds.lexis",
