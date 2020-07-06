@@ -33,10 +33,10 @@ This function calculates the skewness of a numeric variable.
 The function calculates the skewness of an input variable x with three different methods. 
 The method is specified by the argument \code{method}. If x contains any missings, the function removes those before
 the calculation of the skewness. If \code{method} is set to 1 the following formula is used
-\eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^3) /N)^(3/2) }},
+\eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
 where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations. If \code{method} is set to 2
-the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^3) /N)^(3/2) } * \frac{\sqrt(N(N-1)}{n-2}}.
-If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^3) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
+the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * \frac{\sqrt(N(N-1)}{n-2}}.
+If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
 This function is similar to the function \code{skewness} in R package \code{e1071}.
 }
 \author{
