@@ -174,7 +174,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   if("list" %in% typ){
     for(i in 1:numsources){
       l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
-      elts <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('namesDS(', x, ')' )))[[1]]
+      elts <- DSI::datashield.aggregate(datasources[i], call('namesDS', x))[[1]]
       if(is.null(elts)){
         stdsummary <- list('class'=typ, 'length'=l)
       }else{

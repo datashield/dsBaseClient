@@ -2,35 +2,42 @@
 % Please edit documentation in R/ds.names.R
 \name{ds.names}
 \alias{ds.names}
-\title{Gets the names of a server-side list}
+\title{Return the names of a list object}
 \usage{
-ds.names(x = NULL, datasources = NULL)
+ds.names(xname = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character string specifying the name of the list.}
+\item{xname}{a character string specifying the name of the list.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
-objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}}
+objects obtained after login that represent the particular data sources
+(studies) to be addressed by the function call. If the \code{datasources}
+argument is not specified the default set of connections will be used:
+see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.names} returns to the client-side the names
-of a list stored on the server-side.
+of a list object stored on the server-side.
 }
 \description{
-Function to get the names of an object that is stored on the server-side.
+Returns the names of a designated server-side list
 }
 \details{
-This function is similar to the R function \code{names}.
-In DataSHIELD the use of this function is restricted to objects of type list.
-
-Server function called: \code{namesDS}
+ds.names calls aggregate function namesDS. This function is similar to
+the native R function \code{names} but it does not subsume all functionality,
+for example, it only works to extract names that already exist,
+not to create new names for objects. The function is restricted to objects of
+type list, but this includes objects that have a primary class other than list but which
+return TRUE to the native R function {is.list}. As an example this includes
+the multi-component object created by fitting a generalized linear model
+using ds.glmSLMA. The resultant object saved on each server separately
+is formally of class "glm" and "ls" but responds TRUE to is.list(),
 }
 \examples{
 \dontrun{
 
  ## Version 6, for version 5 see the Wiki
-  
+ 
   # connecting to the Opal servers
 
   require('DSI')
@@ -38,34 +45,34 @@ Server function called: \code{namesDS}
   require('dsBaseClient')
 
   builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study1",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-  builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study2",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
   builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  #Create a list in the server-side 
-  
+ 
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
+ 
+  #Create a list in the server-side
+ 
   ds.asList(x.name = "D",
             newobj = "D.list",
             datasources = connections)
-            
+           
   #Get the names of the list
-  
-  ds.names(x = "D.list",
+ 
+  ds.names(xname = "D.list",
            datasources = connections)
  
-  
+ 
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
 
@@ -73,5 +80,6 @@ Server function called: \code{namesDS}
 
 }
 \author{
-DataSHIELD Development Team
+Amadou Gaye, updated by Paul Burton for DataSHIELD development
+team 25/06/2020
 }

@@ -26,8 +26,8 @@ meanByClassHelper4 <- function(dtsource, alist, initialtable, variable=NA, categ
       newsubsets <- append(newsubsets, name2use)
     }
   }else{
-    cally <- paste0('namesDS(', alist, ')')
-    subsetnames <- unique(unlist(DSI::datashield.aggregate(dtsource, as.symbol(cally))))
+    cally <- call('namesDS', alist)
+    subsetnames <- unique(unlist(DSI::datashield.aggregate(dtsource, cally)))
     for(m in 1:length(subsetnames)){
       name2use <- paste0(unlist(strsplit(paste0(initialtable,'.',subsetnames[m]), '.level_')), collapse='')
       DSI::datashield.assign(dtsource, name2use, as.symbol(paste0(alist,'$',subsetnames[m])))
