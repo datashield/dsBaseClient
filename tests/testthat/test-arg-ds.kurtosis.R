@@ -27,8 +27,7 @@ test_that("setup", {
 context("ds.kurtosis::arg::test errors")
 test_that("kurtosis_erros", {
     expect_error(ds.kurtosis(), "Please provide the name of the input vector!", fixed=TRUE)
-    res <- ds.kurtosis(x='D$LAB_TSC', type='datashield')
-    expect_true(is.null(res))
+    expect_error(ds.kurtosis(x='D$LAB_TSC', type='datashield'), "Function argument \"type\" has to be either \"both\", \"combine\" or \"split\"", fixed=TRUE)
     expect_error(ds.kurtosis(x='D$LAB_TSC', method="0"), "method must be an integer between 1 and 3", fixed=TRUE)
     expect_error(ds.kurtosis(x='D$LAB_TSC', method="4"), "method must be an integer between 1 and 3", fixed=TRUE)
 })

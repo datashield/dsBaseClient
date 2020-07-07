@@ -44,6 +44,8 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
+  if(type != 'combine' & type != 'split' & type != 'both')
+    stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
   
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)
