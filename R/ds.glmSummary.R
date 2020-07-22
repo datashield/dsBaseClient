@@ -2,7 +2,7 @@
 #' @title summarize a glm object on the serverside
 #' @description summarize a glm object on the serverside to create a 
 #' summary_glm object. Also identify and return components of 
-#' both the glm object and the summary_glm object 
+#' both the glm object and the summary_glm object
 #' that can safely be sent to the clientside without a risk of disclosure 
 #' @details Clientside function calling a single assign function (glmSummaryDS.as)
 #' and a single aggregate function (glmSummaryDS.as). ds.glmSummary summarises a
@@ -38,7 +38,7 @@
 #' @param newobj a character string specifying the name of the object to which
 #' the summary_glm object representing the output of summary(glm object)
 #' in each study is to be written. If no <newobj> argument is specified, the output
-#' object on the serverside defaults to "summary_glm". 
+#' object on the serverside defaults to "summary_glm.newobj".
 #' @param datasources specifies the particular 'connection object(s)' to use.
 #' e.g. if you have several data sets in the sources you are working with
 #' called opals.a, opals.w2, and connection.xyz, you can choose which of
@@ -94,7 +94,9 @@ ds.glmSummary<-function(x.name, newobj=NULL, datasources=NULL) {
 #FORCE newobj TO BE CORRECT IN CASE USER TRIES TO SPECIFY A VALUE FOR IT 
 #NAME OF ALL THREE newobj OBJECTS IS DEFINED FULLY BY x.name
 	
-	newobj<- "summary_glm"
+  if (is.null(newobj)) {
+	newobj<- "summary_glm.newobj"
+  }
 
 	calltext1 <- call("glmSummaryDS.as", x.name)
   
@@ -129,7 +131,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
@@ -167,18 +169,18 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 	}																										#	
 																											#
 																											#
-	if(no.errors){																							#
-	cat("\n\nCREATE ASSIGN OBJECT\n")																		#
+#	if(no.errors){																							#
+#	cat("\n\nCREATE ASSIGN OBJECT\n")																		#
+#																											#
+#	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
+#	print(list(is.object.created=return.message,validity.check=validity.check))						    	#
+#	}																										#
 																											#
-	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	print(list(is.object.created=return.message,validity.check=validity.check))						    	#
-	}																										#
-																											#
-if(!no.errors){																								#
-	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
-	print(list(is.object.created=return.message,validity.check=validity.check,					    		#
-	            studyside.messages=studyside.message))			                                            #
-	}																										#
+  if(!no.errors){																								#
+ 	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
+ 	print(list(is.object.created=return.message,validity.check=validity.check,					    		#
+ 	            studyside.messages=studyside.message))			                                            #
+ 	}																										#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################
