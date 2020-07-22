@@ -13,7 +13,7 @@ serverside that has previously been created e.g. using ds.glmSLMA}
 \item{newobj}{a character string specifying the name of the object to which
 the summary_glm object representing the output of summary(glm object)
 in each study is to be written. If no <newobj> argument is specified, the output
-object on the serverside defaults to "summary_glm".}
+object on the serverside defaults to "summary_glm.newobj".}
 
 \item{datasources}{specifies the particular 'connection object(s)' to use.
 e.g. if you have several data sets in the sources you are working with
@@ -55,7 +55,7 @@ and for ds.glmSLMA in DataSHIELD.
 \description{
 summarize a glm object on the serverside to create a 
 summary_glm object. Also identify and return components of 
-both the glm object and the summary_glm object 
+both the glm object and the summary_glm object
 that can safely be sent to the clientside without a risk of disclosure
 }
 \details{
