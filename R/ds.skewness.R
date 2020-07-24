@@ -1,28 +1,80 @@
 #' 
-#' @title Calculates the skewness of a numeric variable
-#' @description This function calculates the skewness of a numeric variable.
-#' @details The function calculates the skewness of an input variable x with three different methods. 
-#' The method is specified by the argument \code{method}. If x contains any missings, the function removes those before
-#' the calculation of the skewness. If \code{method} is set to 1 the following formula is used
-#' \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
-#' where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations. If \code{method} is set to 2
-#' the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * \frac{\sqrt(N(N-1)}{n-2}}.
-#' If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
-#' This function is similar to the function \code{skewness} in R package \code{e1071}.
-#' @param x a string character, the name of a numeric variable.
-#' @param method an integer between 1 and 3 selecting one of the algorithms for computing skewness
-#' detailed below. The default value is set to 1.
-#' @param type a character which represents the type of analysis to carry out. 
-#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global skewness is returned 
-#' if \code{type} is set to 'split', 'splits' or 's', the skewness is returned separately for each study.
-#' if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
-#' The default value is set to 'both'.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified 
+#' @title Calculates the skewness of a server-side numeric variable 
+#' @description This function calculates the skewness of a numeric variable 
+#' that is stored on the server-side (Opal server). 
+#' @details This function is similar to the function \code{skewness} in R package \code{e1071}.
+#' 
+#' The function calculates the skewness of an input variable \code{x} 
+#' with three different methods: \cr
+#' (1)  If \code{method} is set to 1 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
+#' where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations.\cr
+#' (2) If \code{method} is set to 2
+#' the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * \frac{\sqrt(N(N-1)}{n-2}}.\cr
+#' (3) If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
+#' 
+#' The \code{type} argument can be set as follows:\cr
+#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'}, 
+#' the global skewness is returned.\cr
+#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+#' the skewness is returned separately for each study.\cr
+#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.\cr
+#' 
+#' If \code{x} contains any missing value, the function removes those before
+#' the calculation of the skewness. 
+#' 
+#' Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
+#' 
+#' @param x a character string specifying the name of a numeric variable.
+#' @param method an integer value between 1 and 3 selecting one of the algorithms for computing skewness. 
+#' For more information see \strong{Details}. The default value is set to 1.
+#' @param type a character string which represents the type of analysis to carry out. 
+#' \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
+#' see \strong{Details}. 
+#' The default value is set to \code{'both'}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return a matrix showing the skewness of the input numeric variable, the number of valid observations and
-#' the validity message.
+#' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
+#' the number of valid observations and the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
+#' @examples 
+#' \dontrun{
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   #Calculate the skewness of LAB_TSC numeric variable for each study separately and combined
+#'   
+#'   ds.skewness(x = "D$LAB_TSC",
+#'               method = 1, 
+#'               type = "both",
+#'              datasources = connections)
+#'   
+#'   # Clear the Datashield R sessions and logout                 
+#'   DSI::datashield.logout(connections) 
+#'   
+#' } 
 #' @export
 #' 
 ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL){
