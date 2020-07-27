@@ -47,7 +47,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: StuartWheater/datashield-infrastructure
-    ref: v6.1-dev_dsdanager
+    ref: v6.1-dev_dsdanger
 
 
 #########################################################################################
