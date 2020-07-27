@@ -17,10 +17,6 @@ class { ::datashield:
 
   dsbase_githubusername      => 'datashield',
   dsbase_ref                 => 'v6.1-dev',
-  dsstats_githubusername     => 'datashield',
-  dsstats_ref                => '',
-  dsgraphics_githubusername  => 'datashield',
-  dsgraphics_ref             => '',
-  dsmodelling_githubusername => 'datashield',
-  dsmodelling_ref            => ''
+  dsdanger_githubusername    => 'datashield',
+  dsdanger_ref               => ''
 }

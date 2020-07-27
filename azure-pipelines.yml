@@ -46,8 +46,8 @@ resources:
   - repository: datashield-infrastructureRepo
     type: github
     endpoint: datashield-testing
-    name: datashield/datashield-infrastructure
-    ref: v6.1-dev
+    name: StuartWheater/datashield-infrastructure
+    ref: v6.1-dev_dsdanager
 
 
 #########################################################################################
