@@ -42,7 +42,7 @@ resources:
     endpoint: datashield-testing
     name: datashield/testStatus
     ref: master
-    
+
   - repository: datashield-infrastructureRepo
     type: github
     endpoint: datashield-testing
@@ -123,11 +123,11 @@ jobs:
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
   - bash: |
-      
+
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
       sudo apt-get update
-      
+
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"              
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -160,7 +160,7 @@ jobs:
        echo "Documentation up to date."
        exit 0
       fi
-      
+
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Check manual updated before being committed'
     condition: succeeded()
@@ -172,7 +172,7 @@ jobs:
     # If previous steps have failed then don't run.
     # If this step fails still mark as failed, but don't stop the rest of the steps running.    
   - bash: |
-  
+
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
 
@@ -186,7 +186,7 @@ jobs:
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
   - bash: |
-  
+
       # Set up puppet and r10k
       wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
       sudo dpkg -i puppet5-release-xenial.deb
@@ -196,11 +196,11 @@ jobs:
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
-      
+
       pushd puppet/environments/datashield_azurepipelines
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
-      
+
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
@@ -216,24 +216,24 @@ jobs:
     # TODO: Tidy up variable names - use timestamps here.
     # TODO: Why is DSLite needed for this to run?!
   - bash: |
-  
+
       # There is an issue with the way we are using packages. The wrapped up test command
       # below fails in a way that implies that it is not installed. I cannot figure out 
       # why this is case. As a work around we can run some of the functions below. My
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
-      
+
       # None of the below make the tests run
       #sudo R -e 'devtools::reload(".")'
       #sudo R -e 'library(dsBaseClient)'
       #sudo R -e 'devtools::check_built()'
       #sudo R --verbose -e 'devtools::build()'      
-      
+
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
       #sudo R --verbose -e 'devtools::install()'
       sudo R --verbose -e 'devtools::check()'            
-      
+
       pwd
       mkdir $(Pipeline.Workspace)/logs
 
@@ -261,13 +261,13 @@ jobs:
                                   ),
                                   "coveragelist.csv"
                  )'
-      
+
       # display the test console output
       cat test_console_output.txt
       mv coveragelist.csv $(Pipeline.Workspace)/logs
       mv test_results.xml $(Pipeline.Workspace)/logs
       mv test_console_output.txt $(Pipeline.Workspace)/logs
-      
+
       grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -276,11 +276,23 @@ jobs:
 
 
     #####################################################################################
+    # Install dsDanger.
+    # If previous steps have failed then don't run
+  - bash: |
+
+      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+
+    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
+    displayName: 'Install DataSHIELD package (dsDanger)'
+    condition: succeeded()
+
+
+    #####################################################################################
     # Parse the JUnit file to see if there are any errors/warnings. If there are then 
     # echo them so finding bugs should be easier.
     # This should run even if previous steps have failed.
   - bash: |
-  
+
       # Strip out when error and failure = 0 and count the number of times it does not.
       issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep --count errors=)
       echo "Number of testsuites with issues: "$issue_count
