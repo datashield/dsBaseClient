@@ -288,6 +288,58 @@ jobs:
 
 
     #####################################################################################
+    # Essentially run devtools::test() on the checked out code. This is wrapped up with
+    # code coverage. The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  - bash: |
+
+      # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
+      sudo R --verbose -e 'devtools::check()'
+
+      pwd
+      mkdir $(Pipeline.Workspace)/logs
+
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      sudo R -q -e '
+        library(covr);
+        write.csv(
+                  coverage_to_list(
+                                   covr::package_coverage(
+                                                          type = c("none"),
+                                                          code = c(
+                                                                   '"'"'library(testthat);
+                                                                   output_file <- file("test_console_output.txt");
+                                                                   sink(output_file);
+                                                                   sink(output_file, type = "message");
+                                                                   library(testthat);
+                                                                   junit_rep <- JunitReporter$new(file = "test_results.xml");
+                                                                   progress_rep <- ProgressReporter$new(max_failures = 999999);
+                                                                   multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                                                                   testthat::test_package("$(projectName)", filter = "$(test_filter)",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
+                                                         )
+                                  ),
+                                  "coveragelist.csv"
+                 )'
+
+      # display the test console output
+      cat test_console_output.txt
+      mv coveragelist.csv $(Pipeline.Workspace)/logs
+      mv test_results.xml $(Pipeline.Workspace)/logs
+      mv test_console_output.txt $(Pipeline.Workspace)/logs
+
+      grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Code coverage and JUnit report output'
+    condition: succeeded()
+
+
+    #####################################################################################
     # Parse the JUnit file to see if there are any errors/warnings. If there are then 
     # echo them so finding bugs should be easier.
     # This should run even if previous steps have failed.
