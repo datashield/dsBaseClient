@@ -256,7 +256,7 @@ jobs:
                                                                    junit_rep <- JunitReporter$new(file = "test_results.xml"); 
                                                                    progress_rep <- ProgressReporter$new(max_failures = 999999); 
                                                                    multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); 
-                                                                   testthat::test_package("$(projectName)", filter = "$(test_filter)",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
+                                                                   testthat::test_package("$(projectName)", filter = "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
                                                          )
                                   ),
                                   "coveragelist.csv"
@@ -271,7 +271,7 @@ jobs:
       grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Code coverage and JUnit report output'
+    displayName: 'Code coverage and JUnit report output, with dsBase'
     condition: succeeded()
 
 
@@ -335,7 +335,7 @@ jobs:
       grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Code coverage and JUnit report output'
+    displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
     condition: succeeded()
 
 
