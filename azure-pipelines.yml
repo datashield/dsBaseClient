@@ -292,6 +292,7 @@ jobs:
     # If previous steps have failed then don't run
   - bash: |
 
+      sudo R -q -e 'devtools::install()'
       sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
