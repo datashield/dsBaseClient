@@ -276,14 +276,26 @@ jobs:
 
 
     #####################################################################################
-    # Install dsDanger.
+    # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
 
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install DataSHIELD package (dsDanger)'
+    displayName: 'Install dsDanger DataSHIELD package on server'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install dsDangerClient.
+    # If previous steps have failed then don't run
+  - bash: |
+
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1-dev', dependencies = TRUE)"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsDangerClient DataSHIELD package'
     condition: succeeded()
 
 
@@ -320,7 +332,7 @@ jobs:
                                                                    junit_rep <- JunitReporter$new(file = "test_results.xml");
                                                                    progress_rep <- ProgressReporter$new(max_failures = 999999);
                                                                    multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                                                                   testthat::test_package("$(projectName)", filter = "_-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
+                                                                   testthat::test_package("$(projectName)", filter = "_-|smk_dgr-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
                                                          )
                                   ),
                                   "coveragelist.csv"
