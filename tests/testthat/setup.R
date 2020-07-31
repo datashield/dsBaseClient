@@ -11,7 +11,7 @@
 # Datashield test suite set up
 #
 
-context("setup")
+context("setup - start")
 
 library(lme4)
 
