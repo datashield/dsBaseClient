@@ -132,6 +132,9 @@ jobs:
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"              
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
+      # XML grep for coverage report merging
+      sudo apt-get install -qq xml-twig-tools -y
+
     displayName: 'Install all dependencies for dsBaseClient'
     condition: succeeded()
 
@@ -157,8 +160,8 @@ jobs:
         echo "Run devtools::document() locally then commit again."
         exit 1
       else
-       echo "Documentation up to date."
-       exit 0
+        echo "Documentation up to date."
+        exit 0
       fi
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -241,34 +244,32 @@ jobs:
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
+      #
+      # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       sudo R -q -e '
         library(covr);
-        write.csv(
-                  coverage_to_list(
-                                   covr::package_coverage(
-                                                          type = c("none"),
-                                                          code = c(
-                                                                   '"'"'library(testthat); 
-                                                                   output_file <- file("test_console_output.txt"); 
-                                                                   sink(output_file); 
-                                                                   sink(output_file, type = "message"); 
-                                                                   library(testthat); 
-                                                                   junit_rep <- JunitReporter$new(file = "test_results.xml"); 
-                                                                   progress_rep <- ProgressReporter$new(max_failures = 999999); 
-                                                                   multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); 
-                                                                   testthat::test_package("$(projectName)", filter = "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
-                                                         )
-                                  ),
-                                  "coveragelist.csv"
-                 )'
+        dsbase.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'library(testthat);
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(
+                    file = "test_results_dsbase.xml");
+                    progress_rep <- ProgressReporter$new(max_failures = 999999);
+                    multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                    testthat::test_package("$(projectName)", filter = "_-", reporter = multi_rep, stop_on_failure = FALSE)'"'"')
+                )
+            )
+        )
+        base::saveRDS(dsbase.res, "test_results_dsbase.rds")'
 
       # display the test console output
-      cat test_console_output.txt
-      mv coveragelist.csv $(Pipeline.Workspace)/logs
-      mv test_results.xml $(Pipeline.Workspace)/logs
-      mv test_console_output.txt $(Pipeline.Workspace)/logs
+      cat test_console_output_dsbase.txt
 
-      grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
+      grep --quiet "Failed:   0" test_console_output_dsbase.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase'
@@ -320,32 +321,45 @@ jobs:
       # junit reporter output is to test_results.xml
       sudo R -q -e '
         library(covr);
+        dsdanger.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'library(testthat);
+                output_file <- file("test_console_output_dsdanger.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
+                progress_rep <- ProgressReporter$new(max_failures = 999999);
+                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                testthat::test_package("$(projectName)", filter = "smk_dgr-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
+            )
+        )
+        base::saveRDS(dsdanger.res, "test_results_dsdanger.rds")'
+
+      # Merge coverage results
+      cat test_results_dsbase.txt test_results_dsdanger.txt > $(Pipeline.Workspace)/logs/test_console_output.txt
+      xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
+
+      # Create 'coveragelist.csv'
+      sudo R -q -e '
+        library(covr);
+        dsbase.res   <- base::readRDS("test_results_dsbase.rds")
+        dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
         write.csv(
-                  coverage_to_list(
-                                   covr::package_coverage(
-                                                          type = c("none"),
-                                                          code = c(
-                                                                   '"'"'library(testthat);
-                                                                   output_file <- file("test_console_output.txt");
-                                                                   sink(output_file);
-                                                                   sink(output_file, type = "message");
-                                                                   library(testthat);
-                                                                   junit_rep <- JunitReporter$new(file = "test_results.xml");
-                                                                   progress_rep <- ProgressReporter$new(max_failures = 999999);
-                                                                   multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                                                                   testthat::test_package("$(projectName)", filter = "_-|smk_dgr-",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
-                                                         )
-                                  ),
-                                  "coveragelist.csv"
-                 )'
+            coverage_to_list(
+                c(dsbase.res, dsdanger.res)
+                "coveragelist.csv"
+            )
+        )'
 
       # display the test console output
-      cat test_console_output.txt
+      cat test_console_output_dsdanger.txt
+
       mv coveragelist.csv $(Pipeline.Workspace)/logs
       mv test_results.xml $(Pipeline.Workspace)/logs
-      mv test_console_output.txt $(Pipeline.Workspace)/logs
 
-      grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
+      grep --quiet "Failed:   0" test_console_output_dsdanger.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
