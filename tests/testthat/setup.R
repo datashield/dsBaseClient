@@ -14,6 +14,7 @@
 context("setup")
 
 library(lme4)
+library(e1071)
 
 library(DSOpal)
 library(DSLite)
