@@ -28,3 +28,19 @@
   expect_equal(skewness.server.3, skewness.local.3, tolerance = ds.test_env$tolerance)
 }
 
+.test.skewness.mean.median.mode.combined<-function(variable.name,method)
+{
+  #There are not DataSHIELD functions to calculate the median and mode.
+  #We need danger function
+  library(dsDangerClient)
+  
+  skewness.server <- ds.skewness(x = variable.name, method = method, type = "combine")
+
+  server.variable<-ds.DANGERprint(variable.name)
+  server.variable<-c(server.variable$study1,server.variable$study2,server.variable$study3)
+  
+  server.mean<-ds.mean(x = variable.name, type = "combine")
+  server.median<-median(server.variable)
+  server.mode<-DescTools::Mode(server.variable)
+  
+}
