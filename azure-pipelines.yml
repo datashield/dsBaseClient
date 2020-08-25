@@ -46,8 +46,8 @@ resources:
   - repository: datashield-infrastructureRepo
     type: github
     endpoint: datashield-testing
-    name: StuartWheater/datashield-infrastructure
-    ref: v6.1-dev_dsdanger
+    name: datashield/datashield-infrastructure
+    ref: v6.1-dev
 
 
 #########################################################################################
@@ -335,7 +335,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                testthat::test_package("$(projectName)", filter = "smk_dgr-",reporter = multi_rep, stop_on_failure = FALSE)
+                testthat::test_package("$(projectName)", filter = "smk_dgr-|math_dgr-",reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
         );
