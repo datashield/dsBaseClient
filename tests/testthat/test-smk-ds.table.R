@@ -23,7 +23,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.table::smk dataframe setup")
+context("ds.table::smk::dataframe setup")
 test_that("simple table 2D", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
