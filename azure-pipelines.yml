@@ -352,9 +352,9 @@ jobs:
         dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
         write.csv(
             coverage_to_list(
-                c(dsbase.res, dsdanger.res),
-                "coveragelist.csv"
-            )
+                c(dsbase.res, dsdanger.res)
+            ),
+            "coveragelist.csv"
         )'
 
       # display the test console output
