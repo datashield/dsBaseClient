@@ -15,8 +15,8 @@ ds.test_env$MAX <- 5
   value[1] <- mean(some.local.values)
   value[2] <- var(some.local.values)
   value[3] <- length(some.local.values)
-  value[4] <- min(some.local.values)
-  value[5] <- max(some.local.values)
+  #value[4] <- min(some.local.values)
+  #value[5] <- max(some.local.values)
   return(value)
 }
 
@@ -26,24 +26,24 @@ ds.test_env$MAX <- 5
 .calc.distribution.server <- function(name.variable)
 {
   #set an initial value
-  value <- c(0.0,0.0,0.0,0.0,0.0)
+  value <- c(0.0,0.0,0.0)
   
   # compute dispersion and centrality
   mean.from.servers <- ds.mean(x=name.variable,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
   var.from.servers <- ds.var(x=name.variable,type='combine')
   
   # compute range
-  levels <- ds.asFactor(name.variable, newobj.name = "factors")
-  vector <- (as.numeric(unlist(levels[[1]])))
-  server.min <- min(vector)
-  server.max <- max(vector)
+  #levels <- ds.asFactor(name.variable, newobj.name = "factors")
+  #vector <- (as.numeric(unlist(levels[[1]])))
+  #server.min <- min(vector)
+  #server.max <- max(vector)
   
   #values to return
   value[1] <- mean.from.servers[[1]][1]
   value[2] <- var.from.servers[[1]][1]
   value[3] <- mean.from.servers[[1]][3]
-  value[4] <- min(vector)
-  value[5] <- max(vector)
+  #value[4] <- min(vector)
+  #value[5] <- max(vector)
   return(value)
   
 }
