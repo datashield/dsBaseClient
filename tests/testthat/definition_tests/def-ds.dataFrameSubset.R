@@ -1,5 +1,6 @@
 
 source("definition_tests/def-assign-stats.R")
+library(dsDangerClient)
 
 .test.function.parameters<-function(initial.df.name,V1.name,V2.name,boole,keep.cols,rm.cols,keep.NAs,df.created)
 {
@@ -137,6 +138,7 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
                      newobj = df.created,
                      datasources = ds.test_env$connections)
 
+
   #testing
   for (i in 1:length(df.subset.local))
   {
@@ -146,7 +148,7 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
                         ds.test_env$tolerance)
   }
   #Calculate the mean, sd,length, min and max of the variable in the parameter 'V1.name'
-  var1<-paste(df.created,V1.name,sep="$")
+  subset.var<-paste(df.created,V1.name,sep="$")
   if(length(df.subset.local)==3)
   {
     local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]],df.subset.local[[3]])
@@ -159,9 +161,9 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
   {
     local.rbind.df<-df.subset.local[[1]]
   }
-  #dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
-  #dist.server <- .calc.distribution.server(var1)
-  #expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
+  dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
+  dist.server <- .calc.distribution.server(subset.var)
+  expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
 }
 
 
@@ -201,7 +203,10 @@ subset.by.rows.cols<-function(initial.df.name,V1.name,V2.name,keep.cols,boole,ke
   }
   
 
-
+# Upload server-side testing data frames in the client-side (danger function)
+server.data<-ds.DANGERdfEXTRACT(df.created,
+                                datasources = ds.test_env$connections)
+server.data<-server.data$study.specific.df
 
 #testing- testthat
 
@@ -246,6 +251,19 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
     expect_equal(dim(df.subset.local[[i]]),ds.dim(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
     expect_equal(colnames(df.subset.local[[i]]),ds.colnames(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
   }
+  # Upload server-side testing data frames in the client-side (danger function)
+  server.data<-ds.DANGERdfEXTRACT(df.created,
+                                  datasources = ds.test_env$connections)
+  server.data<-server.data$study.specific.df
+  
+  #testing- testthat
+  
+ # for ( i in 1:length(server.data))
+ #   {
+ #   expect_equal(server.data[[i]][,1],
+ #                df.subset.local[[i]][,1],
+ #                ds.test_env$tolerance) 
+ #  }
   
 }
 # Clear the Datashield R sessions and logout
