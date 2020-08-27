@@ -122,7 +122,7 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
@@ -150,7 +150,7 @@ test_that('dataset 1',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             colnames(local.df.list)
             library(dsBaseClient)
@@ -180,7 +180,7 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
@@ -207,7 +207,7 @@ test_that('dataset 1',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
@@ -238,7 +238,7 @@ test_that('all datasets',
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
               levels(local.df.list[[i]][,"FACTOR_CHARACTER"])<-server.FC_levels[[i]]
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",FALSE,"alphabetic","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
@@ -265,7 +265,7 @@ test_that('dataset 2',
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
               levels(local.df.list[[i]][,"FACTOR_CHARACTER"])<-server.FC_levels[[i]]
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",FALSE,"alphabetic","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
@@ -290,7 +290,7 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
@@ -315,7 +315,7 @@ test_that('dataset 3',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = connections[i][[1]])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
