@@ -9,15 +9,6 @@
 #' In \code{DataSHIELD.checks} the checks are relatively slow. 
 #' Default \code{DataSHIELD.checks} value is FALSE.
 #' 
-#' If \code{force.colnames} is NULL (which is recommended), the column names are inferred
-#' from the names or column names of the first object specified in the \code{x} argument.
-#' If this argument is not NULL, then the column names of the assigned data.frame have the
-#' same order as the characters specified by the user in this argument. Therefore, the
-#' vector of \code{force.colnames} must have the same number of elements as the columns in
-#' the output object. In a multi-site DataSHIELD setting to use this argument, the user should
-#' make sure that each study has the same number of names and column names of the input elements
-#' specified in the \code{x} argument and in the same order in all the studies. 
-#' 
 #' Server function called: \code{cbindDS}
 #' 
 #' @param x a character vector with the  name of the objects to be combined.
@@ -27,16 +18,11 @@
 #' 3. if there are any duplicated column names in the input objects in each study.\cr
 #' 4. the number of rows is the same in all components to be cbind.\cr
 #' Default FALSE. 
-#' @param force.colnames can be NULL (recommended) or a vector of characters that specifies 
-#' column names of the output object. If it is not NULL the user should take some caution. 
-#' For more information see \strong{Details}.
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{cbind.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @param notify.of.progress specifies if console output should be produced to indicate
-#' progress. Default FALSE.
 #' @return \code{ds.cbind} returns a data frame combining the columns of the R 
 #' objects specified in the function which is written to the server-side. 
 #' It also returns to the client-side two messages with the name of \code{newobj}
@@ -115,7 +101,7 @@
 #' @author DataSHIELD Development Team
 #' @export
 #' 
-ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -170,7 +156,7 @@ ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newob
       }  
     } 
     
-    # check that the number of rows is the same in all componets to be cbind
+    # check that the number of rows is the same in all components to be cbind
     for(j in 1:length(datasources)){
       nrows <- list()
       for(i in 1:length(x)){
@@ -194,58 +180,15 @@ ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newob
   if(is.null(newobj)){
     newobj <- "cbind.newobj"
   }
-  
-  # CREATE THE VECTOR OF COLUMN NAMES
-  colname.list <- list()
-  for (std in 1:length(datasources)){  
-    colname.vector <- NULL
-    class.vector <- NULL
-    for(j in 1:length(x)){
-      testclass.var <- x[j]
-      calltext1 <- call('classDS', testclass.var)
-      next.class <- DSI::datashield.aggregate(datasources[std], calltext1)
-      class.vector <- c(class.vector, next.class[[1]])
-      if (notify.of.progress){
-        cat("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
-      }  
-    }
-    for(j in 1:length(x)){
-      test.df <- x[j]
-      if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
-        colname.vector <- c(colname.vector, test.df)
-        if (notify.of.progress){
-          cat("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
-        }  
-      }else{
-        calltext2 <- call('colnamesDS', test.df)
-        df.names <- DSI::datashield.aggregate(datasources[std], calltext2)
-        colname.vector <- c(colname.vector, df.names[[1]])
-        if (notify.of.progress){
-          cat("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
-        }  
-      }
-    }
-    colname.list[[std]] <- colname.vector
-  }
-    
-  if (notify.of.progress){
-    cat("\nBoth steps in all studies completed\n")
-  }
     
   # prepare name vectors for transmission
   x.names.transmit <- paste(x, collapse=",")
-  colnames.transmit <- list()
-  for (std in 1:length(datasources)){
-    colnames.transmit[[std]] <- paste(colname.list[[std]], collapse=",")
-  }
   
   ###############################
   # call the server side function
-  for(std in 1:length(datasources)){
-    calltext <- call("cbindDS", x.names.transmit, colnames.transmit[[std]])
-    DSI::datashield.assign(datasources[std], newobj, calltext)
-  }
-  
+  calltext <- call("cbindDS", x.names.transmit)
+  DSI::datashield.assign(datasources, newobj, calltext)
+
   #############################################################################################################
   # DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED  
   
