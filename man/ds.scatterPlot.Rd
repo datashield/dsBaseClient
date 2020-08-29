@@ -11,6 +11,7 @@ ds.scatterPlot(
   k = 3,
   noise = 0.25,
   type = "split",
+  return.coords = FALSE,
   datasources = NULL
 )
 }
@@ -38,6 +39,9 @@ For more information see \strong{Details}.}
 This can be set as \code{'combine'} or \code{'split'}. 
 Default \code{'split'}. 
 For more information see \strong{Details}.}
+
+\item{return.coords}{a logical. If TRUE the coordinates of the anonymised data points are return 
+to the Console. Default value is FALSE.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
@@ -133,7 +137,8 @@ Server function called: \code{scatterPlotDS}
                  datasources = connections)
 
   #Example 2: generate a combined scatter plot with the probabilistic method
-  #and noise = 0.5
+  #and noise of variance 0.5\% of the variable's variance, and display the coordinates
+  # of the anonymised data points to the Console
   
   ds.scatterPlot(x = "D$PM_BMI_CONTINUOUS",
                  y = "D$LAB_GLUC_ADJUSTED",
