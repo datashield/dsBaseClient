@@ -346,13 +346,24 @@ jobs:
       xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
 
       # Create 'coveragelist.csv'
+      # sudo R -q -e '
+      #   library(covr);
+      #   dsbase.res   <- base::readRDS("test_results_dsbase.rds")
+      #   dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
+      #   write.csv(
+      #       coverage_to_list(
+      #           c(dsbase.res, dsdanger.res)
+      #       ),
+      #       "coveragelist.csv"
+      #   )'
+
+      # Create 'coveragelist.csv'
       sudo R -q -e '
         library(covr);
-        dsbase.res   <- base::readRDS("test_results_dsbase.rds")
-        dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
+        dsbase.res <- base::readRDS("test_results_dsbase.rds")
         write.csv(
             coverage_to_list(
-                c(dsbase.res, dsdanger.res)
+                dsbase.res
             ),
             "coveragelist.csv"
         )'
