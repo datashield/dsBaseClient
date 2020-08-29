@@ -335,7 +335,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                testthat::test_package("$(projectName)", filter = "smk_dgr-",reporter = multi_rep, stop_on_failure = FALSE)
+                testthat::test_package("$(projectName)", filter = "_dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
         );
