@@ -36,7 +36,7 @@ test_that("simple test", {
 })
 
 #
-# Done
+# Shutdown
 #
 
 context("ds.asCharacter::smk_dgr::stutdown")
@@ -46,5 +46,9 @@ test_that("setup", {
 })
 
 disconnect.studies.dataset.cnsim()
+
+#
+# Done
+#
 
 context("ds.asCharacter::smk_dgr::done")
