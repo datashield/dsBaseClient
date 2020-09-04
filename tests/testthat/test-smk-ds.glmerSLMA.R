@@ -29,7 +29,13 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1))
     expect_length(res, 8)
 
-    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1,1,1)), "Error in summary(mg) : object 'mg' not found", fixed=TRUE)
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1,1,1)), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
 
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_fixef = c(1,1,1), start_theta = c(1))
     expect_length(res, 8)

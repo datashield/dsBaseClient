@@ -1,5 +1,78 @@
 
 source("definition_tests/def-assign-stats.R")
+library(dsDangerClient)
+
+.test.function.parameters<-function(initial.df.name,V1.name,V2.name,boole,keep.cols,rm.cols,keep.NAs,df.created)
+{
+  
+  if(class(initial.df.name)!="character" | class(V1.name)!="character" | class(V2.name)!="character"  | class(keep.NAs) != "logical" | class(df.created) != "character")
+  {
+      expect_error(ds.dataFrameSubset(df.name = initial.df.name,
+                                      V1.name = V1.name,
+                                      V2.name = V2.name,
+                                      keep.cols = keep.cols,
+                                      rm.cols = rm.cols,
+                                      Boolean.operator = boole,
+                                      newobj = df.created,
+                                      datasources = ds.test_env$connections))
+    }
+  
+
+    
+    if(class(boole)!="character" | class(keep.cols) != "integer" | class(rm.cols) != "integer")
+    {
+      results<-ds.dataFrameSubset(df.name = initial.df.name,
+                                  V1.name = V1.name,
+                                  V2.name = V2.name,
+                                  keep.cols = keep.cols,
+                                  rm.cols = rm.cols,
+                                  Boolean.operator = boole,
+                                  newobj = df.created,
+                                  datasources = ds.test_env$connections)
+      not.ok.message<-"NOT ALL OK: there are studysideMessage(s) on this datasource"
+      for(j in 1:length(ds.test_env$connections))
+      {
+        expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
+      }
+    }
+ 
+ if(class(initial.df.name)=="character" & class(V1.name)=="character" & class(V2.name)=="character" & class(boole) == "character" & class(keep.cols) == "integer" & class(rm.cols) == "integer" & class(keep.NAs) == "logical" & class(df.created) == "character")
+   {
+ if(grepl("[$]",V1.name)==FALSE | grepl("[$]",V2.name)==FALSE | initial.df.name!="D"){
+   expect_error(ds.dataFrameSubset(df.name = initial.df.name,
+                                   V1.name = V1.name,
+                                   V2.name = V2.name,
+                                   keep.cols = keep.cols,
+                                   rm.cols = rm.cols,
+                                   Boolean.operator = boole,
+                                   newobj = df.created,
+                                   datasources = ds.test_env$connections))
+ }else{
+ var.exist<-list(substr(V1.name, 3, nchar(V1.name)),substr(V2.name, 3, nchar(V2.name)))
+ for(j in 1:length(ds.test_env$connections)){
+   for(i in 1:length(var.exist)){
+     var.in.df<-var.exist[[i]] %in% ds.colnames("D", datasources = ds.test_env$connections)[[j]] 
+     if(var.in.df==FALSE)
+       {
+       results<-ds.dataFrameSubset(df.name = initial.df.name,
+                                   V1.name = V1.name,
+                                   V2.name = V2.name,
+                                   keep.cols = keep.cols,
+                                   rm.cols = rm.cols,
+                                   Boolean.operator = boole,
+                                   newobj = df.created,
+                                   datasources = ds.test_env$connections)
+       not.ok.message<-"NOT ALL OK: there are studysideMessage(s) on this datasource"
+       for(j in 1:length(ds.test_env$connections))
+          {
+         expect_equal(results$studyside.messages[[j]],not.ok.message,ds.test_env$tolerance)
+          }
+      }
+   }
+ }
+ }
+ }
+}
 
 .test.data.frame.creation<-function(initial.df.name,V1.name,V2.name,boole,df.created){
   #Create the correct form of V1.name and V2.name
@@ -65,6 +138,7 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
                      newobj = df.created,
                      datasources = ds.test_env$connections)
 
+
   #testing
   for (i in 1:length(df.subset.local))
   {
@@ -74,11 +148,21 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
                         ds.test_env$tolerance)
   }
   #Calculate the mean, sd,length, min and max of the variable in the parameter 'V1.name'
-  var1<-paste(df.created,V1.name,sep="$")
- 
-  local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]],df.subset.local[[3]])
+  subset.var<-paste(df.created,V1.name,sep="$")
+  if(length(df.subset.local)==3)
+  {
+    local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]],df.subset.local[[3]])
+  }
+  if(length(df.subset.local)==2)
+  {
+    local.rbind.df<-rbind(df.subset.local[[1]],df.subset.local[[2]])
+  }
+  if(length(df.subset.local)==1)
+  {
+    local.rbind.df<-df.subset.local[[1]]
+  }
   dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
-  dist.server <- .calc.distribution.server(var1)
+  dist.server <- .calc.distribution.server(subset.var)
   expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
 }
 
@@ -118,19 +202,36 @@ subset.by.rows.cols<-function(initial.df.name,V1.name,V2.name,keep.cols,boole,ke
     expect_equal(colnames(df.subset.local[[i]]),ds.colnames(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
   }
   
+
+# Upload server-side testing data frames in the client-side (danger function)
+server.data<-ds.DANGERdfEXTRACT(df.created,
+                                datasources = ds.test_env$connections)
+server.data<-server.data$study.specific.df
+
+#testing- testthat
+
+
+#for ( i in 1:length(server.data))
+#{
+#  expect_equal(server.data[[i]][,1],
+#               df.subset.local[[i]][,1],
+#               ds.test_env$tolerance) 
+#}
 }
 
 
 subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,local.df.list){
   #Order the column names of the local data frames as in the server data frames
-  for(i in 1:length(local.df.list)){
+  for(i in 1:length(local.df.list))
+    {
     local.df.list[[i]]<-local.df.list[[i]][,ds.colnames(initial.df.name,datasources = ds.test_env$connections)[[i]]]
-  }
+    }
   #Local subset
   df.subset.local<-list ()
-  for (i in 1:length(local.df.list)){
+  for (i in 1:length(local.df.list))
+    {
     df.subset.local[[i]]<-local.df.list[[i]][,keep.cols]
-  }
+    }
   #Server subset
   var1<-paste(initial.df.name,V1.name,sep="$")
   context.ones<-paste0(var1,"-",var1,"+","1")
@@ -150,6 +251,19 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
     expect_equal(dim(df.subset.local[[i]]),ds.dim(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
     expect_equal(colnames(df.subset.local[[i]]),ds.colnames(df.created, datasources = ds.test_env$connections)[[i]],ds.test_env$tolerance)
   }
+  # Upload server-side testing data frames in the client-side (danger function)
+  server.data<-ds.DANGERdfEXTRACT(df.created,
+                                  datasources = ds.test_env$connections)
+  server.data<-server.data$study.specific.df
+  
+  #testing- testthat
+  
+ # for ( i in 1:length(server.data))
+ #   {
+ #   expect_equal(server.data[[i]][,1],
+ #                df.subset.local[[i]][,1],
+ #                ds.test_env$tolerance) 
+ #  }
   
 }
 # Clear the Datashield R sessions and logout

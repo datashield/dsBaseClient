@@ -33,14 +33,14 @@ test_that("simple colnames", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 2)
-    expect_equal(res$sim1[1], "D$LAB_TSC")
-    expect_equal(res$sim1[2], "D$LAB_TRIG")
+    expect_equal(res$sim1[1], "LAB_TSC")
+    expect_equal(res$sim1[2], "LAB_TRIG")
     expect_length(res$sim2, 2)
-    expect_equal(res$sim2[1], "D$LAB_TSC")
-    expect_equal(res$sim2[2], "D$LAB_TRIG")
+    expect_equal(res$sim2[1], "LAB_TSC")
+    expect_equal(res$sim2[2], "LAB_TRIG")
     expect_length(res$sim3, 2)
-    expect_equal(res$sim3[1], "D$LAB_TSC")
-    expect_equal(res$sim3[2], "D$LAB_TRIG")
+    expect_equal(res$sim3[1], "LAB_TSC")
+    expect_equal(res$sim3[2], "LAB_TRIG")
 })
 
 #

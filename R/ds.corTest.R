@@ -59,7 +59,7 @@ ds.corTest = function(x=NULL, y=NULL, datasources=NULL){
   }
 
   if(is.null(x)){
-    stop("x=NULL. Please provide the names of the 1st vector!", call.=FALSE)
+    stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
   }
   if(is.null(y)){
     stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
@@ -88,8 +88,8 @@ ds.corTest = function(x=NULL, y=NULL, datasources=NULL){
   }
 
   # call the server side function
-  cally <- paste0("cor.test(", x, ",", y, ")")
-  res.local <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("corTestDS", x, y)
+  res.local <- DSI::datashield.aggregate(datasources, cally)
 
   return(res.local)
 

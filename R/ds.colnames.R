@@ -71,7 +71,7 @@ ds.colnames <- function(x=NULL, datasources=NULL) {
     stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
 
-  cally <- paste0("colnames(", x, ")")
+  cally <- call("colnamesDS", x)
   column_names <- DSI::datashield.aggregate(datasources, cally)
 
   return(column_names)

@@ -52,6 +52,7 @@
 #' }
 #'
 ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datasources=NULL){
+  .Deprecated("ds.dataFrameSubset")
 
   # look for DS connections
   if(is.null(datasources)){
@@ -82,11 +83,11 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
   if(typ == 'data.frame'){
     dtname <- x
     for(i in 1:numsources){
-      cols <- DSI::datashield.aggregate(datasources[i], paste0("colnames(", x, ")"))
+      cols <- DSI::datashield.aggregate(datasources[i], call("colnamesDS", x))
       dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
       tracker <-c()
       for(j in 1:dims[[1]][2]){
-        cally <- paste0("class(", dtname, "$", cols[[1]][j], ")")
+        cally <- call("classDS", paste0(dtname, "$", cols[[1]][j]))
         res <- DSI::datashield.aggregate(datasources[i], cally)
         if(res[[1]] != 'factor'){
           tracker <- append(tracker, 0)

@@ -68,6 +68,22 @@ test_that("summary_factor_variable", {
   expect_equal(res$sim3$`count of '3'`, 1154)
 })
 
+context("ds.summary::smk::summary of a list variable")
+ds.asList(x.name='D$PM_BMI_CATEGORICAL', newobj="a_list")
+res <- ds.summary(x='a_list')
+test_that("summary_list_variable", {
+  expect_length(res, 3)
+  expect_length(res$sim1, 2)
+  expect_equal(res$sim1$class, "list")
+  expect_equal(res$sim1$length, 2163)
+  expect_length(res$sim2, 2)
+  expect_equal(res$sim2$class, "list")
+  expect_equal(res$sim2$length, 3088)
+  expect_length(res$sim3, 2)
+  expect_equal(res$sim3$class, "list")
+  expect_equal(res$sim3$length, 4128)
+})
+
 context("ds.summary::smk::summary of a data frame")
 res <- ds.summary(x='D')
 test_that("summary_data_frame", {
@@ -85,7 +101,7 @@ test_that("summary_data_frame", {
 context("ds.summary::smk::teardown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "a_character", "a_factor"))
+    ds_expect_variables(c("D", "a_character", "a_factor", "a_list"))
 })
 
 disconnect.studies.dataset.cnsim()

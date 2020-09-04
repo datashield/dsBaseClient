@@ -35,15 +35,15 @@ meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder
         if(invalidrecorder[[s]][i] == 1){ rc <- append(rc, q) }
 
         if(length(rc) > 0){
-          cally <- paste0("length(", paste0(tablenames[[s]][i],'$',variables[z]), ")")
-          ll <- unlist(DSI::datashield.aggregate(dtsources[s], as.symbol(cally)))
+          cally <- call("lengthDS", paste0(tablenames[[s]][i],'$',variables[z]))
+          ll <- unlist(DSI::datashield.aggregate(dtsources[s], cally))
           mm <- NA
           sdv <- NA
           mean.sd <- paste0(mm, '(', sdv, ')')
           entries <- c(ll, mean.sd)
         }else{
-          cally <- paste0("length(", paste0(tablenames[[s]][i],'$',variables[z]), ")")
-          ll <- unlist(DSI::datashield.aggregate(dtsources[s], as.symbol(cally)))
+          cally <- call("lengthDS", paste0(tablenames[[s]][i],'$',variables[z]))
+          ll <- unlist(DSI::datashield.aggregate(dtsources[s], cally))
           mm <- round(getPooledMean(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
           sdv <- round(getPooledVar(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
           if(is.na(mm)){ sdv <- NA }

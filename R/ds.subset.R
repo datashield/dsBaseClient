@@ -73,6 +73,7 @@
 #' }
 #'
 ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=NULL, cols=NULL, logicalOperator=NULL, threshold=NULL, datasources=NULL){
+  .Deprecated("ds.dataFrameSubset")
 
   # look for DS connections
   if(is.null(datasources)){
@@ -132,7 +133,7 @@ ds.subset <- function(x=NULL, subset="subsetObject", completeCases=FALSE, rows=N
       # if the size of the requested subset is greater than that of original set the rows or cols to NULL
       # these will then be set to the maximum size in the server side
       if(!(is.null(rows))){
-        ll <- DSI::datashield.aggregate(datasources, paste0("length(", x, ")"))
+        ll <- DSI::datashield.aggregate(datasources, call("lengthDS", x))
         for(i in 1:length(datasources)){
           if(length(rows) > ll[[i]]){
             rows <- NULL

@@ -1,75 +1,93 @@
-#' @title ds.recodeValues calling recodeValuesDS1 and recodeValuesDS2
-#' @description Takes specified values of elements in a vector and converts
-#' them to a matched set of alternative specified values
-#' @details Recodes individual values with new individual values. This can
-#' apply to numeric values, character values and NAs. One particular use of
-#' ds.recodeValues is to convert NAs to an explicit value or vice-versa.
-#' Please see ds.Boole to recode a RANGE of values with a new value. Please
-#' note that if you wish to do no more than replace NAs with a new code (e.g. 999)
-#' there is a restriction imposed by the fact that if the <values2replace> argument
-#' is specified as c(NA) or NA and the <new.values.vector> argument as c(999) the
-#' function will fail because it will not properly interpret the first (all values
-#' missing) argument as a valid scalar or vector of length 1. To work around this
-#' restriction please specify the new <values2replace> argument as c(x,NA) and the
-#' <new.values.vector> argument as c(x,999) where x is one of the other valid
-#' (non-missing) levels in the vector to be recoded. This will leave the x values
-#' unchanged but because the <values2replace> argument is not all missing it will
-#' correctly recognise that there are two values to change one of which happens to
-#' be NA to be replaced by 999 and the other will be 'replaced' by its pre-existing value.
-#' @param var.name a character string providing the name for the vector representing the
-#' variable to be recoded
-#' @param values2replace.vector a numeric or character vector specifying the values in the
-#' vector specified by the argument <var.name> that are to be replaced by new
-#' values as specified in the new.values.vector. Example 1, with the two arguments
-#' values2replace.vector=c(0,1,2) and new.values.vector=c(20,27.5,37): 0s in the declared
-#' <var.name> will be replaced by the value 20, 1s by 27.5 and 2s by 37. If there are any
-#' values in the <var.name> vector other than 0, 1 or 2 they will remain unchanged.
-#' Example 2, with the two arguments values2replace.vector=c(0,1,2,NA) and
-#' new.values.vector=c("Norm","Overwt", "Obese",999): 0s in the declared
-#' <var.name> will be replaced by the character value "Norm", 1s by "Overwt",
-#' 2s by "Obese" and NAs by 999. As context to these two examples, these represent
-#' the recoding of a grouped BMI variable (taking values 0,1,2 and NA) with the
-#' numeric value representing the approximate mean of each group (example 1)
-#' and category names and an explicit value for missing (example 2). Each value
-#' in <values2replace.vector> can only appear once and the length of <values2replace.vector>
-#' must be equal to the length of <new.values.vector>
-#' @param new.values.vector a numeric or character vector specifying the new values
-#' to which the specified values in the vector <var.name> are to be changed.
-#' The length of <new.values.vector> must be equal to the length of
-#' <values2replace.vector> but more than one value in the latter can be changed
-#' to the same value in the former - so <new.values.vector> can include repeated values
-#' @param force.output.format character string. If this is 'numeric' the recoded
-#' (output) vector will be numeric - any non-numeric values in the
-#' <new.values.vector> will appear as NaN in the recoded (output) vector.
-#' If the <force.output.format> argument is declared as 'character' all values
-#' in the recoded output vector will be in character format. The
-#' <force.output.format> argument defaults to "no" and in that case,
-#' if the vector identified by the <values2replace.vector> argument is itself
-#' numeric and if all values in the <new.values.vector> are numeric,
+#' @title Recodes server-side variable values
+#' @description This function takes specified values of elements in a vector and converts
+#' them to a matched set of alternative specified values.
+#' @details This function recodes individual values with new individual values. This can
+#' apply to numeric values, character values and NAs. 
+#' 
+#' One particular use of
+#' \code{ds.recodeValues} is to convert NAs to an explicit value or vice-versa.
+#' 
+#' The argument \code{force.output.formata} can be specified in 3 ways: \cr
+#' (1) \code{force.output.formata = "numeric"} the output 
+#' vector will be of type numeric and any non-numeric values in 
+#' \code{new.values.vector} will appear as \code{NaN} in the recoded vector.\cr
+#' (2) \code{force.output.format = "character"}  all values
+#' in the output vector will be in character format. \cr
+#' (3) \code{force.output.format = "no"} 
+#' if the vector identified by the \code{values2replace.vector} argument is itself
+#' numeric and if all values in the \code{new.values.vector} are numeric,
 #' the recoded output vector will also be numeric. Otherwise, it will be coerced
 #' to character format.
-#' @param newobj This a character string providing a name for the recoded vector
-#' representing the primary output of the ds.recodeValues() function.
-#' This defaults to 'recodevalues.newobj'
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
-#' @param notify.of.progress specifies if console output should be produce to indicate
-#' progress. The default value for notify.of.progress is FALSE.
-#' @return the object specified by the <newobj> argument (or default name '<var.name>_recoded').
-#' which is written to the serverside. In addition, two validity messages are returned
-#' indicating whether <newobj> has been created in each data source and if so whether
-#' it is in a valid form. If its form is not valid in at least one study - e.g. because
-#' a disclosure trap was tripped and creation of the full output object was blocked -
-#' the function returns a range of possible studysideMessages that can explain
-#' the error in creating
-#' the full output object. As well as appearing on the screen at run time,if you wish to
-#' see the relevant studysideMessages at a later date you can use the {ds.message}
-#' function. If you type ds.message("newobj") it will print out the relevant
-#' studysideMessage from any datasource in which there was an error in creating <newobj>
-#' and a studysideMessage was saved. If there was no error and <newobj> was created
-#' without problems no studysideMessage will have been saved and ds.message("newobj")
-#' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
+#' 
+#' Server functions called: \code{recodeValuesDS1} and \code{recodeValuesDS2}
+#' @param var.name a character string providing the name of the variable to be recoded. 
+#' @param values2replace.vector a numeric or character vector specifying the values
+#' in the variable \code{var.name} to be replaced. 
+#' @param new.values.vector a numeric or character vector specifying the new values. 
+#' @param force.output.format a character string specifying the format of the output variable. 
+#' This can be set as \code{"numeric"}, \code{"character"} or \code{"no"}. Default \code{"no"}.  
+#' For more information see \strong{Details}. 
+#' @param newobj a character string that provides the name for the output object
+#' that is stored on the data servers.
+#' Default \code{recodevalues.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @param notify.of.progress logical. If TRUE console output should be produced to indicate
+#' progress. Default FALSE.
+#' @return \code{ds.recodeValues} returns to the server-side the new variable with the recode values. 
+#' Also, two validity messages are returned to the client-side 
+#' indicating whether the new object  has been created in each data source and if so whether
+#' it is in a valid form. 
 #' @author DataSHIELD Development Team
+#' @examples
+#' \dontrun{
+#' 
+#'   ## Version 6, for version 5 see the Wiki
+#'   
+#'   # connecting to the Opal servers
+#' 
+#'   require('DSI')
+#'   require('DSOpal')
+#'   require('dsBaseClient')
+#'
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   #Create a vector in the server-side
+#'   
+#'   ds.assign(toAssign = "D$LAB_TSC", 
+#'             newobj = "ss.vector", 
+#'             datasources = connections)
+#'   
+#'   # Recode the values of the vector
+#'   
+#'   ds.recodeValues(var.name = "ss.vector",
+#'                   values2replace.vector = c(0,NA),
+#'                   new.values.vector = c(0,0),
+#'                   force.output.format = "numeric",
+#'                   newobj = "recode.vector",
+#'                   datasources = connections,
+#'                   notify.of.progress = FALSE)
+#'                  
+#'   # Clear the Datashield R sessions and logout                 
+#'   datashield.logout(connections) 
+#'   
+#' }   
 #' @export
 
 ds.recodeValues<-function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, force.output.format="no", newobj=NULL, datasources=NULL, notify.of.progress=FALSE){

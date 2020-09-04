@@ -66,8 +66,8 @@ ds.class <- function(x=NULL, datasources=NULL) {
   # check if the input object(s) is(are) defined in all the studies
   defined <- isDefined(datasources, x)
 
-  cally <- paste0('class(', x, ')')
-  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call('classDS', x)
+  output <- DSI::datashield.aggregate(datasources, cally)
 
   return(output)
 
