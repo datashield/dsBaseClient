@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("ds.listClientsideFunctions:smk_dgr::setup")
+context("ds.listClientsideFunctions::smk_dgr::setup")
 
 require(dsDangerClient)
 
@@ -26,7 +26,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.listClientsideFunctions:smk_dgr::check results")
+context("ds.listClientsideFunctions::smk_dgr::check results")
 test_that("check results", {
     output <- list(
         "ds.DANGERc2sMATDF",
@@ -52,7 +52,7 @@ test_that("check results", {
 # Shutdown
 #
 
-context("ds.listClientsideFunctions:smk_dgr::shutdown")
+context("ds.listClientsideFunctions::smk_dgr::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -64,4 +64,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.listClientsideFunctions:smk_dgr::done")
+context("ds.listClientsideFunctions::smk_dgr::done")
