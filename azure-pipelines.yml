@@ -29,6 +29,7 @@ variables:
   projectName: 'dsBaseClient'
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
+  _r_check_system_clock_: 0
 
 
 
