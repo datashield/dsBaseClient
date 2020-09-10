@@ -164,7 +164,6 @@ test_that('dataset 1',
               colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             colnames(local.df.list)
-            library(dsBaseClient)
             colnames("D")
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
             #.test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)

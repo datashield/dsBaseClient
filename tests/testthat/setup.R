@@ -19,7 +19,6 @@ library(DescTools)
 
 library(DSOpal)
 library(DSLite)
-library(dsBaseClient)
 
 source("dstest_functions/ds_expect_variables.R")
 source("connection_to_datasets/login_details.R")
