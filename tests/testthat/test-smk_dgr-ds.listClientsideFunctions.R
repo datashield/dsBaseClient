@@ -35,7 +35,6 @@ test_that("check results", {
         "ds.DANGERpassPARSER",
         "ds.DANGERplot",
         "ds.DANGERprint",
-        "ds.danger",
         "ds.DANGERsearch",
         "ds.DANGERseedEXTRACT",
         "ds.DANGERvarsEXTRACT"
