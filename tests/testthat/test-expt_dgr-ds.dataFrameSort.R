@@ -8,12 +8,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-context('ds.dataFrameSort::expt::setup')
+#
+# Set up
+#
+
+context('ds.dataFrameSort::expt_dgr::setup')
 
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
 
-context("ds.dataFrameSort::expt::multiple::correct_parameter_class")
+#
+# Tests
+#
+
+context("ds.dataFrameSort::expt_dgr::multiple::correct_parameter_class")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -31,7 +39,8 @@ test_that('all datasets',
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic","server.data")
             .test.function.parameters("D","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::single::correct_parameter_class")
+
+context("ds.dataFrameSort::expt_dgr::single::correct_parameter_class")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -49,7 +58,8 @@ test_that('dataset 2',
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic","server.data")
             .test.function.parameters("D","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::multiple::incorrect_parameter_class")
+
+context("ds.dataFrameSort::expt_dgr::multiple::incorrect_parameter_class")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -61,28 +71,29 @@ test_that('all datasets',
             .test.function.parameters("D","D$POSITIVE_NUMERIC","D","numeric","server.data")
             #.test.function.parameters("D","D$NEGATIVE_NUMERIC",TRUE,23,"server.data")
             .test.function.parameters("D","D$IDENTIFIER",TRUE,"CHARACTER","server.data")
-            .test.function.parameters("D","D$CATEGORY",FALSE,"numeric","server.data")
-            .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic",23)
-            .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
-          })
-context("ds.dataFrameSort::expt::single::incorrect_parameter_class")
-test_that('dataset 2',
-          {  
-            connect.dataset.2()
-            .test.function.parameters(D,"D$LOGICAL",TRUE,"numeric","server.data")
-            .test.function.parameters(2,"D$INTEGER",TRUE,"alphabetic","server.data")
-            .test.function.parameters("D","LHD",TRUE,"alphabetic","server.data")
-            .test.function.parameters("K","D$NEGATIVE_INTEGER",FALSE,"numeric","server.data")
-            #.test.function.parameters("D","D$NUMERIC",10,"numeric","server.data")
-            .test.function.parameters("D","D$POSITIVE_NUMERIC","D","numeric","server.data")
-            #.test.function.parameters("D","D$NEGATIVE_NUMERIC",TRUE,23,"server.data")
-            .test.function.parameters("D","D$IDENTIFIER",TRUE,"CHARACTER","server.data")
-            .test.function.parameters("D","D$CATEGORY",FALSE,"numeric","server.data")
+            #.test.function.parameters("D","D$CATEGORY",FALSE,"numeric",server.data)
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic",23)
             .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
 
-context("ds.dataFrameSort::expt::multiple::df::creation")
+context("ds.dataFrameSort::expt_dgr::single::incorrect_parameter_class")
+test_that('dataset 2',
+          {  
+            connect.dataset.2()
+            .test.function.parameters(D,"D$LOGICAL",TRUE,"numeric","server.data")
+            .test.function.parameters(2,"D$INTEGER",TRUE,"alphabetic","server.data")
+            .test.function.parameters("D","LHD",TRUE,"alphabetic","server.data")
+            .test.function.parameters("K","D$NEGATIVE_INTEGER",FALSE,"numeric","server.data")
+            #.test.function.parameters("D","D$NUMERIC",10,"numeric","server.data")
+            .test.function.parameters("D","D$POSITIVE_NUMERIC","D","numeric","server.data")
+            #.test.function.parameters("D","D$NEGATIVE_NUMERIC",TRUE,23,"server.data")
+            .test.function.parameters("D","D$IDENTIFIER",TRUE,"CHARACTER","server.data")
+            #.test.function.parameters("D","D$CATEGORY",FALSE,"numeric",server.data)
+            .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic",23)
+            .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
+          })
+
+context("ds.dataFrameSort::expt_dgr::multiple::df::creation")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -98,7 +109,8 @@ test_that('all datasets',
             .test.data.frame.creation("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
             .test.data.frame.creation("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::single::df::creation")
+
+context("ds.dataFrameSort::expt_dgr::single::df::creation")
 test_that('dataset 3',
           {  
             connect.dataset.3()
@@ -114,7 +126,8 @@ test_that('dataset 3',
             .test.data.frame.creation("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
             .test.data.frame.creation("D","INTEGER_ONE_CHANGE",FALSE,"alphabetic","server.data")
           })
-context("ds.dataFrameSort::expt::multiple::numeric::ascending")
+
+context("ds.dataFrameSort::expt_dgr::multiple::numeric::ascending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -122,9 +135,10 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",FALSE,"numeric","server.data",local.df.list)
@@ -137,10 +151,9 @@ test_that('all datasets',
             .test.data.frame.sorting("D","FACTOR_INTEGER",FALSE,"numeric","server.data",local.df.list)
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"numeric","server.data",local.df.list)
             #.test.data.frame.sorting("D","CHARACTER",FALSE,"numeric","server.data",local.df.list)
-            
-            
           })
-context("ds.dataFrameSort::expt::single::numeric::ascending")
+
+context("ds.dataFrameSort::expt_dgr::single::numeric::ascending")
 test_that('dataset 1',
           {  
             connect.dataset.1()
@@ -148,9 +161,12 @@ test_that('dataset 1',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
+            colnames(local.df.list)
+            colnames("D")
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",FALSE,"numeric","server.data",local.df.list)
@@ -166,7 +182,8 @@ test_that('dataset 1',
             
             
           })
-context("ds.dataFrameSort::expt::multiple::numeric::descending")
+
+context("ds.dataFrameSort::expt_dgr::multiple::numeric::descending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -174,9 +191,10 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"numeric","server.data",local.df.list)
@@ -192,7 +210,8 @@ test_that('all datasets',
             
             
           })
-context("ds.dataFrameSort::expt::single::numeric::descending")
+
+context("ds.dataFrameSort::expt_dgr::single::numeric::descending")
 test_that('dataset 1',
           {  
             connect.dataset.1()
@@ -200,9 +219,10 @@ test_that('dataset 1',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"numeric","server.data",local.df.list)
@@ -220,7 +240,7 @@ test_that('dataset 1',
           })
 
 
-context("ds.dataFrameSort::expt::multiple::alphabetic::ascending")
+context("ds.dataFrameSort::expt_dgr::multiple::alphabetic::ascending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -230,9 +250,10 @@ test_that('all datasets',
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
               levels(local.df.list[[i]][,"FACTOR_CHARACTER"])<-server.FC_levels[[i]]
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",FALSE,"alphabetic","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",FALSE,"alphabetic","server.data",local.df.list)
@@ -246,7 +267,8 @@ test_that('all datasets',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"alphabetic","server.data",local.df.list) 
             .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::single::alphabetic::ascending")
+
+context("ds.dataFrameSort::expt_dgr::single::alphabetic::ascending")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -256,9 +278,10 @@ test_that('dataset 2',
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
               levels(local.df.list[[i]][,"FACTOR_CHARACTER"])<-server.FC_levels[[i]]
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",FALSE,"alphabetic","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",FALSE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",FALSE,"alphabetic","server.data",local.df.list)
@@ -272,7 +295,8 @@ test_that('dataset 2',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"alphabetic","server.data",local.df.list) 
             .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::multiple::alphabetic::descending")
+
+context("ds.dataFrameSort::expt_dgr::multiple::alphabetic::descending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -280,9 +304,10 @@ test_that('all datasets',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"alphabetic","server.data",local.df.list)
@@ -296,7 +321,8 @@ test_that('all datasets',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::single::alphabetic::descending")
+
+context("ds.dataFrameSort::expt_dgr::single::alphabetic::descending")
 test_that('dataset 3',
           {  
             connect.dataset.3()
@@ -304,9 +330,10 @@ test_that('dataset 3',
             for(i in 1:length(local.df.list)){
               local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
               local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
+              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
             }
             .test.data.frame.sorting("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
-            .test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            #.test.data.frame.sorting("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","POSITIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"alphabetic","server.data",local.df.list)
@@ -321,8 +348,14 @@ test_that('dataset 3',
             .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
           })
 
+#
+# Shutdown
+#
 
-context('ds.dataFrameSort::expt::shutdown')
+context('ds.dataFrameSort::expt_dgr::shutdown')
 
+#
+# Done
+#
 
-context('ds.dataFrameSort::expt::done')
+context('ds.dataFrameSort::expt_dgr::done')

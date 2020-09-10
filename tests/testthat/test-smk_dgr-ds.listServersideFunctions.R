@@ -12,43 +12,34 @@
 # Set up
 #
 
+context("ds.listServersideFunctions::smk_dgr::setup")
+
+require(dsDangerClient)
+
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
 
 #
 # Tests
 #
 
-context("ds.listServersideFunctions::smk::check results")
+context("ds.listServersideFunctions::smk_dgr::check results")
 test_that("check results", {
     assign.functions <- factor(c(
-      "BooleDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
-      "asFactorDS", "asFactorDS2", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
-      "asMatrixDS", "asNumericDS", "attach", "c", "cDS", "cbind",
-      "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",
-      "dataFrameSubsetDS2", "dataFrameDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
-      "lexisDS2", "lexisDS3", "list", "listDS", "log",
-      "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
-      "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS2", "repDS", "rep",
-      "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
-      "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
     ))
     aggregate.functions <- factor(c(
-      "NROW", "asFactorDS1", "asListDS",
-      "checkNegValueDS", "classDS", "colnamesDS", "corDS", "corTestDS",
-      "covDS", "dataFrameSubsetDS1",
-      "densityGridDS", "dimDS",
-      "exists", "glmDS1", "glmDS1", "glmDS2",
-      "glmDS2", "glmerSLMADS2", "glmPredictDS.ag", "glmSLMADS1", "glmSLMADS2", "glmSummaryDS.ag",
-      "heatmapPlotDS", "histogramDS1", "histogramDS2", "is.character", "is.factor", "is.list", "is.null", "is.numeric",
-      "isNaDS", "isValidDS", "kurtosisDS1", "kurtosisDS2", "lengthDS",
-      "levelsDS", "lexisDS1", "listDisclosureSettingsDS", "lmerSLMADS2", "lsDS",
-      "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
-      "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
-      "recodeValuesDS1", "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
-      "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
-      "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
-      "testObjExistsDS", "varDS"
+        "DANGERc2sMATDFDS",
+        "DANGERlistcodeDS",
+        "DANGERdfEXTRACTDS",
+        "DANGERpassPARSERDS",
+        "DANGERprintDS",
+        "DANGERplotDS",
+        "DANGERsearchDS",
+        "DANGERseedEXTRACTDS",
+        "DANGERvarsEXTRACTDS"
     ))
 
     expect_warning(res <- ds.listServersideFunctions(), "'ds.listServersideFunctions' is deprecated.", fixed=TRUE)
@@ -82,4 +73,16 @@ test_that("check results", {
 # Done
 #
 
+context("ds.listServersideFunctions::smk_dgr::shtudown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D"))
+})
+
 disconnect.studies.dataset.cnsim()
+
+#
+# Done
+#
+
+context("ds.listServersideFunctions::smk_dgr::done")

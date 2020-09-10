@@ -18,7 +18,6 @@ connect.studies.dataset.cluster.int(list('idChild','idSurgery','trtGrp','s0','nD
                                          'idDoctor','c0','nPatients','Male','age','BMI',
                                          'diabetes','incid_rate','private'))
 
-
 test_that("setup", {
     ds_expect_variables(c("D"))
 })
@@ -74,9 +73,15 @@ test_that("linear mixed model with 2 levels of hierarchy",
 )
 
 #
-# Done
+# Shutdown
 #
 
+context("ds.lmerSLMA::expt::shutdown")
+
 disconnect.studies.dataset.cluster.int()
+
+#
+# Done
+#
 
 context("ds.lmerSLMA::expt::done")

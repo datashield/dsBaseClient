@@ -12,9 +12,11 @@
 # Set up
 #
 
-context("ds.unList::smk::setup")
+context("ds.asCharacter::smk_dgr::setup")
 
-connect.studies.dataset.cnsim(list("GENDER"))
+require(dsDangerClient)
+
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -24,27 +26,29 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.unList::smk::simple test")
+context("ds.asCharacter::smk_dgr::simple test")
 test_that("simple test", {
-    ds.asList(x.name="D$GENDER", newobj="GENDER.list")
+    res <- ds.asCharacter("D$LAB_TSC")
 
-    res <- ds.unList("GENDER.list")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <unlist.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<unlist.newobj> appears valid in all sources")
+    expect_equal(length(res), 2)
+    expect_equal(res$is.object.created, "A data object <ascharacter.newobj> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<ascharacter.newobj> appears valid in all sources")
 })
+
+#
+# Shutdown
+#
+
+context("ds.asCharacter::smk_dgr::stutdown")
+
+test_that("setup", {
+    ds_expect_variables(c("D", "ascharacter.newobj"))
+})
+
+disconnect.studies.dataset.cnsim()
 
 #
 # Done
 #
 
-context("ds.unList::smk::shutdown")
-
-test_that("shutdown", {
-    ds_expect_variables(c("D", "GENDER.list", "unlist.newobj"))
-})
-
-disconnect.studies.dataset.cnsim()
-
-context("ds.unList::smk::done")
+context("ds.asCharacter::smk_dgr::done")

@@ -29,6 +29,7 @@ variables:
   projectName: 'dsBaseClient'
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
+  _r_check_system_clock_: 0
 
 
 
@@ -42,12 +43,12 @@ resources:
     endpoint: datashield-testing
     name: datashield/testStatus
     ref: master
-    
+
   - repository: datashield-infrastructureRepo
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: refs/tags/6.0.2
+    ref: v6.1-dev
 
 
 #########################################################################################
@@ -123,14 +124,19 @@ jobs:
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
   - bash: |
-      
+
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/"
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
       sudo apt-get update
-      
+
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"              
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+
+      sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+
+      # XML grep for coverage report merging
+      sudo apt-get install -qq xml-twig-tools -y
 
     displayName: 'Install all dependencies for dsBaseClient'
     condition: succeeded()
@@ -157,10 +163,10 @@ jobs:
         echo "Run devtools::document() locally then commit again."
         exit 1
       else
-       echo "Documentation up to date."
-       exit 0
+        echo "Documentation up to date."
+        exit 0
       fi
-      
+
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Check manual updated before being committed'
     condition: succeeded()
@@ -172,7 +178,7 @@ jobs:
     # If previous steps have failed then don't run.
     # If this step fails still mark as failed, but don't stop the rest of the steps running.    
   - bash: |
-  
+
       R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
 
@@ -186,7 +192,7 @@ jobs:
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
   - bash: |
-  
+
       # Set up puppet and r10k
       wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
       sudo dpkg -i puppet5-release-xenial.deb
@@ -196,11 +202,11 @@ jobs:
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
-      
+
       pushd puppet/environments/datashield_azurepipelines
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
-      
+
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
@@ -216,24 +222,99 @@ jobs:
     # TODO: Tidy up variable names - use timestamps here.
     # TODO: Why is DSLite needed for this to run?!
   - bash: |
-  
+
       # There is an issue with the way we are using packages. The wrapped up test command
       # below fails in a way that implies that it is not installed. I cannot figure out 
       # why this is case. As a work around we can run some of the functions below. My
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
-      
+
       # None of the below make the tests run
       #sudo R -e 'devtools::reload(".")'
       #sudo R -e 'library(dsBaseClient)'
       #sudo R -e 'devtools::check_built()'
       #sudo R --verbose -e 'devtools::build()'      
-      
+
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
       #sudo R --verbose -e 'devtools::install()'
       sudo R --verbose -e 'devtools::check()'            
-      
+
+      pwd
+      mkdir $(Pipeline.Workspace)/logs
+
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      #
+      # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
+      sudo R -q -e '
+        library(covr);
+        dsbase.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'
+                library(testthat);
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
+                progress_rep <- ProgressReporter$new(max_failures = 999999);
+                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+                '"'"'
+            )
+        );
+        base::saveRDS(dsbase.res, "test_results_dsbase.rds")'
+
+      # display the test console output
+      cat test_console_output_dsbase.txt
+
+      grep --quiet "Failed:   0" test_console_output_dsbase.txt
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Code coverage and JUnit report output, with dsBase'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install dsDanger on server
+    # If previous steps have failed then don't run
+  - bash: |
+
+      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+
+    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
+    displayName: 'Install dsDanger DataSHIELD package on server'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install dsDangerClient.
+    # If previous steps have failed then don't run
+  - bash: |
+
+      sudo R -q -e 'devtools::install()'
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1-dev', dependencies = TRUE)"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsDangerClient DataSHIELD package'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code. This is wrapped up with
+    # code coverage. The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  - bash: |
+
+      # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
+      sudo R --verbose -e 'devtools::check()'
+
       pwd
       mkdir $(Pipeline.Workspace)/logs
 
@@ -243,35 +324,61 @@ jobs:
       # junit reporter output is to test_results.xml
       sudo R -q -e '
         library(covr);
+        dsdanger.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'
+                library(testthat);
+                output_file <- file("test_console_output_dsdanger.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
+                progress_rep <- ProgressReporter$new(max_failures = 999999);
+                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
+                '"'"'
+            )
+        );
+        base::saveRDS(dsdanger.res, "test_results_dsdanger.rds")'
+
+      # Merge coverage results
+      cat test_results_dsbase.txt test_results_dsdanger.txt > $(Pipeline.Workspace)/logs/test_console_output.txt
+      xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
+
+      # Create 'coveragelist.csv'
+      # sudo R -q -e '
+      #   library(covr);
+      #   dsbase.res   <- base::readRDS("test_results_dsbase.rds")
+      #   dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
+      #   write.csv(
+      #       coverage_to_list(
+      #           c(dsbase.res, dsdanger.res)
+      #       ),
+      #       "coveragelist.csv"
+      #   )'
+
+      # Create 'coveragelist.csv'
+      sudo R -q -e '
+        library(covr);
+        dsbase.res <- base::readRDS("test_results_dsbase.rds")
         write.csv(
-                  coverage_to_list(
-                                   covr::package_coverage(
-                                                          type = c("none"),
-                                                          code = c(
-                                                                   '"'"'library(testthat); 
-                                                                   output_file <- file("test_console_output.txt"); 
-                                                                   sink(output_file); 
-                                                                   sink(output_file, type = "message"); 
-                                                                   library(testthat); 
-                                                                   junit_rep <- JunitReporter$new(file = "test_results.xml"); 
-                                                                   progress_rep <- ProgressReporter$new(max_failures = 999999); 
-                                                                   multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep)); 
-                                                                   testthat::test_package("$(projectName)", filter = "$(test_filter)",reporter = multi_rep, stop_on_failure = FALSE)'"'"')
-                                                         )
-                                  ),
-                                  "coveragelist.csv"
-                 )'
-      
+            coverage_to_list(
+                dsbase.res
+            ),
+            "coveragelist.csv"
+        )'
+
       # display the test console output
-      cat test_console_output.txt
+      cat test_console_output_dsdanger.txt
+
       mv coveragelist.csv $(Pipeline.Workspace)/logs
       mv test_results.xml $(Pipeline.Workspace)/logs
-      mv test_console_output.txt $(Pipeline.Workspace)/logs
-      
-      grep --quiet "Failed:   0" $(Pipeline.Workspace)/logs/test_console_output.txt
+
+      grep --quiet "Failed:   0" test_console_output_dsdanger.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Code coverage and JUnit report output'
+    displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
     condition: succeeded()
 
 
@@ -280,12 +387,12 @@ jobs:
     # echo them so finding bugs should be easier.
     # This should run even if previous steps have failed.
   - bash: |
-  
+
       # Strip out when error and failure = 0 and count the number of times it does not.
-      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep --count errors=)
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
       echo "Number of testsuites with issues: "$issue_count
       echo "Testsuites with issues:"
-      sed 's/failures="0" errors="0"//' test_results.xml | grep errors= > issues.log
+      sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
       cat issues.log
       exit $issue_count
 

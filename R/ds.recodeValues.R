@@ -7,8 +7,8 @@
 #' One particular use of
 #' \code{ds.recodeValues} is to convert NAs to an explicit value or vice-versa.
 #' 
-#' The argument \code{force.output.formata} can be specified in 3 ways: \cr
-#' (1) \code{force.output.formata = "numeric"} the output 
+#' The argument \code{force.output.format} can be specified in 3 ways: \cr
+#' (1) \code{force.output.format = "numeric"} the output 
 #' vector will be of type numeric and any non-numeric values in 
 #' \code{new.values.vector} will appear as \code{NaN} in the recoded vector.\cr
 #' (2) \code{force.output.format = "character"}  all values

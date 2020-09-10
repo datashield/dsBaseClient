@@ -18,5 +18,5 @@ class { ::datashield:
   dsbase_githubusername      => 'datashield',
   dsbase_ref                 => 'v6.1-dev',
   dsdanger_githubusername    => 'datashield',
-  dsdanger_ref               => ''
+  dsdanger_ref               => 'v6.1-dev'
 }
