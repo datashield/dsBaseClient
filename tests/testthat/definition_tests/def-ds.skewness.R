@@ -44,7 +44,7 @@
   server.median<-median(server.variable)
   server.mode<-DescTools::Mode(server.variable)
   
-  if(skewness.server[[1]][1]>0)
+  if(as.numeric(skewness.server[[1]][1])>0)
   {
     if(!is.na(server.mode[1]))
       {
@@ -79,7 +79,7 @@
   Q2<-server.quantile[3]
   Q3<-server.quantile[4]
   
-  if(skewness.server[[1]][1]>0)
+  if(as.numeric(skewness.server[[1]][1])>0)
   {
     expect_true(Q3-Q2>Q2-Q1)  
     
