@@ -63,9 +63,9 @@ init.studies.dataset.cluster.int <- function(variables)
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files
-    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER/CLUSTER_INT1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER/CLUSTER_INT2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER/CLUSTER_INT3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver")
     {
@@ -89,9 +89,9 @@ init.studies.dataset.cluster.slo <- function(variables)
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files
-    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER/CLUSTER_SLO1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER/CLUSTER_SLO2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER/CLUSTER_SLO3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver")
     {
