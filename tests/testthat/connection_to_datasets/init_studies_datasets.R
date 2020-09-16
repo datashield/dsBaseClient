@@ -63,9 +63,9 @@ init.studies.dataset.cluster.int <- function(variables)
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files
-    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_INT1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_INT2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_INT3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_INT/CLUSTER_INT3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver")
     {
@@ -89,9 +89,9 @@ init.studies.dataset.cluster.slo <- function(variables)
   if (ds.test_env$secure_login_details)
   {
     #reading data from local files
-    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_SLO1.csv", header = TRUE)
-    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_SLO2.csv", header = TRUE)
-    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_SLO3.csv", header = TRUE)
+    ds.test_env$local.values.1 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/CLUSTER_SLO/CLUSTER_SLO3.csv", header = TRUE)
     ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
     if (ds.test_env$driver == "OpalDriver")
     {
@@ -99,6 +99,33 @@ init.studies.dataset.cluster.slo <- function(variables)
       builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_SLO1")
       builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_SLO2")
       builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_SLO3")
+      ds.test_env$login.data <- builder$build()
+    }
+    else 
+    {
+      #to do
+      #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+
+  }
+}
+
+init.studies.dataset.anthro <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    #reading data from local files
+    ds.test_env$local.values.1 <- read.csv("data_files/ANTHRO/anthro1.csv", header = TRUE)
+    ds.test_env$local.values.2 <- read.csv("data_files/ANTHRO/anthro2.csv", header = TRUE)
+    ds.test_env$local.values.3 <- read.csv("data_files/ANTHRO/anthro3.csv", header = TRUE)
+    ds.test_env$local.values   <- rbind(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "ANTHRO.anthro1")
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "ANTHRO.anthro2")
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "ANTHRO.anthro3")
       ds.test_env$login.data <- builder$build()
     }
     else 
@@ -151,6 +178,14 @@ connect.studies.dataset.cluster.slo <- function(variables)
   log.in.data.server()
 }
 
+connect.studies.dataset.anthro <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.anthro(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
     log.out.data.server()
@@ -171,8 +206,12 @@ disconnect.studies.dataset.cluster.int <- function()
   log.out.data.server()
 }
 
-
 disconnect.studies.dataset.cluster.slo <- function()
+{
+  log.out.data.server()
+}
+
+disconnect.studies.dataset.anthro <- function()
 {
   log.out.data.server()
 }
