@@ -80,6 +80,7 @@ test_that("dataFrameSubset_exists scalar", {
     res <- ds.dataFrameSubset(df.name="unsubset_df", V1.name="D$PM_BMI_CATEGORICAL", V2.name="3", Boolean.operator="!=", newobj="subset_df")
 
     res.dim2 <- ds.dim('subset_df')
+    datashield.errors()
     expect_length(res.dim2, 4)
     expect_length(res.dim2$`dimensions of subset_df in sim1`, 2)
     expect_equal(res.dim2$`dimensions of subset_df in sim1`[1], 1457)
