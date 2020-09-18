@@ -229,13 +229,13 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 	if(no.errors){																							#
 	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	print(list(is.object.created=return.message,validity.check=validity.check))						    #
+#	print(list(is.object.created=return.message,validity.check=validity.check))						    #
 	}																										#
 																											#
 if(!no.errors){																								#
 	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
-	print(list(is.object.created=return.message,validity.check=validity.check,					    		#
-	            studyside.messages=studyside.message))			                                            #
+#	print(list(is.object.created=return.message,validity.check=validity.check,					    		#
+#	            studyside.messages=studyside.message))			                                            #
 	}																										#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
