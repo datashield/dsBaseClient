@@ -445,7 +445,7 @@ jobs:
       echo
       echo "Number of testsuites with no issues: "$no issue_count
       echo "Testsuites with issues:"
-      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep -v errors= > no_issues.log
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep "<testsuite " | grep -v errors= > no_issues.log
       cat no_issues.log
       exit 0
 
