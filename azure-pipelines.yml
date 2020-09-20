@@ -439,7 +439,13 @@ jobs:
       echo "Testsuites with issues:"
       sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
       cat issues.log
-      exit $issue_count
+      no_issue_count=$(sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep -v --count errors=)
+      echo
+      echo "Number of testsuites with no issues: "$no issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep -v errors= > no_issues.log
+      cat no_issues.log
+      exit 0
 
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Bug summary report output'
