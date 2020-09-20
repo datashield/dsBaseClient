@@ -3,7 +3,7 @@ source("definition_tests/def-ds.make.R")
 source("definition_tests/def-assign-stats.R")
 
 
-context("ds.make()::expt::copy_transform:single")
+context("ds.make::expt::copy_transform:single")
 test_that("copy and transform", 
 {
   connect.dataset.1()
@@ -20,7 +20,7 @@ test_that("copy and transform",
 
 
 
-context("ds.make()::expt::copy_data::single")
+context("ds.make::expt::copy_data::single")
 test_that("copy data without any changes applied",
 {
   connect.dataset.1()
@@ -35,7 +35,7 @@ test_that("copy data without any changes applied",
   .test.copy.data('D$FACTOR_INTEGER','FACTOR_INTEGER_created',ds.test_env$local.values.1[,15])
 })
 
-context("ds.make()::expt::copy_data::multiple")
+context("ds.make::expt::copy_data::multiple")
 test_that("copy data without any changes applied",
 {
   connect.all.datasets()
@@ -50,7 +50,7 @@ test_that("copy data without any changes applied",
   .test.copy.data('D$FACTOR_INTEGER','FACTOR_INTEGER_created',ds.test_env$local.values[,15])
 })
 
-context("ds.make()::expt::sum_of_two_vectors::single")
+context("ds.make::expt::sum_of_two_vectors::single")
 test_that("apply the the sum some vectors",
 {
   connect.dataset.1()
@@ -82,7 +82,7 @@ test_that("apply the the sum some vectors",
 })
 
 
-context("ds.make()::expt::sum_of_two_vectors::multiple")
+context("ds.make::expt::sum_of_two_vectors::multiple")
 test_that("add some vectors",
  {
    connect.all.datasets()
@@ -111,7 +111,7 @@ test_that("add some vectors",
    .test.operation.vectors('D$NUMERIC','D$NON_NEGATIVE_NUMERIC','NUMERIC_created',"+",result.local = .add.vectors(ds.test_env$local.values[,10],ds.test_env$local.values[,11]))
  })
 
-context("ds.make()::expt::product_of_two_vectors::single")
+context("ds.make::expt::product_of_two_vectors::single")
 test_that("multiply two vectors",
 {
   connect.dataset.1()
@@ -144,7 +144,7 @@ test_that("multiply two vectors",
 
 
 
-context("ds.make()::expt::product_of_two_vectors::multiple")
+context("ds.make::expt::product_of_two_vectors::multiple")
 test_that("multiply two vectors",
 {
   connect.all.datasets()
@@ -173,7 +173,7 @@ test_that("multiply two vectors",
   .test.operation.vectors('D$NUMERIC','D$NON_NEGATIVE_NUMERIC','NUMERIC_created',"*",result.local = .mult.vectors(ds.test_env$local.values[,10],ds.test_env$local.values[,11]))
 })
 
-context("ds.make()::expt::division_of_two_vectors::multiple")
+context("ds.make::expt::division_of_two_vectors::multiple")
 test_that("divide two vectors",
 {
   connect.all.datasets()
@@ -202,7 +202,7 @@ test_that("divide two vectors",
 })
 
 
-context("ds.make()::expt::division_of_two_vectors::single")
+context("ds.make::expt::division_of_two_vectors::single")
 test_that("divide two vectors",
 {
   connect.dataset.1()
@@ -231,7 +231,7 @@ test_that("divide two vectors",
 })
 
 
-context("ds.make()::expt::substract_of_two_vectors::multiple")
+context("ds.make::expt::substract_of_two_vectors::multiple")
 test_that("substract two vectors",
 {
   connect.all.datasets()
@@ -260,7 +260,7 @@ test_that("substract two vectors",
 })
 
 
-context("ds.make()::expt::substract_of_two_vectors::single")
+context("ds.make::expt::substract_of_two_vectors::single")
 test_that("substract two vectors",
 {
   connect.dataset.1()
@@ -289,7 +289,7 @@ test_that("substract two vectors",
 })
 
 
-context("ds.make()::expt::sum_of_constant::single")
+context("ds.make::expt::sum_of_constant::single")
 test_that("apply the the sum a vector and a constant value",
 {
   connect.dataset.1()
@@ -306,7 +306,7 @@ test_that("apply the the sum a vector and a constant value",
  
  })
 
-context("ds.make()::expt::substract_of_constant::single")
+context("ds.make::expt::substract_of_constant::single")
 test_that("substract a constant value to all the values of a vector",
 {
   connect.dataset.1()
@@ -324,7 +324,7 @@ test_that("substract a constant value to all the values of a vector",
 })
 
 
-context("ds.make()::expt::divide_of_constant::single")
+context("ds.make::expt::divide_of_constant::single")
 test_that("divide a constant value to all the values of a vector",
 {
   connect.dataset.1()
@@ -341,7 +341,7 @@ test_that("divide a constant value to all the values of a vector",
   
 })
 
-context("ds.make()::expt::multiply_of_constant::single")
+context("ds.make::expt::multiply_of_constant::single")
 test_that("multiply a constant value to all the values of a vector",
 {
   connect.dataset.1()
@@ -359,7 +359,7 @@ test_that("multiply a constant value to all the values of a vector",
 })
 
 
-context("ds.make()::expt::sum_of_constant::multiple")
+context("ds.make::expt::sum_of_constant::multiple")
 test_that("apply the the sum a vector and a constant value",
 {
   connect.all.datasets()
@@ -376,7 +376,7 @@ test_that("apply the the sum a vector and a constant value",
   
 })
 
-context("ds.make()::expt::substract_of_constant::multiple")
+context("ds.make::expt::substract_of_constant::multiple")
 test_that("substract a constant value to all the values of a vector",
 {
   connect.all.datasets()
@@ -394,7 +394,7 @@ test_that("substract a constant value to all the values of a vector",
 })
 
 
-context("ds.make()::expt::divide_of_constant::multiple")
+context("ds.make::expt::divide_of_constant::multiple")
 test_that("divide a constant value to all the values of a vector",
 {
   connect.all.datasets()
@@ -411,7 +411,7 @@ test_that("divide a constant value to all the values of a vector",
   
 })
 
-context("ds.make()::expt::multiply_of_constant::multiple")
+context("ds.make::expt::multiply_of_constant::multiple")
 test_that("multiply a constant value to all the values of a vector",
 {
   connect.all.datasets()

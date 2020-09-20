@@ -2,7 +2,7 @@ source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.rPois.R")
 
 
-context("ds.rPois()::expt::no seeds::single")
+context("ds.rPois::expt::no seeds::single")
 test_that("Poisson without seeds",
 {
   connect.dataset.1()
@@ -15,7 +15,7 @@ test_that("Poisson without seeds",
 })
 
 
-context("ds.rPois()::expt::no seeds::multiple")
+context("ds.rPois::expt::no seeds::multiple")
 test_that("Poisson without seeds",
 {
   connect.all.datasets()
@@ -29,7 +29,7 @@ test_that("Poisson without seeds",
 
 
 
-context("ds.rPois()::expt::with seeds::single")
+context("ds.rPois::expt::with seeds::single")
 test_that("Poisson with seeds",
 {
   
@@ -44,7 +44,7 @@ test_that("Poisson with seeds",
   .test.basic.expectation.with.seeds(2^31,'poisson_dist_7')
 })
 
-context("ds.rPois()::expt::with seeds::multiple")
+context("ds.rPois::expt::with seeds::multiple")
 test_that("Poisson with seeds",
 {
   connect.all.datasets()
