@@ -1,7 +1,7 @@
 source("definition_tests/def-ds.asFactor.R")
 
 
-context("ds.asFactor()::expt::multiple")
+context("ds.asFactor::expt::multiple")
 test_that("combined data set",
 {
   connect.all.datasets()
@@ -16,7 +16,7 @@ test_that("combined data set",
   .test.find.factor('D$FACTOR_INTEGER', 'FACTOR_INT.f',ds.test_env$local.values,15)
 })
 
-context("ds.asFactor()::expt::single")
+context("ds.asFactor::expt::single")
 test_that("single dataset ",
 {
   connect.dataset.1()

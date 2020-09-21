@@ -1,7 +1,7 @@
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.rUnif.R")
 
-context("ds.rUnif()::expt::no_seeds::single")
+context("ds.rUnif::expt::no_seeds::single")
 test_that("basic expectation",
 {
   connect.dataset.2()
@@ -14,7 +14,7 @@ test_that("basic expectation",
   .test.basic.expectation(2^31-1,'uniform_dist_6')
 })
 
-context("ds.rUnif()::expt::no_seeds::multiple")
+context("ds.rUnif::expt::no_seeds::multiple")
 test_that("basic expectation",
 {
   connect.all.datasets()
@@ -27,7 +27,7 @@ test_that("basic expectation",
   .test.basic.expectation(2^31-1,'uniform_dist_6')
 })
 
-context("ds.rUnif()::expt::seeds::single")
+context("ds.rUnif::expt::seeds::single")
 test_that("basic expectation",
 {
   connect.dataset.2()
@@ -40,7 +40,7 @@ test_that("basic expectation",
   .test.basic.expectation.with.seeds(2^31-1,'uniform_dist_6')
 })
 
-context("ds.rUnif()::expt::seeds::multiple")
+context("ds.rUnif::expt::seeds::multiple")
 test_that("basic expectation",
 {
   connect.all.datasets()

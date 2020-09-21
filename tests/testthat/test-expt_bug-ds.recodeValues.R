@@ -1,7 +1,7 @@
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.recodeValues.R")
 
-context("ds.recodeValues()::expt::changes_applied::single::")
+context("ds.recodeValues::expt::changes_applied::single::")
 test_that("changes must be applied",
 {
   
@@ -40,7 +40,7 @@ test_that("changes must be applied",
 })
 
 
-context("ds.recodeValues()::expt::changes_applied::multiple")
+context("ds.recodeValues::expt::changes_applied::multiple")
 test_that("changes must be applied",
 {
     
@@ -81,7 +81,7 @@ test_that("changes must be applied",
 
 
 
-  context("ds.recodeValues()::expt::no_change_applied::single")
+  context("ds.recodeValues::expt::no_change_applied::single")
   test_that("no_change_applied",
   {
       connect.dataset.1() 
@@ -129,7 +129,7 @@ test_that("changes must be applied",
   })            
               
           
-context("ds.recodeValues()::expt::no_change_applied::multiple")
+context("ds.recodeValues::expt::no_change_applied::multiple")
 test_that("no_change_applied",
 {
     connect.all.datasets()
