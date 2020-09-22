@@ -19,15 +19,24 @@ init.ip.address()
   ds.test_env$ip_address_2 <- ds.test_env$ping_address
   ds.test_env$ip_address_3 <- ds.test_env$ping_address
 
-  ds.test_env$user_1 <- getOption("opal.user", "administrator")
-  ds.test_env$user_2 <- getOption("opal.user", "administrator")
-  ds.test_env$user_3 <- getOption("opal.user", "administrator")
+  # ds.test_env$user_1 <- getOption("opal.user", "administrator")
+  # ds.test_env$user_2 <- getOption("opal.user", "administrator")
+  # ds.test_env$user_3 <- getOption("opal.user", "administrator")
 
-  ds.test_env$password_1 <- getOption("opal.password", "datashield_test&")
-  ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
-  ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
+  ds.test_env$user_1 <- getOption("armadillo.user", "admin")
+  ds.test_env$user_2 <- getOption("armadillo.user", "admin")
+  ds.test_env$user_3 <- getOption("armadillo.user", "admin")
+
+  # ds.test_env$password_1 <- getOption("opal.password", "datashield_test&")
+  # ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
+  # ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
+
+  ds.test_env$password_1 <- getOption("armadillo.password", "admin")
+  ds.test_env$password_2 <- getOption("armadillo.password", "admin")
+  ds.test_env$password_3 <- getOption("armadillo.password", "admin")
 
   # switch to "DSLiteDriver" to test with DSLite  
   # ds.test_env$driver <- "DSLiteDriver"
-  ds.test_env$driver <- "OpalDriver"
+  # ds.test_env$driver <- "OpalDriver"
+  ds.test_env$driver <- "ArmadilloDriver"
   ds.test_env$secure_login_details = TRUE
