@@ -3,7 +3,7 @@ source("definition_tests/def-ds.mean.R")
 
 
 
-context("ds.mean()::math::residual::multiple")
+context("ds.mean::math::residual::multiple")
 test_that("residual deviation tends to 0",
 {
   connect.all.datasets()
@@ -27,7 +27,7 @@ test_that("residual deviation tends to 0",
    
 })
 
-context("ds.mean()::math::residual::multiple")
+context("ds.mean::math::residual::multiple")
 test_that("residual deviation tends to 0",
 {
   connect.all.datasets()
@@ -53,7 +53,7 @@ test_that("residual deviation tends to 0",
 })
 
 
-context("ds.mean()::math::location_parameter::single")
+context("ds.mean::math::location_parameter::single")
 test_that("mean(X+a) - mean(X) = a",
 {
   connect.dataset.1()
@@ -68,7 +68,7 @@ test_that("mean(X+a) - mean(X) = a",
   .test.location.parameter('D$NEGATIVE_NUMERIC') 
 })
 
-context("ds.mean()::math::location_parameter::multiple")
+context("ds.mean::math::location_parameter::multiple")
 test_that("mean(X+a) - mean(X) = a",
 {
   connect.all.datasets()
@@ -86,7 +86,7 @@ test_that("mean(X+a) - mean(X) = a",
 
 
 
-context("ds.mean()::math::scale::multiple")
+context("ds.mean::math::scale::multiple")
 test_that("mean(X+a) / mean(X) = a",
 {
   connect.all.datasets()
@@ -101,7 +101,7 @@ test_that("mean(X+a) / mean(X) = a",
   .test.scale('D$NEGATIVE_NUMERIC') 
 })
 
-context("ds.mean()::math::scale::single")
+context("ds.mean::math::scale::single")
 test_that("mean(X*a) / mean(X) = a",
 {
   connect.dataset.1()

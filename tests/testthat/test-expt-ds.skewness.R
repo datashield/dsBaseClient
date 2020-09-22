@@ -13,7 +13,7 @@
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.skewness.R")
 
-context("ds.skewness()::expt::combine::multiple")
+context("ds.skewness::expt::combine::multiple")
 
 test_that("combined data set",
           {
@@ -28,7 +28,7 @@ test_that("combined data set",
             .test.skewness.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values[,13], method = 1) 
           })
 
-context("ds.skewness()::expt::split::multiple")
+context("ds.skewness::expt::split::multiple")
 test_that("split data set",
           {
             connect.all.datasets()
@@ -42,7 +42,7 @@ test_that("split data set",
             .test.skewness.split('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13],ds.test_env$local.values.2[,13],ds.test_env$local.values.3[,13], method = 2)
           })
 
-context("ds.skewness()::expt::single")
+context("ds.skewness::expt::single")
 test_that("combined data set",
           {
             connect.dataset.1()
