@@ -2,7 +2,7 @@ source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.make.R")
 
 
-context("ds.make()::math::transformation::multiple")
+context("ds.make::math::transformation::multiple")
 test_that("transformation",
 {
   connect.all.datasets()

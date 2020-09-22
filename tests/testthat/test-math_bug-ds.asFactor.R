@@ -1,7 +1,7 @@
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.asFactor.R")
 
-context("ds.asFactor()::math::multiple")
+context("ds.asFactor::math::multiple")
 test_that("every factor should be unique",
 {
   connect.all.datasets()
@@ -16,7 +16,7 @@ test_that("every factor should be unique",
   .test.uniqueness('D$FACTOR_INTEGER', 'FACTOR_INT.f')
 })
 
-context("ds.asFactor()::math::multiple")
+context("ds.asFactor::math::multiple")
 test_that("every factor should be unique",
 {
    connect.dataset.1()

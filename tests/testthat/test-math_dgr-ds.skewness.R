@@ -1,7 +1,7 @@
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.skewness.R")
 
-context("ds.skewness()::math_dgr::mean.median.mode::multiple")
+context("ds.skewness::math_dgr::mean.median.mode::multiple")
 test_that("skewness >0 & mode<median<mean or skewness<0 & mean<median<mode",
 {
  connect.all.datasets()
@@ -17,7 +17,7 @@ test_that("skewness >0 & mode<median<mean or skewness<0 & mean<median<mode",
 
 })
 
-context("ds.skewness()::math_dgr::Q1.Q2.Q3::multiple")
+context("ds.skewness::math_dgr::Q1.Q2.Q3::multiple")
 test_that("skewness >0 & Q3-Q2>Q2-Q1 or skewness<0 & Q3-Q2<Q2-Q1",
 {
   connect.all.datasets()
