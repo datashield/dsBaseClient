@@ -402,6 +402,59 @@ jobs:
 
 
     #####################################################################################
+    # Essentially run devtools::test() on the checked out code for bug reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  - bash: |
+
+      # junit reporter output is to test_results_bug.xml
+      sudo R -q -e '
+          library(testthat);
+          output_file <- file("test_console_output_bug.txt");
+          sink(output_file);
+          sink(output_file, type = "message");
+          junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
+          progress_rep <- ProgressReporter$new(max_failures = 999999);
+          multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      cat test_console_output_bug.txt
+
+      mv test_results_bug.xml $(Pipeline.Workspace)/logs
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Bug report output'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      no_issue_count=$(sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep -v --count errors=)
+      echo
+      echo "Number of testsuites with no issues: "$no_issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep "<testsuite " | grep -v errors= > no_issues.log
+      cat no_issues.log
+      exit 0
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Bug summary report output'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
     # Output some important version numbers to file. This gets added to the testStatus 
     # commit so it can be parsed and used on the status table.
   - bash: |

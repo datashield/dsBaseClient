@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("ds.dataFrameSubset()::expt_dgr::setup")
+context("ds.dataFrameSubset::expt_dgr::setup")
 
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.dataFrameSubset.R")
@@ -21,7 +21,7 @@ source("definition_tests/def-ds.dataFrameSubset.R")
 # Tests
 #
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::parameter_class")
+context("ds.dataFrameSubset::expt_dgr::multiple::parameter_class")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -41,7 +41,7 @@ test_that('all datasets',
             
           })
 
-context("ds.dataFrameSubset()::expt_dgr::single::parameter_class")
+context("ds.dataFrameSubset::expt_dgr::single::parameter_class")
 test_that('dataset 1',
           {  
             connect.dataset.1()
@@ -61,7 +61,7 @@ test_that('dataset 1',
             
           })
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::all_columns")
+context("ds.dataFrameSubset::expt_dgr::multiple::all_columns")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -73,7 +73,7 @@ test_that('all datasets',
             .test.data.frame.creation("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=","subset.server")
           })
 
-context("ds.dataFrameSubset()::expt_dgr::single::all_columns")
+context("ds.dataFrameSubset::expt_dgr::single::all_columns")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -85,7 +85,7 @@ test_that('dataset 2',
             .test.data.frame.creation("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=","subset.server")
           })
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::all_columns::subset_by_rows")
+context("ds.dataFrameSubset::expt_dgr::multiple::all_columns::subset_by_rows")
 test_that("all datasets",
           { 
             connect.all.datasets()
@@ -104,7 +104,7 @@ test_that("all datasets",
             subset.by.rows("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=",FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset()::expt_dgr::single::all_columns::subset_by_rows")
+context("ds.dataFrameSubset::expt_dgr::single::all_columns::subset_by_rows")
 test_that("dataset 3",
           { 
             connect.dataset.3()
@@ -123,7 +123,7 @@ test_that("dataset 3",
             subset.by.rows("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=",FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::subset_by_rows_columns")
+context("ds.dataFrameSubset::expt_dgr::multiple::subset_by_rows_columns")
 test_that("all datasets",
           { 
             connect.all.datasets()
@@ -142,7 +142,7 @@ test_that("all datasets",
             subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset()::expt_dgr::single::subset_by_rows_columns")
+context("ds.dataFrameSubset::expt_dgr::single::subset_by_rows_columns")
 test_that("dataset 1",
           { 
             connect.dataset.1()
@@ -162,7 +162,7 @@ test_that("dataset 1",
           })
 
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::subset_by_rows_columns")
+context("ds.dataFrameSubset::expt_dgr::multiple::subset_by_rows_columns")
 test_that("all datasets",
           { 
             connect.all.datasets()
@@ -180,7 +180,7 @@ test_that("all datasets",
             subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",TRUE,"subset.server",local.df.list)
             subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",FALSE,"subset.server",local.df.list)
           })
-context("ds.dataFrameSubset()::expt_dgr::single::subset_by_rows_columns")
+context("ds.dataFrameSubset::expt_dgr::single::subset_by_rows_columns")
 test_that("dataset 2",
           { 
             connect.dataset.2()
@@ -199,7 +199,7 @@ test_that("dataset 2",
             subset.by.rows.cols("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC",1:15,"<=",FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::all_rows_subset_by_columns")
+context("ds.dataFrameSubset::expt_dgr::multiple::all_rows_subset_by_columns")
 test_that("all datasets",
           {  connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
@@ -211,7 +211,7 @@ test_that("all datasets",
             subset.by.cols("D","NON_NEGATIVE_NUMERIC",c(1:7,13:16),FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset()::expt_dgr::multiple::all_rows_subset_by_columns")
+context("ds.dataFrameSubset::expt_dgr::multiple::all_rows_subset_by_columns")
 test_that("dataset 3",
           {  connect.dataset.3()
             local.df.list<-list(ds.test_env$local.values.3[,-1])
