@@ -193,7 +193,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
     
-    res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glmslma.predict.obj.sefit")
+    res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")
    
      expect_length(res, 3)
     expect_equal(class(res), "list")
@@ -480,7 +480,7 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
     
-    res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="poisson.glm.predict.obj")
+    res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="poisson.glm.predict.sefit.obj")
     
     expect_length(res, 3)
     expect_equal(class(res), "list")
@@ -622,8 +622,10 @@ context("ds.glmPredict::smk::shutdown")
 
 test_that("shutdown", {
     print(ds.ls())
-    ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glm.predict.obj","gaussian.glmslma.predict.obj.sefit","poisson.glm.predict.obj", "poisson.glmslma.obj", "predict_glm","binomial.glmslma.obj"))
+  ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
 })
+
+#   ,"binomial.glmslma.obj"
 
 disconnect.studies.dataset.cnsim()
 
