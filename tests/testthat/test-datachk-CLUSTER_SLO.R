@@ -14,7 +14,7 @@
 
 context("CLUSTER_SLO::datachk::setup")
 
-connect.studies.dataset.cluster.slo(list("idPatient", "idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private"))
+connect.studies.dataset.cluster.slo(list("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "sloDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -38,21 +38,21 @@ test_that("Check CLUSTER SLO dataset", {
     res.length <- ds.length(x='D')
     expect_length(res.length, 4)
     expect_length(res.length$`length of D in cluster.slo1`, 1)
-    expect_equal(res.length$`length of D in cluster.slo1`, 13)
+    expect_equal(res.length$`length of D in cluster.slo1`, 14)
     expect_length(res.length$`length of D in cluster.slo2`, 1)
-    expect_equal(res.length$`length of D in cluster.slo2`, 13)
+    expect_equal(res.length$`length of D in cluster.slo2`, 14)
     expect_length(res.length$`length of D in cluster.slo3`, 1)
-    expect_equal(res.length$`length of D in cluster.slo3`, 13)
-    expect_equal(res.length$`total length of D in all studies combined`, 39)
+    expect_equal(res.length$`length of D in cluster.slo3`, 14)
+    expect_equal(res.length$`total length of D in all studies combined`, 42)
 
     res.colnames <- ds.colnames(x='D')
     expect_length(res.colnames, 3)
-    expect_length(res.colnames$cluster.slo1, 13)
-    expect_equal(res.colnames$cluster.slo1, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
-    expect_length(res.colnames$cluster.slo2, 13)
-    expect_equal(res.colnames$cluster.slo2, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
-    expect_length(res.colnames$cluster.slo3, 13)
-    expect_equal(res.colnames$cluster.slo3, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_length(res.colnames$cluster.slo1, 14)
+    expect_equal(res.colnames$cluster.slo1, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "sloDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_length(res.colnames$cluster.slo2, 14)
+    expect_equal(res.colnames$cluster.slo2, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "sloDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_length(res.colnames$cluster.slo3, 14)
+    expect_equal(res.colnames$cluster.slo3, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "sloDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
 
     res.class.idsurgery <- ds.class(x='D$idSurgery')
     expect_length(res.class.idsurgery, 3)
