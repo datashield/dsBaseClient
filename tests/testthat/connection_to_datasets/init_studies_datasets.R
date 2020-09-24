@@ -136,9 +136,9 @@ init.studies.dataset.cluster.slo <- function(variables)
     else if (ds.test_env$driver == "ArmadilloDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datshield/cluster/CLUSTER_SLO1", driver = ds.test_env$driver)
-      builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datshield/cluster/CLUSTER_SLO2", driver = ds.test_env$driver)
-      builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datshield/cluster/CLUSTER_SLO3", driver = ds.test_env$driver)
+      builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/cluster/CLUSTER_SLO1", driver = ds.test_env$driver)
+      builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/cluster/CLUSTER_SLO2", driver = ds.test_env$driver)
+      builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/cluster/CLUSTER_SLO3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
     }
     else 
