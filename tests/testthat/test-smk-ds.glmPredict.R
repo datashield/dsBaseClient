@@ -25,7 +25,7 @@ test_that("setup", {
 #
 
 context("ds.glmPredict::smk::gaussian")
-test_that("simple glmPredict, gaussian, without newobj", {
+test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
     expect_length(glmSLMA.res, 9)
@@ -33,8 +33,8 @@ test_that("simple glmPredict, gaussian, without newobj", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
-    res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", na.action = "na.pass", newobj="gaussian.glmslma.predict.obj")
-
+    res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
+    
     expect_length(res, 3)
     expect_equal(class(res), "list")
 
@@ -105,7 +105,7 @@ test_that("simple glmPredict, gaussian, without newobj", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = 1e-7)
 })
 
-test_that("simple glmPredict, gaussian", {
+test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
     expect_length(glmSLMA.res, 9)
@@ -113,8 +113,8 @@ test_that("simple glmPredict, gaussian", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
-    res <- ds.glmPredict("gaussian.glmslma.obj", output.type = "response", newobj="gaussian.glm.predict.obj")
-
+    res <- ds.glmPredict("gaussian.glmslma.obj", output.type = "response", se.fit = FALSE, newobj="gaussian.glm.predict.obj")
+    
     expect_length(res, 3)
     expect_equal(class(res), "list")
 
@@ -183,10 +183,136 @@ test_that("simple glmPredict, gaussian", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.928798, tolerance = 1e-7)
     expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.004785, tolerance = 1e-7)
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = 1e-7)
+})
+
+test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
+    glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
+    
+    expect_length(glmSLMA.res, 9)
+    expect_equal(glmSLMA.res$num.valid.studies, 3)
+    expect_length(glmSLMA.res$validity.check, 1)
+    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
+    
+    res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")
+   
+     expect_length(res, 3)
+    expect_equal(class(res), "list")
+    
+    expect_length(res$sim1, 1)
+    expect_length(res$sim1$safe.list, 17)
+    expect_equal(class(res$sim1$safe.list), "list")
+    expect_equal(res$sim1$safe.list$glm.object, "gaussian.glmslma.obj")
+    expect_true(is.null(res$sim1$safe.list$newdfname))
+    expect_equal(res$sim1$safe.list$output.type, "response")
+    expect_true(is.null(res$sim1$safe.list$dispersion))
+    expect_equal(res$sim1$safe.list$fit.Ntotal, 1801)
+    expect_equal(res$sim1$safe.list$fit.Nvalid, 1801)
+    expect_equal(res$sim1$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim1$safe.list$fit.mean, 5.872024, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.sd, 0.1383659, tolerance = 1e-7)
+    expect_length(res$sim1$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim1$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim1$safe.list$fit.quantiles[[1]], 5.656127, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[2]], 5.703222, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[3]], 5.778930, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[4]], 5.873137, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[5]], 5.961123, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[6]], 6.044376, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[7]], 6.091611, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.Ntotal, 1801)
+    expect_equal(res$sim1$safe.list$se.fit.Nvalid, 1801)
+    expect_equal(res$sim1$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim1$safe.list$se.fit.mean, 0.03490339, tolerance = 1e-8)
+    expect_equal(res$sim1$safe.list$se.fit.sd, 0.01127756, tolerance = 1e-8)
+    expect_length(res$sim1$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim1$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[1]], 0.02600046, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[2]], 0.02614820, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[3]], 0.02722465, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[4]], 0.03103519, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[5]], 0.03876266, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[6]], 0.04856302, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[7]], 0.05607628, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$residual.scale, 1.10068, tolerance = 1e-7)
+    
+    
+    expect_length(res$sim2, 1)
+    expect_length(res$sim2$safe.list, 17)
+    expect_equal(class(res$sim2$safe.list), "list")
+    expect_equal(res$sim2$safe.list$glm.object, "gaussian.glmslma.obj")
+    expect_true(is.null(res$sim2$safe.list$newdfname))
+    expect_equal(res$sim2$safe.list$output.type, "response")
+    expect_true(is.null(res$sim2$safe.list$dispersion))
+    expect_equal(res$sim2$safe.list$fit.Ntotal, 2526)
+    expect_equal(res$sim2$safe.list$fit.Nvalid, 2526)
+    expect_equal(res$sim2$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim2$safe.list$fit.mean, 5.843564, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.sd, 0.0916653, tolerance = 1e-7)
+    expect_length(res$sim2$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim2$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim2$safe.list$fit.quantiles[[1]], 5.692873, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[2]], 5.725140, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[3]], 5.782866, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[4]], 5.843818, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[5]], 5.902650, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[6]], 5.958954, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[7]], 5.990324, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.Ntotal, 2526)
+    expect_equal(res$sim2$safe.list$se.fit.Nvalid, 2526)
+    expect_equal(res$sim2$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim2$safe.list$se.fit.mean, 0.02855807, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.sd, 0.009079763, tolerance = 1e-7)
+    expect_length(res$sim2$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim2$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[1]], 0.02121918, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[2]], 0.02131688, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[3]], 0.02207091, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[4]], 0.02530085, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[5]], 0.03215874, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[6]], 0.04034853, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[7]], 0.04605307, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$residual.scale, 1.06496, tolerance = 1e-7)
+    
+    expect_length(res$sim3, 1)
+    expect_length(res$sim3$safe.list, 17)
+    expect_equal(class(res$sim3$safe.list), "list")
+    expect_equal(res$sim3$safe.list$glm.object, "gaussian.glmslma.obj")
+    expect_true(is.null(res$sim3$safe.list$newdfname))
+    expect_equal(res$sim3$safe.list$output.type, "response")
+    expect_true(is.null(res$sim3$safe.list$dispersion))
+    expect_equal(res$sim3$safe.list$fit.Ntotal, 3473)
+    expect_equal(res$sim3$safe.list$fit.Nvalid, 3473)
+    expect_equal(res$sim3$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim3$safe.list$fit.mean, 5.846405, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.sd, 0.1257853, tolerance = 1e-7)
+    expect_length(res$sim3$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim3$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim3$safe.list$fit.quantiles[[1]], 5.639923, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[2]], 5.692488, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[3]], 5.763677, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[4]], 5.845627, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.928798, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.004785, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.Ntotal, 3473)
+    expect_equal(res$sim3$safe.list$se.fit.Nvalid, 3473)
+    expect_equal(res$sim3$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim3$safe.list$se.fit.mean, 0.02423093, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.sd, 0.007641005, tolerance = 1e-7)
+    expect_length(res$sim3$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim3$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[1]], 0.01801017, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[2]], 0.01813653, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[3]], 0.01882936, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[4]], 0.02149076, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[5]], 0.02687285, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[6]], 0.03463314, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[7]], 0.03887559, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$residual.scale, 1.0587356, tolerance = 1e-7)
 })
 
 context("ds.glmPredict::smk::poisson")
-test_that("simple glmPredict, poisson, without newobj", {
+test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
 
     expect_length(glmSLMA.res, 9)
@@ -194,8 +320,8 @@ test_that("simple glmPredict, poisson, without newobj", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
 
-    res <- ds.glmPredict("poisson.glmslma.obj", output.type = "response")
-
+    res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
+    
     expect_length(res, 3)
     expect_equal(class(res), "list")
 
@@ -266,7 +392,7 @@ test_that("simple glmPredict, poisson, without newobj", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = 1e-7)
 })
 
-test_that("simple glmPredict, poisson", {
+test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
 
     expect_length(glmSLMA.res, 9)
@@ -274,8 +400,8 @@ test_that("simple glmPredict, poisson", {
     expect_length(glmSLMA.res$validity.check, 1)
     expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
 
-    res <- ds.glmPredict("poisson.glmslma.obj", output.type = "response", newobj="poisson.glm.predict.obj")
-
+    res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass", newobj="poisson.glm.predict.obj")
+    
     expect_length(res, 3)
     expect_equal(class(res), "list")
 
@@ -345,6 +471,148 @@ test_that("simple glmPredict, poisson", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.005366, tolerance = 1e-7)
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = 1e-7)
 })
+
+test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
+    glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
+    
+    expect_length(glmSLMA.res, 9)
+    expect_equal(glmSLMA.res$num.valid.studies, 3)
+    expect_length(glmSLMA.res$validity.check, 1)
+    expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
+    
+    res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="poisson.glm.predict.sefit.obj")
+    
+    expect_length(res, 3)
+    expect_equal(class(res), "list")
+    
+    expect_length(res$sim1, 1)
+    expect_length(res$sim1$safe.list, 17)
+    expect_equal(class(res$sim1$safe.list), "list")
+    expect_equal(res$sim1$safe.list$glm.object, "poisson.glmslma.obj")
+    expect_true(is.null(res$sim1$safe.list$newdfname))
+    expect_equal(res$sim1$safe.list$output.type, "response")
+    expect_true(is.null(res$sim1$safe.list$dispersion))
+    expect_equal(res$sim1$safe.list$fit.Ntotal, 1801)
+    expect_equal(res$sim1$safe.list$fit.Nvalid, 1801)
+    expect_equal(res$sim1$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim1$safe.list$fit.mean, 5.872024, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.sd, 0.138402, tolerance = 1e-7)
+    expect_length(res$sim1$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim1$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim1$safe.list$fit.quantiles[[1]], 5.659318, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[2]], 5.704707, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[3]], 5.778435, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[4]], 5.871512, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[5]], 5.959795, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[6]], 6.044552, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$fit.quantiles[[7]], 6.093175, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.Ntotal, 1801)
+    expect_equal(res$sim1$safe.list$se.fit.Nvalid, 1801)
+    expect_equal(res$sim1$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim1$safe.list$se.fit.mean, 0.07678458, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.sd, 0.02570748, tolerance = 1e-7)
+    expect_length(res$sim1$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim1$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[1]], 0.05723954, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[2]], 0.05756343, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[3]], 0.05993096, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[4]], 0.06818918, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[5]], 0.08504048, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[6]], 0.10601561, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$se.fit.quantiles[[7]], 0.12380425, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$residual.scale, 1, tolerance = 1e-7)
+    
+    expect_length(res$sim2, 1)
+    expect_length(res$sim2$safe.list, 17)
+    expect_equal(class(res$sim2$safe.list), "list")
+    expect_equal(res$sim2$safe.list$glm.object, "poisson.glmslma.obj")
+    expect_true(is.null(res$sim2$safe.list$newdfname))
+    expect_equal(res$sim2$safe.list$output.type, "response")
+    expect_true(is.null(res$sim2$safe.list$dispersion))
+    expect_equal(res$sim2$safe.list$fit.Ntotal, 2526)
+    expect_equal(res$sim2$safe.list$fit.Nvalid, 2526)
+    expect_equal(res$sim2$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim2$safe.list$fit.mean, 5.843564, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.sd, 0.09167387, tolerance = 1e-7)
+    expect_length(res$sim2$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim2$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim2$safe.list$fit.quantiles[[1]], 5.694361, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[2]], 5.725835, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[3]], 5.782577, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[4]], 5.843101, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[5]], 5.902120, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[6]], 5.959162, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$fit.quantiles[[7]], 5.991181, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.Ntotal, 2526)
+    expect_equal(res$sim2$safe.list$se.fit.Nvalid, 2526)
+    expect_equal(res$sim2$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim2$safe.list$se.fit.mean, 0.0648018, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.sd, 0.0209345, tolerance = 1e-7)
+    expect_length(res$sim2$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim2$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[1]], 0.04816489, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[2]], 0.04838696, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[3]], 0.05008767, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[4]], 0.05740926, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[5]], 0.07294716, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[6]], 0.09144008, tolerance = 1e-7)
+    expect_equal(res$sim2$safe.list$se.fit.quantiles[[7]], 0.10463771, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$residual.scale, 1, tolerance = 1e-7)
+    
+    expect_length(res$sim3, 1)
+    expect_length(res$sim3$safe.list, 17)
+    expect_equal(class(res$sim3$safe.list), "list")
+    expect_equal(res$sim3$safe.list$glm.object, "poisson.glmslma.obj")
+    expect_true(is.null(res$sim3$safe.list$newdfname))
+    expect_equal(res$sim3$safe.list$output.type, "response")
+    expect_true(is.null(res$sim3$safe.list$dispersion))
+    expect_equal(res$sim3$safe.list$fit.Ntotal, 3473)
+    expect_equal(res$sim3$safe.list$fit.Nvalid, 3473)
+    expect_equal(res$sim3$safe.list$fit.Nmiss, 0)
+    expect_equal(res$sim3$safe.list$fit.mean, 5.846405, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.sd, 0.1258073, tolerance = 1e-7)
+    expect_length(res$sim3$safe.list$fit.quantiles, 7)
+    expect_equal(class(res$sim3$safe.list$fit.quantiles), "numeric")
+    expect_equal(res$sim3$safe.list$fit.quantiles[[1]], 5.642464, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[2]], 5.693362, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[3]], 5.763027, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[4]], 5.844277, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.927911, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.005366, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.Ntotal, 3473)
+    expect_equal(res$sim3$safe.list$se.fit.Nvalid, 3473)
+    expect_equal(res$sim3$safe.list$se.fit.Nmiss, 0)
+    expect_equal(res$sim3$safe.list$se.fit.mean, 0.05532801, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.sd, 0.01769327, tolerance = 1e-7)
+    expect_length(res$sim3$safe.list$se.fit.quantiles, 7)
+    expect_equal(class(res$sim3$safe.list$se.fit.quantiles), "numeric")
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[1]], 0.04113095, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[2]], 0.04141931, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[3]], 0.04299643, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[4]], 0.04912607, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[5]], 0.06099111, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[6]], 0.07939059, tolerance = 1e-7)
+    expect_equal(res$sim3$safe.list$se.fit.quantiles[[7]], 0.08947167, tolerance = 1e-7)
+    expect_equal(res$sim1$safe.list$residual.scale, 1, tolerance = 1e-7)
+})
+
+
+#test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE", {
+ #   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TSC', family="binomial", newobj="binomial.glmslma.obj")
+    
+   # expect_length(glmSLMA.res, 9)
+  #  expect_equal(glmSLMA.res$num.valid.studies, 3)
+#    expect_length(glmSLMA.res$validity.check, 1)
+ #   expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
+  #  
+   # res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass", newobj=NULL)
+    
+    #print(res)
+    #expect_length(res, 3)
+    #expect_equal(class(res), "list")
+    
+#})
 
 #
 # Shutdown
@@ -353,8 +621,11 @@ test_that("simple glmPredict, poisson", {
 context("ds.glmPredict::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glmslma.predict.obj", "gaussian.glm.predict.obj","poisson.glm.predict.obj", "poisson.glmslma.obj", "predict_glm"))
+    print(ds.ls())
+  ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
 })
+
+#   ,"binomial.glmslma.obj"
 
 disconnect.studies.dataset.cnsim()
 
