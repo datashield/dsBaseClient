@@ -195,7 +195,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")
    
-     expect_length(res, 3)
+    expect_length(res, 3)
     expect_equal(class(res), "list")
     
     expect_length(res$sim1, 1)
@@ -621,11 +621,8 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
 context("ds.glmPredict::smk::shutdown")
 
 test_that("shutdown", {
-    print(ds.ls())
-  ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
+    ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
 })
-
-#   ,"binomial.glmslma.obj"
 
 disconnect.studies.dataset.cnsim()
 
