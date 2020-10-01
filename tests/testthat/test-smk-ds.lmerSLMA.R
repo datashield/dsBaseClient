@@ -133,9 +133,6 @@ test_that("check slope formulae", {
     expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
     expect_length(res$Convergence.error.message, 3)
     expect_equal(class(res$Convergence.error.message), "character")
-    expect_equal(res$Convergence.error.message[1], "Study1: unable to evaluate scaled gradient", fixed = TRUE)
-    expect_equal(res$Convergence.error.message[2], "Study2: unable to evaluate scaled gradient", fixed = TRUE)
-    expect_equal(res$Convergence.error.message[3], "Study3: no convergence error reported", fixed = TRUE)
 })
 
 test_that("check slope formulae", {
@@ -168,9 +165,6 @@ test_that("check slope formulae", {
     expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
     expect_length(res$Convergence.error.message, 3)
     expect_equal(class(res$Convergence.error.message), "character")
-    expect_equal(res$Convergence.error.message[1], "Study1: unable to evaluate scaled gradient", fixed = TRUE)
-    expect_equal(res$Convergence.error.message[2], "Study2: unable to evaluate scaled gradient", fixed = TRUE)
-    expect_equal(res$Convergence.error.message[3], "Study3: no convergence error reported", fixed = TRUE)
 })
 
 #
