@@ -597,23 +597,6 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
     expect_equal(res$sim1$safe.list$residual.scale, 1, tolerance = 1e-7)
 })
 
-
-#test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE", {
- #   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TSC', family="binomial", newobj="binomial.glmslma.obj")
-    
-   # expect_length(glmSLMA.res, 9)
-  #  expect_equal(glmSLMA.res$num.valid.studies, 3)
-#    expect_length(glmSLMA.res$validity.check, 1)
- #   expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
-  #  
-   # res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass", newobj=NULL)
-    
-    #print(res)
-    #expect_length(res, 3)
-    #expect_equal(class(res), "list")
-    
-#})
-
 #
 # Shutdown
 #
@@ -621,11 +604,8 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
 context("ds.glmPredict::smk::shutdown")
 
 test_that("shutdown", {
-    print(ds.ls())
   ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
 })
-
-#   ,"binomial.glmslma.obj"
 
 disconnect.studies.dataset.cnsim()
 
