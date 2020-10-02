@@ -28,15 +28,15 @@ context("ds.meanByClass::smk::LAB_TSC across PM_BMI_CATEGORICAL categories where
 ds.assign("D$LAB_TSC", "ldl")
 ds.assign("D$PM_BMI_CATEGORICAL", "pm_bmi")
 test_that("LAB_TSC_across_", {
-#    res <- ds.meanByClass(x='ldl~pm_bmi')
-#
-#    expect_length(res, 6)
-#    expect_equal(res[[1]], '2753')
-#    expect_equal(res[[2]], '5.85(1.03)')
-#    expect_equal(res[[3]], '3545')
-#    expect_equal(res[[4]], '5.82(1.05)')
-#    expect_equal(res[[5]], '2629')
-#    expect_equal(res[[6]], '5.89(1.15)')
+    res <- ds.meanByClass(x='ldl~pm_bmi')
+
+    expect_length(res, 6)
+    expect_equal(res[[1]], '2753')
+    expect_equal(res[[2]], '5.85(1.03)')
+    expect_equal(res[[3]], '3545')
+    expect_equal(res[[4]], '5.82(1.05)')
+    expect_equal(res[[5]], '2629')
+    expect_equal(res[[6]], '5.89(1.15)')
 })
 
 context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories")
@@ -114,7 +114,7 @@ context("ds.meanByClass::smk::shutdown")
 
 test_that("shutdown", {
      ds_expect_variables(c("D", "D.PM_BMI_CATEGORICAL1", "D.PM_BMI_CATEGORICAL2", "D.PM_BMI_CATEGORICAL3",
-                           "ldl", "pm_bmi", "tempholder"))
+                           "ldl", "pm_bmi", "tempholder", "X", "X.pm_bmi1", "X.pm_bmi2", "X.pm_bmi3"))
 })
 
 disconnect.studies.dataset.cnsim()
