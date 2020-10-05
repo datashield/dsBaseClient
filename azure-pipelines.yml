@@ -193,8 +193,13 @@ jobs:
     # If previous steps have failed then don't run.
   - task: DockerCompose@0
     inputs:
+      action: Run Services
       dockerComposeFile: docker-compose.yml
-      serviceName: minio
+      projectName: dsBaseClient
+      qualifyImageNames: true
+      buildImages: true
+      abortOnContainerExit: true
+      detached: false
     displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
