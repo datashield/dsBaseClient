@@ -199,7 +199,7 @@ jobs:
       qualifyImageNames: true
       buildImages: true
       abortOnContainerExit: true
-      detached: false
+      detached: true
     displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
@@ -266,109 +266,6 @@ jobs:
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase'
-    condition: succeeded()
-
-
-    #####################################################################################
-    # Install dsDanger on server
-    # If previous steps have failed then don't run
-  - bash: |
-
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
-
-    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install dsDanger DataSHIELD package on server'
-    condition: succeeded()
-
-
-    #####################################################################################
-    # Install dsDangerClient.
-    # If previous steps have failed then don't run
-  - bash: |
-
-      sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1-dev', dependencies = TRUE)"
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Install dsDangerClient DataSHIELD package'
-    condition: succeeded()
-
-
-    #####################################################################################
-    # Essentially run devtools::test() on the checked out code. This is wrapped up with
-    # code coverage. The actual command is vary convoluted as it had to do some things
-    # which are not default behaviour: output the results to a JUnit xml file, not stop
-    # when a small number of errors have happened, run through the code coverage tool.
-    # TODO: Tidy up variable names - use timestamps here.
-  - bash: |
-
-      # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
-      sudo R --verbose -e 'devtools::check()'
-
-      pwd
-      mkdir $(Pipeline.Workspace)/logs
-
-      # run the coverage tool and output to coveragelist.csv
-      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
-      # R output and messages are redirected by sink() to test_console_output.txt
-      # junit reporter output is to test_results.xml
-      sudo R -q -e '
-        library(covr);
-        dsdanger.res <- covr::package_coverage(
-            type = c("none"),
-            code = c(
-                '"'"'
-                library(testthat);
-                output_file <- file("test_console_output_dsdanger.txt");
-                sink(output_file);
-                sink(output_file, type = "message");
-                library(testthat);
-                junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
-                progress_rep <- ProgressReporter$new(max_failures = 999999);
-                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
-                '"'"'
-            )
-        );
-        base::saveRDS(dsdanger.res, "test_results_dsdanger.rds")'
-
-      # Merge coverage results
-      cat test_results_dsbase.txt test_results_dsdanger.txt > $(Pipeline.Workspace)/logs/test_console_output.txt
-      xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
-
-      # Create 'coveragelist.csv'
-      # sudo R -q -e '
-      #   library(covr);
-      #   dsbase.res   <- base::readRDS("test_results_dsbase.rds")
-      #   dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
-      #   write.csv(
-      #       coverage_to_list(
-      #           c(dsbase.res, dsdanger.res)
-      #       ),
-      #       "coveragelist.csv"
-      #   )'
-
-      # Create 'coveragelist.csv'
-      sudo R -q -e '
-        library(covr);
-        dsbase.res <- base::readRDS("test_results_dsbase.rds")
-        write.csv(
-            coverage_to_list(
-                dsbase.res
-            ),
-            "coveragelist.csv"
-        )'
-
-      # display the test console output
-      cat test_console_output_dsdanger.txt
-
-      mv coveragelist.csv $(Pipeline.Workspace)/logs
-      mv test_results.xml $(Pipeline.Workspace)/logs
-
-      grep --quiet "Failed:   0" test_console_output_dsdanger.txt
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
     condition: succeeded()
 
 
