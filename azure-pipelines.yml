@@ -194,13 +194,12 @@ jobs:
   - task: DockerCompose@0
     inputs:
       action: Run Services
-      dockerComposeFile: docker-compose.yml
+      dockerComposeFile: ../dsBaseClient/docker-compose.yml
       projectName: dsBaseClient
       qualifyImageNames: true
       buildImages: true
       abortOnContainerExit: true
       detached: false
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
