@@ -23,10 +23,10 @@ services:
       - 8080:8080
   rserver:
     # Use predefined production image:
-    # image: molgenis/rserver:latest
+    image: molgenis/rserver:latest
     # or, if you want to customize the RServe installation,
     # build custom image using Dockerfile:
-    build: ./rserver
+    # build: ./rserver
     environment:
       DEBUG: "FALSE"
     ports:

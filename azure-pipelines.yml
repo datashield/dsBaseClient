@@ -200,6 +200,7 @@ jobs:
       buildImages: true
       abortOnContainerExit: true
       detached: false
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
