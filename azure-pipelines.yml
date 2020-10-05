@@ -192,7 +192,7 @@ jobs:
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
   - task: DockerCompose@0
-    input:
+    inputs:
       dockerComposeFile: docker-compose.yml
       serviceName: minio
 
