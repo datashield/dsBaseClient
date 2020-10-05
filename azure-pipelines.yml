@@ -195,8 +195,6 @@ jobs:
     inputs:
       dockerComposeFile: docker-compose.yml
       serviceName: minio
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
