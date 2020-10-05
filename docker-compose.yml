@@ -1,0 +1,35 @@
+version: "3.4"
+services:
+  minio:
+    image: minio/minio:RELEASE.2020-05-08T02-40-49Z
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: molgenis
+      MINIO_SECRET_KEY: molgenis
+      MINIO_IDENTITY_OPENID_CLIENT_ID: "b396233b-cdb2-449e-ac5c-a0d28b38f791"
+      MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
+    command: server /data
+  armadillo:
+    image: molgenis/armadillo:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: development
+      MINIO_URL: http://minio
+      MINIO_ACCESS_KEY: molgenis
+      MINIO_SECRET_KEY: molgenis
+      RSERVE_HOST: rserver
+      DATASHIELD_WHITELIST: dsBase,resourcer,dsDanger
+    ports:
+      - 8080:8080
+  rserver:
+    # Use predefined production image:
+    # image: molgenis/rserver:latest
+    # or, if you want to customize the RServe installation,
+    # build custom image using Dockerfile:
+    build: ./rserver
+    environment:
+      DEBUG: "FALSE"
+    ports:
+      - "6311:6311"
+      - "6312:6312"
+      - "53000-53200:53000-53200"

@@ -191,26 +191,13 @@ jobs:
     #####################################################################################
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
-  - bash: |
+  - task: DockerCompose@0
+    input:
+      dockerComposeFile: docker-compose.yml
+      serviceName: minio
 
-      # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
-      sudo dpkg -i puppet5-release-xenial.deb
-      sudo apt-get install -qq -f
-      sudo apt-get update
-      sudo rm -f puppet5-release-xenial.deb
-
-      sudo apt-get install puppet-agent -y
-      sudo /opt/puppetlabs/puppet/bin/gem install r10k
-
-      pushd puppet/environments/datashield_azurepipelines
-      sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
-      popd
-
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
-
-    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
     condition: succeeded()
 
 
