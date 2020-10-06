@@ -77,18 +77,17 @@ test_that("simple table 2D", {
 
 context("ds.table::smk")
 test_that("simple table 3D", {
-#  table1.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory')
+  table1.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory')
 
-#  expect_length(table1.res, 2)
-#  expect_length(table1.res$output.list, 6)
-#  expect_equal(class(table1.res$output.list[1]), "list")
-#  expect_equal(class(table1.res$output.list[2]), "list")
-#  expect_equal(class(table1.res$output.list[3]), "list")
-#  expect_equal(class(table1.res$output.list[4]), "list")
-#  expect_equal(class(table1.res$output.list[5]), "list")
-#  expect_equal(class(table1.res$output.list[6]), "list")
-#  expect_length(table1.res$validity.message, 1)
-#  expect_equal(table1.res$validity.message, "Data in all studies were valid")
+  expect_length(table1.res, 2)
+  expect_length(table1.res$output.list, 6)
+  expect_equal(class(table1.res$output.list[1]), "list")
+  expect_equal(class(table1.res$output.list[2]), "list")
+  expect_equal(class(table1.res$output.list[3]), "list")
+  expect_equal(class(table1.res$output.list[4]), "list")
+  expect_equal(class(table1.res$output.list[5]), "list")
+  expect_equal(class(table1.res$output.list[6]), "list")
+  expect_length(table1.res$validity.message, 4)
 })
 
 test_that("simple table 1D, with assign", {
@@ -130,22 +129,22 @@ test_that("simple table 2D, with assign", {
 })
 
 test_that("simple table 3D, with assign", {
-#  table.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory', newobj="new_table3", table.assign=TRUE)
+  table.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory', newobj="new_table3", table.assign=TRUE)
 
-#  expect_length(table.res, 0)
+  expect_length(table.res, 0)
 
-#  table.length <- ds.length("new_table3")
-#  expect_length(table.length, 4)
-#  expect_equal(table.length$`length of new_table2 in study1`, 4)
-#  expect_equal(table.length$`length of new_table2 in study2`, 4)
-#  expect_equal(table.length$`length of new_table2 in study3`, 4)
-#  expect_equal(table.length$`total length of new_table2 in all studies combined`, 12)
+  table.length <- ds.length("new_table3")
+  expect_length(table.length, 4)
+  expect_equal(table.length$`length of new_table3 in study1`, 4)
+  expect_equal(table.length$`length of new_table3 in study2`, 4)
+  expect_equal(table.length$`length of new_table3 in study3`, 4)
+  expect_equal(table.length$`total length of new_table3 in all studies combined`, 12)
 
-#  table.class <- ds.class("new_table3")
-#  expect_length(table.class, 3)
-#  expect_equal(table.class$study1, 'list')
-#  expect_equal(table.class$study2, 'list')
-#  expect_equal(table.class$study3, 'list')
+  table.class <- ds.class("new_table3")
+  expect_length(table.class, 3)
+  expect_equal(table.class$study1, 'list')
+  expect_equal(table.class$study2, 'list')
+  expect_equal(table.class$study3, 'list')
 })
 
 #
@@ -155,7 +154,7 @@ test_that("simple table 3D, with assign", {
 context("ds.table::smk::shutdown")
 
 test_that("shutdown", {
-  ds_expect_variables(c("D", "factorCharacter", "factorInteger", "factorCategory", "tablesource", "tablesource_subset", "new_table1", "new_table2"))
+  ds_expect_variables(c("D", "factorCharacter", "factorInteger", "factorCategory", "tablesource", "tablesource_subset", "new_table1", "new_table2", "new_table3"))
 })
 
 disconnect.all.datasets()
