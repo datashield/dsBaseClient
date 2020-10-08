@@ -318,7 +318,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
 context("ds.glmPredict::smk::gaussian::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "predict_glm" ))
+  ds_expect_variables(c("D", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj", "gaussian.glmslma.obj", "predict_glm" ))
 })
 
 disconnect.studies.dataset.cnsim()
