@@ -132,7 +132,7 @@ jobs:
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','metafor','fields','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"              
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-#      sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
+      # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-armadillo', ref = 'master', dependencies = TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-datashield', ref = 'master', dependencies = TRUE)"
