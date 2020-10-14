@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   minio:
-    image: minio/minio:latest
+    image: datashield/minio:ci
     ports:
       - 9000:9000
     environment:
@@ -11,7 +11,7 @@ services:
       MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
     command: server /data
   armadillo:
-    image: molgenis/armadillo:latest
+    image: datashield/armadillo:ci
     environment:
       SPRING_PROFILES_ACTIVE: development
       MINIO_URL: http://minio
@@ -23,7 +23,7 @@ services:
       - 8080:8080
   rserver:
     # Use predefined production image:
-    image: molgenis/rserver:latest
+    image: datashield/rserver:ci
     # or, if you want to customize the RServe installation,
     # build custom image using Dockerfile:
     # build: ./rserver
