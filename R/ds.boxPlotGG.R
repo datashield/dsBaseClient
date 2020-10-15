@@ -24,7 +24,7 @@
 
 
 ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
-  
+  x_var <- lower <- upper <- ymin <- ymax <- middle <- fill <- NULL
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
   }
@@ -55,11 +55,11 @@ ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylab
     for(i in 1:num_servers){
       pt_merged <- rbind(pt_merged, pt[[i]]$data)
     }
-    pt_merged <- data.table(pt_merged)
+    pt_merged <- data.table::data.table(pt_merged)
     if(!is.null(group)){
-      pt_merged <- aggregate(.~fill+x_var, pt_merged, sum)  
+      pt_merged <- stats::aggregate(.~fill+x_var, pt_merged, sum)  
     }
-    else{pt_merged <- aggregate(.~x_var, pt_merged, sum)  }
+    else{pt_merged <- stats::aggregate(.~x_var, pt_merged, sum)  }
     pt_merged$ymin <- pt_merged$ymin / pt_merged$n
     pt_merged$lower <- pt_merged$lower / pt_merged$n
     pt_merged$middle <- pt_merged$middle / pt_merged$n
