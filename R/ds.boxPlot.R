@@ -24,8 +24,8 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
     datasources <- DSI::datashield.connections_find()
   }
   
-  dsBaseClient:::isDefined(datasources, x)
-  cls <- dsBaseClient:::checkClass(datasources, x)
+  isDefined(datasources, x)
+  cls <- checkClass(datasources, x)
   
   if(any(cls %in% c("data.frame"))){
     ds.boxPlotGG_table(x, variables, group, group2, xlabel, ylabel, type, datasources)
