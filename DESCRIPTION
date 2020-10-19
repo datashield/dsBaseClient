@@ -10,6 +10,9 @@ Depends:
     DSI (>= 1.1.0)
 Imports:
     fields,
-    metafor
+    metafor,
+    ggplot2,
+    gridExtra,
+    data.table
 RoxygenNote: 7.1.1
 Encoding: UTF-8
