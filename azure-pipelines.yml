@@ -245,7 +245,7 @@ jobs:
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
       #sudo R --verbose -e 'devtools::install()'
-      sudo R --verbose -e 'devtools::check()'            
+      sudo R --verbose -e 'devtools::check()'
 
       pwd
       mkdir $(Pipeline.Workspace)/logs
@@ -256,7 +256,7 @@ jobs:
       # junit reporter output is to test_results.xml
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
-      sudo R --verbose -e '
+      sudo R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
             type = c("none"),
