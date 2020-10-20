@@ -133,6 +133,10 @@ jobs:
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-armadillo', ref = 'master', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-datashield', ref = 'master', dependencies = TRUE)"
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
@@ -192,26 +196,28 @@ jobs:
     #####################################################################################
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
+  - task: DockerCompose@0
+    inputs:
+      action: Run Services
+      dockerComposeFile: ../dsBaseClient/docker-compose.yml
+      projectName: dsBaseClient
+      qualifyImageNames: true
+      buildImages: true
+      abortOnContainerExit: true
+      detached: true
+    displayName: 'Install DataSHIELD server (Armadillo, rserver, dsBase, etc)'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
+    # If previous steps have failed then don't run.
   - bash: |
 
-      # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
-      sudo dpkg -i puppet5-release-xenial.deb
-      sudo apt-get install -qq -f
-      sudo apt-get update
-      sudo rm -f puppet5-release-xenial.deb
+      R -q -f "molgenis_armadillo-upload_testing_datasets.R"
 
-      sudo apt-get install puppet-agent -y
-      sudo /opt/puppetlabs/puppet/bin/gem install r10k
-
-      pushd puppet/environments/datashield_azurepipelines
-      sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
-      popd
-
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
-
-    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
+    displayName: 'Install DataSHIELD test datasets'
     condition: succeeded()
 
 
@@ -239,7 +245,7 @@ jobs:
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
       #sudo R --verbose -e 'devtools::install()'
-      sudo R --verbose -e 'devtools::check()'            
+      sudo R --verbose -e 'devtools::check()'
 
       pwd
       mkdir $(Pipeline.Workspace)/logs
@@ -281,15 +287,22 @@ jobs:
 
 
     #####################################################################################
-    # Install dsDanger on server
-    # If previous steps have failed then don't run
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
   - bash: |
 
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      exit $issue_count
 
-    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install dsDanger DataSHIELD package on server'
-    condition: succeeded()
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: succeededOrFailed()
 
 
     #####################################################################################
