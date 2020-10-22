@@ -112,25 +112,65 @@ test_that("check slope formulae - 1", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    expect_length(class(res$betamatrix.all), 2)
-    expect_true("matrix" %in% class(res$betamatrix.all))
-    expect_true("array" %in% class(res$betamatrix.all))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.all), 1)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.all), 2)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+        expect_true("array" %in% class(res$betamatrix.all))
+    }
     expect_length(res$sematrix.all, 9)
-    expect_length(class(res$sematrix.all), 2)
-    expect_true("matrix" %in% class(res$sematrix.all))
-    expect_true("array" %in% class(res$sematrix.all))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.all), 1)
+        expect_true("matrix" %in% class(res$sematrix.all))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.all), 2)
+        expect_true("matrix" %in% class(res$sematrix.all))
+        expect_true("array" %in% class(res$sematrix.all))
+    }
     expect_length(res$betamatrix.valid, 9)
-    expect_length(class(res$betamatrix.valid), 2)
-    expect_true("matrix" %in% class(res$betamatrix.valid))
-    expect_true("array" %in% class(res$betamatrix.valid))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.valid), 1)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.valid), 2)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+        expect_true("array" %in% class(res$betamatrix.valid))
+    }
     expect_length(res$sematrix.valid, 9)
-    expect_length(class(res$sematrix.valid), 2)
-    expect_true("matrix" %in% class(res$sematrix.valid))
-    expect_true("array" %in% class(res$sematrix.valid))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.valid), 1)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.valid), 2)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+        expect_true("array" %in% class(res$sematrix.valid))
+    }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    expect_length(class(res$SLMA.pooled.ests.matrix), 2)
-    expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
-    expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 1)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    else
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 2)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+        expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    }
     expect_length(res$Convergence.error.message, 3)
     expect_equal(class(res$Convergence.error.message), "character")
 })
@@ -144,25 +184,65 @@ test_that("check slope formulae - 2", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    expect_length(class(res$betamatrix.all), 2)
-    expect_true("matrix" %in% class(res$betamatrix.all))
-    expect_true("array" %in% class(res$betamatrix.all))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.all), 1)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.all), 2)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+        expect_true("array" %in% class(res$betamatrix.all))
+    }
     expect_length(res$sematrix.all, 9)
-    expect_length(class(res$sematrix.all), 2)
-    expect_true("matrix" %in% class(res$sematrix.all))
-    expect_true("array" %in% class(res$sematrix.all))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.all), 1)
+        expect_true("matrix" %in% class(res$sematrix.all))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.all), 2)
+        expect_true("matrix" %in% class(res$sematrix.all))
+        expect_true("array" %in% class(res$sematrix.all))
+    }
     expect_length(res$betamatrix.valid, 9)
-    expect_length(class(res$betamatrix.valid), 2)
-    expect_true("matrix" %in% class(res$betamatrix.valid))
-    expect_true("array" %in% class(res$betamatrix.valid))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.valid), 1)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.valid), 2)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+        expect_true("array" %in% class(res$betamatrix.valid))
+    }
     expect_length(res$sematrix.valid, 9)
-    expect_length(class(res$sematrix.valid), 2)
-    expect_true("matrix" %in% class(res$sematrix.valid))
-    expect_true("array" %in% class(res$sematrix.valid))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.valid), 1)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.valid), 2)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+        expect_true("array" %in% class(res$sematrix.valid))
+    }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    expect_length(class(res$SLMA.pooled.ests.matrix), 2)
-    expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
-    expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 1)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    else
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 2)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+        expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    }
     expect_length(res$Convergence.error.message, 3)
     expect_equal(class(res$Convergence.error.message), "character")
 })
