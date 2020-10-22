@@ -24,7 +24,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmPredict::smk::poisson")
+context("ds.glmPredict::smk::poisson::without_newobj")
 test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   
@@ -105,6 +105,7 @@ test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = 1e-7)
 })
 
+context("ds.glmPredict::smk::poisson::with_newobj")
 test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   
@@ -185,6 +186,7 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = 1e-7)
 })
 
+context("ds.glmPredict::smk::poisson::sefit_true")
 test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   

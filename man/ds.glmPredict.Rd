@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmPredict.R
 \name{ds.glmPredict}
 \alias{ds.glmPredict}
-\title{applies predict.glm() to a serverside glm object}
+\title{Applies predict.glm() to a serverside glm object}
 \usage{
 ds.glmPredict(
   glmname = NULL,
@@ -120,7 +120,7 @@ summary statistics for each column in fit and se.fit matrices which each have k 
 if k terms are being summarised.
 }
 \description{
-apply native R's predict.glm() function to a serverside
+Applies native R's predict.glm() function to a serverside
 glm object previously created using ds.glmSLMA.
 }
 \details{

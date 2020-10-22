@@ -16,9 +16,9 @@ ds.scatterPlot(
 )
 }
 \arguments{
-\item{x}{a character string specifying  the name of a numeric vector.}
+\item{x}{a character string specifying the name of the explanatory variable, a numeric vector.}
 
-\item{y}{a character string specifying  the name of a numeric vector.}
+\item{y}{a character string specifying the name of the response variable,  a numeric vector.}
 
 \item{method}{a character string that specifies the 
 method that is used to generated non-disclosive
