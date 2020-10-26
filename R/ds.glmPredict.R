@@ -1,6 +1,6 @@
 #ds.glmPredict
-#' @title applies predict.glm() to a serverside glm object
-#' @description apply native R's predict.glm() function to a serverside
+#' @title Applies predict.glm() to a serverside glm object
+#' @description Applies native R's predict.glm() function to a serverside
 #' glm object previously created using ds.glmSLMA. 
 #' @details Clientside function calling a single assign function (glmPredictDS.as)
 #' and a single aggregate function (glmPredictDS.ag). ds.glmPredict applies

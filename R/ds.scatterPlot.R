@@ -44,8 +44,8 @@
 #' study is generated. 
 #' 
 #' Server function called: \code{scatterPlotDS}
-#' @param x a character string specifying  the name of a numeric vector. 
-#' @param y a character string specifying  the name of a numeric vector.
+#' @param x a character string specifying the name of the explanatory variable, a numeric vector. 
+#' @param y a character string specifying the name of the response variable,  a numeric vector.
 #' @param method a character string that specifies the 
 #' method that is used to generated non-disclosive
 #' coordinates to be displayed in a scatter plot. 

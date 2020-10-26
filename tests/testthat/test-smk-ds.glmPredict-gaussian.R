@@ -23,8 +23,7 @@ test_that("setup", {
 #
 # Tests
 #
-
-context("ds.glmPredict::smk::gaussian")
+context("ds.glmPredict::smk::gaussian::without_newobj")
 test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
@@ -105,6 +104,7 @@ test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = 1e-7)
 })
 
+context("ds.glmPredict::smk::gaussian::with_newobj")
 test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
@@ -185,6 +185,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = 1e-7)
 })
 
+context("ds.glmPredict::smk::gaussian::sefit_true")
 test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
     

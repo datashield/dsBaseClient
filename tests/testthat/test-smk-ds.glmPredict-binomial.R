@@ -24,7 +24,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmPredict::smk::binomial")
+context("ds.glmPredict::smk::binomial::without_newobj")
 test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   
@@ -106,6 +106,7 @@ test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   
 })
 
+context("ds.glmPredict::smk::binomial::with_newobj")
 test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
     
@@ -186,6 +187,7 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 0.029020811, tolerance = 1e-7)
 })
 
+context("ds.glmPredict::smk::binomial::sefit_true")
 test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   
