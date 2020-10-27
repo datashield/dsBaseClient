@@ -104,11 +104,147 @@ test_that("setup", {
 context("ds.lmerSLMA::smk::test phase 2")
 
 test_that("check slope formulae", {
-#    res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
-#    expect_equal(res$Convergence.error.message[2], "Study2: no convergence error reported", fixed=TRUE)
-#    res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (trtGrp||idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
-#    expect_equal(res$Convergence.error.message[2], "Study2: no convergence error reported", fixed=TRUE)
-    
+    res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
+
+    expect_length(res, 8)
+    expect_length(res$output.summary, 5)
+    expect_equal(class(res$output.summary), "list")
+    expect_length(res$num.valid.studies, 1)
+    expect_equal(class(res$num.valid.studies), "numeric")
+    expect_length(res$betamatrix.all, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.all), 1)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.all), 2)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+        expect_true("array" %in% class(res$betamatrix.all))
+    }
+    expect_length(res$sematrix.all, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.all), 1)
+        expect_true("matrix" %in% class(res$sematrix.all))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.all), 2)
+        expect_true("matrix" %in% class(res$sematrix.all))
+        expect_true("array" %in% class(res$sematrix.all))
+    }
+    expect_length(res$betamatrix.valid, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.valid), 1)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.valid), 2)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+        expect_true("array" %in% class(res$betamatrix.valid))
+    }
+    expect_length(res$sematrix.valid, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.valid), 1)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.valid), 2)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+        expect_true("array" %in% class(res$sematrix.valid))
+    }
+    expect_length(res$SLMA.pooled.ests.matrix, 18)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 1)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    else
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 2)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+        expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    expect_length(res$Convergence.error.message, 3)
+    expect_equal(class(res$Convergence.error.message), "character")
+})
+
+test_that("check slope formulae", {
+    res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (trtGrp||idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
+
+    expect_length(res, 8)
+    expect_length(res$output.summary, 5)
+    expect_equal(class(res$output.summary), "list")
+    expect_length(res$num.valid.studies, 1)
+    expect_equal(class(res$num.valid.studies), "numeric")
+    expect_length(res$betamatrix.all, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.all), 1)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.all), 2)
+        expect_true("matrix" %in% class(res$betamatrix.all))
+        expect_true("array" %in% class(res$betamatrix.all))
+    }
+    expect_length(res$sematrix.all, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.all), 1)
+        expect_true("matrix" %in% class(res$sematrix.all))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.all), 2)
+        expect_true("matrix" %in% class(res$sematrix.all))
+        expect_true("array" %in% class(res$sematrix.all))
+    }
+    expect_length(res$betamatrix.valid, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$betamatrix.valid), 1)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$betamatrix.valid), 2)
+        expect_true("matrix" %in% class(res$betamatrix.valid))
+        expect_true("array" %in% class(res$betamatrix.valid))
+    }
+    expect_length(res$sematrix.valid, 9)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$sematrix.valid), 1)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+    }
+    else
+    {
+        expect_length(class(res$sematrix.valid), 2)
+        expect_true("matrix" %in% class(res$sematrix.valid))
+        expect_true("array" %in% class(res$sematrix.valid))
+    }
+    expect_length(res$SLMA.pooled.ests.matrix, 18)
+    if (base::getRversion() < 4.0)
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 1)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    else
+    {
+        expect_length(class(res$SLMA.pooled.ests.matrix), 2)
+        expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
+        expect_true("array" %in% class(res$SLMA.pooled.ests.matrix))
+    }
+    expect_length(res$Convergence.error.message, 3)
+    expect_equal(class(res$Convergence.error.message), "character")
 })
 
 #
@@ -118,9 +254,7 @@ test_that("check slope formulae", {
 context("ds.lmerSLMA::smk::shutdown phase 2")
 
 test_that("shutdown", {
-    #note the offset and weights objects below are artefacts 
-
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "offset", "weights"))
 })
 
 disconnect.studies.dataset.cluster.slo()

@@ -1,6 +1,6 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.0.1
+Version: 6.1.0
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: DataSHIELD client functions for the client side.
@@ -10,6 +10,9 @@ Depends:
     DSI (>= 1.1.0)
 Imports:
     fields,
-    metafor
-RoxygenNote: 7.1.0
+    metafor,
+    ggplot2,
+    gridExtra,
+    data.table
+RoxygenNote: 7.1.1
 Encoding: UTF-8

@@ -14,7 +14,7 @@ source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.mean.R")
 
 
-context("ds.mean()::expt::combine::multiple")
+context("ds.mean::expt::combine::multiple")
 test_that("combined data set",
 {
   connect.all.datasets()
@@ -28,7 +28,7 @@ test_that("combined data set",
   .test.mean.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values[,13]) 
 })
 
-context("ds.mean()::expt::split::multiple")
+context("ds.mean::expt::split::multiple")
 test_that("split data set",
 {
   connect.all.datasets()
@@ -43,7 +43,7 @@ test_that("split data set",
   .test.mean.split('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13],ds.test_env$local.values.2[,13],ds.test_env$local.values.3[,13])
 })
 
-context("ds.mean()::expt::single")
+context("ds.mean::expt::single")
 test_that("combined data set",
 {
   connect.dataset.1()
@@ -57,7 +57,7 @@ test_that("combined data set",
   .test.mean.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13]) 
 })
 
-context("ds.mean()::expt::large_values::single")
+context("ds.mean::expt::large_values::single")
 test_that("combined data set",
 {
   connect.dataset.1()
@@ -71,7 +71,7 @@ test_that("combined data set",
   .test.mean.large('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13]) 
 })
 
-context("ds.mean()::expt::large_values::multiple")
+context("ds.mean::expt::large_values::multiple")
 test_that("combined data set",
 {
   connect.all.datasets()

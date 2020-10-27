@@ -3,7 +3,7 @@ source("definition_tests/def-ds.reshape.R")
 source("definition_tests/def-assign-stats.R")
 
 
-context("ds.reShape()::expt::multiple")
+context("ds.reShape::expt::multiple")
 test_that("copy and transform", 
 {
    init.testing.datasets()

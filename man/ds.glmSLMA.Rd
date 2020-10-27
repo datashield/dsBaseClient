@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmSLMA.R
 \name{ds.glmSLMA}
 \alias{ds.glmSLMA}
-\title{Fits Generalized Linear Model via Study-Level Meta-Analysis}
+\title{Fit a Generalized Linear Model (GLM) with pooling via Study Level Meta-Analysis (SLMA)}
 \usage{
 ds.glmSLMA(
   formula = NULL,
@@ -10,6 +10,7 @@ ds.glmSLMA(
   offset = NULL,
   weights = NULL,
   combine.with.metafor = TRUE,
+  newobj = NULL,
   dataName = NULL,
   checks = FALSE,
   maxit = 30,
@@ -38,8 +39,13 @@ estimates and standard errors for each regression coefficient are pooled across
 studies using random-effects meta-analysis under maximum likelihood (ML),
 restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Default TRUE.}
 
-\item{dataName}{a character string specifying the name of an (optional) data frame that contains
-all of the variables in the GLM formula.}
+\item{newobj}{a character string specifying the name of the object to which the glm object
+representing the model fit on the serverside in each study is to be written.
+If no <newobj> argument is specified, the output
+object defaults to "new.glm.obj".}
+
+\item{dataName}{a character string specifying the name of an (optional) data frame
+that contains all of the variables in the GLM formula.}
 
 \item{checks}{logical. If TRUE \code{ds.glmSLMA} checks the structural integrity 
 of the model. Default FALSE. For more information see \strong{Details}.}
@@ -53,13 +59,21 @@ If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-Many of the elements of the output list returned by \code{ds.glmSLMA} are 
-equivalent to those returned by the \code{glm()} function in native R. However,
-potentially disclosive elements
-such as individual-level residuals and linear predictor values are blocked. 
-In this case, only non-disclosive elements are returned from each study separately.
+The serverside aggregate functions \code{glmSLMADS1} and \code{glmSLMADS2} return
+output to the clientside, while the assign function \code{glmSLMADS.assign} simply writes
+the glm object to the serverside
+created by the model fit on a given server as a permanent object on that same server.
+This is precisely
+the same as the glm object that is usually created by a call to glm() in native R and it
+contains all the same elements (see help for glm in native R). Because it is a serverside
+object, no disclosure blocks apply. However, such disclosure blocks do apply to the information
+passed to the clientside. In consequence, rather than containing all the components of a
+standard glm object in native R, the components of the glm object that are returned by
+\code{ds.glmSLMA} include: a mixture of non-disclosive elements of the glm object
+reported separately by study included in a list object called \code{output.summary}; and
+a series of other list objects that represent inferences aggregated across studies.
 
-The list of elements returned by \code{ds.glmSLMA} is mentioned below:
+the study specific items include:
 
 \code{coefficients}: a matrix with 5 columns:
    \itemize{
@@ -71,7 +85,7 @@ The list of elements returned by \code{ds.glmSLMA} is mentioned below:
 }
 
 \code{family}: indicates the error distribution and link function used
-in  GLM.
+in the GLM.
 
 \code{formula}: model formula, see description of formula as an input parameter (above).
 
@@ -87,9 +101,9 @@ in  GLM.
 
 \code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
 
-\code{weights}: the vector (if any) holding regression weights.
+\code{weights}: the name of the vector (if any) holding regression weights.
 
-\code{offset}: the vector (if any) holding an offset (enters glm with a
+\code{offset}: the name of the vector (if any) holding an offset (enters glm with a
 coefficient of 1.00).
 
 \code{cov.scaled}: equivalent to \code{VarCovMatrix}.
@@ -111,59 +125,112 @@ a gaussian family multiple regression model, 1.00 for logistic and poisson regre
 
 \code{call}:  summary of key elements of the call to fit the model.
 
-\code{na.action}:  chosen method of dealing with missing values.
- Usually, \code{na.action = na.omit}
-indicating any individual (or more strictly any "observational unit")
-that has any data missing that are needed for the model is
-excluded from the fit, even if all the rest of the required data are present.
-These required data include: the outcome variable, covariates,
-or any values in a regression weight vector or offset vector. As a
-side effect of this, when you include additional covariates in the model
-you may exclude extra individuals from the analysis
-and this can seriously distort inferential tests based on assuming models are
-nested (eg likelihood ratio tests).
+\code{na.action}:  chosen method of dealing with missing values. This is 
+usually, \code{na.action = na.omit} - see help in native R.
 
 \code{iter}: the number of iterations required to achieve convergence
-file for the \code{glm()} function in native R.
+of the glm model in each separate study.
 
-Once the study-specific output has been returned, the function returns the
-number of elements relating to the pooling of estimates across studies via
-study-level meta-analysis. These are as follows:
+Once the study-specific output has been returned, \code{ds.glmSLMA}
+returns a series of lists relating to the aggregated inferences across studies.
+These include the following:
 
-\code{input.beta.matrix.for.SLMA}: a matrix containing the vector of coefficient
-estimates from each study.
+\code{num.valid.studies}: the number of studies with valid output
+included in the combined analysis
 
-\code{input.se.matrix.for.SLMA}: a matrix containing the vector of standard error
-estimates for coefficients from each study.
+\code{betamatrix.all}: matrix with a row for each regression coefficient
+and a column for each study reporting the estimated regression coefficients
+by study.
 
-\code{SLMA.pooled.estimates}: a matrix containing pooled estimates for each
-regression coefficient across all studies with pooling under SLMA via
-random-effects meta-analysis under maximum likelihood (ML), restricted maximum
-likelihood (REML) or via fixed-effects meta-analysis (FE).
+\code{sematrix.all}: matrix with a row for each regression coefficient
+and a column for each study reporting the standard errors of the estimated
+regression coefficients by study.
 
-\code{convergence.error.message}:  reports for each study whether the model converged.
-If it did not some information about the reason for this is reported.
+\code{betamatrix.valid}: matrix with a row for each regression coefficient
+and a column for each study reporting the estimated regression coefficients
+by study but only for studies with valid output (eg not violating disclosure traps)
+
+\code{sematrix.all}: matrix with a row for each regression coefficient
+and a column for each study reporting the standard errors of the estimated
+regression coefficients by study but only for studies with valid output
+(eg not violating disclosure traps)
+
+\code{SLMA.pooled.estimates.matrix}: a matrix with a row for each
+regression coefficient and six columns. The first two columns contain the
+pooled estimate of each regression coefficients and its standard error with
+pooling via random effect meta-analysis under maximum likelihood (ML). Columns
+3 and 4 contain the estimates and standard errors from random effect meta-analysis
+under REML and columns 5 and 6 the estimates and standard errors under fixed
+effect meta-analysis. This matrix is only returned if the
+argument combine.with.metafor is set to TRUE. Otherwise, users can take
+the \code{betamatrix.valid} and \code{sematrix.valid} matrices and enter
+them into their meta-analysis package of choice.
+
+\code{is.object.created} and \code{validity.check} are standard
+items returned by an assign function when the designated newobj appears to have
+been successfuly created on the serverside at each study. This output is
+produced specifically by the assign function \code{glmSLMADS.assign} that writes
+out the glm object on the serverside
 }
 \description{
 Fits a generalized linear model (GLM) on data from single or multiple sources
-with pooled co-analysis across studies being based on SLMA (Study-Level Meta-Analysis).
+with pooled co-analysis across studies being based on SLMA (Study Level Meta Analysis).
 }
 \details{
 \code{ds.glmSLMA} specifies the structure of a Generalized Linear Model 
-to be fitted separately on each study or data source. 
+to be fitted separately on each study or data source. Calls serverside functions
+glmSLMADS1 (aggregate),glmSLMADS2 (aggregate) and glmSLMADS.assign (assign). 
 From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
-differs fundamentally from the usual approach using \code{ds.glm}
-in that the latter is mathematically equivalent
+differs fundamentally from the alternative approach using \code{ds.glm}.
+ds.glm fits the model iteratively across all studies together. At each
+iteration the model in every data source has precisely the same coefficients
+so when the model converges one essentially identifies the model that
+best fits all studies simultaneously. This mathematically equivalent
 to placing all individual-level data from all sources in
 one central warehouse and analysing those data as one combined dataset using the
-conventional \code{glm()} function in R. 
+conventional \code{glm()} function in native R. In contrast ds.glmSLMA sends
+a command to every data source to fit the model required but each separate source
+simply fits that model to completion (ie undertakes all iterations until
+the model converges) and the estimates (regression coefficients) and their standard
+errors from each source are sent back to the client and are then pooled using SLMA
+via any approach the user wishes to implement. The ds.glmSLMA functions includes
+an argument <combine.with.metafor> which if TRUE (the default) pools the models
+across studies using the metafor function (from the metafor package) using three
+optimisation methods: random effects under maximum likelihood (ML); random effects
+under restricted maximum likelihood (REML); or fixed effects (FE). But once
+the estimates and standard errors are on the clientside, the user
+can alternatively choose to use the metafor package in any way he/she wishes,
+to pool the coefficients across studies or, indeed, to use another
+meta-analysis package, or their own code.
 
-However, although this
-may sound to be preferable under all circumstances, the SLMA approach
-offers key inferential advantages when there is marked heterogeneity
-between sources that cannot simply be corrected with fixed-effects each reflecting a study
-or centre-effect. In particular, fixed effects cannot simply be used in this way when 
-there is heterogeneity in the effect that is of scientific interest.
+Although the ds.glm approach might at first sight appear to be preferable
+under all circumstances, this is not always the case.
+First, the results from both approaches are generally very
+similar. Secondly, the SLMA approach can offer key inferential advantages
+when there is marked heterogeneity between sources that cannot simply be corrected
+by including fixed-effects in one's ds.glm model that each reflect
+a study- or centre-specific effect. In particular, such fixed effects cannot
+be guaranteed to generate formal inferences that
+are unbiased when there is heterogeneity
+in the effect that is actually of scientific interest. It might be argued that
+one should not try to pool the inferences anyway if there is marked heterogeneity,
+but you can use the joint analysis to formally check for such heterogeneity and then
+choose to report the pooled result or separate results from each study individually.
+Crucially, unless the heterogeneity is substantial, pooling can be quite reasonable.
+Furthermore, if you just fit a ds.glm model without centre-effects you will
+in effect be pooling across all studies without checking for heterogeneity and
+if heterogeneity exists and if it is strong you can get theoretically results
+that are badly confounded by study. Before we introduced ds.glmSLMA we
+encountered a real world example of a ds.glm (without centre effects)
+which generated combined inferences over all studies which were more extreme than
+the results from any of the individual studies: the lower 95% confidence limit
+of the combined estimate was higher than the upper 95% confidence limits in
+ALL of the individual studies. This was clearly incorrect and provided a
+salutary lesson on the potential impact of confounding by study if a ds.glm
+model does not include appropriate centre-effects. Even if you are going
+to undertake a ds.glm analysis (which is slightly more powerful when there
+is no heterogeneity) it may still be useful to also carry out a ds.glmSLMA
+analysis as this provides a very easy way to examine the extent of heterogeneity.
 
 In \code{formula} Most shortcut notation for formulas allowed under R's standard \code{glm()}
 function is also allowed by \code{ds.glmSLMA}. 
@@ -195,29 +262,50 @@ means fit all possible main effects and interactions for and between those two c
  This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
  the survival time is added as an offset (\code{log(survtime)}).
 
-In the \code{family} argument can be specified three types of models to fit:
+In the \code{family} argument a range of model types can be fitted. This range has recently
+been extended to include a number of model types that are non-standard but are used
+relatively widely.
 
+The standard models include:
  \itemize{
    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
-   \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
-    The model used Piecewise Exponential Regression (PER) which typically closely approximates
-    Cox regression in its main estimates and standard errors.}
-}
+   \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
+    analysis of counts and rates and is also used in survival analysis. The
+    Piecewise Exponential Regression (PER) model typically provides a close approximation
+    to the Cox regression model in its main estimates and standard errors.}
+   \item{\code{"gamma"}}{: a family of models for outcomes characterised by a constant
+    coefficient of variation, i.e. the variance increases with the square of the expected mean}
 
+The extended range includes:
+   \item{\code{"quasipoisson"}}{: a model with a Poisson variance function - variance
+    equals expected mean - but the residual variance which is fixed to be 1.00 in
+    a standard Poisson model can then take any value. This is achieved by a dispersion parameter
+    which is estimated during the model fit and if it takes the value K it means
+   that the expected variance is K x the expected mean, which implies that all
+    standard errors will be sqrt(K) times larger than in a standard Poisson model
+    fitted to the same data. This allows for the extra uncertainty which is associated 
+    with 'overdispersion' that occurs very commonly with Poisson distributed data,
+    and typically arises when the count/rate data being modelled occur in blocks
+   which exhibit heterogeneity of underlying risk which is not being fully
+    modelled, either by including the blocks themselves as a factor or by including
+    covariates for all the determinants that are relevant to that underlying risk. If
+    there is no overdispersion (K=1) the estimates and standard errors from the
+    quasipoisson model will be almost identical to those from a standard poisson model.}
 
-At present the gaussian family is automatically coupled with
-an \code{identity} link function, the binomial family with a
-\code{logistic} link function and the poisson family with a \code{log} link function. 
+   \item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
+    is the expected proportion of successes, and N is the number of "trials" (always
+    1 if analysing binary data which are formally described as having a Bernoulli
+    distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
+    But the residual variance which is fixed to be 1.00 in
+    a binomial model can take any value. This is achieved by a dispersion parameter
+    which is estimated during the model fit (see quasipoisson information above).}}
+Each class of models has a "canonical link" which represents the link function that
+maximises the information extraction by the model. The gaussian family uses the
+\code{identity} link, the poisson family the \code{log} link, the binomial/Bernoulli family the
+\code{logit} link and the the gamma family the \code{reciprocal} link.
 
-However, if a particular user
-wishes us to implement an alternative family
-(e.g. \code{gamma}) or an alternative family/link combination (e.g. binomial with
-probit) we can discuss how best to meet that request: it will almost certainly be possible,
-but we may seek a small amount of funding or practical in-kind support from
-the user to ensure that it can be carried out promptly.
-
- The \code{dataName} argument avoids you having to specify the name of the
+The \code{dataName} argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula. 
 For example, if the data frame is called \code{DataFrame} you
 avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
@@ -225,7 +313,7 @@ avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+Data
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-site at every study
 and that they have the correct characteristics required to fit the model. 
-It is suggested to make \code{checks} argument TRUE if an unexplained
+It is suggested to make \code{checks} argument TRUE only if an unexplained
  problem in the model fit is encountered because the running process takes several minutes.
  
 In \code{maxit} Logistic regression and Poisson regression
@@ -234,10 +322,10 @@ regression constant is far away from its actual value that the GLM
 is trying to estimate. In consequence we often set \code{maxit=30}
 but depending on the nature of the models you wish to fit, you may wish
 to be alerted much more quickly than this if there is a delay in convergence, 
-or you may wish to all more iterations.
+or you may wish to allow more iterations.
 
 
-Server functions called: \code{glmSLMADS1} and \code{glmSLMADS2}
+Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.assign}
 }
 \examples{
 \dontrun{
@@ -347,5 +435,5 @@ datashield.logout(connections)
 
 }
 \author{
-DataSHIELD Development Team
+Paul Burton, for DataSHIELD Development Team 07/07/20
 }

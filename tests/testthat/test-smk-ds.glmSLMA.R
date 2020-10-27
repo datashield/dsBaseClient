@@ -28,7 +28,7 @@ context("ds.glmSLMA::smk::gaussian")
 test_that("simple glmSLMA, gaussian", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -71,6 +71,10 @@ test_that("simple glmSLMA, gaussian", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
+    expect_length(glmSLMA.res$is.object.created, 1)
+    expect_equal(glmSLMA.res$is.object.created, "A data object <new.glm.obj> has been created in all specified data sources")
+    expect_length(glmSLMA.res$validity.check, 1)
+    expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
 })
 
 context("ds.glmSLMA::smk::binomial")
@@ -130,7 +134,7 @@ context("ds.glmSLMA::smk::poisson")
 test_that("simple glmSLMA, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -173,6 +177,10 @@ test_that("simple glmSLMA, poisson", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
+    expect_length(glmSLMA.res$is.object.created, 1)
+    expect_equal(glmSLMA.res$is.object.created, "A data object <new.glm.obj> has been created in all specified data sources")
+    expect_length(glmSLMA.res$validity.check, 1)
+    expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
 })
 
 #
@@ -182,7 +190,7 @@ test_that("simple glmSLMA, poisson", {
 context("ds.glmSLMA::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "str.dis.ami", "num.dis.ami", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
+    ds_expect_variables(c("D", "new.glm.obj", "num.dis.ami", "num.dis.diab", "num.gender", "str.dis.ami", "str.dis.diab", "str.gender"))
 })
 
 disconnect.studies.dataset.cnsim()

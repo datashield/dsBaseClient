@@ -4,6 +4,7 @@
 ^LICENSE.md$
 ^azure-pipelines\.yml$
 ^azure-pipelines_site\.pp$
+^azure-pipelines_site-dsdanger\.pp$
 ^azure-pipelines_check\.Rout$
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$

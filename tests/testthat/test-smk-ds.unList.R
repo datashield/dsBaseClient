@@ -30,13 +30,9 @@ test_that("simple test", {
 
     res <- ds.unList("GENDER.list")
 
-    expect_length(res, 3)
+    expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <unlist.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<unlist.newobj> invalid in at least one source. See studyside.messages:")
-    expect_length(res$studyside.messages, 3)
-    expect_equal(res$studyside.messages$sim1, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
-    expect_equal(res$studyside.messages$sim2, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
-    expect_equal(res$studyside.messages$sim3, "Outcome object is a list without names. So a studysideMessage may be hidden. Please check output is OK")
+    expect_equal(res$validity.check, "<unlist.newobj> appears valid in all sources")
 })
 
 #
