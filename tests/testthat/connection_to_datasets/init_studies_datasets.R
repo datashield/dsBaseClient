@@ -5,9 +5,9 @@ init.studies.dataset.cnsim <- function(variables)
       if (ds.test_env$driver == "OpalDriver")
       {
         builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CNSIM.CNSIM1")
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CNSIM.CNSIM2")
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CNSIM.CNSIM3")
+        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CNSIM.CNSIM1", options=ds.test_env$options_1)
+        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CNSIM.CNSIM2", options=ds.test_env$options_2)
+        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CNSIM.CNSIM3", options=ds.test_env$options_3)
         ds.test_env$login.data <- builder$build()
       }
       else 
@@ -25,9 +25,9 @@ init.studies.dataset.dasim <- function(variables)
       if (ds.test_env$driver == "OpalDriver")
       {
         builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DASIM.DASIM1")
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DASIM.DASIM2")
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DASIM.DASIM3")
+        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DASIM.DASIM1", options=ds.test_env$options_1)
+        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DASIM.DASIM2", options=ds.test_env$options_2)
+        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DASIM.DASIM3", options=ds.test_env$options_3)
         ds.test_env$login.data <- builder$build()
       }
       else 
@@ -45,9 +45,9 @@ init.studies.dataset.survival <- function(variables)
       if (ds.test_env$driver == "OpalDriver")
       {
         builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "SURVIVAL.EXPAND_WITH_MISSING1")
-        builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "SURVIVAL.EXPAND_WITH_MISSING2")
-        builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "SURVIVAL.EXPAND_WITH_MISSING3")
+        builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "SURVIVAL.EXPAND_WITH_MISSING1", options=ds.test_env$options_1)
+        builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "SURVIVAL.EXPAND_WITH_MISSING2", options=ds.test_env$options_2)
+        builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "SURVIVAL.EXPAND_WITH_MISSING3", options=ds.test_env$options_3)
         ds.test_env$login.data <- builder$build()
       }
       else 
@@ -70,9 +70,9 @@ init.studies.dataset.cluster.int <- function(variables)
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "cluster.int1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_INT1")
-      builder$append(server = "cluster.int2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_INT2")
-      builder$append(server = "cluster.int3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_INT3")
+      builder$append(server = "cluster.int1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_INT1", options=ds.test_env$options_1)
+      builder$append(server = "cluster.int2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_INT2", options=ds.test_env$options_2)
+      builder$append(server = "cluster.int3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_INT3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else 
@@ -96,9 +96,9 @@ init.studies.dataset.cluster.slo <- function(variables)
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_SLO1")
-      builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_SLO2")
-      builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_SLO3")
+      builder$append(server = "cluster.slo1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CLUSTER.CLUSTER_SLO1", options=ds.test_env$options_1)
+      builder$append(server = "cluster.slo2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CLUSTER.CLUSTER_SLO2", options=ds.test_env$options_2)
+      builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CLUSTER.CLUSTER_SLO3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else 
@@ -123,9 +123,9 @@ init.studies.dataset.anthro <- function(variables)
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "ANTHRO.anthro1")
-      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "ANTHRO.anthro2")
-      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "ANTHRO.anthro3")
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "ANTHRO.anthro1", options=ds.test_env$options_1)
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "ANTHRO.anthro2", options=ds.test_env$options_2)
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "ANTHRO.anthro3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else 
