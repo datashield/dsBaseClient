@@ -48,7 +48,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: refs/tags/6.1
+    ref: v6.2-dev
 
 
 #########################################################################################
@@ -279,7 +279,7 @@ jobs:
       # display the test console output
       cat test_console_output_dsbase.txt
 
-      grep --quiet "Failed:   0" test_console_output_dsbase.txt
+      grep --quiet " FAIL 0 " test_console_output_dsbase.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase'
@@ -311,7 +311,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.1', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'
@@ -389,7 +389,7 @@ jobs:
       mv coveragelist.csv $(Pipeline.Workspace)/logs
       mv test_results.xml $(Pipeline.Workspace)/logs
 
-      grep --quiet "Failed:   0" test_console_output_dsdanger.txt
+      grep --quiet " FAIL 0 " test_console_output_dsdanger.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'

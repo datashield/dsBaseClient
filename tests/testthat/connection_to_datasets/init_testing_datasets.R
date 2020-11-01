@@ -18,9 +18,9 @@ init.testing.datasets <- function()
     if (ds.test_env$driver == "OpalDriver") 
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "TESTING.DATASET1")
-      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "TESTING.DATASET2")
-      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3")
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "TESTING.DATASET1", options=ds.test_env$options_1)
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "TESTING.DATASET2", options=ds.test_env$options_2)
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -52,7 +52,7 @@ init.dataset.3 <- function()
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3")
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -83,7 +83,7 @@ init.dataset.2 <- function()
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "TESTING.DATASET2")
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "TESTING.DATASET2", options=ds.test_env$options_2)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -114,7 +114,7 @@ init.dataset.1 <- function()
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "TESTING.DATASET1")
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "TESTING.DATASET1", options=ds.test_env$options_1)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -150,9 +150,9 @@ init.testing.dataset.factor_levels <- function()
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS1")
-      builder$append(server = "GROUP2", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS2")
-      builder$append(server = "GROUP3", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS3")
+      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS1", options=ds.test_env$options_1)
+      builder$append(server = "GROUP2", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS2", options=ds.test_env$options_2)
+      builder$append(server = "GROUP3", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -183,7 +183,7 @@ init.testing.dataset.factor_levels.1 <- function()
     if (ds.test_env$driver == "OpalDriver")
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS1")
+      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS1", options=ds.test_env$options_1)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")

@@ -1,6 +1,6 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.1.0
+Version: 6.2.0-1
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: DataSHIELD client functions for the client side.
