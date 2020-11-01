@@ -12,7 +12,7 @@ init.ip.address()
 
   # switch tetween "DSLiteDriver" and "OpalDriver" to test
   # ds.test_env$driver <- "DSLiteDriver"
-  d# s.test_env$driver <- "OpalDriver"
+  # ds.test_env$driver <- "OpalDriver"
   ds.test_env$driver <- "ArmadilloDriver"
 
   ds.test_env$server_ip_address <- init.ip.address()
