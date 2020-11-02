@@ -119,19 +119,54 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
     stop("Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", call.=FALSE)
   }
 
-  # check if user has provided the name of the column or scalar that holds V1
-  if(is.null(V1.name)){
-    stop("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
+  # check if user has provided the name of the column or scalar that holds V1. If not
+  # have they instead provided a non.null keep.cols or non.null rm.cols argument
+  # in either of the latter cases then one needs to select all rows so
+  # specify V1.name = "ONES" and this will specify a vector of 1s on the serverside
+  # of length equal to dim[1] of the data.frame	
+ 
+  if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V1.name))
+  {	
+    return("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
+  }
+ 
+  if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V1.name))
+  {	
+     V1.name<-"ONES"
+  }
+ 
+  # check if user has provided the name of the column or scalar that holds V2. If not
+  # have they instead provided a non.null keep.cols or non.null rm.cols argument
+  # in either of the latter cases then one needs to select all rows so
+  # specify V2.name = "ONES" and this will specify a vector of 1s on the serverside
+  # of length equal to dim[1] of the data.frame	
+ 
+  if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V2.name))
+  {	
+    return("Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", call.=FALSE)
+  }
+ 
+  if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V2.name))
+  {	
+    V2.name<-"ONES"
   }
 
-    # check if user has provided the name of the column or scalar that holds V2
-  if(is.null(V2.name)){
-    stop("Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", call.=FALSE)
+  if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(Boolean.operator))
+  {
+    message1<-"Unless you are only subsetting columns, please provide a" 
+    message2<-"Boolean operator in character format: eg '==' or '>=' or '<' or '!='."
+    message3<-"However, if either keep.cols or rm.cols is non-null because you want"
+    message4<-"to subset columns and you specify both V1.name and V2.name as NULL (or 'ONES')"
+    message5<-"and Boolean.operator as NULL,ds.dataFrameSubset will subset out" 
+    message6<-"the specified columns but will keep all rows."
+ 
+    error.message<-paste(message1,message2,message3,message4,message5,message6)
+    return(error.message)
   }
-
-  # check if user has provided a Boolean operator in character format: eg '==' or '>=' or '<' or '!='
-  if(is.null(Boolean.operator)){
-    stop("Please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='", call.=FALSE)
+ 
+  if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(Boolean.operator))
+  {	
+    Boolean.operator<-"=="
   }
 
   #if keep.NAs is set as NULL convert to FALSE as otherwise the call to datashield.assign will fail

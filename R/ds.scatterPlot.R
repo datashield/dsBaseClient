@@ -44,8 +44,8 @@
 #' study is generated. 
 #' 
 #' Server function called: \code{scatterPlotDS}
-#' @param x a character string specifying  the name of a numeric vector. 
-#' @param y a character string specifying  the name of a numeric vector.
+#' @param x a character string specifying the name of the explanatory variable, a numeric vector. 
+#' @param y a character string specifying the name of the response variable,  a numeric vector.
 #' @param method a character string that specifies the 
 #' method that is used to generated non-disclosive
 #' coordinates to be displayed in a scatter plot. 
@@ -62,6 +62,8 @@
 #' This can be set as \code{'combine'} or \code{'split'}. 
 #' Default \code{'split'}. 
 #' For more information see \strong{Details}.
+#' @param return.coords a logical. If TRUE the coordinates of the anonymised data points are return 
+#' to the Console. Default value is FALSE.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -110,7 +112,8 @@
 #'                  datasources = connections)
 #'
 #'   #Example 2: generate a combined scatter plot with the probabilistic method
-#'   #and noise = 0.5
+#'   #and noise of variance 0.5% of the variable's variance, and display the coordinates
+#'   # of the anonymised data points to the Console
 #'   
 #'   ds.scatterPlot(x = "D$PM_BMI_CONTINUOUS",
 #'                  y = "D$LAB_GLUC_ADJUSTED",
@@ -124,17 +127,17 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", datasources=NULL){
+ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
 
-  # look for DS connections
   if(is.null(x)){
-    stop("Please provide the x-variable", call.=FALSE)
+    stop("Please provide the name of the x-variable", call.=FALSE)
   }
 
   if(is.null(y)){
-    stop("Please provide the y-variable", call.=FALSE)
+    stop("Please provide the name of the y-variable", call.=FALSE)
   }
 
+  # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
@@ -199,6 +202,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
   }
   pooled.points.x <- unlist(pooled.points.x)
   pooled.points.y <- unlist(pooled.points.y)
+  pooled.coordinates <- cbind(x=pooled.points.x, y=pooled.points.y)
 
   # plot and return the scatter plot depending on the argument "type"
   if(type=="combine"){
@@ -207,7 +211,11 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
     graphics::par(mfrow=c(numr,numc))
     graphics::plot(pooled.points.x, pooled.points.y, xlab=x.lab, ylab=y.lab, main=paste0("Combined scatter plot"))
     return.message <- "Combined plot created"
-    return(return.message)
+    if(isTRUE(return.coords)){
+      return(list(pooled.coordinates=pooled.coordinates, message=return.message))
+    }else{
+      return(message=return.message)
+    }  
   }else{
     if(type=="split"){
       # set the graph area and plot
@@ -216,15 +224,22 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
           numc <- 2
           graphics::par(mfrow=c(numr,numc))
           scatter <- list()
-        }
+      }
+        split.coordinates <- list()
         for(i in 1:num.sources){
           title <- paste0("Scatter plot of ", stdnames[i])
           x <- output[[i]][[1]]
           y <- output[[i]][[2]]
           graphics::plot(x, y, xlab=x.lab, ylab=y.lab, main=title)
+          split.coordinates[[i]] <- cbind(x=output[[i]][[1]], y=output[[i]][[2]])
         }
+        names(split.coordinates) <- stdnames
         return.message <- "Split plot created"
-        return(return.message)
+        if(isTRUE(return.coords)){
+          return(list(split.coordinates, message=return.message))
+        }else{
+          return(message=return.message)
+        }  
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
     }

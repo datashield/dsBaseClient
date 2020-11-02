@@ -11,13 +11,14 @@
 # Datashield test suite set up
 #
 
-context("setup")
+context("setup - start")
 
 library(lme4)
+library(e1071)
+library(DescTools)
 
 library(DSOpal)
 library(DSLite)
-library(dsBaseClient)
 
 source("dstest_functions/ds_expect_variables.R")
 source("connection_to_datasets/login_details.R")

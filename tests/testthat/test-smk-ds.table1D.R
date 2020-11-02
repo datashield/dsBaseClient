@@ -35,13 +35,23 @@ test_that("GENDER_normal", {
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail")
 res <- ds.table1D(x='D$DIS_CVA')
 test_that("DIS_CVA_invalid", {
-#    expect_equal(res$validity, "Invalid tables from 'sim2'!")
+    expect_length(res, 3)
+    expect_equal(class(res), "list")
+    expect_length(res$counts, 3)
+    expect_length(res$percentages, 3)
+    expect_length(res$validity, 1)
+    expect_equal(res$validity, "All tables are valid!")
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail split")
 res <- ds.table1D(x='D$DIS_CVA', type="split")
 test_that("DIS_CVA_invalid_split", {
-#    expect_equal(res$validity, "Invalid table(s) from 'sim2'!")
+    expect_length(res, 3)
+    expect_equal(class(res), "list")
+    expect_length(res$counts, 3)
+    expect_length(res$percentages, 3)
+    expect_length(res$validity, 1)
+    expect_equal(res$validity, "All tables are valid!")
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables")
