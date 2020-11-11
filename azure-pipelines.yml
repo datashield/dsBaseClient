@@ -424,7 +424,12 @@ jobs:
 
       cat test_console_output_bug.txt
 
-      mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      if [ -e test_results_bug.xml ]; then
+          mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      else
+          touch $(Pipeline.Workspace)/logs/test_results_bug.xml
+      fi
+
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Bug report output'
