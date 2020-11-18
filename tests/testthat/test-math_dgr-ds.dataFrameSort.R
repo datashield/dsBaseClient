@@ -68,4 +68,3 @@ test_that('server set %in% local set',
             .closure.test("D","FACTOR_CHARACTER",TRUE,"numeric","server.data",local.df.list)
             
           })
-  
