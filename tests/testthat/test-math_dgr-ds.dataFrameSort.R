@@ -26,10 +26,45 @@ test_that('server set %in% local set',
           {  
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1[,-1],ds.test_env$local.values.2[,-1],ds.test_env$local.values.3[,-1])
-            for(i in 1:length(local.df.list)){
-              local.df.list[[i]][,"CHARACTER"]<-as.character(local.df.list[[i]][,"CHARACTER"])
-              local.df.list[[i]][,"FACTOR_INTEGER"]<-as.factor(local.df.list[[i]][,"FACTOR_INTEGER"])
-              colnames(local.df.list[[i]])<-ds.colnames("D",datasources = ds.test_env$connections[i][[1]])
-            }
+            
             .closure.test("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
+            .closure.test("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","POSITIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","CATEGORY",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","IDENTIFIER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","FACTOR_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","FACTOR_CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            
+          })
+
+context("ds.dataFrameSort::math_dgr::closure::simple")
+test_that('server set %in% local set',
+          {  
+            connect.dataset.1()
+            local.df.list<-list(ds.test_env$local.values.1[,-1])
+            
+            .closure.test("D","LOGICAL",FALSE,"numeric","server.data",local.df.list)
+            .closure.test("D","LOGICAL",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","POSITIVE_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","CATEGORY",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","IDENTIFIER",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data",local.df.list)
+            .closure.test("D","FACTOR_INTEGER",TRUE,"alphabetic","server.data",local.df.list)
+            .closure.test("D","FACTOR_CHARACTER",TRUE,"numeric","server.data",local.df.list)
+            
           })

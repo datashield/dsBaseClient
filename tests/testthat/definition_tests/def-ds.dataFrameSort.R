@@ -160,8 +160,8 @@
                    newobj =df.created,
                    datasources = ds.test_env$connection)
   
-  server.data<-ds.DANGERdfEXTRACT(df.created,
-                                  datasources = ds.test_env$connections)
+  server.data<-dsDangerClient::ds.DANGERdfEXTRACT(df.created,
+                                                  datasources = ds.test_env$connections)
   server.data<-server.data$study.specific.df
   
   # Final set (server set)

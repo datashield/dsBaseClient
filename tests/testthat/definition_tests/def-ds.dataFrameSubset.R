@@ -290,8 +290,8 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
                        keep.NAs = keep.NAs,
                        newobj = df.created,
                        datasources = ds.test_env$connections)
-    server.data<-ds.DANGERdfEXTRACT(df.created,
-                                    datasources = ds.test_env$connections)
+    server.data<-dsDangerClient::ds.DANGERdfEXTRACT(df.created,
+                                                    datasources = ds.test_env$connections)
     server.data<-server.data$study.specific.df
     
     # Final set (server set)
