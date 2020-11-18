@@ -411,6 +411,7 @@ jobs:
   - bash: |
 
       # junit reporter output is to test_results_bug.xml
+      touch test_results_bug.xml
       sudo R -q -e '
           library(testthat);
           output_file <- file("test_console_output_bug.txt");
