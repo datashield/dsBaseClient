@@ -13,7 +13,6 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
-#' @export
 
 ds.boxPlotGG_table <- function(x, variables, group = NULL, group2 = NULL, xlabel = "x axis", 
                                ylabel = "y axis", type = "pooled", datasources = NULL){

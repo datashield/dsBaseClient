@@ -33,7 +33,7 @@ test_that("Check DISCORDANT dataset", {
     expect_true("data.frame" %in% res.class$discordant1)
     expect_gte(length(res.class$discordant2), 1)
     expect_true("data.frame" %in% res.class$discordant2)
-    expect_gte(length(res.class$discordant1), 3)
+    expect_gte(length(res.class$discordant3), 1)
     expect_true("data.frame" %in% res.class$discordant3)
 
     res.length <- ds.length(x='D')
