@@ -55,11 +55,17 @@ resources:
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
-  - cron: "32 1 * * *"
-    displayName: Nightly build
+  - cron: "0 0 * * 0"
+    displayName: Weekly build - master
     branches:
      include:
       - master
+    always: true
+  - cron: "0 2 * * 0"
+    displayName: Nightly build - v6.2-dev
+    branches:
+     include:
+      - v6.2-dev
     always: true
 
 jobs:
