@@ -58,13 +58,13 @@ schedules:
   - cron: "0 0 * * 0"
     displayName: Weekly build - master
     branches:
-     include:
+      include:
       - master
     always: true
-  - cron: "0 2 * * 0"
+  - cron: "0 2 * * *"
     displayName: Nightly build - v6.2-dev
     branches:
-     include:
+      include:
       - v6.2-dev
     always: true
 
