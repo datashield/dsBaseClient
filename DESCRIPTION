@@ -13,6 +13,7 @@ Imports:
     metafor,
     ggplot2,
     gridExtra,
-    data.table
+    data.table,
+    panelaggregation
 RoxygenNote: 7.1.1
 Encoding: UTF-8
