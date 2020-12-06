@@ -288,6 +288,25 @@ jobs:
 
 
     #####################################################################################
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      exit $issue_count
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
