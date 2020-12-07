@@ -69,7 +69,7 @@ context("ds.var::math::square_root_std::multiple")
 test_that("variance is to the power of 2 of the standard deviation",
  {
    connect.all.datasets()
-   .test.standard.dev.combine('D$INTEGER',ds.test_env$local.values[,'NON_NEGATIVE_INTEGER'])
+   .test.standard.dev.combine('D$INTEGER',ds.test_env$local.values[,'INTEGER'])
    .test.standard.dev.combine('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values[,'NON_NEGATIVE_INTEGER'])
    .test.standard.dev.combine('D$POSITIVE_INTEGER',ds.test_env$local.values[,'POSITIVE_INTEGER'])
    .test.standard.dev.combine('D$NEGATIVE_INTEGER',ds.test_env$local.values[,'NEGATIVE_INTEGER'])
@@ -78,7 +78,7 @@ test_that("variance is to the power of 2 of the standard deviation",
    .test.standard.dev.combine('D$POSITIVE_NUMERIC',ds.test_env$local.values[,'POSITIVE_NUMERIC'])
    .test.standard.dev.combine('D$NEGATIVE_NUMERIC',ds.test_env$local.values[,'NEGATIVE_NUMERIC'])
    
-   .test.standard.dev.split('D$INTEGER',ds.test_env$local.values.1[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.2[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.3[,'NON_NEGATIVE_INTEGER'])
+   .test.standard.dev.split('D$INTEGER',ds.test_env$local.values.1[,'INTEGER'],ds.test_env$local.values.2[,'INTEGER'],ds.test_env$local.values.3[,'INTEGER'])
    .test.standard.dev.split('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.2[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.3[,'NON_NEGATIVE_INTEGER'])
    .test.standard.dev.split('D$POSITIVE_INTEGER',ds.test_env$local.values.1[,'POSITIVE_INTEGER'],ds.test_env$local.values.2[,'POSITIVE_INTEGER'],ds.test_env$local.values.3[,'POSITIVE_INTEGER'])
    .test.standard.dev.split('D$NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NEGATIVE_INTEGER'],ds.test_env$local.values.2[,'NEGATIVE_INTEGER'],ds.test_env$local.values.3[,'NEGATIVE_INTEGER'])
