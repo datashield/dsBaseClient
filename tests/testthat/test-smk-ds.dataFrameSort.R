@@ -41,13 +41,10 @@ test_that("dataFrameSort_exists", {
     expect_equal(res$studyside.messages$sim2, "ALL OK: there are no studysideMessage(s) on this datasource")
     expect_length(res$studyside.messages$sim3, 1)
     expect_equal(res$studyside.messages$sim3, "ALL OK: there are no studysideMessage(s) on this datasource")
-
-
-
 })
 
 #
-# Done
+# Shutdown
 #
 
 context("ds.dataFrameSort::smk::shutdown")
@@ -57,5 +54,9 @@ test_that("shutdown", {
 })
 
 disconnect.studies.dataset.cnsim()
+
+#
+# Done
+#
 
 context("ds.dataFrameSort::smk::done")
