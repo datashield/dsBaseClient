@@ -46,7 +46,7 @@ ds.forestplot <- function(mod){
   
   # Build plot parameters
   legend <- colnames(mean)
-  summary <- c(TRUE, rep(FALSE, length(legend)),TRUE, TRUE)
+  summary <- c(TRUE, rep(FALSE, num_stud),TRUE, TRUE)
   colors <- RColorBrewer::brewer.pal(n = length(legend), name = "Set2")
   tabletext <- cbind(names, ntotal, nvalid, nmissing)
   
