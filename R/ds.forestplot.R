@@ -1,3 +1,11 @@
+#' Title
+#'
+#' @param mod 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ds.forestplot <- function(mod){
   
   # Declaration of variables
@@ -5,11 +13,6 @@ ds.forestplot <- function(mod){
   nvalid <- NULL
   nmissing <- NULL
   names <- NULL
-  
-  # Get coefficients and calculate confidence interval using the standard errors
-  mean <- t(mod$betamatrix.valid)
-  lower <- t(mod$betamatrix.valid - mod$sematrix.valid * 1.96)
-  upper <- t(mod$betamatrix.valid + mod$sematrix.valid * 1.96)
   
   # Get number of studies
   num_stud <- mod$num.valid.studies
@@ -21,6 +24,15 @@ ds.forestplot <- function(mod){
     names <- c(names, names(mod$output.summary)[i])
   }
   
+  # Get t-test parameters
+  n <- sum(nvalid)
+  p <- nrow(mod$betamatrix.valid)
+  
+  # Get coefficients and calculate confidence interval using the standard errors
+  mean <- t(mod$betamatrix.valid)
+  lower <- t(mod$betamatrix.valid - mod$sematrix.valid * qt(.975, n-p))
+  upper <- t(mod$betamatrix.valid + mod$sematrix.valid * qt(.975, n-p))
+    
   # Format to be passed to the foresplot function
   names <- c("Study", names, NA, "Summary")
   ntotal <- c("N total", ntotal, NA, sum(ntotal))
@@ -29,17 +41,17 @@ ds.forestplot <- function(mod){
   
   # To do: offer choice of ML, REML, FE. only would affect the columns chosen on next 3 lines
   mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,1])
-  lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * 1.96)
-  upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * 1.96)
+  lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
+  upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
   
   # Build plot parameters
   legend <- colnames(mean)
   summary <- c(TRUE, rep(FALSE, length(legend)),TRUE, TRUE)
-  colors <- brewer.pal(n = length(legend), name = "Set2")
+  colors <- RColorBrewer::brewer.pal(n = length(legend), name = "Set2")
   tabletext <- cbind(names, ntotal, nvalid, nmissing)
   
-  forestplot(tabletext, mean = mean, lower = lower, upper = upper, legend = legend,
-             is.summary = summary, col=fpColors(box=colors,
+  forestplot::forestplot(tabletext, mean = mean, lower = lower, upper = upper, legend = legend,
+             is.summary = summary, col=forestplot::fpColors(box=colors,
                                                 summary = colors),
              xlab="Coefficient")
   
