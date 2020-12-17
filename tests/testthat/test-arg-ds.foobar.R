@@ -27,7 +27,7 @@ test_that("setup", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "object 'n' not found", fixed=FALSE)
+    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
 
     errs <- datashield.errors()
     expect_length(errs, 0)
@@ -66,7 +66,7 @@ test_that("non existent aggregate foobarDS", {
 context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "object 'n' not found", fixed=FALSE)
+    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
 
     errs <- datashield.errors()
     expect_length(errs, 0)
