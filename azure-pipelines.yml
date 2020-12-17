@@ -55,11 +55,17 @@ resources:
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
-  - cron: "32 1 * * *"
-    displayName: Nightly build
+  - cron: "0 0 * * 0"
+    displayName: Weekly build - master
     branches:
-     include:
+      include:
       - master
+    always: true
+  - cron: "0 2 * * *"
+    displayName: Nightly build - v6.2-dev
+    branches:
+      include:
+      - v6.2-dev
     always: true
 
 jobs:
@@ -128,9 +134,10 @@ jobs:
 
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
+      sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
-      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
+      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -442,7 +449,6 @@ jobs:
       else
           touch $(Pipeline.Workspace)/logs/test_results_bug.xml
       fi
-
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Bug report output'
