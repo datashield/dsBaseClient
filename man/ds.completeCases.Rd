@@ -7,23 +7,23 @@
 ds.completeCases(x1 = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x1}{a character denoting the name of the input object 
-which can be a data frame, matrix or vector.}
+\item{x1}{a character denoting the name of the input object which can be a data frame,
+matrix or vector.}
 
-\item{newobj}{a character string that provides the name for the output variable 
-that is stored on the data servers.}
+\item{newobj}{a character string that provides the name for the complete-cases object
+that is stored on the data servers. If the user does not specify a name, then the function 
+generates a name for the generated object that is the name of the input object with the 
+suffix "_complete.cases"}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
-If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+If the \code{datasources} argument is not specified, the default set of connections will be
+used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.completeCases} returns a modified data frame, matrix or vector from which
-all rows containing at least one NA have been deleted. 
-The output R object is stored on the server-side. 
-Also, two validity messages are returned to the client-side 
-indicating the name of \code{newobj} that has been created in each data source 
-and if it is in a valid form.
+\code{ds.completeCases} generates a modified data frame, matrix or vector from which
+all rows containing at least one NA have been deleted. The output object is stored on the
+server-side. Only two validity messages are returned to the client-side indicating the name
+of the \code{newobj} that has been created in each data source and if it is in a valid form.
 }
 \description{
 Selects complete cases of a data frame,
@@ -59,6 +59,7 @@ Server function called: \code{completeCasesDS}
                  user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
+  
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
