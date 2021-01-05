@@ -2,12 +2,12 @@
 % Please edit documentation in R/ds.rm.R
 \name{ds.rm}
 \alias{ds.rm}
-\title{Deletes server-side R object}
+\title{Deletes server-side R objects}
 \usage{
-ds.rm(x.name = NULL, datasources = NULL)
+ds.rm(x.names = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{a character string specifying the object to be deleted.}
+\item{x.names}{a character string specifying the objects to be deleted.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 
@@ -16,11 +16,11 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \value{
 The \code{ds.rm}  function deletes from the server-side 
 the specified object.  If this 
-is successful the message \code{"Object <x.name> successfully deleted"} is returned
+is successful the message \code{"Object(s) '<x.names>' was deleted."} is returned
 to the client-side.
 }
 \description{
-deletes an R object on the server-side
+deletes R objects on the server-side
 }
 \details{
 This function is similar to the native R function 
@@ -73,7 +73,7 @@ Server function called: \code{rmDS}
   
   #Delete "labtsc" object from the server-side
   
-  ds.rm(x.name = "labtsc",
+  ds.rm(x.names = "labtsc",
         datasources = connections)
              
   # clear the Datashield R sessions and logout
