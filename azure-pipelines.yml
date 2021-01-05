@@ -203,7 +203,7 @@ jobs:
   - bash: |
 
       # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
+      wget -nv https://apt.puppetlabs.com/puppet6-release-xenial.deb
       sudo dpkg -i puppet6-release-xenial.deb
       sudo apt-get install -qq -f
       sudo apt-get update
