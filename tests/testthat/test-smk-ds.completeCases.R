@@ -130,45 +130,86 @@ test_that("completeCases matrix", {
     expect_equal(res.mat_new.dim$`dimensions of mat_new in combined studies`, numeric(0))
 })
 
-context("ds.completeCases::smk::vector")
+context("ds.completeCases::smk::vector, numeric")
 test_that("completeCases vector", {
-    ds.c("D$LAB_TSC", newobj="vec")
+    ds.c("D$LAB_TSC", newobj="vec_n")
 
-    res.completeCases <- ds.completeCases("vec", "vec_new")
+    res.completeCases <- ds.completeCases("vec_n", "vec_n_new")
 
     expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_new> appears valid in all sources")
+    expect_equal(res.completeCases$is.object.created, "A data object <vec_n_new> has been created in all specified data sources")
+    expect_equal(res.completeCases$validity.check, "<vec_n_new> appears valid in all sources")
 
-    res.vec.class <- ds.class("vec")
+    res.vec.class <- ds.class("vec_n")
 
     expect_length(res.vec.class, 3)
     expect_equal(res.vec.class$sim1, "numeric")
     expect_equal(res.vec.class$sim2, "numeric")
     expect_equal(res.vec.class$sim3, "numeric")
 
-    res.vec_new.class <- ds.class("vec_new")
+    res.vec_new.class <- ds.class("vec_n_new")
 
     expect_length(res.vec_new.class, 3)
     expect_equal(res.vec_new.class$sim1, "numeric")
     expect_equal(res.vec_new.class$sim2, "numeric")
     expect_equal(res.vec_new.class$sim3, "numeric")
 
-    res.vec.length <- ds.length("vec")
+    res.vec.length <- ds.length("vec_n")
 
     expect_length(res.vec.length, 4)
-    expect_equal(res.vec.length$`length of vec in sim1`, 2163)
-    expect_equal(res.vec.length$`length of vec in sim2`, 3088)
-    expect_equal(res.vec.length$`length of vec in sim3`, 4128)
-    expect_equal(res.vec.length$`total length of vec in all studies combined`, 9379)
+    expect_equal(res.vec.length$`length of vec_n in sim1`, 2163)
+    expect_equal(res.vec.length$`length of vec_n in sim2`, 3088)
+    expect_equal(res.vec.length$`length of vec_n in sim3`, 4128)
+    expect_equal(res.vec.length$`total length of vec_n in all studies combined`, 9379)
 
-    res.vec_new.length <- ds.length("vec_new")
+    res.vec_new.length <- ds.length("vec_n_new")
 
     expect_length(res.vec_new.length, 4)
-    expect_equal(res.vec_new.length$`length of vec_new in sim1`, 1807)
-    expect_equal(res.vec_new.length$`length of vec_new in sim2`, 2539)
-    expect_equal(res.vec_new.length$`length of vec_new in sim3`, 3479)
-    expect_equal(res.vec_new.length$`total length of vec_new in all studies combined`, 7825)
+    expect_equal(res.vec_new.length$`length of vec_n_new in sim1`, 1807)
+    expect_equal(res.vec_new.length$`length of vec_n_new in sim2`, 2539)
+    expect_equal(res.vec_new.length$`length of vec_n_new in sim3`, 3479)
+    expect_equal(res.vec_new.length$`total length of vec_n_new in all studies combined`, 7825)
+})
+
+context("ds.completeCases::smk::vector, factor")
+test_that("completeCases vector", {
+    ds.c("D$PM_BMI_CATEGORICAL", newobj="vec_f")
+
+    res.completeCases <- ds.completeCases("vec_f", "vec_f_new")
+
+    expect_length(res.completeCases, 2)
+    expect_equal(res.completeCases$is.object.created, "A data object <vec_f_new> has been created in all specified data sources")
+    expect_equal(res.completeCases$validity.check, "<vec_f_new> appears valid in all sources")
+
+    res.vec.class <- ds.class("vec_f")
+
+    expect_length(res.vec.class, 3)
+    expect_equal(res.vec.class$sim1, "factor")
+    expect_equal(res.vec.class$sim2, "factor")
+    expect_equal(res.vec.class$sim3, "factor")
+
+    res.vec_new.class <- ds.class("vec_f_new")
+
+    expect_length(res.vec_new.class, 3)
+    expect_equal(res.vec_new.class$sim1, "factor")
+    expect_equal(res.vec_new.class$sim2, "factor")
+    expect_equal(res.vec_new.class$sim3, "factor")
+
+    res.vec.length <- ds.length("vec_f")
+
+    expect_length(res.vec.length, 4)
+    expect_equal(res.vec.length$`length of vec_f in sim1`, 2163)
+    expect_equal(res.vec.length$`length of vec_f in sim2`, 3088)
+    expect_equal(res.vec.length$`length of vec_f in sim3`, 4128)
+    expect_equal(res.vec.length$`total length of vec_f in all studies combined`, 9379)
+
+    res.vec_new.length <- ds.length("vec_f_new")
+
+    expect_length(res.vec_new.length, 4)
+    expect_equal(res.vec_new.length$`length of vec_f_new in sim1`, 2066)
+    expect_equal(res.vec_new.length$`length of vec_f_new in sim2`, 2938)
+    expect_equal(res.vec_new.length$`length of vec_f_new in sim3`, 3923)
+    expect_equal(res.vec_new.length$`total length of vec_f_new in all studies combined`, 8927)
 })
 
 #
@@ -178,7 +219,7 @@ test_that("completeCases vector", {
 context("ds.completeCases::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "df", "df_new", "mat", "mat_new", "vec", "vec_new"))
+    ds_expect_variables(c("D", "df", "df_new", "mat", "mat_new", "vec_n", "vec_n_new", "vec_f", "vec_f_new"))
 })
 
 disconnect.studies.dataset.cnsim()
