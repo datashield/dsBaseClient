@@ -5,6 +5,7 @@ source("definition_tests/def-assign-stats.R")
 {
   mean.local <- mean(some.values)
   mean.server <- ds.mean(x=variable.name,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+
   expect_equal(mean.server[[1]][1], mean.local, tolerance = ds.test_env$tolerance)
 }
 
