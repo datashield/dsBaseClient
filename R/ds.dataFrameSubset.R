@@ -127,7 +127,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V1.name))
   {	
-    return("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
+    stop("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V1.name))
@@ -143,7 +143,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V2.name))
   {	
-    return("Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", call.=FALSE)
+    stop("Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", call.=FALSE)
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V2.name))
@@ -161,7 +161,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
     message6<-"the specified columns but will keep all rows."
  
     error.message<-paste(message1,message2,message3,message4,message5,message6)
-    return(error.message)
+    stop(error.message, call.=FALSE)
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(Boolean.operator))
