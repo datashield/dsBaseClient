@@ -266,5 +266,68 @@ subset.by.cols<-function(initial.df.name,V1.name,keep.cols,keep.NAs,df.created,l
  #  }
   
 }
+
+.closure.test<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.created,local.df.list)
+{
+  for(i in 1:length(local.df.list))
+  {
+    # Initial set (local set)
+    ## Variable 1
+    local.vec.var1<-local.df.list[[i]][,V1.name]
+    initial.set.var1<-unique(local.vec.var1)
+    
+    ## Variable 2
+    local.vec.var2<-local.df.list[[i]][,V2.name]
+    initial.set.var2<-unique(local.vec.var2)
+    
+    # Subset server dfs
+    var1<-paste(initial.df.name,V1.name,sep="$")
+    var2<-paste(initial.df.name,V2.name,sep="$")
+    ds.dataFrameSubset(df.name = initial.df.name,
+                       V1.name = var1,
+                       V2.name = var2,
+                       Boolean.operator = boole,
+                       keep.NAs = keep.NAs,
+                       newobj = df.created,
+                       datasources = ds.test_env$connections)
+    server.data<-dsDangerClient::ds.DANGERdfEXTRACT(df.created,
+                                                    datasources = ds.test_env$connections)
+    server.data<-server.data$study.specific.df
+    
+    # Final set (server set)
+    ## Variable 1
+    server.vec.var1<-server.data[[i]][,V1.name]
+    final.set.var1<-unique(server.vec.var1)
+    ## Variable 2
+    server.vec.var2<-server.data[[i]][,V2.name]
+    final.set.var2<-unique(server.vec.var2)
+    
+    
+    # Test 
+    ## Variable 1
+    closure.vector.var1 <- final.set.var1 %in% initial.set.var1
+    closure.vector.unique.value.var1 <- unique(closure.vector.var1)
+    
+    expect_equal(length(closure.vector.unique.value.var1),
+                 1,
+                 ds.test_env$tolerance)
+    
+    expect_equal(closure.vector.unique.value.var1,
+                 TRUE,
+                 ds.test_env$tolerance)
+    ## Variable 2
+    closure.vector.var2 <- final.set.var2 %in% initial.set.var2
+    closure.vector.unique.value.var2 <- unique(closure.vector.var2)
+    
+    expect_equal(length(closure.vector.unique.value.var2),
+                 1,
+                 ds.test_env$tolerance)
+    
+    expect_equal(closure.vector.unique.value.var2,
+                 TRUE,
+                 ds.test_env$tolerance)
+  }
+}
+
 # Clear the Datashield R sessions and logout
 datashield.logout(ds.test_env$connections)
