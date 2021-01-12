@@ -169,6 +169,20 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new.length$`length of vec_n_new in sim2`, 2539)
     expect_equal(res.vec_new.length$`length of vec_n_new in sim3`, 3479)
     expect_equal(res.vec_new.length$`total length of vec_n_new in all studies combined`, 7825)
+
+    res.vec_numna <- ds.numNA("vec_n")
+    
+    expect_length(res.vec_numna, 3)
+    expect_equal(res.vec_numna$sim1, 356)
+    expect_equal(res.vec_numna$sim2, 549)
+    expect_equal(res.vec_numna$sim3, 649)
+
+    res.vec_new_numna <- ds.numNA("vec_n_new")
+    
+    expect_length(res.vec_numna, 3)
+    expect_equal(res.vec_new_numna$sim1, 0)
+    expect_equal(res.vec_new_numna$sim2, 0)
+    expect_equal(res.vec_new_numna$sim3, 0)
 })
 
 context("ds.completeCases::smk::vector, factor")
@@ -210,6 +224,20 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new.length$`length of vec_f_new in sim2`, 2938)
     expect_equal(res.vec_new.length$`length of vec_f_new in sim3`, 3923)
     expect_equal(res.vec_new.length$`total length of vec_f_new in all studies combined`, 8927)
+
+    res.vec_numna <- ds.numNA("vec_f")
+    
+    expect_length(res.vec_numna, 3)
+    expect_equal(res.vec_numna$sim1, 97)
+    expect_equal(res.vec_numna$sim2, 150)
+    expect_equal(res.vec_numna$sim3, 205)
+
+    res.vec_new_numna <- ds.numNA("vec_f_new")
+    
+    expect_length(res.vec_numna, 3)
+    expect_equal(res.vec_new_numna$sim1, 0)
+    expect_equal(res.vec_new_numna$sim2, 0)
+    expect_equal(res.vec_new_numna$sim3, 0)
 })
 
 #
