@@ -414,16 +414,16 @@ for(ns in 1:numsources.orig)
   if(valid.output[ns])
   {
     sum.valid<-sum.valid+1
-		if(sum.valid==num.valid.studies)
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]])")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
-		else
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]],")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
+    list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]]")
+    if(sum.valid==num.valid.studies)
+    {
+        list.temp<-paste0(list.temp,")")
+    }
+    else
+    {
+        list.temp<-paste0(list.temp,",")
+    }
+    study.names.valid<-c(study.names.valid,names(datasources)[ns])
   }
 
 }
