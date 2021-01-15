@@ -1,5 +1,5 @@
 #ds.sample
-#' @title random sampling and permuting of vectors, dataframes and matrices
+#' @title Performs random sampling and permuting of vectors, dataframes and matrices
 #' @description draws a pseudorandom sample from a vector, dataframe or matrix
 #' on the serverside
 #' or - as a special case - randomly permutes a vector, dataframe or matrix.

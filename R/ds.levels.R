@@ -1,5 +1,5 @@
 #'
-#' @title Levels attributes of a server-side factor
+#' @title Produces levels attributes of a server-side factor
 #' @description This function provides access to the level attribute of
 #' a factor variable stored on the server-side. 
 #' This function is similar to R function \code{levels}. 

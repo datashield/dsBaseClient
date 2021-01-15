@@ -1,4 +1,4 @@
-#' @title Fitting Linear Mixed-Effect Model via Study-Level Meta-Analysis
+#' @title Fits Linear Mixed-Effect model via Study-Level Meta-Analysis
 #' @description \code{ds.lmerSLMA} fits a Linear Mixed-Effects Model (lme) - can include both
 #' fixed and random-effects - on data from one or multiple sources with pooling via SLMA
 #' (Study-Level Meta-Analysis)

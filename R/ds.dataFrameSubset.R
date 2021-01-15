@@ -1,4 +1,4 @@
-#' @title Subsetting data frames in the server-side
+#' @title Sub-sets data frames in the server-side
 #' @description Subsets a data frame by rows and/or by columns.
 #' @details Subset a pre-existing data frame using the standard 
 #' set of Boolean operators (\code{==, !=, >, >=, <, <=}). 

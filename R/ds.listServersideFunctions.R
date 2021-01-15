@@ -1,4 +1,4 @@
-#' @title Server-side functions
+#' @title Lists server-side functions
 #' @description Lists all current server-side functions
 #' @details Uses \code{\link{datashield.methods}} function from \code{DSI} package to list all
 #' assign and aggregate functions on the available data repository servers.

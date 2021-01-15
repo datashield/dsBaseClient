@@ -1,5 +1,5 @@
 #'
-#' @title Sorting data frames in the server-side
+#' @title Sorts data frames in the server-side
 #' @description Sorts a data frame using a specified sort key.
 #' @details It sorts a specified
 #' data.frame on the serverside using a sort key also on the server-side. The

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.listServersideFunctions.R
 \name{ds.listServersideFunctions}
 \alias{ds.listServersideFunctions}
-\title{Server-side functions}
+\title{Lists server-side functions}
 \usage{
 ds.listServersideFunctions(datasources = NULL)
 }

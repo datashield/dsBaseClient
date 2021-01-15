@@ -1,4 +1,4 @@
-#' @title Fitting Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
+#' @title Fits Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
 #' @description \code{ds.glmerSLMA} fits a Generalized Linear Mixed-Effects Model
 #' (GLME) on data from one or multiple sources with pooling via SLMA (study-level meta-analysis).
 #' @details \code{ds.glmerSLMA} fits a generalized linear mixed-effects model (GLME) 

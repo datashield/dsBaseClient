@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmerSLMA.R
 \name{ds.glmerSLMA}
 \alias{ds.glmerSLMA}
-\title{Fitting Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis}
+\title{Fits Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis}
 \usage{
 ds.glmerSLMA(
   formula = NULL,

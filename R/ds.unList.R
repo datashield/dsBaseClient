@@ -1,4 +1,4 @@
-#' @title Flatten Server-Side Lists
+#' @title Flattens Server-Side Lists
 #' @description Coerces an object of list class back to the class it was when
 #' it was coerced into a list. 
 #' @details This function is similar to the native R function \code{unlist}.

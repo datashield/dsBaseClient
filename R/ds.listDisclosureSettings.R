@@ -1,5 +1,4 @@
-#'
-#' @title Disclosure Settings
+#' @title Lists disclosure settings
 #' @description Lists current values for disclosure control filters in all data repository servers. 
 #' @details This function lists out the current values of the eight disclosure filters in each of
 #' the data repository servers specified by \code{datasources} argument.\cr
