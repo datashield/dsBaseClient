@@ -147,7 +147,7 @@
 #' table object to be written to the serverside if <table.assign> is TRUE.
 #' If no explicit name for the table object is specified, but <table.assign>
 #' is nevertheless TRUE, the name for the serverside table object defaults
-#' to 'newObj'.
+#' to \code{table.newobj}.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' If the <datasources> is to be specified, it should be set without
@@ -330,7 +330,7 @@ if(table.assign)
 
 	if(is.null(newobj))
 		{
-		newobj<-"newTable"
+		newobj<-"table.newobj"
 		}
 		
 
@@ -359,6 +359,7 @@ DSI::datashield.assign(datasources, newobj, calltext.assign)
  
  table.out<-DSI::datashield.aggregate(datasources, calltext)
 
+
 #END OF MAIN FUNCTION LEADING UP TO CALL
 ##############################################################################
 ###############################################################################
@@ -382,14 +383,14 @@ list.temp<-NULL
 
 for(ns in 1:numsources.orig)
 {
-if(class(table.out[[ns]])=="character")
+    if(class(table.out[[ns]])=="character")
 	{
-	valid.output[ns]<-0
-	error.messages[[ns]]<-table.out[[ns]]
+	    valid.output[ns]<-0
+	    error.messages[[ns]]<-table.out[[ns]]
 	}	
 	else
 	{
-	error.messages[[ns]]<-"No errors reported from this study"
+	    error.messages[[ns]]<-"No errors reported from this study"
 	}
 }
 
@@ -398,14 +399,21 @@ num.valid.studies<-sum(valid.output)
 
 if(num.valid.studies==0)
 {
-validity.message<-"All studies failed for reasons identified below"
-	cat("\n",validity.message,"\n\n")
-	for(ns in 1:numsources.orig)
-		{
-		cat("\nStudy",ns,": ",error.messages[[ns]],"\n")
-		}
+	if ((! table.assign) || report.chisq.tests)
+	{
+	    validity.message<-"All studies failed for reasons identified below"
+	    cat("\n",validity.message,"\n\n")
+	    for(ns in 1:numsources.orig)
+	    {
+	        cat("\nStudy",ns,": ",error.messages[[ns]],"\n")
+	    }
 
-return(list(validity.message=validity.message,error.messages=error.messages))
+	    return(list(validity.message=validity.message,error.messages=error.messages))
+	}
+	else
+	{
+	    return(NULL)
+	}
 }
 
 
@@ -414,25 +422,18 @@ for(ns in 1:numsources.orig)
   if(valid.output[ns])
   {
     sum.valid<-sum.valid+1
-		if(sum.valid==num.valid.studies)
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]])")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
-		else
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]],")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
+    list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]]")
+    if(sum.valid < num.valid.studies)
+    {
+        list.temp<-paste0(list.temp,",")
+    }
+    study.names.valid<-c(study.names.valid,names(datasources)[ns])
   }
-
 }
 
 
-
 table.out.valid <- FALSE
-list.text<-paste0("table.out.valid<-list(",list.temp)
-
+list.text<-paste0("table.out.valid<-list(",list.temp,")")
 
 
 eval(parse(text=list.text))
@@ -466,15 +467,17 @@ for(ns in 1:numsources.orig)
 
 if(num.valid.studies==numsources.orig)
 {
-validity.message<-"Data in all studies were valid"
-	cat("\n",validity.message,"\n")
-	for(ns in 1:numsources.orig)
+    validity.message<-"Data in all studies were valid"
+    if (! table.assign)
+    {
+	    cat("\n",validity.message,"\n")
+	    for(ns in 1:numsources.orig)
 		{
-		cat("\nStudy",ns,": ",error.messages[[ns]])
+		    cat("\nStudy",ns,": ",error.messages[[ns]])
 		}
 		cat("\n\n")
+    }
 }
-
 
 #check all tables from all sources have the same number of dimensions
 
