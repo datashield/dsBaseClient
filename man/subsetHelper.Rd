@@ -2,7 +2,7 @@
 % Please edit documentation in R/subsetHelper.R
 \name{subsetHelper}
 \alias{subsetHelper}
-\title{Ensure that the requested subset is not larger than the original object}
+\title{Ensures that the requested subset is not larger than the original object}
 \usage{
 subsetHelper(dts, data, rs = NULL, cs = NULL)
 }

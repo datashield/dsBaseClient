@@ -1,5 +1,5 @@
 #'
-#' @title Column names of the R object in the server-side
+#' @title Produces column names of the R object in the server-side
 #' @description Retrieves column names of an R object on the server-side.  
 #' This function is similar to R function \code{colnames}.
 #' @details The input is restricted to the object of type \code{data.frame} or \code{matrix}. 

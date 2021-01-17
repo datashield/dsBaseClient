@@ -1,5 +1,5 @@
-#' @title ds.table calling aggregate functions tableDS and tableDS2
-#' and assign function tableDS.assign
+#' @title Generates 1-, 2-, and 3-dimensional contingency tables with option
+#' of assigning to serverside only and producing chi-squared statistics
 #' @description creates 1-dimensional, 2-dimensional and 3-dimensional
 #' tables using the {table} function in native R.
 #' @details the {ds.table} function selects numeric, integer or factor

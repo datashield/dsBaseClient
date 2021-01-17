@@ -2,8 +2,8 @@
 % Please edit documentation in R/ds.table.R
 \name{ds.table}
 \alias{ds.table}
-\title{ds.table calling aggregate functions tableDS and tableDS2
-and assign function tableDS.assign}
+\title{Generates 1-, 2-, and 3-dimensional contingency tables with option
+of assigning to serverside only and producing chi-squared statistics}
 \usage{
 ds.table(
   rvar = NULL,

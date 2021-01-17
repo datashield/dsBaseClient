@@ -2,7 +2,7 @@
 % Please edit documentation in R/logical2int.R
 \name{logical2int}
 \alias{logical2int}
-\title{turns a logical operator into an integer}
+\title{Turns a logical operator into an integer}
 \usage{
 logical2int(obj = NULL)
 }

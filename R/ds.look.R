@@ -1,5 +1,5 @@
 #'
-#' @title Direct call to a server-side aggregate function
+#' @title Performs direct call to a server-side aggregate function
 #' @description The function \code{ds.look} can be used to make a direct call to a server-side
 #' aggregate function more simply than using the \code{datashield.aggregate} function. 
 #' @details The \code{ds.look} and \code{datashield.aggregate} functions are generally

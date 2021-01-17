@@ -1,4 +1,4 @@
-#' @title Reshape server-side grouped data 
+#' @title Reshapes server-side grouped data 
 #' @description Reshapes a data frame containing longitudinal or
 #' otherwise grouped data from 'wide' to 'long' format or vice-versa. 
 #' @details This function is based on the native R function \code{reshape}.

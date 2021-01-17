@@ -1,5 +1,5 @@
 #'
-#' @title ds.listOpals list all Opal objects in the analytic environment
+#' @title Lists all Opal objects in the analytic environment
 #' @description ds.listOpals calls the internal DataSHIELD function getOpals() which identifies
 #' all Opal objects in the analytic environment.
 #' @details ds.listOpals calls the internal DataSHIELD function getOpals() which identifies

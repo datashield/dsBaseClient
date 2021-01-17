@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.setDefaultOpals.R
 \name{ds.setDefaultOpals}
 \alias{ds.setDefaultOpals}
-\title{ds.setDefaultOpals creates a default set of Opal objects called 'default.opals'}
+\title{Creates a default set of Opal objects called 'default.opals'}
 \usage{
 ds.setDefaultOpals(opal.name)
 }
