@@ -11,6 +11,7 @@
 # /logs                       <- Where results of tests and lots are collated
 #
 # As of May 2020 this takes ~ 70 mins to run.
+# As of Nov 2020 this takes ~ 120 mins to run.
 #
 # The only things that should ever be changed are the repo branches in the resources.
 #
@@ -54,16 +55,22 @@ resources:
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
-  - cron: "32 1 * * *"
-    displayName: Nightly build
+  - cron: "0 0 * * 0"
+    displayName: Weekly build - master
     branches:
-     include:
+      include:
       - master
+    always: true
+  - cron: "0 2 * * *"
+    displayName: Nightly build - v6.2-dev
+    branches:
+      include:
+      - v6.2-dev
     always: true
 
 jobs:
 - job: build_and_run_tests
-  timeoutInMinutes: 120
+  timeoutInMinutes: 150
   pool:
     vmImage: 'Ubuntu 16.04'
 
@@ -127,9 +134,10 @@ jobs:
 
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
+      sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
-      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev r-base -y
+      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -195,11 +203,11 @@ jobs:
   - bash: |
 
       # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet5-release-xenial.deb
-      sudo dpkg -i puppet5-release-xenial.deb
+      wget -nv https://apt.puppetlabs.com/puppet6-release-xenial.deb
+      sudo dpkg -i puppet6-release-xenial.deb
       sudo apt-get install -qq -f
       sudo apt-get update
-      sudo rm -f puppet5-release-xenial.deb
+      sudo rm -f puppet6-release-xenial.deb
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
@@ -273,7 +281,7 @@ jobs:
       # display the test console output
       cat test_console_output_dsbase.txt
 
-      grep --quiet "Failed:   0" test_console_output_dsbase.txt
+      grep --quiet " FAIL 0 " test_console_output_dsbase.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase'
@@ -376,7 +384,7 @@ jobs:
       mv coveragelist.csv $(Pipeline.Workspace)/logs
       mv test_results.xml $(Pipeline.Workspace)/logs
 
-      grep --quiet "Failed:   0" test_console_output_dsdanger.txt
+      grep --quiet " FAIL 0 " test_console_output_dsdanger.txt
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
@@ -423,7 +431,11 @@ jobs:
 
       cat test_console_output_bug.txt
 
-      mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      if [ -e test_results_bug.xml ]; then
+          mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      else
+          touch $(Pipeline.Workspace)/logs/test_results_bug.xml
+      fi
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Bug report output'
