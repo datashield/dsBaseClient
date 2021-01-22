@@ -48,7 +48,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: refs/tags/6.1
+    ref: v6.1
 
 
 #########################################################################################
@@ -298,7 +298,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.1', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'
