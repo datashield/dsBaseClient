@@ -119,7 +119,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
     message(" Please indicate the calculation required.")
     stop("'operation' = NULL. Please set it to 'rowSums', 'colSums', 'rowMeans' or 'colMeans'", call.=FALSE)
   }else{
-    if(!(operation %in% ops)){
+    if(!any(operation %in% ops)){
       stop("'operation' must be set to: 'rowSums', 'colSums', 'rowMeans' or 'colMeans'")
     }
   }
