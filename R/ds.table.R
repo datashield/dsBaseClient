@@ -278,6 +278,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
  for(j in 1:numstudies){
    rvar.all.levels.all.studies <- c(rvar.all.levels.all.studies,rvar.all.levels[[j]])
  }
+
+ if (length(rvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for rvar: '", rvar , "'"), call. = FALSE)
+ }
  
  rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
  
@@ -297,6 +301,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
      cvar.all.levels.all.studies <- c(cvar.all.levels.all.studies,cvar.all.levels[[j]])
    }
    
+   if (length(cvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for cvar: '", cvar , "'"), call. = FALSE)
+   }
+
    cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
    
    cvar.all.unique.levels.transmit <- paste0(cvar.all.unique.levels, collapse=",")
@@ -317,6 +325,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
      stvar.all.levels.all.studies <- c(stvar.all.levels.all.studies,stvar.all.levels[[j]])
    }
    
+   if (length(stvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for stvar: '", stvar , "'"), call. = FALSE)
+   }
+
    stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
    
    stvar.all.unique.levels.transmit <- paste0(stvar.all.unique.levels, collapse=",")

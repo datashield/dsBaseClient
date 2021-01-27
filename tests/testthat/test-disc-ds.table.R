@@ -55,6 +55,18 @@ test_that("table disclosure table.assign=TRUE", {
   expect_length(table.res, 0)
 })
 
+context("ds.table::disc::test rvar is big numeric")
+test_that("table rvar is big numeric", {
+    expect_error(ds.table(rvar="D$NUMERIC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_equal(res.errors$study1, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study1': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+    expect_equal(res.errors$study2, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study2': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+    expect_equal(res.errors$study3, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study3': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+})
+
 #
 # Shutdown - Phase 1
 #
