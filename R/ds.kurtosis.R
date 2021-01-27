@@ -36,7 +36,7 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  if(!(method %in% c(1,2,3))){
+  if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
   }
   

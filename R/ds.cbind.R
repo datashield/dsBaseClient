@@ -157,10 +157,10 @@ ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newob
       colNames <- list()
       for(i in 1:length(x)){
         typ <- checkClass(datasources, x[i])
-        if(typ %in% c('data.frame', 'matrix')){
+        if(any(typ %in% c('data.frame', 'matrix'))){
           colNames[[i]] <- ds.colnames(x=x[i], datasources=datasources[j])
         }
-        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
+        if(any(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical'))){
           colNames[[i]] <- as.character(x[i])
         }
         colNames <- unlist(colNames)
@@ -175,10 +175,10 @@ ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newob
       nrows <- list()
       for(i in 1:length(x)){
         typ <- checkClass(datasources, x[i])
-        if(typ %in% c('data.frame', 'matrix')){
+        if(any(typ %in% c('data.frame', 'matrix'))){
           nrows[[i]] <- ds.dim(x=x[i], type='split', datasources=datasources[j])[[1]][1]
         }
-        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
+        if(any(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical'))){
           nrows[[i]] <- ds.length(x[i], type='split', datasources=datasources[j])[[1]]
         }
       }
