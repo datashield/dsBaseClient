@@ -21,10 +21,14 @@ ds.merge(
 }
 \arguments{
 \item{x.name}{a character string specifying the name of the
-first data frame to be merged.}
+first data frame to be merged. The length of the string should be less than the 
+specified threshold for the nfilter.stringShort which is one of the disclosure 
+prevention checks in DataSHIELD.}
 
 \item{y.name}{a character string specifying the name of the
-second data frame to be merged.}
+second data frame to be merged. The length of the string should be less than the 
+specified threshold for the nfilter.stringShort which is one of the disclosure 
+prevention checks in DataSHIELD.}
 
 \item{by.x.names}{a character string  or a vector of names specifying 
 of the column(s) in data frame \code{x.name} for merging.}
@@ -66,9 +70,9 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.merge} returns the merge data frame that is written on the server-side. 
+\code{ds.merge} returns the merged data frame that is written on the server-side. 
 Also, two validity messages are returned to the client-side
-indicating whether the new object  has been created in each data source and if so whether
+indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
@@ -131,8 +135,8 @@ Server function called: \code{mergeDS}
                
   ds.merge(x.name = "df.x",
            y.name = "df.y",
-           by.x.names = "D$LAB_TSC",
-           by.y.names = "D$LAB_TSC",
+           by.x.names = "df.x$LAB_TSC",
+           by.y.names = "df.y$LAB_TSC",
            all.x = TRUE,
            all.y = TRUE,
            sort = TRUE,
