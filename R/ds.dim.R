@@ -92,7 +92,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   }
 
   if(is.null(x)){
-    stop("Please provide a the name of a data.frame or matrix!", call.=FALSE)
+    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }
 
   ########################################################################################################
