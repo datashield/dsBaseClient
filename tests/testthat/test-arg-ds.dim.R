@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 context("ds.dim::arg::test errors")
 test_that("dim_erros", {
-    expect_error(ds.dim(), "Please provide a the name of a data.frame or matrix!", fixed=TRUE)
+    expect_error(ds.dim(), "Please provide the name of a data.frame or matrix!", fixed=TRUE)
     expect_error(ds.dim(x="F", checks = TRUE), "The input object must be a table structure!", fixed=TRUE)
     expect_error(ds.dim(x="D", type = "other"), 'Function argument "type" has to be either "both", "combine" or "split"', fixed=TRUE)
 })
