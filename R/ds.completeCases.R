@@ -77,6 +77,11 @@ ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check if a value has been provided for x1
   if(is.null(x1)){
     return("Error: x1 must be a character string naming a serverside data.frame, matrix or vector")

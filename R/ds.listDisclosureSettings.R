@@ -105,6 +105,11 @@ ds.listDisclosureSettings <- function(datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("listDisclosureSettingsDS")
   ds.disclosure.settings <- DSI::datashield.aggregate(datasources, calltext)

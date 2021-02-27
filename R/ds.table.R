@@ -199,7 +199,12 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
     datasources <- datashield.connections_find()
   }
 
- # check if a value has been provided for xvar
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # check if a value has been provided for xvar
   if(is.null(rvar)){
     return("Error: rvar must have a value which is a character string naming the row variable for the table")
   }
