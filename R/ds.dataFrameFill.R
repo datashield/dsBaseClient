@@ -113,7 +113,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   column.names <- list()
   for (i in 1:length(datasources)){
-    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[[i]])
+    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])[[1]]
   }
 
   allNames <- unique(unlist(column.names))
