@@ -140,7 +140,12 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
     datasources <- datashield.connections_find()
   }
 
-# check if a value has been provided for x
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # check if a value has been provided for x
   if(is.null(x)){
     return("Error: x must denote a character string naming the serverside object to be sampled or an integer N denoting permute 1:N")
   }

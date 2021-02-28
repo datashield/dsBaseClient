@@ -71,6 +71,11 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }

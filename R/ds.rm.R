@@ -73,6 +73,11 @@ ds.rm<-function(x.names=NULL, datasources=NULL){
         datasources <- datashield.connections_find()
     }
 
+    # ensure datasource is a list of DSConnection-class
+    if(!is.list(datasources)){
+        stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+    }
+
     if (is.null(x.names)) {
         stop("Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", call.=FALSE)
     }

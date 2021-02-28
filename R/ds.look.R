@@ -74,13 +74,18 @@
 ds.look<-function(toAggregate=NULL, checks=FALSE, datasources=NULL){
   .Deprecated()
 
-#####################################################################################
-#MODULE 1: IDENTIFY DEFAULT DS CONNECTIONS  													              #
-  # look for DS connections                                                         #
-  if(is.null(datasources)){															                            #
-    datasources <- datashield.connections_find()												            #
-  }																					                                        #
-#####################################################################################
+#######################################################################################################
+#MODULE 1: IDENTIFY DEFAULT DS CONNECTIONS  													                                #
+  # look for DS connections                                                                           #
+  if(is.null(datasources)){															                                              #
+    datasources <- datashield.connections_find()												                              #
+  }																					                                                          #
+                                                                                                      #
+  # ensure datasource is a list of DSConnection-class																			            #
+  if(!is.list(datasources)){																					                                #
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)   #
+  }																					                                                          #
+#######################################################################################################
 
 ###########################################################################################
 #MODULE 3: OPTIONAL CHECKS FOR KEY DATA OBJECTS                                           #

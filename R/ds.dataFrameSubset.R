@@ -114,6 +114,11 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check if user has provided the name of the data.frame to be subsetted
   if(is.null(df.name)){
     stop("Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", call.=FALSE)
