@@ -15,7 +15,12 @@ ds.boxPlotGG_numeric <- function(x, xlabel = "x axis", ylabel = "y axis", type =
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
   }
-  
+
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   ds.boxPlotGG_data_Treatment_numeric(x, datasources)
   
   ds.boxPlotGG("boxPlotRawDataNumeric", NULL, NULL, xlabel, ylabel, type, datasources)

@@ -1,5 +1,5 @@
 #'
-#' @title Client-side functions
+#' @title Lists client-side functions
 #' @description Lists all current client-side functions
 #' @details This function operates by directly interrogating
 #' the R objects stored in the input client packages and objects of name

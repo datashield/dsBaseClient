@@ -107,6 +107,10 @@ ds.rPois<-function(samp.size=1,lambda=1, newobj="newObject", seed.as.integer=NUL
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
 
 ########################
 #TEST SEED PRIMING VALUE

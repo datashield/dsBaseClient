@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.colnames.R
 \name{ds.colnames}
 \alias{ds.colnames}
-\title{Column names of the R object in the server-side}
+\title{Produces column names of the R object in the server-side}
 \usage{
 ds.colnames(x = NULL, datasources = NULL)
 }

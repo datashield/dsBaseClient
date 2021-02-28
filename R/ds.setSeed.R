@@ -92,6 +92,11 @@ ds.setSeed<-function(seed.as.integer=NULL,datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
 
 seed.valid<-0
 

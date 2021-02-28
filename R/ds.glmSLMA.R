@@ -380,6 +380,10 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
 
 
   # verify that 'formula' was set

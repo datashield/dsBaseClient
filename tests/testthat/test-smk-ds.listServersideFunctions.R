@@ -29,7 +29,7 @@ test_that("check results", {
       "lexisDS2", "lexisDS3", "list", "listDS", "log",
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS2", "repDS", "rep",
+      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS", "rep",
       "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
       "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
     ))
@@ -45,7 +45,7 @@ test_that("check results", {
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS", "lmerSLMADS2", "lsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
-      "recodeValuesDS1", "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
+      "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
       "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
       "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
       "testObjExistsDS", "varDS"

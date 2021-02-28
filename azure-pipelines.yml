@@ -49,7 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v6.2-dev
+    ref: v6.1.1-dev
 
 
 #########################################################################################
@@ -139,7 +139,7 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
@@ -301,6 +301,24 @@ jobs:
   - bash: |
 
       # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      exit $issue_count
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Install dsDanger on server
+    # If previous steps have failed then don't run
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
       issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
       echo "Number of testsuites with issues: "$issue_count
       echo "Testsuites with issues:"
@@ -319,7 +337,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1.1-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'

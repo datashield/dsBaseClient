@@ -1,4 +1,4 @@
-#' @title Fitting Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
+#' @title Fits Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
 #' @description \code{ds.glmerSLMA} fits a Generalized Linear Mixed-Effects Model
 #' (GLME) on data from one or multiple sources with pooling via SLMA (study-level meta-analysis).
 #' @details \code{ds.glmerSLMA} fits a generalized linear mixed-effects model (GLME) 
@@ -240,14 +240,16 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
                        control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
                        start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
   
-  
-  #UNDER DSi
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
-  
+
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # verify that 'formula' was set
   if(is.null(formula)){
     stop(" Please provide a valid regression formula!", call.=FALSE)
