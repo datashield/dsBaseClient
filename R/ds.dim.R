@@ -132,7 +132,14 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   ###################################################################################################
 
   cally <- call("dimDS", x)
-  dimensions <- DSI::datashield.aggregate(datasources, cally)
+  outcome <- DSI::datashield.aggregate(datasources, cally)
+  
+  dimensions <- list()
+  if(length(datasources) > 1){
+    dimensions <- outcome
+  }else{
+    dimensions[[1]] <- outcome
+  }
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
