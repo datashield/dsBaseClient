@@ -81,6 +81,11 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
+  
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
 
   # check if user has provided the name of the data.frame to be subsetted
   if(is.null(df.name)){
