@@ -1,4 +1,4 @@
-#' @title Fitting Linear Mixed-Effect Model via Study-Level Meta-Analysis
+#' @title Fits Linear Mixed-Effect model via Study-Level Meta-Analysis
 #' @description \code{ds.lmerSLMA} fits a Linear Mixed-Effects Model (lme) - can include both
 #' fixed and random-effects - on data from one or multiple sources with pooling via SLMA
 #' (Study-Level Meta-Analysis)
@@ -196,16 +196,17 @@
 ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, REML=TRUE, 
 					   control_type = NULL, control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE) {
-  
-  
- #UNDER DSi
- # look for DS connections
+
+  # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
 
-  
-  
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # verify that 'formula' was set
   if(is.null(formula)){
     stop(" Please provide a valid regression formula!", call.=FALSE)

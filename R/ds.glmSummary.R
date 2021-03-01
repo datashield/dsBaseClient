@@ -83,6 +83,11 @@ ds.glmSummary<-function(x.name, newobj=NULL, datasources=NULL) {
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
 # check if a value has been provided for x
   if(is.null(x.name)||!is.character(x.name)){
     return("Error: x.name must denote a character string naming the glm object on the

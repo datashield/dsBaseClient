@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.lmerSLMA.R
 \name{ds.lmerSLMA}
 \alias{ds.lmerSLMA}
-\title{Fitting Linear Mixed-Effect Model via Study-Level Meta-Analysis}
+\title{Fits Linear Mixed-Effect model via Study-Level Meta-Analysis}
 \usage{
 ds.lmerSLMA(
   formula = NULL,

@@ -87,9 +87,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$sim1, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim1': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error in dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0,  : \n  FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='FALSE\n", fixed = TRUE)
-    expect_equal(res.errors$sim2, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim2': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error in dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0,  : \n  FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='FALSE\n", fixed = TRUE)
-    expect_equal(res.errors$sim3, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim3': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error in dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0,  : \n  FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='FALSE\n", fixed = TRUE)
+    expect_equal(res.errors$sim1, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim1': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='\n", fixed = TRUE)
+    expect_equal(res.errors$sim2, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim2': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='\n", fixed = TRUE)
+    expect_equal(res.errors$sim3, "Command 'dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, \n    FALSE)' failed on 'sim3': Error while evaluating 'dsBase::dataFrameSubsetDS1(\"D\", \"D$LAB_TSC\", \"D$LAB_TSC\", 0, NULL, NULL, FALSE)' -> Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='\n", fixed = TRUE)
 })
 
 #

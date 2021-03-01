@@ -118,8 +118,13 @@
 #' @export
 ds.ls <- function(search.filter=NULL, env.to.search=1L, search.GlobalEnv=TRUE, datasources=NULL){
   
-   if(is.null(datasources)){
+  if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
 #make default to .GlobalEnv unambiguous

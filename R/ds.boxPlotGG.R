@@ -27,6 +27,11 @@ ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylab
     datasources <- DSI::datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   cally <- paste0("boxPlotGGDS(", x, ", ", 
                   if(is.null(group)){paste0("NULL")}else{paste0("'",group,"'")}, ", ", 
                   if(is.null(group2)){paste0("NULL")}else{paste0("'",group2,"'")}, ")")
