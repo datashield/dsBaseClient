@@ -121,6 +121,11 @@ ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,a
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # dataframe names
   if(is.null(x.name)){
     stop("Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", call.=FALSE)
