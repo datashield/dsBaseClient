@@ -139,7 +139,7 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     }
   }
   output <- DSI::datashield.aggregate(datasources, calltext)
-
+  
   if (type=="split"){
     covariance <- list()
     sqrt.diag <- list()
@@ -152,24 +152,24 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       rownames(correlation[[i]]) <- colnames(output[[i]][[1]])
       for(m in 1:dim(output[[i]][[1]])[1]){
         for(n in 1:dim(output[[i]][[1]])[2]){
-          if (naAction=='pairwise.complete'){
+          #if (naAction=='pairwise.complete'){
             covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m,n]*output[[i]][[2]][n,m]
-          }
-          if (naAction=='casewise.complete'){
-            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m]*output[[i]][[2]][n]
-          }
+          #}
+          #if (naAction=='casewise.complete'){
+          #  covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m]*output[[i]][[2]][n]
+          #}
         }
       }
-      if (naAction=='casewise.complete'){
-	    sqrt.diag[[i]] <- sqrt(1/diag(covariance[[i]]))
-        correlation[[i]] <- rep(sqrt.diag[[i]], dim(covariance[[i]])[1]) * covariance[[i]] * rep(sqrt.diag[[i]], each = dim(covariance[[i]])[1])
+     # if (naAction=='casewise.complete'){
+	   # sqrt.diag[[i]] <- sqrt(1/diag(covariance[[i]]))
+    #    correlation[[i]] <- rep(sqrt.diag[[i]], dim(covariance[[i]])[1]) * covariance[[i]] * rep(sqrt.diag[[i]], each = dim(covariance[[i]])[1])
 	  }
-	  if (naAction=='pairwise.complete'){
-        sqrt.diag[[i]] <- sqrt(1/(output[[i]][[6]]))
+	  #if (naAction=='pairwise.complete'){
+        sqrt.diag[[i]] <- sqrt(1/(output[[i]][[5]]))
         correlation[[i]] <- sqrt.diag[[i]] * covariance[[i]] * t(sqrt.diag[[i]])
-	  }
+	  #}
 
-	  results[[i]] <- list(output[[i]][[4]][[1]], output[[i]][[4]][[2]], correlation[[i]], output[[i]][[3]], output[[i]][[5]])
+	  results[[i]] <- list(output[[i]][[4]][[1]], output[[i]][[4]][[2]], correlation[[i]], output[[i]][[3]])
       n1 <- "Number of missing values in each variable"
       if(naAction=='casewise.complete'){
         n2 <- "Number of missing values casewise"
@@ -178,58 +178,61 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
         n2 <- "Number of missing values pairwise"
       }
       n3 <- "Correlation Matrix"
-	  n4 <- "Number of complete cases used"
-      n5 <- "Error message"
-      names(results[[i]]) <- c(n1, n2, n3, n4, n5)
+	    n4 <- "Number of complete cases used"
+      names(results[[i]]) <- c(n1, n2, n3, n4)
     }
-  }else{
+  else{
     if (type=="combine"){
       combined.sums.of.products <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
       combined.sums <- matrix(0, ncol=dim(output[[1]][[2]])[2], nrow=dim(output[[1]][[2]])[1])
       combined.complete.cases <- matrix(0, ncol=dim(output[[1]][[3]])[2], nrow=dim(output[[1]][[3]])[1])
       combined.missing.cases.vector <- matrix(0, ncol=dim(output[[1]][[4]][[1]])[2], nrow=dim(output[[1]][[4]][[1]])[1])
       combined.missing.cases.matrix <- matrix(0, ncol=dim(output[[1]][[4]][[2]])[2], nrow=dim(output[[1]][[4]][[2]])[1])
-      combined.error.message <- list()
-      combined.sums.of.squares <- matrix(0, ncol=dim(output[[1]][[7]])[2], nrow=dim(output[[1]][[7]])[1])
+      #combined.error.message <- list()
+      combined.sums.of.squares <- matrix(0, ncol=dim(output[[1]][[6]])[2], nrow=dim(output[[1]][[6]])[1])
       for(i in 1:length(stdnames)){
         combined.sums.of.products <- combined.sums.of.products + output[[i]][[1]]
-	    combined.sums <- combined.sums + output[[i]][[2]]
+	      combined.sums <- combined.sums + output[[i]][[2]]
         combined.complete.cases <- combined.complete.cases + output[[i]][[3]]
         combined.missing.cases.vector <- combined.missing.cases.vector + output[[i]][[4]][[1]]
         combined.missing.cases.matrix <- combined.missing.cases.matrix + output[[i]][[4]][[2]]
-	    combined.error.message[[i]] <- output[[i]][[5]]
-        combined.sums.of.squares <- combined.sums.of.squares + output[[i]][[7]]
+	      #combined.error.message[[i]] <- output[[i]][[5]]
+        combined.sums.of.squares <- combined.sums.of.squares + output[[i]][[6]]
       }
-
-	combined.covariance <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
-	colnames(combined.covariance) <- colnames(output[[1]][[1]])
+      
+  	combined.covariance <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
+	  colnames(combined.covariance) <- colnames(output[[1]][[1]])
     rownames(combined.covariance) <- colnames(output[[1]][[1]])
     for(m in 1:dim(output[[i]][[1]])[1]){
       for(n in 1:dim(output[[i]][[1]])[1]){
-        if (naAction=='pairwise.complete'){
-          combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
-		}
-        if (naAction=='casewise.complete'){
-          combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m]*combined.sums[n]
-        }
+        #if (naAction=='pairwise.complete'){
+        combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[n,m]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
+        (1/(combined.complete.cases[m,n]*(combined.complete.cases[n,m]-1)))*combined.sums[m,n]*combined.sums[n,m]-(1/(combined.complete.cases[m,n]*combined.complete.cases[n,m]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
+		#}
+        #if (naAction=='casewise.complete'){
+         # combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m]*combined.sums[n]
+        #}
 	  }
     }
-
-    if (naAction=='casewise.complete'){
+    
+#    if (naAction=='casewise.complete'){
 	  combined.sqrt.diag <- sqrt(1/diag(combined.covariance))
       combined.correlation <- rep(combined.sqrt.diag, dim(combined.covariance)[1]) * combined.covariance * rep(combined.sqrt.diag, each = dim(combined.covariance)[1])
-    }
-	if (naAction=='pairwise.complete'){
-	  combined.variance <- matrix(0, ncol=dim(output[[1]][[6]])[2], nrow=dim(output[[1]][[6]])[1])
-      for(i in 1:length(stdnames)){
-       combined.variance <- combined.variance + (output[[i]][[3]]-matrix(1, ncol=dim(output[[i]][[3]])[2], nrow=dim(output[[i]][[3]])[1])) * output[[i]][[6]]
-      }
-      combined.variance <- combined.variance / (combined.complete.cases-matrix(length(stdnames), ncol=dim(combined.complete.cases)[2], nrow=dim(combined.complete.cases)[1]))
+#    }
+#	if (naAction=='pairwise.complete'){
+#	  combined.variance <- matrix(0, ncol=dim(output[[1]][[6]])[2], nrow=dim(output[[1]][[6]])[1])
+#       for(i in 1:length(stdnames)){
+#        combined.variance <- combined.variance + (output[[i]][[3]]-matrix(1, ncol=dim(output[[i]][[3]])[2], nrow=dim(output[[i]][[3]])[1])) * output[[i]][[6]]
+#       }
+#       combined.variance <- combined.variance / (combined.complete.cases-matrix(length(stdnames), ncol=dim(combined.complete.cases)[2], nrow=dim(combined.complete.cases)[1]))
 
-	  combined.sqrt.diag <- sqrt(1/(combined.variance))
-      combined.correlation <- combined.sqrt.diag * combined.covariance * t(combined.sqrt.diag)
-    }
-	  results <- list(combined.missing.cases.vector, combined.missing.cases.matrix, combined.correlation, combined.complete.cases, combined.error.message)
+	   #combined.sqrt.diag <- sqrt(1/(combined.variance))
+#	  combined.sqrt.diag <- sqrt(1/diag(combined.covariance))
+#	  combined.correlation <- rep(combined.sqrt.diag, dim(combined.covariance)[1]) * combined.covariance * rep(combined.sqrt.diag, each = dim(combined.covariance)[1])
+	  
+ #     combined.correlation <- combined.sqrt.diag * combined.covariance * t(combined.sqrt.diag)
+#    }
+	  results <- list(combined.missing.cases.vector, combined.missing.cases.matrix, combined.correlation, combined.complete.cases)
       n1 <- "Number of missing values in each variable"
       if(naAction=='casewise.complete'){
         n2 <- "Number of missing values casewise"
@@ -238,13 +241,14 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
         n2 <- "Number of missing values pairwise"
       }
       n3 <- "Correlation Matrix"
-	  n4 <- "Number of complete cases used"
-      n5 <- "Error message"
-      names(results) <- c(n1, n2, n3, n4, n5)
+	    n4 <- "Number of complete cases used"
+      #n5 <- "Error message"
+      names(results) <- c(n1, n2, n3, n4)
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
     }
   }
+  #return(combined.covariance)
 
   return(results)
 

@@ -4,7 +4,9 @@
 #' @details This function checks if the input data frames have the same variables (i.e. the same
 #' column names) in all of the used studies. When a study does not have some of the variables, the
 #' function generates those variables as vectors of missing values and combines them as columns to
-#' the input data frame. 
+#' the input data frame. If any of the generated variables are of class factor, the function 
+#' assigns to those the corresponding levels of the factors given from the studies where such 
+#' factors exist.
 #' 
 #' Server function called: \code{dataFrameFillDS}
 #' @param df.name a character string representing the name of the input data frame that will be
@@ -19,7 +21,7 @@
 #' is written to the server-side. Also, two validity messages are returned to the
 #' client-side indicating the name of the \code{newobj} that has been created in each data source
 #' and if it is in a valid form.
-#' @author DataSHIELD Development Team
+#' @author Demetris Avraam for DataSHIELD Development Team
 #' 
 #' @examples 
 #' \dontrun{
@@ -108,7 +110,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   column.names <- list()
   for (i in 1:length(datasources)){
-    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[[i]])
+    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])
   }
 
   allNames <- unique(unlist(column.names))
@@ -138,13 +140,32 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
   class.vect2 <- unname(unlist(class.vect2))
   
+  # check if any of the elements in class.vect2 are factor
+  # and if yes then get their levels
+  df.indicator <- list()
+  levels.vec <- list()
+  if(length(class.vect2)>0){
+    anyFactors <- allNames[which(class.vect2 == 'factor')]
+    if(length(anyFactors)>0){
+      for(i in 1:length(anyFactors)){
+        df.indicator[[i]] <- lapply(column.names, function(x){is.element(anyFactors[i],unlist(x))})
+      }
+      df.indicator.index <- lapply(df.indicator, function(x){which(x==TRUE)})
+      for(i in 1:length(anyFactors)){
+        levels.vec[[i]] <- dsBaseClient::ds.levels(x=paste0(df.name, '$', anyFactors[i]), datasources=datasources[df.indicator.index[[i]]])
+        levels.vec[[i]] <- as.numeric(levels.vec[[i]][[1]][[1]])
+      }
+    }
+  }
+  levels.vec.transmit <- unlist(lapply(levels.vec, function(x){paste(x,collapse=",")}))
+  
   if(!is.null(class.vect2)){
     class.vect.transmit <- paste(class.vect2,collapse=",")
   }else{
     class.vect.transmit <- NULL
   }
   
-  calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit)
+  calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit, levels.vec.transmit)
   DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################
