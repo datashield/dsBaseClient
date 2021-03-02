@@ -1,12 +1,51 @@
-#' Title
+#' @title Forestplot for SLMA models
+#' @description Draws a foresplot of the coefficients for Study-Level Meta-Analysis performed with
+#' DataSHIELD
 #'
-#' @param mod 
+#' @param mod \code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
+#' \code{ds.glmSLMA}, \code{ds.lmerSLMA})
+#' @param method \code{character} (Default \code{"ML"}) Parameter optimization method to visualize. Options are 
+#' \code{"ML"} for Maximum Likelihood, \code{"REML"} for REstricted Maximum Likelihood or \code{"FE"} for 
+#' Fixed-Effects meta-analysis 
 #'
-#' @return
+#' @return Plot object of class \code{vpPath}
 #' @export
 #'
 #' @examples
-ds.forestplot <- function(mod){
+#' \dontrun{
+#'   # Run a logistic regression
+#'   
+#'   builder <- DSI::newDSLoginBuilder()
+#'   builder$append(server = "study1", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'   builder$append(server = "study2", 
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'   builder$append(server = "study3",
+#'                  url = "http://192.168.56.100:8080/", 
+#'                  user = "administrator", password = "datashield_test&", 
+#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'   logindata <- builder$build()
+#'   
+#'   # Log onto the remote Opal training servers
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   
+#'   # Fit the logistic regression model
+#' 
+#'   mod <- ds.glmSLMA(formula = "DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL",
+#'                 data = "D",
+#'                 family = "binomial",
+#'                 datasources = connections)
+#'                 
+#'   # Plot the results of the model
+#'   ds.forestplot(mod)
+#' }
+#' 
+
+ds.forestplot <- function(mod, method = "ML"){
   
   # Declaration of variables
   ntotal <- NULL
@@ -16,6 +55,7 @@ ds.forestplot <- function(mod){
   
   # Get number of studies
   num_stud <- mod$num.valid.studies
+  
   # Obtain from each study the numbers of valid, missing and total of individuals. Obtain the study names too
   for(i in 1:num_stud){
     ntotal <- c(ntotal, mod$output.summary[[i]]$Ntotal)
@@ -39,10 +79,23 @@ ds.forestplot <- function(mod){
   nvalid <- c("N valid", nvalid, NA, sum(nvalid))
   nmissing <- c("N missing", nmissing, NA, sum(nmissing))
   
-  # To do: offer choice of ML, REML, FE. only would affect the columns chosen on next 3 lines
-  mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,1])
-  lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
-  upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
+  # Choice of ML, REML, FE. only would affect the columns chosen on next 3 lines
+  if(method == "ML"){
+    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,1])
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
+  }
+  else if(method == "REML"){
+    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,3])
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,3] - mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,3] + mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
+  }
+  else if(method == "FE"){
+    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,5])
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,5] - mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,5] + mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
+  }
+  else{stop("Invalid 'method' argument [", method, "]")}
   
   # Build plot parameters
   legend <- colnames(mean)
