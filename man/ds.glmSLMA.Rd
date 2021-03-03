@@ -378,7 +378,7 @@ Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.a
          datasources = connections)
   
   ds.glmSLMA(formula = EVENT ~ 1 + TID + female * age.60,
-         data = "D",
+         dataName = "D",
          family = "poisson", 
          offset = "log.surv",
          weights = NULL,
@@ -413,7 +413,7 @@ Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.a
   # Fit the logistic regression model
 
   mod <- ds.glmSLMA(formula = "DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL",
-                data = "D",
+                dataName = "D",
                 family = "binomial",
                 datasources = connections)
                 
@@ -424,7 +424,7 @@ Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.a
 # connect again to the server 
 
 mod <- ds.glmSLMA(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
-              data = "D",
+              dataName = "D",
               family = "gaussian",
               datasources = connections)
 mod
