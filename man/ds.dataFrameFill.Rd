@@ -31,7 +31,9 @@ Adds extra columns with missing values in a data frame on the server-side.
 This function checks if the input data frames have the same variables (i.e. the same
 column names) in all of the used studies. When a study does not have some of the variables, the
 function generates those variables as vectors of missing values and combines them as columns to
-the input data frame. 
+the input data frame. If any of the generated variables are of class factor, the function 
+assigns to those the corresponding levels of the factors given from the studies where such 
+factors exist.
 
 Server function called: \code{dataFrameFillDS}
 }
@@ -87,5 +89,5 @@ Server function called: \code{dataFrameFillDS}
 }
 }
 \author{
-DataSHIELD Development Team
+Demetris Avraam for DataSHIELD Development Team
 }
