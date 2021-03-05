@@ -98,6 +98,11 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check user has provided the name of the variable to be recoded
   if(is.null(var.name)){
     stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)

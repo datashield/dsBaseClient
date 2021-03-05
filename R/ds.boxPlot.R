@@ -23,7 +23,12 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
   }
-  
+
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   isDefined(datasources, x)
   cls <- checkClass(datasources, x)
   

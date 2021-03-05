@@ -41,9 +41,13 @@ ds.vectorCalc = function(x=NULL, calc=NULL, newobj=NULL, datasources=NULL){
   .Deprecated("ds.make")
   
   # look for DS connections
-
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   if(is.null(x)){

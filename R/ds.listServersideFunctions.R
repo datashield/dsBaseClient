@@ -60,6 +60,11 @@ ds.listServersideFunctions<-function(datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasource is a list of DSConnection-class
+  if(!is.list(datasources)){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   assign.funs <- DSI::datashield.methods(datasources, 'assign')
   aggregate.funs <- DSI::datashield.methods(datasources, 'aggregate')
   return(list(serverside.assign.functions=assign.funs,
