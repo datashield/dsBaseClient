@@ -19,7 +19,9 @@ ds.glmerSLMA(
   verbose = 0,
   start_theta = NULL,
   start_fixef = NULL,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  assign = FALSE,
+  newobj = NULL
 )
 }
 \arguments{
@@ -78,6 +80,15 @@ Specify to retain more control over the optimisation. See \code{glmer()} for mor
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default  FALSE.}
+
+\item{assign}{a logical, indicates whether the function will call a second server-side function
+(an assign) in order to save the regression outcomes (i.e. a glmerMod object) on each server.
+Default FALSE.}
+
+\item{newobj}{a character string specifying the name of the object to which the glmerMod object
+representing the model fit on the serverside in each study is to be written. This argument is 
+used only when the argument \code{assign} is set to TRUE.
+If no <newobj> argument is specified, the output object defaults to "new.glmer.obj".}
 }
 \value{
 Many of the elements of the output list returned by \code{ds.glmerSLMA} are 
