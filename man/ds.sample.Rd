@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.sample.R
 \name{ds.sample}
 \alias{ds.sample}
-\title{random sampling and permuting of vectors, dataframes and matrices}
+\title{Performs random sampling and permuting of vectors, dataframes and matrices}
 \usage{
 ds.sample(
   x = NULL,

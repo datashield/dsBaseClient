@@ -132,6 +132,11 @@ ds.glmPredict <- function(glmname=NULL,newdataname=NULL,output.type="response",
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check that <glmname> is set
   if(is.null(glmname)){
 	error.message<-"<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside"

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.listOpals.R
 \name{ds.listOpals}
 \alias{ds.listOpals}
-\title{ds.listOpals list all Opal objects in the analytic environment}
+\title{Lists all Opal objects in the analytic environment}
 \usage{
 ds.listOpals()
 }

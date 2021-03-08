@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.reShape.R
 \name{ds.reShape}
 \alias{ds.reShape}
-\title{Reshape server-side grouped data}
+\title{Reshapes server-side grouped data}
 \usage{
 ds.reShape(
   data.name = NULL,

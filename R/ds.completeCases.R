@@ -1,3 +1,4 @@
+#' 
 #' @title Identifies complete cases in server-side R objects 
 #' @description Selects complete cases of a data frame,
 #' matrix or vector that contain missing values.
@@ -7,19 +8,19 @@
 #' 
 #' Server function called: \code{completeCasesDS}
 #' 
-#' @param x1 a character denoting the name of the input object 
-#' which can be a data frame, matrix or vector.
-#' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers.
+#' @param x1 a character denoting the name of the input object which can be a data frame,
+#' matrix or vector.
+#' @param newobj a character string that provides the name for the complete-cases object  
+#' that is stored on the data servers. If the user does not specify a name, then the function 
+#' generates a name for the generated object that is the name of the input object with the 
+#' suffix "_complete.cases"
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.completeCases} returns a modified data frame, matrix or vector from which
-#' all rows containing at least one NA have been deleted. 
-#' The output R object is stored on the server-side. 
-#' Also, two validity messages are returned to the client-side 
-#' indicating the name of \code{newobj} that has been created in each data source 
-#' and if it is in a valid form.  
+#' If the \code{datasources} argument is not specified, the default set of connections will be
+#' used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.completeCases} generates a modified data frame, matrix or vector from which
+#' all rows containing at least one NA have been deleted. The output object is stored on the
+#' server-side. Only two validity messages are returned to the client-side indicating the name
+#' of the \code{newobj} that has been created in each data source and if it is in a valid form.  
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
@@ -43,6 +44,7 @@
 #'                  user = "administrator", password = "datashield_test&", 
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 #'   logindata <- builder$build()
+#'   
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
@@ -67,36 +69,37 @@
 #'   
 #' @author DataSHIELD Development Team
 #' @export
-ds.completeCases<-function(x1=NULL, newobj=NULL,datasources=NULL){
+#' 
+ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){
   
   # if no connection login details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
 
- # check if a value has been provided for x1
-  if(is.null(x1)){
-    return("Error: x1 must have a value which is a character string naming a serverside data.frame, matrix or vector")
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
- #rename target object for transfer (not strictly necessary as string will pass parser anyway)
- #but maintains consistency with other functions
+  # check if a value has been provided for x1
+  if(is.null(x1)){
+    return("Error: x1 must be a character string naming a serverside data.frame, matrix or vector")
+  }
+
+  # rename target object for transfer (not strictly necessary as string will pass parser anyway)
+  # but maintains consistency with other functions
  
-  x1.transmit<-x1
+  x1.transmit <- x1
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj))
-  {
+  if(is.null(newobj)){
     newobj <- paste0(x1,"_complete.cases")
   }
 
-  
-# CALL THE MAIN SERVER SIDE FUNCTION
-
+  # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("completeCasesDS", x1.transmit)
-
-
- DSI::datashield.assign(datasources, newobj, calltext)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
  
 #############################################################################################################

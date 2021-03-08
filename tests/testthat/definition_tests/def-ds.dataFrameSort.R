@@ -143,3 +143,43 @@
                  ds.test_env$tolerance) 
   }
 }
+
+.closure.test<-function(initial.df.name,key.name,sort.descending,sort.method,df.created,local.df.list)
+{
+  for(i in 1:length(local.df.list))
+  {
+  # Initial set (local set)
+  local.vec<-local.df.list[[i]][,key.name]
+  initial.set<-unique(local.vec)
+  # Sort server dfs
+  sort.key.name<-paste(initial.df.name,key.name,sep="$")
+  ds.dataFrameSort(df.name = initial.df.name,
+                   sort.key.name = sort.key.name,
+                   sort.descending = sort.descending,
+                   sort.method = sort.method,
+                   newobj =df.created,
+                   datasources = ds.test_env$connection)
+  
+  server.data<-dsDangerClient::ds.DANGERdfEXTRACT(df.created,
+                                                  datasources = ds.test_env$connections)
+  server.data<-server.data$study.specific.df
+  
+  # Final set (server set)
+  server.vec<-server.data[[i]][,key.name]
+  final.set<-unique(server.vec)
+  
+  # Test 
+  closure.vector <- final.set %in% initial.set
+  closure.vector.unique.value <- unique(closure.vector)
+  
+  expect_equal(length(closure.vector.unique.value),
+               1,
+               ds.test_env$tolerance)
+  
+  expect_equal(closure.vector.unique.value,
+               TRUE,
+               ds.test_env$tolerance)
+  }
+}
+
+

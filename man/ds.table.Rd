@@ -2,8 +2,8 @@
 % Please edit documentation in R/ds.table.R
 \name{ds.table}
 \alias{ds.table}
-\title{ds.table calling aggregate functions tableDS and tableDS2
-and assign function tableDS.assign}
+\title{Generates 1-, 2-, and 3-dimensional contingency tables with option
+of assigning to serverside only and producing chi-squared statistics}
 \usage{
 ds.table(
   rvar = NULL,
@@ -88,7 +88,7 @@ to the clientside because it fails disclosure rules.}
 table object to be written to the serverside if <table.assign> is TRUE.
 If no explicit name for the table object is specified, but <table.assign>
 is nevertheless TRUE, the name for the serverside table object defaults
-to 'newObj'.}
+to \code{table.newobj}.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.

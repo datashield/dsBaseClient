@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.lmerSLMA.R
 \name{ds.lmerSLMA}
 \alias{ds.lmerSLMA}
-\title{Fitting Linear Mixed-Effect Model via Study-Level Meta-Analysis}
+\title{Fits Linear Mixed-Effect model via Study-Level Meta-Analysis}
 \usage{
 ds.lmerSLMA(
   formula = NULL,
@@ -17,7 +17,9 @@ ds.lmerSLMA(
   control_value = NULL,
   optimizer = NULL,
   verbose = 0,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  assign = FALSE,
+  newobj = NULL
 )
 }
 \arguments{
@@ -69,7 +71,16 @@ iteratively reweighted least squares (PIRLS) steps. Default \code{verbose}
  value is 0 which means no additional output.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
-progress. Default  FALSE.}
+progress. Default FALSE.}
+
+\item{assign}{a logical, indicates whether the function will call a second server-side function
+(an assign) in order to save the regression outcomes (i.e. a lmerMod object) on each server.
+Default FALSE.}
+
+\item{newobj}{a character string specifying the name of the object to which the lmerMod object
+representing the model fit on the serverside in each study is to be written. This argument is 
+used only when the argument \code{assign} is set to TRUE.
+If no <newobj> argument is specified, the output object defaults to "new.lmer.obj".}
 }
 \value{
 Many of the elements of the output list returned by \code{ds.lmerSLMA} are 

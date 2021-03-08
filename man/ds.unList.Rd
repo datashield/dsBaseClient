@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.unList.R
 \name{ds.unList}
 \alias{ds.unList}
-\title{Flatten Server-Side Lists}
+\title{Flattens Server-Side Lists}
 \usage{
 ds.unList(x.name = NULL, newobj = NULL, datasources = NULL)
 }

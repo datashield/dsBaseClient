@@ -21,7 +21,7 @@ connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 context("ds.rm::arg::test errors")
 
 test_that("ds.rm erros", {
-    expect_error(ds.rm(), "Please provide the name of the object to be deleted (eg 'object.name') as the x.name argument", fixed=TRUE)
+    expect_error(ds.rm(), "Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", fixed=TRUE)
 })
 
 #
