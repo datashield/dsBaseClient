@@ -143,6 +143,7 @@ jobs:
       # sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "devtools::install_github('datashield/DSI')"
       sudo R -q -e "devtools::install_github('datashield/DSOpal')"
+      sudo R -q -e "devtools::install_github('datashield/DSLite')"
       sudo R -q -e "devtools::install_github('obiba/opalr')"
 
 
