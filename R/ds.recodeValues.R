@@ -2,23 +2,11 @@
 #' @description This function takes specified values of elements in a vector and converts
 #' them to a matched set of alternative specified values.
 #' @details This function recodes individual values with new individual values. This can
-#' apply to numeric and character values, factor levels and NAs. 
-#' 
-#' One particular use of
-#' \code{ds.recodeValues} is to convert NAs to an explicit value or vice-versa.
-#' 
-#' The argument \code{force.output.format} can be specified in 3 ways: \cr
-#' (1) \code{force.output.format = "numeric"} the output 
-#' vector will be of type numeric and any non-numeric values in 
-#' \code{new.values.vector} will appear as \code{NaN} in the recoded vector.\cr
-#' (2) \code{force.output.format = "character"}  all values
-#' in the output vector will be in character format. \cr
-#' (3) \code{force.output.format = "no"} 
-#' if the vector identified by the \code{values2replace.vector} argument is itself
-#' numeric and if all values in the \code{new.values.vector} are numeric,
-#' the recoded output vector will also be numeric. Otherwise, it will be coerced
-#' to character format.
-#' 
+#' apply to numeric and character values, factor levels and NAs. One particular use of
+#' \code{ds.recodeValues} is to convert NAs to an explicit value. This value is specified
+#' in the argument \code{missing}. If tthe user want to recode only missing values, then it
+#' should also specify an identical vector of values in both arguments \code{values2replace.vector}
+#' and \code{new.values.vector} (see Example 2 below).
 #' Server function called: \code{recodeValuesDS}
 #' @param var.name a character string providing the name of the variable to be recoded. 
 #' @param values2replace.vector a numeric or character vector specifying the values
@@ -69,21 +57,20 @@
 #'   
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   #Create a vector in the server-side
-#'   
-#'   ds.assign(toAssign = "D$LAB_TSC", 
-#'             newobj = "ss.vector", 
-#'             datasources = connections)
-#'   
-#'   # Recode the values of the vector
-#'   
-#'   ds.recodeValues(var.name = "ss.vector",
-#'                   values2replace.vector = c(0,NA),
-#'                   new.values.vector = c(0,0),
-#'                   force.output.format = "numeric",
-#'                   newobj = "recode.vector",
-#'                   datasources = connections,
-#'                   notify.of.progress = FALSE)
+#'   # Example 1: recode the levels of D$GENDER
+#'   ds.recodeValues(var.name = "D$GENDER", 
+#'                   values2replace.vector = c(0,1), 
+#'                   new.values.vector = c(10,20),
+#'                   newobj = 'gender_recoded',
+#'                   datasources = connections)
+#'                   
+#'   # Example 2: recode NAs in D$PM_BMI_CATEGORICAL          
+#'   ds.recodeValues(var.name = "D$PM_BMI_CATEGORICAL", 
+#'                   values2replace.vector = c(1,2), 
+#'                   new.values.vector = c(1,2),
+#'                   missing = 99, 
+#'                   newobj = 'bmi_recoded'
+#'                   datasources = connections)
 #'                  
 #'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 
