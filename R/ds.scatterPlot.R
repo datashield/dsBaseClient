@@ -133,8 +133,8 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
     stop("Please provide the name of the x-variable", call.=FALSE)
   }
 
-  # ensure datasource is a list of DSConnection-class
-  if(!is.list(datasources)){
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 

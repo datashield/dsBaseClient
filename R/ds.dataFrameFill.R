@@ -81,14 +81,9 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
-  # ensure datasource is a list of DSConnection-class
-  if(!is.list(datasources)){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
 
-  # ensure datasource is a list of DSConnection-class
-  if(!is.list(datasources)){
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
@@ -120,7 +115,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   column.names <- list()
   for (i in 1:length(datasources)){
-    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])
+    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])[[1]]
   }
 
   allNames <- unique(unlist(column.names))

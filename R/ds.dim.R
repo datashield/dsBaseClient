@@ -91,8 +91,8 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
     datasources <- datashield.connections_find()
   }
 
-  # ensure datasource is a list of DSConnection-class
-  if(!is.list(datasources)){
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
@@ -132,14 +132,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   ###################################################################################################
 
   cally <- call("dimDS", x)
-  outcome <- DSI::datashield.aggregate(datasources, cally)
-  
-  dimensions <- list()
-  if(length(datasources) > 1){
-    dimensions <- outcome
-  }else{
-    dimensions[[1]] <- outcome
-  }
+  dimensions <- DSI::datashield.aggregate(datasources, cally)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)

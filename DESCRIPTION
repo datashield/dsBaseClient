@@ -14,6 +14,7 @@ Imports:
     ggplot2,
     gridExtra,
     data.table,
-    panelaggregation
+    panelaggregation,
+    methods
 RoxygenNote: 7.1.1
 Encoding: UTF-8
