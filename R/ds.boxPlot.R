@@ -20,7 +20,8 @@
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
 #'   
-#'   ### Please ensure you have a training Virtual Machine running, or that you have a live connection to a server.
+#'   ### Please ensure you have a training Virtual Machine running,
+#'    or that you have a live connection to a server.
 #'      
 #'   # Connecting to the Opal servers
 #' 
@@ -43,7 +44,8 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 #'   logindata <- builder$build()
 #'   
-#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE,
+#'    symbol = "D") 
 #'   
 #'   ## Create a boxplot of one variable
 #'   ds.boxPlot("D", "LAB_HDL", datasources = connections) 
@@ -52,13 +54,17 @@
 #'   ds.boxPlot("D", "LAB_HDL", type= "split", datasources = connections) 
 #'   
 #'   ## Create a boxplot of two variables variable
-#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="combine", datasources = connections)  # only one plot is created (of the aggregated results of all servers)
+#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="combine", 
+#'   datasources = connections)  
+#'   # only one plot is created (of the aggregated results of all servers)
 #'   
 #'   ## Create a boxplot of two variables, which are split by a factor
-#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", datasources = connections)
+#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", 
+#'   datasources = connections)
 #'   
 #'   ## Create a boxplot with x- and y-axis labels
-#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", xlabel = "Variable", ylabel = "Measurement", datasources = connections)
+#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", 
+#'   xlabel = "Variable", ylabel = "Measurement", datasources = connections)
 #'   
 #'                               
 #'   # Clear the Datashield R sessions and logout                 
