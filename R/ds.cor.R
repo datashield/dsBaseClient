@@ -31,21 +31,18 @@
 #' Default NULL. 
 #' @param naAction a character string giving a method for computing correlations in the
 #' presence of missing values. This must be set to  \code{'casewise.complete'} or
-#' \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details. 
+#' \code{'pairwise.complete'}. Default \code{'casewise.complete'}. For more information see details. 
 #' @param type a character string that represents the type of analysis to carry out. 
 #' This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.cor} returns a list containing the number of missing values in each variable,
-#' the number of missing variables casewise or
-#' pairwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
-#' and an error message which indicates whether or not the input variables pass the disclosure controls. The first disclosure
+#' the number of missing variables casewise or pairwise depending on the argument \code{naAction}, the correlation matrix, 
+#' the number of used complete cases. The function applies two disclosure controls. The first disclosure
 #' control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
 #' percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
-#' with a level having fewer counts than the pre-specified 'nfilter.tab' threshold. If any of the input variables do not
-#' pass the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
-#' the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
+#' with a level having fewer counts than the pre-specified 'nfilter.tab' threshold.
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{
@@ -75,35 +72,31 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   # Calculate the correlation between two vectors
-#'   ds.assign(newobj='labhdl', toAssign='D$LAB_HDL',datasources = connections)
-#'   ds.assign(newobj='labtsc', toAssign='D$LAB_TSC',datasources = connections)
-#'   ds.assign(newobj='gender', toAssign='D$GENDER',datasources = connections)
-#'   ds.cor(x = 'labhdl',
-#'          y = 'labtsc',
-#'          naAction = 'pairwise.complete',
-#'          type = 'combine',
+#'   # Example 1: Get the correlation matrix of two continuous variables
+#'   ds.cor(x="D$LAB_TSC", y="D$LAB_TRIG", type="combine", naAction='casewise.complete', 
 #'          datasources = connections)
-#'   ds.cor(x = 'labhdl',
-#'          y = 'gender',
-#'          naAction = 'pairwise.complete',
-#'          type = 'combine',
-#'          datasources = connections[1])#only the first Opal server is used ("study1")
+#'   
+#'   # Example 2: Get the correlation matrix of the variables in a dataframe
+#'   ds.dataFrame(x=c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$PM_BMI_CONTINUOUS"), 
+#'                newobj="D.new", check.names=FALSE, datasources=connections)
+#'   ds.cor("D.new", type="combine", naAction = "casewise.complete", datasources = connections)
+#'   ds.cor("D.new", type="combine", naAction = "pairwise.complete", datasources = connections)
 #' 
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #'
 #' }
 #' @export
-ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL){
+#' 
+ds.cor <- function(x=NULL, y=NULL, naAction='casewise.complete', type="split", datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
 
-  # ensure datasource is a list of DSConnection-class
-  if(!is.list(datasources)){
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
@@ -157,24 +150,11 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       rownames(correlation[[i]]) <- colnames(output[[i]][[1]])
       for(m in 1:dim(output[[i]][[1]])[1]){
         for(n in 1:dim(output[[i]][[1]])[2]){
-          #if (naAction=='pairwise.complete'){
-            covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m,n]*output[[i]][[2]][n,m]
-          #}
-          #if (naAction=='casewise.complete'){
-          #  covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m]*output[[i]][[2]][n]
-          #}
+          covariance[[i]][m,n] <- (1/(output[[i]][[3]][m,n]-1))*(output[[i]][[1]][m,n])-(1/(output[[i]][[3]][m,n]*(output[[i]][[3]][m,n]-1)))*output[[i]][[2]][m,n]*output[[i]][[2]][n,m]
         }
       }
-     # if (naAction=='casewise.complete'){
-	   # sqrt.diag[[i]] <- sqrt(1/diag(covariance[[i]]))
-    #    correlation[[i]] <- rep(sqrt.diag[[i]], dim(covariance[[i]])[1]) * covariance[[i]] * rep(sqrt.diag[[i]], each = dim(covariance[[i]])[1])
-	  }
-	  #if (naAction=='pairwise.complete'){
-        sqrt.diag[[i]] <- sqrt(1/(output[[i]][[5]]))
-        correlation[[i]] <- sqrt.diag[[i]] * covariance[[i]] * t(sqrt.diag[[i]])
-	  #}
-
-	  results[[i]] <- list(output[[i]][[4]][[1]], output[[i]][[4]][[2]], correlation[[i]], output[[i]][[3]])
+      correlation[[i]] <- stats::cov2cor(covariance[[i]])
+      results[[i]] <- list(output[[i]][[4]][[1]], output[[i]][[4]][[2]], correlation[[i]], output[[i]][[3]])
       n1 <- "Number of missing values in each variable"
       if(naAction=='casewise.complete'){
         n2 <- "Number of missing values casewise"
@@ -183,9 +163,11 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
         n2 <- "Number of missing values pairwise"
       }
       n3 <- "Correlation Matrix"
-	    n4 <- "Number of complete cases used"
+      n4 <- "Number of complete cases used"
       names(results[[i]]) <- c(n1, n2, n3, n4)
     }
+    names(results) <- stdnames
+  }
   else{
     if (type=="combine"){
       combined.sums.of.products <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
@@ -193,16 +175,14 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       combined.complete.cases <- matrix(0, ncol=dim(output[[1]][[3]])[2], nrow=dim(output[[1]][[3]])[1])
       combined.missing.cases.vector <- matrix(0, ncol=dim(output[[1]][[4]][[1]])[2], nrow=dim(output[[1]][[4]][[1]])[1])
       combined.missing.cases.matrix <- matrix(0, ncol=dim(output[[1]][[4]][[2]])[2], nrow=dim(output[[1]][[4]][[2]])[1])
-      #combined.error.message <- list()
-      combined.sums.of.squares <- matrix(0, ncol=dim(output[[1]][[6]])[2], nrow=dim(output[[1]][[6]])[1])
+      combined.sums.of.squares <- matrix(0, ncol=dim(output[[1]][[5]])[2], nrow=dim(output[[1]][[5]])[1])
       for(i in 1:length(stdnames)){
         combined.sums.of.products <- combined.sums.of.products + output[[i]][[1]]
 	      combined.sums <- combined.sums + output[[i]][[2]]
         combined.complete.cases <- combined.complete.cases + output[[i]][[3]]
         combined.missing.cases.vector <- combined.missing.cases.vector + output[[i]][[4]][[1]]
         combined.missing.cases.matrix <- combined.missing.cases.matrix + output[[i]][[4]][[2]]
-	      #combined.error.message[[i]] <- output[[i]][[5]]
-        combined.sums.of.squares <- combined.sums.of.squares + output[[i]][[6]]
+        combined.sums.of.squares <- combined.sums.of.squares + output[[i]][[5]]
       }
       
   	combined.covariance <- matrix(0, ncol=dim(output[[1]][[1]])[2], nrow=dim(output[[1]][[1]])[1])
@@ -210,34 +190,13 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     rownames(combined.covariance) <- colnames(output[[1]][[1]])
     for(m in 1:dim(output[[i]][[1]])[1]){
       for(n in 1:dim(output[[i]][[1]])[1]){
-        #if (naAction=='pairwise.complete'){
-        combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[n,m]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
-        (1/(combined.complete.cases[m,n]*(combined.complete.cases[n,m]-1)))*combined.sums[m,n]*combined.sums[n,m]-(1/(combined.complete.cases[m,n]*combined.complete.cases[n,m]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
-		#}
-        #if (naAction=='casewise.complete'){
-         # combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m]*combined.sums[n]
-        #}
-	  }
+        combined.covariance[m,n] <- (1/(combined.complete.cases[m,n]-1))*(combined.sums.of.products[m,n])-(1/(combined.complete.cases[m,n]*(combined.complete.cases[m,n]-1)))*combined.sums[m,n]*combined.sums[n,m]
+	    }
     }
     
-#    if (naAction=='casewise.complete'){
-	  combined.sqrt.diag <- sqrt(1/diag(combined.covariance))
-      combined.correlation <- rep(combined.sqrt.diag, dim(combined.covariance)[1]) * combined.covariance * rep(combined.sqrt.diag, each = dim(combined.covariance)[1])
-#    }
-#	if (naAction=='pairwise.complete'){
-#	  combined.variance <- matrix(0, ncol=dim(output[[1]][[6]])[2], nrow=dim(output[[1]][[6]])[1])
-#       for(i in 1:length(stdnames)){
-#        combined.variance <- combined.variance + (output[[i]][[3]]-matrix(1, ncol=dim(output[[i]][[3]])[2], nrow=dim(output[[i]][[3]])[1])) * output[[i]][[6]]
-#       }
-#       combined.variance <- combined.variance / (combined.complete.cases-matrix(length(stdnames), ncol=dim(combined.complete.cases)[2], nrow=dim(combined.complete.cases)[1]))
-
-	   #combined.sqrt.diag <- sqrt(1/(combined.variance))
-#	  combined.sqrt.diag <- sqrt(1/diag(combined.covariance))
-#	  combined.correlation <- rep(combined.sqrt.diag, dim(combined.covariance)[1]) * combined.covariance * rep(combined.sqrt.diag, each = dim(combined.covariance)[1])
-	  
- #     combined.correlation <- combined.sqrt.diag * combined.covariance * t(combined.sqrt.diag)
-#    }
-	  results <- list(combined.missing.cases.vector, combined.missing.cases.matrix, combined.correlation, combined.complete.cases)
+    combined.correlation <- stats::cov2cor(combined.covariance)
+    
+	  results <- list(combined.missing.cases.vector, combined.missing.cases.matrix, combined.complete.cases, combined.correlation)
       n1 <- "Number of missing values in each variable"
       if(naAction=='casewise.complete'){
         n2 <- "Number of missing values casewise"
@@ -245,15 +204,13 @@ ds.cor <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       if(naAction=='pairwise.complete'){
         n2 <- "Number of missing values pairwise"
       }
-      n3 <- "Correlation Matrix"
-	    n4 <- "Number of complete cases used"
-      #n5 <- "Error message"
-      names(results) <- c(n1, n2, n3, n4)
+	    n3 <- "Number of complete cases used"
+	    n4 <- "Correlation Matrix"
+	    names(results) <- c(n1, n2, n3, n4)
     }else{
       stop('Function argument "type" has to be either "combine" or "split"')
     }
   }
-  #return(combined.covariance)
 
   return(results)
 
