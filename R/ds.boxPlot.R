@@ -66,7 +66,17 @@
 #'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", 
 #'   xlabel = "Variable", ylabel = "Measurement", datasources = connections)
 #'   
-#'                               
+#'   ## Improve the presentation of ds.boxplot output using ggplot:
+#'   ### User must save the output, which is in a ggplot format already:
+#'   a <- ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG"), group = "GENDER", 
+#'   xlabel = "Variable", ylabel = "Measurement", datasources = connections)
+#'                  
+#'   ### Then customise output "a" using ggplot tools:
+#'   a + ggplot2::scale_fill_discrete(name = "Gender", labels = c("Male", "Female"))
+#'   
+#'   ### Or use an alternative way, to maintain the aesthetics:
+#'   a + ggplot2::scale_fill_brewer(name = "Gender", labels = c("Male", "Female")) 
+#'                                                                                 
 #'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 
 #'   
