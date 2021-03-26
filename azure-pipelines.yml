@@ -49,7 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v6.1.1-dev_opal40
+    ref: v6.1.1-dev
 
 
 #########################################################################################
@@ -141,11 +141,11 @@ jobs:
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libudunits2-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      # sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "devtools::install_github('datashield/DSI')"
-      sudo R -q -e "devtools::install_github('datashield/DSOpal')"
-      sudo R -q -e "devtools::install_github('datashield/DSLite')"
-      sudo R -q -e "devtools::install_github('obiba/opalr')"
+      sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      # sudo R -q -e "devtools::install_github('datashield/DSI')"
+      # sudo R -q -e "devtools::install_github('datashield/DSOpal')"
+      # sudo R -q -e "devtools::install_github('datashield/DSLite')"
+      # sudo R -q -e "devtools::install_github('obiba/opalr')"
 
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
