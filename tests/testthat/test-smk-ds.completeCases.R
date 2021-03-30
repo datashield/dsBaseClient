@@ -129,8 +129,6 @@ test_that("completeCases matrix", {
 
     res.mat_new.dim <- ds.dim("mat_new")
 
-    print(res.mat_new.dim)
-
     expect_length(res.mat_new.dim, 4)
     expect_length(res.mat_new.dim$`dimensions of mat_new in sim1`, 2)
     expect_equal(res.mat_new.dim$`dimensions of mat_new in sim1`[1], 1701)
