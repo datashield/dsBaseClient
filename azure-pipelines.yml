@@ -138,14 +138,9 @@ jobs:
       sudo apt-get update
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
-      # sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libudunits2-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      # sudo R -q -e "devtools::install_github('datashield/DSI')"
-      # sudo R -q -e "devtools::install_github('datashield/DSOpal')"
-      # sudo R -q -e "devtools::install_github('datashield/DSLite')"
-      # sudo R -q -e "devtools::install_github('obiba/opalr')"
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
@@ -221,7 +216,7 @@ jobs:
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
 
-      sudo /opt/puppetlabs/bin/puppet apply --debug $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
     displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
