@@ -62,9 +62,9 @@ test_that("table rvar is big numeric", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$study1, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study1': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
-    expect_equal(res.errors$study2, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study2': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
-    expect_equal(res.errors$study3, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study3': Error while evaluating 'dsBase::asFactorDS1(\"D$NUMERIC\")' -> Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+    expect_equal(res.errors$study1, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study1': Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+    expect_equal(res.errors$study2, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study2': Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
+    expect_equal(res.errors$study3, "Command 'asFactorDS1(\"D$NUMERIC\")' failed on 'study3': Error : FAILED: this variable has too many levels and may be disclosive. The ds.asFactor function allows no more than 23.43 levels in this particular study. This variable has 71\n", fixed = TRUE)
 })
 
 #
