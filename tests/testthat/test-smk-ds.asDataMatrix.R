@@ -31,6 +31,18 @@ test_that("simple test", {
     expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <asdatamatrix.newobj> has been created in all specified data sources")
     expect_equal(res$validity.check, "<asdatamatrix.newobj> appears valid in all sources")
+
+    res.class <- ds.class("asdatamatrix.newobj")
+    expect_length(res.class, 3)
+    expect_length(res.class$sim1, 2)
+    expect_true("array" %in% res.class$sim1)
+    expect_true("matrix" %in% res.class$sim1)
+    expect_length(res.class$sim2, 2)
+    expect_true("array" %in% res.class$sim2)
+    expect_true("matrix" %in% res.class$sim2)
+    expect_length(res.class$sim3, 2)
+    expect_true("array" %in% res.class$sim3)
+    expect_true("matrix" %in% res.class$sim3)
 })
 
 #
