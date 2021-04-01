@@ -91,9 +91,9 @@ test_that("simple glmSLMA, binomial", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$sim1, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim1': Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
-    expect_equal(res.errors$sim2, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim2': Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
-    expect_equal(res.errors$sim3, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim3': Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
+    expect_equal(res.errors$sim1, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim1': Error while evaluating 'dsBase::glmSLMADS1(num.dis.ami~num.gender*num.dis.diab, \"binomial\", NULL, NULL, NULL)' -> Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
+    expect_equal(res.errors$sim2, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim2': Error while evaluating 'dsBase::glmSLMADS1(num.dis.ami~num.gender*num.dis.diab, \"binomial\", NULL, NULL, NULL)' -> Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
+    expect_equal(res.errors$sim3, "Command 'glmSLMADS1(num.dis.ami ~ num.gender * num.dis.diab, \"binomial\", \n    NULL, NULL, NULL)' failed on 'sim3': Error while evaluating 'dsBase::glmSLMADS1(num.dis.ami~num.gender*num.dis.diab, \"binomial\", NULL, NULL, NULL)' -> Error : ERROR: y vector is binary with one category less than filter threshold for table cell size\n", fixed = TRUE)
 
 #    expect_length(glmSLMA.res, 9)
 #    expect_length(glmSLMA.res[[1]], 1)

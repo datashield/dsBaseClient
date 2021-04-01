@@ -122,9 +122,9 @@ test_that("simple test, error", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$survival1, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival1': Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
-    expect_equal(res.errors$survival2, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival2': Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
-    expect_equal(res.errors$survival3, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival3': Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
+    expect_equal(res.errors$survival1, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival1': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
+    expect_equal(res.errors$survival2, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival2': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
+    expect_equal(res.errors$survival3, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival3': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
 })
 
 #
