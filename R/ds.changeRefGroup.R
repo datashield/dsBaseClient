@@ -18,7 +18,7 @@
 #' @param x a character string providing the name of the input vector of type factor.
 #' @param ref the reference level.
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the server-side. Default \code{changerefgroup.newobj}.
+#' that is stored on the server-side. Default \code{changerefgroup.newobj}.
 #' @param reorderByRef logical, if TRUE the new vector
 #' should be ordered by the reference group (i.e. putting the reference group first).
 #' The default is to not re-order (see the reasons in the details). 
@@ -107,7 +107,7 @@
 #'   datashield.logout(connections) 
 #' }
 #' @export
-ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
+ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -156,11 +156,6 @@ ds.changeRefGroup = function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, 
 
   if(reorderByRef){
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
-  }
-
-  # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- paste0(varname, "_newref")
   }
 
   # call the server side function that will recode the levels
