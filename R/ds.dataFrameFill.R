@@ -12,8 +12,7 @@
 #' @param df.name a character string representing the name of the input data frame that will be
 #' filled with extra columns of missing values. 
 #' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. Default \code{dataframefill.newobj}. 
-#' Default value is the name of the input data frame with the suffix "_filled". 
+#' that is stored on the data servers. Default value is "dataframefill.newobj". 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -52,7 +51,7 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   #Create two data frames with one different column
+#'   # Create two data frames with one different column
 #'   
 #'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
 #'                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
@@ -67,7 +66,7 @@
 #'   
 #'   ds.dataFrameFill(df.name = "df1",
 #'                    newobj = "D.Fill",
-#'                    datasources = connections[c(1,2)]) #All servers are used
+#'                    datasources = connections[c(1,2)]) # Two servers are used
 #'
 #'
 #'   # Clear the Datashield R sessions and logout
@@ -140,7 +139,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   # get the class of each variable in the dataframes
-  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x))})
+  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x), datasources=datasources)})
   class.vect1 <- lapply(class.list, function(x){unlist(x)})
   class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
   class.vect2 <- unname(unlist(class.vect2))
