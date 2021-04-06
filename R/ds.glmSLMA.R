@@ -316,7 +316,7 @@
 #'          datasources = connections)
 #'   
 #'   ds.glmSLMA(formula = EVENT ~ 1 + TID + female * age.60,
-#'          data = "D",
+#'          dataName = "D",
 #'          family = "poisson", 
 #'          offset = "log.surv",
 #'          weights = NULL,
@@ -351,7 +351,7 @@
 #'   # Fit the logistic regression model
 #' 
 #'   mod <- ds.glmSLMA(formula = "DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL",
-#'                 data = "D",
+#'                 dataName = "D",
 #'                 family = "binomial",
 #'                 datasources = connections)
 #'                 
@@ -362,7 +362,7 @@
 #' # connect again to the server 
 #' 
 #' mod <- ds.glmSLMA(formula = "PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL",
-#'               data = "D",
+#'               dataName = "D",
 #'               family = "gaussian",
 #'               datasources = connections)
 #' mod
@@ -380,6 +380,10 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
 
 
   # verify that 'formula' was set
@@ -609,7 +613,7 @@ if(at.least.one.study.data.error)
 		if(is.null(newobj)){
 		newobj <- "new.glm.obj"
 		}
-cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+   cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
 
    calltext.2 <- call('glmSLMADS.assign', formula, family, offset, weights, dataName)
 

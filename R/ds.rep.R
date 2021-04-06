@@ -103,7 +103,12 @@ ds.rep<-function(x1=NULL,  times=NA,  length.out=NA, each=1,
     datasources <- datashield.connections_find()
   }
 
- # check if a value has been provided for x1
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # check if a value has been provided for x1
   if(is.null(x1)){
     return("Error: x1 must have a value which is a character string, a numeric vector on the clientside or a scalar")
   }

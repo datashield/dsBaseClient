@@ -1,4 +1,4 @@
-#' @title Fitting Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
+#' @title Fits Generalized Linear Mixed-Effect Models via Study-Level Meta-Analysis
 #' @description \code{ds.glmerSLMA} fits a Generalized Linear Mixed-Effects Model
 #' (GLME) on data from one or multiple sources with pooling via SLMA (study-level meta-analysis).
 #' @details \code{ds.glmerSLMA} fits a generalized linear mixed-effects model (GLME) 
@@ -117,6 +117,13 @@
 #' Specify to retain more control over the optimisation. See \code{glmer()} for more details.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default  FALSE.
+#' @param assign a logical, indicates whether the function will call a second server-side function
+#' (an assign) in order to save the regression outcomes (i.e. a glmerMod object) on each server.
+#' Default FALSE.
+#' @param newobj a character string specifying the name of the object to which the glmerMod object
+#' representing the model fit on the serverside in each study is to be written. This argument is 
+#' used only when the argument \code{assign} is set to TRUE.
+#' If no <newobj> argument is specified, the output object defaults to "new.glmer.obj". 
 #' @return Many of the elements of the output list returned by \code{ds.glmerSLMA} are 
 #' equivalent to those returned by the \code{glmer()} function in native R. However,
 #' potentially disclosive elements
@@ -235,19 +242,22 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @export
-ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
+ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
                        control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
-                       start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE) {
+                       start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE, 
+                       assign=FALSE, newobj=NULL) {
   
-  
-  #UNDER DSi
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
-  
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # verify that 'formula' was set
   if(is.null(formula)){
     stop(" Please provide a valid regression formula!", call.=FALSE)
@@ -343,6 +353,21 @@ ds.glmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.met
   
   calltext <- call('glmerSLMADS2', formula, offset, weights, dataName, family, 
                    control_type, control_value.transmit, nAGQ, verbose, theta, fixef)
+  
+  if(assign==TRUE){
+    
+    if(is.null(newobj)){
+      newobj <- "new.glmer.obj"
+    }
+    
+    cat("\n\nSAVING SERVERSIDE glmerMod OBJECT AS: <",newobj,">\n\n")
+    
+    calltext.2 <- call('glmerSLMADS.assign', formula, offset, weights, dataName, family, 
+                       control_type, control_value.transmit, nAGQ, verbose, theta, fixef)
+    
+    DSI::datashield.assign(datasources, newobj, calltext.2)
+    
+  }
   
   study.summary <- datashield.aggregate(datasources, calltext)
   

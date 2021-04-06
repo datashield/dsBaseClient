@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.look.R
 \name{ds.look}
 \alias{ds.look}
-\title{Direct call to a server-side aggregate function}
+\title{Performs direct call to a server-side aggregate function}
 \usage{
 ds.look(toAggregate = NULL, checks = FALSE, datasources = NULL)
 }

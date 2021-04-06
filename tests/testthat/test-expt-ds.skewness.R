@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,40 +18,40 @@ context("ds.skewness::expt::combine::multiple")
 test_that("combined data set",
           {
             connect.all.datasets()
-            .test.skewness.combined('D$INTEGER',ds.test_env$local.values[,6], method = 1)
-            .test.skewness.combined('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values[,7], method = 1)
-            .test.skewness.combined('D$POSITIVE_INTEGER',ds.test_env$local.values[,8], method = 1)
-            .test.skewness.combined('D$NEGATIVE_INTEGER',ds.test_env$local.values[,9], method = 1) 
-            .test.skewness.combined('D$NUMERIC',ds.test_env$local.values[,10], method = 1)
-            .test.skewness.combined('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values[,11], method = 1)
-            .test.skewness.combined('D$POSITIVE_NUMERIC',ds.test_env$local.values[,12], method = 1)
-            .test.skewness.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values[,13], method = 1) 
+            .test.skewness.combined('D$INTEGER',ds.test_env$local.values[,'INTEGER'], method = 1)
+            .test.skewness.combined('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values[,'NON_NEGATIVE_INTEGER'], method = 1)
+            .test.skewness.combined('D$POSITIVE_INTEGER',ds.test_env$local.values[,'POSITIVE_INTEGER'], method = 1)
+            .test.skewness.combined('D$NEGATIVE_INTEGER',ds.test_env$local.values[,'NEGATIVE_INTEGER'], method = 1) 
+            .test.skewness.combined('D$NUMERIC',ds.test_env$local.values[,'NUMERIC'], method = 1)
+            .test.skewness.combined('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values[,'NON_NEGATIVE_NUMERIC'], method = 1)
+            .test.skewness.combined('D$POSITIVE_NUMERIC',ds.test_env$local.values[,'POSITIVE_NUMERIC'], method = 1)
+            .test.skewness.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values[,'NEGATIVE_NUMERIC'], method = 1) 
           })
 
 context("ds.skewness::expt::split::multiple")
 test_that("split data set",
           {
             connect.all.datasets()
-            .test.skewness.split('D$INTEGER',ds.test_env$local.values.1[,6],ds.test_env$local.values.2[,6],ds.test_env$local.values.3[,6], method = 2)
-            .test.skewness.split('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values.1[,7],ds.test_env$local.values.2[,7],ds.test_env$local.values.3[,7], method = 2)
-            .test.skewness.split('D$POSITIVE_INTEGER',ds.test_env$local.values.1[,8],ds.test_env$local.values.2[,8],ds.test_env$local.values.3[,8], method = 2)
-            .test.skewness.split('D$NEGATIVE_INTEGER',ds.test_env$local.values.1[,9],ds.test_env$local.values.2[,9],ds.test_env$local.values.3[,9], method = 2)
-            .test.skewness.split('D$NUMERIC',ds.test_env$local.values.1[,10],ds.test_env$local.values.2[,10],ds.test_env$local.values.3[,10], method = 2)
-            .test.skewness.split('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values.1[,11],ds.test_env$local.values.2[,11],ds.test_env$local.values.3[,11], method = 2)
-            .test.skewness.split('D$POSITIVE_NUMERIC',ds.test_env$local.values.1[,12],ds.test_env$local.values.2[,12],ds.test_env$local.values.3[,12], method = 2)
-            .test.skewness.split('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13],ds.test_env$local.values.2[,13],ds.test_env$local.values.3[,13], method = 2)
+            .test.skewness.split('D$INTEGER',ds.test_env$local.values.1[,'INTEGER'],ds.test_env$local.values.2[,'INTEGER'],ds.test_env$local.values.3[,'INTEGER'], method = 2)
+            .test.skewness.split('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.2[,'NON_NEGATIVE_INTEGER'],ds.test_env$local.values.3[,'NON_NEGATIVE_INTEGER'], method = 2)
+            .test.skewness.split('D$POSITIVE_INTEGER',ds.test_env$local.values.1[,'POSITIVE_INTEGER'],ds.test_env$local.values.2[,'POSITIVE_INTEGER'],ds.test_env$local.values.3[,'POSITIVE_INTEGER'], method = 2)
+            .test.skewness.split('D$NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NEGATIVE_INTEGER'],ds.test_env$local.values.2[,'NEGATIVE_INTEGER'],ds.test_env$local.values.3[,'NEGATIVE_INTEGER'], method = 2)
+            .test.skewness.split('D$NUMERIC',ds.test_env$local.values.1[,'NUMERIC'],ds.test_env$local.values.2[,'NUMERIC'],ds.test_env$local.values.3[,'NUMERIC'], method = 2)
+            .test.skewness.split('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values.1[,'NON_NEGATIVE_NUMERIC'],ds.test_env$local.values.2[,'NON_NEGATIVE_NUMERIC'],ds.test_env$local.values.3[,'NON_NEGATIVE_NUMERIC'], method = 2)
+            .test.skewness.split('D$POSITIVE_NUMERIC',ds.test_env$local.values.1[,'POSITIVE_NUMERIC'],ds.test_env$local.values.2[,'POSITIVE_NUMERIC'],ds.test_env$local.values.3[,'POSITIVE_NUMERIC'], method = 2)
+            .test.skewness.split('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,'NEGATIVE_NUMERIC'],ds.test_env$local.values.2[,'NEGATIVE_NUMERIC'],ds.test_env$local.values.3[,'NEGATIVE_NUMERIC'], method = 2)
           })
 
 context("ds.skewness::expt::single")
 test_that("combined data set",
           {
             connect.dataset.1()
-            .test.skewness.combined('D$INTEGER',ds.test_env$local.values.1[,6], method = 3)
-            .test.skewness.combined('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values.1[,7], method = 3)
-            .test.skewness.combined('D$POSITIVE_INTEGER',ds.test_env$local.values.1[,8], method = 3)
-            .test.skewness.combined('D$NEGATIVE_INTEGER',ds.test_env$local.values.1[,9], method = 3) 
-            .test.skewness.combined('D$NUMERIC',ds.test_env$local.values.1[,10], method = 3)
-            .test.skewness.combined('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values.1[,11], method = 3)
-            .test.skewness.combined('D$POSITIVE_NUMERIC',ds.test_env$local.values.1[,12], method = 3)
-            .test.skewness.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,13], method = 3) 
+            .test.skewness.combined('D$INTEGER',ds.test_env$local.values.1[,'INTEGER'], method = 3)
+            .test.skewness.combined('D$NON_NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NON_NEGATIVE_INTEGER'], method = 3)
+            .test.skewness.combined('D$POSITIVE_INTEGER',ds.test_env$local.values.1[,'POSITIVE_INTEGER'], method = 3)
+            .test.skewness.combined('D$NEGATIVE_INTEGER',ds.test_env$local.values.1[,'NEGATIVE_INTEGER'], method = 3) 
+            .test.skewness.combined('D$NUMERIC',ds.test_env$local.values.1[,'NUMERIC'], method = 3)
+            .test.skewness.combined('D$NON_NEGATIVE_NUMERIC',ds.test_env$local.values.1[,'NON_NEGATIVE_NUMERIC'], method = 3)
+            .test.skewness.combined('D$POSITIVE_NUMERIC',ds.test_env$local.values.1[,'POSITIVE_NUMERIC'], method = 3)
+            .test.skewness.combined('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,'NEGATIVE_NUMERIC'], method = 3) 
           })

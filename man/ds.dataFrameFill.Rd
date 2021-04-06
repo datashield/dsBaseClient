@@ -11,8 +11,7 @@ ds.dataFrameFill(df.name = NULL, newobj = NULL, datasources = NULL)
 filled with extra columns of missing values.}
 
 \item{newobj}{a character string that provides the name for the output data frame
-that is stored on the data servers. Default \code{dataframefill.newobj}. 
-Default value is the name of the input data frame with the suffix "_filled".}
+that is stored on the data servers. Default value is "dataframefill.newobj".}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 
@@ -31,7 +30,9 @@ Adds extra columns with missing values in a data frame on the server-side.
 This function checks if the input data frames have the same variables (i.e. the same
 column names) in all of the used studies. When a study does not have some of the variables, the
 function generates those variables as vectors of missing values and combines them as columns to
-the input data frame. 
+the input data frame. If any of the generated variables are of class factor, the function 
+assigns to those the corresponding levels of the factors given from the studies where such 
+factors exist.
 
 Server function called: \code{dataFrameFillDS}
 }
@@ -64,7 +65,7 @@ Server function called: \code{dataFrameFillDS}
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  #Create two data frames with one different column
+  # Create two data frames with one different column
   
   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
@@ -79,7 +80,7 @@ Server function called: \code{dataFrameFillDS}
   
   ds.dataFrameFill(df.name = "df1",
                    newobj = "D.Fill",
-                   datasources = connections[c(1,2)]) #All servers are used
+                   datasources = connections[c(1,2)]) # Two servers are used
 
 
   # Clear the Datashield R sessions and logout
@@ -87,5 +88,5 @@ Server function called: \code{dataFrameFillDS}
 }
 }
 \author{
-DataSHIELD Development Team
+Demetris Avraam for DataSHIELD Development Team
 }

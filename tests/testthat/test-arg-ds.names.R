@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -22,14 +22,18 @@ context("ds.names::arg::test errors")
 test_that("simple ds.names errors", {
     expect_error(ds.names(), "Please provide the name of the input list!", fixed=TRUE)
 
-    res <- ds.names(x="D$LAB_TSC")
+    res.errors <- DSI::datashield.errors()
 
-    expect_length(res, 3)
-    expect_length(res$sim1, 2)
-    expect_length(res$sim1$error.message, 1)
-    expect_equal(res$sim1$error.message, "The input object is not of class <list>", fixed=TRUE)
-    expect_length(res$sim1$trace.message, 1)
-    expect_equal(res$sim1$trace.message, "numeric")
+    expect_length(res.errors, 0)
+
+    expect_error(ds.names(x="D$LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_equal(res.errors$sim1, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim1': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
+    expect_equal(res.errors$sim2, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim2': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
+    expect_equal(res.errors$sim3, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim3': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
 })
 
 #

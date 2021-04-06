@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -117,15 +117,14 @@ test_that("simple test", {
 
 context("ds.sample::smk::test error")
 test_that("simple test, error", {
-    res <- ds.sample(x="D$survtime", size="30", newobj="no.obj")
+    expect_error(ds.sample(x="D$survtime", size="30", newobj="no.obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
-    expect_length(res, 3)
-    expect_equal(res$is.object.created, "A data object <no.obj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(res$validity.check, "<no.obj> invalid in at least one source. See studyside.messages:", fixed=TRUE)
-    expect_length(res$studyside.messages, 3)
-    expect_equal(res$studyside.messages$survival1, "NOT ALL OK: there are studysideMessage(s) on this datasource", fixed=TRUE)
-    expect_equal(res$studyside.messages$survival2, "NOT ALL OK: there are studysideMessage(s) on this datasource", fixed=TRUE)
-    expect_equal(res$studyside.messages$survival3, "NOT ALL OK: there are studysideMessage(s) on this datasource", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_equal(res.errors$survival1, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival1': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
+    expect_equal(res.errors$survival2, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival2': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
+    expect_equal(res.errors$survival3, "Command 'sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, \n    prob.transmit = NULL)' failed on 'survival3': Error while evaluating 'is.null(base::assign('no.obj', value={dsBase::sampleDS(x.transmit = \"D$survtime\", size.transmit = \"30\", replace.transmit = FALSE, prob.transmit = NULL)}))' -> Error : FAILED: if sampling without replacement size must be less than or equal to length(x)\n", fixed=TRUE)
 })
 
 #
@@ -135,7 +134,7 @@ test_that("simple test, error", {
 context("ds.sample::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "newobj.sample", "test.obj", "no.obj"))
+    ds_expect_variables(c("D", "newobj.sample", "test.obj"))
 })
 
 disconnect.studies.dataset.survival()

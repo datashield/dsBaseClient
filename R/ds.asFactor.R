@@ -160,6 +160,11 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
      datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check if user has provided the name of the column that holds the input variable
   if(is.null(input.var.name)){
     stop("Please provide the name of the variable that is to be converted to a factor e.g. 'varname'", call.=FALSE)
