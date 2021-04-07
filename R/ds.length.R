@@ -74,7 +74,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length = function(x=NULL, type='both', checks='FALSE', datasources=NULL){
+ds.length <- function(x=NULL, type='both', checks='FALSE', datasources=NULL){
 
   ##################################################################################################################
   #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                                                          #
