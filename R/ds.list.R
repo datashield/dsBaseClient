@@ -6,7 +6,7 @@
 #' 
 #' Server function called: \code{listDS}
 #' @param x a character string specifying the names of the objects to coerce into a list.
-#' @param newobj 	a character string that provides the name for the output variable 
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{list.newobj}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
@@ -51,7 +51,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
+ds.list <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
