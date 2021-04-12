@@ -70,8 +70,8 @@ ds.forestplot <- function(mod, method = "ML"){
   
   # Get coefficients and calculate confidence interval using the standard errors
   mean <- t(mod$betamatrix.valid)
-  lower <- t(mod$betamatrix.valid - mod$sematrix.valid * qt(.975, n-p))
-  upper <- t(mod$betamatrix.valid + mod$sematrix.valid * qt(.975, n-p))
+  lower <- t(mod$betamatrix.valid - mod$sematrix.valid * stats::qt(.975, n-p))
+  upper <- t(mod$betamatrix.valid + mod$sematrix.valid * stats::qt(.975, n-p))
     
   # Format to be passed to the foresplot function
   names <- c("Study", names, NA, "Summary")
@@ -82,18 +82,18 @@ ds.forestplot <- function(mod, method = "ML"){
   # Choice of ML, REML, FE. only would affect the columns chosen on next 3 lines
   if(method == "ML"){
     mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,1])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * stats::qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * stats::qt(.975, n-p))
   }
   else if(method == "REML"){
     mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,3])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,3] - mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,3] + mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,3] - mod$SLMA.pooled.ests.matrix[,4] * stats::qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,3] + mod$SLMA.pooled.ests.matrix[,4] * stats::qt(.975, n-p))
   }
   else if(method == "FE"){
     mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,5])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,5] - mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,5] + mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
+    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,5] - mod$SLMA.pooled.ests.matrix[,6] * stats::qt(.975, n-p))
+    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,5] + mod$SLMA.pooled.ests.matrix[,6] * stats::qt(.975, n-p))
   }
   else{stop("Invalid 'method' argument [", method, "]")}
   
