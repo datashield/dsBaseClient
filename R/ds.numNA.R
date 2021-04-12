@@ -52,7 +52,7 @@
 #'
 #' }
 #'
-ds.numNA = function(x=NULL, datasources=NULL) {
+ds.numNA <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){

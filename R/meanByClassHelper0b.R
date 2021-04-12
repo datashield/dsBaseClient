@@ -16,7 +16,7 @@
 #' @keywords internal
 #' @author Gaye, A.
 #'
-meanByClassHelper0b = function(x, outvar, covar, type, datasources){
+meanByClassHelper0b <- function(x, outvar, covar, type, datasources){
   if(is.null(outvar)){
     stop(" Please specify at least 1 continuous variables - see parameter 'outvar'!", call.=FALSE)
   }

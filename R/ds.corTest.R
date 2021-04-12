@@ -51,7 +51,7 @@
 #' }   
 #'
 #'
-ds.corTest = function(x=NULL, y=NULL, datasources=NULL){
+ds.corTest <- function(x=NULL, y=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){

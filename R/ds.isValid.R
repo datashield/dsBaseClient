@@ -57,7 +57,7 @@
 #'
 #' }
 #'
-ds.isValid = function(x=NULL, datasources=NULL){
+ds.isValid <- function(x=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
