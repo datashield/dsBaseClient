@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.glm::smk::gaussian")
 test_that("glm_gaussian", {
-    res <- ds.glm('D$LAB_TSC~D$LAB_TRIG',family="gaussian")
+    res <- ds.glm('D$LAB_TSC~D$LAB_TRIG',family="gaussian",checks=FALSE)
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7800)
@@ -52,7 +52,7 @@ test_that("glm_gaussian", {
 
 context("ds.glm::smk::gaussian, with check")
 test_that("glm_gaussian, with check", {
-    expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", check=TRUE), "NAs introduced by coercion")
+    expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", checks=TRUE), "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7800)
