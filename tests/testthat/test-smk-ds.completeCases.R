@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -128,8 +128,6 @@ test_that("completeCases matrix", {
     expect_equal(res.mat.dim$`dimensions of mat in combined studies`[2], 11)
 
     res.mat_new.dim <- ds.dim("mat_new")
-
-    print(res.mat_new.dim)
 
     expect_length(res.mat_new.dim, 4)
     expect_length(res.mat_new.dim$`dimensions of mat_new in sim1`, 2)

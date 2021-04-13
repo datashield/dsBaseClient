@@ -54,7 +54,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
-ds.asCharacter = function(x.name=NULL, newobj=NULL, datasources=NULL){
+ds.asCharacter <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){

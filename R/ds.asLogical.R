@@ -55,7 +55,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
-ds.asLogical = function(x.name=NULL, newobj=NULL, datasources=NULL){
+ds.asLogical <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){

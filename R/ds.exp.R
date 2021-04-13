@@ -55,7 +55,7 @@
 #'
 #' }
 #'
-ds.exp = function(x=NULL, newobj=NULL, datasources=NULL){
+ds.exp <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){

@@ -56,7 +56,7 @@
 #'
 #' }
 #'
-ds.levels = function(x=NULL, datasources=NULL) {
+ds.levels <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
