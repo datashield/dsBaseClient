@@ -74,15 +74,20 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length = function(x=NULL, type='both', checks='FALSE', datasources=NULL){
+ds.length <- function(x=NULL, type='both', checks='FALSE', datasources=NULL){
 
-  #####################################################################################
-  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                             #
-  # look for DS connections  #
-  if(is.null(datasources)){                                                           #
-    datasources <- datashield.connections_find()                                                 #
-  }                                                                                   #
-  #####################################################################################
+  ##################################################################################################################
+  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                                                          #
+  # look for DS connections                                                                                        #
+  if(is.null(datasources)){                                                                                        #
+    datasources <- datashield.connections_find()                                                                   #
+  }                                                                                                                #
+                                                                                                                   #
+  # ensure datasources is a list of DSConnection-class                                                             #
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){    #
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)                #
+  }                                                                                                                #
+  ##################################################################################################################
 
   #####################################################################################
   #MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #

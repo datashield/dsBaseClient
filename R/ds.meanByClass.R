@@ -85,6 +85,11 @@ ds.meanByClass <-  function(x=NULL, outvar=NULL, covar=NULL, type='combine', dat
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check if the user specified a formula to run the process for two loose vector or if the vectors are
   # in a table structure (data frame or matrix) and call the relevant function accordingly
   if(is.null(x)){

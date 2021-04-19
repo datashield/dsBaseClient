@@ -77,6 +77,11 @@ ds.message<-function(message.obj.name=NULL,datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # Check if user has provided the name of the studyside list object that holds the required message
   # Also check that it is in character format (in inverted commas)
   if(is.null(message.obj.name) | !is.character(message.obj.name)){

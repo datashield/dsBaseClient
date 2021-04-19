@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -24,7 +24,7 @@ test_that("merge_erros", {
     expect_error(ds.merge(x.name="A"), "Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", fixed=TRUE)
     expect_error(ds.merge(x.name="A", y.name="B"), "Please provide the names of columns in x dataframe on which to merge (eg c('id', 'time'))", fixed=TRUE)
     expect_error(ds.merge(x.name="A", y.name="B", by.x.names="C"), "Please provide the names of columns in y dataframe on which to merge (eg c('id', 'time'))", fixed=TRUE)
-    expect_error(ds.merge(x.name="A", y.name="B", by.x.names="C", by.y.names="D", suffixes=NULL), "Please provide the suffixes to append to disambiguate duplicate column names  (default = c('.x','.y/))", fixed=TRUE)
+    expect_error(ds.merge(x.name="A", y.name="B", by.x.names="C", by.y.names="D", suffixes=NULL), "Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y/))", fixed=TRUE)
 })
 
 #

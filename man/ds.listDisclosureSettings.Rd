@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.listDisclosureSettings.R
 \name{ds.listDisclosureSettings}
 \alias{ds.listDisclosureSettings}
-\title{Disclosure Settings}
+\title{Lists disclosure settings}
 \usage{
 ds.listDisclosureSettings(datasources = NULL)
 }

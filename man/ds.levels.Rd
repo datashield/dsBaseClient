@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.levels.R
 \name{ds.levels}
 \alias{ds.levels}
-\title{Levels attributes of a server-side factor}
+\title{Produces levels attributes of a server-side factor}
 \usage{
 ds.levels(x = NULL, datasources = NULL)
 }

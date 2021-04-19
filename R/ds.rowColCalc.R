@@ -64,11 +64,16 @@
 #'
 #' }
 #' @export
-ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
+ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   if(is.null(x)){
@@ -119,7 +124,7 @@ ds.rowColCalc = function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
     message(" Please indicate the calculation required.")
     stop("'operation' = NULL. Please set it to 'rowSums', 'colSums', 'rowMeans' or 'colMeans'", call.=FALSE)
   }else{
-    if(!(operation %in% ops)){
+    if(!any(operation %in% ops)){
       stop("'operation' must be set to: 'rowSums', 'colSums', 'rowMeans' or 'colMeans'")
     }
   }

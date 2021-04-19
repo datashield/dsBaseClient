@@ -106,7 +106,12 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(sex)){
     stop("Please provide the column name of the 'sex' variable!", call.=FALSE)
   }
@@ -129,7 +134,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     stop("The 'secondPart' variable must be a 'numeric' variable!", call.=FALSE)
   }
   
-  if(!(index %in% c("bfa", "hca", "hfa", "lfa", "mfa", "ssa", "tsa", "wfa", "wfh", "wfl"))){
+  if(!any(index %in% c("bfa", "hca", "hfa", "lfa", "mfa", "ssa", "tsa", "wfa", "wfh", "wfl"))){
     stop("Please provide a correct abbreviation for the index!", call.=FALSE)
   }
   
@@ -147,7 +152,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   }
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message
-  if(!(standing %in% c(NA, 1, 2, 3))) {
+  if(!any(standing %in% c(NA, 1, 2, 3))) {
     stop("The 'standing' variable must be a numeric value either 1, 2, or 3!", call.=FALSE)
   }
   

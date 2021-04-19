@@ -152,6 +152,11 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # check if a value has been provided for mdata
   if(is.null(mdata)){
     return("Error: mdata must be a character string, a numeric vector or a scalar")

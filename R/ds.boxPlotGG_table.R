@@ -21,6 +21,11 @@ ds.boxPlotGG_table <- function(x, variables, group = NULL, group2 = NULL, xlabel
     datasources <- DSI::datashield.connections_find()
   }
   
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   ds.boxPlotGG_data_Treatment(x, variables, group, group2, datasources)
   
   ds.boxPlotGG("boxPlotRawData", group, group2, xlabel, ylabel, type, datasources)

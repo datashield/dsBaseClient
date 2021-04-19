@@ -1,4 +1,4 @@
-#' @title Fitting Linear Mixed-Effect Model via Study-Level Meta-Analysis
+#' @title Fits Linear Mixed-Effect model via Study-Level Meta-Analysis
 #' @description \code{ds.lmerSLMA} fits a Linear Mixed-Effects Model (lme) - can include both
 #' fixed and random-effects - on data from one or multiple sources with pooling via SLMA
 #' (Study-Level Meta-Analysis)
@@ -105,7 +105,14 @@
 #' iteratively reweighted least squares (PIRLS) steps. Default \code{verbose} 
 #'  value is 0 which means no additional output. 
 #' @param notify.of.progress specifies if console output should be produced to indicate
-#' progress. Default  FALSE.
+#' progress. Default FALSE.
+#' @param assign a logical, indicates whether the function will call a second server-side function
+#' (an assign) in order to save the regression outcomes (i.e. a lmerMod object) on each server.
+#' Default FALSE.
+#' @param newobj a character string specifying the name of the object to which the lmerMod object
+#' representing the model fit on the serverside in each study is to be written. This argument is 
+#' used only when the argument \code{assign} is set to TRUE.
+#' If no <newobj> argument is specified, the output object defaults to "new.lmer.obj". 
 #' @return Many of the elements of the output list returned by \code{ds.lmerSLMA} are 
 #' equivalent to those returned by the \code{lmer()} function in native R. However,
 #' potentially disclosive elements
@@ -193,19 +200,21 @@
 #'   datashield.logout(connections) 
 #'   }
 #' @export
-ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
-                       checks=FALSE, datasources=NULL, REML=TRUE, 
-					   control_type = NULL, control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE) {
-  
-  
- #UNDER DSi
- # look for DS connections
+ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
+                       checks=FALSE, datasources=NULL, REML=TRUE, control_type = NULL, 
+                      control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE,
+                      assign=FALSE, newobj=NULL){
+
+  # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
 
-  
-  
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   # verify that 'formula' was set
   if(is.null(formula)){
     stop(" Please provide a valid regression formula!", call.=FALSE)
@@ -286,14 +295,25 @@ ds.lmerSLMA<-function(formula=NULL, offset=NULL, weights=NULL, combine.with.meta
 
   calltext <- call('lmerSLMADS2', formula, offset, weights, dataName, REML,
                     control_type, control_value.transmit, optimizer, verbose)
- 
-   study.summary <- datashield.aggregate(datasources, calltext)
-
-
   
-  numstudies<-length(datasources)
+  if(assign==TRUE){
+    
+    if(is.null(newobj)){
+      newobj <- "new.lmer.obj"
+    }
+    
+    cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+    
+    calltext.2 <- call('lmerSLMADS.assign', formula, offset, weights, dataName, REML,
+                       control_type, control_value.transmit, optimizer, verbose)
+    
+    DSI::datashield.assign(datasources, newobj, calltext.2)
+    
+  }
+ 
+  study.summary <- datashield.aggregate(datasources, calltext)
 
-  numstudies<-length(datasources)
+  numstudies <- length(datasources)
 
   study.include.in.analysis<-NULL
   study.with.errors<-NULL

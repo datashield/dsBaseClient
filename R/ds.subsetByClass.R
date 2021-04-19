@@ -59,6 +59,11 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("Please provide the name of the input data frame or factor!", call.=FALSE)
   }

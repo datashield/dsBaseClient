@@ -107,6 +107,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }

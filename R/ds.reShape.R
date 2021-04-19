@@ -1,4 +1,4 @@
-#' @title Reshape server-side grouped data 
+#' @title Reshapes server-side grouped data 
 #' @description Reshapes a data frame containing longitudinal or
 #' otherwise grouped data from 'wide' to 'long' format or vice-versa. 
 #' @details This function is based on the native R function \code{reshape}.
@@ -87,6 +87,11 @@ ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name=
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   if(is.null(data.name)){

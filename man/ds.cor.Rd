@@ -4,23 +4,13 @@
 \alias{ds.cor}
 \title{Calculates the correlation of R objects in the server-side}
 \usage{
-ds.cor(
-  x = NULL,
-  y = NULL,
-  naAction = "pairwise.complete",
-  type = "split",
-  datasources = NULL
-)
+ds.cor(x = NULL, y = NULL, type = "split", datasources = NULL)
 }
 \arguments{
 \item{x}{a character string providing the name of the input vector, data frame or matrix.}
 
 \item{y}{a character string providing the name of the input vector, data frame or matrix.
 Default NULL.}
-
-\item{naAction}{a character string giving a method for computing correlations in the
-presence of missing values. This must be set to  \code{'casewise.complete'} or
-\code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details.}
 
 \item{type}{a character string that represents the type of analysis to carry out. 
 This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
@@ -31,14 +21,11 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 }
 \value{
 \code{ds.cor} returns a list containing the number of missing values in each variable,
-the number of missing variables casewise or
-pairwise depending on the argument \code{naAction}, the correlation matrix, the number of used complete cases
-and an error message which indicates whether or not the input variables pass the disclosure controls. The first disclosure
+the number of missing variables casewise, the correlation matrix, 
+the number of used complete cases. The function applies two disclosure controls. The first disclosure
 control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
 percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
-with a level having fewer counts than the pre-specified 'nfilter.tab' threshold. If any of the input variables do not
-pass the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
-the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
+with a level having fewer counts than the pre-specified 'nfilter.tab' threshold.
 }
 \description{
 This function calculates the correlation of two variables or the correlation
@@ -46,28 +33,24 @@ matrix for the variables of an input data frame.
 }
 \details{
 In addition to computing correlations; this function produces a table outlining the
-number of complete cases and a table outlining the number of missing values to allow for the
+number of complete cases and a table outlining the number of missing values to allow the
 user to decide the 'relevance' of the correlation based on the number of complete
 cases included in the correlation calculations.
 
 If the argument \code{y} is not NULL, the dimensions of the object have to be 
 compatible with the argument \code{x}. 
 
-If \code{naAction} is set to \code{'casewise.complete'}, then the function omits all the rows
-in the whole data frame that include at least one cell with a missing value before the calculation of correlations.
-If \code{naAction} is set to \code{'pairwise.complete'} (default),
-then the function divides the input data frame to 
-subset data frames formed by each pair between two variables 
-(all combinations are considered) and omits the rows
-with missing values at each pair separately and then calculates the correlations of those pairs.
+The function calculates the pairwise correlations based on casewise complete cases which means that
+it omits all the rows in the input data frame that include at least one cell with a missing value,
+before the calculation of correlations.
 
- If \code{type} is set to \code{'split'} (default), the correlation of two variables or the
- variance-correlation matrix of an input data frame and the number of 
- complete cases and missing values are returned for every single study. 
- If type is set to \code{'combine'}, the pooled correlation, the total number of complete cases 
- and the total number of missing values aggregated from all the involved studies, are returned.
+If \code{type} is set to \code{'split'} (default), the correlation of two variables or the
+variance-correlation matrix of an input data frame and the number of complete cases and missing
+values are returned for every single study. If type is set to \code{'combine'}, the pooled
+correlation, the total number of complete cases and the total number of missing values aggregated
+from all the involved studies, are returned.
  
- Server function called: \code{corDS}
+Server function called: \code{corDS}
 }
 \examples{
 \dontrun{
@@ -97,20 +80,13 @@ with missing values at each pair separately and then calculates the correlations
   # Log onto the remote Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  # Calculate the correlation between two vectors
-  ds.assign(newobj='labhdl', toAssign='D$LAB_HDL',datasources = connections)
-  ds.assign(newobj='labtsc', toAssign='D$LAB_TSC',datasources = connections)
-  ds.assign(newobj='gender', toAssign='D$GENDER',datasources = connections)
-  ds.cor(x = 'labhdl',
-         y = 'labtsc',
-         naAction = 'pairwise.complete',
-         type = 'combine',
-         datasources = connections)
-  ds.cor(x = 'labhdl',
-         y = 'gender',
-         naAction = 'pairwise.complete',
-         type = 'combine',
-         datasources = connections[1])#only the first Opal server is used ("study1")
+  # Example 1: Get the correlation matrix of two continuous variables
+  ds.cor(x="D$LAB_TSC", y="D$LAB_TRIG", type="combine", datasources = connections)
+  
+  # Example 2: Get the correlation matrix of the variables in a dataframe
+  ds.dataFrame(x=c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$PM_BMI_CONTINUOUS"), 
+               newobj="D.new", check.names=FALSE, datasources=connections)
+  ds.cor("D.new", type="combine", datasources = connections)
 
   # clear the Datashield R sessions and logout
   datashield.logout(connections)

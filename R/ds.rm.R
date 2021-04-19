@@ -1,5 +1,5 @@
-#' @title Deletes server-side R object
-#' @description deletes an R object on the server-side
+#' @title Deletes server-side R objects
+#' @description deletes R objects on the server-side
 #' @details This function is similar to the native R function 
 #' \code{rm()}.
 #' 
@@ -13,13 +13,13 @@
 #' this calls an aggregate function there is no \code{type} argument.
 #' 
 #' Server function called: \code{rmDS}
-#' @param x.name a character string specifying the object to be deleted. 
+#' @param x.names a character string specifying the objects to be deleted. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return The \code{ds.rm}  function deletes from the server-side 
 #' the specified object.  If this 
-#' is successful the message \code{"Object <x.name> successfully deleted"} is returned
+#' is successful the message \code{"Object(s) '<x.names>' was deleted."} is returned
 #' to the client-side. 
 #' @author DataSHIELD Development Team
 #' @examples
@@ -58,36 +58,40 @@
 #'   
 #'   #Delete "labtsc" object from the server-side
 #'   
-#'   ds.rm(x.name = "labtsc",
+#'   ds.rm(x.names = "labtsc",
 #'         datasources = connections)
 #'              
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #' }
 #' @export
-ds.rm<-function(x.name=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
+ds.rm<-function(x.names=NULL, datasources=NULL){
 
-  if(is.null(x.name)){
-   stop("Please provide the name of the object to be deleted (eg 'object.name') as the x.name argument", call.=FALSE)
-  }
+    # look for DS connections
+    if (is.null(datasources)) {
+        datasources <- datashield.connections_find()
+    }
 
-	#make transmittable via parser
-    x.name.transmit <- paste(x.name,collapse=",")
+    # ensure datasources is a list of DSConnection-class
+    if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+        stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+    }
 
+    if (is.null(x.names)) {
+        stop("Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", call.=FALSE)
+    }
 
-  # call the server side function
-  #PLEASE NOTE THIS IS - SURPRISINGLY - AN AGGREGATE FUNCTION: see details in header
+    #make transmittable via parser
+    x.names.transmit <- paste(x.names,collapse=",")
 
-	calltext <- call("rmDS", x.name.transmit)
+    # call the server side function
+    #PLEASE NOTE THIS IS - SURPRISINGLY - AN AGGREGATE FUNCTION: see details in header
 
-	output = DSI::datashield.aggregate(datasources, calltext)
+    calltext <- call("rmDS", x.names.transmit)
 
-  return(output)
+    output = DSI::datashield.aggregate(datasources, calltext)
+
+    return(output)
 }
-
 #ds.rm
