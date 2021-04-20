@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.completeCases::arg::test errors")
 test_that("completeCases_errors", {
   res <- ds.completeCases()
-  expect_equal(res, "Error: x1 must have a value which is a character string naming a serverside data.frame, matrix or vector")
+  expect_equal(res, "Error: x1 must be a character string naming a serverside data.frame, matrix or vector", fixed = TRUE)
 })
 
 #

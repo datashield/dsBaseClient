@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -77,17 +77,14 @@ test_that("simple table 2D", {
 
 context("ds.table::smk")
 test_that("simple table 3D", {
-  table1.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory')
+  expect_error(ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
-  expect_length(table1.res, 2)
-  expect_length(table1.res$output.list, 6)
-  expect_equal(class(table1.res$output.list[1]), "list")
-  expect_equal(class(table1.res$output.list[2]), "list")
-  expect_equal(class(table1.res$output.list[3]), "list")
-  expect_equal(class(table1.res$output.list[4]), "list")
-  expect_equal(class(table1.res$output.list[5]), "list")
-  expect_equal(class(table1.res$output.list[6]), "list")
-  expect_length(table1.res$validity.message, 4)
+  res.errors <- DSI::datashield.errors()
+  
+  expect_length(res.errors, 2)
+
+  expect_equal(res.errors$study1, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' failed on 'study1': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
+  expect_equal(res.errors$study2, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' failed on 'study2': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
 })
 
 test_that("simple table 1D, with assign", {
@@ -129,22 +126,15 @@ test_that("simple table 2D, with assign", {
 })
 
 test_that("simple table 3D, with assign", {
-  table.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory', newobj="new_table3", table.assign=TRUE)
 
-  expect_length(table.res, 0)
+  expect_error(ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory', newobj="new_table3", table.assign=TRUE), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
-  table.length <- ds.length("new_table3")
-  expect_length(table.length, 4)
-  expect_equal(table.length$`length of new_table3 in study1`, 4)
-  expect_equal(table.length$`length of new_table3 in study2`, 4)
-  expect_equal(table.length$`length of new_table3 in study3`, 4)
-  expect_equal(table.length$`total length of new_table3 in all studies combined`, 12)
+  res.errors <- DSI::datashield.errors()
+  
+  expect_length(res.errors, 2)
 
-  table.class <- ds.class("new_table3")
-  expect_length(table.class, 3)
-  expect_equal(table.class$study1, 'list')
-  expect_equal(table.class$study2, 'list')
-  expect_equal(table.class$study3, 'list')
+  expect_equal(res.errors$study1, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' failed on 'study1': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
+  expect_equal(res.errors$study2, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' failed on 'study2': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"ifany\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
 })
 
 #

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -25,25 +25,28 @@ test_that("setup", {
 #
 
 context("ds.summary::smk::summary of a numerical variable")
-res <- ds.summary(x='D$LAB_TSC')
 test_that("summary_numerical_variable", {
+  res <- ds.summary(x='D$LAB_TSC')
+
   expect_equal(res$sim1$class, "numeric")
   expect_equal(res$sim2$length, 3088)
   expect_equal(res$sim3$`quantiles & mean`[[4]], 5.786)
 })
 
 context("ds.summary::smk::summary of a character variable")
-ds.asCharacter(x='D$GENDER', newobj="a_character")
-res <- ds.summary(x='a_character')
 test_that("summary_character_variable", {
+  ds.asCharacter(x='D$GENDER', newobj="a_character")
+  res <- ds.summary(x='a_character')
+
   expect_equal(res$sim1$class, "character")
   expect_equal(res$sim2$length, 3088)
 })
 
 context("ds.summary::smk::summary of a factor variable")
-ds.asFactor('D$PM_BMI_CATEGORICAL', newobj="a_factor")
-res <- ds.summary(x='a_factor')
 test_that("summary_factor_variable", {
+  ds.asFactor('D$PM_BMI_CATEGORICAL', newobj="a_factor")
+  res <- ds.summary(x='a_factor')
+
   expect_length(res, 3)
   expect_length(res$sim1, 6)
   expect_equal(res$sim1$class, "factor")
@@ -69,9 +72,10 @@ test_that("summary_factor_variable", {
 })
 
 context("ds.summary::smk::summary of a list variable")
-ds.asList(x.name='D$PM_BMI_CATEGORICAL', newobj="a_list")
-res <- ds.summary(x='a_list')
 test_that("summary_list_variable", {
+  ds.asList(x.name='D$PM_BMI_CATEGORICAL', newobj="a_list")
+  res <- ds.summary(x='a_list')
+
   expect_length(res, 3)
   expect_length(res$sim1, 2)
   expect_equal(res$sim1$class, "list")
@@ -85,8 +89,9 @@ test_that("summary_list_variable", {
 })
 
 context("ds.summary::smk::summary of a data frame")
-res <- ds.summary(x='D')
 test_that("summary_data_frame", {
+  res <- ds.summary(x='D')
+
   expect_equal(res$sim1$class, "data.frame")
   expect_equal(res$sim2$`number of rows`, 3088)
   expect_equal(res$sim2$`number of columns`, 11)

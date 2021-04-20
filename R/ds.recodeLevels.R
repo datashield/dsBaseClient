@@ -68,6 +68,11 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     message(" ALERT!")
     message(" Please provide a valid numeric of character vector")

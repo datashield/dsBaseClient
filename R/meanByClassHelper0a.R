@@ -15,7 +15,7 @@
 #' @keywords internal
 #' @author Gaye, A.
 #'
-meanByClassHelper0a = function(a, b, type, datasources){
+meanByClassHelper0a <- function(a, b, type, datasources){
 
   # generate a data frame from the two vector
   x <- c(a,b)

@@ -1,5 +1,5 @@
 #ds.sample
-#' @title random sampling and permuting of vectors, dataframes and matrices
+#' @title Performs random sampling and permuting of vectors, dataframes and matrices
 #' @description draws a pseudorandom sample from a vector, dataframe or matrix
 #' on the serverside
 #' or - as a special case - randomly permutes a vector, dataframe or matrix.
@@ -140,7 +140,12 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
     datasources <- datashield.connections_find()
   }
 
-# check if a value has been provided for x
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # check if a value has been provided for x
   if(is.null(x)){
     return("Error: x must denote a character string naming the serverside object to be sampled or an integer N denoting permute 1:N")
   }

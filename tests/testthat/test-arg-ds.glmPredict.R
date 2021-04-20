@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -30,7 +30,7 @@ test_that("glmPredict_errors", {
   # TODO: "some DataSHIELD errors" is unhelpful and needs improvement
   expect_equal(class(datashield.errors()),"list")
   expect_length(datashield.errors(),3)
-  expect_equal(names(datashield.errors()),c("sim1","sim2","sim3"))
+  expect_true(all(c("sim1","sim2","sim3") %in% names(datashield.errors())))
 })
 
 context("ds.glmPredict::arg::setting up glm obj for further testing")
@@ -51,7 +51,7 @@ test_that("glmPredict_errors", {
   # TODO: "some DataSHIELD errors" is unhelpful and needs improvement
   expect_equal(class(datashield.errors()),"list")
   expect_length(datashield.errors(),3)
-  expect_equal(names(datashield.errors()),c("sim1","sim2","sim3"))
+  expect_true(all(c("sim1","sim2","sim3") %in% names(datashield.errors())))
 })
 
 context("ds.glmPredict::arg::test _output.type_ arg is correct object")
@@ -69,7 +69,7 @@ test_that("glmPredict_errors", {
 
   expect_equal(class(datashield.errors()),"list")
   expect_length(datashield.errors(),3)
-  expect_equal(names(datashield.errors()),c("sim1","sim2","sim3"))
+  expect_true(all(c("sim1","sim2","sim3") %in% names(datashield.errors())))
 })
 
 context("ds.glmPredict::arg::test _dispersion_ arg is correct object")
@@ -85,7 +85,7 @@ test_that("glmPredict_errors", {
   # TODO: "some DataSHIELD errors" is unhelpful and needs improvement
   expect_equal(class(datashield.errors()),"list")
   expect_length(datashield.errors(),3)
-  expect_equal(names(datashield.errors()),c("sim1","sim2","sim3"))
+  expect_true(all(c("sim1","sim2","sim3") %in% names(datashield.errors())))
 })
 
 context("ds.glmPredict::arg::test _na.action_ arg is correct object")
