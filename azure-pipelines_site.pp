@@ -16,7 +16,7 @@ class { ::datashield:
   remote_mysql   => false,        # There is not a remote mysql server
 
   dsbase_githubusername      => 'datashield',
-  dsbase_ref                 => '6.1.1',
+  dsbase_ref                 => 'master',
   dsdanger_githubusername    => 'datashield',
   dsdanger_ref               => ''
 }
