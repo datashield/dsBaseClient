@@ -4,14 +4,15 @@
 #' @details This function checks if the input data frames have the same variables (i.e. the same
 #' column names) in all of the used studies. When a study does not have some of the variables, the
 #' function generates those variables as vectors of missing values and combines them as columns to
-#' the input data frame. 
+#' the input data frame. If any of the generated variables are of class factor, the function 
+#' assigns to those the corresponding levels of the factors given from the studies where such 
+#' factors exist.
 #' 
 #' Server function called: \code{dataFrameFillDS}
 #' @param df.name a character string representing the name of the input data frame that will be
 #' filled with extra columns of missing values. 
 #' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. Default \code{dataframefill.newobj}. 
-#' Default value is the name of the input data frame with the suffix "_filled". 
+#' that is stored on the data servers. Default value is "dataframefill.newobj". 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -19,7 +20,7 @@
 #' is written to the server-side. Also, two validity messages are returned to the
 #' client-side indicating the name of the \code{newobj} that has been created in each data source
 #' and if it is in a valid form.
-#' @author DataSHIELD Development Team
+#' @author Demetris Avraam for DataSHIELD Development Team
 #' 
 #' @examples 
 #' \dontrun{
@@ -50,7 +51,7 @@
 #'   # Log onto the remote Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
-#'   #Create two data frames with one different column
+#'   # Create two data frames with one different column
 #'   
 #'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
 #'                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
@@ -65,7 +66,7 @@
 #'   
 #'   ds.dataFrameFill(df.name = "df1",
 #'                    newobj = "D.Fill",
-#'                    datasources = connections[c(1,2)]) #All servers are used
+#'                    datasources = connections[c(1,2)]) # Two servers are used
 #'
 #'
 #'   # Clear the Datashield R sessions and logout
@@ -78,6 +79,11 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   # if no connections details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   # check if user has provided the name of the data.frame to be subsetted
@@ -108,7 +114,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
 
   column.names <- list()
   for (i in 1:length(datasources)){
-    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[[i]])
+    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])[[1]]
   }
 
   allNames <- unique(unlist(column.names))
@@ -133,10 +139,29 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   # get the class of each variable in the dataframes
-  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x))})
+  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x), datasources=datasources)})
   class.vect1 <- lapply(class.list, function(x){unlist(x)})
   class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
   class.vect2 <- unname(unlist(class.vect2))
+  
+  # check if any of the elements in class.vect2 are factor
+  # and if yes then get their levels
+  df.indicator <- list()
+  levels.vec <- list()
+  if(length(class.vect2)>0){
+    anyFactors <- allNames[which(class.vect2 == 'factor')]
+    if(length(anyFactors)>0){
+      for(i in 1:length(anyFactors)){
+        df.indicator[[i]] <- lapply(column.names, function(x){is.element(anyFactors[i],unlist(x))})
+      }
+      df.indicator.index <- lapply(df.indicator, function(x){which(x==TRUE)})
+      for(i in 1:length(anyFactors)){
+        levels.vec[[i]] <- dsBaseClient::ds.levels(x=paste0(df.name, '$', anyFactors[i]), datasources=datasources[df.indicator.index[[i]]])
+        levels.vec[[i]] <- as.numeric(levels.vec[[i]][[1]][[1]])
+      }
+    }
+  }
+  levels.vec.transmit <- unlist(lapply(levels.vec, function(x){paste(x,collapse=",")}))
   
   if(!is.null(class.vect2)){
     class.vect.transmit <- paste(class.vect2,collapse=",")
@@ -144,7 +169,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     class.vect.transmit <- NULL
   }
   
-  calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit)
+  calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit, levels.vec.transmit)
   DSI::datashield.assign(datasources, newobj, calltext)
 
   #############################################################################################################

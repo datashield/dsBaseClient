@@ -8,7 +8,7 @@ ds.recodeValues(
   var.name = NULL,
   values2replace.vector = NULL,
   new.values.vector = NULL,
-  force.output.format = "no",
+  missing = NULL,
   newobj = NULL,
   datasources = NULL,
   notify.of.progress = FALSE
@@ -22,9 +22,10 @@ in the variable \code{var.name} to be replaced.}
 
 \item{new.values.vector}{a numeric or character vector specifying the new values.}
 
-\item{force.output.format}{a character string specifying the format of the output variable. 
-This can be set as \code{"numeric"}, \code{"character"} or \code{"no"}. Default \code{"no"}.  
-For more information see \strong{Details}.}
+\item{missing}{If supplied, any missing values in var.name will be replaced by this value. 
+Must be of length 1. If the analyst want to recode only missing values then it should also 
+specify an identical vector of values in both arguments \code{values2replace.vector} and 
+\code{new.values.vector}. Otherwise please look the \code{ds.replaceNA} function.}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers.
@@ -38,9 +39,9 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 progress. Default FALSE.}
 }
 \value{
-\code{ds.recodeValues} returns to the server-side the new variable with the recode values. 
+Assigns to each server a new variable with the recoded values. 
 Also, two validity messages are returned to the client-side 
-indicating whether the new object  has been created in each data source and if so whether
+indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
@@ -49,24 +50,12 @@ them to a matched set of alternative specified values.
 }
 \details{
 This function recodes individual values with new individual values. This can
-apply to numeric values, character values and NAs. 
-
-One particular use of
-\code{ds.recodeValues} is to convert NAs to an explicit value or vice-versa.
-
-The argument \code{force.output.format} can be specified in 3 ways: \cr
-(1) \code{force.output.format = "numeric"} the output 
-vector will be of type numeric and any non-numeric values in 
-\code{new.values.vector} will appear as \code{NaN} in the recoded vector.\cr
-(2) \code{force.output.format = "character"}  all values
-in the output vector will be in character format. \cr
-(3) \code{force.output.format = "no"} 
-if the vector identified by the \code{values2replace.vector} argument is itself
-numeric and if all values in the \code{new.values.vector} are numeric,
-the recoded output vector will also be numeric. Otherwise, it will be coerced
-to character format.
-
-Server functions called: \code{recodeValuesDS1} and \code{recodeValuesDS2}
+apply to numeric and character values, factor levels and NAs. One particular use of
+\code{ds.recodeValues} is to convert NAs to an explicit value. This value is specified
+in the argument \code{missing}. If tthe user want to recode only missing values, then it
+should also specify an identical vector of values in both arguments \code{values2replace.vector}
+and \code{new.values.vector} (see Example 2 below).
+Server function called: \code{recodeValuesDS}
 }
 \examples{
 \dontrun{
@@ -96,21 +85,20 @@ Server functions called: \code{recodeValuesDS1} and \code{recodeValuesDS2}
   
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
-  #Create a vector in the server-side
-  
-  ds.assign(toAssign = "D$LAB_TSC", 
-            newobj = "ss.vector", 
-            datasources = connections)
-  
-  # Recode the values of the vector
-  
-  ds.recodeValues(var.name = "ss.vector",
-                  values2replace.vector = c(0,NA),
-                  new.values.vector = c(0,0),
-                  force.output.format = "numeric",
-                  newobj = "recode.vector",
-                  datasources = connections,
-                  notify.of.progress = FALSE)
+  # Example 1: recode the levels of D$GENDER
+  ds.recodeValues(var.name = "D$GENDER", 
+                  values2replace.vector = c(0,1), 
+                  new.values.vector = c(10,20),
+                  newobj = 'gender_recoded',
+                  datasources = connections)
+                  
+  # Example 2: recode NAs in D$PM_BMI_CATEGORICAL          
+  ds.recodeValues(var.name = "D$PM_BMI_CATEGORICAL", 
+                  values2replace.vector = c(1,2), 
+                  new.values.vector = c(1,2),
+                  missing = 99, 
+                  newobj = 'bmi_recoded'
+                  datasources = connections)
                  
   # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 

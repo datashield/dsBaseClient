@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrameSubset.R
 \name{ds.dataFrameSubset}
 \alias{ds.dataFrameSubset}
-\title{Subsetting data frames in the server-side}
+\title{Sub-sets data frames in the server-side}
 \usage{
 ds.dataFrameSubset(
   df.name = NULL,

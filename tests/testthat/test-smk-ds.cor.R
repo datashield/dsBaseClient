@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -26,80 +26,68 @@ test_that("setup", {
 
 context("ds.cor::smk")
 
-test_that("simple test, combine, pairwise.complete", {
-    res <- ds.cor(x="D$survtime", y="D$time.id", type="combine", naAction="pairwise.complete")
-
-    expect_length(res, 5)
-    expect_true("matrix" %in% class(res$`Number of missing values in each variable`))
-    expect_true("matrix" %in% class(res$`Number of missing values pairwise`))
-    expect_true("matrix" %in% class(res$`Correlation Matrix`))
-    expect_true("matrix" %in% class(res$`Number of complete cases used`))
-    expect_length(res$`Error message`, 3)
-    expect_equal(res$`Error message`[[1]], NA)
-    expect_equal(res$`Error message`[[2]], NA)
-    expect_equal(res$`Error message`[[3]], NA)
-})
+#test_that("simple test, combine, pairwise.complete", {
+#    res <- ds.cor(x="D$survtime", y="D$time.id", type="combine", naAction="pairwise.complete")
+#
+#    expect_length(res, 4)
+#    expect_true("matrix" %in% class(res$`Number of missing values in each variable`))
+#    expect_true("matrix" %in% class(res$`Number of missing values pairwise`))
+#    expect_true("matrix" %in% class(res$`Correlation Matrix`))
+#    expect_true("matrix" %in% class(res$`Number of complete cases used`))
+#})
 
 test_that("simple test, combine, casewise.complete", {
-    res <- ds.cor(x="D$survtime", y="D$time.id", type="combine", naAction="casewise.complete")
+#    res <- ds.cor(x="D$survtime", y="D$time.id", type="combine", naAction="casewise.complete")
+    res <- ds.cor(x="D$survtime", y="D$time.id", type="combine")
 
-    expect_length(res, 5)
+    expect_length(res, 4)
     expect_true("matrix" %in% class(res$`Number of missing values in each variable`))
     expect_true("matrix" %in% class(res$`Number of missing values casewise`))
     expect_true("matrix" %in% class(res$`Correlation Matrix`))
     expect_true("matrix" %in% class(res$`Number of complete cases used`))
-    expect_length(res$`Error message`, 3)
-    expect_equal(res$`Error message`[[1]], NA)
-    expect_equal(res$`Error message`[[2]], NA)
-    expect_equal(res$`Error message`[[3]], NA)
 })
 
-test_that("simple test, split, pairwise.complete", {
-    res <- ds.cor(x="D$survtime", y="D$time.id", type="split", naAction="pairwise.complete")
-
-    expect_length(res, 3)
-    expect_length(res[[1]], 5)
-    expect_true("matrix" %in% class(res[[1]]$`Number of missing values in each variable`))
-    expect_true("matrix" %in% class(res[[1]]$`Number of missing values pairwise`))
-    expect_true("matrix" %in% class(res[[1]]$`Correlation Matrix`))
-    expect_true("matrix" %in% class(res[[1]]$`Number of complete cases used`))
-    expect_equal(res[[1]]$`Error message`, NA)
-    expect_length(res[[2]], 5)
-    expect_true("matrix" %in% class(res[[2]]$`Number of missing values in each variable`))
-    expect_true("matrix" %in% class(res[[2]]$`Number of missing values pairwise`))
-    expect_true("matrix" %in% class(res[[2]]$`Correlation Matrix`))
-    expect_true("matrix" %in% class(res[[2]]$`Number of complete cases used`))
-    expect_equal(res[[2]]$`Error message`, NA)
-    expect_length(res[[3]], 5)
-    expect_true("matrix" %in% class(res[[3]]$`Number of missing values in each variable`))
-    expect_true("matrix" %in% class(res[[3]]$`Number of missing values pairwise`))
-    expect_true("matrix" %in% class(res[[3]]$`Correlation Matrix`))
-    expect_true("matrix" %in% class(res[[3]]$`Number of complete cases used`))
-    expect_equal(res[[3]]$`Error message`, NA)
-})
+#test_that("simple test, split, pairwise.complete", {
+#    res <- ds.cor(x="D$survtime", y="D$time.id", type="split", naAction="pairwise.complete")
+#
+#    expect_length(res, 3)
+#    expect_length(res[[1]], 4)
+#    expect_true("matrix" %in% class(res[[1]]$`Number of missing values in each variable`))
+#    expect_true("matrix" %in% class(res[[1]]$`Number of missing values pairwise`))
+#    expect_true("matrix" %in% class(res[[1]]$`Correlation Matrix`))
+#    expect_true("matrix" %in% class(res[[1]]$`Number of complete cases used`))
+#    expect_length(res[[2]], 4)
+#    expect_true("matrix" %in% class(res[[2]]$`Number of missing values in each variable`))
+#    expect_true("matrix" %in% class(res[[2]]$`Number of missing values pairwise`))
+#    expect_true("matrix" %in% class(res[[2]]$`Correlation Matrix`))
+#    expect_true("matrix" %in% class(res[[2]]$`Number of complete cases used`))
+#    expect_length(res[[3]], 4)
+#    expect_true("matrix" %in% class(res[[3]]$`Number of missing values in each variable`))
+#    expect_true("matrix" %in% class(res[[3]]$`Number of missing values pairwise`))
+#    expect_true("matrix" %in% class(res[[3]]$`Correlation Matrix`))
+#    expect_true("matrix" %in% class(res[[3]]$`Number of complete cases used`))
+#})
 
 test_that("simple test, split, casewise.complete", {
-    res <- ds.cor(x="D$survtime", y="D$time.id", type="split", naAction="casewise.complete")
+#    res <- ds.cor(x="D$survtime", y="D$time.id", type="split", naAction="casewise.complete")
+    res <- ds.cor(x="D$survtime", y="D$time.id", type="split")
 
     expect_length(res, 3)
-    expect_length(res[[1]], 5)
+    expect_length(res[[1]], 4)
     expect_true("matrix" %in% class(res[[1]]$`Number of missing values in each variable`))
     expect_true("matrix" %in% class(res[[1]]$`Number of missing values casewise`))
     expect_true("matrix" %in% class(res[[1]]$`Correlation Matrix`))
     expect_true("matrix" %in% class(res[[1]]$`Number of complete cases used`))
-    expect_equal(res[[1]]$`Error message`, NA)
-    expect_length(res[[2]], 5)
+    expect_length(res[[2]], 4)
     expect_true("matrix" %in% class(res[[2]]$`Number of missing values in each variable`))
     expect_true("matrix" %in% class(res[[2]]$`Number of missing values casewise`))
     expect_true("matrix" %in% class(res[[2]]$`Correlation Matrix`))
     expect_true("matrix" %in% class(res[[2]]$`Number of complete cases used`))
-    expect_equal(res[[2]]$`Error message`, NA)
-    expect_length(res[[3]], 5)
+    expect_length(res[[3]], 4)
     expect_true("matrix" %in% class(res[[3]]$`Number of missing values in each variable`))
     expect_true("matrix" %in% class(res[[3]]$`Number of missing values casewise`))
     expect_true("matrix" %in% class(res[[3]]$`Correlation Matrix`))
     expect_true("matrix" %in% class(res[[3]]$`Number of complete cases used`))
-    expect_equal(res[[3]]$`Error message`, NA)
 })
 
 #

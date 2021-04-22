@@ -1,5 +1,5 @@
-#' @title ds.table calling aggregate functions tableDS and tableDS2
-#' and assign function tableDS.assign
+#' @title Generates 1-, 2-, and 3-dimensional contingency tables with option
+#' of assigning to serverside only and producing chi-squared statistics
 #' @description creates 1-dimensional, 2-dimensional and 3-dimensional
 #' tables using the {table} function in native R.
 #' @details the {ds.table} function selects numeric, integer or factor
@@ -147,7 +147,7 @@
 #' table object to be written to the serverside if <table.assign> is TRUE.
 #' If no explicit name for the table object is specified, but <table.assign>
 #' is nevertheless TRUE, the name for the serverside table object defaults
-#' to 'newObj'.
+#' to \code{table.newobj}.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' If the <datasources> is to be specified, it should be set without
@@ -199,7 +199,12 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
     datasources <- datashield.connections_find()
   }
 
- # check if a value has been provided for xvar
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # check if a value has been provided for xvar
   if(is.null(rvar)){
     return("Error: rvar must have a value which is a character string naming the row variable for the table")
   }
@@ -278,6 +283,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
  for(j in 1:numstudies){
    rvar.all.levels.all.studies <- c(rvar.all.levels.all.studies,rvar.all.levels[[j]])
  }
+
+ if (length(rvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for rvar: '", rvar , "'"), call. = FALSE)
+ }
  
  rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
  
@@ -297,6 +306,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
      cvar.all.levels.all.studies <- c(cvar.all.levels.all.studies,cvar.all.levels[[j]])
    }
    
+   if (length(cvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for cvar: '", cvar , "'"), call. = FALSE)
+   }
+
    cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
    
    cvar.all.unique.levels.transmit <- paste0(cvar.all.unique.levels, collapse=",")
@@ -317,6 +330,10 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
      stvar.all.levels.all.studies <- c(stvar.all.levels.all.studies,stvar.all.levels[[j]])
    }
    
+   if (length(stvar.all.levels.all.studies) == 0) {
+     stop(paste0("Unable to obtain factors for stvar: '", stvar , "'"), call. = FALSE)
+   }
+
    stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
    
    stvar.all.unique.levels.transmit <- paste0(stvar.all.unique.levels, collapse=",")
@@ -330,7 +347,7 @@ if(table.assign)
 
 	if(is.null(newobj))
 		{
-		newobj<-"newTable"
+		newobj<-"table.newobj"
 		}
 		
 
@@ -359,6 +376,7 @@ DSI::datashield.assign(datasources, newobj, calltext.assign)
  
  table.out<-DSI::datashield.aggregate(datasources, calltext)
 
+
 #END OF MAIN FUNCTION LEADING UP TO CALL
 ##############################################################################
 ###############################################################################
@@ -382,14 +400,14 @@ list.temp<-NULL
 
 for(ns in 1:numsources.orig)
 {
-if(class(table.out[[ns]])=="character")
+    if(class(table.out[[ns]])=="character")
 	{
-	valid.output[ns]<-0
-	error.messages[[ns]]<-table.out[[ns]]
+	    valid.output[ns]<-0
+	    error.messages[[ns]]<-table.out[[ns]]
 	}	
 	else
 	{
-	error.messages[[ns]]<-"No errors reported from this study"
+	    error.messages[[ns]]<-"No errors reported from this study"
 	}
 }
 
@@ -398,14 +416,21 @@ num.valid.studies<-sum(valid.output)
 
 if(num.valid.studies==0)
 {
-validity.message<-"All studies failed for reasons identified below"
-	cat("\n",validity.message,"\n\n")
-	for(ns in 1:numsources.orig)
-		{
-		cat("\nStudy",ns,": ",error.messages[[ns]],"\n")
-		}
+	if ((! table.assign) || report.chisq.tests)
+	{
+	    validity.message<-"All studies failed for reasons identified below"
+	    cat("\n",validity.message,"\n\n")
+	    for(ns in 1:numsources.orig)
+	    {
+	        cat("\nStudy",ns,": ",error.messages[[ns]],"\n")
+	    }
 
-return(list(validity.message=validity.message,error.messages=error.messages))
+	    return(list(validity.message=validity.message,error.messages=error.messages))
+	}
+	else
+	{
+	    return(NULL)
+	}
 }
 
 
@@ -414,25 +439,18 @@ for(ns in 1:numsources.orig)
   if(valid.output[ns])
   {
     sum.valid<-sum.valid+1
-		if(sum.valid==num.valid.studies)
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]])")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
-		else
-		{
-		list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]],")
-        study.names.valid<-c(study.names.valid,as.character(ns))
-		}
+    list.temp<-paste0(list.temp,"table.out.orig[[",ns,"]]")
+    if(sum.valid < num.valid.studies)
+    {
+        list.temp<-paste0(list.temp,",")
+    }
+    study.names.valid<-c(study.names.valid,names(datasources)[ns])
   }
-
 }
 
 
-
 table.out.valid <- FALSE
-list.text<-paste0("table.out.valid<-list(",list.temp)
-
+list.text<-paste0("table.out.valid<-list(",list.temp,")")
 
 
 eval(parse(text=list.text))
@@ -466,15 +484,17 @@ for(ns in 1:numsources.orig)
 
 if(num.valid.studies==numsources.orig)
 {
-validity.message<-"Data in all studies were valid"
-	cat("\n",validity.message,"\n")
-	for(ns in 1:numsources.orig)
+    validity.message<-"Data in all studies were valid"
+    if (! table.assign)
+    {
+	    cat("\n",validity.message,"\n")
+	    for(ns in 1:numsources.orig)
 		{
-		cat("\nStudy",ns,": ",error.messages[[ns]])
+		    cat("\nStudy",ns,": ",error.messages[[ns]])
 		}
 		cat("\n\n")
+    }
 }
-
 
 #check all tables from all sources have the same number of dimensions
 

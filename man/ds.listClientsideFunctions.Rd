@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.listClientsideFunctions.R
 \name{ds.listClientsideFunctions}
 \alias{ds.listClientsideFunctions}
-\title{Client-side functions}
+\title{Lists client-side functions}
 \usage{
 ds.listClientsideFunctions()
 }

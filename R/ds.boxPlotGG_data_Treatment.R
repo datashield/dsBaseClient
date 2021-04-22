@@ -22,7 +22,12 @@ ds.boxPlotGG_data_Treatment <- function(table, variables, group = NULL, group2 =
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
   }
-  
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   cally <- paste0("boxPlotGG_data_TreatmentDS(", table, ", c('", 
                   paste0(variables, collapse = "','"), "'), ", 
                   if(is.null(group)){paste0("NULL")}else{paste0("'",group,"'")}, ", ", 
