@@ -135,6 +135,11 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   ###X.name
   # check if user has provided the name of the column that holds X.name
   if(is.null(X.name)){

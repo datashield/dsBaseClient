@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.

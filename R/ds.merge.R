@@ -12,9 +12,13 @@
 #' 
 #' Server function called: \code{mergeDS}
 #' @param x.name a character string specifying the name of the
-#' first data frame to be merged. 
+#' first data frame to be merged. The length of the string should be less than the 
+#' specified threshold for the nfilter.stringShort which is one of the disclosure 
+#' prevention checks in DataSHIELD.
 #' @param y.name a character string specifying the name of the
-#' second data frame to be merged. 
+#' second data frame to be merged. The length of the string should be less than the 
+#' specified threshold for the nfilter.stringShort which is one of the disclosure 
+#' prevention checks in DataSHIELD.
 #' @param by.x.names a character string  or a vector of names specifying 
 #' of the column(s) in data frame \code{x.name} for merging. 
 #' @param by.y.names a character string  or a vector of names specifying 
@@ -44,9 +48,9 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.merge} returns the merge data frame that is written on the server-side. 
+#' @return \code{ds.merge} returns the merged data frame that is written on the server-side. 
 #' Also, two validity messages are returned to the client-side
-#' indicating whether the new object  has been created in each data source and if so whether
+#' indicating whether the new object has been created in each data source and if so whether
 #' it is in a valid form. 
 #' @author DataSHIELD Development Team
 #' @examples
@@ -93,8 +97,8 @@
 #'                
 #'   ds.merge(x.name = "df.x",
 #'            y.name = "df.y",
-#'            by.x.names = "D$LAB_TSC",
-#'            by.y.names = "D$LAB_TSC",
+#'            by.x.names = "df.x$LAB_TSC",
+#'            by.y.names = "df.y$LAB_TSC",
 #'            all.x = TRUE,
 #'            all.y = TRUE,
 #'            sort = TRUE,
@@ -108,9 +112,8 @@
 #' }
 #'
 #' @export
-
-
-ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,all.x=FALSE,all.y=FALSE,
+#' 
+ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,all.x=FALSE,all.y=FALSE,
 			 sort=TRUE, suffixes = c(".x",".y"), no.dups=TRUE, incomparables=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -118,7 +121,12 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
     datasources <- datashield.connections_find()
   }
 
-#dataframe names
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
+  # dataframe names
   if(is.null(x.name)){
     stop("Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", call.=FALSE)
   }
@@ -127,7 +135,7 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
     stop("Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", call.=FALSE)
   }
 
-#names of columns to merge on (may be more than one)
+  # names of columns to merge on (may be more than one)
   if(is.null(by.x.names)){
     stop("Please provide the names of columns in x dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
 	}
@@ -136,29 +144,26 @@ ds.merge = function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,al
     stop("Please provide the names of columns in y dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
 	}
 
-	#make transmittable via parser
-    by.x.names.transmit <- paste(by.x.names,collapse=",")
-    by.y.names.transmit <- paste(by.y.names,collapse=",")
+	# make transmittable via parser
+  by.x.names.transmit <- paste(by.x.names, collapse=",")
+  by.y.names.transmit <- paste(by.y.names, collapse=",")
 
-#suffixes
+  # suffixes
   if(is.null(suffixes)){
-    stop("Please provide the suffixes to append to disambiguate duplicate column names  (default = c('.x','.y/))", call.=FALSE)
+    stop("Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y/))", call.=FALSE)
   }
-	#make transmittable via parser
-    suffixes.transmit <- paste(suffixes,collapse=",")
+  
+	# make transmittable via parser
+  suffixes.transmit <- paste(suffixes, collapse=",")
 
-
-  # create a name by default if user did not provide a name for the new variable
+  # create a name by default if user did not provide a name for the new dataframe
   if(is.null(newobj)){
     newobj <- "merge.newobj"
   }
 
-    # call the server side function
-
-
+  # call the server side function
 	calltext <- call("mergeDS", x.name, y.name, by.x.names.transmit, by.y.names.transmit, all.x, all.y,
 			 sort, suffixes.transmit, no.dups, incomparables)
-
 	DSI::datashield.assign(datasources, newobj, calltext)
 
 

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -36,16 +36,10 @@ test_that("NULL connections", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "replacement has length zero", fixed=TRUE)
 
     errs <- datashield.errors()
-    expect_length(errs, 3)
-    expect_length(errs$sim1, 1)
-    expect_equal(errs$sim1, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
-    expect_length(errs$sim2, 1)
-    expect_equal(errs$sim2, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
-    expect_length(errs$sim3, 1)
-    expect_equal(errs$sim3, "Invalid expression type: 'NULL'. Expected a call or character vector.", fixed=TRUE)
+    expect_length(errs, 0)
 })
 
 context("ds.foobar::arg::aggregate")

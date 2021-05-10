@@ -1,4 +1,4 @@
-#' @title Server-side functions
+#' @title Lists server-side functions
 #' @description Lists all current server-side functions
 #' @details Uses \code{\link{datashield.methods}} function from \code{DSI} package to list all
 #' assign and aggregate functions on the available data repository servers.
@@ -58,6 +58,11 @@ ds.listServersideFunctions<-function(datasources=NULL){
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   assign.funs <- DSI::datashield.methods(datasources, 'assign')

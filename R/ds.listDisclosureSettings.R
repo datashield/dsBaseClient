@@ -1,5 +1,4 @@
-#'
-#' @title Disclosure Settings
+#' @title Lists disclosure settings
 #' @description Lists current values for disclosure control filters in all data repository servers. 
 #' @details This function lists out the current values of the eight disclosure filters in each of
 #' the data repository servers specified by \code{datasources} argument.\cr
@@ -104,6 +103,11 @@ ds.listDisclosureSettings <- function(datasources=NULL){
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   # CALL THE MAIN SERVER SIDE FUNCTION

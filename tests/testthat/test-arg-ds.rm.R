@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,7 +21,7 @@ connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 context("ds.rm::arg::test errors")
 
 test_that("ds.rm erros", {
-    expect_error(ds.rm(), "Please provide the name of the object to be deleted (eg 'object.name') as the x.name argument", fixed=TRUE)
+    expect_error(ds.rm(), "Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", fixed=TRUE)
 })
 
 #

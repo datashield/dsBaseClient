@@ -31,12 +31,17 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
   
-  if(!(method %in% c(1,2,3))){
+  if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
   }
   

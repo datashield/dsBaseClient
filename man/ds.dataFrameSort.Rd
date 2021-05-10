@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.dataFrameSort.R
 \name{ds.dataFrameSort}
 \alias{ds.dataFrameSort}
-\title{Sorting data frames in the server-side}
+\title{Sorts data frames in the server-side}
 \usage{
 ds.dataFrameSort(
   df.name = NULL,

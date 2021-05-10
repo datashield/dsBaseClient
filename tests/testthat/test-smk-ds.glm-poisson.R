@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.glm::smk::poisson")
 test_that("glm_gaussian", {
-    res <- ds.glm("D$survtime~1+D$time.id+D$female",family="poisson")
+    res <- ds.glm("D$survtime~1+D$time.id+D$female", family="poisson", checks=FALSE)
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 6299)
@@ -52,7 +52,7 @@ test_that("glm_gaussian", {
 
 context("ds.glm::smk::poisson, with check")
 test_that("glm_gaussian, which check", {
-    expect_warning(res <- ds.glm("D$survtime~1+D$time.id+D$female", family="poisson", check=TRUE), "NAs introduced by coercion")
+    expect_warning(res <- ds.glm("D$survtime~1+D$time.id+D$female", family="poisson", checks=TRUE), "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 6299)

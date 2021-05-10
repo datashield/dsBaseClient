@@ -61,6 +61,11 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
   }

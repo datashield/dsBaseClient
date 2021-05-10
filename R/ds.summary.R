@@ -71,6 +71,11 @@ ds.summary <- function(x=NULL, datasources=NULL){
     datasources <- datashield.connections_find()
   }
 
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
@@ -174,7 +179,12 @@ ds.summary <- function(x=NULL, datasources=NULL){
   if("list" %in% typ){
     for(i in 1:numsources){
       l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
-      elts <- DSI::datashield.aggregate(datasources[i], call('namesDS', x))[[1]]
+      elts <- DSI::datashield.aggregate(datasources[i], call('namesDS', x))
+      if(length(elts) == 0){
+        elts <- NULL
+      }else{
+        elts <- elts[[1]]
+      }
       if(is.null(elts)){
         stdsummary <- list('class'=typ, 'length'=l)
       }else{

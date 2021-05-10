@@ -1,5 +1,5 @@
 #'
-#' @title Sorting data frames in the server-side
+#' @title Sorts data frames in the server-side
 #' @description Sorts a data frame using a specified sort key.
 #' @details It sorts a specified
 #' data.frame on the serverside using a sort key also on the server-side. The
@@ -89,7 +89,12 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
-  
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+
   if(is.null(sort.method))
   {
     sort.method<-"default"

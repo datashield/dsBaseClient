@@ -1,5 +1,5 @@
 #'
-#' @title Ensure that the requested subset is not larger than the original object
+#' @title Ensures that the requested subset is not larger than the original object
 #' @description Compares subset and original object sizes and eventually carries out subsetting. 
 #' @details This function is called by the function \code{ds.subset} to ensure that the requested subset
 #' is not larger than the original object.

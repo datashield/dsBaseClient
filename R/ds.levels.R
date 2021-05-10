@@ -1,5 +1,5 @@
 #'
-#' @title Levels attributes of a server-side factor
+#' @title Produces levels attributes of a server-side factor
 #' @description This function provides access to the level attribute of
 #' a factor variable stored on the server-side. 
 #' This function is similar to R function \code{levels}. 
@@ -56,11 +56,16 @@
 #'
 #' }
 #'
-ds.levels = function(x=NULL, datasources=NULL) {
+ds.levels <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
+  }
+
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   if(is.null(x)){
