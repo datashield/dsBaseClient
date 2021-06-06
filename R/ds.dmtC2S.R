@@ -3,11 +3,11 @@
 #' that is equivalent to that same data.frame, matrix or tibble (DMT) on the clientside. 
 #' @details ds.dmtC2S calls assign function dmtC2SDS. To keep the
 #' function simple (though less flexible), a number of the parameters specifying
-#' the matrix/data.frame to be generated on the serverside are fixed by the
+#' the DMT to be generated on the serverside are fixed by the
 #' characteristics of the DMT to be copied rather than explicitly
 #' specifying them as selected arguments. In consequence, 
 #' they have been removed from the list of arguments and are instead given invariant
-#' values in the first few lines of code. These include: from<-"clientside.dmt",
+#' values in the first few lines of code. These include: from="clientside.dmt",
 #' nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE. The specific value
 #' "clientside.dmt" for the argument <from> simply
 #' means that the required information is generated from
