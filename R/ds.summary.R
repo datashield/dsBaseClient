@@ -111,7 +111,9 @@ ds.summary <- function(x=NULL, datasources=NULL){
         r <- dims[[1]][1]
         c <- dims[[1]][2]
         cols <- (DSI::datashield.aggregate(datasources[i], call('colnamesDS', x)))[[1]]
-        stdsummary <- list('class'=typ, 'number of rows'=r, 'number of columns'=c, 'variables held'=cols)
+        cols_classes <- (DSI::datashield.aggregate(datasources[i], call('columnClassesDS', x)))[[1]]
+        stdsummary <- list('class'=typ, 'number of rows'=r, 'number of columns'=c, 
+                           'variables held'=cols, 'variable classes'=cols_classes)
         finalOutput[[i]] <- stdsummary
       }else{
         finalOutput[[i]] <- 'INVALID object!'
