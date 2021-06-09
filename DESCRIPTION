@@ -17,6 +17,7 @@ Imports:
     RColorBrewer,
     forestplot,
     panelaggregation,
-    methods
+    methods,
+    dplyr
 RoxygenNote: 7.1.1
 Encoding: UTF-8
