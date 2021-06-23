@@ -72,6 +72,13 @@ test_that("simple glmerSLMA", {
     expect_length(res, 8)
 })
 
+
+test_that("simple glmerSLMA with assign=TRUE", {
+    res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", assign=TRUE, newobj="glmerSLMA.assigned", dataName = "D")
+
+    expect_length(res, 8)
+})
+
 #
 # Shutdown phase 1
 #
@@ -80,7 +87,7 @@ context("ds.glmerSLMA::smk::shutdown - phase 1")
 
 test_that("setup", {
   #note the offset and weights objects below are artefacts 
-    ds_expect_variables(c("D", "D2", "offset", "some.offsets", "some.weights", "weights"))
+    ds_expect_variables(c("D", "D2", "offset", "some.offsets", "some.weights", "weights", "glmerSLMA.assigned"))
 })
 
 disconnect.studies.dataset.cluster.int()
