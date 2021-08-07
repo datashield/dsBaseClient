@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.levels::arg")
 test_that("simple levels", {
     expect_error(ds.levels(), "Please provide the name of the input vector!", fixed=TRUE)
-    expect_error(ds.levels("LAB_TSC"), "The input object(s) LAB_TSC is(are) not defined on one or more of the studies!", fixed=TRUE)
+    expect_error(ds.levels("LAB_TSC"), "The input object LAB_TSC is not defined on one or more of the studies!", fixed=TRUE)
 })
 
 #
