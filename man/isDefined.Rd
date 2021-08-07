@@ -2,18 +2,20 @@
 % Please edit documentation in R/isDefined.R
 \name{isDefined}
 \alias{isDefined}
-\title{Checks if the objecs are defined in studies}
+\title{Checks if the objects are defined in all studies}
 \usage{
 isDefined(datasources = NULL, obj = NULL)
 }
 \arguments{
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified, the default set of connections will be
+used: see \code{\link{datashield.connections_default}}.}
 
-\item{obj}{a character vector, the name of the objects to look for.}
+\item{obj}{a character vector, the name of the object(s) to look for.}
 }
 \value{
-a boolean vector.
+returns an error message if the input object is not defined in one or more studies or
+TRUE otherwise.
 }
 \description{
 This is an internal function.
