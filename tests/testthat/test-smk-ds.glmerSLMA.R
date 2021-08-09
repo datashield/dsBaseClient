@@ -74,7 +74,9 @@ test_that("simple glmerSLMA", {
 
 
 test_that("simple glmerSLMA with assign=TRUE", {
-    res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", assign=TRUE, newobj="glmerSLMA.assigned", dataName = "D")
+    expect_error(res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", assign=TRUE, newobj="glmerSLMA.assigned", dataName = "D"))
+
+    print(DSI::datashield.errors())
 
     expect_length(res, 8)
 })
