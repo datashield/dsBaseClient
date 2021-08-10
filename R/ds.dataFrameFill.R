@@ -96,13 +96,8 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     newobj <- "dataframefill.newobj"
   }
 
-  # check if the input object is defined in all the studies
+  # check if the input dataframe is defined in all the studies
   defined <- isDefined(datasources, df.name)
-
-  # if the input object is not defined in any study then return an error message
-  if(defined == FALSE){
-    stop("The dataframe is not defined in all the studies!", call.=FALSE)
-  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, df.name)
