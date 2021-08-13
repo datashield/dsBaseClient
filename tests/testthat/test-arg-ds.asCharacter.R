@@ -20,6 +20,8 @@ connect.discordant.dataset.simple(list("A", "B", "C"))
 
 context("ds.asCharacter::arg::test errors")
 test_that("asCharacter_erros", {
+    print(DSI::dsListPackages(conns=ds.test_env$connections))
+
     expect_error(ds.asCharacter(), "Please provide the name of the input vector!", fixed=TRUE)
 })
 
