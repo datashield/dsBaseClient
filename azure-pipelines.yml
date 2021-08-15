@@ -211,11 +211,17 @@ jobs:
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
+      echo "1)-=<>=-"
+      cat $(Pipeline.Workspace)/datashield-infrastructure/puppet/environments/datashield_azurepipelines/Puppetfile
+      echo "2)-=<>=-"
+      cat $(Pipeline.Workspace)/datashield-infrastructure/puppet/environments/datashield_azurepipelines/manifests/site.pp
+      echo "-=<>=-"
+
       pushd puppet/environments/datashield_azurepipelines
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
 
-      echo "-=<>=-"
+      echo "3)-=<>=-"
       cat $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp
       echo "-=<>=-"
 
