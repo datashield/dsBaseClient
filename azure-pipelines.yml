@@ -215,6 +215,10 @@ jobs:
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
 
+      echo "-=<>=-"
+      cat $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp
+      echo "-=<>=-"
+
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
