@@ -13,8 +13,8 @@
 #' appended to table structure so that the table holds both the vector with and without
 #' missing values. 
 #' 
-#' Server function called: \code{numNaDS}
-#' @param x a character string specifying the the name of the vector. 
+#' Server function called: \code{replaceNaDS}
+#' @param x a character string specifying the name of the vector. 
 #' @param forNA a list that contains the replacement value(s), a vector one or more values
 #' for each study. The length of the list must be equal to the number of servers (studies). 
 #' @param newobj a character string that provides the name for the output object
@@ -73,9 +73,7 @@
 #'   # Clear the Datashield R sessions and logout  
 #'   datashield.logout(connections) 
 #' } 
-
-
-
+#' 
 ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
 
   # look for DS connections

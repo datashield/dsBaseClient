@@ -7,7 +7,7 @@
 ds.replaceNA(x = NULL, forNA = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x}{a character string specifying the the name of the vector.}
+\item{x}{a character string specifying the name of the vector.}
 
 \item{forNA}{a list that contains the replacement value(s), a vector one or more values
 for each study. The length of the list must be equal to the number of servers (studies).}
@@ -40,7 +40,7 @@ values have been replaced a new vector is created.
 appended to table structure so that the table holds both the vector with and without
 missing values. 
 
-Server function called: \code{numNaDS}
+Server function called: \code{replaceNaDS}
 }
 \examples{
 \dontrun{
@@ -88,6 +88,7 @@ Server function called: \code{numNaDS}
   # Clear the Datashield R sessions and logout  
   datashield.logout(connections) 
 } 
+
 }
 \author{
 DataSHIELD Development Team
