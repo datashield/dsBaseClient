@@ -13,10 +13,10 @@
 #' appended to table structure so that the table holds both the vector with and without
 #' missing values. 
 #' 
-#' Server function called: \code{numNaDS}
-#' @param x a character string specifying the the name of the vector. 
-#' @param forNA a list that contains the replacement value(s), a vector one or more values
-#' for each study. The length of the list must be equal to the number of servers (studies). 
+#' Server function called: \code{replaceNaDS}
+#' @param x a character string specifying the name of the vector. 
+#' @param forNA a list or a vector that contains the replacement value(s), for each study. 
+#' The length of the list or vector must be equal to the number of servers (studies). 
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. Default \code{replacena.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -53,29 +53,42 @@
 #'     logindata <- builder$build()
 #' 
 #'   # Log onto the remote Opal training servers
-#'     connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
-#'   # Replace missing values in variable 'LAB_HDL' by the mean value in each study
+#'   # Example 1: Replace missing values in variable 'LAB_HDL' by the mean value 
+#'   # in each study
 #'   
 #'   # Get the mean value of  'LAB_HDL' for each study
-#'   
-#'   mean<-ds.mean(x = "D$LAB_HDL",
-#'                 type = "split",
-#'                 datasources = connections)
+#'   mean <- ds.mean(x = "D$LAB_HDL",
+#'                   type = "split",
+#'                   datasources = connections)
 #'
 #'   # Replace the missing values using the mean for each study
-#'   
 #'   ds.replaceNA(x = "D$LAB_HDL",
 #'                forNA = list(mean[[1]][1], mean[[1]][2], mean[[1]][3]),
 #'                newobj = "HDL.noNA",
 #'                datasources = connections)
-#'
+#'                
+#'   # Example 2: Replace missing values in categorical variable 'PM_BMI_CATEGORICAL'
+#'   # with 999s
+#'  
+#'   # First check how many NAs there are in 'PM_BMI_CATEGORICAL' in each study
+#'   ds.table(rvar = "D$PM_BMI_CATEGORICAL", 
+#'           useNA = "always")   
+#'           
+#'   # Replace the missing values with 999s
+#'   ds.replaceNA(x = "D$PM_BMI_CATEGORICAL", 
+#'                forNA = c(999,999,999), 
+#'                newobj = "bmi999")
+#'                
+#'   # Check if the NAs have been replaced correctly
+#'   ds.table(rvar = "bmi999", 
+#'           useNA = "always")   
+#'  
 #'   # Clear the Datashield R sessions and logout  
 #'   datashield.logout(connections) 
 #' } 
-
-
-
+#' 
 ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
 
   # look for DS connections
