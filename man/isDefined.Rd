@@ -4,7 +4,7 @@
 \alias{isDefined}
 \title{Checks if the objects are defined in all studies}
 \usage{
-isDefined(datasources = NULL, obj = NULL)
+isDefined(datasources = NULL, obj = NULL, error.message = TRUE)
 }
 \arguments{
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
@@ -12,10 +12,15 @@ If the \code{datasources} argument is not specified, the default set of connecti
 used: see \code{\link{datashield.connections_default}}.}
 
 \item{obj}{a character vector, the name of the object(s) to look for.}
+
+\item{error.message}{a Boolean which specifies if the function should stop and return
+an error message when the input object is not defined in one or more studies or to
+return a list of TRUE/FALSE indicating in which studies the object is defined}
 }
 \value{
-returns an error message if the input object is not defined in one or more studies or
-TRUE otherwise.
+returns an error message if \code{error.message} argument is set to TRUE (default)
+and if the input object is not defined in one or more studies, or a Boolean value if
+\code{error.message} argument is set to FALSE.
 }
 \description{
 This is an internal function.
@@ -23,5 +28,8 @@ This is an internal function.
 \details{
 In DataSHIELD an object included in analysis must be defined (i.e. exists)
 in all the studies. If not the process should halt.
+}
+\author{
+Demetris Avraam for DataSHIELD Development Team
 }
 \keyword{internal}

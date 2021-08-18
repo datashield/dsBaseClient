@@ -7,11 +7,16 @@
 #' If the \code{datasources} argument is not specified, the default set of connections will be
 #' used: see \code{\link{datashield.connections_default}}.
 #' @param obj a character vector, the name of the object(s) to look for.
+#' @param error.message a Boolean which specifies if the function should stop and return
+#' an error message when the input object is not defined in one or more studies or to
+#' return a list of TRUE/FALSE indicating in which studies the object is defined
 #' @keywords internal
-#' @return returns an error message if the input object is not defined in one or more studies or
-#' TRUE otherwise.
+#' @return returns an error message if \code{error.message} argument is set to TRUE (default)
+#' and if the input object is not defined in one or more studies, or a Boolean value if
+#' \code{error.message} argument is set to FALSE.
+#' @author Demetris Avraam for DataSHIELD Development Team
 #'
-isDefined <- function(datasources=NULL, obj=NULL){
+isDefined <- function(datasources=NULL, obj=NULL, error.message=TRUE){
 
   inputobj <- unlist(obj)
   
@@ -28,10 +33,10 @@ isDefined <- function(datasources=NULL, obj=NULL){
       out <- DSI::datashield.aggregate(datasources, cally)
     }
     
-    if(any(out==FALSE)){
-      stop("The input object ", inputobj[i], " is not defined in one or more of the studies!", call.=FALSE)
+    if(error.message==TRUE & any(out==FALSE)){
+      stop("The input object ", inputobj[i], " is not defined in ", paste(names(which(out==FALSE)), collapse=", "), "!" , call.=FALSE)
     }else{
-      return(TRUE)
+      return(out)
     }
   }
 }
