@@ -48,7 +48,7 @@ resources:
   - repository: datashield-infrastructureRepo
     type: github
     endpoint: datashield-testing
-    name: StuartWheater/datashield-infrastructure
+    name: datashield/datashield-infrastructure
     ref: v6.2-dev
 
 #########################################################################################
@@ -211,19 +211,9 @@ jobs:
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
-      echo "1)-=<>=-"
-      cat $(Pipeline.Workspace)/datashield-infrastructure/puppet/environments/datashield_azurepipelines/Puppetfile
-      echo "2)-=<>=-"
-      cat $(Pipeline.Workspace)/datashield-infrastructure/puppet/environments/datashield_azurepipelines/manifests/site.pp
-      echo "-=<>=-"
-
       pushd puppet/environments/datashield_azurepipelines
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
-
-      echo "3)-=<>=-"
-      cat $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp
-      echo "-=<>=-"
 
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
