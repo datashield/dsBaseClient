@@ -62,7 +62,7 @@ test_that("Check DISCORDANT dataset", {
     expect_length(res.class.a.2, 1)
     expect_length(res.class.a.2$discordant2, 1)
     expect_equal(res.class.a.2$discordant2, "integer")
-    expect_error(res.class.a.3 <- ds.class(x='D$A', datasources=ds.test_env$connections[3]), "The input object D$A is not defined in one or more of the studies!", fixed=TRUE)
+    expect_error(res.class.a.3 <- ds.class(x='D$A', datasources=ds.test_env$connections[3]), "The input object D$A is not defined in discordant3!", fixed=TRUE)
 
     res.length.a <- ds.length(x='D$A')
     expect_length(res.length.a, 4)
@@ -79,7 +79,7 @@ test_that("Check DISCORDANT dataset", {
     expect_length(res.class.b.1, 1)
     expect_length(res.class.b.1$discordant1, 1)
     expect_equal(res.class.b.1$discordant1, "integer")
-    expect_error(res.class.b.3 <- ds.class(x='D$B', datasources=ds.test_env$connections[2]), "The input object D$B is not defined in one or more of the studies!", fixed=TRUE)
+    expect_error(res.class.b.3 <- ds.class(x='D$B', datasources=ds.test_env$connections[2]), "The input object D$B is not defined in discordant2!", fixed=TRUE)
     res.class.b.3 <- ds.class(x='D$B', datasources=ds.test_env$connections[3])
     expect_length(res.class.b.3, 1)
     expect_length(res.class.b.3$discordant3, 1)
@@ -96,7 +96,7 @@ test_that("Check DISCORDANT dataset", {
     expect_length(res.length.b$`total length of D$B in all studies combined`, 1)
     expect_equal(res.length.b$`total length of D$B in all studies combined`, 24)
 
-    expect_error(res.class.c.1 <- ds.class(x='D$C', datasources=ds.test_env$connections[1]), "The input object D$C is not defined in one or more of the studies!", fixed=TRUE)
+    expect_error(res.class.c.1 <- ds.class(x='D$C', datasources=ds.test_env$connections[1]), "The input object D$C is not defined in discordant1!", fixed=TRUE)
     res.class.c.2 <- ds.class(x='D$C', datasources=ds.test_env$connections[2])
     expect_length(res.class.c.2, 1)
     expect_length(res.class.c.2$discordant2, 1)
