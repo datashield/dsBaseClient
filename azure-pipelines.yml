@@ -49,7 +49,6 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-
     ref: v6.2-dev
 
 #########################################################################################
