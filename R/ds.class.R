@@ -68,7 +68,7 @@ ds.class <- function(x=NULL, datasources=NULL) {
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  # check if the input object(s) is(are) defined in all the studies
+  # check if the input object is defined in all the studies
   defined <- isDefined(datasources, x)
 
   cally <- call('classDS', x)
