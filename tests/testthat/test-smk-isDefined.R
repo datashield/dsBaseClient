@@ -73,8 +73,8 @@ test_that("default test, dataframe column D$D", {
 })
 
 test_that("default test, dataframe columns D,D$B", {
-#    expect_error(isDefined(ds.test_env$connections, list("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
-    res <- isDefined(ds.test_env$connections, list("D","D$A"))
+#    expect_error(isDefined(ds.test_env$connections, c("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    res <- isDefined(ds.test_env$connections, c("D","D$A"))
 
     expect_length(class(res), 1)
     expect_true(all("list" %in% class(res)))
@@ -85,7 +85,7 @@ test_that("default test, dataframe columns D,D$B", {
 })
 
 test_that("default test, dataframe columns D$A,D$B", {
-    expect_error(isDefined(ds.test_env$connections, list("D$A","D$B")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
 })
 
 # error.message = FALSE
@@ -172,8 +172,8 @@ test_that("error.message=FALSE test, dataframe column D$D", {
 })
 
 test_that("error.message=FALSE test, dataframe columns D,D$B", {
-#    expect_error(isDefined(ds.test_env$connections, list("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
-    res <- isDefined(ds.test_env$connections, list("D","D$A"), error.message=FALSE)
+#    expect_error(isDefined(ds.test_env$connections, c("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    res <- isDefined(ds.test_env$connections, c("D","D$A"), error.message=FALSE)
 
     expect_length(class(res), 1)
     expect_true(all("list" %in% class(res)))
@@ -184,7 +184,7 @@ test_that("error.message=FALSE test, dataframe columns D,D$B", {
 })
 
 test_that("error.message=FALSE test, dataframe columns D$A,D$B", {
-    res <- isDefined(ds.test_env$connections, list("D$A","D$B"), error.message=FALSE)
+    res <- isDefined(ds.test_env$connections, c("D$A","D$B"), error.message=FALSE)
 
     expect_length(class(res), 1)
     expect_true(all("list" %in% class(res)))
@@ -243,8 +243,8 @@ test_that("error.message=TRUE test, dataframe column D$D", {
 })
 
 test_that("error.message=TRUE test, dataframe columns D,D$B", {
-#    expect_error(isDefined(ds.test_env$connections, list("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
-    res <- isDefined(ds.test_env$connections, list("D","D$A"), error.message=TRUE)
+#    expect_error(isDefined(ds.test_env$connections, c("D","D$A")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    res <- isDefined(ds.test_env$connections, c("D","D$A"), error.message=TRUE)
 
     expect_length(class(res), 1)
     expect_true(all("list" %in% class(res)))
@@ -255,7 +255,7 @@ test_that("error.message=TRUE test, dataframe columns D,D$B", {
 })
 
 test_that("error.message=TRUE test, dataframe columns D$A,D$B", {
-    expect_error(isDefined(ds.test_env$connections, list("D$A","D$B"), error.message=TRUE), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B"), error.message=TRUE), "The input object D$A is not defined in discordant3!", fixed=TRUE)
 })
 
 #
