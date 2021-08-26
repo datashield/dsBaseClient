@@ -25,5 +25,6 @@ source("connection_to_datasets/login_details.R")
 source("connection_to_datasets/init_testing_datasets.R")
 source("connection_to_datasets/init_studies_datasets.R")
 source("connection_to_datasets/init_discordant_datasets.R")
+source("connection_to_datasets/init_mediation_datasets.R")
 
 context("setup - done")

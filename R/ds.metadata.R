@@ -1,9 +1,10 @@
 #'
-#' @title Gets the metadata of an object in the server-side
-#' @description This function gets the metadata of an object
-#' stored on the server-side. 
+#' @title Gets the metadata associated with a variable held on the server
+#' @description This function gets the metadata of a variable
+#' stored on the server.
 #' @details 
-#' Server function called: \code{metadataDS}
+#' Server function \code{metadataDS} is called examines the attributes associated with the variable
+#' which are non-disclosive.
 #' @param x a character string specifying the name of the object.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified

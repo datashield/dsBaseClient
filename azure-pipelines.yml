@@ -51,7 +51,6 @@ resources:
     name: datashield/datashield-infrastructure
     ref: v6.2-dev
 
-
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
@@ -325,6 +324,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
+
       sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.metadata.R
 \name{ds.metadata}
 \alias{ds.metadata}
-\title{Gets the metadata of an object in the server-side}
+\title{Gets the metadata associated with a variable held on the server}
 \usage{
 ds.metadata(x = NULL, datasources = NULL)
 }
@@ -18,11 +18,12 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 held at the server.
 }
 \description{
-This function gets the metadata of an object
-stored on the server-side.
+This function gets the metadata of a variable
+stored on the server.
 }
 \details{
-Server function called: \code{metadataDS}
+Server function \code{metadataDS} is called examines the attributes associated with the variable
+which are non-disclosive.
 }
 \examples{
 \dontrun{

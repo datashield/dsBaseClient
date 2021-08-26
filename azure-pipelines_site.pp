@@ -17,6 +17,7 @@ class { ::datashield:
 
   dsbase_githubusername      => 'StuartWheater',
   dsbase_ref                 => 'v6.2-dev_metadata',
+
   dsdanger_githubusername    => 'datashield',
   dsdanger_ref               => ''
 }

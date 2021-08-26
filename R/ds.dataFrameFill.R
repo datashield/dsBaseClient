@@ -96,13 +96,8 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     newobj <- "dataframefill.newobj"
   }
 
-  # check if the input object is defined in all the studies
+  # check if the input dataframe is defined in all the studies
   defined <- isDefined(datasources, df.name)
-
-  # if the input object is not defined in any study then return an error message
-  if(defined == FALSE){
-    stop("The dataframe is not defined in all the studies!", call.=FALSE)
-  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, df.name)
@@ -112,11 +107,8 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
 
-  column.names <- list()
-  for (i in 1:length(datasources)){
-    column.names[[i]] <- dsBaseClient::ds.colnames(df.name, datasources=datasources[i])[[1]]
-  }
-
+  column.names <- lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call("colnamesDS", df.name))})
+  
   allNames <- unique(unlist(column.names))
 
   # if the datasets share the same variables then the function stops
@@ -137,10 +129,18 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }else{
     allNames.transmit <- NULL
   }
-
+  
+  defined.list <- lapply(allNames, function(x){isDefined(datasources=datasources, obj=paste0(df.name, '$', x), error.message=FALSE)})
+  defined.vect1 <- lapply(defined.list, function(x){unlist(x)})
+  defined.vect2 <- lapply(defined.vect1, function(x){which(x == FALSE)})
+  
   # get the class of each variable in the dataframes
-  class.list <- lapply(allNames, function(x){dsBaseClient::ds.class(paste0(df.name, '$', x), datasources=datasources)})
+  class.list <- lapply(allNames, function(x){lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call('classDS', paste0(df.name, '$', x)))})})
   class.vect1 <- lapply(class.list, function(x){unlist(x)})
+  # the loop below is to avoid variables name' autocompletion
+  for (i in 1:length(allNames.transmit)){
+    if(length(defined.vect2[[i]])>0){class.vect1[[i]][defined.vect2[[i]]]<-'NULL'}
+  }
   class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
   class.vect2 <- unname(unlist(class.vect2))
   
