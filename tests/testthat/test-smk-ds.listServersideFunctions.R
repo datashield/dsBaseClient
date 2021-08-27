@@ -22,10 +22,10 @@ context("ds.listServersideFunctions::smk::check results")
 test_that("check results", {
     assign.functions <- factor(c(
       "BooleDS", "absDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
-      "asFactorDS", "asFactorDS2", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
+      "asFactorDS2", "asFactorSimpleDS", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
       "asNumericDS", "attach", "c", "cDS", "cbind",
       "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",
-      "dataFrameSubsetDS2", "dataFrameDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
+      "dataFrameSubsetDS2", "dataFrameDS", "dmtC2SDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
       "lexisDS2", "lexisDS3", "list", "listDS", "log",
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
