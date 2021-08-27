@@ -15,7 +15,7 @@ class { ::datashield:
   remote_mongodb => false,        # There is not a remote mongodb server
   remote_mysql   => false,        # There is not a remote mysql server
 
-  dsbase_githubusername      => 'datashield',
+  dsbase_githubusername      => 'StuartWheater',
   dsbase_ref                 => 'v6.2-dev',
 
   dsdanger_githubusername    => 'datashield',
