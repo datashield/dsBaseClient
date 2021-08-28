@@ -143,9 +143,9 @@
 #' }
 #'
 #' @export
-ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
-                   dimnames = NULL, newobj=NULL, datasources=NULL){
-
+#' 
+ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
+                     dimnames = NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -163,8 +163,7 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj))
-  {
+  if(is.null(newobj)){
     newobj <- "matrix.newobj"
   }
 
@@ -177,15 +176,12 @@ ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncol
   return('Please respecify')
   }
 
-  if(from=="serverside.vector"||from=="serverside.scalar")
-  {
-  mdata.transmit<-mdata
+  if(from=="serverside.vector"||from=="serverside.scalar"){
+    mdata.transmit <- mdata
   }
 
-
-  if(from=="clientside.scalar")
-  {
-  mdata.transmit<-paste0(as.character(mdata),collapse=",")
+  if(from=="clientside.scalar"){
+    mdata.transmit <- paste0(as.character(mdata), collapse=",")
   }
 
   #process <nrows> and <ncols> to make transmittable depending on specified from

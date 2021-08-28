@@ -81,10 +81,12 @@ ds.names <- function(xname=NULL, datasources=NULL){
   if(is.null(xname)){
     stop("Please provide the name of the input list!", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, xname)
 
-  calltext<-call("namesDS", xname)
-  output<-datashield.aggregate(datasources,calltext)
+  calltext <- call("namesDS", xname)
+  output <- datashield.aggregate(datasources, calltext)
   return(output)
 }
-
 #ds.names

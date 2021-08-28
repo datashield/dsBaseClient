@@ -1,10 +1,11 @@
+#' 
 #' @title Generates 1-, 2-, and 3-dimensional contingency tables with option
 #' of assigning to serverside only and producing chi-squared statistics
-#' @description creates 1-dimensional, 2-dimensional and 3-dimensional
-#' tables using the {table} function in native R.
-#' @details the {ds.table} function selects numeric, integer or factor
+#' @description Creates 1-dimensional, 2-dimensional and 3-dimensional
+#' tables using the \code{table} function in native R.
+#' @details The \code{ds.table} function selects numeric, integer or factor
 #' variables on the serverside which define a contingency table with up to
-#' three dimensions. The native R {table} function basically operates on
+#' three dimensions. The native R \code{table} function basically operates on
 #' factors and if variables are specified that are integers or numerics
 #' they are first coerced to factors. If the 1-dimensional, 2-dimensional or
 #' 3-dimensional table generated from a given study satisfies appropriate
@@ -46,10 +47,10 @@
 #' to advance analysis, it does not create a direct risk of disclosure.
 #' 
 #' The <rvar> argument identifies the variable defining the rows
-#' in each of the 2 dimensional tables produced in the output.  
+#' in each of the 2-dimensional tables produced in the output.  
 #' 
 #' The <cvar>
-#' argument identifies the variable defining the columns in the 2 dimensional
+#' argument identifies the variable defining the columns in the 2-dimensional
 #' tables produced in the output. 
 #' 
 #' In creating a 3-dimensional table the
@@ -76,7 +77,7 @@
 #' distribution of the <rvar> variable.
 #' 
 #' If the <report.chisq.tests> argument is set to TRUE, chisq tests
-#' are applied to every 2 dimensional table in the output and reported
+#' are applied to every 2-dimensional table in the output and reported
 #' as "chisq.test_table.name". The <report.chisq.tests> argument
 #' defaults to FALSE. 
 #' 
@@ -87,18 +88,18 @@
 #' and because it is debatable whether this warning is really
 #' statistically important, the <suppress.chisq.warnings> argument
 #' can be set to TRUE to block the warnings. However, it is defaulted to FALSE.
-#' @param rvar is a character string (in inverted commas) specifiying the
+#' @param rvar is a character string (in inverted commas) specifying the
 #' name of the variable defining the rows in all of the 2 dimensional
 #' tables that form the output. Please see 'details' above for more
 #' information about one-dimensional tables when a variable name is provided
 #' by <rvar> but <cvar> and <stvar> are both NULL
-#' @param cvar is a character string specifiying the
+#' @param cvar is a character string specifying the
 #' name of the variable defining the columns in all of the 2 dimensional
 #' tables that form the output.
-#' @param stvar is a character string specifiying the
+#' @param stvar is a character string specifying the
 #' name of the variable that indexes the separate two dimensional
 #' tables in the output if the call specifies a 3 dimensional table.
-#' @param report.chisq.tests if TRUE, chisquared tests
+#' @param report.chisq.tests if TRUE, chi-squared tests
 #' are applied to every 2 dimensional table in the output and reported
 #' as "chisq.test_table.name". Default = FALSE.
 #' @param exclude this argument is passed through to the {table} function in
@@ -106,11 +107,11 @@
 #' indicates that 'exclude' specifies any levels that should be deleted for
 #' all factors in rvar, cvar or stvar. If the <exclude> argument
 #' does not include NA and if the <useNA> argument is not specified,
-#' it implies <useNA> = "ifany". If you read the help for {table} in native R
+#' it implies <useNA> = "always" in DataSHIELD. If you read the help for {table} in native R
 #' including the 'details' and the 'examples' (particularly 'd.patho') you
 #' will see that the response of {table} to different combinations of the
 #' <exclude> and <useNA> arguments can be non-intuitive. This is particularly
-#' so if there is more than one type of missing (eg. missing by observation
+#' so if there is more than one type of missing (e.g. missing by observation
 #' as well as missing because of an NaN response to a mathematical
 #' function - such as log(-3.0)). In DataSHIELD, if you are in one
 #' of these complex settings (which should not be very common) and
@@ -119,15 +120,15 @@
 #' is of class factor rather than integer or numeric - although integers and
 #' numerics are coerced to factors by {ds.table} they can occasionally behave less
 #' well when the NA setting is complex; (2) specify both an <exclude> argument
-#' e.g. exclude =c("NaN","3") and a <useNA> argument e.g. useNA= "no";
+#' e.g. exclude = c("NaN","3") and a <useNA> argument e.g. useNA= "no";
 #' (3) if you are excluding multiple levels e.g exclude = c("NA","3")
-#' then you can reduce this to one e.g. exclude= c("NA") and then remove
+#' then you can reduce this to one e.g. exclude = c("NA") and then remove
 #' the 3s by deleting rows of data, or converting the 3s to a different value.
 #' @param useNA this argument is passed through to the {table} function in
-#' native R which is called by {tableDS}. The help for {table} in native R
-#' indicates that it specifies whether to include NA values in the table.
+#' native R which is called by {tableDS}. In DataSHIELD, this argument can take 
+#' two values: "no" or "always" which indicate whether to include NA values in the table.
 #' For further information, please see the help for the <exclude> argument (above)
-#' and/or the help for the {table} function in native R.
+#' and/or the help for the {table} function in native R. Default value is set to "always".
 #' @param suppress.chisq.warnings if set to TRUE, the default warnings are
 #' suppressed that would otherwise be produced by the {table} function in
 #' native R whenever an expected cell count in one or more cells is less than 5.
@@ -183,17 +184,12 @@
 #' table object written to the serverside can be seen under 'details' (above).
 #' @author Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
 #' @export
-ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
-					report.chisq.tests=FALSE,
-					exclude = NULL,
-					useNA = c("ifany"),
-					suppress.chisq.warnings=FALSE,
-					table.assign=FALSE, 
-					newobj=NULL,
-					datasources=NULL, 
-					force.nfilter=NULL)
-		 
- {
+#' 
+ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
+					          exclude=NULL,	useNA ="always", suppress.chisq.warnings=FALSE,
+				          	table.assign=FALSE,	newobj=NULL, datasources=NULL, 
+				          	force.nfilter=NULL){
+  
   # if no connection login details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
@@ -204,23 +200,32 @@ ds.table<-function(rvar=NULL, cvar=NULL, stvar=NULL,
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-  # check if a value has been provided for xvar
+  # check if a value has been provided for rvar
   if(is.null(rvar)){
     return("Error: rvar must have a value which is a character string naming the row variable for the table")
   }
-
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, rvar)
 
   if(!is.null(cvar)&&!is.character(cvar)){
      return("Error: if cvar is not null, it must have a value which is a character string naming the column variable for the table")
+  }
+  
+  if(!is.null(cvar)){
+    isDefined(datasources, cvar)
   }
 
   if(!is.null(stvar)&&!is.character(stvar)){
      return("Error: if stvar is not null, it must have a value which is a character string naming the variable coding separate tables for the table")
   }
+  
+  if(!is.null(cvar)){
+    isDefined(datasources, stvar)
+  }
 
-
-  if(useNA!="no"&&useNA!="ifany"&&useNA!="always"){
-     return("Error: useNA must take one of the three values: 'no', 'ifany', or 'always'. Default is 'ifany'")
+  if(useNA!="no" && useNA!="always"){
+     stop("useNA must be either 'no' or 'always'.")
 	 }
 
   if(!is.null(force.nfilter)&&!is.character(force.nfilter)){

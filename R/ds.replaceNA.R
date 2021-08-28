@@ -89,7 +89,7 @@
 #'   datashield.logout(connections) 
 #' } 
 #' 
-ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
+ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -104,6 +104,9 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
   if(is.null(x)){
     stop("Please provide the name of a vector!", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # check if replacement values have been provided
   if(is.null(forNA)){
@@ -114,20 +117,12 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
     }
   }
 
-  # check if the input object(s) is(are) defined in all the studies
-  inputElts <- extract(x)
-  if(is.na(inputElts[[1]])){
-    defined <- isDefined(datasources, inputElts[[2]])
-  }else{
-    defined <- isDefined(datasources, inputElts[[1]])
-  }
-
   for(i in 1:length(datasources)){
     # get the number of missing values for each study and if the number of
     # replacement values is not 1 and is greater or smaller than the actual
     # number of missing values stop the process and tell the analyst
-    cally <- paste0("numNaDS(", x, ")")
-    numNAs <- DSI::datashield.aggregate(datasources[i], as.symbol(cally))
+    cally <- call("numNaDS", x)
+    numNAs <- DSI::datashield.aggregate(datasources[i], cally)
     if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]){
       message("The number of replacement values must be of length 1 or of the same length as the number of missing values.")
       stop(paste0("This is not the case in ", names(datasources)[i]), call.=FALSE)
@@ -148,6 +143,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL) {
     finalcheck <- isAssigned(datasources[i], newobj)
 
     # if the input vector is within a table structure append the new vector to that table
+    inputElts <- extract(x)
     if(!(is.na(inputElts[[1]]))){
       cally <-  paste0("cbind(", inputElts[[1]], ",", newobj, ")")
       DSI::datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally))

@@ -43,23 +43,25 @@
 #' @author Paul Burton for DataSHIELD Development Team - 3rd June, 2021
 #' @export
 #'
-#'		  		  
-ds.dmtC2S<-function(dfdata = NA,newobj=NULL, datasources=NULL){
+ds.dmtC2S <- function(dfdata=NA, newobj=NULL, datasources=NULL){
 
   # if no opal login details are provided look for 'opal' objects in the environment
   if(is.null(datasources)){
-	datasources <- datashield.connections_find()
+	  datasources <- datashield.connections_find()
+  }
+  
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
   
   # check if a value has been provided for dfdata
   if(is.null(dfdata)){
     return("Error: dfdata must be a character string, a numeric vector or a scalar")
   }
-  
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj))
-  {
+  if(is.null(newobj)){
     newobj <- "dmt.copied.C2S"
   }
 

@@ -6,7 +6,6 @@
 #' and the standard error of the mean (SEM) of a continuous variable broken down into subgroups
 #' defined by a single factor. 
 #' 
-
 #' There are important differences between \code{ds.meanSdGp} function compared to 
 #' the function \code{ds.meanByClass}:
 #' 
@@ -147,31 +146,12 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  ynames <- extract(y)
-  xvarname <- xnames$elements
-  yvarname <- ynames$elements
-  xobj2lookfor <- xnames$holders
-  yobj2lookfor <- ynames$holders
-  xvariable <- xvarname
-  yvariable <- yvarname
+  if(do.checks){
 
-  if(do.checks)
-  {
-    # check if the input object(s) is(are) defined in all the studies
-    if(is.na(xobj2lookfor)){
-      defined <- isDefined(datasources, xvarname)
-    }else{
-      defined <- isDefined(datasources, xobj2lookfor)
-    }
-    if(is.na(yobj2lookfor)){
-      defined <- isDefined(datasources, yvarname)
-    }else{
-      defined <- isDefined(datasources, yobj2lookfor)
-    }
+    # check if the input objects are defined in all the studies
+    isDefined(datasources, x)
+    isDefined(datasources, y)
+    
     # call the internal function that checks the input object is of the same class in all studies.
     typ1 <- checkClass(datasources, x)
     typ2 <- checkClass(datasources, y)
@@ -179,11 +159,17 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
 
   # names of the studies
   stdnames <- names(datasources)
+  
+  # variable names
+  xnames <- extract(x)
+  ynames <- extract(y)
+  xvarname <- xnames$elements
+  yvarname <- ynames$elements
 
-  # call the server side function that calculates mean and DS by group in each study
-
-  calltext <- paste0("meanSdGpDS(", x, ",", y, ")")
-  output <- DSI::datashield.aggregate(datasources, as.symbol(calltext))
+  # call the server side function that calculates mean and standard deviation
+  # by group in each study
+  calltext <- call("meanSdGpDS", x, y)
+  output <- DSI::datashield.aggregate(datasources, calltext)
 
   numsources <- length(output)
 

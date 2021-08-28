@@ -78,7 +78,8 @@
 #' }   
 #' @export
 #'
-ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, 
+                            missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -94,6 +95,9 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(is.null(var.name)){
     stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, var.name)
   
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
@@ -141,7 +145,9 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
     new.values.transmit <- NULL
   }
     
-  if(is.null(newobj)){newobj <- paste0(var.name, "_recoded")}
+  if(is.null(newobj)){
+    newobj <- paste0(var.name, "_recoded")
+  }
 
   calltext <- call("recodeValuesDS", var.name, values2replace.transmit, new.values.transmit, missing)
   DSI::datashield.assign(datasources, newobj, calltext)
