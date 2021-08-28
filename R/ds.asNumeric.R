@@ -3,7 +3,7 @@
 #' @description Coerces an R object into a numeric class. 
 #' This function is based on the native R function \code{as.numeric}.
 #' @details This function is based on the native R function \code{as.numeric}.
-#'  The only difference is that the DataSHIELD 
+#' The only difference is that the DataSHIELD 
 #' function first converts the values of the input object into characters and then convert 
 #' those to numerics. This addition is important for the case where the input object is of class
 #' factor having numbers as levels. In that case, the native R \code{as.numeric} function returns
@@ -69,6 +69,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
+#' 
 ds.asNumeric <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -84,6 +85,9 @@ ds.asNumeric <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x.name)
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

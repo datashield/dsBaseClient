@@ -4,7 +4,7 @@
 #'  This function is similar to the R function \code{class}.
 #' @details Same as the native R function \code{class}.
 #' 
-#' Server function called: \code{class}
+#' Server function called: \code{classDS}
 #' @param x a character string providing the name of the input R object.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
@@ -51,7 +51,7 @@
 #'   datashield.logout(connections) 
 #' }
 #' @export
-
+#'
 ds.class <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections

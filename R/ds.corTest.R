@@ -50,7 +50,6 @@
 #'   
 #' }   
 #'
-#'
 ds.corTest <- function(x=NULL, y=NULL, datasources=NULL){
 
   # look for DS connections
@@ -70,32 +69,18 @@ ds.corTest <- function(x=NULL, y=NULL, datasources=NULL){
     stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x,y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(objects)){
-    typ <- checkClass(datasources, objects[i])
-  }
+  # call the internal function that checks the input objects are of the same class in all studies.
+  typ <- checkClass(datasources, x)
+  typ <- checkClass(datasources, y)
 
   # call the server side function
   cally <- call("corTestDS", x, y)
-  res.local <- DSI::datashield.aggregate(datasources, cally)
+  out <- DSI::datashield.aggregate(datasources, cally)
 
-  return(res.local)
+  return(out)
 
 }

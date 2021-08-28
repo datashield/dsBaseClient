@@ -55,6 +55,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
+#' 
 ds.asDataMatrix <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -70,17 +71,17 @@ ds.asDataMatrix <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-
-
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x.name)
+  
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "asdatamatrix.newobj"
   }
 
-    # call the server side function that does the job
-
+  # call the server side function that does the job
 	calltext <- call("asDataMatrixDS", x.name)
-
 	DSI::datashield.assign(datasources, newobj, calltext)
 
 
