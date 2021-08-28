@@ -49,22 +49,12 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
-  if(type != 'combine' & type != 'split' & type != 'both')
+  if(type != 'combine' & type != 'split' & type != 'both'){
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
-  
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-  
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

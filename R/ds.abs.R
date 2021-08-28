@@ -94,7 +94,7 @@ ds.abs <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   if(!('numeric' %in% typ) && !('integer' %in% typ)){
-      stop("Only objects of type 'numeric' or 'integer' are allowed.", call.=FALSE)
+    stop("Only objects of type 'numeric' or 'integer' are allowed.", call.=FALSE)
   }
 
   # create a name by default if the user did not provide a name for the new variable

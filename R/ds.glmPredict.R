@@ -1,4 +1,4 @@
-#ds.glmPredict
+#'
 #' @title Applies predict.glm() to a serverside glm object
 #' @description Applies native R's predict.glm() function to a serverside
 #' glm object previously created using ds.glmSLMA. 
@@ -16,7 +16,7 @@
 #' Because no critical information is passed to the clientside, there are no
 #' disclosure issues associated with this action. Any standard DataSHIELD functions
 #' can then be applied to the newobj to interpret the output. For example, it could
-#' be used as the basis for regression diagnostic plots.  Second, the call
+#' be used as the basis for regression diagnostic plots. Second, the call
 #' to the aggregate function creates a non-disclosive summary of all the
 #' information held in the newobj created by the assign function 
 #' and returns this summary to the clientside.  For example, the full list of
@@ -122,10 +122,10 @@
 #' if k terms are being summarised.
 #' @author Paul Burton, for DataSHIELD Development Team 13/08/20
 #' @export
-
-ds.glmPredict <- function(glmname=NULL,newdataname=NULL,output.type="response",
+#'
+ds.glmPredict <- function(glmname = NULL, newdataname = NULL, output.type = "response",
                           se.fit = FALSE, dispersion = NULL, terms = NULL,
-                          na.action = "na.pass", newobj=NULL, datasources=NULL){
+                          na.action = "na.pass", newobj = NULL, datasources = NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -139,32 +139,30 @@ ds.glmPredict <- function(glmname=NULL,newdataname=NULL,output.type="response",
 
   # check that <glmname> is set
   if(is.null(glmname)){
-	error.message<-"<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside"
-    return(error.message)
+	  stop("<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside", call.=FALSE)
   }
+  
+  # check if the glm object is defined in all the studies
+  isDefined(datasources, glmname)
 
   # check that <output.type> is correctly set
-  if((output.type!="link")&&(output.type!="response")&&(output.type!="terms")){
-	error.message<-"<output.type> is not correctly set, please specify it as one of three character strings: 'link', 'response', or 'terms'"
-	return(error.message)
+  if((output.type!="link") && (output.type!="response") && (output.type!="terms")){
+	  stop("<output.type> is not correctly set, please specify it as one of three character strings: 'link', 'response', or 'terms'", call.=FALSE)
   }
 
   # check that <na.action> is correctly set
   if((na.action!="na.fail")&&(na.action!="na.omit")&&(na.action!="na.exclude")&&(na.action!="na.pass")){
-	error.message<-"<na.action> is not correctly set, please specify it as one of four character strings: 'na.fail', 'na.omit', 'na.exclude' or 'na.pass'"
-	return(error.message)
+	  stop("<na.action> is not correctly set, please specify it as one of four character strings: 'na.fail', 'na.omit', 'na.exclude' or 'na.pass'", call.=FALSE)
   }
 
-  #provide value for newobj if none specified
-  if(is.null(newobj))
-  {
-  newobj<-"predict_glm"
+  # provide value for newobj if none specified
+  if(is.null(newobj)){
+    newobj<-"predict_glm"
   }
 
-   calltext<-call("glmPredictDS.as", glmname, newdataname, output.type,
-					se.fit, dispersion, terms, na.action)
-					  
-   DSI::datashield.assign(datasources, newobj, calltext)
+  calltext <- call("glmPredictDS.as", glmname, newdataname, output.type,
+				     	     se.fit, dispersion, terms, na.action)
+	DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #

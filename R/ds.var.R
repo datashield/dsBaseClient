@@ -92,35 +92,19 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   }							                          				                                                   	            #
   #################################################################################################################
 
-  #####################################################################################
-  #MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
-  if(is.null(x)){                                                                   #
-    stop("Please provide the name of the input vector!", call.=FALSE)               #
-  }                                                                                 #
-  # the input variable might be given as a variable in a data frame (i.e. D$x)      #
-  # or just as a vector not attached to a table (i.e. x)                            #
-  # we have to make sure the function deals with each case                          #
-  xnames <- extract(x)                                                              #
-  varname <- xnames$elements                                                        #
-  obj2lookfor <- xnames$holders                                                     #
-  #####################################################################################
+  if(is.null(x)){
+    stop("Please provide the name of the input object!", call.=FALSE)
+  }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
-  ###############################################################################################
-  #MODULE 3: GENERIC OPTIONAL CHECKS TO ENSURE CONSISTENT STRUCTURE OF KEY VARIABLES            #
-  #IN DIFFERENT SOURCES                                                                         #
-  # beginning of optional checks - the process stops and reports as soon as one               #
-  #check fails                                                                                #
-  #
-  if(checks){                                                                                 #
-    message(" -- Verifying the variables in the model")                                       #
-    #
-    # check if the input object(s) is(are) defined in all the studies                           #
-    if(is.na(obj2lookfor)){                                                                     #
-      defined <- isDefined(datasources, varname)                                                #
-    }else{                                                                                      #
-      defined <- isDefined(datasources, obj2lookfor)                                            #
-    }                                                                                           #
-    #
+  # beginning of optional checks - the process stops and reports as soon as one check fails
+  if(checks){
+
+    # check if the input object is defined in all the studies
+    isDefined(datasources, x)
+    
     # call the internal function that checks the input object is suitable in all studies        #
     varClass <- checkClass(datasources, x)                                                      #
     # the input object must be a numeric or an integer vector                                   #
@@ -131,7 +115,7 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   ###############################################################################################
 
   ###################################################################################################
-  #MODULE 4: EXTEND "type" argument to include "both" and enable valid alisases                     #
+  #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
@@ -139,8 +123,8 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- paste0("varDS(", x, ")")
-  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("varDS", x)
+  ss.obj <- DSI::datashield.aggregate(datasources, cally)
 
   Nstudies <- length(datasources)
   EstimatedVar <- c()

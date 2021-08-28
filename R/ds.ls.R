@@ -127,24 +127,20 @@ ds.ls <- function(search.filter=NULL, env.to.search=1L, search.GlobalEnv=TRUE, d
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-#make default to .GlobalEnv unambiguous
+  # make default to .GlobalEnv unambiguous
+  if(search.GlobalEnv||is.null(env.to.search)){
+    env.to.search<-1L
+  }
 
-if(search.GlobalEnv||is.null(env.to.search))
-{
-env.to.search<-1L
-}
+  # make code compatible with ds.passParser
+  transmit.object <- search.filter
+  transmit.object.temp1 <- NULL
 
-	 
-
-#make code compatible with ds.passParser
-transmit.object<-search.filter
-transmit.object.temp1<-NULL
-
-#set up character replacement
-input.string<-"*"
-replacement.string<-"_:A:_"
-replacement.string.split<-unlist(strsplit(replacement.string,split=""))
-length.rs<-length(replacement.string.split)
+  # set up character replacement
+  input.string<-"*"
+  replacement.string<-"_:A:_"
+  replacement.string.split<-unlist(strsplit(replacement.string,split=""))
+  length.rs<-length(replacement.string.split)
  
 #Search for *s in code and convert to transmittable code
 if(!is.null(transmit.object))
@@ -190,17 +186,14 @@ if(!is.null(transmit.object))
 	transmit.object.final<-paste(transmit.object.temp1,collapse="")
 
 	}else{
-	transmit.object.final<-NULL
+	  transmit.object.final<-NULL
 	}
 
-
   # call the server side function
-  calltext <- call("lsDS",search.filter=transmit.object.final, env.to.search)
-
+  calltext <- call("lsDS", search.filter=transmit.object.final, env.to.search)
   output <- datashield.aggregate(datasources, calltext)
   
   return(output)
-  }
+  
+}
 #ds.ls
-
-

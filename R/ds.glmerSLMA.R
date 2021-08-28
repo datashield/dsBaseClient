@@ -242,11 +242,12 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @export
-ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
+#' 
+ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE, dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
                        control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
                        start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE, 
-                       assign=FALSE, newobj=NULL) {
+                       assign=FALSE, newobj=NULL){
   
   # look for DS connections
   if(is.null(datasources)){
