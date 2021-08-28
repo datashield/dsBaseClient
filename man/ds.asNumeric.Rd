@@ -30,7 +30,7 @@ This function is based on the native R function \code{as.numeric}.
 }
 \details{
 This function is based on the native R function \code{as.numeric}.
- The only difference is that the DataSHIELD 
+The only difference is that the DataSHIELD 
 function first converts the values of the input object into characters and then convert 
 those to numerics. This addition is important for the case where the input object is of class
 factor having numbers as levels. In that case, the native R \code{as.numeric} function returns

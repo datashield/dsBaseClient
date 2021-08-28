@@ -64,7 +64,6 @@ Server function called: \code{cor.test}
   
 }   
 
-
 }
 \author{
 DataSHIELD Development Team

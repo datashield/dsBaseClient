@@ -110,24 +110,11 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   if(is.null(newobj)){
     newobj <- "dataframe.newobj"
   }
-  
-  # the input variable might be given as column table (i.e. D$vector)
-  # or just as a vector not attached to a table (i.e. vector)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
 
   if(DataSHIELD.checks){
     
     # check if the input object(s) is(are) defined in all the studies
-    for(i in 1:length(varnames)){
-      if(is.na(obj2lookfor[i])){
-        defined <- isDefined(datasources, varnames[i])
-      }else{
-        defined <- isDefined(datasources, obj2lookfor[i])
-      }
-    }
+    lapply(x, function(k){isDefined(datasources, obj=k)})
     
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     for(i in 1:length(x)){

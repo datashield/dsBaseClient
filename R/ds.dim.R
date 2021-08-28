@@ -107,11 +107,7 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   if(checks){                                                                                            #
     message(" -- Verifying the variables in the model")                                                  #
     # check if the input object(s) is(are) defined in all the studies                                    #
-    defined <- isDefined(datasources, x)                                                                 #
-    # throw a message and stop if input is not table structure                                           #
-    if(! defined){                                                                                       #
-      stop("The input object is not defined in all studies!", call.=FALSE)                               #
-    }                                                                                                    #
+    defined <- isDefined(datasources, x)                                                                 #                                                                                                #
     # call the internal function that checks the input object is suitable in all studies                 #
     typ <- checkClass(datasources, x)                                                                    #
     # throw a message and stop if input is not table structure                                           #

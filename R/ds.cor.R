@@ -94,7 +94,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
   }else{
-    defined <- isDefined(datasources, x)
+    isDefined(datasources, x)
   }
 
   # check the type of the input objects
@@ -104,7 +104,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
     if(is.null(y)){
       stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
     }else{
-      defined2 <- isDefined(datasources, y)
+      isDefined(datasources, y)
       typ2 <- checkClass(datasources, y)
     }
   }
