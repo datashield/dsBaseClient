@@ -140,8 +140,8 @@ if(type != 'combine' & type != 'split' & type != 'both'){                       
   stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
 }  
 
-  cally <- call("meanDS", x)
-  ss.obj <- DSI::datashield.aggregate(datasources, cally)
+  cally <- paste0("meanDS(", x, ")")
+  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   Nstudies <- length(datasources)
   ss.mat <- matrix(as.numeric(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,1:4]),nrow=Nstudies)
