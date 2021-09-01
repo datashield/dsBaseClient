@@ -80,16 +80,16 @@
 ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
 
   #################################################################################################################
-  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS  											                                  	            	#
+  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                                                         #
   # look for DS connections                                                                                       #
-  if(is.null(datasources)){														                               	                            #
-    datasources <- datashield.connections_find()							                          			            	      #
-  }																                                          					                            #
+  if(is.null(datasources)){								                          #
+    datasources <- datashield.connections_find()                                                                  #
+  }                                                                                                               #
                                                                                                                   #
-  # ensure datasources is a list of DSConnection-class							                                    				  #
+  # ensure datasources is a list of DSConnection-class							          #
   if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){   #
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)               #
-  }							                          				                                                   	            #
+  }                                                                                                               #
   #################################################################################################################
 
   if(is.null(x)){
@@ -115,7 +115,7 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   ###############################################################################################
 
   ###################################################################################################
-  #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
+  #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                       #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
@@ -123,8 +123,8 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- call("varDS", x)
-  ss.obj <- DSI::datashield.aggregate(datasources, cally)
+  cally <- paste0("varDS(", x, ")")
+  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   Nstudies <- length(datasources)
   EstimatedVar <- c()
