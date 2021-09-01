@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 context("ds.look::arg::test errors")
 test_that("look_erros", {
-    expect_error(ds.look(checks=TRUE), "<toAggregate> missing, please give an expression/function in inverted commas\n", fixed=TRUE)
+    expect_error(expect_warning(ds.look(checks=TRUE), "'ds.look' is deprecated.", fixed = TRUE), "<toAggregate> missing, please give an expression/function in inverted commas\n", fixed=TRUE)
 })
 
 #
