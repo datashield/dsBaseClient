@@ -14,6 +14,7 @@ ds.glmSLMA(
   dataName = NULL,
   checks = FALSE,
   maxit = 30,
+  notify.of.progress = FALSE,
   datasources = NULL
 )
 }
@@ -53,6 +54,9 @@ of the model. Default FALSE. For more information see \strong{Details}.}
 \item{maxit}{a numeric scalar denoting the maximum number of iterations that
 are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
 For more information see \strong{Details}.}
+
+\item{notify.of.progress}{specifies if console output should be produced to indicate
+progress. Default FALSE.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified

@@ -84,8 +84,8 @@ ds.levels <- function(x=NULL, datasources=NULL){
   }
 
   # call the server-side function
-  cally <- call("levelsDS", as.symbol(x))
-  output <- DSI::datashield.aggregate(datasources, cally)
+  cally <- paste0("levelsDS(", x, ")")
+  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   return(output)
   
