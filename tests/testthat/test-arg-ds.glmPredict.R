@@ -61,10 +61,10 @@ test_that("glmPredict_errors", {
   expect_true(all(c("sim1","sim2","sim3") %in% names(datashield.errors())))
 })
 
-context("ds.glmPredict::arg::test _dispersion_ arg is correct object")
-test_that("glmPredict_errors", {
-#  res<-ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, dispersion = "thereisnothingontheservercalledthis")
-})
+#context("ds.glmPredict::arg::test _dispersion_ arg is correct object")
+#test_that("glmPredict_errors", {
+#  res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, dispersion = "thereisnothingontheservercalledthis")
+#})
 
 context("ds.glmPredict::arg::test _terms_ arg is correct object")
 test_that("glmPredict_errors", {
@@ -82,17 +82,3 @@ test_that("glmPredict_errors", {
 #
 
 disconnect.studies.dataset.cnsim()
-
-
-#res.errors<-datashield.errors()
-
-#expect_length(res.errors, 3)
-#expect_equal(res.errors[[1]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim1': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-#expect_equal(res.errors[[2]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim2': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-#expect_equal(res.errors[[3]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim3': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-#expect_length(glm.obj$validity.check, 1)
-#expect_equal(glm.obj$validity.check, "<binomial.glmslma.obj> appears valid in all sources")
-
-#res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
-#res <- ds.glmPredict("gaussian.glmslma.obj")
-#print(res)
