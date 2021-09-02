@@ -31,7 +31,7 @@ test_that("with no force.factor.levels", {
     ds.asFactorSimple("TID", "TID.f1")
 
     res1 <- ds.class("TID.f1")
-    res2 <- ds.table1D("TID.f1")
+    res2 <- expect_warning(ds.table1D("TID.f1"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
