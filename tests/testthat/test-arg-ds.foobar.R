@@ -36,7 +36,7 @@ test_that("NULL connections", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "replacement has length zero", fixed=TRUE)
+    expect_error(expect_warning(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "'x' is NULL so the result will be NULL", fixed = TRUE), "replacement has length zero", fixed = TRUE)
 
     errs <- datashield.errors()
     expect_length(errs, 3)

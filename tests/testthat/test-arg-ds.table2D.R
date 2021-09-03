@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 context("ds.table2D::arg::test errors")
 test_that("table2D_erros", {
-    expect_error(ds.table2D(), "Please provide the name of the x vector!", fixed=TRUE)
+    expect_error(expect_warning(ds.table2D(), "'ds.table2D' is deprecated.", fixed = TRUE), "Please provide the name of the x vector!", fixed=TRUE)
 })
 
 #

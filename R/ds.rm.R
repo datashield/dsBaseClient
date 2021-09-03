@@ -67,31 +67,31 @@
 #' @export
 
 ds.rm<-function(x.names=NULL, datasources=NULL){
-
+    
     # look for DS connections
     if (is.null(datasources)) {
         datasources <- datashield.connections_find()
     }
-
+    
     # ensure datasources is a list of DSConnection-class
     if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
         stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
     }
-
+    
     if (is.null(x.names)) {
         stop("Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", call.=FALSE)
     }
-
+    
     #make transmittable via parser
     x.names.transmit <- paste(x.names,collapse=",")
-
+    
     # call the server side function
     #PLEASE NOTE THIS IS - SURPRISINGLY - AN AGGREGATE FUNCTION: see details in header
-
+    
     calltext <- call("rmDS", x.names.transmit)
-
+    
     output = DSI::datashield.aggregate(datasources, calltext)
-
+    
     return(output)
 }
 #ds.rm

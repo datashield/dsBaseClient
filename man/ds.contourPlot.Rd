@@ -36,7 +36,7 @@ is set to \code{'smallCellsRule'} (default), the contour plot of the actual vari
 created but grids with low counts are replaced with grids with zero counts. If \code{method} is
 set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 original variables is created, where the value of \code{k} is set by the user. If the
-\code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated.}
+\code{method} is set to \code{'probabilistic'}, then the contour of 'noisy' variables is generated.}
 
 \item{k}{the number of the nearest neighbours for which their centroid is calculated. For more information
 see details.}

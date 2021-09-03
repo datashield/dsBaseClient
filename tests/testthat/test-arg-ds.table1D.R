@@ -20,8 +20,8 @@ connect.studies.dataset.cnsim(list("DIS_CVA","GENDER"))
 
 context("ds.table1D::arg::test errors")
 test_that("table1D_erros", {
-    expect_error(ds.table1D(), "Please provide the name of the input vector!", fixed=TRUE)
-    expect_error(ds.table1D(x='D$GENDER', type="datashield"), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
+    expect_error(expect_warning(ds.table1D(), "'ds.table1D' is deprecated.", fixed = TRUE), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(expect_warning(ds.table1D(x='D$GENDER', type="datashield"), "'ds.table1D' is deprecated.", fixed = TRUE), "Function argument 'type' has to be either 'combine' or 'split'", fixed=TRUE)
 })
 
 #

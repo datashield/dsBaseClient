@@ -98,7 +98,6 @@ ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name=
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
 
-
   if (!is.character(sep) || (nchar(sep) != 1)){
     stop("'sep' must be a character string", call.=FALSE)
   }

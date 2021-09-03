@@ -11,7 +11,7 @@ ds.table(
   stvar = NULL,
   report.chisq.tests = FALSE,
   exclude = NULL,
-  useNA = c("ifany"),
+  useNA = "always",
   suppress.chisq.warnings = FALSE,
   table.assign = FALSE,
   newobj = NULL,
@@ -20,21 +20,21 @@ ds.table(
 )
 }
 \arguments{
-\item{rvar}{is a character string (in inverted commas) specifiying the
+\item{rvar}{is a character string (in inverted commas) specifying the
 name of the variable defining the rows in all of the 2 dimensional
 tables that form the output. Please see 'details' above for more
 information about one-dimensional tables when a variable name is provided
 by <rvar> but <cvar> and <stvar> are both NULL}
 
-\item{cvar}{is a character string specifiying the
+\item{cvar}{is a character string specifying the
 name of the variable defining the columns in all of the 2 dimensional
 tables that form the output.}
 
-\item{stvar}{is a character string specifiying the
+\item{stvar}{is a character string specifying the
 name of the variable that indexes the separate two dimensional
 tables in the output if the call specifies a 3 dimensional table.}
 
-\item{report.chisq.tests}{if TRUE, chisquared tests
+\item{report.chisq.tests}{if TRUE, chi-squared tests
 are applied to every 2 dimensional table in the output and reported
 as "chisq.test_table.name". Default = FALSE.}
 
@@ -43,11 +43,11 @@ native R which is called by {tableDS}. The help for {table} in native R
 indicates that 'exclude' specifies any levels that should be deleted for
 all factors in rvar, cvar or stvar. If the <exclude> argument
 does not include NA and if the <useNA> argument is not specified,
-it implies <useNA> = "ifany". If you read the help for {table} in native R
+it implies <useNA> = "always" in DataSHIELD. If you read the help for {table} in native R
 including the 'details' and the 'examples' (particularly 'd.patho') you
 will see that the response of {table} to different combinations of the
 <exclude> and <useNA> arguments can be non-intuitive. This is particularly
-so if there is more than one type of missing (eg. missing by observation
+so if there is more than one type of missing (e.g. missing by observation
 as well as missing because of an NaN response to a mathematical
 function - such as log(-3.0)). In DataSHIELD, if you are in one
 of these complex settings (which should not be very common) and
@@ -56,16 +56,16 @@ you might try: (1) making sure that the variable producing the strange results
 is of class factor rather than integer or numeric - although integers and
 numerics are coerced to factors by {ds.table} they can occasionally behave less
 well when the NA setting is complex; (2) specify both an <exclude> argument
-e.g. exclude =c("NaN","3") and a <useNA> argument e.g. useNA= "no";
+e.g. exclude = c("NaN","3") and a <useNA> argument e.g. useNA= "no";
 (3) if you are excluding multiple levels e.g exclude = c("NA","3")
-then you can reduce this to one e.g. exclude= c("NA") and then remove
+then you can reduce this to one e.g. exclude = c("NA") and then remove
 the 3s by deleting rows of data, or converting the 3s to a different value.}
 
 \item{useNA}{this argument is passed through to the {table} function in
-native R which is called by {tableDS}. The help for {table} in native R
-indicates that it specifies whether to include NA values in the table.
+native R which is called by {tableDS}. In DataSHIELD, this argument can take 
+two values: "no" or "always" which indicate whether to include NA values in the table.
 For further information, please see the help for the <exclude> argument (above)
-and/or the help for the {table} function in native R.}
+and/or the help for the {table} function in native R. Default value is set to "always".}
 
 \item{suppress.chisq.warnings}{if set to TRUE, the default warnings are
 suppressed that would otherwise be produced by the {table} function in
@@ -128,13 +128,13 @@ about the visible material passed to the clientside, and the optional
 table object written to the serverside can be seen under 'details' (above).
 }
 \description{
-creates 1-dimensional, 2-dimensional and 3-dimensional
-tables using the {table} function in native R.
+Creates 1-dimensional, 2-dimensional and 3-dimensional
+tables using the \code{table} function in native R.
 }
 \details{
-the {ds.table} function selects numeric, integer or factor
+The \code{ds.table} function selects numeric, integer or factor
 variables on the serverside which define a contingency table with up to
-three dimensions. The native R {table} function basically operates on
+three dimensions. The native R \code{table} function basically operates on
 factors and if variables are specified that are integers or numerics
 they are first coerced to factors. If the 1-dimensional, 2-dimensional or
 3-dimensional table generated from a given study satisfies appropriate
@@ -176,10 +176,10 @@ DataSHIELD ensures that although it can, in this way, be used
 to advance analysis, it does not create a direct risk of disclosure.
 
 The <rvar> argument identifies the variable defining the rows
-in each of the 2 dimensional tables produced in the output.  
+in each of the 2-dimensional tables produced in the output.  
 
 The <cvar>
-argument identifies the variable defining the columns in the 2 dimensional
+argument identifies the variable defining the columns in the 2-dimensional
 tables produced in the output. 
 
 In creating a 3-dimensional table the
@@ -206,7 +206,7 @@ above, they are technically column proportions but are based on the
 distribution of the <rvar> variable.
 
 If the <report.chisq.tests> argument is set to TRUE, chisq tests
-are applied to every 2 dimensional table in the output and reported
+are applied to every 2-dimensional table in the output and reported
 as "chisq.test_table.name". The <report.chisq.tests> argument
 defaults to FALSE. 
 

@@ -25,9 +25,9 @@ test_that("setup", {
 #
 
 context("ds.quantileMean::smk::standard")
-
-res <- ds.quantileMean(x='D$LAB_HDL')
 test_that("quantileMean", {
+    res <- ds.quantileMean(x='D$LAB_HDL')
+
     expect_length(res, 8)
     expect_equal(res[[1]], 0.8678198, tolerance = .000001)
     expect_equal(res[[2]], 1.0388227, tolerance = .000001)
@@ -40,9 +40,10 @@ test_that("quantileMean", {
 })
 
 context("ds.quantileMean::smk::split")
-ds.assign("D$LAB_HDL", "hdl")
-res <- ds.quantileMean(x='hdl', type='split')
 test_that("quantileMean_split", {
+    ds.assign("D$LAB_HDL", "hdl")
+    res <- ds.quantileMean(x='hdl', type='split')
+
     expect_length(res, 3)
     expect_length(res$sim1, 8)
     expect_equal(res$sim1[[1]], 0.875240, tolerance = .000001)

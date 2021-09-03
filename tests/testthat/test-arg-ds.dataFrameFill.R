@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.dataFrameFill::arg::test errors")
 test_that("dataFrameFill_erros", {
     expect_error(ds.dataFrameFill(), "Please provide the name of the data.frame to be filled as a character string: eg 'xxx'", fixed=TRUE)
-    expect_error(ds.dataFrameFill("NonDF"), "The input object(s) NonDF is(are) not defined on one or more of the studies!", fixed=TRUE)
+    expect_error(ds.dataFrameFill("NonDF"), "The input object NonDF is not defined in sim1, sim2, sim3!", fixed=TRUE)
     expect_error(ds.dataFrameFill("D$LAB_TSC"), "The input vector must be of type 'data.frame' or a 'matrix'!", fixed=TRUE)
 })
 

@@ -27,7 +27,7 @@ test_that("setup", {
 context("ds.vectorCalc::smk")
 test_that("simple test", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
-    res <- ds.vectorCalc(x=vectors, calc='+')
+    res <- expect_warning(ds.vectorCalc(x=vectors, calc='+'), "'ds.vectorCalc' is deprecated.\nUse 'ds.make' instead.", fixed = TRUE)
 
     expect_length(res, 0)
  

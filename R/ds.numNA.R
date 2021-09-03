@@ -52,7 +52,7 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, datasources=NULL) {
+ds.numNA <- function(x=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -68,13 +68,11 @@ ds.numNA <- function(x=NULL, datasources=NULL) {
     stop("Please provide the name of a vector!", call.=FALSE)
   }
 
-  # check if the input object(s) is(are) defined in all the studies
-  inputElts <- extract(x)
-  if(is.na(inputElts[[1]])){
-    defined <- isDefined(datasources, inputElts[[2]])
-  }else{
-    defined <- isDefined(datasources, inputElts[[1]])
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
+  
+  # call the internal function that checks the input object is of the same class in all studies.
+  typ <- checkClass(datasources, x)
 
   # call the server side function
   cally <- paste0("numNaDS(", x, ")")

@@ -104,7 +104,7 @@
 #' @param control_value numeric representing the new value which you want to allocate the
 #' control parameter corresponding to the \code{control-type}. 
 #' For more information see \strong{Details}.
-#' @param nAGQ 	an integer value indicating the number of points per axis for evaluating the adaptive 
+#' @param nAGQ an integer value indicating the number of points per axis for evaluating the adaptive 
 #' Gauss-Hermite approximation to the log-likelihood. Defaults 1, corresponding to the Laplace approximation.
 #' For more information see  R \code{glmer} function help. 
 #' @param verbose an integer value. If \eqn{verbose > 0} the output is generated during the optimization of
@@ -242,11 +242,12 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @export
-ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,dataName=NULL,
+#' 
+ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE, dataName=NULL,
                        checks=FALSE, datasources=NULL, family=NULL, 
                        control_type = NULL, control_value = NULL, nAGQ = 1L, verbose = 0,
                        start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE, 
-                       assign=FALSE, newobj=NULL) {
+                       assign=FALSE, newobj=NULL){
   
   # look for DS connections
   if(is.null(datasources)){
@@ -360,8 +361,11 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
       newobj <- "new.glmer.obj"
     }
     
-    cat("\n\nSAVING SERVERSIDE glmerMod OBJECT AS: <",newobj,">\n\n")
     
+    if (notify.of.progress) {
+        cat("\n\nSAVING SERVERSIDE glmerMod OBJECT AS: <",newobj,">\n\n")
+    }
+
     calltext.2 <- call('glmerSLMADS.assign', formula, offset, weights, dataName, family, 
                        control_type, control_value.transmit, nAGQ, verbose, theta, fixef)
     
