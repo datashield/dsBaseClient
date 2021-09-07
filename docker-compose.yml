@@ -7,8 +7,8 @@ services:
     environment:
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
-      MINIO_IDENTITY_OPENID_CLIENT_ID: "b396233b-cdb2-449e-ac5c-a0d28b38f791"
-      MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
+      MINIO_IDENTITY_OPENID_CLIENT_ID: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
+      MINIO_IDENTITY_OPENID_CONFIG_URL: 'https://auth.molgenis.org/.well-known/openid-configuration'
     command: server /data
   armadillo:
     image: datashield/armadillo:ci
@@ -18,9 +18,15 @@ services:
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
       RSERVE_HOST: rserver
-      DATASHIELD_WHITELIST: dsBase,resourcer,dsDanger
+      LOGGING_CONFIG: 'classpath:logback-file.xml'
+      AUDIT_LOG_PATH: '/app/logs/audit.log'
+    # SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: 'https://auth.molgenis.org'
+    # SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENT_ID: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
+      DATASHIELD_WHITELIST: dsBase,dsDanger,resourcer
     ports:
       - 8080:8080
+    volumes:
+      - ${PWD}/logs/:/app/logs
   rserver:
     # Use predefined production image:
     image: datashield/rserver:ci
@@ -30,6 +36,19 @@ services:
     environment:
       DEBUG: "FALSE"
     ports:
-      - "6311:6311"
-      - "6312:6312"
-      - "53000-53200:53000-53200"
+      - 6311:6311
+  auth:
+    # Use predefined production image:
+    # You need to activate SPRING_SECURITY_OAUTH2_JWT_ISSUER_URL and SPRING_SECURITY_OAUTH2_OPAQUETOKEN_CLIENT_ID in the armadillo to make the OIDC flow work
+    # Drop the SPRING_PROFILES_ACTIVE property
+    image: datashield/auth:ci
+    environment:
+      ISSUER_BASE_URL: 'https://auth.molgenis.org'
+      CLIENT_ID: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
+      CLIENT_SECRET: 'xxxxxxx-xxxxxxx-xxxxxxx'
+      FUSION_API_TOKEN: 'xxxxxxx-xxxxxxx-xxxxxxx'
+      BASE_URL: 'http://localhost:4000'
+      APP_SESSION_SECRET: "generate-with-uuid"
+    ports:
+      - 4000:4000
+    # profiles: ["oidc"]
