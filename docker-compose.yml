@@ -25,8 +25,8 @@ services:
       DATASHIELD_WHITELIST: dsBase,dsDanger,resourcer
     ports:
       - 8080:8080
-    volumes:
-      - ${PWD}/logs/:/app/logs
+    #volumes:
+    #  - ${PWD}/logs/:/app/logs
   rserver:
     # Use predefined production image:
     image: datashield/rserver:ci
