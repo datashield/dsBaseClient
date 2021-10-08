@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.table2D::smk")
 test_that("simple table2D", {
-    table2D.res <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
+    table2D.res <- expect_warning(ds.table2D(x='D$DIS_DIAB', y='D$GENDER'), "'ds.table2D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_length(table2D.res, 9)
     expect_length(table2D.res$colPercent, 3)

@@ -179,6 +179,8 @@
 #' @param maxit a numeric scalar denoting the maximum number of iterations that
 #' are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
 #' For more information see \strong{Details}.
+#' @param notify.of.progress specifies if console output should be produced to indicate
+#' progress. Default FALSE.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -373,7 +375,7 @@
 #'
 #' @export
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,
-	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, datasources=NULL) {
+	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, notify.of.progress=FALSE, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
@@ -613,7 +615,10 @@ if(at.least.one.study.data.error)
 		if(is.null(newobj)){
 		newobj <- "new.glm.obj"
 		}
-   cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+
+   if (notify.of.progress) {
+       cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+   }
 
    calltext.2 <- call('glmSLMADS.assign', formula, family, offset, weights, dataName)
 

@@ -220,7 +220,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
      return("Error: if stvar is not null, it must have a value which is a character string naming the variable coding separate tables for the table")
   }
   
-  if(!is.null(cvar)){
+  if(!is.null(stvar)){
     isDefined(datasources, stvar)
   }
 

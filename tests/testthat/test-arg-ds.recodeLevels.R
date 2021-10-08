@@ -20,10 +20,10 @@ connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL", "LAB_TSC"))
 
 context("ds.recodeLevels::arg::test errors")
 test_that("recodeLevels_erros", {
-    expect_error(ds.recodeLevels(), " End of process!", fixed=TRUE)
-    expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL'), " End of process!", fixed=TRUE)
-    expect_error(ds.recodeLevels(x='D$LAB_TSC', newCategories=c('normal', 'overweight')), "The input vector must be a factor!", fixed=TRUE)
-    expect_error(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight')), "The number of levels you specified is smaller than the levels of the input vector!", fixed=TRUE)
+    expect_error(expect_warning(ds.recodeLevels(), "'ds.recodeLevels' is deprecated.", fixed = TRUE), " End of process!", fixed=TRUE)
+    expect_error(expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL'), "'ds.recodeLevels' is deprecated.", fixed = TRUE), " End of process!", fixed=TRUE)
+    expect_error(expect_warning(ds.recodeLevels(x='D$LAB_TSC', newCategories=c('normal', 'overweight')), "'ds.recodeLevels' is deprecated.", fixed = TRUE), "The input vector must be a factor!", fixed=TRUE)
+    expect_error(expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight')), "'ds.recodeLevels' is deprecated.", fixed = TRUE), "The number of levels you specified is smaller than the levels of the input vector!", fixed=TRUE)
 })
 
 #

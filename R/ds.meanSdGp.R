@@ -168,8 +168,8 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
 
   # call the server side function that calculates mean and standard deviation
   # by group in each study
-  calltext <- call("meanSdGpDS", x, y)
-  output <- DSI::datashield.aggregate(datasources, calltext)
+  calltext <- paste0("meanSdGpDS(", x, ",", y, ")")
+  output <- DSI::datashield.aggregate(datasources, as.symbol(calltext))
 
   numsources <- length(output)
 

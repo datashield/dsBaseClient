@@ -75,8 +75,8 @@ ds.numNA <- function(x=NULL, datasources=NULL){
   typ <- checkClass(datasources, x)
 
   # call the server side function
-  cally <- call("numNaDS", x)
-  numNAs <- DSI::datashield.aggregate(datasources, cally)
+  cally <- paste0("numNaDS(", x, ")")
+  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
   return(numNAs)
 }

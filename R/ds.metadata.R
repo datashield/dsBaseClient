@@ -57,23 +57,30 @@ ds.metadata = function(x=NULL, datasources=NULL)
     }                                                                                   #
     #####################################################################################
 
+    ###############################################################################################################
+    #MODULE 2: ENSURE CORRECT DATASOURCES                                                                         #
+    # ensure datasources is a list of DSConnection-class                                                          #
+    if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){ #
+      stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)             #
+    }                                                                                                             #
+    ###############################################################################################################
+
     #####################################################################################
-    #MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
+    #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
     if (is.null(x)){                                                                    #
         stop("Please provide the name of the object!", call.=FALSE)                     #
     }                                                                                   #
     #####################################################################################
 
     #####################################################################################
-    #MODULE 3: CHECK CONSISTANCY OF VARIABLE NAME (SINGLE)                              #
+    #MODULE 4: CHECK CONSISTANCY OF VARIABLE NAME (SINGLE)                              #
     if ((! is.character(x)) || (length(x) != 1)){                                       #
         stop("Please provide the name of the object!", call.=FALSE)                     #
     }                                                                                   #
     #####################################################################################
 
     #####################################################################################
-    #MODULE 4: CHECK ALL SERVICES HAVE SPECIFIED VARIABLES DEFINED                      #
-                                                                                        #
+    #MODULE 5: CHECK ALL SERVICES HAVE SPECIFIED VARIABLES DEFINED                      #
     defined = all(unlist(isDefined(datasources, x)))                                    #
     if (! defined){                                                                     #
         stop("Variable not defined in all servers", call.=FALSE)                        #

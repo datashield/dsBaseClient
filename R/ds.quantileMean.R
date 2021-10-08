@@ -81,6 +81,10 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
+  if (! all(type %in% c("combine", "split"))) {
+    stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+  }
+
   # check if the input object is defined in all the studies
   isDefined(datasources, x)
 
@@ -94,14 +98,14 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   }
 
   # get the server function that produces the quantiles
-  cally1 <- call('quantileMeanDS', x)
-  quants <- DSI::datashield.aggregate(datasources, cally1)
+  cally1 <- paste0('quantileMeanDS(', x, ')')
+  quants <- DSI::datashield.aggregate(datasources, as.symbol(cally1))
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
   lengths <- DSI::datashield.aggregate(datasources, cally2)
-  cally3 <- call("numNaDS", x)
-  numNAs <- DSI::datashield.aggregate(datasources, cally3)
+  cally3 <- paste0("numNaDS(", x, ")")
+  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
@@ -122,7 +126,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     if(type=="split"){
       return(quants)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
     }
   }
 }

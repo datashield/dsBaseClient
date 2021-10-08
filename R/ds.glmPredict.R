@@ -160,9 +160,8 @@ ds.glmPredict <- function(glmname = NULL, newdataname = NULL, output.type = "res
     newobj<-"predict_glm"
   }
 
-  calltext <- call("glmPredictDS.as", glmname, newdataname, output.type,
-				     	     se.fit, dispersion, terms, na.action)
-	DSI::datashield.assign(datasources, newobj, calltext)
+  calltext <- call("glmPredictDS.as", glmname, newdataname, output.type, se.fit, dispersion, terms, na.action)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
