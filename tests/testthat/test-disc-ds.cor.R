@@ -26,34 +26,34 @@ test_that("setup", {
 
 context("ds.cor::disc")
 test_that("simple D3 setup", {
-    ds.dataFrameSubset('D',V1.name = 'D$GENDER', V2.name = '0', Boolean.operator = '==', newobj='D1')
-    ds.dataFrameSubset('D1',V1.name = 'D1$LAB_TSC', V2.name = '3.5', Boolean.operator = '<', newobj='D2')
-    ds.dataFrame(c('D2$LAB_TSC', 'D2$LAB_TRIG', 'D2$LAB_HDL', 'D2$LAB_GLUC_ADJUSTED'), newobj='D3')
+#    ds.dataFrameSubset('D',V1.name = 'D$GENDER', V2.name = '0', Boolean.operator = '==', newobj='D1')
+#    ds.dataFrameSubset('D1',V1.name = 'D1$LAB_TSC', V2.name = '3.5', Boolean.operator = '<', newobj='D2')
+#    ds.dataFrame(c('D2$LAB_TSC', 'D2$LAB_TRIG', 'D2$LAB_HDL', 'D2$LAB_GLUC_ADJUSTED'), newobj='D3')
 
-    res <- ds.dim('D3')
-    expect_length(res, 4)
-    expect_length(res$`dimensions of D3 in sim1`, 2)
-    expect_equal(res$`dimensions of D3 in sim1`[1], 15)
-    expect_equal(res$`dimensions of D3 in sim1`[2], 4)
-    expect_length(res$`dimensions of D3 in sim2`, 2)
-    expect_equal(res$`dimensions of D3 in sim2`[1], 11)
-    expect_equal(res$`dimensions of D3 in sim2`[2], 4)
-    expect_length(res$`dimensions of D3 in sim3`, 2)
-    expect_equal(res$`dimensions of D3 in sim3`[1], 16)
-    expect_equal(res$`dimensions of D3 in sim3`[2], 4)
-    expect_length(res$`dimensions of D3 in combined studies`, 2)
-    expect_equal(res$`dimensions of D3 in combined studies`[1], 42)
-    expect_equal(res$`dimensions of D3 in combined studies`[2], 4)
+#    res <- ds.dim('D3')
+#    expect_length(res, 4)
+#    expect_length(res$`dimensions of D3 in sim1`, 2)
+#    expect_equal(res$`dimensions of D3 in sim1`[1], 15)
+#    expect_equal(res$`dimensions of D3 in sim1`[2], 4)
+#    expect_length(res$`dimensions of D3 in sim2`, 2)
+#    expect_equal(res$`dimensions of D3 in sim2`[1], 11)
+#    expect_equal(res$`dimensions of D3 in sim2`[2], 4)
+#    expect_length(res$`dimensions of D3 in sim3`, 2)
+#    expect_equal(res$`dimensions of D3 in sim3`[1], 16)
+#    expect_equal(res$`dimensions of D3 in sim3`[2], 4)
+#    expect_length(res$`dimensions of D3 in combined studies`, 2)
+#    expect_equal(res$`dimensions of D3 in combined studies`[1], 42)
+#    expect_equal(res$`dimensions of D3 in combined studies`[2], 4)
 })
 
 #test_that("simple disc test, naAction='casewise.complete', type='split'", {
 test_that("simple disc test, type='split'", {
 #    expect_error(ds.cor('D3', naAction='casewise.complete', type='split'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
-    expect_error(ds.cor('D3', type='split'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
-    res.errors <- DSI::datashield.errors()
+#    expect_error(ds.cor('D3', type='split'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+#    res.errors <- DSI::datashield.errors()
 
-    expect_length(res.errors, 1)
-    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
+#    expect_length(res.errors, 1)
+#    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
 })
 
 test_that("simple disc test, naAction='pairwise.complete', type='split'", {
@@ -74,11 +74,11 @@ test_that("simple disc test, naAction='pairwise.complete', type='split'", {
 #test_that("simple disc test, naAction='casewise.complete', type='combine'", {
 test_that("simple disc test, type='combine'", {
 #    expect_error(ds.cor('D3', naAction='casewise.complete', type='combine'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
-    expect_error(ds.cor('D3', type='combine'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
-    res.errors <- DSI::datashield.errors()
+#    expect_error(ds.cor('D3', type='combine'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+#    res.errors <- DSI::datashield.errors()
 
-    expect_length(res.errors, 1)
-    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
+#    expect_length(res.errors, 1)
+#    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
 
 #    expect_length(res, 5)
 #    expect_length(res$`Error message`, 3)
