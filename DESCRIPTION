@@ -10,7 +10,7 @@ Depends:
     DSI (>= 1.1.0)
 Imports:
     fields,
-    metafor,
+    meta,
     ggplot2,
     gridExtra,
     data.table

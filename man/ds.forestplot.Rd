@@ -4,15 +4,20 @@
 \alias{ds.forestplot}
 \title{Forestplot for SLMA models}
 \usage{
-ds.forestplot(mod, method = "ML")
+ds.forestplot(mod, variable = NULL, method = "ML", layout = "JAMA")
 }
 \arguments{
 \item{mod}{\code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
 \code{ds.glmSLMA}, \code{ds.lmerSLMA})}
 
-\item{method}{\code{character} (Default \code{"ML"}) Parameter optimization method to visualize. Options are 
-\code{"ML"} for Maximum Likelihood, \code{"REML"} for REstricted Maximum Likelihood or \code{"FE"} for 
-Fixed-Effects meta-analysis}
+\item{variable}{\code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this 
+argument to \code{NULL} (default) the first independent variable will be used.}
+
+\item{method}{\code{character} (Default \code{"ML"}) Method to estimate the between study variance. 
+See details from \code{?meta::metagen} for the different options.}
+
+\item{layout}{\code{character} (default \code{"JAMA"}) Layout of the plot. 
+See details from \code{?meta::metagen} for the different options.}
 }
 \value{
 Plot object of class \code{vpPath}

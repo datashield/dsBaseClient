@@ -4,11 +4,13 @@
 #'
 #' @param mod \code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
 #' \code{ds.glmSLMA}, \code{ds.lmerSLMA})
-#' @param method \code{character} (Default \code{"ML"}) Parameter optimization method to visualize. Options are 
-#' \code{"ML"} for Maximum Likelihood, \code{"REML"} for REstricted Maximum Likelihood or \code{"FE"} for 
-#' Fixed-Effects meta-analysis 
+#' @param variable \code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this 
+#' argument to \code{NULL} (default) the first independent variable will be used.
+#' @param method \code{character} (Default \code{"ML"}) Method to estimate the between study variance. 
+#' See details from \code{?meta::metagen} for the different options.
+#' @param layout \code{character} (default \code{"JAMA"}) Layout of the plot. 
+#' See details from \code{?meta::metagen} for the different options.
 #'
-#' @return Plot object of class \code{vpPath}
 #' @export
 #'
 #' @examples
@@ -45,67 +47,26 @@
 #' }
 #' 
 
-ds.forestplot <- function(mod, method = "ML"){
+ds.forestplot <- function(mod, variable = NULL, method = "ML", layout = "JAMA"){
   
-  # Declaration of variables
-  ntotal <- NULL
-  nvalid <- NULL
-  nmissing <- NULL
-  names <- NULL
+  # Extract meta-information from mod object
+  betas <- mod$output.summary$input.beta.matrix.for.SLMA
+  ses <- mod$output.summary$input.se.matrix.for.SLMA
+  variables <- rownames(betas)
+  names <- names(mod$output.summary)[1:mod$num.valid.studies]
   
-  # Get number of studies
-  num_stud <- mod$num.valid.studies
-  
-  # Obtain from each study the numbers of valid, missing and total of individuals. Obtain the study names too
-  for(i in 1:num_stud){
-    ntotal <- c(ntotal, mod$output.summary[[i]]$Ntotal)
-    nvalid <- c(nvalid, mod$output.summary[[i]]$Nvalid)
-    nmissing <- c(nmissing, mod$output.summary[[i]]$Nmissing)
-    names <- c(names, names(mod$output.summary)[i])
+  if(is.null(variable)){ # If variable is NULL, use first variable that is not the intercept
+    if(variables[1] == "(Intercept)"){variable <- variables[2]} else {variable <- variables[1]}
+  } else { # Check supplied variable exists
+    if(!(variable %in% variables)){
+      stop("[", variable, "] is not valid. Valid variables [", paste(variables, collapse = ", "), "]")
+    }
   }
   
-  # Get t-test parameters
-  n <- sum(nvalid)
-  p <- nrow(mod$betamatrix.valid)
+  # Perform meta-analysis using the meta package
+  res <- meta::metagen(TE = betas[variable,], seTE = ses[variable,], studlab = names, method.tau = method)
   
-  # Get coefficients and calculate confidence interval using the standard errors
-  mean <- t(mod$betamatrix.valid)
-  lower <- t(mod$betamatrix.valid - mod$sematrix.valid * qt(.975, n-p))
-  upper <- t(mod$betamatrix.valid + mod$sematrix.valid * qt(.975, n-p))
-    
-  # Format to be passed to the foresplot function
-  names <- c("Study", names, NA, "Summary")
-  ntotal <- c("N total", ntotal, NA, sum(ntotal))
-  nvalid <- c("N valid", nvalid, NA, sum(nvalid))
-  nmissing <- c("N missing", nmissing, NA, sum(nmissing))
-  
-  # Choice of ML, REML, FE. only would affect the columns chosen on next 3 lines
-  if(method == "ML"){
-    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,1])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,1] - mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,1] + mod$SLMA.pooled.ests.matrix[,2] * qt(.975, n-p))
-  }
-  else if(method == "REML"){
-    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,3])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,3] - mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,3] + mod$SLMA.pooled.ests.matrix[,4] * qt(.975, n-p))
-  }
-  else if(method == "FE"){
-    mean <- rbind(NA, mean, NA, mod$SLMA.pooled.ests.matrix[,5])
-    lower <- rbind(NA, lower, NA, mod$SLMA.pooled.ests.matrix[,5] - mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
-    upper <- rbind(NA, upper, NA, mod$SLMA.pooled.ests.matrix[,5] + mod$SLMA.pooled.ests.matrix[,6] * qt(.975, n-p))
-  }
-  else{stop("Invalid 'method' argument [", method, "]")}
-  
-  # Build plot parameters
-  legend <- colnames(mean)
-  summary <- c(TRUE, rep(FALSE, num_stud),TRUE, TRUE)
-  colors <- RColorBrewer::brewer.pal(n = length(legend), name = "Set2")
-  tabletext <- cbind(names, ntotal, nvalid, nmissing)
-  
-  forestplot::forestplot(tabletext, mean = mean, lower = lower, upper = upper, legend = legend,
-             is.summary = summary, col=forestplot::fpColors(box=colors,
-                                                summary = colors),
-             xlab="Coefficient")
+  # Plot the resulting forestplot using the meta package
+  meta::forest(res, layout = layout)
   
 }
