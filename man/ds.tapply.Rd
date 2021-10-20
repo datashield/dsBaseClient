@@ -15,8 +15,7 @@ ds.tapply(
 \item{X.name}{a character string specifying the name of the variable to be summarized.}
 
 \item{INDEX.names}{a character string specifying the name of a single factor 
-or a vector of names of factors to
-index the variable to be summarized. 
+or a list or vector of names of up to two factors to index the variable to be summarized. 
 For more information see \strong{Details}.}
 
 \item{FUN.name}{a character string specifying the name of one of the allowable 
