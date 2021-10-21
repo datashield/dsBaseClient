@@ -73,6 +73,7 @@ jobs:
   pool:
     vmImage: ubuntu-20.04
 
+
   steps:
     #####################################################################################
     # Checkout the source code to a subfolder.
@@ -131,7 +132,7 @@ jobs:
   - bash: |
 
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
       sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
@@ -201,11 +202,11 @@ jobs:
   - bash: |
 
       # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet6-release-xenial.deb
-      sudo dpkg -i puppet6-release-xenial.deb
+      wget -nv https://apt.puppetlabs.com/puppet6-release-focal.deb
+      sudo dpkg -i puppet6-release-focal.deb
       sudo apt-get install -qq -f
       sudo apt-get update
-      sudo rm -f puppet6-release-xenial.deb
+      sudo rm -f puppet6-release-focal.deb
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
