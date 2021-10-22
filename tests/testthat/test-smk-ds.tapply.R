@@ -118,14 +118,14 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 
     expect_length(list, 3)
     expect_length(list$sim1, 2)
-    expect_length(list$sim1$`1`, 15)
-    expect_length(list$sim1$`2`, 15)
+    expect_length(list$sim1$GENDER.1, 15)
+    expect_length(list$sim1$GENDER.2, 15)
     expect_length(list$sim2, 2)
-    expect_length(list$sim2$`1`, 15)
-    expect_length(list$sim2$`2`, 15)
+    expect_length(list$sim2$GENDER.1, 15)
+    expect_length(list$sim2$GENDER.2, 15)
     expect_length(list$sim3, 2)
-    expect_length(list$sim3$`1`, 15)
-    expect_length(list$sim3$`2`, 15)
+    expect_length(list$sim3$GENDER.1, 15)
+    expect_length(list$sim3$GENDER.2, 15)
 })
 
 #
