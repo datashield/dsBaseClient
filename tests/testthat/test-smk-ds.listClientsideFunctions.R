@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -30,6 +30,7 @@ test_that("check results", {
         "ds.asCharacter",
         "ds.asDataMatrix",
         "ds.asFactor",
+        "ds.asFactorSimple",
         "ds.asInteger",
         "ds.asList",
         "ds.asLogical",
@@ -53,6 +54,7 @@ test_that("check results", {
         "ds.dataFrameSubset",
         "ds.densityGrid",
         "ds.dim",
+        "ds.dmtC2S",
         "ds.exists",
         "ds.exp",
         "ds.glm",

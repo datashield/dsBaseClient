@@ -37,7 +37,7 @@
 #'
 #' }
 #'
-ds.vectorCalc = function(x=NULL, calc=NULL, newobj=NULL, datasources=NULL){
+ds.vectorCalc <- function(x=NULL, calc=NULL, newobj=NULL, datasources=NULL){
   .Deprecated("ds.make")
   
   # look for DS connections

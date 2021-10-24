@@ -1,3 +1,4 @@
+#' 
 #' @title Converts a server-side R object into a character class
 #' @description Converts the input object into a character class. 
 #' This function is based on the native R function \code{as.character}.
@@ -13,8 +14,7 @@
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.asCharacter} returns the object converted into a class character 
 #' that is written to the server-side. Also, two validity messages are returned to the client-side
-#' indicating the name of the \code{newobj} which 
-#' has been created in each data source and if 
+#' indicating the name of the \code{newobj} which has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 
 #' \dontrun{
@@ -54,7 +54,8 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
-ds.asCharacter = function(x.name=NULL, newobj=NULL, datasources=NULL){
+#' 
+ds.asCharacter <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -69,7 +70,9 @@ ds.asCharacter = function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x.name)
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){

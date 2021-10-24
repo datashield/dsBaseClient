@@ -148,7 +148,8 @@
 #'
 #' }
 #'
-ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
+ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, 
+                           method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -168,27 +169,9 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
   }
 
-  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
-  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
-  }
-
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x, y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -203,10 +186,13 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     message(paste0(y, " is of type ", typ.y, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
+  
+  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
+  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
+    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+  }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
+  # prepare the axis labels
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

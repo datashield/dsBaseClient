@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -26,7 +26,37 @@ test_that("setup", {
 
 context("ds.levels::smk")
 test_that("simple levels", {
-    res <- ds.levels("D$PM_BMI_CATEGORICAL")
+    ds.asFactor("D$GENDER", newobj.name = "gender")
+
+    res <- ds.levels("gender")
+
+    expect_length(res, 3)
+    expect_length(res$sim1, 2)
+    expect_length(res$sim1$ValidityMessage, 1)
+    expect_equal(res$sim1$ValidityMessage, "VALID ANALYSIS")
+    expect_length(res$sim1$Levels, 2)
+    expect_equal(res$sim1$Levels[1], "0")
+    expect_equal(res$sim1$Levels[2], "1")
+    expect_length(res$sim2, 2)
+    expect_length(res$sim2$ValidityMessage, 1)
+    expect_equal(res$sim2$ValidityMessage, "VALID ANALYSIS")
+    expect_length(res$sim2$Levels, 2)
+    expect_equal(res$sim2$Levels[1], "0")
+    expect_equal(res$sim2$Levels[2], "1")
+    expect_length(res$sim3, 2)
+    expect_length(res$sim3$ValidityMessage, 1)
+    expect_equal(res$sim3$ValidityMessage, "VALID ANALYSIS")
+    expect_length(res$sim3$Levels, 2)
+    expect_equal(res$sim3$Levels[1], "0")
+    expect_equal(res$sim3$Levels[2], "1")
+})
+
+context("ds.levels::smk")
+test_that("simple levels", {
+    ds.asFactor("D$PM_BMI_CATEGORICAL", newobj.name = "pm_bmi_categorical")
+
+    res <- ds.levels("pm_bmi_categorical")
+
     expect_length(res, 3)
     expect_length(res$sim1, 2)
     expect_length(res$sim1$ValidityMessage, 1)
@@ -58,7 +88,7 @@ test_that("simple levels", {
 context("ds.levels::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "gender", "pm_bmi_categorical"))
 })
 
 disconnect.studies.dataset.cnsim()

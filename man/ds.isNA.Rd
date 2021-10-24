@@ -67,6 +67,7 @@ Server function called: \code{isNaDS}
   datashield.logout(connections)
 
 }
+
 }
 \author{
 DataSHIELD Development Team

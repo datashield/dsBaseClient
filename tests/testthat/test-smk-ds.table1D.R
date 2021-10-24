@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -25,16 +25,18 @@ test_that("setup", {
 #
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables")
-res <- ds.table1D(x='D$GENDER')
 test_that("GENDER_normal", {
+    res <- expect_warning(ds.table1D(x='D$GENDER'), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_equal(res$validity, "All tables are valid!")
     expect_equal(res$counts[2], 4611)
     expect_equal(res$counts[3], 9379)
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail")
-res <- ds.table1D(x='D$DIS_CVA')
 test_that("DIS_CVA_invalid", {
+    res <- expect_warning(ds.table1D(x='D$DIS_CVA'), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_length(res, 3)
     expect_equal(class(res), "list")
     expect_length(res$counts, 3)
@@ -44,8 +46,9 @@ test_that("DIS_CVA_invalid", {
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting combined contingency tables fail split")
-res <- ds.table1D(x='D$DIS_CVA', type="split")
 test_that("DIS_CVA_invalid_split", {
+    res <- expect_warning(ds.table1D(x='D$DIS_CVA', type="split"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_length(res, 3)
     expect_equal(class(res), "list")
     expect_length(res$counts, 3)
@@ -55,8 +58,9 @@ test_that("DIS_CVA_invalid_split", {
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables")
-res <- ds.table1D(x='D$GENDER', type="split")
 test_that("GENDER_split", {
+    res <- expect_warning(ds.table1D(x='D$GENDER', type="split"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_equal(res$validity, "All tables are valid!")
     expect_equal(res$counts$sim1[1], 1092)
     expect_equal(res$counts$sim2[2], 1503)
@@ -64,8 +68,9 @@ test_that("GENDER_split", {
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific contingency tables for study 1 and 2")
-res <- ds.table1D(datasources=ds.test_env$connections[1:2], x='D$GENDER', type="split")
 test_that("GENDER_split_12", {
+    res <- expect_warning(ds.table1D(datasources=ds.test_env$connections[1:2], x='D$GENDER', type="split"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_equal(res$validity, "All tables are valid!")
     expect_equal(res$counts$sim1[1], 1092)
     expect_equal(res$counts$sim2[2], 1503)
@@ -73,8 +78,9 @@ test_that("GENDER_split_12", {
 })
 
 context("ds.table1D::smk::generate a one dimensional table, outputting study specific and combined contingency tables")
-res <- ds.table1D(datasources=ds.test_env$connections, x='D$GENDER')
 test_that("GENDER_normal_2", {
+    res <- expect_warning(ds.table1D(datasources=ds.test_env$connections, x='D$GENDER'), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+
     expect_equal(res$validity, "All tables are valid!")
     expect_equal(res$counts[2], 4611)
     expect_equal(res$counts[3], 9379)

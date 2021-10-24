@@ -30,12 +30,11 @@ This function is based on the native R function \code{as.numeric}.
 }
 \details{
 This function is based on the native R function \code{as.numeric}.
- The only difference is that the DataSHIELD 
-function first converts the values of the input object into characters and then convert 
-those to numerics. This addition is important for the case where the input object is of class
-factor having numbers as levels. In that case, the native R \code{as.numeric} function returns
-the underlying level codes and not the values as numbers. For example \code{as.numeric} in R
-converts the factor vector: \cr
+The only difference is that the DataSHIELD function first converts the values of an input facctor
+into characters and then convert those to numerics. This addition is important for the case where
+the input object is of class factor having numbers as levels. In that case, the native R 
+\code{as.numeric} function returns the underlying level codes and not the values as numbers. 
+For example \code{as.numeric} in R converts the factor vector: \cr
 0 1 1 2 1 0 1 0 2 2 2 1 \cr
 Levels: 0 1 2 \cr
 to the following numeric vector:

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -36,7 +36,7 @@ test_that("NULL connections", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    expect_error(expect_warning(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "'x' is NULL so the result will be NULL", fixed = TRUE), "replacement has length zero", fixed = TRUE)
 
     errs <- datashield.errors()
     expect_length(errs, 3)

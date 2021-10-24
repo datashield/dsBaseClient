@@ -49,8 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v6.1.1-dev
-
+    ref: v6.2-dev
 
 #########################################################################################
 # When and under what condition to run the pipeline.
@@ -72,7 +71,7 @@ jobs:
 - job: build_and_run_tests
   timeoutInMinutes: 150
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: ubuntu-20.04
 
 
   steps:
@@ -139,7 +138,7 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
@@ -278,7 +277,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+                testthat::test_package("$(projectName)", filter = "_-|datachk-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
         );
@@ -337,7 +336,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.1.1-dev', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'

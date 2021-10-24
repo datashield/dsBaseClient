@@ -7,8 +7,6 @@ services:
     environment:
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
-      MINIO_IDENTITY_OPENID_CLIENT_ID: "b396233b-cdb2-449e-ac5c-a0d28b38f791"
-      MINIO_IDENTITY_OPENID_CONFIG_URL: "https://auth.molgenis.org/.well-known/openid-configuration"
     command: server /data
   armadillo:
     image: datashield/armadillo:ci
@@ -18,18 +16,14 @@ services:
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
       RSERVE_HOST: rserver
-      DATASHIELD_WHITELIST: dsBase,resourcer,dsDanger
+      LOGGING_CONFIG: 'classpath:logback-file.xml'
+      AUDIT_LOG_PATH: '/app/logs/audit.log'
+      DATASHIELD_WHITELIST: dsBase,dsDanger,resourcer
     ports:
       - 8080:8080
   rserver:
-    # Use predefined production image:
     image: datashield/rserver:ci
-    # or, if you want to customize the RServe installation,
-    # build custom image using Dockerfile:
-    # build: ./rserver
     environment:
       DEBUG: "FALSE"
     ports:
-      - "6311:6311"
-      - "6312:6312"
-      - "53000-53200:53000-53200"
+      - 6311:6311

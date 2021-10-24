@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -31,7 +31,7 @@ test_that("with no force.factor.levels", {
     ds.asFactor("TID", "TID.f1")
 
     res1 <- ds.class("TID.f1")
-    res2 <- ds.table1D("TID.f1")
+    res2 <- expect_warning(ds.table1D("TID.f1"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -43,7 +43,7 @@ test_that("with forced.factor.levels of 1:6", {
     ds.asFactor("TID", "TID.f2", forced.factor.levels=1:6)
 
     res1 <- ds.class("TID.f2")
-    res2 <- ds.table1D("TID.f2")
+    res2 <- expect_warning(ds.table1D("TID.f2"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -55,7 +55,7 @@ test_that("with force.factor.levels of 0:10", {
     ds.asFactor("TID", "TID.f3", forced.factor.levels=0:10)
 
     res1 <- ds.class("TID.f3")
-    res2 <- ds.table1D("TID.f3")
+    res2 <- expect_warning(ds.table1D("TID.f3"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -67,7 +67,7 @@ test_that("with force.factor.levels of 2:3", {
     ds.asFactor("TID", "TID.f4", forced.factor.levels=2:3)
 
     res1 <- ds.class("TID.f4")
-    res2 <- ds.table1D("TID.f4")
+    res2 <- expect_warning(ds.table1D("TID.f4"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
@@ -79,7 +79,7 @@ test_that("with force.factor.levels of c(1,2,3,4,'a','h',5)", {
     ds.asFactor("TID", "TID.f5", forced.factor.levels=c(1,2,3,4,'a','h',5))
 
     res1 <- ds.class("TID.f5")
-    res2 <- ds.table1D("TID.f5")
+    res2 <- expect_warning(ds.table1D("TID.f5"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)

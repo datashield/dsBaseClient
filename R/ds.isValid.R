@@ -53,11 +53,9 @@
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #'
-#'
-#'
 #' }
 #'
-ds.isValid = function(x=NULL, datasources=NULL){
+ds.isValid <- function(x=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -73,19 +71,8 @@ ds.isValid = function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -98,5 +85,6 @@ ds.isValid = function(x=NULL, datasources=NULL){
   # call the server side function that does the job and return its output
   cally <- paste0('isValidDS(', x, ')')
   output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  
   return(output)
 }

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2014 OBiBa,
-#               2019-2020 University of Newcastle upon Tyne. All rights reserved.
+#               2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.

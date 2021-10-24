@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2020 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.glm::smk::gaussian")
 test_that("glm_gaussian", {
-    res <- ds.glm('D$LAB_TSC~D$LAB_TRIG',family="gaussian")
+    res <- ds.glm('D$LAB_TSC~D$LAB_TRIG',family="gaussian",checks=FALSE)
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7800)
@@ -52,7 +52,7 @@ test_that("glm_gaussian", {
 
 context("ds.glm::smk::gaussian, with check")
 test_that("glm_gaussian, with check", {
-    expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", check=TRUE), "NAs introduced by coercion")
+    expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", checks=TRUE), "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7800)

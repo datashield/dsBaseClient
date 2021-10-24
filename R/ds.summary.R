@@ -80,19 +80,8 @@ ds.summary <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks if the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -179,7 +168,12 @@ ds.summary <- function(x=NULL, datasources=NULL){
   if("list" %in% typ){
     for(i in 1:numsources){
       l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]
-      elts <- DSI::datashield.aggregate(datasources[i], call('namesDS', x))[[1]]
+      elts <- DSI::datashield.aggregate(datasources[i], call('namesDS', x))
+      if(length(elts) == 0){
+        elts <- NULL
+      }else{
+        elts <- elts[[1]]
+      }
       if(is.null(elts)){
         stdsummary <- list('class'=typ, 'length'=l)
       }else{

@@ -79,7 +79,9 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @export
-ds.rbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
+#' 
+ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, 
+                   datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -95,37 +97,25 @@ ds.rbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NUL
     stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$vector)
-  # or just as a vector not attached to a table (i.e. vector)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
 
-if(DataSHIELD.checks)
-{
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
+  if(DataSHIELD.checks){
+    
+    # check if the input object(s) is(are) defined in all the studies
+    lapply(x, function(k){isDefined(datasources, obj=k)})
+
+    # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
+    for(i in 1:length(x)){
+      typ <- checkClass(datasources, x[i])
+      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
+        stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
+      }
     }
   }
-
-  # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
-  for(i in 1:length(x)){
-    typ <- checkClass(datasources, x[i])
-    if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-      stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-    }
-  }
- }
+  
   # check newobj not actively declared as null
   if(is.null(newobj)){
     newobj <- "rbind.newobj"
-}
-
+  }
 
 #CREATE THE VECTOR OF COLUMN NAMES
 if(!is.null(force.colnames)){
@@ -188,31 +178,21 @@ for(j in length(colname.vector):2)
 }
 }
 }
-num.duplicates.c<-as.character(num.duplicates)
+    num.duplicates.c <- as.character(num.duplicates)
 
+    for(m in 1:length(colname.vector)){
+      if(num.duplicates[m]!="0"){
+        colname.vector[m] <- paste0(colname.vector[m],".",num.duplicates.c[m])
+  	  }
+    }
+  }
 
+  # prepare name vectors for transmission
+  x.names.transmit <- paste(x, collapse=",")
+  colnames.transmit <- paste(colname.vector, collapse=",")
 
-
-for(m in 1:length(colname.vector))
-{
-if(num.duplicates[m]!="0")
-	{
-
-	colname.vector[m]<-paste0(colname.vector[m],".",num.duplicates.c[m])
-	}
-}
-}
-
-#prepare name vectors for transmission
- x.names.transmit<-paste(x,collapse=",")
- colnames.transmit<-paste(colname.vector,collapse=",")
-
- ###############################
- # call the server side function
-
-	calltext <- call("rbindDS", x.names.transmit,colnames.transmit)
-
-
+  # call the server side function
+	calltext <- call("rbindDS", x.names.transmit, colnames.transmit)
 	DSI::datashield.assign(datasources, newobj, calltext)
 
 

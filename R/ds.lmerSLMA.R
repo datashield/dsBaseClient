@@ -302,7 +302,9 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
       newobj <- "new.lmer.obj"
     }
     
-    cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+    if (notify.of.progress) {
+        cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+    }
     
     calltext.2 <- call('lmerSLMADS.assign', formula, offset, weights, dataName, REML,
                        control_type, control_value.transmit, optimizer, verbose)

@@ -145,6 +145,12 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
   if(is.null(X.name)){
     return("Error: Please provide the name of the variable to be summarized, as a character string")
   }
+  
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, X.name)
+  for(i in 1:length(INDEX.names)){
+    isDefined(datasources, INDEX.names[i])
+  }
 
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names

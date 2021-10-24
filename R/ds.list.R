@@ -6,7 +6,7 @@
 #' 
 #' Server function called: \code{listDS}
 #' @param x a character string specifying the names of the objects to coerce into a list.
-#' @param newobj 	a character string that provides the name for the output variable 
+#' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{list.newobj}.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
@@ -51,7 +51,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
+ds.list <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -67,21 +67,8 @@ ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
     stop("x=NULL. Please provide the names of the objects to coerce into a list!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(x)){
@@ -92,6 +79,10 @@ ds.list = function(x=NULL, newobj=NULL, datasources=NULL){
   if(is.null(newobj)){
     newobj <- "list.newobj"
   }
+  
+  # get the variable names
+  xnames <- extract(x)
+  varnames <- xnames$elements
 
   # get the names of the list elements if the user has not specified any
   if(is.null(names)){

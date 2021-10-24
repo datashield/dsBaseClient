@@ -82,6 +82,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
+#' 
 ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE,
                            sort.method="default", newobj=NULL, datasources=NULL){
   
@@ -95,37 +96,31 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-  if(is.null(sort.method))
-  {
-    sort.method<-"default"
+  if(is.null(sort.method)){
+    sort.method <- "default"
   }
   
-  if(sort.method!="numeric"&&sort.method!="n"&&sort.method!="alphabetic"&&sort.method!="a")
-  {
-    sort.method<-"default"
+  if(sort.method!="numeric"&&sort.method!="n"&&sort.method!="alphabetic"&&sort.method!="a"){
+    sort.method <- "default"
   }
   
-  if(sort.method=="n")
-  {
-    sort.method<-"numeric"
+  if(sort.method=="n"){
+    sort.method <- "numeric"
   }
   
-  if(sort.method=="a")
-  {
-    sort.method<-"alphabetic"
+  if(sort.method=="a"){
+    sort.method <- "alphabetic"
   }
   
-  if(is.null(sort.descending))
-  {
-    sort.descending<-FALSE
+  if(is.null(sort.descending)){
+    sort.descending <- FALSE
   }
   
   if(is.null(newobj)){
-    newobj<-"dataframesort.newobj"
+    newobj <- "dataframesort.newobj"
   }
   
-  
-  #Call to assign function
+  # Call to assign function
   calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.method)
   datashield.assign(datasources, newobj, calltext)
   
