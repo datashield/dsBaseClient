@@ -277,7 +277,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                testthat::test_package("$(projectName)", filter = "_-|datachk-", reporter = multi_rep, stop_on_failure = FALSE)
+                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
         );
