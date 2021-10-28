@@ -51,9 +51,9 @@ test_that("default test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_equal(err[[1]], "Command 'exists(\"A\", E)' failed on 'discordant1': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[2]], "Command 'exists(\"A\", E)' failed on 'discordant2': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[3]], "Command 'exists(\"A\", E)' failed on 'discordant3': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err[[1]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[2]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[3]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
 })
 
 test_that("default test, dataframe column D$A", {
@@ -122,9 +122,9 @@ test_that("error.message=FALSE test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_equal(err[[1]], "Command 'exists(\"A\", E)' failed on 'discordant1': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[2]], "Command 'exists(\"A\", E)' failed on 'discordant2': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[3]], "Command 'exists(\"A\", E)' failed on 'discordant3': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err[[1]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[2]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[3]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
 })
 
 test_that("error.message=FALSE test, dataframe column D$A", {
@@ -221,9 +221,9 @@ test_that("error.message=TRUE test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_equal(err[[1]], "Command 'exists(\"A\", E)' failed on 'discordant1': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[2]], "Command 'exists(\"A\", E)' failed on 'discordant2': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[3]], "Command 'exists(\"A\", E)' failed on 'discordant3': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err[[1]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[2]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
+    expect_equal(err[[3]], "Execution failed: Error in base::exists(\"A\", E) : object 'E' not found", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column D$A", {
