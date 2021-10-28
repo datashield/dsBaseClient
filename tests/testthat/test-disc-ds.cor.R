@@ -110,7 +110,8 @@ test_that("simple disc test, naAction='pairwise.complete', type='combine'", {
 context("ds.cor::disc::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "D1", "D2", "D3"))
+#    ds_expect_variables(c("D", "D1", "D2", "D3"))
+    ds_expect_variables(c("D"))
 })
 
 disconnect.studies.dataset.cnsim()

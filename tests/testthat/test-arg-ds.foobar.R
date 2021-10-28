@@ -39,13 +39,7 @@ test_that("NULL expr", {
     expect_error(expect_warning(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "'x' is NULL so the result will be NULL", fixed = TRUE), "replacement has length zero", fixed = TRUE)
 
     errs <- datashield.errors()
-    expect_length(errs, 3)
-    expect_length(errs$sim1, 1)
-    expect_true(errs$sim1 %in% c("Invalid expression type: 'NULL'. Expected a call or character vector.", "Invalid expression: 'NULL'. Expected a call or vector."))
-    expect_length(errs$sim2, 1)
-    expect_true(errs$sim2 %in% c("Invalid expression type: 'NULL'. Expected a call or character vector.", "Invalid expression: 'NULL'. Expected a call or vector."))
-    expect_length(errs$sim3, 1)
-    expect_true(errs$sim3 %in% c("Invalid expression type: 'NULL'. Expected a call or character vector.", "Invalid expression: 'NULL'. Expected a call or vector."))
+    expect_length(errs, 0)
 })
 
 context("ds.foobar::arg::aggregate")
