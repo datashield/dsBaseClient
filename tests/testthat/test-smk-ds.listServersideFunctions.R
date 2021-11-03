@@ -46,7 +46,7 @@ test_that("check results", {
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
-      "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
+      "scoreVectDS", "setSeedDS", "t.test",
       "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
       "testObjExistsDS", "varDS"
     ))
