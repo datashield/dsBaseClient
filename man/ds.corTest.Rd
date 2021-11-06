@@ -8,19 +8,24 @@ ds.corTest(
   x = NULL,
   y = NULL,
   method = "pearson",
+  exact = NULL,
   conf.level = 0.95,
   type = "split",
   datasources = NULL
 )
 }
 \arguments{
-\item{x}{a character string providing  the name of a numerical vector.}
+\item{x}{a character string providing the name of a numerical vector.}
 
-\item{y}{a character string providing  the name of a numerical vector.}
+\item{y}{a character string providing the name of a numerical vector.}
 
 \item{method}{a character string indicating which correlation coefficient is to be
 used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated. 
 Default is set to "pearson".}
+
+\item{exact}{a logical indicating whether an exact p-value should be computed. Used for
+Kendall's tau and Spearman's rho. See ‘Details’ of R stats function \code{cor.test} for
+the meaning of NULL (the default).}
 
 \item{conf.level}{confidence level for the returned confidence interval. Currently
 only used for the Pearson product moment correlation coefficient if there are at least
@@ -29,7 +34,7 @@ only used for the Pearson product moment correlation coefficient if there are at
 \item{type}{a character string that represents the type of analysis to carry out. 
 This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If 
 \code{type} is set to "combine" then an approximated pooled correlation is estimated based on 
-Fisher z transformation.}
+Fisher's z transformation.}
 
 \item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
@@ -39,11 +44,12 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.corTest} returns to the client-side the results of the correlation test.
 }
 \description{
-This is similar to the R base function \code{cor.test}.
+This is similar to the R stats function \code{cor.test}.
 }
 \details{
-Runs a two-sided correlation test.
-Server function called: \code{cor.test}
+Runs a two-sided correlation test between paired samples, using one of
+Pearson's product moment correlation coefficient, Kendall's tau or Spearman's rho.
+Server function called: \code{corTestDS}
 }
 \examples{
 \dontrun{
