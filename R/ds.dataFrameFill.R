@@ -137,7 +137,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   # get the class of each variable in the dataframes
   class.list <- lapply(allNames, function(x){lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call('classDS', paste0(df.name, '$', x)))})})
   class.vect1 <- lapply(class.list, function(x){unlist(x)})
-  # the loop below is to avoid variables name' autocompletion
+  # the loop below is to avoid autocompletion of variable name
   for (i in 1:length(allNames.transmit)){
     if(length(defined.vect2[[i]])>0){class.vect1[[i]][defined.vect2[[i]]]<-'NULL'}
   }
