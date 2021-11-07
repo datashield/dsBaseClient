@@ -124,22 +124,10 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(any(is.na(values2replace.vector))){
     stop("To recode NAs you need to use the 'missing' argument", call.=FALSE)
   }
-
-#   # DETERMINE WHETHER new.values.vector CONTAINS NON-NUMERIC ELEMENTS (IF SO CAN ONLY GET NUMERIC OUTPUT
-#   # BY force.output.format="numeric" AND NON-NUMERICS WILL THEN BE SET AS NaN)
-# 
-# 	# is new.values.vector all NA?
-# 	nvv.all.NA <- (sum(is.na(new.values.vector))==length(new.values.vector))
-# 	nvv.numeric <- is.numeric(new.values.vector)
-# 
-#   numeric.output.format.possible <- (nvv.all.NA||nvv.numeric)
-# 
-#   # is values2replace.vector numeric?
-#   v2r.numeric <- is.numeric(values2replace.vector)
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){
     values2replace.transmit <- paste0(as.character(values2replace.vector), collapse=",")
-    new.values.transmit <- paste0(as.character(new.values.vector),collapse=",")
+    new.values.transmit <- paste0(as.character(new.values.vector), collapse=",")
   }else{
     values2replace.transmit <- NULL
     new.values.transmit <- NULL
