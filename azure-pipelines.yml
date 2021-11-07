@@ -312,30 +312,30 @@ jobs:
     # which are not default behaviour: output the results to a JUnit xml file, not stop
     # when a small number of errors have happened, run through the code coverage tool.
     # TODO: Tidy up variable names - use timestamps here.
-  - bash: |
+  #- bash: |
 
       # junit reporter output is to test_results_discctrl.xml
-      sudo R -q -e '
-          library(testthat);
-          output_file <- file("test_console_output_discctrl.txt");
-          sink(output_file);
-          sink(output_file, type = "message");
-          junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
-          progress_rep <- ProgressReporter$new(max_failures = 999999);
-          multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-          testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
 
-      cat test_console_output_discctrl.txt
+      # cat test_console_output_discctrl.txt
 
-      if [ -e test_results_discctrl.xml ]; then
-          mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
-      else
-          touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
-      fi
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
 
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'discctrl report output'
-    condition: succeededOrFailed()
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
 
 
     #####################################################################################
