@@ -1,20 +1,24 @@
 #'
 #' @title Tests for correlation between paired samples in the server-side
-#' @description This is similar to the R base function \code{cor.test}.
-#' @details Runs a two-sided correlation test.
-#' Server function called: \code{cor.test}
-#' @param x a character string providing  the name of a numerical vector. 
-#' @param y a character string providing  the name of a numerical vector.
+#' @description This is similar to the R stats function \code{cor.test}.
+#' @details Runs a two-sided correlation test between paired samples, using one of
+#' Pearson's product moment correlation coefficient, Kendall's tau or Spearman's rho.
+#' Server function called: \code{corTestDS}
+#' @param x a character string providing the name of a numerical vector. 
+#' @param y a character string providing the name of a numerical vector.
 #' @param method a character string indicating which correlation coefficient is to be
 #' used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated. 
-#' Default is set to "pearson". 
+#' Default is set to "pearson".
+#' @param exact a logical indicating whether an exact p-value should be computed. Used for
+#' Kendall's tau and Spearman's rho. See ‘Details’ of R stats function \code{cor.test} for
+#' the meaning of NULL (the default).
 #' @param conf.level confidence level for the returned confidence interval. Currently
 #' only used for the Pearson product moment correlation coefficient if there are at least
 #' 4 complete pairs of observations. Default is set to 0.95.
 #' @param type a character string that represents the type of analysis to carry out. 
 #' This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If 
 #' \code{type} is set to "combine" then an approximated pooled correlation is estimated based on 
-#' Fisher z transformation.
+#' Fisher's z transformation.
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -59,7 +63,7 @@
 #'   
 #' }   
 #'
-ds.corTest <- function(x=NULL, y=NULL, method="pearson", conf.level=0.95, type='split', datasources=NULL){
+ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -91,7 +95,7 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", conf.level=0.95, type='
   typ <- checkClass(datasources, y)
 
   # call the server side function
-  cally <- call("corTestDS", x, y, method, conf.level)
+  cally <- call("corTestDS", x, y, method, exact, conf.level)
   out <- DSI::datashield.aggregate(datasources, cally)
 
   if(type=="split"){
@@ -116,7 +120,7 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", conf.level=0.95, type='
       }
       Zpooled <- Zpooled/(sum(ni)-3*length(datasources))
       varZpooled <- varZpooled/(sum(ni)-3*length(datasources))
-      pval <- Zpooled/sqrt(varZpooled)
+      pval <- 2*(1-stats::pnorm(Zpooled/sqrt(varZpooled)))
       corr <- tanh(Zpooled)
       if(method=="pearson"){
         zlcl = Zpooled - stats::qnorm(1-(1-conf.level)/2)*sqrt(varZpooled)
