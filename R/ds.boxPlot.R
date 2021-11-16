@@ -84,7 +84,7 @@
 #'
 
 ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel = "x axis", 
-                       ylabel = "y axis", type = "pooled", datasources = NULL){
+                       ylabel = "y axis", type = c("pooled", "split"), datasources = NULL){
   
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
@@ -94,16 +94,52 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
   if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
-
+  
+  # Ensure tpye is 'pooled' or 'split'
+  if(!(type %in% c("pooled", "split"))){
+    stop("[type] can only be set to 'pooled' or 'split'")
+  }
+  
+  # Check if x is defined and that it is of class "numeric" or "data.frame"
   isDefined(datasources, x)
   cls <- checkClass(datasources, x)
+  if(!any(c("numeric", "data.frame") %in% cls)){
+    stop("The selected object is not a data frame nor a numerical vector")
+  }
   
-  if(any(cls %in% c("data.frame"))){
+  # If x is a "data.frame" check that the variables exist, and if they are "numeric"
+  # also check if the grouping variables [group, group2] exist and are of class factor
+  if("data.frame" %in% cls){
+    # Check that all variables exist
+    lapply(variables, function(i){
+      isDefined(datasources, paste0(x, "$", i))
+    })
+    # Check all variables are of class "numeric"
+    variable_classes <- unlist(lapply(variables, function(i){
+      checkClass(datasources, paste0(x, "$", i))
+    }))
+    if(!all(variable_classes == "numeric")){
+      stop("[", paste(variables[variable_classes != "numeric"], collapse = ", "), "] variable(s) are not of class 'numeric'")
+    }
+    # Check if grouping variables exist
+    if(!is.null(group)){isDefined(datasources, paste0(x, "$", group))}
+    if(!is.null(group2)){isDefined(datasources, paste0(x, "$", group2))}
+    # Check if groupings are of class "factor"
+    if(!is.null(group)){
+      group_class <- checkClass(datasources, paste0(x, "$", group))
+      if(group_class != "factor"){stop("[", group, "] is not of class 'factor'")}
+    }
+    if(!is.null(group2)){
+      group_class2 <- checkClass(datasources, paste0(x, "$", group2))
+      if(group_class2 != "factor"){stop("[", group2, "] is not of class 'factor'")}
+    }
+  }
+  
+  # Once all checks are passed, call the appropiate server functions
+  if("data.frame" %in% cls){
     ds.boxPlotGG_table(x, variables, group, group2, xlabel, ylabel, type, datasources)
   }
-  else if(any(cls %in% c("numeric"))){
+  else if("numeric" %in% cls){
     ds.boxPlotGG_numeric(x, xlabel, ylabel, type, datasources)
   }
-  else(stop("The selected object is not a data frame nor a numerical vector"))
-  
 }
