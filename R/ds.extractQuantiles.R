@@ -1,6 +1,6 @@
 # ds.extractQuantiles
-#' @title Secure ranking of a vector across all sources and use of these ranks
-#' to estimate global quantiles across all studies
+#' @title Use global ranks across all sources to
+#' to estimate key global quantiles
 #' @description Takes the global ranks and quantiles held in the serverside data
 #' data frame that is written by ranksSecureDS4 and named as specified by the
 #' argument (<output.ranks.df>) and converts these values into a series of

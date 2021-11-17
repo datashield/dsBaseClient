@@ -2,8 +2,8 @@
 % Please edit documentation in R/ds.extractQuantiles.R
 \name{ds.extractQuantiles}
 \alias{ds.extractQuantiles}
-\title{Secure ranking of a vector across all sources and use of these ranks
-to estimate global quantiles across all studies}
+\title{Use global ranks across all sources to
+to estimate key global quantiles}
 \usage{
 ds.extractQuantiles(
   extract.quantiles,
