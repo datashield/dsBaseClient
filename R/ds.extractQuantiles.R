@@ -1,5 +1,5 @@
 # ds.extractQuantiles
-#' @title Use global ranks across all sources to
+#' @title Use global ranks across all sources
 #' to estimate key global quantiles
 #' @description Takes the global ranks and quantiles held in the serverside data
 #' data frame that is written by ranksSecureDS4 and named as specified by the

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.extractQuantiles.R
 \name{ds.extractQuantiles}
 \alias{ds.extractQuantiles}
-\title{Use global ranks across all sources to
+\title{Use global ranks across all sources
 to estimate key global quantiles}
 \usage{
 ds.extractQuantiles(
