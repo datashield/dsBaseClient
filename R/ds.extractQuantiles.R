@@ -1,41 +1,39 @@
 # ds.extractQuantiles
 #' @title Use global ranks across all sources
-#' to estimate key global quantiles
+#' to estimate key global quantiles - e.g. the median and quartiles
 #' @description Takes the global ranks and quantiles held in the serverside data
-#' data frame that is written by ranksSecureDS4 and named as specified by the
+#' data frame that is written by ds.ranksSecure and named as specified by its
 #' argument (<output.ranks.df>) and converts these values into a series of
-#' quantile values that identify, for example, which value of V2BR across all of
-#' the studies corresponds to the median or to the 95% quantile. There is no
-#' indication in which study the V2BR corresponding to a particular quantile
-#' falls and, in fact, the relevant value may fall in more than one study and
-#' may appear multiple times in any one study. Finally, the output data
-#' frame containing this information is written to the clientside and to the
-#' serverside at each study separately. 
+#' quantile values that identify which values of V2BR (a
+#' variable to be ranked) across all of the data sources correspond, for
+#' example, to the median, the quartiles and the 95th percentile. The output
+#' data frame containing this information is written to the clientside and
+#' to the serverside at each study separately. 
 #' @details ds.extractQuantiles is a clientside function which should usually
 #' be called from within the clientside function ds.ranksSecure.If you try to
-#' call ds.extractQuantiles directly(i.e. not by running ds.ranksSecure) you
-#' are almost certainly going to have to set up quite a few vectors and scalars
-#' that are normally set by ds.ranksSecure and this is likely to be difficult. 
+#' call ds.extractQuantiles directly (other than by running ds.ranksSecure) you
+#' will have to create a range of objects that are normally set by
+#' ds.ranksSecure. This is not a trivial task. 
 #' ds.extractQuantiles itself calls two serverside functions extractQuantilesDS1
-#' and extractQuantilesDS2. For more details about the cluster of functions that
-#' collectively enable secure global ranking and estimation of global quantiles
-#' see the associated document entitled "secure.global.ranking.docx". In
-#' particular this explains how ds.extractQuantiles works. Also see the header
-#' file for ds.ranksSecure.
+#' and extractQuantilesDS2. For more details about the suite of functions that
+#' collectively enable secure global ranking and estimation of key quantiles
+#' based on those ranks please see the associated document entitled
+#' "secure.global.ranking.docx" and the header file for ds.ranksSecure.
 #' @param extract.quantiles one of a restricted set of character strings.
-#' The value of this argument is set in choosing the value of the argument
-#' <quantiles.for.estimation> in ds.ranksSecure. In summary: to mitigate
-#' disclosure risk only the following set of quantiles can be
+#' The value of this argument is preset by the value of the argument
+#' <quantiles.for.estimation> in ds.ranksSecure. To mitigate
+#' disclosure risk only the following set of global quantiles can be
 #' generated: c(0.025,0.05,0.10,0.20,0.25,0.30,0.3333,0.40,0.50,0.60,0.6667,
 #' 0.70,0.75,0.80,0.90,0.95,0.975). The allowable formats for the argument
 #' are of the general form: "0.025-0.975" where the first number is the lowest
 #' quantile to be estimated and the second number is the equivalent highest 
 #' quantile to estimate. These two quantiles are then estimated along with
 #' all allowable quantiles in between. The allowable argument values are then:
-#' "0.025-0.975", "0.05-0.95", "0.10-0.90", "0.20-0.80". Two alternative values
-#' are "quartiles" i.e. c(0.25,0.50,0.75), and "median" i.e. c(0.50). The
-#' default value is "0.05-0.95". For more details, see the associated document
-#' "secure.global.ranking.docx". Also see the header file for ds.ranksSecure.
+#' "0.025-0.975", "0.05-0.95", "0.10-0.90", "0.20-0.80". Two additional
+#' values with a different format are are "quartiles" i.e. c(0.25,0.50,0.75),
+#' and "median" i.e. c(0.50). The default value is "0.05-0.95". For more
+#' details, see the associated document "secure.global.ranking.docx" and the
+#' header file for ds.ranksSecure.
 #' @param extract.output.ranks.df a character string which specifies an optional
 #' name for the data.frame written to the serverside on each data source that
 #' contains 11 of the key output variables from the ranking procedure pertaining
