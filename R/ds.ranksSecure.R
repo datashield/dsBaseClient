@@ -259,12 +259,10 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
 
   #CALL THE FIRST SERVER SIDE FUNCTION (ASSIGN)
   #WRITES ENCRYPTED DATA TO SERVERSIDE OBJECT "blackbox.output.df"
-  calltext1 <- call("blackBoxDS", input.var.name=input.var.name, max.sd.input.var=max.sd.input.var,
-                    mean.input.var=mean.input.var,shared.seedval=shared.seed.value,synth.real.ratio,NA.manage)
+  calltext1 <- call("blackBoxDS", input.var.name=input.var.name, max.sd.input.var=input.mean.sd.df$max.sd.input.var,
+                    mean.input.var=input.mean.sd.df$mean.input.var,shared.seedval=shared.seed.value,synth.real.ratio,NA.manage)
   DSI::datashield.assign(datasources, "blackbox.output.df", calltext1)
-  
-  
-  
+
   #CALL THE SECOND SERVER SIDE FUNCTION (AGGREGATE)
   #RETURN ENCRYPTED DATA IN "blackbox.output.df" TO CLIENTSIDE 
   calltext2 <- call("ranksSecureDS1")
@@ -334,20 +332,25 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   
   q5.val<-NULL
   q95.val<-NULL
-  mean.val<-NULL
+  mean.ranks<-NULL
   
   for(rr in 1:numstudies){
     q5.val<-c(q5.val,initialise.input.ranks[[rr]][1])
     q95.val<-c(q95.val,initialise.input.ranks[[rr]][numvals-1])
-    mean.val<-c(mean.val,initialise.input.ranks[[rr]][numvals])
+    mean.ranks<-c(mean.ranks,initialise.input.ranks[[rr]][numvals])
   }
   
   min.q5<-min(q5.val)
   max.q95<-max(q95.val)
   
   max.sd.input.ranks<-(max.q95-min.q5)/(2*1.65)
-  mean.input.ranks<-mean(mean.val)
+  mean.input.ranks<-mean(mean.ranks)
   
+  input.ranks.sd.df<-data.frame(cbind(mean.input.ranks,max.sd.input.ranks))
+  
+  
+  #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN VALUES TO SERVERSIDE
+  dsBaseClient::ds.dmtC2S(dfdata=input.ranks.sd.df,newobj="input.ranks.sd.df")
   
   
   
@@ -359,7 +362,8 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   #CONCEAL VALUES 
   
 
-  calltext4 <- call("blackBoxRanksDS","testvar.ranks", max.sd.input.ranks, mean.input.ranks,
+  calltext4 <- call("blackBoxRanksDS","testvar.ranks", max.sd.input.ranks=input.ranks.sd.df$max.sd.input.ranks,
+                    mean.input.ranks=input.ranks.sd.df$mean.input.ranks,
                     shared.seedval=shared.seed.value)
 
     DSI::datashield.assign(datasources, "blackbox.ranks.df", calltext4)
