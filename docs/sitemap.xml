@@ -130,6 +130,9 @@
     <loc>/reference/ds.exp.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.extractQuantiles.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.forestplot.html</loc>
   </url>
   <url>
@@ -266,6 +269,9 @@
   </url>
   <url>
     <loc>/reference/ds.rUnif.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.ranksSecure.html</loc>
   </url>
   <url>
     <loc>/reference/ds.rbind.html</loc>
