@@ -125,7 +125,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   numstudies <- length(stdnames)
 
   # do the business
-  cally <- paste0("recodeLevelsDS(", x, ", c(","'",paste(newCategories,collapse="','"),"')",")")
+  cally <- paste0("recodeLevelsDS(", x, ", vectorDS(","'",paste(newCategories,collapse="','"),"')",")")
   DSI::datashield.assign(datasources, newobj, as.symbol(cally))
 
   # check that the new object has been created and display a message accordingly
