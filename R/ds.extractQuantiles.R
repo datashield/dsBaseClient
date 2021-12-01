@@ -36,18 +36,6 @@
 #' are "quartiles" i.e. c(0.25,0.50,0.75), and "median" i.e. c(0.50). The
 #' default value is "0.05-0.95". For more details, see the associated document
 #' "secure.global.ranking.docx". Also see the header file for ds.ranksSecure.
-#' @param extract.output.ranks.df a character string which specifies an optional
-#' name for the data.frame written to the serverside on each data source that
-#' contains 11 of the key output variables from the ranking procedure pertaining
-#' to that particular data source. This data frame represents the key source of
-#' information - including global ranks - that determines the values of V2BR
-#' that are identified as corresponding to the set of quantiles specified
-#' by the argument <extract.quantiles>. The value of the extract.output.ranks.df
-#' argument is set in choosing the value of the argument <output.ranks.df>
-#' in ds.ranksSecure. If no name has been specified by the argument
-#' <output.ranks.df> in ds.ranksSecure, the default name is allocated as
-#' "main.ranks.df". For more details, see the associated document
-#' "secure.global.ranking.docx". Also see the header file for ds.ranksSecure.
 #' @param extract.summary.output.ranks.df a character string which specifies 
 #' the optional name for the summary data.frame written to the serverside on
 #' each data source that contains 5 of the key output variables from the ranking
@@ -67,6 +55,11 @@
 #' <ranks.sort.by> in ds.ranksSecure. For more details see the associated
 #' document entitled "secure.global.ranking.docx". Also see the header
 #' file for ds.ranksSecure.
+#' @param extract.rm.residual.objects logical value. Default = TRUE: at the beginning
+#' and end of each run of ds.ranksSecure delete all extraneous objects that are
+#' otherwise left behind. These are not usually needed, but could be of value
+#' if one were investigating a problem with the ranking. FALSE: do not delete
+#' the residual objects
 #' @param extract.datasources specifies the particular opal object(s) to use.
 #' This is set via the argument<datasources> in ds.ranksSecure. For more details
 #' see the associated document entitled "secure.global.ranking.docx". Also see
@@ -87,9 +80,11 @@
 #' see the associated document entitled "secure.global.ranking.docx".
 #' @author Paul Burton 11th November, 2021
 #' @export
-  ds.extractQuantiles <- function(extract.quantiles,extract.output.ranks.df,
+  ds.extractQuantiles <- function(extract.quantiles,
                                   extract.summary.output.ranks.df,
-                                  extract.ranks.sort.by,extract.datasources=NULL){
+                                  extract.ranks.sort.by,
+                                  extract.rm.residual.objects,
+                                  extract.datasources=NULL){
     
     # look for DS connections
     if(is.null(extract.datasources)){
@@ -116,7 +111,8 @@ datasources.in.current.function<-datasources
   #    0.60,0.6667,0.70,0.75,0.80,0.90,0.95,0.975)
   
   
-  calltext8 <- call("extractQuantilesDS1",extract.quantiles,extract.output.ranks.df)
+  calltext8 <- call("extractQuantilesDS1",extract.quantiles,
+                    extract.summary.output.ranks.df)
   closest.bounds.df<-DSI::datashield.aggregate(datasources,calltext8)
 
   
@@ -153,7 +149,7 @@ datasources.in.current.function<-datasources
   #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN global.bounds.df TO SERVERSIDE
   dsBaseClient::ds.dmtC2S(dfdata=global.bounds.df,newobj="global.bounds.df",datasources = datasources.in.current.function)
   
-  calltext9 <- call("extractQuantilesDS2",extract.output.ranks.df)
+  calltext9 <- call("extractQuantilesDS2",extract.summary.output.ranks.df)
   R.global.bounds<-DSI::datashield.aggregate(datasources,calltext9)
   
   
@@ -207,18 +203,37 @@ datasources.in.current.function<-datasources
   
   final.quantile.df
 
- 
+  #CLEAN UP UNWANTED RESIDUAL OBJECTS FROM THE RUNNING OF ds.extractQuantiles
+  
+  if(extract.rm.residual.objects)
+  {
+    #UNLESS THE <rm.residual.objects> IS FALSE,
+    #CLEAR UP ANY UNWANTED RESIDUAL OBJECTS
+    
+    rm.names.eQ<-c("global.bounds.df")
+    
+    #make transmittable via parser
+    rm.names.eQ.transmit <- paste(rm.names.eQ,collapse=",")
+    
+    calltext.rm.eQ <- call("rmDS", rm.names.eQ.transmit)
+    
+    rm.output.eQ <- DSI::datashield.aggregate(datasources, calltext.rm.eQ)
+    
+  }
   
   #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN final.quantile.df TO SERVERSIDE
   dsBaseClient::ds.dmtC2S(dfdata=final.quantile.df,newobj="final.quantile.df",datasources = datasources.in.current.function)
+
+  cat("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
+  PRIMARY RANKING OUTPUT IS IN DATA FRAME",extract.summary.output.ranks.df,
+"
+  WHICH IS SORTED BY",extract.ranks.sort.by," AND HAS BEEN
+  WRITTEN TO THE SERVERSIDE. VALUES OF V2BR CORRESPONDING TO
+  KEY QUANTILES HAVE BEEN WRITTEN TO BOTH CLIENTSIDE AND
+  SERVERSIDE AS final.quantile.df\n\n\n\n")
   
-  cat("\n\n\n\n################################################",
-        "\n################################################",
-      "\nPRIMARY OUTPUT IN DATA FRAME",extract.summary.output.ranks.df,"\nSORTED BY",extract.ranks.sort.by,
-      "\n################################################",
-      "\n################################################\n\n")
-  
-  return(list(final.quantile.df=final.quantile.df))
+
+  return(final.quantile.df)
 }
 
 ##########################################

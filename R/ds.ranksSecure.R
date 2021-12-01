@@ -62,7 +62,7 @@
 #' particular data source. This includes the global ranks and quantiles of each
 #' value of the V2BR (i.e. the values are ranked across all studies
 #' simultaneously). If no name is specified, the default name
-#' is allocated as "main.ranks.df". This data.frame contains disclosive
+#' is allocated as "full.ranks.df". This data.frame contains disclosive
 #' information and cannot therefore be passed to the clientside.
 #' @param summary.output.ranks.df a character string in a format that can pass through
 #' the DataSHIELD R parser which specifies an optional name for the summary
@@ -122,6 +122,13 @@
 #' If NA.manage is either "NA.low" or "NA.hi" the final rank vector in each
 #' study  will have the same length as the V2BR vector in that same study.
 #' 2.5,2.5,2.5,2.5. The default value of the "NA.manage" argument is "NA.delete"
+#' @param rm.residual.objects logical value. Default = TRUE: at the beginning
+#' and end of each run of ds.ranksSecure delete all extraneous objects that are
+#' otherwise left behind. These are not usually needed, but could be of value
+#' if one were investigating a problem with the ranking. FALSE: do not delete
+#' the residual objects
+#' @param monitor.progress logical value. Default = FALSE. If TRUE, function
+#' outputs information about its progress.
 #' @param datasources specifies the particular opal object(s) to use. If the
 #' <datasources> argument is not specified (NULL) the default set of opals
 #' will be used. If <datasources> is specified, it should be set without
@@ -158,7 +165,9 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
                            generate.quantiles=TRUE,
                            output.ranks.df=NULL, summary.output.ranks.df = NULL,
                            ranks.sort.by="ID.orig", shared.seed.value=10, 
-                           synth.real.ratio=2,NA.manage="NA.delete",datasources=NULL){
+                           synth.real.ratio=2,NA.manage="NA.delete",
+                           rm.residual.objects=TRUE, monitor.progress=FALSE,
+                           datasources=NULL){
   
   # look for DS connections
   if(is.null(datasources)){
@@ -184,7 +193,7 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
 
   # look for output df names and provide defaults if required
   if(is.null(output.ranks.df)){
-  output.ranks.df<-"main.ranks.df"
+  output.ranks.df<-"full.ranks.df"
   }
 
   if(is.null(summary.output.ranks.df)){
@@ -194,6 +203,40 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
   if(is.null(synth.real.ratio)){
     synth.real.ratio<-10
   }
+ 
+#CLEAN UP RESIDUAL OBJECTS FROM PREVIOUS RUNS OF THE FUNCTION  
+  if(rm.residual.objects)
+  {
+  #UNLESS THE <rm.residual.objects> IS FALSE,
+  #CLEAR UP ANY UNWANTED RESIDUAL OBJECTS FROM THE
+  #PREVIOUS RUNNING OF THE ds.ranksSecure FUNCTION IN THE
+  #CASE THAT PREVIOUS CALL STOPPED PREMATURELY AND SO THE
+  #FINAL CLEARING UP STEP WAS NOT INITIATED.
+  
+  rm.names<-c("blackbox.output.df", "blackbox.ranks.df",
+             "global.bounds.df", "global.ranks.quantiles.df",
+             "input.mean.sd.df", "input.ranks.sd.df",
+             output.ranks.df, "min.max.df", "numstudies.df",
+             "sR4.df", "sR5.df")
+
+  #make transmittable via parser
+  rm.names.transmit <- paste(rm.names,collapse=",")
+  
+  calltext.rm <- call("rmDS", rm.names.transmit)
+  
+  rm.output <- DSI::datashield.aggregate(datasources, calltext.rm)
+  }
+
+  if(monitor.progress){
+cat("\n\nStep 1 of 8 complete:
+  Cleaned up residual output from
+  previous runs of ds.ranksSecure
+    
+    
+    ")
+    
+    
+    }
   
   #CALL AN INITIALISING SERVER SIDE FUNCTION (ASSIGN)
   #TO IDENTIFY QUANTILES OF ORIGINAL VARIABLES IN EACH STUDY
@@ -228,6 +271,15 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
   #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN VALUES TO SERVERSIDE
     dsBaseClient::ds.dmtC2S(dfdata=input.mean.sd.df,newobj="input.mean.sd.df")
 
+if(monitor.progress){
+cat("\n\nStep 2 of 8 complete:
+  Estimated mean and sd of
+  v2br to standardise initial values
+    
+    
+    ")
+  }
+    
 #CALL minMaxRandDS FUNCTION (AGGREGATE) TO CREATE MIN AND MAX VALUES
 #FOR INPUT VARIABLE WITH RANDOM NOISE ON TOP. ACTUAL VALUE DOESN'T
 #MATTER AS IT IS ONLY TO ALLOCATE LOW AND HIGH VALUES TO NA WHEN
@@ -255,14 +307,35 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
 #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN VALUES TO SERVERSIDE
 dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
     
-        
+if(monitor.progress){
+cat("\n\nStep 3 of 8 complete:
+  Generated ultra max and ultra min values to allocate to
+  missing values if <NA.manage> is NA.hi or NA.low
+    
+    
+    ")
+}
+
+print(input.mean.sd.df)
+
 
   #CALL THE FIRST SERVER SIDE FUNCTION (ASSIGN)
   #WRITES ENCRYPTED DATA TO SERVERSIDE OBJECT "blackbox.output.df"
-  calltext1 <- call("blackBoxDS", input.var.name=input.var.name, max.sd.input.var=input.mean.sd.df$max.sd.input.var,
-                    mean.input.var=input.mean.sd.df$mean.input.var,shared.seedval=shared.seed.value,synth.real.ratio,NA.manage)
+  calltext1 <- call("blackBoxDS", input.var.name=input.var.name, 
+                    #max.sd.input.var=input.mean.sd.df$max.sd.input.var,
+                    #mean.input.var=input.mean.sd.df$mean.input.var,
+                    shared.seedval=shared.seed.value,synth.real.ratio,NA.manage)
   DSI::datashield.assign(datasources, "blackbox.output.df", calltext1)
 
+if(monitor.progress){
+cat("\n\nStep 4 of 8 complete:
+  Pseudo data synthesised,first set of rank-consistent
+  transformations complete and blackbox.output.df created
+    
+    
+    ")
+  }
+  
   #CALL THE SECOND SERVER SIDE FUNCTION (AGGREGATE)
   #RETURN ENCRYPTED DATA IN "blackbox.output.df" TO CLIENTSIDE 
   calltext2 <- call("ranksSecureDS1")
@@ -287,10 +360,6 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   } 
   colnames(sR3.df)<-c(colnames(blackbox.output[[1]]),"studyid")
   
-  
-
-  
-  
   ord.global.val<-order(sR3.df$encrypted.var)
   sR3.df<-sR3.df[ord.global.val,]
   global.rank<-rank(sR3.df$encrypted.var)
@@ -303,7 +372,6 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
     sR4.df<-sR3.sort.global.val.df[sR3.sort.global.val.df$studyid==ss,]
     dsBaseClient::ds.dmtC2S(dfdata=sR4.df,newobj="sR4.df",
                             datasources = datasources.in.current.function[ss])
-    
   }
   
   numstudies.df<-data.frame(numstudies)
@@ -320,6 +388,15 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   DSI::datashield.assign(datasources,"sR5.df",calltext3)
 
   ds.make("sR5.df$global.rank","testvar.ranks")
+  
+if(monitor.progress){
+cat("\n\nStep 5 of 8 complete:
+  Global ranks generated and pseudodata stripped out. Now ready
+  to proceed to transformation of global ranks
+    
+    
+    ")
+  }
   
   input.ranks.name<-"testvar.ranks"
   
@@ -362,12 +439,20 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   #CONCEAL VALUES 
   
 
-  calltext4 <- call("blackBoxRanksDS","testvar.ranks", max.sd.input.ranks=input.ranks.sd.df$max.sd.input.ranks,
-                    mean.input.ranks=input.ranks.sd.df$mean.input.ranks,
-                    shared.seedval=shared.seed.value)
+  calltext4 <- call("blackBoxRanksDS","testvar.ranks",
+                          shared.seedval=shared.seed.value)
 
     DSI::datashield.assign(datasources, "blackbox.ranks.df", calltext4)
-  
+
+if(monitor.progress){
+cat("\n\nStep 6 of 8 complete:
+  Rank-consistent transformations of global ranks complete
+  and blackbox.ranks.df created
+    
+    
+    ")
+  }
+
   
   
   #CALL THE FIFTH SERVER SIDE FUNCTION (AGGREGATE)
@@ -423,15 +508,67 @@ dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
   
   calltext7 <- call("ranksSecureDS5", output.ranks.df)
   DSI::datashield.assign(datasources,summary.output.ranks.df, calltext7)
+
+  if(monitor.progress){
+cat("\n\nStep 7 of 8 complete:
+  Final global ranking of values in v2br complete and
+  written to each serverside as appropriate
+    
+    
+    ",summary.output.ranks.df)
+  }  
+
   
-  cat("\n\n\n\n################################################",
-      "\n################################################",
-      "\nPRIMARY RANKING OUTPUT IS IN DATA FRAME ",summary.output.ranks.df," SORTED BY ",ranks.sort.by,
-      "\n################################################",
-      "\n################################################")
   
+  #CLEAN UP UNWANTED RESIDUAL OBJECTS FROM THE RUNNING OF ds.ranksSecure
+  #EXCEPT FOR OBJECTS CREATED BY ds.extractQuantiles
+
+    if(rm.residual.objects)
+  {
+    #UNLESS THE <rm.residual.objects> IS FALSE,
+    #CLEAR UP ANY UNWANTED RESIDUAL OBJECTS
+    
+    rm.names.rS<-c("blackbox.output.df", "blackbox.ranks.df",
+                "global.ranks.quantiles.df","input.mean.sd.df", "input.ranks.sd.df",
+                output.ranks.df, "min.max.df", "numstudies.df",
+                "sR4.df", "sR5.df")
+
+    #make transmittable via parser
+    rm.names.rS.transmit <- paste(rm.names.rS,collapse=",")
+    
+    calltext.rm.rS <- call("rmDS", rm.names.rS.transmit)
+    
+#    rm.output.rS <- 
+      DSI::datashield.aggregate(datasources, calltext.rm.rS)
+    
+  }
+
+if(monitor.progress && rm.residual.objects){
+cat("\n\nStep 8 of 8 complete:
+  Cleaned up residual output from running ds.ranksSecure
+    
+    
+    ")
+  }
+
+  if(monitor.progress && !rm.residual.objects){
+    cat("\n\nStep 8 of 8 complete:
+  Residual output from running ds.ranksSecure NOT deleted
+        
+        
+        ")
+  }
+
+
+
 if(!generate.quantiles){
-  info.message<-"As the argument <generate.quantiles> was set to FALSE no quantiles have been estimated.\n\n Please set argument to TRUE if you want to estimate quantiles such as median, quartiles and 90th percentile"
+  cat("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
+  PRIMARY RANKING OUTPUT IS IN DATA FRAME",summary.output.ranks.df,
+      "
+  WHICH IS SORTED BY",ranks.sort.by," AND HAS BEEN
+  WRITTEN TO THE SERVERSIDE\n\n\n\n")
+
+    info.message<-"As the argument <generate.quantiles> was set to FALSE no quantiles have been estimated.Please set argument to TRUE if you want to estimate quantiles such as median, quartiles and 90th percentile"
   cat("\n\n",info.message,"\n\n")
     return(info.message)
   }
@@ -439,12 +576,12 @@ if(!generate.quantiles){
 final.quantile.df<-
   ds.extractQuantiles(       
               quantiles.for.estimation,
-              output.ranks.df,
               summary.output.ranks.df,
               ranks.sort.by,
+              rm.residual.objects,
               extract.datasources=NULL)
   
-  return(list(final.quantile.df=final.quantile.df))
+  return(final.quantile.df)
 }
 
 ##########################################
