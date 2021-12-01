@@ -66,8 +66,6 @@ Server function called: \code{isValidDS}
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
 
-
-
 }
 
 }

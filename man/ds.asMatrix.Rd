@@ -21,8 +21,7 @@ the default set of connections will be used: see \code{\link{datashield.connecti
 \code{ds.asMatrix} returns the object converted into a matrix 
 that is written to the server-side. Also, two validity messages are returned
 to the client-side indicating the name of the \code{newobj} which 
-has been created in each data source and if 
-it is in a valid form.
+has been created in each data source and if it is in a valid form.
 }
 \description{
 Coerces an R object into a matrix. 
@@ -30,8 +29,8 @@ This converts all columns into character class.
 }
 \details{
 This function is based on the native R function \code{as.matrix}. 
-If this function is applied to a data frame,  all columns are converted into a character class.
- If you wish to convert a data frame to a matrix but maintain all data columns in their
+If this function is applied to a data frame, all columns are converted into a character class.
+If you wish to convert a data frame to a matrix but maintain all data columns in their
 original class you should use the function \code{ds.asDataMatrix}. 
 
 Server function called: \code{asMatrixDS}

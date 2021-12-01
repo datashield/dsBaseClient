@@ -23,7 +23,7 @@ Retrieves the class of an R object.
 \details{
 Same as the native R function \code{class}.
 
-Server function called: \code{class}
+Server function called: \code{classDS}
 }
 \examples{
 \dontrun{

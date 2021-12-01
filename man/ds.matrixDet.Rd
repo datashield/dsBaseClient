@@ -34,8 +34,7 @@ possible if the number of columns and rows of the matrix are the same.
 }
 \details{
 Calculates the determinant of a square matrix on the server-side.
-This function is similar to the native R \code{determinant} function. 
-
+This function is similar to the native R \code{determinant} function.
 
 Server function called: \code{matrixDetDS2}
 }

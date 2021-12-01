@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.recodeLevels::smk")
 test_that("new levels", {
-    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new')
+    expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new'), "'ds.recodeLevels' is deprecated.\nUse 'ds.recodeValues' instead.", fixed = TRUE)
     levels <- ds.levels(x='bmi_new')
 
     expected <- c("normal", "overweight", "obesity")
@@ -41,7 +41,7 @@ test_that("new levels", {
 
 context("ds.recodeLevels::smk::no connections or newobj")
 test_that("new levels auto", {
-    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'))
+    expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity')), "'ds.recodeLevels' is deprecated.\nUse 'ds.recodeValues' instead.", fixed = TRUE)
     levels <- ds.levels(x='PM_BMI_CATEGORICAL_new')
 
     expected <- c("normal", "overweight", "obesity")

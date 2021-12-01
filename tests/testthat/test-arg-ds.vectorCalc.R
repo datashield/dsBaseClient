@@ -21,7 +21,7 @@ connect.studies.dataset.survival(list("survtime"))
 context("ds.vectorCalc::arg::test errors")
 
 test_that("ds.vectorCalc erros", {
-    expect_error(ds.vectorCalc(), "x=NULL. Please provide the names of the objects to combine!", fixed=TRUE)
+    expect_error(expect_warning(ds.vectorCalc(), "'ds.vectorCalc' is deprecated.\nUse 'ds.make' instead.", fixed = TRUE), "x=NULL. Please provide the names of the objects to combine!", fixed=TRUE)
 })
 
 #

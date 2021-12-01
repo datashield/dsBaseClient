@@ -49,8 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: master
-
+    ref: v6.2-dev
 
 #########################################################################################
 # When and under what condition to run the pipeline.
@@ -72,7 +71,7 @@ jobs:
 - job: build_and_run_tests
   timeoutInMinutes: 150
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: ubuntu-20.04
 
 
   steps:
@@ -133,13 +132,13 @@ jobs:
   - bash: |
 
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
       sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -203,11 +202,11 @@ jobs:
   - bash: |
 
       # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet6-release-xenial.deb
-      sudo dpkg -i puppet6-release-xenial.deb
+      wget -nv https://apt.puppetlabs.com/puppet6-release-focal.deb
+      sudo dpkg -i puppet6-release-focal.deb
       sudo apt-get install -qq -f
       sudo apt-get update
-      sudo rm -f puppet6-release-xenial.deb
+      sudo rm -f puppet6-release-focal.deb
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
@@ -308,6 +307,38 @@ jobs:
 
 
     #####################################################################################
+    # Essentially run devtools::test() on the checked out code for discctrl reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  #- bash: |
+
+      # junit reporter output is to test_results_discctrl.xml
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_discctrl.txt
+
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
+
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
+
+
+    #####################################################################################
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
@@ -325,7 +356,8 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='master', dependencies = TRUE)"
+
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'

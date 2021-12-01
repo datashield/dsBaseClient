@@ -14,7 +14,7 @@
 
 context("ds.names::smk::setup")
 
-connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "DIS_DIAB", "PM_BMI_CONTINUOUS", "LAB_HDL", "GENDER"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))

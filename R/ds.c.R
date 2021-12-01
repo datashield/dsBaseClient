@@ -54,6 +54,7 @@
 #' }    
 #' @author DataSHIELD Development Team
 #' @export
+#' 
 ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -75,21 +76,8 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     newobj <- "c.newobj"
   }
 
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
   # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
+  lapply(x, function(k){isDefined(datasources, obj=k)})
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(x)){

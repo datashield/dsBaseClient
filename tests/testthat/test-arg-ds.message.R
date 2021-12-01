@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 context("ds.message::arg")
 test_that("request message for NULL", {
-    expect_error(ds.message(NULL), "Please provide the name of the studyside list object that holds the message\n in character format ie: 'object.name' in inverted commas", fixed=TRUE)
+    expect_error(expect_warning(ds.message(NULL), "'ds.message' is deprecated.", fixed = TRUE), "Please provide the name of the studyside list object that holds the message\n in character format ie: 'object.name' in inverted commas", fixed=TRUE)
 })
 
 #

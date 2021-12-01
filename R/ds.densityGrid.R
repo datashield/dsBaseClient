@@ -102,28 +102,14 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     stop("Please provide the name of the numeric vector 'y'!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x, y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(objects)){
-    typ <- checkClass(datasources, objects[i])
-  }
-
+  # call the internal function that checks the input objects are of the same class in all studies.
+  typ <- checkClass(datasources, x)
+  typ <- checkClass(datasources, y)
+  
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
 

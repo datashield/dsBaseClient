@@ -134,6 +134,10 @@ ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,a
   if(is.null(y.name)){
     stop("Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", call.=FALSE)
   }
+  
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x.name)
+  isDefined(datasources, y.name)
 
   # names of columns to merge on (may be more than one)
   if(is.null(by.x.names)){
@@ -150,7 +154,7 @@ ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,a
 
   # suffixes
   if(is.null(suffixes)){
-    stop("Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y/))", call.=FALSE)
+    stop("Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y'))", call.=FALSE)
   }
   
 	# make transmittable via parser

@@ -27,7 +27,7 @@ test_that("setup", {
 context("ds.changeRefGroup::smk")
 test_that("simple changeRefGroup", {
     newNames <- c('normal', 'overweight', 'obesity')
-    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+    expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new'), "'ds.recodeLevels' is deprecated.\nUse 'ds.recodeValues' instead.", fixed = TRUE)
 
     res <- ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
 

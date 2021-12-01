@@ -45,7 +45,7 @@
 #' created but grids with low counts are replaced with grids with zero counts. If \code{method} is
 #' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
 #' original variables is created, where the value of \code{k} is set by the user. If the
-#' \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated. 
+#' \code{method} is set to \code{'probabilistic'}, then the contour of 'noisy' variables is generated. 
 #' @param k the number of the nearest neighbours for which their centroid is calculated. For more information
 #' see details. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
@@ -100,6 +100,7 @@
 #'
 #' }
 #' @export
+#' 
 ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
 
   # look for DS connections
@@ -118,28 +119,10 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   if(is.null(y)){
     stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
-
-  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
-  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
-  }
-
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x, y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
+  
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -154,10 +137,13 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     message(paste0(y, " is of type ", typ.y, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
+  
+  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
+  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
+    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+  }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
+  # extract the variable names to be used as labels in the plot
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

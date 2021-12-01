@@ -81,19 +81,12 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
+  if (! all(type %in% c("combine", "split"))) {
+    stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
   }
+
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -112,7 +105,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   cally2 <- call('lengthDS', x)
   lengths <- DSI::datashield.aggregate(datasources, cally2)
   cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, cally3)
+  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
@@ -133,7 +126,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     if(type=="split"){
       return(quants)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
     }
   }
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmSummary.R
 \name{ds.glmSummary}
 \alias{ds.glmSummary}
-\title{summarize a glm object on the serverside}
+\title{Summarize a glm object on the serverside}
 \usage{
 ds.glmSummary(x.name, newobj = NULL, datasources = NULL)
 }
@@ -36,7 +36,7 @@ appropriate call will be datasources=connections.xyz[c(1,3)]}
 }
 \value{
 ds.glmSummary writes a new object to the serverside with name given by
-the newobj argument or if that argument is missing or null it is called "summary_glm".
+the newobj argument or if that argument is missing or null it is called "summary_glm.newobj".
 In addition, ds.glmSummary returns an object containing two lists to the clientside
 the two lists are named "glm.obj" and "glm.summary.obj" which contain all of the
 elements of the original glm object and the summary_glm object on the serverside
@@ -53,7 +53,7 @@ For further information see help for glm and summary(glm) in native R
 and for ds.glmSLMA in DataSHIELD.
 }
 \description{
-summarize a glm object on the serverside to create a 
+Summarize a glm object on the serverside to create a 
 summary_glm object. Also identify and return components of 
 both the glm object and the summary_glm object
 that can safely be sent to the clientside without a risk of disclosure

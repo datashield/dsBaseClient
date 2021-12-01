@@ -94,7 +94,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
   }else{
-    defined <- isDefined(datasources, x)
+    isDefined(datasources, x)
   }
 
   # check the type of the input objects
@@ -104,7 +104,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
     if(is.null(y)){
       stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
     }else{
-      defined2 <- isDefined(datasources, y)
+      isDefined(datasources, y)
       typ2 <- checkClass(datasources, y)
     }
   }
@@ -189,7 +189,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
 	    n4 <- "Correlation Matrix"
 	    names(results) <- c(n1, n2, n3, n4)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
     }
   }
 
