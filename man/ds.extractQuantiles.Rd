@@ -7,9 +7,9 @@ to estimate global quantiles across all studies}
 \usage{
 ds.extractQuantiles(
   extract.quantiles,
-  extract.output.ranks.df,
   extract.summary.output.ranks.df,
   extract.ranks.sort.by,
+  extract.rm.residual.objects,
   extract.datasources = NULL
 )
 }
@@ -27,19 +27,6 @@ all allowable quantiles in between. The allowable argument values are then:
 "0.025-0.975", "0.05-0.95", "0.10-0.90", "0.20-0.80". Two alternative values
 are "quartiles" i.e. c(0.25,0.50,0.75), and "median" i.e. c(0.50). The
 default value is "0.05-0.95". For more details, see the associated document
-"secure.global.ranking.docx". Also see the header file for ds.ranksSecure.}
-
-\item{extract.output.ranks.df}{a character string which specifies an optional
-name for the data.frame written to the serverside on each data source that
-contains 11 of the key output variables from the ranking procedure pertaining
-to that particular data source. This data frame represents the key source of
-information - including global ranks - that determines the values of V2BR
-that are identified as corresponding to the set of quantiles specified
-by the argument <extract.quantiles>. The value of the extract.output.ranks.df
-argument is set in choosing the value of the argument <output.ranks.df>
-in ds.ranksSecure. If no name has been specified by the argument
-<output.ranks.df> in ds.ranksSecure, the default name is allocated as
-"main.ranks.df". For more details, see the associated document
 "secure.global.ranking.docx". Also see the header file for ds.ranksSecure.}
 
 \item{extract.summary.output.ranks.df}{a character string which specifies 
@@ -62,6 +49,12 @@ These are "ID.orig" and "vals.orig". This is set via the argument
 <ranks.sort.by> in ds.ranksSecure. For more details see the associated
 document entitled "secure.global.ranking.docx". Also see the header
 file for ds.ranksSecure.}
+
+\item{extract.rm.residual.objects}{logical value. Default = TRUE: at the beginning
+and end of each run of ds.ranksSecure delete all extraneous objects that are
+otherwise left behind. These are not usually needed, but could be of value
+if one were investigating a problem with the ranking. FALSE: do not delete
+the residual objects}
 
 \item{extract.datasources}{specifies the particular opal object(s) to use.
 This is set via the argument<datasources> in ds.ranksSecure. For more details

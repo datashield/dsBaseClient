@@ -14,6 +14,8 @@ ds.ranksSecure(
   shared.seed.value = 10,
   synth.real.ratio = 2,
   NA.manage = "NA.delete",
+  rm.residual.objects = TRUE,
+  monitor.progress = FALSE,
   datasources = NULL
 )
 }
@@ -69,7 +71,7 @@ data.frame written to the serverside on each data source that contains
 particular data source. This includes the global ranks and quantiles of each
 value of the V2BR (i.e. the values are ranked across all studies
 simultaneously). If no name is specified, the default name
-is allocated as "main.ranks.df". This data.frame contains disclosive
+is allocated as "full.ranks.df". This data.frame contains disclosive
 information and cannot therefore be passed to the clientside.}
 
 \item{summary.output.ranks.df}{a character string in a format that can pass through
@@ -134,6 +136,15 @@ V2BR values and 9 are missing the highest 9 ranks will be 996, 996 ... 996.
 If NA.manage is either "NA.low" or "NA.hi" the final rank vector in each
 study  will have the same length as the V2BR vector in that same study.
 2.5,2.5,2.5,2.5. The default value of the "NA.manage" argument is "NA.delete"}
+
+\item{rm.residual.objects}{logical value. Default = TRUE: at the beginning
+and end of each run of ds.ranksSecure delete all extraneous objects that are
+otherwise left behind. These are not usually needed, but could be of value
+if one were investigating a problem with the ranking. FALSE: do not delete
+the residual objects}
+
+\item{monitor.progress}{logical value. Default = FALSE. If TRUE, function
+outputs information about its progress.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the
 <datasources> argument is not specified (NULL) the default set of opals
