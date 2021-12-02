@@ -55,6 +55,8 @@ true qlobal quantiles across all data sources simultaneously</p>
   shared.seed.value <span class="op">=</span> <span class="fl">10</span>,
   synth.real.ratio <span class="op">=</span> <span class="fl">2</span>,
   NA.manage <span class="op">=</span> <span class="st">"NA.delete"</span>,
+  rm.residual.objects <span class="op">=</span> <span class="cn">TRUE</span>,
+  monitor.progress <span class="op">=</span> <span class="cn">FALSE</span>,
   datasources <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
@@ -113,7 +115,7 @@ data.frame written to the serverside on each data source that contains
 particular data source. This includes the global ranks and quantiles of each
 value of the V2BR (i.e. the values are ranked across all studies
 simultaneously). If no name is specified, the default name
-is allocated as "main.ranks.df". This data.frame contains disclosive
+is allocated as "full.ranks.df". This data.frame contains disclosive
 information and cannot therefore be passed to the clientside.</p></dd>
 <dt>summary.output.ranks.df</dt>
 <dd><p>a character string in a format that can pass through
@@ -178,6 +180,15 @@ V2BR values and 9 are missing the highest 9 ranks will be 996, 996 ... 996.
 If NA.manage is either "NA.low" or "NA.hi" the final rank vector in each
 study  will have the same length as the V2BR vector in that same study.
 2.5,2.5,2.5,2.5. The default value of the "NA.manage" argument is "NA.delete"</p></dd>
+<dt>rm.residual.objects</dt>
+<dd><p>logical value. Default = TRUE: at the beginning
+and end of each run of ds.ranksSecure delete all extraneous objects that are
+otherwise left behind. These are not usually needed, but could be of value
+if one were investigating a problem with the ranking. FALSE: do not delete
+the residual objects</p></dd>
+<dt>monitor.progress</dt>
+<dd><p>logical value. Default = FALSE. If TRUE, function
+outputs information about its progress.</p></dd>
 <dt>datasources</dt>
 <dd><p>specifies the particular opal object(s) to use. If the
 &lt;datasources&gt; argument is not specified (NULL) the default set of opals
