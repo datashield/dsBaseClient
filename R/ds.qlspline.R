@@ -1,6 +1,6 @@
 #' 
 #' @title Basis for a piecewise linear spline with meaningful coefficients
-#' @description This function is based on the native R function \code{lspline} from the
+#' @description This function is based on the native R function \code{qlspline} from the
 #' \code{lspline} package. This function computes the basis of piecewise-linear spline
 #' such that, depending on the argument marginal, the coefficients can be interpreted as
 #' (1) slopes of consecutive spline segments, or (2) slope change at consecutive knots.
@@ -8,21 +8,29 @@
 #' slopes of the consecutive segments. If it is TRUE the first coefficient correspond to
 #' the slope of the first segment. The consecutive coefficients correspond to the change
 #' in slope as compared to the previous segment.
+#' Function qlspline wraps lspline and calculates the knot positions to be at quantiles
+#' of x. If q is a numerical scalar greater or equal to 2, the quantiles are computed at 
+#' seq(0, 1, length.out = q + 1)[-c(1, q+1)], i.e. knots are at q-tiles of the distribution
+#' of x. Alternatively, q can be a vector of values in [0; 1] specifying the quantile
+#' probabilities directly (the vector is passed to argument probs of quantile).
 #' @param x the name of the input numeric variable
-#' @param knots numeric vector of knot positions
+#' @param q numeric, a single scalar greater or equal to 2 for a number of equal-frequency
+#' intervals along x or a vector of numbers in (0; 1) specifying the quantiles explicitely.
+#' @param na.rm logical, whether NA should be removed when calculating quantiles, passed
+#' to na.rm of quantile. Default set to TRUE
 #' @param marginal logical, how to parametrize the spline, see Details
 #' @param names character, vector of names for constructed variables
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{lspline.newobj}. 
+#' variable that is stored on the data servers. Default \code{qlspline.newobj}. 
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return an object of class "lspline" and "matrix", which its name is specified by the
-#' \code{newobj} argument (or its default name "lspline.newobj"), is assigned on the serverside.
+#' \code{newobj} argument (or its default name "qlspline.newobj"), is assigned on the serverside.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
 #'
-ds.lspline <- function(x, knots = NULL, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
+ds.qlspline <- function(x, q, na.rm = TRUE, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
   
   # look for DS connections
   if(is.null(datasources)){
@@ -41,17 +49,17 @@ ds.lspline <- function(x, knots = NULL, marginal = FALSE, names = NULL, newobj =
   # check if the input object is defined in all the studies
   defined <- isDefined(datasources, x)
   
-  if(is.null(knots)){
-    stop("Please provide a vector of knots!", call.=FALSE)
+  if(is.null(q)){
+    stop("Argument 'q' is missing, with no default!", call.=FALSE)
   }
   
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
-    newobj <- "lspline.newobj"
+    newobj <- "qlspline.newobj"
   }
   
   # now do the business
-  calltext <- call("lsplineDS", x, knots, marginal, names)
+  calltext <- call("qlsplineDS", x, q, na.rm, marginal, names)
   DSI::datashield.assign(datasources, newobj, calltext)
   
 }
