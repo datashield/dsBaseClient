@@ -124,6 +124,9 @@
     <loc>/reference/ds.dmtC2S.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.elspline.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.exists.html</loc>
   </url>
   <url>
@@ -152,6 +155,9 @@
   </url>
   <url>
     <loc>/reference/ds.heatmapPlot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.hetcor.html</loc>
   </url>
   <url>
     <loc>/reference/ds.histogram.html</loc>
@@ -202,6 +208,9 @@
     <loc>/reference/ds.ls.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.lspline.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.make.html</loc>
   </url>
   <url>
@@ -250,7 +259,13 @@
     <loc>/reference/ds.names.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.ns.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.numNA.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.qlspline.html</loc>
   </url>
   <url>
     <loc>/reference/ds.quantileMean.html</loc>
