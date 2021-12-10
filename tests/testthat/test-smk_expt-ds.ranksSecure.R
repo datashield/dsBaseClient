@@ -77,9 +77,8 @@ test_that("continous, with NAs, with negative", {
 context("ds.ranksSecure::smk_expt::shutdown")
 
 test_that("setup", {
-    ds_expect_variables(c("D", "CC_LAB_TSC", "CC_LAB_TRIG",
-                          "final.quantile.df", "blackbox.output.df", "blackbox.ranks.df", "global.bounds.df", "global.ranks.quantiles.df", "input.mean.sd.df", "input.ranks.sd.df",
-                          "main.ranks.df", "min.max.df", "numstudies.df", "sR4.df", "sR5.df", "summary.ranks.df", "testvar.ranks"))
+    print(ds.ls())
+    ds_expect_variables(c("D", "CC_LAB_TSC", "CC_LAB_TRIG", "final.quantile.df", "summary.ranks.df", "testvar.ranks"))
 })
 
 disconnect.studies.dataset.cnsim()
