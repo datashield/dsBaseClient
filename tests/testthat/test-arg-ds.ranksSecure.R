@@ -52,9 +52,9 @@ test_that("NULL variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors[[1]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, \n    mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")' failed on 'study1': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[2]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, \n    mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")' failed on 'study2': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[3]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, \n    mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")' failed on 'study3': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", max.sd.input.var = NA_real_, mean.input.var = NA_real_, shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[1]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study1': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study2': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study3': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
 })
 
 context("ds.ranksSecure::arg::'text' variable")
@@ -74,6 +74,18 @@ test_that("'logical' variable", {
     expect_error(ds.ranksSecure("D$LOGICAL"), "FAILED: one of the extreme quantile estimates is NA probably because of a cluster of values at one end of the range of possible values. Try setting a narrower range of quantile values via the <quantiles.for.estimation> argument", fixed = TRUE)
 })
 
+context("ds.ranksSecure::arg::'integer factor' variable")
+test_that("'integer factor' variable", {
+    expect_error(expect_warning(ds.ranksSecure("D$INTEGER_FACTOR"), "no non-missing arguments to max; returning -Inf", fixed = TRUE), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_equal(res.errors[[1]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study1': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study2': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study3': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+})
+
 #
 # Done
 #
@@ -81,9 +93,7 @@ test_that("'logical' variable", {
 context("ds.ranksSecure::arg::shutdown")
 
 test_that("setup", {
-    ds_expect_variables(c("D", "LAB_NULL",
-                          "blackbox.output.df", "blackbox.ranks.df", "global.bounds.df", "global.ranks.quantiles.df", "input.mean.sd.df", "input.ranks.sd.df",
-                          "main.ranks.df", "min.max.df", "numstudies.df", "sR4.df", "sR5.df", "summary.ranks.df", "testvar.ranks"))
+    ds_expect_variables(c("D", "LAB_NULL", "input.mean.sd.df", "min.max.df", "summary.ranks.df", "testvar.ranks"))
 })
 
 disconnect.all.datasets()
