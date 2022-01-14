@@ -15,7 +15,7 @@
 #' probabilities directly (the vector is passed to argument probs of quantile).
 #' @param x the name of the input numeric variable
 #' @param q numeric, a single scalar greater or equal to 2 for a number of equal-frequency
-#' intervals along x or a vector of numbers in (0; 1) specifying the quantiles explicitely.
+#' intervals along x or a vector of numbers in (0; 1) specifying the quantiles explicitly.
 #' @param na.rm logical, whether NA should be removed when calculating quantiles, passed
 #' to na.rm of quantile. Default set to TRUE
 #' @param marginal logical, how to parametrize the spline, see Details
