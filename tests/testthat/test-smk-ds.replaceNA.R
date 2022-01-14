@@ -26,7 +26,8 @@ test_that("setup", {
 
 context("ds.replaceNA::smk")
 test_that("simple replaceNA", {
-    res1 <- ds.replaceNA(x='D$LAB_HDL', forNA=c(1.0, 2.0, 3.0), newobj="newobj1")
+    res1 <- expect_error(ds.replaceNA(x='D$LAB_HDL', forNA=c(1.0, 2.0, 3.0), newobj="newobj1"))
+    print(DSI::datashield.errors())
     expect_length(res1, 0)
 
     res2 <- ds.replaceNA(x='D$LAB_TRIG', forNA=c(1.0, 2.0, 3.0), newobj="newobj2")
