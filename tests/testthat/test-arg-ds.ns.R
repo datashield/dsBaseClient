@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -27,6 +27,7 @@ test_that("setup", {
 context("ds.ns::arg::test errors")
 test_that("ns_errors", {
     expect_error(ds.ns(), "argument \"x\" is missing, with no default", fixed=TRUE)
+    expect_error(ds.qlspline(x=NULL), "Please provide the name of the input variable x!", fixed=TRUE)
 })
 
 #
