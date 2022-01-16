@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -29,6 +29,7 @@ test_that("qlspline_errors", {
     expect_error(ds.qlspline(), "argument \"x\" is missing, with no default", fixed=TRUE)
     expect_error(ds.qlspline(x=NULL), "Please provide the name of the input variable x!", fixed=TRUE)
     expect_error(ds.qlspline(x='D$PM_BMI_CONTINUOUS'), "argument \"q\" is missing, with no default", fixed=TRUE)
+    expect_error(ds.qlspline(x='D$PM_BMI_CONTINUOUS', q=NULL), "Argument 'q' is missing, with no default!", fixed=TRUE)
 })
 
 #
