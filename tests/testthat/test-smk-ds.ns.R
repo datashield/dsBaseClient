@@ -27,23 +27,23 @@ test_that("setup", {
 context("ds.ns::smk::test1")
 test_that("ns", {
    
-    ds.ns(x="D$PM_BMI_CONTINUOUS", knots=c(15,25,35), newobj="nsDS", datasources=connections)
+    ds.ns(x="D$PM_BMI_CONTINUOUS", knots=c(15,25,35), newobj="nsDS", datasources=ds.test_env$connections)
 
-    res.class <- ds.class("nsDS", datasources=connections)
+    res.class <- ds.class("nsDS", datasources=ds.test_env$connections)
 
     expect_length(res.class, 3)
-    expect_equal(res.class$study1[1], "ns")
-    expect_equal(res.class$study1[2], "basis")
-    expect_equal(res.class$study1[3], "matrix")
-    expect_equal(res.class$study2[1], "ns")
-    expect_equal(res.class$study2[2], "basis")
-    expect_equal(res.class$study2[3], "matrix")
-    expect_equal(res.class$study3[1], "ns")
-    expect_equal(res.class$study3[2], "basis")
-    expect_equal(res.class$study3[3], "matrix")
+    expect_equal(res.class$sim1[1], "ns")
+    expect_equal(res.class$sim1[2], "basis")
+    expect_equal(res.class$sim1[3], "matrix")
+    expect_equal(res.class$sim2[1], "ns")
+    expect_equal(res.class$sim2[2], "basis")
+    expect_equal(res.class$sim2[3], "matrix")
+    expect_equal(res.class$sim3[1], "ns")
+    expect_equal(res.class$sim3[2], "basis")
+    expect_equal(res.class$sim3[3], "matrix")
     
     
-    res.mod <- ds.glm(formula = "D$LAB_TRIG~nsDS", family='gaussian', datasources=connections)
+    res.mod <- ds.glm(formula = "D$LAB_TRIG~nsDS", family='gaussian', datasources=ds.test_env$connections)
     
     expect_length(res.mod, 13)
     expect_equal(res.mod$Nvalid, 7477)
@@ -88,7 +88,7 @@ test_that("ns", {
 context("ds.ns::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "LAB_TRIG", "nsDS"))
 })
 
 disconnect.studies.dataset.cnsim()
