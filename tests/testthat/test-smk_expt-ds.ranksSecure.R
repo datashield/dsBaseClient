@@ -77,7 +77,6 @@ test_that("continous, with NAs, with negative", {
 context("ds.ranksSecure::smk_expt::shutdown")
 
 test_that("setup", {
-    print(ds.ls())
     ds_expect_variables(c("D", "CC_LAB_TSC", "CC_LAB_TRIG", "final.quantile.df", "summary.ranks.df", "testvar.ranks"))
 })
 
