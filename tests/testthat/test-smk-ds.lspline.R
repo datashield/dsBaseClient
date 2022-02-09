@@ -27,19 +27,19 @@ test_that("setup", {
 context("ds.lspline::smk::test1")
 test_that("lspline", {
    
-    ds.lspline(x="D$PM_BMI_CONTINUOUS", knots=c(15,25,35), newobj="lsplineDS", datasources=connections)
+    ds.lspline(x="D$PM_BMI_CONTINUOUS", knots=c(15,25,35), newobj="lsplineDS", datasources=ds.test_env$connections)
 
-    res.class <- ds.class("lsplineDS", datasources=connections)
+    res.class <- ds.class("lsplineDS", datasources=ds.test_env$connections)
 
     expect_length(res.class, 3)
-    expect_equal(res.class$study1[1], "lspline")
-    expect_equal(res.class$study1[2], "matrix")
-    expect_equal(res.class$study2[1], "lspline")
-    expect_equal(res.class$study2[2], "matrix")
-    expect_equal(res.class$study3[1], "lspline")
-    expect_equal(res.class$study3[2], "matrix")
+    expect_equal(res.class$sim1[1], "lspline")
+    expect_equal(res.class$sim1[2], "matrix")
+    expect_equal(res.class$sim2[1], "lspline")
+    expect_equal(res.class$sim2[2], "matrix")
+    expect_equal(res.class$sim3[1], "lspline")
+    expect_equal(res.class$sim3[2], "matrix")
     
-    res.mod <- ds.glm(formula = "D$LAB_TRIG~lsplineDS", family='gaussian', datasources=connections)
+    res.mod <- ds.glm(formula = "D$LAB_TRIG~lsplineDS", family='gaussian', datasources=ds.test_env$connections)
     
     expect_length(res.mod, 13)
     expect_equal(res.mod$Nvalid, 7477)
@@ -84,7 +84,7 @@ test_that("lspline", {
 context("ds.lspline::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "LAB_TRIG", "lsplineDS"))
 })
 
 disconnect.studies.dataset.cnsim()

@@ -8,5 +8,6 @@
 ^azure-pipelines_check\.Rout$
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$
+^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$

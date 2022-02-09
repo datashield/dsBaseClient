@@ -145,7 +145,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     # if the input vector is within a table structure append the new vector to that table
     inputElts <- extract(x)
     if(!(is.na(inputElts[[1]]))){
-      cally <-  paste0("cbindDS(", inputElts[[1]], ",", newobj, ")")
+      cally <-  paste0("cbind(", inputElts[[1]], ",", newobj, ")")
       DSI::datashield.assign(datasources[i], inputElts[[1]], as.symbol(cally))
     }
   }
