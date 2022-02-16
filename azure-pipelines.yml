@@ -215,7 +215,7 @@ jobs:
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
 
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --verbose --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
     displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
