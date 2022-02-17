@@ -209,9 +209,9 @@ jobs:
       sudo rm -f puppet7-release-focal.deb
 
       echo "****** Contents of / ******"
-      ls -la /
+      sudo ls -la /
       echo "****** Contents of /root/ ******"
-      ls -la /root/
+      sudo ls -la /root/
       echo "******"
 
       sudo apt-get install puppet-agent -y
@@ -224,9 +224,9 @@ jobs:
       sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --verbose --environment datashield_azurepipelines --environmentpath puppet/environments
 
       echo "****** Contents of / ******"
-      ls -la /
+      sudo ls -la /
       echo "****** Contents of /root ******"
-      ls -la /root/
+      sudo ls -la /root/
       echo "******"
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
