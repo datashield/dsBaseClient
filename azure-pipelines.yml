@@ -208,12 +208,6 @@ jobs:
       sudo apt-get update
       sudo rm -f puppet7-release-focal.deb
 
-      echo "****** Contents of / ******"
-      sudo ls -la /
-      echo "****** Contents of /root/ ******"
-      sudo ls -la /root/
-      echo "******"
-
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
 
@@ -221,13 +215,7 @@ jobs:
       sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
       popd
 
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --verbose --environment datashield_azurepipelines --environmentpath puppet/environments
-
-      echo "****** Contents of / ******"
-      sudo ls -la /
-      echo "****** Contents of /root ******"
-      sudo ls -la /root/
-      echo "******"
+      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
     displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
