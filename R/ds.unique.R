@@ -57,7 +57,7 @@ ds.unique <- function(x.name = NULL, newobj = NULL, datasources = NULL) {
     }
 
     if (is.null(x.name)) {
-        stop("x=NULL. Please provide the names of the objects to concatenate!", call. = FALSE)
+        stop("x.name=NULL. Please provide the names of the objects to de-duplicated!", call. = FALSE)
     }
 
     # create a name by default if user did not provide a name for the new variable
