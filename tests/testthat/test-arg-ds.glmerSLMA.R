@@ -27,16 +27,10 @@ test_that("setup", {
 context("ds.glmerSLMA::arg::testing")
 test_that("simple glmerSLMA tesing (mis)use of arguments", {
     expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), " Please provide a valid 'family' argument!", fixed=TRUE)
-    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D', family = 'poisson'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
-
-    errs <- datashield.errors()
-    expect_length(errs, 3)
-    expect_length(errs$sim1, 0)
-    expect_length(errs$sim2, 0)
-    expect_length(errs$sim3, 0)
 
     expect_error(ds.glmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 
+    errs <- datashield.errors()
     expect_length(errs, 3)
     expect_length(errs$sim1, 0)
     expect_length(errs$sim2, 0)
