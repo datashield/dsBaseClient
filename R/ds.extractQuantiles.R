@@ -79,7 +79,7 @@
 #' anywhere in the DataSHIELD environment. For more details
 #' see the associated document entitled "secure.global.ranking.docx".
 #' @author Paul Burton 11th November, 2021
-#' @export
+
   ds.extractQuantiles <- function(extract.quantiles,
                                   extract.summary.output.ranks.df,
                                   extract.ranks.sort.by,
