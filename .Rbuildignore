@@ -9,3 +9,6 @@
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$
 ^docker-compose\.yml$
+^R/secure.global.ranking.md$
+^_pkgdown\.yml$
+^docs$

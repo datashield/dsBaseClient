@@ -127,7 +127,7 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
+ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
 
   if(is.null(x)){
     stop("Please provide the name of the x-variable", call.=FALSE)

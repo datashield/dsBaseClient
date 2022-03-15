@@ -138,7 +138,7 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
@@ -238,7 +238,7 @@ jobs:
   - bash: |
 
       # There is an issue with the way we are using packages. The wrapped up test command
-      # below fails in a way that implies that it is not installed. I cannot figure out 
+      # below fails in a way that implies that it is not installed. I cannot figure out
       # why this is case. As a work around we can run some of the functions below. My
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
@@ -247,7 +247,7 @@ jobs:
       #sudo R -e 'devtools::reload(".")'
       #sudo R -e 'library(dsBaseClient)'
       #sudo R -e 'devtools::check_built()'
-      #sudo R --verbose -e 'devtools::build()'      
+      #sudo R --verbose -e 'devtools::build()'
 
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
@@ -310,6 +310,38 @@ jobs:
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Check for errors & Failures in JUnit file'
     condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code for discctrl reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  #- bash: |
+
+      # junit reporter output is to test_results_discctrl.xml
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_discctrl.txt
+
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
+
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
 
 
     #####################################################################################
@@ -505,7 +537,7 @@ jobs:
       echo 'branch:'$(branchName) >> $(datetime).txt
       echo 'os:'$(lsb_release -ds) >> $(datetime).txt
       echo 'R:'$(R --version | head -n 1) >> $(datetime).txt
-      echo 'opal:'$(opal system --opal localhost:8080 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
+      echo 'opal:'$(opal system --opal localhost:8443 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
 
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Write versions to file'
