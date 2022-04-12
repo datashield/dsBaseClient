@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,17 +21,17 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context("ds.listServersideFunctions::smk::check results")
 test_that("check results", {
     assign.functions <- factor(c(
-      "BooleDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
-      "asFactorDS", "asFactorDS2", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
-      "asMatrixDS", "asNumericDS", "attach", "c", "cDS", "cbind",
+      "BooleDS", "absDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
+      "asFactorDS2", "asFactorSimpleDS", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
+      "asNumericDS", "attach", "cDS",
       "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",
-      "dataFrameSubsetDS2", "dataFrameDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
+      "dataFrameSubsetDS2", "dataFrameDS", "dmtC2SDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
       "lexisDS2", "lexisDS3", "list", "listDS", "log",
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS", "rep",
+      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS",
       "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
-      "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
+      "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS", "vectorDS"
     ))
     aggregate.functions <- factor(c(
       "NROW", "asFactorDS1", "asListDS",
@@ -46,7 +46,7 @@ test_that("check results", {
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
-      "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
+      "scoreVectDS", "setSeedDS", "t.test",
       "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
       "testObjExistsDS", "varDS"
     ))

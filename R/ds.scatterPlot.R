@@ -127,15 +127,10 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
+ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
 
   if(is.null(x)){
     stop("Please provide the name of the x-variable", call.=FALSE)
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
   if(is.null(y)){
@@ -147,22 +142,14 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
     datasources <- datashield.connections_find()
   }
 
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x, y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
+
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -178,9 +165,7 @@ ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
+  # get the axes labels
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

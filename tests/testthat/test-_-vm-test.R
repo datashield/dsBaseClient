@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -25,7 +25,7 @@ context("vm-test::_::tests::vm")
 
 test_that("The virtual machine is loaded. ",
 {
-    response <- httr::HEAD(url=ds.test_env$ping_address, config=config(timeout=5))
+    response <- httr::HEAD(url=ds.test_env$ping_address, config=ds.test_env$ping_config)
     expect_equal(http_status(response)$reason, "OK")
 })
 

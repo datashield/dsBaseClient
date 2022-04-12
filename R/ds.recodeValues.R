@@ -78,7 +78,8 @@
 #' }   
 #' @export
 #'
-ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, 
+                            missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -94,6 +95,9 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(is.null(var.name)){
     stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, var.name)
   
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
@@ -120,28 +124,18 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(any(is.na(values2replace.vector))){
     stop("To recode NAs you need to use the 'missing' argument", call.=FALSE)
   }
-
-#   # DETERMINE WHETHER new.values.vector CONTAINS NON-NUMERIC ELEMENTS (IF SO CAN ONLY GET NUMERIC OUTPUT
-#   # BY force.output.format="numeric" AND NON-NUMERICS WILL THEN BE SET AS NaN)
-# 
-# 	# is new.values.vector all NA?
-# 	nvv.all.NA <- (sum(is.na(new.values.vector))==length(new.values.vector))
-# 	nvv.numeric <- is.numeric(new.values.vector)
-# 
-#   numeric.output.format.possible <- (nvv.all.NA||nvv.numeric)
-# 
-#   # is values2replace.vector numeric?
-#   v2r.numeric <- is.numeric(values2replace.vector)
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){
     values2replace.transmit <- paste0(as.character(values2replace.vector), collapse=",")
-    new.values.transmit <- paste0(as.character(new.values.vector),collapse=",")
+    new.values.transmit <- paste0(as.character(new.values.vector), collapse=",")
   }else{
     values2replace.transmit <- NULL
     new.values.transmit <- NULL
   }
     
-  if(is.null(newobj)){newobj <- paste0(var.name, "_recoded")}
+  if(is.null(newobj)){
+    newobj <- paste0(var.name, "_recoded")
+  }
 
   calltext <- call("recodeValuesDS", var.name, values2replace.transmit, new.values.transmit, missing)
   DSI::datashield.assign(datasources, newobj, calltext)

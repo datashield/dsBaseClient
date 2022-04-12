@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -27,7 +27,7 @@ test_that("setup", {
 context("ds.changeRefGroup::smk")
 test_that("simple changeRefGroup", {
     newNames <- c('normal', 'overweight', 'obesity')
-    ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new')
+    expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new'), "'ds.recodeLevels' is deprecated.\nUse 'ds.recodeValues' instead.", fixed = TRUE)
 
     res <- ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
 

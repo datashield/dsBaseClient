@@ -49,8 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: master
-
+    ref: v6.2.0
 
 #########################################################################################
 # When and under what condition to run the pipeline.
@@ -62,10 +61,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2-dev
+    displayName: Nightly build - v6.2.0
     branches:
       include:
-      - v6.2-dev
+      - v6.2.0
     always: true
 
 jobs:
@@ -133,13 +132,13 @@ jobs:
   - bash: |
 
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/"
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
       sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table', 'panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -203,11 +202,11 @@ jobs:
   - bash: |
 
       # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet6-release-xenial.deb
-      sudo dpkg -i puppet6-release-xenial.deb
+      wget -nv https://apt.puppetlabs.com/puppet7-release-focal.deb
+      sudo dpkg -i puppet7-release-focal.deb
       sudo apt-get install -qq -f
       sudo apt-get update
-      sudo rm -f puppet6-release-xenial.deb
+      sudo rm -f puppet7-release-focal.deb
 
       sudo apt-get install puppet-agent -y
       sudo /opt/puppetlabs/puppet/bin/gem install r10k
@@ -233,7 +232,7 @@ jobs:
   - bash: |
 
       # There is an issue with the way we are using packages. The wrapped up test command
-      # below fails in a way that implies that it is not installed. I cannot figure out 
+      # below fails in a way that implies that it is not installed. I cannot figure out
       # why this is case. As a work around we can run some of the functions below. My
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
@@ -242,12 +241,12 @@ jobs:
       #sudo R -e 'devtools::reload(".")'
       #sudo R -e 'library(dsBaseClient)'
       #sudo R -e 'devtools::check_built()'
-      #sudo R --verbose -e 'devtools::build()'      
+      #sudo R --verbose -e 'devtools::build()'
 
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
       #sudo R --verbose -e 'devtools::install()'
-      sudo R --verbose -e 'devtools::check()'            
+      sudo R --verbose -e 'devtools::check()'
 
       pwd
       mkdir $(Pipeline.Workspace)/logs
@@ -308,6 +307,38 @@ jobs:
 
 
     #####################################################################################
+    # Essentially run devtools::test() on the checked out code for discctrl reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  #- bash: |
+
+      # junit reporter output is to test_results_discctrl.xml
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_discctrl.txt
+
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
+
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
+
+
+    #####################################################################################
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
@@ -325,6 +356,7 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
+
       sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='master', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -494,7 +526,7 @@ jobs:
       echo 'branch:'$(branchName) >> $(datetime).txt
       echo 'os:'$(lsb_release -ds) >> $(datetime).txt
       echo 'R:'$(R --version | head -n 1) >> $(datetime).txt
-      echo 'opal:'$(opal system --opal localhost:8080 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
+      echo 'opal:'$(opal system --opal localhost:8443 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
 
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Write versions to file'

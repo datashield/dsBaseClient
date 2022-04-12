@@ -5,8 +5,7 @@
 #' possible if the number of columns and rows of the matrix are the same.
 #' 
 #' @details Calculates the determinant of a square matrix on the server-side.
-#' This function is similar to the native R \code{determinant} function. 
-#' 
+#' This function is similar to the native R \code{determinant} function.
 #' 
 #' Server function called: \code{matrixDetDS2}
 #' @param M1  a character string specifying the name of the matrix. 
@@ -98,24 +97,23 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
   if(is.null(M1)){
     return("Error: Please provide the name of the matrix representing M1")
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, M1)
 
   # if no value or invalid value specified for logarithm, then specify a default
-  if(is.null(logarithm))
-  {
-  logarithm<-FALSE
+  if(is.null(logarithm)){
+    logarithm<-FALSE
   }
 
-  if(logarithm!=TRUE)
-  {
-  logarithm<-FALSE
+  if(logarithm!=TRUE){
+    logarithm<-FALSE
   }
-
 
   # if no value specified for output object, then specify a default
   if(is.null(newobj)){
     newobj <- "matrixdet.newobj"
   }
-
 
   # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION
   calltext <- call("matrixDetDS2", M1, logarithm)

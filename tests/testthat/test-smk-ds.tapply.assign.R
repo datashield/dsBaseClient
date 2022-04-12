@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2014 OBiBa,
-#               2019-2021 University of Newcastle upon Tyne. All rights reserved.
+#               2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -38,10 +38,10 @@ test_that("simplest 'ds.tapply.assign', fun=mean", {
 
     res.length <- ds.length("fun_mean.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_mean.newobj in sim1`, 1)
-    expect_equal(res.length$`length of fun_mean.newobj in sim2`, 1)
-    expect_equal(res.length$`length of fun_mean.newobj in sim3`, 1)
-    expect_equal(res.length$`total length of fun_mean.newobj in all studies combined`, 3)
+    expect_equal(res.length$`length of fun_mean.newobj in sim1`, 2)
+    expect_equal(res.length$`length of fun_mean.newobj in sim2`, 2)
+    expect_equal(res.length$`length of fun_mean.newobj in sim3`, 2)
+    expect_equal(res.length$`total length of fun_mean.newobj in all studies combined`, 6)
 })
 
 context("ds.tapply.assign::smk::fun=sd")
@@ -54,10 +54,10 @@ test_that("simplest 'ds.tapply.assign', fun=sd", {
 
     res.length <- ds.length("fun_sd.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_sd.newobj in sim1`, 1)
-    expect_equal(res.length$`length of fun_sd.newobj in sim2`, 1)
-    expect_equal(res.length$`length of fun_sd.newobj in sim3`, 1)
-    expect_equal(res.length$`total length of fun_sd.newobj in all studies combined`, 3)
+    expect_equal(res.length$`length of fun_sd.newobj in sim1`, 2)
+    expect_equal(res.length$`length of fun_sd.newobj in sim2`, 2)
+    expect_equal(res.length$`length of fun_sd.newobj in sim3`, 2)
+    expect_equal(res.length$`total length of fun_sd.newobj in all studies combined`, 6)
 })
 
 context("ds.tapply.assign::smk::fun=sum")
@@ -70,10 +70,10 @@ test_that("simplest 'ds.tapply.assign', fun=sum", {
 
     res.length <- ds.length("fun_sum.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_sum.newobj in sim1`, 1)
-    expect_equal(res.length$`length of fun_sum.newobj in sim2`, 1)
-    expect_equal(res.length$`length of fun_sum.newobj in sim3`, 1)
-    expect_equal(res.length$`total length of fun_sum.newobj in all studies combined`, 3)
+    expect_equal(res.length$`length of fun_sum.newobj in sim1`, 2)
+    expect_equal(res.length$`length of fun_sum.newobj in sim2`, 2)
+    expect_equal(res.length$`length of fun_sum.newobj in sim3`, 2)
+    expect_equal(res.length$`total length of fun_sum.newobj in all studies combined`, 6)
 })
 
 context("ds.tapply.assign::smk::fun=quantile")
@@ -86,10 +86,10 @@ test_that("simplest 'ds.tapply.assign', fun=quantile", {
 
     res.length <- ds.length("fun_quantile.newobj")
     expect_length(res.length, 4)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim1`, 1)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim2`, 1)
-    expect_equal(res.length$`length of fun_quantile.newobj in sim3`, 1)
-    expect_equal(res.length$`total length of fun_quantile.newobj in all studies combined`, 3)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim1`, 2)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim2`, 2)
+    expect_equal(res.length$`length of fun_quantile.newobj in sim3`, 2)
+    expect_equal(res.length$`total length of fun_quantile.newobj in all studies combined`, 6)
 })
 
 #

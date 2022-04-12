@@ -54,6 +54,7 @@
 #'   datashield.logout(connections)
 #'
 #' }
+#' 
 ds.isNA <- function(x=NULL, datasources=NULL){
 
   # look for DS connections
@@ -70,19 +71,8 @@ ds.isNA <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -94,14 +84,18 @@ ds.isNA <- function(x=NULL, datasources=NULL){
 
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
+  
+  # name of the variable
+  xnames <- extract(x)
+  varname <- xnames$elements
 
   # keep of the results of the checks for each study
   track <- list()
 
-  # call server side function 'isNA.ds' to check, in each study, if the vector is empty
+  # call server side function 'isNaDS' to check, in each study, if the vector is empty
   for(i in 1: length(datasources)){
-    cally <- paste0("isNaDS(", x, ")")
-    out <- DSI::datashield.aggregate(datasources[i], as.symbol(cally))
+    cally <- call("isNaDS", x)
+    out <- DSI::datashield.aggregate(datasources[i], cally)
     if(out[[1]]){
       track[[i]] <- TRUE
       message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")
