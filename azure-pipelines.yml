@@ -49,7 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v6.2-dev
+    ref: v6.2.0
 
 #########################################################################################
 # When and under what condition to run the pipeline.
@@ -61,10 +61,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2-dev
+    displayName: Nightly build - v6.2.0
     branches:
       include:
-      - v6.2-dev
+      - v6.2.0
     always: true
 
 jobs:
@@ -368,7 +368,8 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
+
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.0', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'

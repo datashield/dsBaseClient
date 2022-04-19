@@ -18,6 +18,8 @@ services:
       RSERVE_HOST: rserver
       LOGGING_CONFIG: 'classpath:logback-file.xml'
       AUDIT_LOG_PATH: '/app/logs/audit.log'
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: 'https://auth.molgenis.org'
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENT_ID: 'b396233b-cdb2-449e-ac5c-a0d28b38f791'
       DATASHIELD_WHITELIST: dsBase,dsDanger,resourcer
     ports:
       - 8080:8080
