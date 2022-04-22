@@ -17,7 +17,7 @@ init.ip.address()
 
   ds.test_env$server_ip_address <- init.ip.address()
   
-  opal_url <- paste("http://", ds.test_env$server_ip_address, ":9000", sep="")
+  opal_url <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
   # opal_url <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
 
   #This TCP/IP address is required to test a connect to the server. 
