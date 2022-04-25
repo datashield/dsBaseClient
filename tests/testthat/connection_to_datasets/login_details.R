@@ -34,17 +34,25 @@ init.ip.address()
   # ds.test_env$user_2 <- getOption("opal.user", "administrator")
   # ds.test_env$user_3 <- getOption("opal.user", "administrator")
 
-  ds.test_env$user_1 <- getOption("armadillo.user", "molgenis")
-  ds.test_env$user_2 <- getOption("armadillo.user", "molgenis")
-  ds.test_env$user_3 <- getOption("armadillo.user", "molgenis")
+  # ds.test_env$user_1 <- getOption("armadillo.user", "molgenis")
+  # ds.test_env$user_2 <- getOption("armadillo.user", "molgenis")
+  # ds.test_env$user_3 <- getOption("armadillo.user", "molgenis")
+
+  ds.test_env$user_1 <- getOption("armadillo.user", "admin")
+  ds.test_env$user_2 <- getOption("armadillo.user", "admin")
+  ds.test_env$user_3 <- getOption("armadillo.user", "admin")
 
   # ds.test_env$password_1 <- getOption("opal.password", "datashield_test&")
   # ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
   # ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
 
-  ds.test_env$password_1 <- getOption("armadillo.password", "molgenis")
-  ds.test_env$password_2 <- getOption("armadillo.password", "molgenis")
-  ds.test_env$password_3 <- getOption("armadillo.password", "molgenis")
+  # ds.test_env$password_1 <- getOption("armadillo.password", "molgenis")
+  # ds.test_env$password_2 <- getOption("armadillo.password", "molgenis")
+  # ds.test_env$password_3 <- getOption("armadillo.password", "molgenis")
+
+  ds.test_env$password_1 <- getOption("armadillo.password", "admin")
+  ds.test_env$password_2 <- getOption("armadillo.password", "admin")
+  ds.test_env$password_3 <- getOption("armadillo.password", "admin")
 
   #ds.test_env$options_1 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
   #ds.test_env$options_2 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"

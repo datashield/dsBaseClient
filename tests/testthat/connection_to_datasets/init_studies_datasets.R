@@ -175,10 +175,6 @@ init.studies.dataset.anthro <- function(variables)
       builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/anthro/anthro2", driver = ds.test_env$driver)
       builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/anthro/anthro3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
-
-      print("====")
-      print(ds.test_env$login.data)
-      print("====")
     }
     else 
     {
