@@ -11,7 +11,7 @@ services:
   armadillo:
     image: datashield/armadillo:ci
     environment:
-      SPRING_PROFILES_ACTIVE: development
+      # SPRING_PROFILES_ACTIVE: development
       MINIO_URL: http://minio
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
