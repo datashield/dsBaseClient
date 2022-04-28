@@ -5,6 +5,7 @@ services:
     ports:
       - 9000:9000
     environment:
+      MINIO_SERVER_URL: http://minio
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
     command: server /data
