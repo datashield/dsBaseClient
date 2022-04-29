@@ -10,7 +10,7 @@ upload_testing_dataset_table <- function(project_name, folder_name, table_name, 
     MolgenisArmadillo::armadillo.upload_table(project_name, folder_name, dataset, table_name)
 }
 
-MolgenisArmadillo::armadillo.set_credentials(server = 'http://localhost:9000', access_key = "molgenis", secret_key = "molgenis")
+MolgenisArmadillo::armadillo.set_credentials(server = 'http://minio:9000', access_key = "molgenis", secret_key = "molgenis")
 
 if (! 'datashield' %in% MolgenisArmadillo::armadillo.list_projects())
     MolgenisArmadillo::armadillo.create_project('datashield')
