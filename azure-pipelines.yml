@@ -221,6 +221,10 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
+      docker image list --all
+
+      docker container list --all
+
       R -q -f "molgenis_armadillo-upload_testing_datasets.R"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
