@@ -221,6 +221,13 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
+      ping localhost
+      ping minio
+      ping rserver
+      ping armadillo
+
+      docker network list
+
       docker image list --all
 
       docker container list --all
