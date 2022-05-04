@@ -1,6 +1,6 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.2.0
+Version: 6.2.1-01
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: DataSHIELD client functions for the client side.
@@ -15,8 +15,6 @@ Imports:
     ggplot2,
     gridExtra,
     data.table,
-    RColorBrewer,
-    forestplot,
     panelaggregation,
     methods,
     dplyr
