@@ -221,10 +221,10 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
-      ping localhost
-      ping minio
-      ping rserver
-      ping armadillo
+      ping -c 1 localhost
+      ping -c 1 minio
+      ping -c 1 rserver
+      ping -c 1 armadillo
 
       docker network list
 
