@@ -5,7 +5,7 @@ services:
     ports:
       - 9000:9000
     environment:
-      MINIO_SERVER_URL: http://minio:9000
+      MINIO_SERVER_URL: http://127.0.0.1:9000
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
     command: server /data
@@ -13,7 +13,7 @@ services:
     image: datashield/armadillo:ci
     environment:
       # SPRING_PROFILES_ACTIVE: development
-      MINIO_URL: http://minio:9000
+      MINIO_URL: http://127.0.0.1:9000
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
       RSERVE_HOST: rserver

@@ -221,6 +221,9 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
+      wget http://127.0.0.1:9000
+
+      ping -c 1 127.0.0.1
       ping -c 1 localhost
       ping -c 1 minio
       ping -c 1 rserver
