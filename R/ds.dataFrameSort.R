@@ -149,7 +149,7 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     if(!object.info[[j]]$test.obj.exists){																 	#
       obj.name.exists.in.all.sources<-FALSE															 		#
     }																								 		#
-    if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){				#														 	#
+    if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){				#														 	#
       obj.non.null.in.all.sources<-FALSE																 	#
     }																								 		#
   }																									 		#
