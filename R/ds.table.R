@@ -405,7 +405,7 @@ list.temp<-NULL
 
 for(ns in 1:numsources.orig)
 {
-    if(class(table.out[[ns]])=="character")
+    if("character" %in% class(table.out[[ns]]))
 	{
 	    valid.output[ns]<-0
 	    error.messages[[ns]]<-table.out[[ns]]
