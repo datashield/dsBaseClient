@@ -1,19 +1,22 @@
 version: "3.4"
 services:
   minio:
-    image: datashield/minio:ci
+#    image: datashield/minio:ci
+    image: minio/minio:RELEASE.2022-04-16T04-26-02Z
     ports:
       - 9000:9000
     environment:
-      MINIO_SERVER_URL: http://127.0.0.1:9000
-      MINIO_ACCESS_KEY: molgenis
-      MINIO_SECRET_KEY: molgenis
+      MINIO_ROOT_USER: molgenis
+      MINIO_ROOT_PASSWORD: molgenis
+#      MINIO_SERVER_URL: http://127.0.0.1:9000
+#      MINIO_ACCESS_KEY: molgenis
+#      MINIO_SECRET_KEY: molgenis
     command: server /data
   armadillo:
     image: datashield/armadillo:ci
     environment:
       SPRING_PROFILES_ACTIVE: development,docker-compose
-      MINIO_URL: http://127.0.0.1:9000
+      MINIO_URL: http://minio:9000
       MINIO_ACCESS_KEY: molgenis
       MINIO_SECRET_KEY: molgenis
       RSERVE_HOST: rserver
