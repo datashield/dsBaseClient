@@ -13,7 +13,7 @@ services:
 #      MINIO_SECRET_KEY: molgenis
     command: server /data
   armadillo:
-    image: datashield/armadillo:ci
+    image: molgenis/armadillo:2.2.3
     environment:
       SPRING_PROFILES_ACTIVE: development,docker-compose
       MINIO_URL: http://minio:9000
@@ -28,7 +28,7 @@ services:
     ports:
       - 8080:8080
   rserver:
-    image: datashield/rserver:ci
+    image: datashield/armadillo-rserver:6.2.0
     environment:
       DEBUG: "FALSE"
     ports:
