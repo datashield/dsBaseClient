@@ -334,7 +334,7 @@ jobs:
     # which are not default behaviour: output the results to a JUnit xml file, not stop
     # when a small number of errors have happened, run through the code coverage tool.
     # TODO: Tidy up variable names - use timestamps here.
-  #- bash: |
+    #- bash: |
 
       # junit reporter output is to test_results_discctrl.xml
       # sudo R -q -e '
@@ -364,18 +364,11 @@ jobs:
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
+      curl -u admin:admin -H 'Content-Type: multipart/form-data; boundary=boundary' -H 'Content-Disposition: form-data; name="file"; filename="dsDanger_6.2.0.tar.gz"' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
-      # Strip out when error and failure = 0 and count the number of times it does not.
-      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
-      echo "Number of testsuites with issues: "$issue_count
-      echo "Testsuites with issues:"
-      sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
-      cat issues.log
-      exit $issue_count
-
-    workingDirectory: $(Pipeline.Workspace)/logs
-    displayName: 'Check for errors & Failures in JUnit file'
-    condition: succeededOrFailed()
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsDanger DataSHIELD package on server'
+    condition: succeeded()
 
 
     #####################################################################################
