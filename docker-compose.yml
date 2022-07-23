@@ -28,7 +28,7 @@ services:
     ports:
       - 8080:8080
   rserver:
-    image: datashield/armadillo-rserver:6.2.0
+    image: datashield/armadillo-rserver:6.2.1-dev
     environment:
       DEBUG: "FALSE"
     ports:
