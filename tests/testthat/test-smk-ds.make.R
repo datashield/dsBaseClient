@@ -33,6 +33,24 @@ test_that("simple make", {
     expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
 })
 
+context("ds.make::smk")
+test_that("simple make", {
+    res <- ds.make("(D$LAB_TSC*10)", "maded.rand")
+
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+})
+
+context("ds.make::smk")
+test_that("simple make", {
+    res <- ds.make("(D$LAB_TSC)*10", "maded.rand")
+
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+})
+
 #
 # Done
 #
