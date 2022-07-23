@@ -31,9 +31,9 @@ test_that("missing variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors[[1]], "Command 'quantileMeanDS(LAB_MISSING)' failed on 'study1': Error while evaluating 'dsBase::quantileMeanDS(LAB_MISSING)' -> Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found\n", fixed = TRUE)
-    expect_equal(res.errors[[2]], "Command 'quantileMeanDS(LAB_MISSING)' failed on 'study2': Error while evaluating 'dsBase::quantileMeanDS(LAB_MISSING)' -> Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found\n", fixed = TRUE)
-    expect_equal(res.errors[[3]], "Command 'quantileMeanDS(LAB_MISSING)' failed on 'study3': Error while evaluating 'dsBase::quantileMeanDS(LAB_MISSING)' -> Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found\n", fixed = TRUE)
+    expect_equal(res.errors[[1]], "Execution failed: Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Execution failed: Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Execution failed: Error in c(\"character\", \"integer\", \"logical\", \"numeric\") %in% class(obj) : \n  object 'LAB_MISSING' not found", fixed = TRUE)
 })
 
 context("ds.ranksSecure::arg::NULL variable")
@@ -52,9 +52,9 @@ test_that("NULL variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors[[1]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study1': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[2]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study2': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[3]], "Command 'blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study3': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"LAB_NULL\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[1]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
 })
 
 context("ds.ranksSecure::arg::'text' variable")
@@ -64,9 +64,9 @@ test_that("'text' variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors[[1]], "Command 'quantileMeanDS(D$CHARACTER)' failed on 'study1': Error while evaluating 'dsBase::quantileMeanDS(D$CHARACTER)' -> Error in (1 - h) * qs[i] : non-numeric argument to binary operator\n", fixed = TRUE)
-    expect_equal(res.errors[[2]], "Command 'quantileMeanDS(D$CHARACTER)' failed on 'study2': Error while evaluating 'dsBase::quantileMeanDS(D$CHARACTER)' -> Error in (1 - h) * qs[i] : non-numeric argument to binary operator\n", fixed = TRUE)
-    expect_equal(res.errors[[3]], "Command 'quantileMeanDS(D$CHARACTER)' failed on 'study3': Error while evaluating 'dsBase::quantileMeanDS(D$CHARACTER)' -> Error in (1 - h) * qs[i] : non-numeric argument to binary operator\n", fixed = TRUE)
+    expect_equal(res.errors[[1]], "Execution failed: Error in (1 - h) * qs[i] : non-numeric argument to binary operator", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Execution failed: Error in (1 - h) * qs[i] : non-numeric argument to binary operator", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Execution failed: Error in (1 - h) * qs[i] : non-numeric argument to binary operator", fixed = TRUE)
 })
 
 context("ds.ranksSecure::arg::'logical' variable")
@@ -81,9 +81,9 @@ test_that("'integer factor' variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors[[1]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study1': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[2]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study2': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
-    expect_equal(res.errors[[3]], "Command 'blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, \n    2, \"NA.delete\")' failed on 'study3': Error while evaluating 'is.null(base::assign('blackbox.output.df', value={dsBase::blackBoxDS(input.var.name = \"D$INTEGER_FACTOR\", shared.seedval = 10, 2, \"NA.delete\")}))' -> Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases\n", fixed = TRUE)
+    expect_equal(res.errors[[1]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
+    expect_equal(res.errors[[2]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
+    expect_equal(res.errors[[3]], "Execution failed: Error in stats::complete.cases(input.var) : \n  no input has determined the number of cases", fixed = TRUE)
 })
 
 #
