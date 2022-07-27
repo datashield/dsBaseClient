@@ -365,6 +365,8 @@ jobs:
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
+      curl -u admin:admin http://localhost:8080/whitelist
+
       curl -u admin:admin -H 'Content-Type: multipart/form-data; boundary=boundary' -H 'Content-Disposition: form-data; name="file"; filename="dsDanger_6.2.0.tar.gz"' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
