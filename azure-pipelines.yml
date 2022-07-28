@@ -372,7 +372,7 @@ jobs:
       curl -u admin:admin -H 'Content-Type: multipart/form-data; boundary=boundary' -H 'Content-Disposition: form-data; name="file"; filename="dsDanger_6.2.0.tar.gz"' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
       echo -e "Point #3"
-      curl -u admin:admin http://localhost:8080/whitelist
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
       echo -e "Point #4"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
