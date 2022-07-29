@@ -365,16 +365,17 @@ jobs:
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
-      echo -e "Point #1"
       curl -u admin:admin http://localhost:8080/whitelist
+      
+      echo "PWD"
+      pwd
 
-      echo -e "Point #2"
+      echo "LS"
+      pwd
+
       curl -u admin:admin -H 'Content-Type: multipart/form-data; boundary=boundary' -H 'Content-Disposition: form-data; name="file"; filename="dsDanger_6.2.0.tar.gz"' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
-      echo -e "Point #3"
       curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
-      echo -e "Point #4"
-
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDanger DataSHIELD package on server'
     condition: succeeded()
