@@ -11,7 +11,7 @@ ds.boxPlot(
   group2 = NULL,
   xlabel = "x axis",
   ylabel = "y axis",
-  type = c("pooled", "split"),
+  type = "pooled",
   datasources = NULL
 )
 }

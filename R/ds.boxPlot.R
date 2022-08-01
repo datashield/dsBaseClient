@@ -84,7 +84,7 @@
 #'
 
 ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel = "x axis", 
-                       ylabel = "y axis", type = c("pooled", "split"), datasources = NULL){
+                       ylabel = "y axis", type = "pooled", datasources = NULL){
   
   if (is.null(datasources)) {
     datasources <- DSI::datashield.connections_find()
@@ -95,8 +95,8 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
   
-  # Ensure tpye is 'pooled' or 'split'
-  if(!(type %in% c("pooled", "split"))){
+  # Ensure type is 'pooled' or 'split'
+  if((length(type) == 1) && (! any(type %in% c("pooled", "split")))){
     stop("[type] can only be set to 'pooled' or 'split'")
   }
   
