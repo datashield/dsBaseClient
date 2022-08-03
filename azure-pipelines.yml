@@ -365,14 +365,9 @@ jobs:
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
-      curl --version
-
       curl -u admin:admin http://localhost:8080/whitelist
 
-      echo -e "LS"
-      ls -l
-
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data; boundary=boundary' -H 'Content-Disposition: form-data; name="file"; filename="dsDanger_6.2.0.tar.gz"' --form file=@dsDanger_6.2.0.tar.gz -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 120
