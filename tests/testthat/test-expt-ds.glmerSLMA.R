@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -68,7 +68,7 @@ test_that("linear mixed model with 2 levels of hierarchy",
 #            print(SLMA.pooled.ests.matrix)
 #            print(res.server$SLMA.pooled.ests.matrix)
             
-            expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = ds.test_env$tolerance, check.attributes = FALSE)
+            expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = 1.0e-5, check.attributes = FALSE)
           }
 )
 

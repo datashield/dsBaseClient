@@ -49,7 +49,7 @@ resources:
     type: github
     endpoint: datashield-testing
     name: datashield/datashield-infrastructure
-    ref: v6.2-dev
+    ref: v6.2.0
 
 #########################################################################################
 # When and under what condition to run the pipeline.
@@ -61,10 +61,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2-dev
+    displayName: Nightly build - v6.2.0
     branches:
       include:
-      - v6.2-dev
+      - v6.2.0
     always: true
 
 jobs:
@@ -98,7 +98,7 @@ jobs:
     # so we delete it.
     # If previous steps have failed then don't run.
   - bash: |
-  
+
       # Work-around for tempory Bazel's apt repository issue.
       curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 
@@ -110,7 +110,7 @@ jobs:
       sudo apt-get autoremove -y
       sudo apt-get autoclean -y
       sudo rm -rf /var/lib/mysql/
-  
+
     displayName: 'Uninstall default MySQL'
     condition: succeeded()
 
@@ -137,8 +137,9 @@ jobs:
       sudo apt-get update
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
+      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','metafor','ggplot2','gridExtra','data.table','RColorBrewer','forestplot','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       # sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), repos = c('https://registry.molgenis.org/repository/R', 'https://cloud.r-project.org'), dependencies=TRUE)"
       sudo R -q -e "library('devtools'); devtools::install_github(repo = 'molgenis/molgenis-r-auth', ref = 'master', dependencies = TRUE)"
@@ -221,6 +222,21 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
+      # Tempory Debugging
+      # wget http://127.0.0.1:9000
+
+      # ping -c 1 127.0.0.1
+      # ping -c 1 localhost
+      # ping -c 1 minio
+      # ping -c 1 rserver
+      # ping -c 1 armadillo
+
+      # docker network list
+
+      # docker image list --all
+
+      docker container list --all
+
       R -q -f "molgenis_armadillo-upload_testing_datasets.R"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
@@ -238,7 +254,7 @@ jobs:
   - bash: |
 
       # There is an issue with the way we are using packages. The wrapped up test command
-      # below fails in a way that implies that it is not installed. I cannot figure out 
+      # below fails in a way that implies that it is not installed. I cannot figure out
       # why this is case. As a work around we can run some of the functions below. My
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
@@ -247,7 +263,7 @@ jobs:
       #sudo R -e 'devtools::reload(".")'
       #sudo R -e 'library(dsBaseClient)'
       #sudo R -e 'devtools::check_built()'
-      #sudo R --verbose -e 'devtools::build()'      
+      #sudo R --verbose -e 'devtools::build()'
 
       # Any of the below makes the tests work.
       #sudo R --verbose -e 'devtools::test()'
@@ -263,6 +279,7 @@ jobs:
       # junit reporter output is to test_results.xml
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
+      # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
       sudo R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
@@ -313,21 +330,54 @@ jobs:
 
 
     #####################################################################################
+    # Essentially run devtools::test() on the checked out code for discctrl reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+    #- bash: |
+
+      # junit reporter output is to test_results_discctrl.xml
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_discctrl.txt
+
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
+
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
+
+
+    #####################################################################################
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
+      curl -u admin:admin http://localhost:8080/whitelist
 
-      # Strip out when error and failure = 0 and count the number of times it does not.
-      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
-      echo "Number of testsuites with issues: "$issue_count
-      echo "Testsuites with issues:"
-      sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
-      cat issues.log
-      exit $issue_count
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.2.0.tar.gz" -X POST http://localhost:8080/install-package
 
-    workingDirectory: $(Pipeline.Workspace)/logs
-    displayName: 'Check for errors & Failures in JUnit file'
-    condition: succeededOrFailed()
+      docker container restart dsbaseclient_armadillo_1
+      sleep 120
+
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
+
+      curl -u admin:admin http://localhost:8080/whitelist
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsDanger DataSHIELD package on server'
+    condition: succeeded()
 
 
     #####################################################################################
@@ -336,7 +386,8 @@ jobs:
   - bash: |
 
       sudo R -q -e 'devtools::install()'
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2-dev', dependencies = TRUE)"
+
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.0', dependencies = TRUE)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDangerClient DataSHIELD package'
@@ -505,7 +556,7 @@ jobs:
       echo 'branch:'$(branchName) >> $(datetime).txt
       echo 'os:'$(lsb_release -ds) >> $(datetime).txt
       echo 'R:'$(R --version | head -n 1) >> $(datetime).txt
-      echo 'opal:'$(opal system --opal localhost:8080 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
+      echo 'opal:'$(opal system --opal localhost:8443 --user administrator --password "datashield_test&" --version) >> $(datetime).txt
 
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Write versions to file'

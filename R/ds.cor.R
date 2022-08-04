@@ -189,7 +189,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
 	    n4 <- "Correlation Matrix"
 	    names(results) <- c(n1, n2, n3, n4)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
     }
   }
 

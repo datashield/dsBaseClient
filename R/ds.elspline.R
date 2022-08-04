@@ -1,0 +1,64 @@
+#' 
+#' @title Basis for a piecewise linear spline with meaningful coefficients
+#' @description This function is based on the native R function \code{elspline} from the
+#' \code{lspline} package. This function computes the basis of piecewise-linear spline
+#' such that, depending on the argument marginal, the coefficients can be interpreted as
+#' (1) slopes of consecutive spline segments, or (2) slope change at consecutive knots.
+#' @details If marginal is FALSE (default) the coefficients of the spline correspond to
+#' slopes of the consecutive segments. If it is TRUE the first coefficient correspond to
+#' the slope of the first segment. The consecutive coefficients correspond to the change
+#' in slope as compared to the previous segment.
+#' Function elspline wraps lspline and computes the knot positions such that they cut the
+#' range of x into n equal-width intervals.
+#' @param x the name of the input numeric variable
+#' @param n integer greater than 2, knots are computed such that they cut n equally-spaced
+#' intervals along the range of x
+#' @param marginal logical, how to parametrize the spline, see Details
+#' @param names character, vector of names for constructed variables
+#' @param newobj a character string that provides the name for the output 
+#' variable that is stored on the data servers. Default \code{elspline.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return an object of class "lspline" and "matrix", which its name is specified by the
+#' \code{newobj} argument (or its default name "elspline.newobj"), is assigned on the serverside.
+#' @author Demetris Avraam for DataSHIELD Development Team
+#' @export
+#'
+ds.elspline <- function(x, n, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
+  
+  # look for DS connections
+  if(is.null(datasources)){
+    datasources <- datashield.connections_find()
+  }
+  
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+  
+  if(is.null(x)){
+    stop("Please provide the name of the input variable x!", call.=FALSE)
+  }
+  
+  # check if the input object is defined in all the studies
+  defined <- isDefined(datasources, x)
+  
+  if(is.null(n)){
+    stop("Argument 'n' is missing, with no default!", call.=FALSE)
+  }
+  
+  if(n < 2){
+    stop("'n' must be a value greater than or equal to 2!", call.=FALSE)
+  }
+  
+  # create a name by default if user did not provide a name for the new variable
+  if(is.null(newobj)){
+    newobj <- "elspline.newobj"
+  }
+  
+  # now do the business
+  calltext <- call("elsplineDS", x, n, marginal, names)
+  DSI::datashield.assign(datasources, newobj, calltext)
+  
+}

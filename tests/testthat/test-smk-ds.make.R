@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -27,6 +27,24 @@ test_that("setup", {
 context("ds.make::smk")
 test_that("simple make", {
     res <- ds.make("(D$LAB_TSC*D$LAB_TRIG*D$LAB_HDL)", "maded.rand")
+
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+})
+
+context("ds.make::smk")
+test_that("simple make", {
+    res <- ds.make("(D$LAB_TSC*10)", "maded.rand")
+
+    expect_length(res, 2)
+    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
+    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+})
+
+context("ds.make::smk")
+test_that("simple make", {
+    res <- ds.make("(D$LAB_TSC)*10", "maded.rand")
 
     expect_length(res, 2)
     expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")

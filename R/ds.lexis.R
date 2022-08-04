@@ -228,7 +228,7 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
   }
 
   # if no valid value provided for 'intervalWidth' instruct user to specify one
-  if(is.null(intervalWidth)||is.na(intervalWidth)||intervalWidth==0){
+  if(any(is.null(intervalWidth))||any(is.na(intervalWidth))||any(intervalWidth==0)){
     stop("Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", call.=FALSE)
   }
 

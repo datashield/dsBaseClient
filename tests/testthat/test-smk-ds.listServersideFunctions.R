@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,17 +22,17 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context("ds.listServersideFunctions::smk::check results")
 test_that("check results", {
     assign.functions <- factor(c(
-      "BooleDS", "absDS", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
+      "BooleDS", "abs", "absDS", "acos", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
       "asFactorDS2", "asFactorSimpleDS", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
-      "asNumericDS", "attach", "c", "cDS", "cbind",
+      "asNumericDS", "asin", "atan", "attach", "blackBoxRanksDS", "blackBoxRanksDS", "boxPlotGG_data_TreatmentDS", "boxPlotGG_data_Treatment_numericDS", "cDS",
       "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",
-      "dataFrameSubsetDS2", "dataFrameDS", "dmtC2SDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as",
-      "lexisDS2", "lexisDS3", "list", "listDS", "log",
+      "dataFrameSubsetDS2", "dataFrameDS", "dmtC2SDS", "exp", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as", "glmerSLMADS.assign",
+      "lexisDS2", "lexisDS3", "list", "listDS", "log", "lsplineDS",
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
-      "matrixMultDS", "matrixTransposeDS", "mergeDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS", "rep",
-      "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
-      "tableDS.assign", "tapplyDS.assign", "unlist", "unListDS"
+      "matrixMultDS", "matrixTransposeDS", "mergeDS", "nsDS", "qlsplineDS", "rBinomDS", "rNormDS", "rPoisDS",
+      "rUnifDS", "ranksSecureDS2", "ranksSecureDS4", "ranksSecureDS5", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS",
+      "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "sin", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
+      "tableDS.assign", "tan", "tapplyDS.assign", "unlist", "unListDS", "vectorDS"
     ))
     aggregate.functions <- factor(c(
       "NROW", "asFactorDS1", "asListDS",
@@ -45,8 +46,9 @@ test_that("check results", {
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS", "lmerSLMADS2", "lsDS",
       "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
+      "ranksSecureDS1", "ranksSecureDS3",
       "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
-      "scoreVectDS", "setSeedDS", "t.test", "tTestFDS2",
+      "scoreVectDS", "setSeedDS", "t.test",
       "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
       "testObjExistsDS", "varDS"
     ))
