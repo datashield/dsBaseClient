@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -60,6 +61,46 @@ test_that("dataFrameFill_exists", {
     expect_equal(colnamesFilled$discordant3[1], "B")
     expect_equal(colnamesFilled$discordant3[2], "C")
     expect_equal(colnamesFilled$discordant3[3], "A")
+
+    classFilled <- ds.class('filled_df')
+
+    expect_length(classFilled, 3)
+    expect_length(classFilled$discordant1, 1)
+    expect_equal(classFilled$discordant1, "data.frame")
+    expect_length(classFilled$discordant2, 1)
+    expect_equal(classFilled$discordant2, "data.frame")
+    expect_length(classFilled$discordant3, 1)
+    expect_equal(classFilled$discordant3, "data.frame")
+
+    classFilled <- ds.class('filled_df$A')
+    
+    expect_length(classFilled, 3)
+    expect_length(classFilled$discordant1, 1)
+    expect_equal(classFilled$discordant1, "integer")
+    expect_length(classFilled$discordant2, 1)
+    expect_equal(classFilled$discordant2, "integer")
+    expect_length(classFilled$discordant3, 1)
+    expect_equal(classFilled$discordant3, "integer")
+    
+    classFilled <- ds.class('filled_df$B')
+
+    expect_length(classFilled, 3)
+    expect_length(classFilled$discordant1, 1)
+    expect_equal(classFilled$discordant1, "integer")
+    expect_length(classFilled$discordant2, 1)
+    expect_equal(classFilled$discordant2, "integer")
+    expect_length(classFilled$discordant3, 1)
+    expect_equal(classFilled$discordant3, "integer")
+
+    classFilled <- ds.class('filled_df$C')
+
+    expect_length(classFilled, 3)
+    expect_length(classFilled$discordant1, 1)
+    expect_equal(classFilled$discordant1, "integer")
+    expect_length(classFilled$discordant2, 1)
+    expect_equal(classFilled$discordant2, "integer")
+    expect_length(classFilled$discordant3, 1)
+    expect_equal(classFilled$discordant3, "integer")
 })
 
 #
