@@ -127,7 +127,7 @@ jobs:
       sudo add-apt-repository ppa:cran/libgit2
       sudo apt-get update
 
-      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
+      sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev libharfbuzz-dev libfribidi-dev r-base -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
