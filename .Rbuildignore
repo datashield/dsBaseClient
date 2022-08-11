@@ -8,6 +8,8 @@
 ^azure-pipelines_check\.Rout$
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$
+^docker-compose\.yml$
 ^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$
+^dsDanger_6.2.0.tar.gz$
