@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+        opal:
+                image: obiba/opal:4.4
+                ports:
+                        - "8443:8443"
+                links:
+                        - mongo
+                        - rock
+                environment:
+                        - OPAL_ADMINISTRATOR_PASSWORD=datashield_test&
+                        - MONGO_HOST=mongo
+                        - MONGO_PORT=27017
+                        - MONGO_USER=root
+                        - MONGO_PASSWORD=foobar
+                        - ROCK_HOSTS=rock:8085
+                        - ROCK_ADMINISTRATOR_PASSWORD=foobar
+        mongo:
+                image: mongo:4.4.13
+                environment:
+                        - MONGO_INITDB_ROOT_USERNAME=root
+                        - MONGO_INITDB_ROOT_PASSWORD=foobar
+        rock:
+                image: obiba/rock:1.0

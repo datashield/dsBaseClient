@@ -45,12 +45,6 @@ resources:
     name: datashield/testStatus
     ref: master
 
-  - repository: datashield-infrastructureRepo
-    type: github
-    endpoint: datashield-testing
-    name: datashield/datashield-infrastructure
-    ref: v6.2.0
-
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
@@ -83,9 +77,6 @@ jobs:
   - checkout: self
     path: 'dsBaseClient'
 
-  - checkout: datashield-infrastructureRepo
-    path: 'datashield-infrastructure'
-
   - checkout: testStatusRepo
     path: 'testStatus'
     persistCredentials: true
@@ -98,7 +89,7 @@ jobs:
     # so we delete it.
     # If previous steps have failed then don't run.
   - bash: |
-  
+
       # Work-around for tempory Bazel's apt repository issue.
       curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
 
@@ -110,7 +101,7 @@ jobs:
       sudo apt-get autoremove -y
       sudo apt-get autoclean -y
       sudo rm -rf /var/lib/mysql/
-  
+
     displayName: 'Uninstall default MySQL'
     condition: succeeded()
 
@@ -199,26 +190,16 @@ jobs:
     #####################################################################################
     # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
     # If previous steps have failed then don't run.
-  - bash: |
-
-      # Set up puppet and r10k
-      wget -nv https://apt.puppetlabs.com/puppet7-release-focal.deb
-      sudo dpkg -i puppet7-release-focal.deb
-      sudo apt-get install -qq -f
-      sudo apt-get update
-      sudo rm -f puppet7-release-focal.deb
-
-      sudo apt-get install puppet-agent -y
-      sudo /opt/puppetlabs/puppet/bin/gem install r10k
-
-      pushd puppet/environments/datashield_azurepipelines
-      sudo /opt/puppetlabs/puppet/bin/r10k puppetfile install
-      popd
-
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site.pp --environment datashield_azurepipelines --environmentpath puppet/environments
-
-    workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
-    displayName: 'Install DataSHIELD server (opal, dsBase, etc)'
+  - task: DockerCompose@0
+    inputs:
+      action: Run Services
+      dockerComposeFile: ../dsBaseClient/docker-compose.yml
+      projectName: dsBaseClient
+      qualifyImageNames: true
+      buildImages: true
+      abortOnContainerExit: true
+      detached: true
+    displayName: 'Install DataSHIELD server (opal, rserver, dsBase, etc)'
     condition: succeeded()
 
 
