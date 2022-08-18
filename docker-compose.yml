@@ -17,7 +17,7 @@ services:
                         - ROCK_HOSTS=rock:8085
                         - ROCK_ADMINISTRATOR_PASSWORD=foobar
         mongo:
-                image: mongo:4.4.13
+                image: mongo:4.4.15
                 environment:
                         - MONGO_INITDB_ROOT_USERNAME=root
                         - MONGO_INITDB_ROOT_PASSWORD=foobar
