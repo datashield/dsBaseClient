@@ -203,6 +203,31 @@ jobs:
     displayName: 'Install DataSHIELD server (opal, rserver, dsBase, etc)'
     condition: succeeded()
 
+    #####################################################################################
+    # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
+    # If previous steps have failed then don't run.
+  - bash: |
+
+      docker container list --all
+
+      R -q -f "obiba_opal-upload_testing_datasets.R"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
+    displayName: 'Install DataSHIELD test datasets'
+    condition: succeeded()
+
+    #####################################################################################
+    # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
+    # If previous steps have failed then don't run.
+  - bash: |
+
+      docker container list --all
+
+      R -q -f "obiba_opal-upload_testing_datasets.R"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
+    displayName: 'Install DataSHIELD test datasets'
+    condition: succeeded()
 
     #####################################################################################
     # Essentially run devtools::test() on the checked out code. This is wrapped up with
