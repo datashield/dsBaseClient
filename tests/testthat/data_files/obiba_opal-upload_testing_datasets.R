@@ -9,26 +9,12 @@ library(tibble)
 upload_testing_dataset_table <- function(opal, project_name, table_name, local_file_path) {
     if (! opal.project_exists(opal, project_name))
         opal.project_create(opal, project_name, database = "mongodb")
-
+  
     dataset_name <- load(file = local_file_path)
     dataset      <- eval(as.symbol(dataset_name))
-    print(local_file_path)
-    print(colnames(dataset))
-
-    if (any('ID' %in% toupper(colnames(dataset))) && (length(dataset$ID) == length(unique(dataset$ID)))) {
-        colnames(dataset)[which(names(dataset) == 'id')] <- 'id.id'
-        data    <- as_tibble(dataset, rownames = 'id')
-    } else if (any('ID' %in% toupper(colnames(dataset))) && any(is.na(dataset$ID))) {
-        dataset <- subset(dataset, select = -c(ID))
-        data    <- as_tibble(dataset, rownames = 'id')
-    } else if (any('ID' %in% toupper(colnames(dataset)))) {
-        colnames(dataset)[which(names(dataset) == 'ID')] <- 'id'
-        data <- as_tibble(dataset)
-    } else
-        data <- as_tibble(dataset, rownames = 'id')
-
-    print(colnames(data))
-    opal.table_save(opal, data, project_name, table_name,  force = TRUE)
+    data         <- as_tibble(dataset, rownames = '_row_id_')
+  
+    opal.table_save(opal, data, project_name, table_name, id.name = "_row_id_", force = TRUE)
 }
 
 opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
