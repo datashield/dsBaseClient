@@ -131,7 +131,7 @@ jobs:
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('tibble','DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
@@ -200,7 +200,20 @@ jobs:
       buildImages: true
       abortOnContainerExit: true
       detached: true
-    displayName: 'Install DataSHIELD server (opal, rserver, dsBase, etc)'
+    displayName: 'Install servers (opal, rserver, mongodb)'
+    condition: succeeded()
+
+    #####################################################################################
+    # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
+    # If previous steps have failed then don't run.
+  - bash: |
+      # Wait for Opal to start
+      sleep 240
+
+      R -q -f "obiba_opal-upload_testing_datasets.R"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
+    displayName: 'Install test datasets'
     condition: succeeded()
 
     #####################################################################################
@@ -208,25 +221,10 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
-      docker container list --all
-
-      R -q -f "obiba_opal-upload_testing_datasets.R"
+      R -q -e "opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.2.1-dev'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install DataSHIELD test datasets'
-    condition: succeeded()
-
-    #####################################################################################
-    # Install dsBase. This uses the datashield-infrastructure repo (and its dependencies) to do the install with puppet.
-    # If previous steps have failed then don't run.
-  - bash: |
-
-      docker container list --all
-
-      R -q -f "obiba_opal-upload_testing_datasets.R"
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install DataSHIELD test datasets'
+    displayName: 'Install dsBase'
     condition: succeeded()
 
     #####################################################################################
@@ -244,18 +242,8 @@ jobs:
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
 
-      # None of the below make the tests run
-      #sudo R -e 'devtools::reload(".")'
-      #sudo R -e 'library(dsBaseClient)'
-      #sudo R -e 'devtools::check_built()'
-      #sudo R --verbose -e 'devtools::build()'
-
-      # Any of the below makes the tests work.
-      #sudo R --verbose -e 'devtools::test()'
-      #sudo R --verbose -e 'devtools::install()'
       sudo R --verbose -e 'devtools::check()'
 
-      pwd
       mkdir $(Pipeline.Workspace)/logs
 
       # run the coverage tool and output to coveragelist.csv
@@ -314,43 +302,11 @@ jobs:
 
 
     #####################################################################################
-    # Essentially run devtools::test() on the checked out code for discctrl reporting.
-    # The actual command is vary convoluted as it had to do some things
-    # which are not default behaviour: output the results to a JUnit xml file, not stop
-    # when a small number of errors have happened, run through the code coverage tool.
-    # TODO: Tidy up variable names - use timestamps here.
-  #- bash: |
-
-      # junit reporter output is to test_results_discctrl.xml
-      # sudo R -q -e '
-          # library(testthat);
-          # output_file <- file("test_console_output_discctrl.txt");
-          # sink(output_file);
-          # sink(output_file, type = "message");
-          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
-          # progress_rep <- ProgressReporter$new(max_failures = 999999);
-          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
-
-      # cat test_console_output_discctrl.txt
-
-      # if [ -e test_results_discctrl.xml ]; then
-      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
-      # else
-      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
-      # fi
-
-    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    # displayName: 'discctrl report output'
-    # condition: succeededOrFailed()
-
-
-    #####################################################################################
     # Install dsDanger on server
     # If previous steps have failed then don't run
   - bash: |
 
-      sudo /opt/puppetlabs/bin/puppet apply $(Pipeline.Workspace)/dsBaseClient/azure-pipelines_site-dsdanger.pp --environment datashield_azurepipelines --environmentpath puppet/environments
+      R -q -e "opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = 'v6.2-dev'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/datashield-infrastructure
     displayName: 'Install dsDanger DataSHIELD package on server'
