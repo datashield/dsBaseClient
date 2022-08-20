@@ -41,4 +41,4 @@ init.ip.address()
   ds.test_env$options_3 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
 
   ds.test_env$secure_login_details <- TRUE
-  ds.test_env$tolerance            <- 10^-6
+  ds.test_env$tolerance            <- 10^-5
