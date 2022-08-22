@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -221,9 +222,9 @@ test_that("error.message=TRUE test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_equal(err[[1]], "Command 'exists(\"A\", E)' failed on 'discordant1': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[2]], "Command 'exists(\"A\", E)' failed on 'discordant2': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
-    expect_equal(err[[3]], "Command 'exists(\"A\", E)' failed on 'discordant3': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err$discordant1, "Command 'exists(\"A\", E)' failed on 'discordant1': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err$discordant2, "Command 'exists(\"A\", E)' failed on 'discordant2': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
+    expect_equal(err$discordant3, "Command 'exists(\"A\", E)' failed on 'discordant3': Error while evaluating 'base::exists(\"A\", E)' -> Error in base::exists(\"A\", E) : object 'E' not found\n", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column D$A", {
