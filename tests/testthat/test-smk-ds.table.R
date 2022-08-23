@@ -24,7 +24,7 @@ test_that("setup", {
 #
 
 context("ds.table::smk::dataframe setup")
-test_that("simple table 2D", {
+test_that("simple dataframe input setup", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
   ds.asFactor(input.var.name="D$CATEGORY", newobj.name="factorCategory")
@@ -38,7 +38,7 @@ test_that("simple table 2D", {
   expect_equal(subset.res$validity.check, "<tablesource_subset> appears valid in all sources")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 1D")
 test_that("simple table 1D", {
   table1.res <- ds.table(rvar='tablesource_subset$factorCharacter')
 
@@ -53,7 +53,7 @@ test_that("simple table 1D", {
   expect_equal(table1.res$validity.message, "Data in all studies were valid")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 2D")
 test_that("simple table 2D", {
   table1.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter')
 
@@ -75,7 +75,7 @@ test_that("simple table 2D", {
   expect_equal(table1.res$validity.message, "Data in all studies were valid")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 3D")
 test_that("simple table 3D", {
   expect_error(ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
