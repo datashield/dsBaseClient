@@ -35,9 +35,9 @@ upload_testing_dataset_table(opal, 'CNSIM', 'CNSIM1', 'CNSIM/CNSIM1.rda')
 upload_testing_dataset_table(opal, 'CNSIM', 'CNSIM2', 'CNSIM/CNSIM2.rda')
 upload_testing_dataset_table(opal, 'CNSIM', 'CNSIM3', 'CNSIM/CNSIM3.rda')
 
-upload_testing_dataset_table(opal, 'DASIM', 'DASIM1', 'DASIM/DASIM3.rda')
-upload_testing_dataset_table(opal, 'DASIM', 'DASIM2', 'DASIM/DASIM1.rda')
-upload_testing_dataset_table(opal, 'DASIM', 'DASIM3', 'DASIM/DASIM2.rda')
+upload_testing_dataset_table(opal, 'DASIM', 'DASIM1', 'DASIM/DASIM1.rda')
+upload_testing_dataset_table(opal, 'DASIM', 'DASIM2', 'DASIM/DASIM2.rda')
+upload_testing_dataset_table(opal, 'DASIM', 'DASIM3', 'DASIM/DASIM3.rda')
 
 upload_testing_dataset_table(opal, 'DISCORDANT', 'DISCORDANT_STUDY1', 'DISCORDANT/DISCORDANT_STUDY1.rda')
 upload_testing_dataset_table(opal, 'DISCORDANT', 'DISCORDANT_STUDY2', 'DISCORDANT/DISCORDANT_STUDY2.rda')
