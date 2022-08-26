@@ -61,7 +61,6 @@ test_that("check results", {
         "ds.elspline",
         "ds.exists",
         "ds.exp",
-        "ds.extractQuantiles",
         "ds.forestplot",
         "ds.getWGSR",
         "ds.glm",
