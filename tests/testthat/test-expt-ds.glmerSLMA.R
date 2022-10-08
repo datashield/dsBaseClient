@@ -68,7 +68,7 @@ test_that("linear mixed model with 2 levels of hierarchy",
 #            print(SLMA.pooled.ests.matrix)
 #            print(res.server$SLMA.pooled.ests.matrix)
             
-            expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = ds.test_env$tolerance, check.attributes = FALSE)
+            expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = 1.0e-5, check.attributes = FALSE)
           }
 )
 

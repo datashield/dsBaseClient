@@ -26,10 +26,9 @@ test_that("glmSLMA_errors", {
   res.errors<-datashield.errors()
 
   expect_length(res.errors, 3)
-  expect_equal(res.errors$sim1, "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim1': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-  expect_equal(res.errors$sim2, "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim2': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-  expect_equal(res.errors$sim3, "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim3': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
-  
+  expect_equal(res.errors$sim1, "Execution failed: Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'", fixed=TRUE)
+  expect_equal(res.errors$sim2, "Execution failed: Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'", fixed=TRUE)
+  expect_equal(res.errors$sim3, "Execution failed: Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'", fixed=TRUE)
 })
 
 #

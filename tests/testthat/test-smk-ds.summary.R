@@ -110,7 +110,8 @@ context("ds.summary::smk::summary of a data frame")
 test_that("summary_data_frame", {
   res <- ds.summary(x='D')
 
-  expect_equal(res$sim1$class, "data.frame")
+  expect_gte(length(res$sim1$class), 1)
+  expect_true("data.frame" %in% res$sim1$class)
   expect_equal(res$sim2$`number of rows`, 3088)
   expect_equal(res$sim2$`number of columns`, 11)
   expect_equal(res$sim3$`variables held`[[11]], "PM_BMI_CATEGORICAL")
