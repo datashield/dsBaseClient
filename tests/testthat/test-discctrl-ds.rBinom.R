@@ -13,9 +13,9 @@
 # Set up
 #
 
-context("ds.subset::discctrl::setup")
+context("ds.rBinom::discctrl::setup")
 
-connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GENDER"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -24,22 +24,22 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.subset::discctrl")
-test_that("simple subset", {
-    expect_error(expect_warning(ds.subset(datasources=ds.test_env$connections, subset='subD', x='D', rows=c(1:50), cols=c(1,2)), "", fixed = TRUE), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+context("ds.rBinom::discctrl")
+test_that("simple c", {
+    expect_error(ds.rBinom(samp.size = 50, size = 50, prob = 0.25, newobj = "binom_dist", seed.as.integer = 27), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
     res_errors <- DSI::datashield.errors()
 
     expect_length(res_errors, 1)
     expect_length(res_errors$sim1, 1)
-    expect_equal(res_errors$sim1, "Command 'subsetDS(\"D\", FALSE, 1:50, c(1, 2))' failed on 'sim1': Error while evaluating 'is.null(base::assign('subD', value={dsBase::subsetDS(\"D\", FALSE, 1:50, dsBase::vectorDS(1, 2))}))' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_equal(res_errors$sim1, "Command 'setSeedDS(27)' failed on 'sim1': Error while evaluating 'dsBase::setSeedDS(27)' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
 })
 
 #
 # Done
 #
 
-context("ds.subset::discctrl::shutdown")
+context("ds.rBinom::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -47,4 +47,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.subset::discctrl::done")
+context("ds.rBinom::discctrl::done")

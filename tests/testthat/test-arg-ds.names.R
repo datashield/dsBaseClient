@@ -31,9 +31,9 @@ test_that("simple ds.names errors", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$sim1, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim1': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
-    expect_equal(res.errors$sim2, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim2': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
-    expect_equal(res.errors$sim3, "Command 'namesDS(\"D$LAB_TSC\")' failed on 'sim3': Error while evaluating 'dsBase::namesDS(\"D$LAB_TSC\")' -> Error : The input object is not of class <list>numeric\n", fixed=TRUE)
+    expect_equal(res.errors$sim1, "Execution failed: Error : The input object is not of class <list>numeric", fixed=TRUE)
+    expect_equal(res.errors$sim2, "Execution failed: Error : The input object is not of class <list>numeric", fixed=TRUE)
+    expect_equal(res.errors$sim3, "Execution failed: Error : The input object is not of class <list>numeric", fixed=TRUE)
 })
 
 #

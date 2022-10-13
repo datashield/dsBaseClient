@@ -22,7 +22,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 context("ds.listServersideFunctions::smk::check results")
 test_that("check results", {
     assign.functions <- factor(c(
-      "BooleDS", "abs", "absDS", "acos", "as.Date", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
+      "BooleDS", "abs", "absDS", "acos", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
       "asFactorDS2", "asFactorSimpleDS", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
       "asNumericDS", "asin", "atan", "attach", "blackBoxRanksDS", "blackBoxRanksDS", "boxPlotGG_data_TreatmentDS", "boxPlotGG_data_Treatment_numericDS", "cDS",
       "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",

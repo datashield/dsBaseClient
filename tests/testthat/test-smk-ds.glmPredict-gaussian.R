@@ -196,7 +196,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")
    
-     expect_length(res, 3)
+    expect_length(res, 3)
     expect_equal(class(res), "list")
     
     expect_length(res$sim1, 1)

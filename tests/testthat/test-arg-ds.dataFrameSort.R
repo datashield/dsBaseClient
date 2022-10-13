@@ -25,9 +25,9 @@ test_that("dataFrameSort_noargs", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$sim1, "Command 'dataFrameSortDS(NULL, NULL, FALSE, \"default\")' failed on 'sim1': Error while evaluating 'is.null(base::assign('dataframesort.newobj', value={dsBase::dataFrameSortDS(NULL, NULL, FALSE, \"default\")}))' -> Error in strsplit(df.name, split = \"\") : non-character argument\n", fixed=TRUE)
-    expect_equal(res.errors$sim2, "Command 'dataFrameSortDS(NULL, NULL, FALSE, \"default\")' failed on 'sim2': Error while evaluating 'is.null(base::assign('dataframesort.newobj', value={dsBase::dataFrameSortDS(NULL, NULL, FALSE, \"default\")}))' -> Error in strsplit(df.name, split = \"\") : non-character argument\n", fixed=TRUE)
-    expect_equal(res.errors$sim3, "Command 'dataFrameSortDS(NULL, NULL, FALSE, \"default\")' failed on 'sim3': Error while evaluating 'is.null(base::assign('dataframesort.newobj', value={dsBase::dataFrameSortDS(NULL, NULL, FALSE, \"default\")}))' -> Error in strsplit(df.name, split = \"\") : non-character argument\n", fixed=TRUE)
+    expect_equal(res.errors$sim1, "Execution failed: Error in strsplit(df.name, split = \"\") : non-character argument", fixed=TRUE)
+    expect_equal(res.errors$sim2, "Execution failed: Error in strsplit(df.name, split = \"\") : non-character argument", fixed=TRUE)
+    expect_equal(res.errors$sim3, "Execution failed: Error in strsplit(df.name, split = \"\") : non-character argument", fixed=TRUE)
 })
 
 context("ds.dataFrameSort::arg::sorted dataframe, of factors")
@@ -40,9 +40,9 @@ test_that("dataFrameSort_factors", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_equal(res.errors$sim1, "Command 'dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")' failed on 'sim1': Error while evaluating 'is.null(base::assign('sorted_df', value={dsBase::dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")}))' -> Error : specified sort.key variable is of type 'factor'\n", fixed=TRUE)
-    expect_equal(res.errors$sim2, "Command 'dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")' failed on 'sim2': Error while evaluating 'is.null(base::assign('sorted_df', value={dsBase::dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")}))' -> Error : specified sort.key variable is of type 'factor'\n", fixed=TRUE)
-    expect_equal(res.errors$sim3, "Command 'dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")' failed on 'sim3': Error while evaluating 'is.null(base::assign('sorted_df', value={dsBase::dataFrameSortDS(\"unsorted_df\", \"D$GENDER\", FALSE, \"default\")}))' -> Error : specified sort.key variable is of type 'factor'\n", fixed=TRUE)
+    expect_equal(res.errors$sim1, "Execution failed: Error : specified sort.key variable is of type 'factor'", fixed=TRUE)
+    expect_equal(res.errors$sim2, "Execution failed: Error : specified sort.key variable is of type 'factor'", fixed=TRUE)
+    expect_equal(res.errors$sim3, "Execution failed: Error : specified sort.key variable is of type 'factor'", fixed=TRUE)
 })
 
 #

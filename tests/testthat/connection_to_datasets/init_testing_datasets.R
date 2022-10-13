@@ -26,14 +26,22 @@ init.testing.datasets <- function()
       builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/testing/DATASET1", driver = "ArmadilloDriver")
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/testing/DATASET2", driver = "ArmadilloDriver")
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/testing/DATASET3", driver = "ArmadilloDriver")
+      ds.test_env$login.data <- builder$build()
+    }
     else 
     {
       ds.test_env$login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
     }
-    ds.test_env$stats.var <- list('ID','CHARACTER', 'LOGICAL','NA_VALUES','INTEGER','NULL_VALUES',
-                                  'NON_NEGATIVE_INTEGER','POSITIVE_INTEGER','NEGATIVE_INTEGER',
-                                  'NUMERIC', 'NON_NEGATIVE_NUMERIC','POSITIVE_NUMERIC','NEGATIVE_NUMERIC','FACTOR_CHARACTER', 
-                                  'FACTOR_INTEGER','IDENTIFIER','CATEGORY','IDENTIFIER','CATEGORY', 'NUMERIC_ONE_CHANGE', 'INTEGER_ONE_CHANGE')
+    ds.test_env$stats.var <- list('CHARACTER', 'LOGICAL', 'NA_VALUES', 'INTEGER', 'NULL_VALUES',
+                                  'NON_NEGATIVE_INTEGER', 'POSITIVE_INTEGER', 'NEGATIVE_INTEGER',
+                                  'NUMERIC', 'NON_NEGATIVE_NUMERIC', 'POSITIVE_NUMERIC', 'NEGATIVE_NUMERIC', 'FACTOR_CHARACTER',
+                                  'FACTOR_INTEGER', 'IDENTIFIER', 'CATEGORY', 'IDENTIFIER', 'CATEGORY', 'NUMERIC_ONE_CHANGE', 'INTEGER_ONE_CHANGE')
   }
 }
 
@@ -49,6 +57,12 @@ init.dataset.3 <- function()
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
       builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "TESTING.DATASET3", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
+    }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/testing/DATASET3", driver = "ArmadilloDriver")
       ds.test_env$login.data <- builder$build()
     }
     else
@@ -77,6 +91,12 @@ init.dataset.2 <- function()
       builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "TESTING.DATASET2", options=ds.test_env$options_2)
       ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "study2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/testing/DATASET2", driver = "ArmadilloDriver")
+      ds.test_env$login.data <- builder$build()
+    }
     else
     {
       login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
@@ -101,6 +121,12 @@ init.dataset.1 <- function()
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
       builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "TESTING.DATASET1", options=ds.test_env$options_1)
+      ds.test_env$login.data <- builder$build()
+    }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "study1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/testing/DATASET1", driver = "ArmadilloDriver")
       ds.test_env$login.data <- builder$build()
     }
     else
@@ -138,6 +164,14 @@ init.testing.dataset.factor_levels <- function()
       builder$append(server = "GROUP3", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/factor_levels/FACTOR_LEVELS1", driver = "ArmadilloDriver")
+      builder$append(server = "GROUP2", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/factor_levels/FACTOR_LEVELS2", driver = "ArmadilloDriver")
+      builder$append(server = "GROUP3", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/factor_levels/FACTOR_LEVELS3", driver = "ArmadilloDriver")
+      ds.test_env$login.data <- builder$build()
+    }
     else
     {
       login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
@@ -161,6 +195,12 @@ init.testing.dataset.factor_levels.1 <- function()
       builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "FACTOR_LEVELS.FACTOR_LEVELS1", options=ds.test_env$options_1)
       ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "GROUP1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/factor_levels/FACTOR_LEVELS1", driver = "ArmadilloDriver")
+      ds.test_env$login.data <- builder$build()
+    }
     else
     {
       login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
@@ -173,8 +213,8 @@ init.testing.dataset.factor_levels.1 <- function()
 
 log.in.data.server <- function()
 {
-  #print(ds.test_env$login.data)
-  ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
+  # ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
+  ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts"))
 }
 
 

@@ -53,7 +53,7 @@ test_that("simple disc test, type='split'", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 1)
-    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
+    expect_equal(res.errors$sim2, "Execution failed: Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure", fixed = TRUE)
 })
 
 test_that("simple disc test, naAction='pairwise.complete', type='split'", {
@@ -78,7 +78,7 @@ test_that("simple disc test, type='combine'", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 1)
-    expect_equal(res.errors$sim2, "Command 'corDS(\"D3\", NULL)' failed on 'sim2': Error while evaluating 'dsBase::corDS(\"D3\", NULL)' -> Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure\n", fixed = TRUE)
+    expect_equal(res.errors$sim2, "Execution failed: Error : ERROR: The ratio of the number of variables over the number of individual-level\n                          records exceeds the allowed threshold, there is a possible risk of disclosure", fixed = TRUE)
 
 #    expect_length(res, 5)
 #    expect_length(res$`Error message`, 3)
