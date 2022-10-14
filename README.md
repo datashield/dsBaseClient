@@ -22,7 +22,7 @@ DataSHIELD is a software package which allows you to do non-disclosive federated
 
 Detailed instructions on how to install DataSHIELD are at https://www.datashield.org/wiki.
 
-Discussion and help with using DataSHIELD can be obtained from The DataSHIELD Forum https://datashield.org/help
+Discussion and help with using DataSHIELD can be obtained from The DataSHIELD Forum https://datashield.discourse.group/
 
 The code here is organised as:
 
