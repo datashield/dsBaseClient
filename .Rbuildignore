@@ -8,6 +8,8 @@
 ^azure-pipelines_check\.Rout$
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$
+^docker-compose_armadillo\.yml$
+^docker-compose_opal\.yml$
 ^docker-compose\.yml$
 ^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
