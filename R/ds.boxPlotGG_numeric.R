@@ -1,5 +1,4 @@
 #' @title Draw boxplot with information from a numeric vector
-#' 
 #'
 #' @param x \code{character} Name of the numeric vector on the server side that holds the information to be plotted
 #' @param xlabel \code{caracter} (default \code{"x axis"}) Label to put on the x axis of the plot
