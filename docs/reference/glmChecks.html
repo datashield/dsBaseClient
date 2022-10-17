@@ -46,29 +46,40 @@ to verify all the variables and ensure the process does not halt inadvertanly.</
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">glmChecks</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data</span>, <span class="va">offset</span>, <span class="va">weights</span>, <span class="va">datasources</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">glmChecks</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data</span>, <span class="va">offset</span>, <span class="va">weights</span>, <span class="va">datasources</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>formula</dt>
 <dd><p>a character, a regression formula given as a string character</p></dd>
+
+
 <dt>data</dt>
 <dd><p>a character, the name of an optional data frame containing the variables in
 in the <code>formula</code>.</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>null or a numreric vector that can be used to specify an a priori known component to be
 included in the linear predictor during fitting.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>a character, the name of an optional vector of 'prior weights' to be used in the fitting
 process. Should be NULL or a numeric vector.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an integer 0 if check was passed and 1 if failed</p>
+    
+
+<p>an integer 0 if check was passed and 1 if failed</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -93,7 +104,7 @@ at complete) and evantually (if 'offset' or 'weights') are of 'numeric' with non
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -46,46 +46,61 @@ them to a matched set of alternative specified values.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.recodeValues</span><span class="op">(</span>
-  var.name <span class="op">=</span> <span class="cn">NULL</span>,
-  values2replace.vector <span class="op">=</span> <span class="cn">NULL</span>,
-  new.values.vector <span class="op">=</span> <span class="cn">NULL</span>,
-  missing <span class="op">=</span> <span class="cn">NULL</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>,
-  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.recodeValues</span><span class="op">(</span></span>
+<span>  var.name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  values2replace.vector <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  new.values.vector <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  missing <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>var.name</dt>
 <dd><p>a character string providing the name of the variable to be recoded.</p></dd>
+
+
 <dt>values2replace.vector</dt>
 <dd><p>a numeric or character vector specifying the values
 in the variable <code>var.name</code> to be replaced.</p></dd>
+
+
 <dt>new.values.vector</dt>
 <dd><p>a numeric or character vector specifying the new values.</p></dd>
+
+
 <dt>missing</dt>
 <dd><p>If supplied, any missing values in var.name will be replaced by this value. 
 Must be of length 1. If the analyst want to recode only missing values then it should also 
 specify an identical vector of values in both arguments <code>values2replace.vector</code> and 
 <code>new.values.vector</code>. Otherwise please look the <code>ds.replaceNA</code> function.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string that provides the name for the output object
 that is stored on the data servers.
 Default <code>recodevalues.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
+
 <dt>notify.of.progress</dt>
 <dd><p>logical. If TRUE console output should be produced to indicate
 progress. Default FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Assigns to each server a new variable with the recoded values. 
+    
+
+<p>Assigns to each server a new variable with the recoded values. 
 Also, two validity messages are returned to the client-side 
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.</p>
@@ -121,7 +136,7 @@ Server function called: <code>recodeValuesDS</code></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

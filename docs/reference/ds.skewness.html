@@ -46,29 +46,38 @@ that is stored on the server-side (Opal server).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.skewness</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, method <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"both"</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.skewness</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, method <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"both"</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character string specifying the name of a numeric variable.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>an integer value between 1 and 3 selecting one of the algorithms for computing skewness. 
 For more information see <strong>Details</strong>. The default value is set to 1.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>a character string which represents the type of analysis to carry out. 
 <code>type</code> can be set as: <code>'combine'</code>, <code>'split'</code> or <code>'both'</code>. For more information
 see <strong>Details</strong>. 
 The default value is set to <code>'both'</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.skewness</code> returns a matrix showing the skewness of the input numeric variable,
+    
+
+<p><code>ds.skewness</code> returns a matrix showing the skewness of the input numeric variable,
 the number of valid observations and the validity message.</p>
     </div>
     <div id="details">
@@ -98,43 +107,43 @@ the calculation of the skewness.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co">## Version 6, for version 5 see the Wiki</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># connecting to the Opal servers</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co">#Calculate the skewness of LAB_TSC numeric variable for each study separately and combined</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">ds.skewness</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"D$LAB_TSC"</span>,</span>
-<span class="r-in">              method <span class="op">=</span> <span class="fl">1</span>, </span>
-<span class="r-in">              type <span class="op">=</span> <span class="st">"both"</span>,</span>
-<span class="r-in">             datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Clear the Datashield R sessions and logout                 </span></span>
-<span class="r-in">  <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="op">}</span> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co">## Version 6, for version 5 see the Wiki</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># connecting to the Opal servers</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co">#Calculate the skewness of LAB_TSC numeric variable for each study separately and combined</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">ds.skewness</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"D$LAB_TSC"</span>,</span></span>
+<span class="r-in"><span>              method <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>              type <span class="op">=</span> <span class="st">"both"</span>,</span></span>
+<span class="r-in"><span>             datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout                 </span></span></span>
+<span class="r-in"><span>  <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="op">}</span> </span></span>
 </code></pre></div>
     </div>
   </div>
@@ -149,7 +158,7 @@ the calculation of the skewness.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

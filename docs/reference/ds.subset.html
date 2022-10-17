@@ -48,44 +48,61 @@ or charcater) or a table (data.frame or matrix).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.subset</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  subset <span class="op">=</span> <span class="st">"subsetObject"</span>,
-  completeCases <span class="op">=</span> <span class="cn">FALSE</span>,
-  rows <span class="op">=</span> <span class="cn">NULL</span>,
-  cols <span class="op">=</span> <span class="cn">NULL</span>,
-  logicalOperator <span class="op">=</span> <span class="cn">NULL</span>,
-  threshold <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.subset</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  subset <span class="op">=</span> <span class="st">"subsetObject"</span>,</span>
+<span>  completeCases <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  logicalOperator <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  threshold <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character, the name of the dataframe or the factor vector and the range of the subset.</p></dd>
+
+
 <dt>subset</dt>
 <dd><p>the name of the output object, a list that holds the subset object. If set to NULL
 the default name of this list is 'subsetObject'</p></dd>
+
+
 <dt>completeCases</dt>
 <dd><p>a character that tells if only complete cases should be included or not.</p></dd>
+
+
 <dt>rows</dt>
 <dd><p>a vector of integers, the indices of the rows to extract.</p></dd>
+
+
 <dt>cols</dt>
 <dd><p>a vector of integers or a vector of characters; the indices of the columns to extract or their names.</p></dd>
+
+
 <dt>logicalOperator</dt>
 <dd><p>a boolean, the logical parameter to use if the user wishes to subset a vector using a logical
 operator. This parameter is ignored if the input data is not a vector.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored
 if the input data is not a vector.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>no data are return to the user, the generated subset dataframe is stored on the server side.</p>
+    
+
+<p>no data are return to the user, the generated subset dataframe is stored on the server side.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -108,51 +125,51 @@ turned into missing values (NA). Hence an invalid subset is indicated by the fac
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># load the login data</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># login and assign some variables to R</span></span>
-<span class="r-in">  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"DIS_DIAB"</span>,<span class="st">"PM_BMI_CONTINUOUS"</span>,<span class="st">"LAB_HDL"</span>, <span class="st">"GENDER"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 1: generate a subset of the assigned dataframe (by default the table is named 'D')</span></span>
-<span class="r-in">  <span class="co"># with complete cases only</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD1'</span>, completeCases<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># display the dimensions of the initial table ('D') and those of the subset table ('subD1')</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.dim.html">ds.dim</a></span><span class="op">(</span><span class="st">'D'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.dim.html">ds.dim</a></span><span class="op">(</span><span class="st">'subD1'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 2: generate a subset of the assigned table (by default the table is named 'D')</span></span>
-<span class="r-in">  <span class="co"># with only the variables</span></span>
-<span class="r-in">  <span class="co"># DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD2'</span>, cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'DIS_DIAB'</span>,<span class="st">'PM_BMI_CONTINUOUS'</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 3: generate a subset of the table D with bmi values greater than or equal to 25.</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD3'</span>, logicalOperator<span class="op">=</span><span class="st">'PM_BMI_CONTINUOUS&gt;='</span>, threshold<span class="op">=</span><span class="fl">25</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a</span></span>
-<span class="r-in">  <span class="co"># subset bmi</span></span>
-<span class="r-in">  <span class="co"># vector with bmi values greater than or equal to 25</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'D$PM_BMI_CONTINUOUS'</span>, newobj<span class="op">=</span><span class="st">'BMI'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'BMI'</span>, subset<span class="op">=</span><span class="st">'BMI25plus'</span>, logicalOperator<span class="op">=</span><span class="st">'&gt;='</span>, threshold<span class="op">=</span><span class="fl">25</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 5: subsetting by rows:</span></span>
-<span class="r-in">  <span class="co"># get the logarithmic values of the variable 'lab_hdl' and generate a subset with</span></span>
-<span class="r-in">  <span class="co"># the first 50 observations of that new vector. If the specified number of row is</span></span>
-<span class="r-in">  <span class="co"># greater than the total</span></span>
-<span class="r-in">  <span class="co"># number of rows in any of the studies the process will stop.</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'log(D$LAB_HDL)'</span>, newobj<span class="op">=</span><span class="st">'logHDL'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'logHDL'</span>, subset<span class="op">=</span><span class="st">'subLAB_HDL'</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># now get a subset of the table 'D' with just the 100 first observations</span></span>
-<span class="r-in">  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD5'</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># load the login data</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># login and assign some variables to R</span></span></span>
+<span class="r-in"><span>  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"DIS_DIAB"</span>,<span class="st">"PM_BMI_CONTINUOUS"</span>,<span class="st">"LAB_HDL"</span>, <span class="st">"GENDER"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 1: generate a subset of the assigned dataframe (by default the table is named 'D')</span></span></span>
+<span class="r-in"><span>  <span class="co"># with complete cases only</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD1'</span>, completeCases<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># display the dimensions of the initial table ('D') and those of the subset table ('subD1')</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.dim.html">ds.dim</a></span><span class="op">(</span><span class="st">'D'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.dim.html">ds.dim</a></span><span class="op">(</span><span class="st">'subD1'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 2: generate a subset of the assigned table (by default the table is named 'D')</span></span></span>
+<span class="r-in"><span>  <span class="co"># with only the variables</span></span></span>
+<span class="r-in"><span>  <span class="co"># DIS_DIAB' and'PM_BMI_CONTINUOUS' specified by their name.</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD2'</span>, cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'DIS_DIAB'</span>,<span class="st">'PM_BMI_CONTINUOUS'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 3: generate a subset of the table D with bmi values greater than or equal to 25.</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD3'</span>, logicalOperator<span class="op">=</span><span class="st">'PM_BMI_CONTINUOUS&gt;='</span>, threshold<span class="op">=</span><span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 4: get the variable 'PM_BMI_CONTINUOUS' from the dataframe 'D' and generate a</span></span></span>
+<span class="r-in"><span>  <span class="co"># subset bmi</span></span></span>
+<span class="r-in"><span>  <span class="co"># vector with bmi values greater than or equal to 25</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'D$PM_BMI_CONTINUOUS'</span>, newobj<span class="op">=</span><span class="st">'BMI'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'BMI'</span>, subset<span class="op">=</span><span class="st">'BMI25plus'</span>, logicalOperator<span class="op">=</span><span class="st">'&gt;='</span>, threshold<span class="op">=</span><span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 5: subsetting by rows:</span></span></span>
+<span class="r-in"><span>  <span class="co"># get the logarithmic values of the variable 'lab_hdl' and generate a subset with</span></span></span>
+<span class="r-in"><span>  <span class="co"># the first 50 observations of that new vector. If the specified number of row is</span></span></span>
+<span class="r-in"><span>  <span class="co"># greater than the total</span></span></span>
+<span class="r-in"><span>  <span class="co"># number of rows in any of the studies the process will stop.</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'log(D$LAB_HDL)'</span>, newobj<span class="op">=</span><span class="st">'logHDL'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'logHDL'</span>, subset<span class="op">=</span><span class="st">'subLAB_HDL'</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># now get a subset of the table 'D' with just the 100 first observations</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subset</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subset<span class="op">=</span><span class="st">'subD5'</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -167,7 +184,7 @@ turned into missing values (NA). Hence an invalid subset is indicated by the fac
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -46,16 +46,16 @@ of grouping using categorical variables on the dataset (only for data frames)</p
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.boxPlot</span><span class="op">(</span>
-  <span class="va">x</span>,
-  variables <span class="op">=</span> <span class="cn">NULL</span>,
-  group <span class="op">=</span> <span class="cn">NULL</span>,
-  group2 <span class="op">=</span> <span class="cn">NULL</span>,
-  xlabel <span class="op">=</span> <span class="st">"x axis"</span>,
-  ylabel <span class="op">=</span> <span class="st">"y axis"</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pooled"</span>, <span class="st">"split"</span><span class="op">)</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.boxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xlabel <span class="op">=</span> <span class="st">"x axis"</span>,</span>
+<span>  ylabel <span class="op">=</span> <span class="st">"y axis"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"pooled"</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -63,25 +63,42 @@ of grouping using categorical variables on the dataset (only for data frames)</p
     <dl><dt>x</dt>
 <dd><p><code>character</code> Name of the data frame (or numeric vector) on the server side that
 holds the information to be plotted</p></dd>
+
+
 <dt>variables</dt>
 <dd><p><code>character vector</code> Name of the column(s) of the data frame to include on the boxplot</p></dd>
+
+
 <dt>group</dt>
 <dd><p><code>character</code> (default <code>NULL</code>) Name of the first grouping variable.</p></dd>
+
+
 <dt>group2</dt>
 <dd><p><code>character</code> (default <code>NULL</code>) Name of the second grouping variable.</p></dd>
+
+
 <dt>xlabel</dt>
 <dd><p><code>caracter</code> (default <code>"x axis"</code>) Label to put on the x axis of the plot</p></dd>
+
+
 <dt>ylabel</dt>
 <dd><p><code>caracter</code> (default <code>"y axis"</code>) Label to put on the y axis of the plot</p></dd>
+
+
 <dt>type</dt>
 <dd><p><code>character</code> Return a pooled plot (<code>"pooled"</code>) or a split plot (one for each study server
 <code>"split"</code>)</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> (default <code>NULL</code>) objects obtained after login</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ggplot</code> object</p>
+    
+
+<p><code>ggplot</code> object</p>
     </div>
 
     <div id="ref-examples">
@@ -100,7 +117,7 @@ holds the information to be plotted</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

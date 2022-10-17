@@ -44,61 +44,80 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.heatmapPlot</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="st">"combine"</span>,
-  show <span class="op">=</span> <span class="st">"all"</span>,
-  numints <span class="op">=</span> <span class="fl">20</span>,
-  method <span class="op">=</span> <span class="st">"smallCellsRule"</span>,
-  k <span class="op">=</span> <span class="fl">3</span>,
-  noise <span class="op">=</span> <span class="fl">0.25</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.heatmapPlot</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"combine"</span>,</span>
+<span>  show <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  numints <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"smallCellsRule"</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  noise <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character string specifying the name of a numerical vector.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>a character string specifying the name of a numerical vector.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>a character string that represents the type of graph to display.
 <code>type</code> argument can be set as <code>'combine'</code> or <code>'split'</code>. 
 Default <code>'combine'</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>show</dt>
 <dd><p>a character string that represents where the plot should be focused. 
 <code>show</code> argument can be set as <code>'all'</code> or <code>'zoomed'</code>. 
 Default <code>'all'</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>numints</dt>
 <dd><p>the number of intervals for a density grid object. 
 Default <code>numints</code> value is <code>20</code>.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>a character string that defines which heat map will be created. 
 The <code>method</code> argument can be set as <code>'smallCellsRule'</code>, 
 <code>'deterministic'</code> or <code>'probabilistic'</code>. 
 Default <code>'smallCellsRule'</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>the number of the nearest neighbours for which their centroid is calculated. 
 Default <code>k</code> value is <code>3</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>noise</dt>
 <dd><p>the percentage of the initial variance that is used as the variance of the embedded
 noise if the argument <code>method</code> is set to <code>'probabilistic'</code>. 
 Default <code>noise</code> value is  <code>0.25</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.heatmapPlot</code> returns to the client-side a heat map plot and a message specifying 
+    
+
+<p><code>ds.heatmapPlot</code> returns to the client-side a heat map plot and a message specifying 
 the number of invalid cells in each study.</p>
     </div>
     <div id="details">
@@ -166,7 +185,7 @@ to or greater than the pre-specified threshold <code>'nfilter.noise'</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

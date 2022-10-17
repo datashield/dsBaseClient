@@ -48,16 +48,16 @@ or - as a special case - randomly permutes a vector, dataframe or matrix.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.sample</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  size <span class="op">=</span> <span class="cn">NULL</span>,
-  seed.as.integer <span class="op">=</span> <span class="cn">NULL</span>,
-  replace <span class="op">=</span> <span class="cn">FALSE</span>,
-  prob <span class="op">=</span> <span class="cn">NULL</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>,
-  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.sample</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seed.as.integer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  replace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  prob <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,6 +75,8 @@ that although ds.sample effectively calls sample on the serverside
 it behaves somewhat differently to sample - for the reasons identified
 at the top of 'details' and so help for sample should be used as a guide
 only.</p></dd>
+
+
 <dt>size</dt>
 <dd><p>a numeric/integer scalar indicating the size of the sample to
 be drawn. If the [x] argument is a vector, matrix or data.frame on the
@@ -86,6 +88,8 @@ or set equal to 923, the output on the serverside will be a vector of length 923
 permuted into a random order. If the [replace] argument is FALSE then the value
 of [size] must be no greater than the length of object to be sorted - if
 this is violated an error message will be returned.</p></dd>
+
+
 <dt>seed.as.integer</dt>
 <dd><p>this is precisely equivalent to the [seed.as.integer]
 arguments for the pseudo-random number generating functions (e.g.
@@ -107,20 +111,28 @@ being used in each call to the function will always be of length 1 and so the
 source-specific seed multiplier will also be 1. The function ds.rUnif.o
 calls the serverside assign function setSeedDS.o to create the random seeds in
 each source</p></dd>
+
+
 <dt>replace</dt>
 <dd><p>a Boolean indicator (TRUE or FALSE) specifying whether the
 sample should be drawn with or without replacement. Default is FALSE so
 the sample is drawn without replacement. For further details see
 help for sample in native R.</p></dd>
+
+
 <dt>prob</dt>
 <dd><p>a character string containing the name of a numeric vector
 of probability weights on the serverside that is associated with each of the
 elements of the vector to be sampled enabling the drawing of a sample
 with some elements given higher probability of being drawn than others.
 For further details see help for sample in native R.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>This a character string providing a name for the output
 data.frame which defaults to 'newobj.sample' if no name is specified.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>specifies the particular opal object(s) to use. If the &lt;datasources&gt;
 argument is not specified the default set of opals will be used. The default opals
@@ -131,13 +143,18 @@ apply the function solely to e.g. the second opal server in a set of three,
 the argument can be specified as: e.g. datasources=opals.em[2].
 If you wish to specify the first and third opal servers in a set you specify:
 e.g. datasources=opals.em[c(1,3)]</p></dd>
+
+
 <dt>notify.of.progress</dt>
 <dd><p>specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the object specified by the &lt;newobj&gt; argument (or default name
+    
+
+<p>the object specified by the &lt;newobj&gt; argument (or default name
 'newobj.sample')
 which is written to the serverside. In addition, two validity messages are returned
 indicating whether &lt;newobj&gt; has been created in each data source and if so whether
@@ -221,7 +238,7 @@ why line 2 is inserted to create a copy with a shorter name.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

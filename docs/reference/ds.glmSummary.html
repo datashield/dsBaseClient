@@ -50,7 +50,7 @@ that can safely be sent to the clientside without a risk of disclosure</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.glmSummary</span><span class="op">(</span><span class="va">x.name</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.glmSummary</span><span class="op">(</span><span class="va">x.name</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -58,11 +58,15 @@ that can safely be sent to the clientside without a risk of disclosure</p>
     <dl><dt>x.name</dt>
 <dd><p>a character string providing the name of a glm object on the
 serverside that has previously been created e.g. using ds.glmSLMA</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string specifying the name of the object to which
 the summary_glm object representing the output of summary(glm object)
 in each study is to be written. If no &lt;newobj&gt; argument is specified, the output
 object on the serverside defaults to "summary_glm.newobj".</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>specifies the particular 'connection object(s)' to use.
 e.g. if you have several data sets in the sources you are working with
@@ -82,10 +86,13 @@ of the studies/sources you are working with. For example, the second source
 in a set of three, can be specified using a call such as datasources=connection.xyz[2].
 On the other hand, if you wish to specify solely the first and third sources, the
 appropriate call will be datasources=connections.xyz[c(1,3)]</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>ds.glmSummary writes a new object to the serverside with name given by
+    
+
+<p>ds.glmSummary writes a new object to the serverside with name given by
 the newobj argument or if that argument is missing or null it is called "summary_glm.newobj".
 In addition, ds.glmSummary returns an object containing two lists to the clientside
 the two lists are named "glm.obj" and "glm.summary.obj" which contain all of the
@@ -151,7 +158,7 @@ are listed under "return" below.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
