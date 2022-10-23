@@ -44,7 +44,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">meanByClassHelper2</span><span class="op">(</span><span class="va">dtsources</span>, <span class="va">tablenames</span>, <span class="va">variables</span>, <span class="va">invalidrecorder</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">meanByClassHelper2</span><span class="op">(</span><span class="va">dtsources</span>, <span class="va">tablenames</span>, <span class="va">variables</span>, <span class="va">invalidrecorder</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -52,16 +52,25 @@
     <dl><dt>dtsources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
+
 <dt>tablenames</dt>
 <dd><p>a character vector, the name of the subset tables</p></dd>
+
+
 <dt>variables</dt>
 <dd><p>a character vector, the names of the continuous variables to computes a mean for.</p></dd>
+
+
 <dt>invalidrecorder</dt>
 <dd><p>a list, holds informations about invalid subsets in each study.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a matrix, a table which contains the length, mean and standard deviation of each of the
+    
+
+<p>a matrix, a table which contains the length, mean and standard deviation of each of the
 specified 'variables' in each subset table.</p>
     </div>
     <div id="details">
@@ -86,7 +95,7 @@ if the user sets the parmater 'type' to combine (the default behaviour of 'ds.me
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

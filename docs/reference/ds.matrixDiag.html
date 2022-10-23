@@ -48,13 +48,13 @@ on the server-side.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.matrixDiag</span><span class="op">(</span>
-  x1 <span class="op">=</span> <span class="cn">NULL</span>,
-  aim <span class="op">=</span> <span class="cn">NULL</span>,
-  nrows.scalar <span class="op">=</span> <span class="cn">NULL</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.matrixDiag</span><span class="op">(</span></span>
+<span>  x1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  aim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nrows.scalar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,6 +65,8 @@ the name of a server-side scalar or vector. Also, a numeric value or vector
 specified from the client-side can be speficied. This argument depends 
 on the value specified in <code>aim</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>aim</dt>
 <dd><p>a character string specifying the behaviour of the function.
 This can be set as: 
@@ -72,23 +74,32 @@ This can be set as:
 <code>"serverside.matrix.2.vector"</code>, <code>"clientside.vector.2.matrix"</code>
 or <code>"clientside.scalar.2.matrix"</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>nrows.scalar</dt>
 <dd><p>an integer specifying the dimensions of the matrix 
 note that the matrix is square (same number of rows and columns).  
 If this argument is not specified the matrix dimensions are 
 defined by the length of the vector. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string that provides the name for the output 
 variable that is stored on the data servers. Default <code>matrixdiag.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.matrixDiag</code> returns to the server-side the square matrix diagonal. 
+    
+
+<p><code>ds.matrixDiag</code> returns to the server-side the square matrix diagonal. 
 Also, two validity messages are returned
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.</p>
@@ -148,7 +159,7 @@ repeatedly to fill up the diagonal. For example, the vector is of length
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

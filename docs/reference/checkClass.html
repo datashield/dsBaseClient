@@ -44,7 +44,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">checkClass</span><span class="op">(</span>datasources <span class="op">=</span> <span class="cn">NULL</span>, obj <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkClass</span><span class="op">(</span>datasources <span class="op">=</span> <span class="cn">NULL</span>, obj <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -52,12 +52,17 @@
     <dl><dt>datasources</dt>
 <dd><p>a list of <code>DSConnection-class</code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see datashield.connections_default.</p></dd>
+
+
 <dt>obj</dt>
 <dd><p>a string character, the name of the object to check for.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a message or the class of the object if the object has the same class in all studies.</p>
+    
+
+<p>a message or the class of the object if the object has the same class in all studies.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -77,7 +82,7 @@ the collaborating studies. If that is not the case the process is stopped</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

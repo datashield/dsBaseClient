@@ -50,38 +50,51 @@ such that, depending on the argument marginal, the coefficients can be interpret
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.elspline</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">n</span>,
-  marginal <span class="op">=</span> <span class="cn">FALSE</span>,
-  names <span class="op">=</span> <span class="cn">NULL</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.elspline</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">n</span>,</span>
+<span>  marginal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>the name of the input numeric variable</p></dd>
+
+
 <dt>n</dt>
 <dd><p>integer greater than 2, knots are computed such that they cut n equally-spaced
 intervals along the range of x</p></dd>
+
+
 <dt>marginal</dt>
 <dd><p>logical, how to parametrize the spline, see Details</p></dd>
+
+
 <dt>names</dt>
 <dd><p>character, vector of names for constructed variables</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string that provides the name for the output 
 variable that is stored on the data servers. Default <code>elspline.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an object of class "lspline" and "matrix", which its name is specified by the
+    
+
+<p>an object of class "lspline" and "matrix", which its name is specified by the
 <code>newobj</code> argument (or its default name "elspline.newobj"), is assigned on the serverside.</p>
     </div>
     <div id="details">
@@ -110,7 +123,7 @@ range of x into n equal-width intervals.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

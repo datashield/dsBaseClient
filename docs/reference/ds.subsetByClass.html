@@ -46,30 +46,39 @@ subset(s)  variables or data frames for each category.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.subsetByClass</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  subsets <span class="op">=</span> <span class="st">"subClasses"</span>,
-  variables <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.subsetByClass</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  subsets <span class="op">=</span> <span class="st">"subClasses"</span>,</span>
+<span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character, the name of the dataframe or the vector to generate subsets from.</p></dd>
+
+
 <dt>subsets</dt>
 <dd><p>the name of the output object, a list that holds the subset objects. If set to NULL
 the default name of this list is 'subClasses'.</p></dd>
+
+
 <dt>variables</dt>
 <dd><p>a vector of string characters, the name(s) of the variables to subset by.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a no data are return to the user but messages are printed out.</p>
+    
+
+<p>a no data are return to the user but messages are printed out.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -91,38 +100,38 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># load the login data</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># login and assign some variables to R</span></span>
-<span class="r-in">  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'DIS_DIAB'</span>,<span class="st">'PM_BMI_CONTINUOUS'</span>,<span class="st">'LAB_HDL'</span>, <span class="st">'GENDER'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 1: generate all possible subsets from the table assigned above (one subset table</span></span>
-<span class="r-in">  <span class="co"># for each class in each factor)</span></span>
-<span class="r-in">  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subsets<span class="op">=</span><span class="st">'subclasses'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># display the names of the subset tables that were generated in each study</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subclasses'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 2: subset the table initially assigned by the variable 'GENDER'</span></span>
-<span class="r-in">  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subsets<span class="op">=</span><span class="st">'subtables'</span>, variables<span class="op">=</span><span class="st">'GENDER'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># display the names of the subset tables that were generated in each study</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subtables'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 3: generate a new variable 'gender' and split it into two vectors: males</span></span>
-<span class="r-in">  <span class="co"># and females</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'D$GENDER'</span>, newobj<span class="op">=</span><span class="st">'gender'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'gender'</span>, subsets<span class="op">=</span><span class="st">'subvectors'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="co"># display the names of the subset vectors that were generated in each study</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subvectors'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># load the login data</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># login and assign some variables to R</span></span></span>
+<span class="r-in"><span>  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'DIS_DIAB'</span>,<span class="st">'PM_BMI_CONTINUOUS'</span>,<span class="st">'LAB_HDL'</span>, <span class="st">'GENDER'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 1: generate all possible subsets from the table assigned above (one subset table</span></span></span>
+<span class="r-in"><span>  <span class="co"># for each class in each factor)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subsets<span class="op">=</span><span class="st">'subclasses'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># display the names of the subset tables that were generated in each study</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subclasses'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 2: subset the table initially assigned by the variable 'GENDER'</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D'</span>, subsets<span class="op">=</span><span class="st">'subtables'</span>, variables<span class="op">=</span><span class="st">'GENDER'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># display the names of the subset tables that were generated in each study</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subtables'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 3: generate a new variable 'gender' and split it into two vectors: males</span></span></span>
+<span class="r-in"><span>  <span class="co"># and females</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.assign.html">ds.assign</a></span><span class="op">(</span>toAssign<span class="op">=</span><span class="st">'D$GENDER'</span>, newobj<span class="op">=</span><span class="st">'gender'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.subsetByClass</span><span class="op">(</span>x<span class="op">=</span><span class="st">'gender'</span>, subsets<span class="op">=</span><span class="st">'subvectors'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># display the names of the subset vectors that were generated in each study</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.names.html">ds.names</a></span><span class="op">(</span><span class="st">'subvectors'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -137,7 +146,7 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

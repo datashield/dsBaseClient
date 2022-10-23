@@ -46,20 +46,20 @@ on the server-side.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.glm</span><span class="op">(</span>
-  formula <span class="op">=</span> <span class="cn">NULL</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  family <span class="op">=</span> <span class="cn">NULL</span>,
-  offset <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  checks <span class="op">=</span> <span class="cn">FALSE</span>,
-  maxit <span class="op">=</span> <span class="fl">20</span>,
-  CI <span class="op">=</span> <span class="fl">0.95</span>,
-  viewIter <span class="op">=</span> <span class="cn">FALSE</span>,
-  viewVarCov <span class="op">=</span> <span class="cn">FALSE</span>,
-  viewCor <span class="op">=</span> <span class="cn">FALSE</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.glm</span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  family <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  offset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  maxit <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  CI <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  viewIter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  viewVarCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  viewCor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,78 +68,134 @@ on the server-side.</p>
 <dd><p>an object of class formula describing
 the model to be fitted. For more information see 
 <strong>Details</strong>.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>a character string specifying the name of an (optional) data frame that contains
 all of the variables in the GLM formula.</p></dd>
+
+
 <dt>family</dt>
 <dd><p>identifies the error distribution function to use in
 the model. 
 This can be set as <code>"gaussian"</code>, <code>"binomial"</code> and <code>"poisson"</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>a character string specifying the name of a variable to be used as
 an offset. <code>ds.glm</code> does not allow an offset vector to be
 written directly into the GLM formula. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>a character string specifying the name of a variable containing
 prior regression weights for the fitting process. 
 <code>ds.glm</code> does not allow a weights vector to be
 written directly into the GLM formula.</p></dd>
+
+
 <dt>checks</dt>
 <dd><p>logical. If TRUE <code>ds.glm</code> checks the structural integrity 
 of the model. Default FALSE. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>maxit</dt>
 <dd><p>a numeric scalar denoting the maximum number of iterations that are permitted
 before <code>ds.glm</code> declares that the model has failed to converge.</p></dd>
+
+
 <dt>CI</dt>
 <dd><p>a numeric value specifying the confidence interval. Default <code>0.95</code>.</p></dd>
+
+
 <dt>viewIter</dt>
 <dd><p>logical. If TRUE the results of the intermediate iterations are 
 printed. If FALSE only final results are shown. Default FALSE.</p></dd>
+
+
 <dt>viewVarCov</dt>
 <dd><p>logical. If TRUE the variance-covariance matrix
 of parameter estimates is returned. Default FALSE.</p></dd>
+
+
 <dt>viewCor</dt>
 <dd><p>logical. If TRUE the correlation matrix of
 parameter estimates is returned. Default FALSE.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Many of the elements of the output list returned by <code>ds.glm</code> are 
+    
+
+<p>Many of the elements of the output list returned by <code>ds.glm</code> are 
 equivalent to those returned by the <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code> function in native R. However,
 potentially disclosive elements
 such as individual-level residuals and linear predictor values are blocked. 
-In this case, only non-disclosive elements are returned from each study separately.
-The list of elements returned by <code>ds.glm</code> is mentioned below:
-<code>Nvalid</code>: total number of valid observational units across all studies.
-<code>Nmissing</code>: total number of observational units across all studies with at least
-                            one data item missing.
-<code>Ntotal</code>: total of observational units across all studies, the  
-                          sum of valid and missing units.
-<code>disclosure.risk</code>: risk of disclosure,
+In this case, only non-disclosive elements are returned from each study separately.</p>
+
+
+<p>The list of elements returned by <code>ds.glm</code> is mentioned below:</p>
+
+
+<p><code>Nvalid</code>: total number of valid observational units across all studies.</p>
+
+
+<p><code>Nmissing</code>: total number of observational units across all studies with at least
+                            one data item missing.</p>
+
+
+<p><code>Ntotal</code>: total of observational units across all studies, the  
+                          sum of valid and missing units.</p>
+
+
+<p><code>disclosure.risk</code>: risk of disclosure,
                                    the value 1 indicates that one of the disclosure traps 
-                                   has been triggered in that study.
-<code>errorMessage</code>: explanation for any errors or disclosure risks identified.
-<code>nsubs</code>: total number of observational units used by <code>ds.glm</code> function. 
-<code>nb</code> usually is the same as <code>nvalid</code>.
-<code>iter</code>: total number of iterations before convergence achieved.
-<code>family</code>: error family and link function.
-<code>formula</code>: model formula, see description of formula as an input parameter (above).
-<code>coefficients</code>: a matrix with 5 columns:</p><ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
+                                   has been triggered in that study.</p>
+
+
+<p><code>errorMessage</code>: explanation for any errors or disclosure risks identified.</p>
+
+
+<p><code>nsubs</code>: total number of observational units used by <code>ds.glm</code> function.</p>
+<p></p>
+<p><code>nb</code> usually is the same as <code>nvalid</code>.</p>
+
+
+<p><code>iter</code>: total number of iterations before convergence achieved.</p>
+
+
+<p><code>family</code>: error family and link function.</p>
+
+
+<p><code>formula</code>: model formula, see description of formula as an input parameter (above).</p>
+
+
+<p><code>coefficients</code>: a matrix with 5 columns:</p>
+<p></p>
+<ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
 <li><p>second: the estimated values</p></li>
 <li><p>third: corresponding standard errors of the estimated values</p></li>
 <li><p>fourth: the ratio of estimate/standard error.</p></li>
 <li><p>fifth: the p-value treating that as a standardised normal deviate</p></li>
-</ul><p><code>dev</code>: residual deviance.
-<code>df</code>: residual degrees of freedom. <code>nb</code> residual degrees of freedom + number of
-   parameters in model = <code>nsubs</code>.
-<code>output.information</code>: reminder to the user that there 
-                                     is more information at the top of the output.
-Also, the estimated coefficients and standard errors expanded with estimated confidence intervals
+</ul><p><code>dev</code>: residual deviance.</p>
+
+
+<p><code>df</code>: residual degrees of freedom. <code>nb</code> residual degrees of freedom + number of
+   parameters in model = <code>nsubs</code>.</p>
+
+
+<p><code>output.information</code>: reminder to the user that there 
+                                     is more information at the top of the output.</p>
+
+
+<p>Also, the estimated coefficients and standard errors expanded with estimated confidence intervals
    with % coverage specified by <code>ci</code> argument are returned. 
    For the poisson model,
    the output is generated on the scale of the linear predictor (log rates and log rate ratios) 
@@ -266,114 +322,114 @@ R package metafor to meta-analyse the key parameters.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co">## Version 6, for version 5 see Wiki</span></span>
-<span class="r-in">  <span class="co"># Connecting to the Opal servers</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Example 1: Fitting GLM for survival analysis</span></span>
-<span class="r-in">  <span class="co"># For this analysis we need to load survival data from the server </span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Log onto the remote Opal training servers</span></span>
-<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Fit the GLM </span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># make sure that the outcome is numeric </span></span>
-<span class="r-in">  <span class="fu"><a href="ds.asNumeric.html">ds.asNumeric</a></span><span class="op">(</span>x.name <span class="op">=</span> <span class="st">"D$cens"</span>,</span>
-<span class="r-in">               newobj <span class="op">=</span> <span class="st">"EVENT"</span>,</span>
-<span class="r-in">               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">               </span>
-<span class="r-in">  <span class="co"># convert time id variable to a factor </span></span>
-<span class="r-in">               </span>
-<span class="r-in">  <span class="fu"><a href="ds.asFactor.html">ds.asFactor</a></span><span class="op">(</span>input.var.name <span class="op">=</span> <span class="st">"D$time.id"</span>,</span>
-<span class="r-in">              newobj <span class="op">=</span> <span class="st">"TID"</span>,</span>
-<span class="r-in">              datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">              </span>
-<span class="r-in">  <span class="co"># create in the server-side the log(survtime) variable</span></span>
-<span class="r-in">         </span>
-<span class="r-in">  <span class="fu"><a href="ds.log.html">ds.log</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"D$survtime"</span>,</span>
-<span class="r-in">         newobj <span class="op">=</span> <span class="st">"log.surv"</span>,</span>
-<span class="r-in">         datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">EVENT</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">TID</span> <span class="op">+</span> <span class="va">female</span> <span class="op">*</span> <span class="va">age.60</span>,</span>
-<span class="r-in">         data <span class="op">=</span> <span class="st">"D"</span>,</span>
-<span class="r-in">         family <span class="op">=</span> <span class="st">"poisson"</span>, </span>
-<span class="r-in">         offset <span class="op">=</span> <span class="st">"log.surv"</span>,</span>
-<span class="r-in">         weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span class="r-in">         checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">         maxit <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">         CI <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span class="r-in">         viewIter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">         viewVarCov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">         viewCor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">         datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">         </span>
-<span class="r-in">  <span class="co"># Clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Example 2: run a logistic regression without interaction</span></span>
-<span class="r-in">  <span class="co"># For this example we are going to load another dataset  </span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Log onto the remote Opal training servers</span></span>
-<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Fit the logistic regression model</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL"</span>,</span>
-<span class="r-in">                data <span class="op">=</span> <span class="st">"D"</span>,</span>
-<span class="r-in">                family <span class="op">=</span> <span class="st">"binomial"</span>,</span>
-<span class="r-in">                datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">                </span>
-<span class="r-in">  <span class="va">mod</span> <span class="co">#visualize the results of the model</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 3: fit a standard Gaussian linear model with an interaction</span></span>
-<span class="r-in"><span class="co"># We are using the same data as in example 2. </span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL"</span>,</span>
-<span class="r-in">              data <span class="op">=</span> <span class="st">"D"</span>,</span>
-<span class="r-in">              family <span class="op">=</span> <span class="st">"gaussian"</span>,</span>
-<span class="r-in">              datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mod</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Clear the Datashield R sessions and logout</span></span>
-<span class="r-in"><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co">## Version 6, for version 5 see Wiki</span></span></span>
+<span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Example 1: Fitting GLM for survival analysis</span></span></span>
+<span class="r-in"><span>  <span class="co"># For this analysis we need to load survival data from the server </span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Log onto the remote Opal training servers</span></span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Fit the GLM </span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># make sure that the outcome is numeric </span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.asNumeric.html">ds.asNumeric</a></span><span class="op">(</span>x.name <span class="op">=</span> <span class="st">"D$cens"</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"EVENT"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span>  <span class="co"># convert time id variable to a factor </span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.asFactor.html">ds.asFactor</a></span><span class="op">(</span>input.var.name <span class="op">=</span> <span class="st">"D$time.id"</span>,</span></span>
+<span class="r-in"><span>              newobj <span class="op">=</span> <span class="st">"TID"</span>,</span></span>
+<span class="r-in"><span>              datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>              </span></span>
+<span class="r-in"><span>  <span class="co"># create in the server-side the log(survtime) variable</span></span></span>
+<span class="r-in"><span>         </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.log.html">ds.log</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"D$survtime"</span>,</span></span>
+<span class="r-in"><span>         newobj <span class="op">=</span> <span class="st">"log.surv"</span>,</span></span>
+<span class="r-in"><span>         datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">EVENT</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">TID</span> <span class="op">+</span> <span class="va">female</span> <span class="op">*</span> <span class="va">age.60</span>,</span></span>
+<span class="r-in"><span>         data <span class="op">=</span> <span class="st">"D"</span>,</span></span>
+<span class="r-in"><span>         family <span class="op">=</span> <span class="st">"poisson"</span>, </span></span>
+<span class="r-in"><span>         offset <span class="op">=</span> <span class="st">"log.surv"</span>,</span></span>
+<span class="r-in"><span>         weights <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>         checks <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>         maxit <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>         CI <span class="op">=</span> <span class="fl">0.95</span>,</span></span>
+<span class="r-in"><span>         viewIter <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>         viewVarCov <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>         viewCor <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>         datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>         </span></span>
+<span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Example 2: run a logistic regression without interaction</span></span></span>
+<span class="r-in"><span>  <span class="co"># For this example we are going to load another dataset  </span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Log onto the remote Opal training servers</span></span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Fit the logistic regression model</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"DIS_DIAB~GENDER+PM_BMI_CONTINUOUS+LAB_HDL"</span>,</span></span>
+<span class="r-in"><span>                data <span class="op">=</span> <span class="st">"D"</span>,</span></span>
+<span class="r-in"><span>                family <span class="op">=</span> <span class="st">"binomial"</span>,</span></span>
+<span class="r-in"><span>                datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                </span></span>
+<span class="r-in"><span>  <span class="va">mod</span> <span class="co">#visualize the results of the model</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 3: fit a standard Gaussian linear model with an interaction</span></span></span>
+<span class="r-in"><span><span class="co"># We are using the same data as in example 2. </span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">ds.glm</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"PM_BMI_CONTINUOUS~DIS_DIAB*GENDER+LAB_HDL"</span>,</span></span>
+<span class="r-in"><span>              data <span class="op">=</span> <span class="st">"D"</span>,</span></span>
+<span class="r-in"><span>              family <span class="op">=</span> <span class="st">"gaussian"</span>,</span></span>
+<span class="r-in"><span>              datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mod</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -388,7 +444,7 @@ R package metafor to meta-analyse the key parameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
