@@ -17,6 +17,7 @@ upload_testing_dataset_table <- function(opal, project_name, table_name, local_f
     opal.table_save(opal, data, project_name, table_name, id.name = "_row_id_", force = TRUE)
 }
 
+# opal <- opal.login('administrator','datashield_test&', url='https://192.168.56.100:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
 opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
 
 upload_testing_dataset_table(opal, 'ANTHRO', 'anthro1', 'ANTHRO/anthro1.rda')

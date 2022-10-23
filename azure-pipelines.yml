@@ -5,7 +5,6 @@
 # Does checks and tests then saves results to testStatus repo.
 #
 # Inside the root directory $(Pipeline.Workspace) will be a file tree like:
-# /datashield-infrastructure  <- Checked out version of datashield/datashield-infrastructure
 # /dsBaseClient               <- Checked out version of datashield/dsBaseClient
 # /testStatus                 <- Checked out version of datashield/testStatus
 # /logs                       <- Where results of tests and lots are collated
@@ -45,12 +44,6 @@ resources:
     name: datashield/testStatus
     ref: master
 
-  - repository: datashield-infrastructureRepo
-    type: github
-    endpoint: datashield-testing
-    name: datashield/datashield-infrastructure
-    ref: v6.2.0
-
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
@@ -82,9 +75,6 @@ jobs:
     # This is an Azure bug - https://github.com/microsoft/azure-pipelines-yaml/issues/403
   - checkout: self
     path: 'dsBaseClient'
-
-  - checkout: datashield-infrastructureRepo
-    path: 'datashield-infrastructure'
 
   - checkout: testStatusRepo
     path: 'testStatus'
@@ -237,7 +227,7 @@ jobs:
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.2.1-dev'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install DataSHIELD test datasets'
+    displayName: 'Install DataSHIELD dsBase'
     condition: succeeded()
 
 
