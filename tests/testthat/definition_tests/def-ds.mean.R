@@ -16,9 +16,9 @@ source("definition_tests/def-assign-stats.R")
   mean.local.3 <- mean(some.values.3)
   
   mean.server <- ds.mean(x=variable.name,type='split', check=TRUE,save.mean.Nvalid=FALSE)
-  expect_equal(mean.server[[1]][1], mean.local.1, tolerance = ds.test_env$tolerance)
-  expect_equal(mean.server[[1]][2], mean.local.2, tolerance = ds.test_env$tolerance)
-  expect_equal(mean.server[[1]][3], mean.local.3, tolerance = ds.test_env$tolerance)
+  expect_equal(mean.server[[1]][1], mean.local.1, tolerance = ds.test_env$low_tolerance)
+  expect_equal(mean.server[[1]][2], mean.local.2, tolerance = ds.test_env$low_tolerance)
+  expect_equal(mean.server[[1]][3], mean.local.3, tolerance = ds.test_env$low_tolerance)
 }
 
 .test.residual.combined <- function(variable.name, some.values)

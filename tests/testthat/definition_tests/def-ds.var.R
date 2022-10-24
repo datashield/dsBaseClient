@@ -16,9 +16,9 @@ source("definition_tests/def-assign-stats.R")
   
   
   var.servers <- ds.var(x=variable.name,type='split', check=TRUE)
-  expect_equal(var.servers[[1]][1], var.local.1, tolerance = ds.test_env$tolerance)
-  expect_equal(var.servers[[1]][2], var.local.2, tolerance = ds.test_env$tolerance)
-  expect_equal(var.servers[[1]][3], var.local.3, tolerance = ds.test_env$tolerance)
+  expect_equal(var.servers[[1]][1], var.local.1, tolerance = ds.test_env$low_tolerance)
+  expect_equal(var.servers[[1]][2], var.local.2, tolerance = ds.test_env$low_tolerance)
+  expect_equal(var.servers[[1]][3], var.local.3, tolerance = ds.test_env$low_tolerance)
 }
 
 .test.variance.positive.combine <- function(variable.name)
