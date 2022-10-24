@@ -25,7 +25,7 @@ source("definition_tests/def-assign-stats.R")
 {
   mean.server <- ds.mean(variable.name,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
   residue <- sum(some.values - mean.server[[1]][1])
-  expect_equal(residue, 0, tolerance = ds.test_env$tolerance)
+  expect_equal(residue, 0, tolerance = ds.test_env$low_tolerance)
 }  
 
 
@@ -36,9 +36,9 @@ source("definition_tests/def-assign-stats.R")
   residue.2 <- sum(some.values.2 - mean.server[[1]][2])
   residue.3 <- sum(some.values.3 - mean.server[[1]][3])
   
-  expect_equal(residue.1, 0, tolerance = ds.test_env$tolerance)
-  expect_equal(residue.2, 0, tolerance = ds.test_env$tolerance)
-  expect_equal(residue.3, 0, tolerance = ds.test_env$tolerance)
+  expect_equal(residue.1, 0, tolerance = ds.test_env$low_tolerance)
+  expect_equal(residue.2, 0, tolerance = ds.test_env$low_tolerance)
+  expect_equal(residue.3, 0, tolerance = ds.test_env$low_tolerance)
 }
 
 .test.mean.large <- function(variable.name, some.values)
