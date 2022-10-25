@@ -63,7 +63,8 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     stop("**** Unknown Driver ****", call. = FALSE)
 }
 
-ds.test_env$high_tolerance   <- 10^-7
-ds.test_env$medium_tolerance <- 10^-6
-ds.test_env$low_tolerance    <- 10^-4
-ds.test_env$tolerance        <- ds.test_env$medium_tolerance
+ds.test_env$high_tolerance     <- 10^-7
+ds.test_env$medium_tolerance   <- 10^-6
+ds.test_env$low_tolerance      <- 10^-4
+ds.test_env$very_low_tolerance <- 10^-3
+ds.test_env$tolerance          <- ds.test_env$medium_tolerance

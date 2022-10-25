@@ -55,9 +55,9 @@ source("definition_tests/def-assign-stats.R")
   std.servers[2] <- sqrt(var.servers[[1]][2])
   std.servers[3] <- sqrt(var.servers[[1]][3])
   
-  expect_equal(std.servers[1],std.local.1, tolerance = ds.test_env$tolerance)
-  expect_equal(std.servers[2],std.local.2, tolerance = ds.test_env$tolerance)
-  expect_equal(std.servers[3],std.local.3, tolerance = ds.test_env$tolerance)
+  expect_equal(std.servers[1],std.local.1, tolerance = ds.test_env$low_tolerance)
+  expect_equal(std.servers[2],std.local.2, tolerance = ds.test_env$low_tolerance)
+  expect_equal(std.servers[3],std.local.3, tolerance = ds.test_env$low_tolerance)
 }
 
 .test.variance.large <- function(variable.name, some.values)
