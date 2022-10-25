@@ -22,7 +22,7 @@ library(e1071)
 library(DescTools)
 
 library(DSOpal)
-# library(DSMolgenisArmadillo)
+library(DSMolgenisArmadillo)
 library(DSLite)
 
 source("dstest_functions/ds_expect_variables.R")
