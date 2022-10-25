@@ -38,7 +38,6 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     ds.test_env$options_3 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
 
     ds.test_env$secure_login_details <- TRUE
-    ds.test_env$tolerance            <- 10^-6
 } else if (ds.test_env$driver == "ArmadilloDriver") {
     ds.test_env$ping_address <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
     ds.test_env$ping_config  <- config(timeout=5)
@@ -60,7 +59,12 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     ds.test_env$options_3 <- "list()"
 
     ds.test_env$secure_login_details <- TRUE
-    ds.test_env$tolerance            <- 10^-6
 } else {
     stop("**** Unknown Driver ****", call. = FALSE)
 }
+
+ds.test_env$high_tolerance     <- 10^-7
+ds.test_env$medium_tolerance   <- 10^-6
+ds.test_env$low_tolerance      <- 10^-4
+ds.test_env$very_low_tolerance <- 10^-3
+ds.test_env$tolerance          <- ds.test_env$medium_tolerance

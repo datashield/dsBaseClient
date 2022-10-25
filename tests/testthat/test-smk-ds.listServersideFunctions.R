@@ -31,7 +31,7 @@ test_that("check results", {
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "nsDS", "qlsplineDS", "rBinomDS", "rNormDS", "rPoisDS",
       "rUnifDS", "ranksSecureDS2", "ranksSecureDS4", "ranksSecureDS5", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS",
-      "replaceNaDS", "rowColCalcDS", "seedDS", "seqDS", "sin", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
+      "replaceNaDS", "rowColCalcDS", "seqDS", "sin", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
       "tableDS.assign", "tan", "tapplyDS.assign", "unlist", "unListDS", "vectorDS"
     ))
     aggregate.functions <- factor(c(
