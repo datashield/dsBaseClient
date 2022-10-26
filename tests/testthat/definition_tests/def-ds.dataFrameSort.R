@@ -140,7 +140,7 @@
   for ( i in 1:length(server.data)){
     expect_equal(server.data[[i]][,key.name],
                  sort.local[[i]][,key.name],
-                 ds.test_env$tolerance) 
+                 ds.test_env$low_tolerance) 
   }
 }
 
