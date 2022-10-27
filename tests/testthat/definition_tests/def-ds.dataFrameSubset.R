@@ -163,7 +163,7 @@ subset.by.rows<-function(initial.df.name,V1.name,V2.name,boole,keep.NAs,df.creat
   }
   dist.local <- .calc.distribution.locally(local.rbind.df[,V1.name])
   dist.server <- .calc.distribution.server(subset.var)
-  expect_equal(dist.local,dist.server, tolerance = ds.test_env$tolerance)
+  expect_equal(dist.local,dist.server, tolerance = ds.test_env$low_tolerance)
 }
 
 
