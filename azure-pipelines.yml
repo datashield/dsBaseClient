@@ -61,10 +61,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2.0
+    displayName: Nightly build - v6.2.1-dev
     branches:
       include:
-      - v6.2.0
+      - v6.2.1.dev
     always: true
 
 jobs:
