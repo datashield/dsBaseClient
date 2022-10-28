@@ -136,7 +136,7 @@ jobs:
       sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.0', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.1-dev', dependencies = TRUE)"
 
       # XML grep for coverage report merging
       sudo apt-get install -qq xml-twig-tools -y
@@ -538,7 +538,7 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.2.1.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.2.1-04.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 120
