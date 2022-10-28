@@ -276,6 +276,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                default_driver <- "OpalDriver";
                 testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -328,6 +329,7 @@ jobs:
           # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
           # progress_rep <- ProgressReporter$new(max_failures = 999999);
           # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # default_driver <- "OpalDriver";
           # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_discctrl.txt
@@ -387,6 +389,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                default_driver <- "OpalDriver";
                 testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -457,6 +460,7 @@ jobs:
       #     junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
       #     progress_rep <- ProgressReporter$new(max_failures = 999999);
       #     multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+      #     default_driver <- "OpalDriver";
       #     testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_bug.txt
@@ -592,6 +596,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                default_driver <- "ArmadilloDriver";
                 testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -644,6 +649,7 @@ jobs:
           # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
           # progress_rep <- ProgressReporter$new(max_failures = 999999);
           # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # default_driver <- "ArmadilloDriver";
           # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_discctrl.txt
@@ -711,6 +717,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                default_driver <- "ArmadilloDriver";
                 testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -781,6 +788,7 @@ jobs:
       #     junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
       #     progress_rep <- ProgressReporter$new(max_failures = 999999);
       #     multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+      #     default_driver <- "ArmadilloDriver";
       #     testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_bug.txt
