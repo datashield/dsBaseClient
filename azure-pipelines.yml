@@ -1,7 +1,8 @@
 #########################################################################################
 # DataSHIELD Azure test suite.
-# Starts with a vanilla Ubuntu VM, installs dsBase and dsBaseClient (as well as 
-# dependencies - including a fully functional Opal server).
+# Starts with a vanilla Opal and Armadillo docker composition, installs dsBase
+# and dsBaseClient (as well as dependencies - including a fully functional
+# Opal and Armadillo server).
 # Does checks and tests then saves results to testStatus repo.
 #
 # Inside the root directory $(Pipeline.Workspace) will be a file tree like:
@@ -32,7 +33,6 @@ variables:
   _r_check_system_clock_: 0
 
 
-
 #########################################################################################
 # Need to define all the GH repos and their access tokens, see:
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
@@ -44,6 +44,7 @@ resources:
     name: datashield/testStatus
     ref: master
 
+
 #########################################################################################
 # When and under what condition to run the pipeline.
 schedules:
@@ -54,18 +55,20 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2.0
+    displayName: Nightly build - v6.2.1-dev
     branches:
       include:
-      - v6.2.0
+      - v6.2.1-dev
     always: true
+
+#########################################################################################
+# Jobs
 
 jobs:
 - job: build_and_run_tests
-  timeoutInMinutes: 150
+  timeoutInMinutes: 180
   pool:
     vmImage: ubuntu-20.04
-
 
   steps:
     #####################################################################################
@@ -80,7 +83,6 @@ jobs:
     path: 'testStatus'
     persistCredentials: true
     condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
-
 
 
     #####################################################################################
@@ -134,6 +136,8 @@ jobs:
       sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.0', dependencies = TRUE)"
+
       # XML grep for coverage report merging
       sudo apt-get install -qq xml-twig-tools -y
 
@@ -186,9 +190,14 @@ jobs:
     condition: succeeded()
     continueOnError: true
 
+    #####################################################################################
+    #
+    #                                  Opal phase
+    #
+    #####################################################################################
 
     #####################################################################################
-    # Deploy docker.
+    # Deploy docker for Opal.
     # If previous steps have failed then don't run.
   - task: DockerCompose@0
     inputs:
@@ -199,7 +208,7 @@ jobs:
       buildImages: true
       abortOnContainerExit: true
       detached: true
-    displayName: 'Install servers (opal, rserver, mongodb)'
+    displayName: 'Install Opal servers (opal, rserver, mongodb)'
     condition: succeeded()
 
 
@@ -212,7 +221,7 @@ jobs:
       R -q -f "obiba_opal-upload_testing_datasets.R"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install DataSHIELD test datasets'
+    displayName: 'Install test datasets to Opal'
     condition: succeeded()
 
 
@@ -223,7 +232,7 @@ jobs:
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.2.1-dev'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install DataSHIELD dsBase'
+    displayName: 'Install dsBase to Opal'
     condition: succeeded()
 
 
@@ -335,28 +344,14 @@ jobs:
 
 
     #####################################################################################
-    # Install dsDanger on server
+    # Install dsDanger on Opal server
     # If previous steps have failed then don't run
   - bash: |
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = 'v6.2-dev'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Install dsDanger DataSHIELD package on server'
-    condition: succeeded()
-
-
-    #####################################################################################
-    # Install dsDangerClient.
-    # If previous steps have failed then don't run
-  - bash: |
-
-      sudo R -q -e 'devtools::install()'
-
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.2.0', dependencies = TRUE)"
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Install dsDangerClient DataSHIELD package'
+    displayName: 'Install dsDanger package on Opal server'
     condition: succeeded()
 
 
@@ -401,18 +396,6 @@ jobs:
       # Merge coverage results
       cat test_results_dsbase.txt test_results_dsdanger.txt > $(Pipeline.Workspace)/logs/test_console_output.txt
       xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
-
-      # Create 'coveragelist.csv'
-      # sudo R -q -e '
-      #   library(covr);
-      #   dsbase.res   <- base::readRDS("test_results_dsbase.rds")
-      #   dsdanger.res <- base::readRDS("test_results_dsdanger.rds")
-      #   write.csv(
-      #       coverage_to_list(
-      #           c(dsbase.res, dsdanger.res)
-      #       ),
-      #       "coveragelist.csv"
-      #   )'
 
       # Create 'coveragelist.csv'
       sudo R -q -e '
@@ -463,30 +446,30 @@ jobs:
     # which are not default behaviour: output the results to a JUnit xml file, not stop
     # when a small number of errors have happened, run through the code coverage tool.
     # TODO: Tidy up variable names - use timestamps here.
-  - bash: |
+#  - bash: |
 
       # junit reporter output is to test_results_bug.xml
-      sudo R -q -e '
-          library(testthat);
-          output_file <- file("test_console_output_bug.txt");
-          sink(output_file);
-          sink(output_file, type = "message");
-          junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
-          progress_rep <- ProgressReporter$new(max_failures = 999999);
-          multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-          testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
+      # sudo R -q -e '
+      #     library(testthat);
+      #     output_file <- file("test_console_output_bug.txt");
+      #     sink(output_file);
+      #     sink(output_file, type = "message");
+      #     junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
+      #     progress_rep <- ProgressReporter$new(max_failures = 999999);
+            multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+      #     testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
 
-      cat test_console_output_bug.txt
+      # cat test_console_output_bug.txt
 
-      if [ -e test_results_bug.xml ]; then
-          mv test_results_bug.xml $(Pipeline.Workspace)/logs
-      else
-          touch $(Pipeline.Workspace)/logs/test_results_bug.xml
-      fi
+      # if [ -e test_results_bug.xml ]; then
+      #     mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_bug.xml
+      # fi
 
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Bug report output'
-    condition: succeededOrFailed()
+#     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+#     displayName: 'Bug report output'
+#     condition: succeededOrFailed()
 
 
     #####################################################################################
@@ -515,10 +498,337 @@ jobs:
 
 
     #####################################################################################
+    #
+    #                                  Armadillo phase
+    #
+    #####################################################################################
+
+    #####################################################################################
+    # Deploy docker for Opal.
+    # If previous steps have failed then don't run.
+  - task: DockerCompose@0
+    inputs:
+      action: Run Services
+      dockerComposeFile: ../dsBaseClient/docker-compose_armadillo.yml
+      projectName: dsBaseClient
+      qualifyImageNames: true
+      buildImages: true
+      abortOnContainerExit: true
+      detached: true
+    displayName: 'Install Armadillo servers (armadillo, rserver, minio)'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install test datasets.
+    # If previous steps have failed then don't run.
+  - bash: |
+      sleep 240
+
+      R -q -f "molgenis_armadillo-upload_testing_datasets.R"
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
+    displayName: 'Install test datasets to Armadillo'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Install dsBase.
+    # If previous steps have failed then don't run.
+  - bash: |
+      curl -u admin:admin http://localhost:8080/whitelist
+
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.2.1.tar.gz" -X POST http://localhost:8080/install-package
+
+      docker container restart dsbaseclient_armadillo_1
+      sleep 120
+
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+
+      curl -u admin:admin http://localhost:8080/whitelist
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsBase to Armadillo'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code. This is wrapped up with
+    # code coverage. The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+    # TODO: Why is DSLite needed for this to run?!
+  - bash: |
+
+      # There is an issue with the way we are using packages. The wrapped up test command
+      # below fails in a way that implies that it is not installed. I cannot figure out
+      # why this is case. As a work around we can run some of the functions below. My
+      # best guess is that there is an implicit build or similar that happens. Although
+      # I cannot replicate that directly with build etc directly.
+
+      sudo R --verbose -e 'devtools::check()'
+
+      mkdir $(Pipeline.Workspace)/logs
+
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      #
+      # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
+      # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+      sudo R -q -e '
+        library(covr);
+        dsbase.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'
+                library(testthat);
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
+                progress_rep <- ProgressReporter$new(max_failures = 999999);
+                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+                '"'"'
+            )
+        );
+        base::saveRDS(dsbase.res, "test_results_dsbase.rds")'
+
+      # display the test console output
+      cat test_console_output_dsbase.txt
+
+      grep --quiet " FAIL 0 " test_console_output_dsbase.txt
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Code coverage and JUnit report output, with dsBase'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_dsbase.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      exit $issue_count
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code for discctrl reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+    #- bash: |
+
+      # junit reporter output is to test_results_discctrl.xml
+      # sudo R -q -e '
+          # library(testthat);
+          # output_file <- file("test_console_output_discctrl.txt");
+          # sink(output_file);
+          # sink(output_file, type = "message");
+          # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
+          # progress_rep <- ProgressReporter$new(max_failures = 999999);
+          # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+          # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_discctrl.txt
+
+      # if [ -e test_results_discctrl.xml ]; then
+      #     mv test_results_discctrl.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_discctrl.xml
+      # fi
+
+    # workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    # displayName: 'discctrl report output'
+    # condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Install dsDanger on Opal server
+    # If previous steps have failed then don't run
+  - bash: |
+      curl -u admin:admin http://localhost:8080/whitelist
+
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.2.1.tar.gz" -X POST http://localhost:8080/install-package
+
+      docker container restart dsbaseclient_armadillo_1
+      sleep 120
+
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
+
+      curl -u admin:admin http://localhost:8080/whitelist
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsDanger package on Armadillo server'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code. This is wrapped up with
+    # code coverage. The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+  - bash: |
+
+      # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
+      sudo R --verbose -e 'devtools::check()'
+
+      pwd
+      mkdir $(Pipeline.Workspace)/logs
+
+      # run the coverage tool and output to coveragelist.csv
+      # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
+      # R output and messages are redirected by sink() to test_console_output.txt
+      # junit reporter output is to test_results.xml
+      sudo R -q -e '
+        library(covr);
+        dsdanger.res <- covr::package_coverage(
+            type = c("none"),
+            code = c(
+                '"'"'
+                library(testthat);
+                output_file <- file("test_console_output_dsdanger.txt");
+                sink(output_file);
+                sink(output_file, type = "message");
+                library(testthat);
+                junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
+                progress_rep <- ProgressReporter$new(max_failures = 999999);
+                multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
+                '"'"'
+            )
+        );
+        base::saveRDS(dsdanger.res, "test_results_dsdanger.rds")'
+
+      # Merge coverage results
+      cat test_results_dsbase.txt test_results_dsdanger.txt > $(Pipeline.Workspace)/logs/test_console_output.txt
+      xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" test_results_dsbase.xml test_results_dsdanger.xml > test_results.xml
+
+      # Create 'coveragelist.csv'
+      sudo R -q -e '
+        library(covr);
+        dsbase.res <- base::readRDS("test_results_dsbase.rds")
+        write.csv(
+            coverage_to_list(
+                dsbase.res
+            ),
+            "coveragelist.csv"
+        )'
+
+      # display the test console output
+      cat test_console_output_dsdanger.txt
+
+      mv coveragelist.csv $(Pipeline.Workspace)/logs
+      mv test_results.xml $(Pipeline.Workspace)/logs
+
+      grep --quiet " FAIL 0 " test_console_output_dsdanger.txt
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Code coverage and JUnit report output, with dsBase and dsDanger'
+    condition: succeeded()
+
+
+    #####################################################################################
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      exit $issue_count
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Check for errors & Failures in JUnit file'
+    condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Essentially run devtools::test() on the checked out code for bug reporting.
+    # The actual command is vary convoluted as it had to do some things
+    # which are not default behaviour: output the results to a JUnit xml file, not stop
+    # when a small number of errors have happened, run through the code coverage tool.
+    # TODO: Tidy up variable names - use timestamps here.
+#  - bash: |
+
+      # junit reporter output is to test_results_bug.xml
+      # sudo R -q -e '
+      #     library(testthat);
+      #     output_file <- file("test_console_output_bug.txt");
+      #     sink(output_file);
+      #     sink(output_file, type = "message");
+      #     junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
+      #     progress_rep <- ProgressReporter$new(max_failures = 999999);
+      #     multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+      #     testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
+
+      # cat test_console_output_bug.txt
+
+      # if [ -e test_results_bug.xml ]; then
+      #     mv test_results_bug.xml $(Pipeline.Workspace)/logs
+      # else
+      #     touch $(Pipeline.Workspace)/logs/test_results_bug.xml
+      # fi
+
+#     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+#     displayName: 'Bug report output'
+#     condition: succeededOrFailed()
+
+
+    #####################################################################################
+    # Parse the JUnit file to see if there are any errors/warnings. If there are then 
+    # echo them so finding bugs should be easier.
+    # This should run even if previous steps have failed.
+  - bash: |
+
+      # Strip out when error and failure = 0 and count the number of times it does not.
+      issue_count=$(sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep --count errors=)
+      echo "Number of testsuites with issues: "$issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep errors= > issues.log
+      cat issues.log
+      no_issue_count=$(sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep -v --count errors=)
+      echo
+      echo "Number of testsuites with no issues: "$no_issue_count
+      echo "Testsuites with issues:"
+      sed 's/failures="0" errors="0"//' test_results_bug.xml | sed 's/errors="0" failures="0"//' | grep "<testsuite " | grep -v errors= > no_issues.log
+      cat no_issues.log
+      exit 0
+
+    workingDirectory: $(Pipeline.Workspace)/logs
+    displayName: 'Bug summary report output'
+    condition: succeededOrFailed()
+
+    #####################################################################################
+    #                                Windup phase
+    #####################################################################################
+
+    #####################################################################################
     # Output some important version numbers to file. This gets added to the testStatus 
     # commit so it can be parsed and used on the status table.
   - bash: |
-  
+
       echo 'branch:'$(branchName) >> $(datetime).txt
       echo 'os:'$(lsb_release -ds) >> $(datetime).txt
       echo 'R:'$(R --version | head -n 1) >> $(datetime).txt
@@ -534,14 +844,14 @@ jobs:
     # TODO: Automatically pull in better email/name info from somewhere.
     # TODO: More debug info in commit message
   - bash: |
-  
+
       # Git needs some config set to be able to push to a repo. 
       git config --global user.email "you@example.com"
       git config --global user.name "Azure pipeline"
 
       # This repo is checked out in detatched head state, so reconnect it here.
       git checkout master
-      
+
       # It is possible that other commits have been made to the testStatus repo since it 
       # was checked out. i.e. other pipeline runs might have finished.
       git pull
@@ -573,7 +883,7 @@ jobs:
       git commit -m "Azure auto test for $(projectName)/$(branchName) @ $(datetime)" -m "Debug info:\nProjectName:$(projectName)\nBranchName:$(branchName)\nDataTime:$(datetime)"
       git push
       exit 0
-      
+
     workingDirectory: $(Pipeline.Workspace)/testStatus
     displayName: 'Parse test results'
     condition: and(eq(variables['Build.Repository.Name'], 'datashield/dsBaseClient'), ne(variables['Build.Reason'], 'PullRequest'))
@@ -583,40 +893,40 @@ jobs:
     # Output the environment information to the console. This is useful for debugging.
     # Always do this, even if some of the above has failed or the job has been cacelled.
   - bash: |
-  
+
       echo 'BranchName: '$(branchName)
       echo 'ProjectName: '$(projectName)
       echo 'RepoName: '$(repoName)
-      
+
       echo -e "\n#############################"
       echo -e "ls /: ######################"
       ls $(Pipeline.Workspace)
-    
+
       echo -e "\n#############################"
       echo -e "lscpu: ######################"
       lscpu
-      
+
       echo -e "\n#############################"
       echo -e "memory: #####################"
       free -m
-      
+
       echo -e "\n#############################"
       echo -e "env: ########################"
       env
-      
+
       echo -e "\n#############################"
       echo -e "Puppet version: #############"
       /opt/puppetlabs/bin/puppet --version
       /opt/puppetlabs/puppet/bin/r10k version
-      
+
       echo -e "\n#############################"
       echo -e "Rprofile: ###################"
       cat $(Pipeline.Workspace)/dsBaseClient/.Rprofile
-      
+
       echo -e "\n#############################"
       echo -e "R installed.packages(): #####"
       R -e 'installed.packages()'
-      
+
       echo -e "\n#############################"
       echo -e "R sessionInfo(): ############"
       R -e 'sessionInfo()'
