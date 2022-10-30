@@ -502,6 +502,16 @@ jobs:
 
 
     #####################################################################################
+    # 'Down' Opal Docker Composition
+  - bash: |
+
+      docker compose -f docker-compose_opal.yml down -v
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Down Opal Docker Composition'
+    condition: succeeded()
+
+    #####################################################################################
     #
     #                                  Armadillo phase
     #
