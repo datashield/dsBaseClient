@@ -12,8 +12,8 @@ options(datashield.env=ds.test_env)
 
 ds.test_env$server_ip_address <- init.ip.address()
 
-if (! exists("default_driver")) {
-    ds.test_env$driver <- default_driver
+if (! is.null(getOption("default_driver"))) {
+    ds.test_env$driver <- getOption("default_driver")
 } else {
     # switch between "DSLiteDriver" and "OpalDriver", "ArmadilloDriver" to test
     # ds.test_env$driver <- "DSLiteDriver"
