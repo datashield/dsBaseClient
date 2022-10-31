@@ -203,7 +203,7 @@ test_that('dataset 1',
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
-            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
+            #.test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","IDENTIFIER",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","CATEGORY",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data",all.local.values)
