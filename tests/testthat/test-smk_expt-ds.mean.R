@@ -41,23 +41,23 @@ test_that("mean values [both]", {
 
 context("ds.mean::smk_expt::type=combine")
 test_that("mean values [combine]", {
-    stat.mean <- ds.mean(x='D$LAB_TRIG',type='combine')
+#    stat.mean <- ds.mean(x='D$LAB_TRIG',type='combine')
 
-    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-combine.rds')
+#    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-combine.rds')
 })
 
 context("ds.mean::smk_expt::type=split")
 test_that("mean values [split]", {
-    stat.mean <- ds.mean(x='D$LAB_TRIG', type='split')
+#    stat.mean <- ds.mean(x='D$LAB_TRIG', type='split')
 
-    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-split.rds')
+#    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-split.rds')
 })
 
 context("ds.mean::smk_expt::type=both")
 test_that("mean values [both]", {
-    stat.mean <- ds.mean(x='D$LAB_TRIG', type='both')
+#    stat.mean <- ds.mean(x='D$LAB_TRIG', type='both')
 
-    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-both.rds')
+#    expect_equal_to_reference(stat.mean, 'smk_expt-results/ds.mean-LAB_TRIG-both.rds')
 })
 
 context("ds.mean::smk_expt::type=combine")
