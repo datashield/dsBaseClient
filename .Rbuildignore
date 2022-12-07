@@ -14,5 +14,5 @@
 ^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$
-^dsBase_6.2.1-04.tar.gz$
-^dsDanger_6.2.1-01.tar.gz$
+^dsBase_6.2.1.tar.gz$
+^dsDanger_6.2.1.tar.gz$
