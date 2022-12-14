@@ -15,4 +15,5 @@
 ^_pkgdown\.yml$
 ^docs$
 ^dsBase_6.2.1.tar.gz$
+^dsBase_6.2.1-permissive.tar.gz$
 ^dsDanger_6.2.1.tar.gz$
