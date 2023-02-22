@@ -61,15 +61,15 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.2.1-dev
+    displayName: Nightly build - v6.3.0-dev
     branches:
       include:
-      - v6.2.1.dev
+      - v6.3.0-dev
     always: true
 
 jobs:
 - job: build_and_run_tests
-  timeoutInMinutes: 150
+  timeoutInMinutes: 240
   pool:
     vmImage: ubuntu-20.04
 
