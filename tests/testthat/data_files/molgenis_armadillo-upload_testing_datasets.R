@@ -8,6 +8,7 @@ upload_testing_dataset_table <- function(project_name, folder_name, table_name, 
     dataset_name <- load(file = dataset_file_name)
     dataset      <- eval(as.symbol(dataset_name))
     MolgenisArmadillo::armadillo.upload_table(project_name, folder_name, dataset, table_name)
+    gc()
 }
 
 # MolgenisArmadillo::armadillo.set_credentials(server = 'http://127.0.0.1:9000', access_key = "molgenis", secret_key = "molgenis")
