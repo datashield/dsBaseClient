@@ -112,7 +112,7 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
-      echo "options(Ncpus=2)" >> ~/.Rprofile
+      echo "options(Ncpus=4)" >> ~/.Rprofile
 
     displayName: 'Tweak local R env using .Rprofile'
     condition: succeeded()
