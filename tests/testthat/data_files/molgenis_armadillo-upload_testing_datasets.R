@@ -44,6 +44,10 @@ upload_testing_dataset_table('datashield', 'factor_levels', 'FACTOR_LEVELS1', 'F
 upload_testing_dataset_table('datashield', 'factor_levels', 'FACTOR_LEVELS2', 'FACTOR_LEVELS/FACTOR_LEVELS2.rda')
 upload_testing_dataset_table('datashield', 'factor_levels', 'FACTOR_LEVELS3', 'FACTOR_LEVELS/FACTOR_LEVELS3.rda')
 
+upload_testing_dataset_table('datashield', 'gamlss', 'gamlss1', 'GAMLSS/gamlss1.rda')
+upload_testing_dataset_table('datashield', 'gamlss', 'gamlss2', 'GAMLSS/gamlss2.rda')
+upload_testing_dataset_table('datashield', 'gamlss', 'gamlss3', 'GAMLSS/gamlss3.rda')
+
 upload_testing_dataset_table('datashield', 'survival', 'COLLAPSE_WITH_MISSING1', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING1.rda')
 upload_testing_dataset_table('datashield', 'survival', 'COLLAPSE_WITH_MISSING2', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING2.rda')
 upload_testing_dataset_table('datashield', 'survival', 'COLLAPSE_WITH_MISSING3', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING3.rda')
