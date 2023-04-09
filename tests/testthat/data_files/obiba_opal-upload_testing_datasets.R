@@ -48,6 +48,10 @@ upload_testing_dataset_table(opal, 'FACTOR_LEVELS', 'FACTOR_LEVELS1', 'FACTOR_LE
 upload_testing_dataset_table(opal, 'FACTOR_LEVELS', 'FACTOR_LEVELS2', 'FACTOR_LEVELS/FACTOR_LEVELS2.rda')
 upload_testing_dataset_table(opal, 'FACTOR_LEVELS', 'FACTOR_LEVELS3', 'FACTOR_LEVELS/FACTOR_LEVELS3.rda')
 
+upload_testing_dataset_table(opal, 'GAMLSS', 'gamlss1', 'GAMLSS/gamlss1.rda')
+upload_testing_dataset_table(opal, 'GAMLSS', 'gamlss2', 'GAMLSS/gamlss2.rda')
+upload_testing_dataset_table(opal, 'GAMLSS', 'gamlss3', 'GAMLSS/gamlss3.rda')
+
 upload_testing_dataset_table(opal, 'SURVIVAL', 'COLLAPSE_WITH_MISSING1', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING1.rda')
 upload_testing_dataset_table(opal, 'SURVIVAL', 'COLLAPSE_WITH_MISSING2', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING2.rda')
 upload_testing_dataset_table(opal, 'SURVIVAL', 'COLLAPSE_WITH_MISSING3', 'SURVIVAL/COLLAPSE_MISSING/COLLAPSE_WITH_MISSING3.rda')
