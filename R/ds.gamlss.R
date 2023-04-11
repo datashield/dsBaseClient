@@ -73,12 +73,12 @@
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
 #'
-ds.gamlss <- function(formula = formula, sigma.formula = '~1', nu.formula = '~1',
+ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
                       tau.formula = '~1', family = 'NO()', data = NULL, method = 'RS', 
                       mu.fix = FALSE, sigma.fix = FALSE, nu.fix = FALSE, 
                       tau.fix = FALSE, control = c(0.001, 20, 1, 1, 1, 1, Inf),
-                      i.control = c(0.001, 50, 30, 0.001), centiles=FALSE, 
-                      xvar=NULL, newobj=NULL, datasources=NULL){
+                      i.control = c(0.001, 50, 30, 0.001), centiles = FALSE, 
+                      xvar = NULL, newobj = NULL, datasources = NULL){
   
   # look for DS connections
   if(is.null(datasources)){
