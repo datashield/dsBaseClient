@@ -5,7 +5,7 @@
 \title{Generalized Additive Models for Location Scale and Shape}
 \usage{
 ds.gamlss(
-  formula = formula,
+  formula = NULL,
   sigma.formula = "~1",
   nu.formula = "~1",
   tau.formula = "~1",
