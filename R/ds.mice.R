@@ -12,10 +12,8 @@
 #' @details For additional details see the help header of mice function in native R mice
 #' package.
 #' @param data a data frame or a matrix containing the incomplete data. 
-#' @param m Number of multiple imputations. The default is m=5. The maximum allowed 
-#' number in DataSHIELD is m=20.
-#' @param maxit A scalar giving the number of iterations. The default is 5. The maximum 
-#' allowed number in DataSHIELD is maxit=30.
+#' @param m Number of multiple imputations. The default is m=5. 
+#' @param maxit A scalar giving the number of iterations. The default is 5.
 #' @param method Can be either a single string, or a vector of strings with length 
 #' ncol(data), specifying the imputation method to be used for each column in data. If 
 #' specified as a single string, the same method will be used for all blocks. The default 

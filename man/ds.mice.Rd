@@ -20,11 +20,9 @@ ds.mice(
 \arguments{
 \item{data}{a data frame or a matrix containing the incomplete data.}
 
-\item{m}{Number of multiple imputations. The default is m=5. The maximum allowed 
-number in DataSHIELD is m=20.}
+\item{m}{Number of multiple imputations. The default is m=5.}
 
-\item{maxit}{A scalar giving the number of iterations. The default is 5. The maximum 
-allowed number in DataSHIELD is maxit=30.}
+\item{maxit}{A scalar giving the number of iterations. The default is 5.}
 
 \item{method}{Can be either a single string, or a vector of strings with length 
 ncol(data), specifying the imputation method to be used for each column in data. If 
