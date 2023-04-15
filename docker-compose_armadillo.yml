@@ -11,7 +11,7 @@ services:
             - 8080:8080
     rserver:
         hostname: rserver
-        image: datashield/armadillo-rserver_caravan-uniform:1.0.1
+        image: datashield/armadillo-rserver_caravan-yak:1.0.0
         environment:
             DEBUG: "FALSE"
         ports:
