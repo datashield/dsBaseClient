@@ -22,6 +22,7 @@ context("ds.gamlss::arg::test errors")
 test_that("gamlss_errors", {
     expect_error(ds.gamlss(), " Please provide a valid formula!", fixed=TRUE)
     expect_error(ds.gamlss(formula="e3_bw ~ e3_gac_None", method="RG"), "Argument 'method' must be either 'RS', 'CG' or 'mixed'", fixed=TRUE)
+    expect_error(ds.gamlss(formula="e3_bw ~ e3_gac_None", method="RS", centiles=TRUE), "Provide the name of the explanatory variable in 'xvar' argument", fixed=TRUE)
 })
 
 #
