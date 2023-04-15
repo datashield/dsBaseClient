@@ -68,8 +68,9 @@
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return a gamlss object with all components as in the native R gamlss function. 
-#' The components y (the response response) and residuals (the normalised quantile 
-#' residuals of the model) are not disclosed to the client-side.
+#' Individual-level information like the components y (the response response) and 
+#' residuals (the normalised quantile residuals of the model) are not disclosed to 
+#' the client-side.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
 #'
