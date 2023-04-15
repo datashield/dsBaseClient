@@ -29,8 +29,7 @@ test_that("gamlss, birth weight", {
     model_e3_bw.DS <- ds.gamlss(formula = 'e3_bw ~ e3_gac_None',
                               sigma.formula = 'e3_bw ~ e3_gac_None',
                               data = 'D', family = 'NO()', centiles = TRUE,
-                              xvar = 'D$e3_gac_None', newobj = 'z_scores_e3_bw',
-                              datasources = connections)
+                              xvar = 'D$e3_gac_None', newobj = 'z_scores_e3_bw')
 
     expect_length(model_e3_bw.DS, 3)
     expect_length(model_e3_bw.DS$study1, 2)
@@ -116,8 +115,7 @@ test_that("gamlss, Z BMI", {
   model_zbmi_who.DS <- ds.gamlss(formula = 'hs_zbmi_who ~ hs_child_age_None+h_mbmi_None',
                                  sigma.formula = 'hs_zbmi_who ~ hs_child_age_None',
                                  data = 'D', family = 'NO()', centiles = TRUE,
-                                 xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_zbmi_who',
-                                 datasources = connections) 
+                                 xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_zbmi_who') 
   
   expect_length(model_zbmi_who.DS, 3)
   expect_length(model_zbmi_who.DS$study1, 2)
@@ -207,8 +205,7 @@ test_that("gamlss, RAVEN TEST", {
                                       nu.formula = 'hs_correct_raven ~ hs_child_age_None',
                                       tau.formula = 'hs_correct_raven ~ hs_child_age_None',
                                       data = 'D', family = 'BCT()', centiles = TRUE,
-                                      xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_correct_raven',
-                                      datasources = connections) 
+                                      xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_correct_raven') 
   
   expect_length(model_correct_raven.DS, 3)
   expect_length(model_correct_raven.DS$study1, 2)
@@ -294,8 +291,7 @@ test_that("gamlss, WEIGHT GAIN", {
   model_wgtgain.DS <- ds.gamlss(formula = 'hs_wgtgain_None ~ (e3_bw)',
                                 sigma.formula = 'hs_wgtgain_None ~ (e3_bw)',
                                 data = 'D', family = 'NO()', centiles = TRUE,
-                                xvar = 'D$hs_wgtgain_None', newobj = 'z_scores_hs_wgtgain_None',
-                                datasources = connections) 
+                                xvar = 'D$hs_wgtgain_None', newobj = 'z_scores_hs_wgtgain_None') 
   
   expect_length(model_wgtgain.DS, 3)
   expect_length(model_wgtgain.DS$study1, 2)
