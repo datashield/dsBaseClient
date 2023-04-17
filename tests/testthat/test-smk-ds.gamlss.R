@@ -14,7 +14,8 @@
 
 context("ds.gamlss::smk::setup")
 
-connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None"))
+connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None", "hs_zbmi_who", "hs_child_age_None",
+                                    "h_mbmi_None", "hs_correct_raven", "hs_wgtgain_None"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
