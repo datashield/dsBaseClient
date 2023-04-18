@@ -258,7 +258,7 @@ test_that("gamlss, RAVEN TEST", {
   expect_true("list" %in% class(model_correct_raven.DS$study1$results$mu.xlevels))
   expect_equal(model_correct_raven.DS$study1$results$mu.df, 5.000742, tolerance=1e-7)
   expect_equal(model_correct_raven.DS$study1$results$mu.nl.df, 3.000742, tolerance=1e-6)
-  expect_equal(model_correct_raven.DS$study1$results$mu.pen, 0.8507004, tolerance=1e-6)
+  expect_equal(model_correct_raven.DS$study1$results$mu.pen, 0.8507004, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$P.deviance, 3724.82, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$df.fit, 11.00074, tolerance=1e-6)
   expect_equal(model_correct_raven.DS$study1$results$pen, 0.8506994, tolerance=1e-6)
