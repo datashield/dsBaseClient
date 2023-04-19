@@ -142,6 +142,9 @@
     <loc>/reference/ds.forestplot.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.gamlss.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.getWGSR.html</loc>
   </url>
   <url>
@@ -260,6 +263,9 @@
   </url>
   <url>
     <loc>/reference/ds.metadata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.mice.html</loc>
   </url>
   <url>
     <loc>/reference/ds.names.html</loc>

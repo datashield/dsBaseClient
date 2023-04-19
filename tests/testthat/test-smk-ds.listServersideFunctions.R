@@ -35,16 +35,16 @@ test_that("check results", {
       "tableDS.assign", "tan", "tapplyDS.assign", "unlist", "unListDS", "vectorDS"
     ))
     aggregate.functions <- factor(c(
-      "NROW", "asFactorDS1", "asListDS",
+      "NROW", "asFactorDS1", "asListDS", "aucDS",
       "checkNegValueDS", "classDS", "colnamesDS", "corDS", "corTestDS",
       "covDS", "dataFrameSubsetDS1",
-      "densityGridDS", "dimDS",
+      "densityGridDS", "dimDS", "gamlssDS",
       "exists", "glmDS1", "glmDS1", "glmDS2",
       "glmDS2", "glmerSLMADS2", "glmPredictDS.ag", "glmSLMADS1", "glmSLMADS2", "glmSummaryDS.ag",
       "heatmapPlotDS", "histogramDS1", "histogramDS2", "is.character", "is.factor", "is.list", "is.null", "is.numeric",
       "isNaDS", "isValidDS", "kurtosisDS1", "kurtosisDS2", "lengthDS",
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS", "lmerSLMADS2", "lsDS",
-      "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS",
+      "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS", "miceDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
       "ranksSecureDS1", "ranksSecureDS3",
       "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
