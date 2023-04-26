@@ -1,0 +1,135 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
+#
+# Set up
+#
+
+context("ds.mice::smk::setup")
+
+connect.studies.dataset.cnsim(list("LAB_TSC","LAB_TRIG","LAB_HDL","LAB_GLUC_ADJUSTED", 
+                                   "PM_BMI_CONTINUOUS","DIS_CVA","MEDI_LPD","DIS_DIAB",        
+                                   "DIS_AMI","GENDER","PM_BMI_CATEGORICAL"))
+
+test_that("setup", {
+    ds_expect_variables(c("D"))
+})
+
+#
+# Tests
+#
+
+context("ds.mice::smk::imp1")
+test_that("mice, initial imputation", {
+    initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, 
+                          datasources=connections, newobj_df='impSet')
+
+    expect_length(initialImp, 3)
+    expect_length(initialImp$study1, 3)
+    expect_length(initialImp$study2, 3)
+    expect_length(initialImp$study3, 3)
+    expect_true("character" %in% class(initialImp$study1$method))
+    expect_equal(as.character(initialImp$study1$method), c("pmm","pmm","pmm","pmm","pmm","","","","","","logreg"))
+    expect_true("matrix" %in% class(initialImp$study1$predictorMatrix))
+    expect_true("array" %in% class(initialImp$study1$predictorMatrix))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,1]), c(0,1,1,1,1,1,1,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,2]), c(1,0,1,1,1,1,1,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,3]), c(1,1,0,1,1,1,1,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,4]), c(1,1,1,0,1,1,1,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,5]), c(1,1,1,1,0,1,1,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,6]), c(0,0,0,0,0,0,0,0,0,0,0))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,7]), c(1,1,1,1,1,1,0,1,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,8]), c(1,1,1,1,1,1,1,0,1,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,9]), c(1,1,1,1,1,1,1,1,0,1,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,10]), c(1,1,1,1,1,1,1,1,1,0,1))
+    expect_equal(as.numeric(initialImp$study1$predictorMatrix[,11]), c(1,1,1,1,1,1,1,1,1,1,0))
+    expect_true("character" %in% class(initialImp$study1$post))
+    expect_equal(as.character(initialImp$study1$post), c("","","","","","","","","","",""))
+    
+    numNA_bmi <- ds.numNA('impSet.1$PM_BMI_CONTINUOUS')
+    expect_equal(numNA_bmi$study1, 0)
+    expect_equal(numNA_bmi$study2, 0)
+    expect_equal(numNA_bmi$study3, 0)
+
+})
+
+context("ds.mice::smk::imp2")
+test_that("mice, second imputation", {
+  
+  method <- initialImp$study1$method
+  method["LAB_TRIG"] <- "norm"
+  predictorMatrix <- initialImp$study1$predictorMatrix
+  predictorMatrix[,"LAB_GLUC_ADJUSTED"] <- 0
+  post <- initialImp$study1$post
+  post["PM_BMI_CONTINUOUS"] <- "imp[[j]][, i] <- squeeze(imp[[j]][, i], c(15,35))"
+  
+  newImp <- ds.mice(data='D', m=5, maxit=10, method=method, post=post, 
+                    predictorMatrix=predictorMatrix, datasources=connections, 
+                    newobj_df='imp_new', newobj_mids='mids_new', seed='fixed')
+  
+  expect_length(newImp, 3)
+  expect_length(newImp$study1, 3)
+  expect_length(newImp$study2, 3)
+  expect_length(newImp$study3, 3)
+  expect_true("character" %in% class(newImp$study1$method))
+  expect_equal(as.character(newImp$study1$method), c("pmm","norm","pmm","pmm","pmm","","","","","","polyreg"))
+  expect_true("matrix" %in% class(newImp$study1$predictorMatrix))
+  expect_true("array" %in% class(newImp$study1$predictorMatrix))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,1]), c(0,1,1,1,1,1,1,1,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,2]), c(1,0,1,1,1,1,1,1,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,3]), c(1,1,0,1,1,1,1,1,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,4]), c(0,0,0,0,0,0,0,0,0,0,0))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,5]), c(1,1,1,1,0,1,1,1,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,6]), c(0,0,0,0,0,0,0,0,0,0,0))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,7]), c(1,1,1,1,1,1,0,1,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,8]), c(1,1,1,1,1,1,1,0,1,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,9]), c(1,1,1,1,1,1,1,1,0,1,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,10]), c(1,1,1,1,1,1,1,1,1,0,1))
+  expect_equal(as.numeric(newImp$study1$predictorMatrix[,11]), c(1,1,1,1,1,1,1,1,1,1,0))
+  expect_true("character" %in% class(newImp$study1$post))
+  expect_equal(as.character(newImp$study1$post), c("","","","","imp[[j]][,i]<-squeeze(imp[[j]][,i],c(15,35))","","","","","",""))
+  
+  numNA_bmi.1 <- ds.numNA('imp_new.1$PM_BMI_CONTINUOUS')
+  expect_equal(numNA_bmi.1$study1, 0)
+  expect_equal(numNA_bmi.1$study2, 0)
+  expect_equal(numNA_bmi.1$study3, 0)
+  numNA_bmi.2 <- ds.numNA('imp_new.2$PM_BMI_CONTINUOUS')
+  expect_equal(numNA_bmi.2$study1, 0)
+  expect_equal(numNA_bmi.2$study2, 0)
+  expect_equal(numNA_bmi.2$study3, 0)
+  numNA_bmi.3 <- ds.numNA('imp_new.3$PM_BMI_CONTINUOUS')
+  expect_equal(numNA_bmi.3$study1, 0)
+  expect_equal(numNA_bmi.3$study2, 0)
+  expect_equal(numNA_bmi.3$study3, 0)
+  numNA_bmi.4 <- ds.numNA('imp_new.4$PM_BMI_CONTINUOUS')
+  expect_equal(numNA_bmi.4$study1, 0)
+  expect_equal(numNA_bmi.4$study2, 0)
+  expect_equal(numNA_bmi.4$study3, 0)
+  numNA_bmi.5 <- ds.numNA('imp_new.5$PM_BMI_CONTINUOUS')
+  expect_equal(numNA_bmi.5$study1, 0)
+  expect_equal(numNA_bmi.5$study2, 0)
+  expect_equal(numNA_bmi.5$study3, 0)
+  
+})
+
+#
+# Done
+#
+
+context("ds.mice::smk::shutdown")
+
+test_that("shutdown", {
+    ds_expect_variables(c("D", "impSet.1", "imp_new.1","imp_new.2","imp_new.3","imp_new.4","imp_new.5",
+                          "mids_new","mids_object"))
+})
+
+disconnect.studies.dataset.cnsim()
+
+context("ds.mice::smk::done")

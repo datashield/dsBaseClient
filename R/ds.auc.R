@@ -30,7 +30,7 @@ ds.auc <- function(pred=NULL, y=NULL, datasources=NULL){
     stop("Please provide the name of the vector with predicted values", call.=FALSE)
   }
   
-  # verify that 'pred' was set
+  # verify that 'y' was set
   if(is.null(y)){
     stop("Please provide the name of the outcome variable", call.=FALSE)
   }
