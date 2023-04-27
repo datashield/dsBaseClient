@@ -21,7 +21,7 @@ returns the AUC and its standard error
 }
 \description{
 This function calculates the C-statistic or AUC
-The current version can be used only for logistic regressions.
+for logistic regression models.
 }
 \details{
 The AUC determines the discriminative ability of a model.
