@@ -127,6 +127,8 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
   family <- gsub("(", "left_parenthesis", family, fixed = TRUE)
   family <- gsub(")", "right_parenthesis", family, fixed = TRUE)
   family <- gsub("=", "equal_symbol", family, fixed = TRUE)
+  family <- gsub(",", "comma_symbol", family, fixed = TRUE)
+  family <- gsub(" ", "", family, fixed = TRUE)
   
   # check if method is either 'RS', 'CG' or 'mixed
   if(!(method %in% c("RS", "CG", "mixed"))){
