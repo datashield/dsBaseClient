@@ -29,7 +29,7 @@ test_that("setup", {
 context("ds.mice::smk::imp1")
 test_that("mice, initial imputation", {
     initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, 
-                          datasources=connections, newobj_df='impSet')
+                          newobj_df='impSet')
 
     expect_length(initialImp, 3)
     expect_length(initialImp$study1, 3)
@@ -71,8 +71,8 @@ test_that("mice, second imputation", {
   post["PM_BMI_CONTINUOUS"] <- "imp[[j]][, i] <- squeeze(imp[[j]][, i], c(15,35))"
   
   newImp <- ds.mice(data='D', m=5, maxit=10, method=method, post=post, 
-                    predictorMatrix=predictorMatrix, datasources=connections, 
-                    newobj_df='imp_new', newobj_mids='mids_new', seed='fixed')
+                    predictorMatrix=predictorMatrix, seed='fixed',
+                    newobj_df='imp_new', newobj_mids='mids_new')
   
   expect_length(newImp, 3)
   expect_length(newImp$study1, 3)
