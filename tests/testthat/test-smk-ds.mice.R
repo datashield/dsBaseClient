@@ -28,7 +28,7 @@ test_that("setup", {
 
 context("ds.mice::smk::imp1")
 test_that("mice, initial imputation", {
-    initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, seed='fixed',
+    initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, seed=NA,
                           newobj_df='impSet')
     
     expect_length(initialImp, 3)
