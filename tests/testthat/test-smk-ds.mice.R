@@ -71,7 +71,7 @@ test_that("mice, second imputation", {
   post["PM_BMI_CONTINUOUS"] <- "imp[[j]][, i] <- squeeze(imp[[j]][, i], c(15,35))"
   
   newImp <- ds.mice(data='D', m=5, maxit=10, method=method, post=post, 
-                    predictorMatrix=predictorMatrix, seed='fixed',
+                    predictorMatrix=predictorMatrix, seed=NA,
                     newobj_df='imp_new', newobj_mids='mids_new')
   
   expect_length(newImp, 3)
