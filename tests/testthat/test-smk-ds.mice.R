@@ -14,8 +14,8 @@
 
 context("ds.mice::smk::setup")
 
-connect.studies.dataset.cnsim(list("LAB_TSC","LAB_TRIG","LAB_HDL","LAB_GLUC_ADJUSTED", 
-                                   "PM_BMI_CONTINUOUS","DIS_CVA","MEDI_LPD","DIS_DIAB",        
+connect.studies.dataset.cnsim(list("LAB_TSC","LAB_TRIG","LAB_HDL","LAB_GLUC_ADJUSTED",
+                                   "PM_BMI_CONTINUOUS","DIS_CVA","MEDI_LPD","DIS_DIAB",
                                    "DIS_AMI","GENDER","PM_BMI_CATEGORICAL"))
 
 test_that("setup", {
@@ -28,9 +28,9 @@ test_that("setup", {
 
 context("ds.mice::smk::imp1")
 test_that("mice, initial imputation", {
-    initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, 
+    initialImp <- ds.mice(data='D', m=1, method=NULL, post=NULL, predictorMatrix=NULL, seed=NA,
                           newobj_df='impSet')
-
+    
     expect_length(initialImp, 3)
     expect_length(initialImp$study1, 3)
     expect_length(initialImp$study2, 3)
@@ -71,7 +71,7 @@ test_that("mice, second imputation", {
   post["PM_BMI_CONTINUOUS"] <- "imp[[j]][, i] <- squeeze(imp[[j]][, i], c(15,35))"
   
   newImp <- ds.mice(data='D', m=5, maxit=10, method=method, post=post, 
-                    predictorMatrix=predictorMatrix, seed='fixed',
+                    predictorMatrix=predictorMatrix, seed=NA,
                     newobj_df='imp_new', newobj_mids='mids_new')
   
   expect_length(newImp, 3)
