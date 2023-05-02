@@ -20,9 +20,9 @@ and 2 for females. If it is coded differently (e.g. 0/1), then you can use the
 ds.recodeValues function to recode the categories to 1/2 before the use of 
 ds.bp_standards}
 
-\item{age}{the name of the age variable in months.}
+\item{age}{the name of the age variable in years.}
 
-\item{height}{the name of the height variable in cm}
+\item{height}{the name of the height variable in cm.}
 
 \item{bp}{the name of the blood pressure variable.}
 
