@@ -76,6 +76,9 @@
     <loc>/reference/ds.boxPlotGG_table.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.bp_standards.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.c.html</loc>
   </url>
   <url>
@@ -170,6 +173,9 @@
   </url>
   <url>
     <loc>/reference/ds.histogram.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.igb_standards.html</loc>
   </url>
   <url>
     <loc>/reference/ds.isNA.html</loc>
