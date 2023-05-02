@@ -8,8 +8,8 @@
 #' and 2 for females. If it is coded differently (e.g. 0/1), then you can use the 
 #' ds.recodeValues function to recode the categories to 1/2 before the use of 
 #' ds.bp_standards
-#' @param age the name of the age variable in months.
-#' @param height the name of the height variable in cm
+#' @param age the name of the age variable in years.
+#' @param height the name of the height variable in cm.
 #' @param bp the name of the blood pressure variable.
 #' @param systolic logical. If TRUE (default) the function assumes conversion of 
 #' systolic blood pressure. If FALSE the function assumes conversion of diastolic 
