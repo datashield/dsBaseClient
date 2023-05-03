@@ -36,7 +36,7 @@ test_that("mice, initial imputation", {
     expect_length(initialImp$sim2, 3)
     expect_length(initialImp$sim3, 3)
     expect_true("character" %in% class(initialImp$sim1$method))
-    expect_equal(as.character(initialImp$sim1$method), c("pmm","pmm","pmm","pmm","pmm","","","","","","logreg"))
+    expect_equal(as.character(initialImp$sim1$method), c("pmm","pmm","pmm","pmm","pmm","","","","","","polyreg"))
     expect_true("matrix" %in% class(initialImp$sim1$predictorMatrix))
     expect_true("array" %in% class(initialImp$sim1$predictorMatrix))
     expect_equal(as.numeric(initialImp$sim1$predictorMatrix[,1]), c(0,1,1,1,1,1,1,1,1,1,1))
@@ -62,6 +62,9 @@ test_that("mice, initial imputation", {
 
 context("ds.mice::smk::imp2")
 test_that("mice, second imputation", {
+  
+  initialImp <- ds.mice(data="D", m=1, method=NULL, predictorMatrix=NULL, post=NULL, seed="NA",
+                        newobj_df='impSet')
   
   method <- initialImp$sim1$method
   method["LAB_TRIG"] <- "norm"
