@@ -63,6 +63,9 @@ ds.mice <- function(data=NULL, m=5, maxit=5, method=NULL, predictorMatrix=NULL, 
     stop("Please provide the name of the dataframe or matrix that contains the incomplete data!", call.=FALSE)
   }
   
+  # check if the 'data' are defined in all the studies
+  defined.data <- isDefined(datasources, data)
+  
   if(!is.null(method)){
     method <- paste0(as.character(method), collapse=",")
   }
