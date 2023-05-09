@@ -28,7 +28,8 @@ context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
     if (ds.test_env$driver == "ArmadilloDriver") {
-        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+#        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
         expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
     } else {
@@ -67,7 +68,8 @@ context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
     if (ds.test_env$driver == "ArmadilloDriver") {
-        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+#        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
         expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
     } else {
