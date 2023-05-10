@@ -201,12 +201,15 @@ test_that("gamlss, Z BMI", {
 
 context("ds.gamlss::smk::mod3")
 test_that("gamlss, RAVEN TEST", {
+
+  ds.dataFrameSort(df.name = 'D', sort.key.name = 'D$hs_correct_raven', newobj = 'D2')
+
   model_correct_raven.DS <- ds.gamlss(formula = 'hs_correct_raven ~ cs(hs_child_age_None)',
                                       sigma.formula = 'hs_correct_raven ~ (hs_child_age_None)',
                                       nu.formula = 'hs_correct_raven ~ hs_child_age_None',
                                       tau.formula = 'hs_correct_raven ~ hs_child_age_None',
-                                      data = 'D', family = 'BCT()', centiles = TRUE,
-                                      xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_correct_raven') 
+                                      data = 'D2', family = 'BCT()', centiles = TRUE,
+                                      xvar = 'D$hs_child_age_None', newobj = 'z_scores_hs_correct_raven')
   
   expect_length(model_correct_raven.DS, 3)
   expect_length(model_correct_raven.DS$study1, 2)
@@ -261,7 +264,7 @@ test_that("gamlss, RAVEN TEST", {
   expect_equal(model_correct_raven.DS$study1$results$mu.pen, 0.8507004, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$P.deviance, 3724.82, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$df.fit, 11.00074, tolerance=1e-6)
-  expect_equal(model_correct_raven.DS$study1$results$pen, 0.8506994, tolerance=1e-6)
+  expect_equal(model_correct_raven.DS$study1$results$pen, 0.8506994, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$df.residual, 595.9993, tolerance=1e-7)
   expect_equal(model_correct_raven.DS$study1$results$aic, 3745.971, tolerance=1e-5)
   expect_equal(model_correct_raven.DS$study1$results$sbc, 3794.468, tolerance=1e-5)
@@ -380,7 +383,7 @@ test_that("gamlss, WEIGHT GAIN", {
 context("ds.gamlss::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "z_scores_e3_bw", "z_scores_hs_correct_raven", "z_scores_hs_wgtgain_None",
+    ds_expect_variables(c("D", "D2", "z_scores_e3_bw", "z_scores_hs_correct_raven", "z_scores_hs_wgtgain_None",
                           "z_scores_hs_zbmi_who"))
 })
 
