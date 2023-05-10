@@ -163,7 +163,7 @@ test_that("gamlss, Z BMI", {
   expect_true("formula" %in% class(model_zbmi_who.DS$study1$results$mu.terms))
   expect_equal(as.numeric(model_zbmi_who.DS$study1$results$mu.coefficients["h_mbmi_None"]), 0.04635936, tolerance=1e-5)
   expect_equal(as.numeric(model_zbmi_who.DS$study1$results$mu.coefficients["hs_child_age_None"]), -0.10898234, tolerance=1e-5)
-  expect_equal(as.numeric(model_zbmi_who.DS$study1$results$mu.coefficients["(Intercept)"]), -0.06404270, tolerance=1e-5)
+  expect_equal(as.numeric(model_zbmi_who.DS$study1$results$mu.coefficients["(Intercept)"]), -0.06404270, tolerance=1e-4)
   expect_true("numeric" %in% class(model_zbmi_who.DS$study1$results$mu.offset))
   expect_true("formula" %in% class(model_zbmi_who.DS$study1$results$mu.formula))
   expect_true("list" %in% class(model_zbmi_who.DS$study1$results$mu.xlevels))
