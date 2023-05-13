@@ -18,7 +18,7 @@ heatmap or contour plots."><!-- mathjax --><script src="https://cdnjs.cloudflare
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,38 +46,49 @@ heatmap or contour plots.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.densityGrid</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  y <span class="op">=</span> <span class="cn">NULL</span>,
-  numints <span class="op">=</span> <span class="fl">20</span>,
-  type <span class="op">=</span> <span class="st">"combine"</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.densityGrid</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  numints <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"combine"</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character string providing the name of the input numerical  vector.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>a character string providing the name of the input numerical  vector.</p></dd>
+
+
 <dt>numints</dt>
 <dd><p>an integer, the number of intervals for the grid density object. 
 The default value is 20.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>a character string that represents the type of graph to display. 
 If <code>type</code> is set to
 <code>'combine'</code>, a pooled grid density matrix is generated, 
 instead if <code>type</code> is set to <code>'split'</code>
 one grid density matrix is generated. Default <code>'combine'</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.densityGrid</code> returns a grid density matrix.</p>
+    
+
+<p><code>ds.densityGrid</code> returns a grid density matrix.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -113,7 +124,7 @@ and <code>y</code> vectors. These elements are set by the server-side function
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

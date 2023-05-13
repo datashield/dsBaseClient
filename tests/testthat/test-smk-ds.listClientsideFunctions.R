@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -27,6 +28,7 @@ test_that("setup", {
 context("ds.listClientsideFunctions::smk::check results")
 test_that("check results", {
     output <- list(
+        "ds.abs",
         "ds.asCharacter",
         "ds.asDataMatrix",
         "ds.asFactor",
@@ -38,6 +40,7 @@ test_that("check results", {
         "ds.asNumeric",
         "ds.assign",
         "ds.Boole",
+        "ds.boxPlot",
         "ds.c",
         "ds.cbind",
         "ds.changeRefGroup",
@@ -55,14 +58,18 @@ test_that("check results", {
         "ds.densityGrid",
         "ds.dim",
         "ds.dmtC2S",
+        "ds.elspline",
         "ds.exists",
         "ds.exp",
+        "ds.forestplot",
+        "ds.getWGSR",
         "ds.glm",
         "ds.glmerSLMA",
         "ds.glmPredict",
         "ds.glmSLMA",
         "ds.glmSummary",
         "ds.heatmapPlot",
+        "ds.hetcor",
         "ds.histogram",
         "ds.isNA",
         "ds.isValid",
@@ -79,6 +86,7 @@ test_that("check results", {
         "ds.log",
         "ds.look",
         "ds.ls",
+        "ds.lspline",
         "ds.make",
         "ds.matrix",
         "ds.matrixDet",
@@ -93,9 +101,12 @@ test_that("check results", {
         "ds.meanSdGp",
         "ds.merge",
         "ds.message",
+        "ds.metadata",
         "ds.names",
         "ds.numNA",
+        "ds.qlspline",
         "ds.quantileMean",
+        "ds.ranksSecure",
         "ds.rbind",
         "ds.rBinom",
         "ds.recodeLevels",
@@ -112,8 +123,9 @@ test_that("check results", {
         "ds.scatterPlot",
         "ds.seq",
         "ds.setDefaultOpals",
-        "ds.skewness",
         "ds.setSeed",
+        "ds.skewness",
+        "ds.sqrt",
         "ds.subset",
         "ds.subsetByClass",
         "ds.summary",
@@ -123,6 +135,7 @@ test_that("check results", {
         "ds.tapply",
         "ds.tapply.assign",
         "ds.testObjExists",
+        "ds.unique",
         "ds.unList",
         "ds.var",
         "ds.vectorCalc"

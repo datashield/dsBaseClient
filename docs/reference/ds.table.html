@@ -20,7 +20,7 @@ tables using the table function in native R."><!-- mathjax --><script src="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -49,19 +49,19 @@ tables using the <code>table</code> function in native R.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.table</span><span class="op">(</span>
-  rvar <span class="op">=</span> <span class="cn">NULL</span>,
-  cvar <span class="op">=</span> <span class="cn">NULL</span>,
-  stvar <span class="op">=</span> <span class="cn">NULL</span>,
-  report.chisq.tests <span class="op">=</span> <span class="cn">FALSE</span>,
-  exclude <span class="op">=</span> <span class="cn">NULL</span>,
-  useNA <span class="op">=</span> <span class="st">"always"</span>,
-  suppress.chisq.warnings <span class="op">=</span> <span class="cn">FALSE</span>,
-  table.assign <span class="op">=</span> <span class="cn">FALSE</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>,
-  force.nfilter <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.table</span><span class="op">(</span></span>
+<span>  rvar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cvar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stvar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  report.chisq.tests <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  useNA <span class="op">=</span> <span class="st">"always"</span>,</span>
+<span>  suppress.chisq.warnings <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  table.assign <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  force.nfilter <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -72,18 +72,26 @@ name of the variable defining the rows in all of the 2 dimensional
 tables that form the output. Please see 'details' above for more
 information about one-dimensional tables when a variable name is provided
 by &lt;rvar&gt; but &lt;cvar&gt; and &lt;stvar&gt; are both NULL</p></dd>
+
+
 <dt>cvar</dt>
 <dd><p>is a character string specifying the
 name of the variable defining the columns in all of the 2 dimensional
 tables that form the output.</p></dd>
+
+
 <dt>stvar</dt>
 <dd><p>is a character string specifying the
 name of the variable that indexes the separate two dimensional
 tables in the output if the call specifies a 3 dimensional table.</p></dd>
+
+
 <dt>report.chisq.tests</dt>
 <dd><p>if TRUE, chi-squared tests
 are applied to every 2 dimensional table in the output and reported
 as "chisq.test_table.name". Default = FALSE.</p></dd>
+
+
 <dt>exclude</dt>
 <dd><p>this argument is passed through to the table function in
 native R which is called by tableDS. The help for table in native R
@@ -107,18 +115,24 @@ e.g. exclude = c("NaN","3") and a &lt;useNA&gt; argument e.g. useNA= "no";
 (3) if you are excluding multiple levels e.g exclude = c("NA","3")
 then you can reduce this to one e.g. exclude = c("NA") and then remove
 the 3s by deleting rows of data, or converting the 3s to a different value.</p></dd>
+
+
 <dt>useNA</dt>
 <dd><p>this argument is passed through to the table function in
 native R which is called by tableDS. In DataSHIELD, this argument can take 
 two values: "no" or "always" which indicate whether to include NA values in the table.
 For further information, please see the help for the &lt;exclude&gt; argument (above)
 and/or the help for the table function in native R. Default value is set to "always".</p></dd>
+
+
 <dt>suppress.chisq.warnings</dt>
 <dd><p>if set to TRUE, the default warnings are
 suppressed that would otherwise be produced by the table function in
 native R whenever an expected cell count in one or more cells is less than 5.
 Default is FALSE. Further details can be found under 'details' and the
 help provided for the &lt;report.chisq.tests&gt; argument (above).</p></dd>
+
+
 <dt>table.assign</dt>
 <dd><p>is a Boolean argument set by default to FALSE. If it is
 FALSE the ds.table function acts as a standard aggregate function -
@@ -130,12 +144,16 @@ useful when some elements of a table need to be used to drive forward the
 overall analysis (e.g. to help select individuals for an analysis
 sub-sample), but the required table cannot be visualised or returned
 to the clientside because it fails disclosure rules.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>this a character string providing a name for the output
 table object to be written to the serverside if &lt;table.assign&gt; is TRUE.
 If no explicit name for the table object is specified, but &lt;table.assign&gt;
 is nevertheless TRUE, the name for the serverside table object defaults
 to <code>table.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.
@@ -145,6 +163,8 @@ apply the function solely to e.g. the second connection server in a set of three
 the argument can be specified as: e.g. datasources=connections.em[2].
 If you wish to specify the first and third connection servers in a set you specify:
 e.g. datasources=connections.em[c(1,3)].</p></dd>
+
+
 <dt>force.nfilter</dt>
 <dd><p>if &lt;force.nfilter&gt; is non-NULL it must be specified as
 a positive integer represented as a character string: e.g. "173". This
@@ -157,19 +177,26 @@ been set as 5 (as one of the R options set in the serverside connection), "6" an
 "1" would not. The purpose of this argument is for the user or developer
 to force the table to fail the disclosure control tests so the he/she can
 see what then happens and check that it is behaving as anticipated/hoped.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Having created the requested table based on serverside data
+    
+
+<p>Having created the requested table based on serverside data
 it is returned to the clientside for the analyst to visualise (unless
 it is blocked because it fails the disclosure control criteria or
-there is an error for some other reason). 
-The clientside output from
+there is an error for some other reason).</p>
+
+
+<p>The clientside output from
 ds.table includes error messages that identify when the creation of a
 table from a particular study has failed and why. If table.assign=TRUE,
 ds.table also writes the requested table as an object named by
-the &lt;newobj&gt; argument or set to 'newObj' by default. 
-Further information
+the &lt;newobj&gt; argument or set to 'newObj' by default.</p>
+
+
+<p>Further information
 about the visible material passed to the clientside, and the optional
 table object written to the serverside can be seen under 'details' (above).</p>
     </div>
@@ -268,7 +295,7 @@ can be set to TRUE to block the warnings. However, it is defaulted to FALSE.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

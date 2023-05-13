@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">isDefined</span><span class="op">(</span>datasources <span class="op">=</span> <span class="cn">NULL</span>, obj <span class="op">=</span> <span class="cn">NULL</span>, error.message <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">isDefined</span><span class="op">(</span>datasources <span class="op">=</span> <span class="cn">NULL</span>, obj <span class="op">=</span> <span class="cn">NULL</span>, error.message <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -53,16 +53,23 @@
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified, the default set of connections will be
 used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
+
 <dt>obj</dt>
 <dd><p>a character vector, the name of the object(s) to look for.</p></dd>
+
+
 <dt>error.message</dt>
 <dd><p>a Boolean which specifies if the function should stop and return
 an error message when the input object is not defined in one or more studies or to
 return a list of TRUE/FALSE indicating in which studies the object is defined</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>returns an error message if <code>error.message</code> argument is set to TRUE (default)
+    
+
+<p>returns an error message if <code>error.message</code> argument is set to TRUE (default)
 and if the input object is not defined in one or more studies, or a Boolean value if
 <code>error.message</code> argument is set to FALSE.</p>
     </div>
@@ -88,7 +95,7 @@ in all the studies. If not the process should halt.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

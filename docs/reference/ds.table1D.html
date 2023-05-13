@@ -19,7 +19,7 @@ tables for all data sources."><!-- mathjax --><script src="https://cdnjs.cloudfl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -48,43 +48,55 @@ tables for all data sources.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.table1D</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="st">"combine"</span>,
-  warningMessage <span class="op">=</span> <span class="cn">TRUE</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.table1D</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"combine"</span>,</span>
+<span>  warningMessage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character, the name of a numerical vector with discrete values - usually a factor.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>a character which represent the type of table to ouput: pooled table or one table for each
 data source. If <code>type</code> is set to 'combine', a pooled 1-dimensional table is returned; if If <code>type</code>
 is set to 'split' a 1-dimensional table is returned for each data source.</p></dd>
+
+
 <dt>warningMessage</dt>
 <dd><p>a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
 messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 which are stored in the output object 'validity' - see the list of output objects.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list object containing the following items:</p>
+    
+
+<p>A list object containing the following items:</p>
 <dl><dt>counts</dt>
 <dd><p>table(s) that hold counts for each level/category. If some cells counts are invalid (see 'Details'
 section) only the total (outer) cell counts are displayed in the returned individual study tables or in the pooled
 table.</p></dd>
+
 <dt>percentages</dt>
 <dd><p>table(s) that hold percentages for each level/category. Here also inner cells are reported as
 missing if one or more cells are 'invalid'.</p></dd>
+
 <dt>validity</dt>
 <dd><p>a text that informs the analyst about the validity of the output tables. If any tables are invalid the
 studies they are originated from are also mentioned in the text message.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -106,38 +118,38 @@ is not possible to identify the cell(s) that had the small counts which render t
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># load the file that contains the login details</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># login and assign all the stored variables to R</span></span>
-<span class="r-in">  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 1: generate a one dimensional table, outputting combined (pooled) contingency tables</span></span>
-<span class="r-in">  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$GENDER'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 2: generate a one dimensional table, outputting study specific contingency tables</span></span>
-<span class="r-in">  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$GENDER'</span>, type<span class="op">=</span><span class="st">'split'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Example 3: generate a one dimensional table, outputting study specific and combined</span></span>
-<span class="r-in">  <span class="co"># contingency tables - see what happens if the reruened table is 'invalid'.</span></span>
-<span class="r-in">  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$DIS_CVA'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span>
-<span class="r-in">  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># load the file that contains the login details</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># login and assign all the stored variables to R</span></span></span>
+<span class="r-in"><span>  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 1: generate a one dimensional table, outputting combined (pooled) contingency tables</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$GENDER'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 2: generate a one dimensional table, outputting study specific contingency tables</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$GENDER'</span>, type<span class="op">=</span><span class="st">'split'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Example 3: generate a one dimensional table, outputting study specific and combined</span></span></span>
+<span class="r-in"><span>  <span class="co"># contingency tables - see what happens if the reruened table is 'invalid'.</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">ds.table1D</span><span class="op">(</span>x<span class="op">=</span><span class="st">'D$DIS_CVA'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">counts</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">percentages</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">validity</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -152,7 +164,7 @@ is not possible to identify the cell(s) that had the small counts which render t
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

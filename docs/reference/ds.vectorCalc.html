@@ -18,7 +18,7 @@ server side function; it uses the R operation symbols built in DataSHIELD."><!--
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,25 +46,34 @@ server side function; it uses the R operation symbols built in DataSHIELD.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.vectorCalc</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, calc <span class="op">=</span> <span class="cn">NULL</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.vectorCalc</span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, calc <span class="op">=</span> <span class="cn">NULL</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a vector of characters, the names of the vectors to include in the operation.</p></dd>
+
+
 <dt>calc</dt>
 <dd><p>a character, a symbol that indicates the mathematical operation to carry out:
 '+' for addition, '/' for division, *' for multiplication and '-' for subtraction.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>the name of the output object. By default the name is 'vectorcalc.newobj'.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. If the &lt;datasources&gt;
 the default set of connections will be used: see <a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>no data are returned to user, the output vector is stored on the server side.</p>
+    
+
+<p>no data are returned to user, the output vector is stored on the server side.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -83,24 +92,24 @@ vectors has, hence the same length as the input vectors.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># load the file that contains the login details</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># login and assign the required variables to R</span></span>
-<span class="r-in">  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'LAB_TSC'</span>,<span class="st">'LAB_HDL'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># performs an addtion of 'LAB_TSC' and 'LAB_HDL'</span></span>
-<span class="r-in">  <span class="va">myvectors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'D$LAB_TSC'</span>, <span class="st">'D$LAB_HDL'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">ds.vectorCalc</span><span class="op">(</span>x<span class="op">=</span><span class="va">myvectors</span>, calc<span class="op">=</span><span class="st">'+'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># load the file that contains the login details</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">logindata</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># login and assign the required variables to R</span></span></span>
+<span class="r-in"><span>  <span class="va">myvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'LAB_TSC'</span>,<span class="st">'LAB_HDL'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">conns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins<span class="op">=</span><span class="va">logindata</span>,assign<span class="op">=</span><span class="cn">TRUE</span>,variables<span class="op">=</span><span class="va">myvar</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># performs an addtion of 'LAB_TSC' and 'LAB_HDL'</span></span></span>
+<span class="r-in"><span>  <span class="va">myvectors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'D$LAB_TSC'</span>, <span class="st">'D$LAB_HDL'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.vectorCalc</span><span class="op">(</span>x<span class="op">=</span><span class="va">myvectors</span>, calc<span class="op">=</span><span class="st">'+'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">conns</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -115,7 +124,7 @@ vectors has, hence the same length as the input vectors.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

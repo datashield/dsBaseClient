@@ -16,16 +16,16 @@ source("definition_tests/def-assign-stats.R")
   mean.local.3 <- mean(some.values.3)
   
   mean.server <- ds.mean(x=variable.name,type='split', check=TRUE,save.mean.Nvalid=FALSE)
-  expect_equal(mean.server[[1]][1], mean.local.1, tolerance = ds.test_env$tolerance)
-  expect_equal(mean.server[[1]][2], mean.local.2, tolerance = ds.test_env$tolerance)
-  expect_equal(mean.server[[1]][3], mean.local.3, tolerance = ds.test_env$tolerance)
+  expect_equal(mean.server[[1]][1], mean.local.1, tolerance = ds.test_env$low_tolerance)
+  expect_equal(mean.server[[1]][2], mean.local.2, tolerance = ds.test_env$low_tolerance)
+  expect_equal(mean.server[[1]][3], mean.local.3, tolerance = ds.test_env$low_tolerance)
 }
 
 .test.residual.combined <- function(variable.name, some.values)
 {
   mean.server <- ds.mean(variable.name,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
   residue <- sum(some.values - mean.server[[1]][1])
-  expect_equal(residue, 0, tolerance = ds.test_env$tolerance)
+  expect_equal(residue, 0, tolerance = ds.test_env$very_low_tolerance)
 }  
 
 
@@ -36,9 +36,9 @@ source("definition_tests/def-assign-stats.R")
   residue.2 <- sum(some.values.2 - mean.server[[1]][2])
   residue.3 <- sum(some.values.3 - mean.server[[1]][3])
   
-  expect_equal(residue.1, 0, tolerance = ds.test_env$tolerance)
-  expect_equal(residue.2, 0, tolerance = ds.test_env$tolerance)
-  expect_equal(residue.3, 0, tolerance = ds.test_env$tolerance)
+  expect_equal(residue.1, 0, tolerance = ds.test_env$very_low_tolerance)
+  expect_equal(residue.2, 0, tolerance = ds.test_env$very_low_tolerance)
+  expect_equal(residue.3, 0, tolerance = ds.test_env$very_low_tolerance)
 }
 
 .test.mean.large <- function(variable.name, some.values)

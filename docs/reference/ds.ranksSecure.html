@@ -18,7 +18,7 @@ true qlobal quantiles across all data sources simultaneously"><!-- mathjax --><s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,20 +46,20 @@ true qlobal quantiles across all data sources simultaneously</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.ranksSecure</span><span class="op">(</span>
-  input.var.name <span class="op">=</span> <span class="cn">NULL</span>,
-  quantiles.for.estimation <span class="op">=</span> <span class="st">"0.05-0.95"</span>,
-  generate.quantiles <span class="op">=</span> <span class="cn">TRUE</span>,
-  output.ranks.df <span class="op">=</span> <span class="cn">NULL</span>,
-  summary.output.ranks.df <span class="op">=</span> <span class="cn">NULL</span>,
-  ranks.sort.by <span class="op">=</span> <span class="st">"ID.orig"</span>,
-  shared.seed.value <span class="op">=</span> <span class="fl">10</span>,
-  synth.real.ratio <span class="op">=</span> <span class="fl">2</span>,
-  NA.manage <span class="op">=</span> <span class="st">"NA.delete"</span>,
-  rm.residual.objects <span class="op">=</span> <span class="cn">TRUE</span>,
-  monitor.progress <span class="op">=</span> <span class="cn">FALSE</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.ranksSecure</span><span class="op">(</span></span>
+<span>  input.var.name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  quantiles.for.estimation <span class="op">=</span> <span class="st">"0.05-0.95"</span>,</span>
+<span>  generate.quantiles <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  output.ranks.df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  summary.output.ranks.df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ranks.sort.by <span class="op">=</span> <span class="st">"ID.orig"</span>,</span>
+<span>  shared.seed.value <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  synth.real.ratio <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  NA.manage <span class="op">=</span> <span class="st">"NA.delete"</span>,</span>
+<span>  rm.residual.objects <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  monitor.progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,6 +68,8 @@ true qlobal quantiles across all data sources simultaneously</p>
 <dd><p>a character string in a format that can pass through
 the DataSHIELD R parser which specifies the name of the vector to be ranked.
 Needs to have same name in each data source.</p></dd>
+
+
 <dt>quantiles.for.estimation</dt>
 <dd><p>one of a restricted set of character strings.
 To mitigate disclosure risk only the following set of quantiles can be
@@ -86,6 +88,8 @@ narrower set of quantiles. This disclosure trap will be triggered if the
 total number of subjects across all studies divided by the total number
 of quantile values being estimated is less than or equal to nfilter.tab
 (the minimum cell size in a contingency table).</p></dd>
+
+
 <dt>generate.quantiles</dt>
 <dd><p>a logical value indicating whether the
 ds.ranksSecure function should carry on to estimate the key quantile
@@ -108,6 +112,8 @@ in some cases (as in this case in fact) the problem can be circumvented
 by selecting a narrow range of key quantiles to estimate. In this case, in
 fact, this simply required changing the &lt;quantiles.for.estimation&gt; argument
 from "0.025-0.975" to "0.05-0.95".</p></dd>
+
+
 <dt>output.ranks.df</dt>
 <dd><p>a character string in a format that can pass through
 the DataSHIELD R parser which specifies an optional name for the
@@ -118,6 +124,8 @@ value of the V2BR (i.e. the values are ranked across all studies
 simultaneously). If no name is specified, the default name
 is allocated as "full.ranks.df". This data.frame contains disclosive
 information and cannot therefore be passed to the clientside.</p></dd>
+
+
 <dt>summary.output.ranks.df</dt>
 <dd><p>a character string in a format that can pass through
 the DataSHIELD R parser which specifies an optional name for the summary
@@ -128,6 +136,8 @@ value of the V2BR (i.e. the values are ranked across all studies
 simultaneously). If no name is specified, the default name
 is allocated as "summary.ranks.df" This data.frame contains disclosive
 information and cannot therefore be passed to the clientside.</p></dd>
+
+
 <dt>ranks.sort.by</dt>
 <dd><p>a character string taking two possible values. These
 are "ID.orig" and "vals.orig". These define the order in which the
@@ -139,6 +149,8 @@ matrix, data frame or tibble that originally included V2BR so it also
 includes the corresponding ranks. If it is set as "vals.orig" the output
 data frames are in order of increasing magnitude of the original values of
 V2BR. Default value is "ID.orig".</p></dd>
+
+
 <dt>shared.seed.value</dt>
 <dd><p>an integer value which is used to set the
 random seed generator in each study. Initially, the seed is set to be the
@@ -150,10 +162,14 @@ subject to the same encryption procedures as the real data) are different
 in each study. For further information about the shared seed and how we
 intend to transmit it in the future, please see the detailed associated
 header document.</p></dd>
+
+
 <dt>synth.real.ratio</dt>
 <dd><p>an integer value specifying the ratio between the
 number of masking pseudodata values generated in each study compared to
 the number of real data values in V2BR.</p></dd>
+
+
 <dt>NA.manage</dt>
 <dd><p>character string taking three possible values: "NA.delete",
 "NA.low","NA.hi". This argument determines how missing values are managed
@@ -181,15 +197,21 @@ V2BR values and 9 are missing the highest 9 ranks will be 996, 996 ... 996.
 If NA.manage is either "NA.low" or "NA.hi" the final rank vector in each
 study  will have the same length as the V2BR vector in that same study.
 2.5,2.5,2.5,2.5. The default value of the "NA.manage" argument is "NA.delete"</p></dd>
+
+
 <dt>rm.residual.objects</dt>
 <dd><p>logical value. Default = TRUE: at the beginning
 and end of each run of ds.ranksSecure delete all extraneous objects that are
 otherwise left behind. These are not usually needed, but could be of value
 if one were investigating a problem with the ranking. FALSE: do not delete
 the residual objects</p></dd>
+
+
 <dt>monitor.progress</dt>
 <dd><p>logical value. Default = FALSE. If TRUE, function
 outputs information about its progress.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>specifies the particular opal object(s) to use. If the
 &lt;datasources&gt; argument is not specified (NULL) the default set of opals
@@ -199,10 +221,13 @@ apply the function solely to e.g. the second opal server in a set of three,
 the argument can be specified as: e.g. datasources=opals.em[2].
 If you wish to specify the first and third opal servers in a set you specify:
 e.g. datasources=opals.em[c(1,3)].</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the data frame objects specified by the arguments output.ranks.df
+    
+
+<p>the data frame objects specified by the arguments output.ranks.df
 and summary.output.ranks.df. These are written to the serverside in each
 study. Provided the sort order is consistent these data frames can be cbinded
 to any other data frame, matrix or tibble object containing V2BR or to the
@@ -257,7 +282,7 @@ associated document entitled "secure.global.ranking.docx".</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

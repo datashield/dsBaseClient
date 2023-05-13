@@ -19,7 +19,7 @@ multiple records over a series of pre-defined time intervals."><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -48,17 +48,17 @@ multiple records over a series of pre-defined time intervals.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.lexis</span><span class="op">(</span>
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  intervalWidth <span class="op">=</span> <span class="cn">NULL</span>,
-  idCol <span class="op">=</span> <span class="cn">NULL</span>,
-  entryCol <span class="op">=</span> <span class="cn">NULL</span>,
-  exitCol <span class="op">=</span> <span class="cn">NULL</span>,
-  statusCol <span class="op">=</span> <span class="cn">NULL</span>,
-  variables <span class="op">=</span> <span class="cn">NULL</span>,
-  expandDF <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.lexis</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  intervalWidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  idCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  entryCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exitCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  statusCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  variables <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  expandDF <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,35 +66,54 @@ multiple records over a series of pre-defined time intervals.</p>
     <dl><dt>data</dt>
 <dd><p>a character string specifying the name of a data frame containing the
 survival data to be expanded.</p></dd>
+
+
 <dt>intervalWidth</dt>
 <dd><p>a numeric vector specifying the length of each interval.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>idCol</dt>
 <dd><p>a character string denoting the column name that holds the individual IDs
 of the subjects. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>entryCol</dt>
 <dd><p>a character string denoting the column name that holds the entry times
 (i.e. start of follow up). For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>exitCol</dt>
 <dd><p>a character string denoting the column name that holds the exit times
 (i.e. end of follow up). For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>statusCol</dt>
 <dd><p>a character string denoting the column name that holds the
 failure/censoring status of each subject. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>variables</dt>
 <dd><p>a vector of character strings denoting the column names of additional
 variables to include in the final expanded table. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>expandDF</dt>
 <dd><p>a character string denoting the name of the new data frame containing the
 expanded data set. Default <code>lexis.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified 
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.lexis</code> returns to the server-side a data frame for each study with 
+    
+
+<p><code>ds.lexis</code> returns to the server-side a data frame for each study with 
 the expanded version of the input table.</p>
     </div>
     <div id="details">
@@ -207,68 +226,68 @@ to this effect is made available in that study via <code><a href="ds.message.htm
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co">## Version 6, for version 5 see Wiki</span></span>
-<span class="r-in">  <span class="co"># Connecting to the Opal servers</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Example 1: Fitting GLM for survival analysis</span></span>
-<span class="r-in">  <span class="co"># For this analysis we need to load survival data from the server </span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Log onto the remote Opal training servers</span></span>
-<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co">#Example 1: Create the expanded data frame. </span></span>
-<span class="r-in">  <span class="co">#The survival time intervals are to be 0&lt;t&lt;=2.5; 2.5&lt;t&lt;=5.0, 5.0&lt;t&lt;=7.5, </span></span>
-<span class="r-in">  <span class="co">#up to the final interval of duration 2.5</span></span>
-<span class="r-in">  <span class="co">#that includes the maximum survival time. </span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">ds.lexis</span><span class="op">(</span>data <span class="op">=</span> <span class="st">"D"</span>, </span>
-<span class="r-in">           intervalWidth <span class="op">=</span> <span class="fl">2.5</span>,</span>
-<span class="r-in">           idCol <span class="op">=</span> <span class="st">"D$id"</span>,</span>
-<span class="r-in">           entryCol <span class="op">=</span> <span class="st">"D$starttime"</span>,</span>
-<span class="r-in">           exitCol <span class="op">=</span> <span class="st">"D$endtime"</span>,</span>
-<span class="r-in">           statusCol <span class="op">=</span> <span class="st">"D$cens"</span>,</span>
-<span class="r-in">           expandDF <span class="op">=</span> <span class="st">"EM.new"</span>,</span>
-<span class="r-in">           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">           </span>
-<span class="r-in">  <span class="co">#Confirm that the expanded data frame has been ceated</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.ls.html">ds.ls</a></span><span class="op">(</span>datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in">  <span class="co">#Example 2: Create the expanded data frame. </span></span>
-<span class="r-in">  <span class="co">#The survival time intervals are to be 0&lt;t&lt;=1; 1&lt;t&lt;=2.0, 2.0&lt;t&lt;=5.0, 5.0&lt;t&lt;=11.0,</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">ds.lexis</span><span class="op">(</span>data <span class="op">=</span> <span class="st">"D"</span>,</span>
-<span class="r-in">           intervalWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">6</span><span class="op">)</span>, </span>
-<span class="r-in">           idCol <span class="op">=</span> <span class="st">"D$id"</span>,</span>
-<span class="r-in">           entryCol <span class="op">=</span> <span class="st">"D$starttime"</span>, </span>
-<span class="r-in">           exitCol <span class="op">=</span> <span class="st">"D$endtime"</span>, </span>
-<span class="r-in">           statusCol <span class="op">=</span> <span class="st">"D$cens"</span>,</span>
-<span class="r-in">           expandDF <span class="op">=</span> <span class="st">"EM.new2"</span>,</span>
-<span class="r-in">           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">           </span>
-<span class="r-in">  <span class="co">#Confirm expanded dataframe created</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.ls.html">ds.ls</a></span><span class="op">(</span>datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co">## Version 6, for version 5 see Wiki</span></span></span>
+<span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Example 1: Fitting GLM for survival analysis</span></span></span>
+<span class="r-in"><span>  <span class="co"># For this analysis we need to load survival data from the server </span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Log onto the remote Opal training servers</span></span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co">#Example 1: Create the expanded data frame. </span></span></span>
+<span class="r-in"><span>  <span class="co">#The survival time intervals are to be 0&lt;t&lt;=2.5; 2.5&lt;t&lt;=5.0, 5.0&lt;t&lt;=7.5, </span></span></span>
+<span class="r-in"><span>  <span class="co">#up to the final interval of duration 2.5</span></span></span>
+<span class="r-in"><span>  <span class="co">#that includes the maximum survival time. </span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.lexis</span><span class="op">(</span>data <span class="op">=</span> <span class="st">"D"</span>, </span></span>
+<span class="r-in"><span>           intervalWidth <span class="op">=</span> <span class="fl">2.5</span>,</span></span>
+<span class="r-in"><span>           idCol <span class="op">=</span> <span class="st">"D$id"</span>,</span></span>
+<span class="r-in"><span>           entryCol <span class="op">=</span> <span class="st">"D$starttime"</span>,</span></span>
+<span class="r-in"><span>           exitCol <span class="op">=</span> <span class="st">"D$endtime"</span>,</span></span>
+<span class="r-in"><span>           statusCol <span class="op">=</span> <span class="st">"D$cens"</span>,</span></span>
+<span class="r-in"><span>           expandDF <span class="op">=</span> <span class="st">"EM.new"</span>,</span></span>
+<span class="r-in"><span>           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span>  <span class="co">#Confirm that the expanded data frame has been ceated</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.ls.html">ds.ls</a></span><span class="op">(</span>datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="co">#Example 2: Create the expanded data frame. </span></span></span>
+<span class="r-in"><span>  <span class="co">#The survival time intervals are to be 0&lt;t&lt;=1; 1&lt;t&lt;=2.0, 2.0&lt;t&lt;=5.0, 5.0&lt;t&lt;=11.0,</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">ds.lexis</span><span class="op">(</span>data <span class="op">=</span> <span class="st">"D"</span>,</span></span>
+<span class="r-in"><span>           intervalWidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">6</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>           idCol <span class="op">=</span> <span class="st">"D$id"</span>,</span></span>
+<span class="r-in"><span>           entryCol <span class="op">=</span> <span class="st">"D$starttime"</span>, </span></span>
+<span class="r-in"><span>           exitCol <span class="op">=</span> <span class="st">"D$endtime"</span>, </span></span>
+<span class="r-in"><span>           statusCol <span class="op">=</span> <span class="st">"D$cens"</span>,</span></span>
+<span class="r-in"><span>           expandDF <span class="op">=</span> <span class="st">"EM.new2"</span>,</span></span>
+<span class="r-in"><span>           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span>  <span class="co">#Confirm expanded dataframe created</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.ls.html">ds.ls</a></span><span class="op">(</span>datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -283,7 +302,7 @@ to this effect is made available in that study via <code><a href="ds.message.htm
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

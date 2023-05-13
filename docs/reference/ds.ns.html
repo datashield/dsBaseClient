@@ -19,7 +19,7 @@ cubic spline."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -48,46 +48,61 @@ cubic spline.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.ns</span><span class="op">(</span>
-  <span class="va">x</span>,
-  df <span class="op">=</span> <span class="cn">NULL</span>,
-  knots <span class="op">=</span> <span class="cn">NULL</span>,
-  intercept <span class="op">=</span> <span class="cn">FALSE</span>,
-  Boundary.knots <span class="op">=</span> <span class="cn">NULL</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.ns</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  knots <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  intercept <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  Boundary.knots <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>the predictor variable. Missing values are allowed.</p></dd>
+
+
 <dt>df</dt>
 <dd><p>degrees of freedom. One can supply df rather than knots; ns() then chooses 
 df - 1 - intercept knots at suitably chosen quantiles of x (which will ignore missing values).
 The default, df = NULL, sets the number of inner knots as length(knots).</p></dd>
+
+
 <dt>knots</dt>
 <dd><p>breakpoints that define the spline. The default is no knots; together with the
 natural boundary conditions this results in a basis for linear regression on x. Typical values
 are the mean or median for one knot, quantiles for more knots. See also Boundary.knots.</p></dd>
+
+
 <dt>intercept</dt>
 <dd><p>if TRUE, an intercept is included in the basis; default is FALSE.</p></dd>
+
+
 <dt>Boundary.knots</dt>
 <dd><p>boundary points at which to impose the natural boundary conditions and
 anchor the B-spline basis (default the range of the data). If both knots and Boundary.knots
 are supplied, the basis parameters do not depend on x. Data can extend beyond Boundary.knots.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string that provides the name for the output 
 variable that is stored on the data servers. Default <code>ns.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix of dimension length(x) * df where either df was supplied or if knots were
+    
+
+<p>A matrix of dimension length(x) * df where either df was supplied or if knots were
 supplied, df = length(knots) + 1 + intercept. Attributes are returned that correspond to the
 arguments to ns, and explicitly give the knots, Boundary.knots etc for use by predict.ns().
 The object is assigned at each serverside.</p>
@@ -118,7 +133,7 @@ A primary use is in modeling formula to directly specify a natural spline term i
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

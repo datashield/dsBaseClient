@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -25,14 +26,17 @@ test_that("setup", {
 #
 context("ds.ns::discctrl")
 test_that("ns", {
-    expect_error(ds.ns(x="D$PM_BMI_CONTINUOUS", knots=c(8,9,10,12,25,35), newobj="nsDS", datasources=connections), 
-                 "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+    expect_error(ds.ns(x="D$PM_BMI_CONTINUOUS", knots=c(8,9,10,12,25,35), newobj="nsDS", datasources=ds.test_env$connections), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
     res_errors <- DSI::datashield.errors()
 
-    expect_length(res_errors, 1)
-    expect_length(res_errors$study3, 1)
-    expect_equal(res_errors$study3, "Command 'nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, c(8, 9, 10, 12, 25, 35), FALSE, \n    NULL)' failed on 'study3': Error while evaluating 'is.null(base::assign('nsDS', value={.ASSIGN$nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, base::c(8, 9, 10, 12, 25, 35), FALSE, NULL)}))' -> Error : One of the spline segments has less than 3 observations. Please redefine the knot positions\n")
+    expect_length(res_errors, 3)
+    expect_length(res_errors$sim1, 1)
+    expect_equal(res_errors$sim1, "Command 'nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, c(8, 9, 10, 12, 25, 35), FALSE, \n    NULL)' failed on 'sim1': Error while evaluating 'is.null(base::assign('nsDS', value={dsBase::nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, dsBase::vectorDS(8, 9, 10, 12, 25, 35), FALSE, NULL)}))' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_length(res_errors$sim2, 1)
+    expect_equal(res_errors$sim2, "Command 'nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, c(8, 9, 10, 12, 25, 35), FALSE, \n    NULL)' failed on 'sim2': Error while evaluating 'is.null(base::assign('nsDS', value={dsBase::nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, dsBase::vectorDS(8, 9, 10, 12, 25, 35), FALSE, NULL)}))' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_length(res_errors$sim3, 1)
+    expect_equal(res_errors$sim3, "Command 'nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, c(8, 9, 10, 12, 25, 35), FALSE, \n    NULL)' failed on 'sim3': Error while evaluating 'is.null(base::assign('nsDS', value={dsBase::nsDS(\"D$PM_BMI_CONTINUOUS\", NULL, dsBase::vectorDS(8, 9, 10, 12, 25, 35), FALSE, NULL)}))' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
 })
 
 #

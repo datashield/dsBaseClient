@@ -10,6 +10,14 @@ init.discordant.dataset.simple <- function(variables)
         builder$append(server = "discordant3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DISCORDANT.DISCORDANT_STUDY3", options=ds.test_env$options_3)
         ds.test_env$login.data <- builder$build()
       }
+      else if (ds.test_env$driver == "ArmadilloDriver")
+      {
+        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+        builder$append(server = "discordant1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/discordant/DISCORDANT_STUDY1", driver = "ArmadilloDriver")
+        builder$append(server = "discordant2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/discordant/DISCORDANT_STUDY2", driver = "ArmadilloDriver")
+        builder$append(server = "discordant3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/discordant/DISCORDANT_STUDY3", driver = "ArmadilloDriver")
+        ds.test_env$login.data <- builder$build()
+      }
       else 
       {
           ds.test_env$login.data <- DSLite::setupDISCORDANTTest("dsBase", env = ds.test_env)

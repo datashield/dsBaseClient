@@ -27,7 +27,14 @@ test_that("setup", {
 context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+    if (ds.test_env$driver == "ArmadilloDriver") {
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+#        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+    } else if (ds.test_env$driver == "OpalDriver") {
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+    } else {
+        fail(message = "Unknown driver type", info = ds.test_env$driver)
+    }
 
     errs <- datashield.errors()
     expect_length(errs, 0)
@@ -50,17 +57,24 @@ test_that("non existent aggregate foobarDS", {
     errs <- datashield.errors()
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_equal(errs$sim1, "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
     expect_length(errs$sim2, 1)
-    expect_equal(errs$sim2, "Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
     expect_length(errs$sim3, 1)
-    expect_equal(errs$sim3, "Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
 })
 
 context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
-    expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+    if (ds.test_env$driver == "ArmadilloDriver") {
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+#        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+    } else if (ds.test_env$driver == "OpalDriver") {
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+    } else {
+        fail(message = "Unknown driver type", info = ds.test_env$driver)
+    }
 
     errs <- datashield.errors()
     expect_length(errs, 0)
@@ -91,11 +105,11 @@ test_that("non existent assign foobarDS", {
     errs <- datashield.errors()
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_equal(errs$sim1, "Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
     expect_length(errs$sim2, 1)
-    expect_equal(errs$sim2, "Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
     expect_length(errs$sim3, 1)
-    expect_equal(errs$sim3, "Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", fixed=TRUE)
+    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
 })
 
 #

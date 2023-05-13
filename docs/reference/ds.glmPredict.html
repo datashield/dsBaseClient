@@ -18,7 +18,7 @@ glm object previously created using ds.glmSLMA."><!-- mathjax --><script src="ht
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,17 +46,17 @@ glm object previously created using ds.glmSLMA.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.glmPredict</span><span class="op">(</span>
-  glmname <span class="op">=</span> <span class="cn">NULL</span>,
-  newdataname <span class="op">=</span> <span class="cn">NULL</span>,
-  output.type <span class="op">=</span> <span class="st">"response"</span>,
-  se.fit <span class="op">=</span> <span class="cn">FALSE</span>,
-  dispersion <span class="op">=</span> <span class="cn">NULL</span>,
-  terms <span class="op">=</span> <span class="cn">NULL</span>,
-  na.action <span class="op">=</span> <span class="st">"na.pass"</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.glmPredict</span><span class="op">(</span></span>
+<span>  glmname <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newdataname <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  output.type <span class="op">=</span> <span class="st">"response"</span>,</span>
+<span>  se.fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dispersion <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  terms <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  na.action <span class="op">=</span> <span class="st">"na.pass"</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,6 +65,8 @@ glm object previously created using ds.glmSLMA.</p>
 <dd><p>is a character string identifying the glm object on serverside to
 which predict.glm is to be applied. Equivalent to &lt;object&gt; argument in native R's
 predict.glm which is described as: a fitted object of class inheriting from 'glm'.</p></dd>
+
+
 <dt>newdataname</dt>
 <dd><p>is a character string identifying an (optional) dataframe on
 the serverside in which to look for new covariate values with which to predict.
@@ -72,6 +74,8 @@ If omitted,
 the original fitted linear predictors from the original glm fit are used as the
 basis of prediction. Precisely equivalent to the &lt;newdata&gt; argument in the
 predict.glm function in native R.</p></dd>
+
+
 <dt>output.type</dt>
 <dd><p>a character string taking the values 'response', 'link'
 or 'terms'. The value 'response' generates predictions on the scale of the
@@ -89,6 +93,8 @@ all five levels of age simultaneously. Any simple covariate (e.g. not a composit
 factor) will be treated as a term in its own right. ds.glmPredict's &lt;output.type&gt;
 argument is precisely equivalent to the &lt;type&gt; argument in
 native R's predict.glm function.</p></dd>
+
+
 <dt>se.fit</dt>
 <dd><p>logical if standard errors for the fitted predictions are required.
 Defaults to FALSE when the output contains only a vector (or vectors) of predicted
@@ -97,6 +103,8 @@ errors of the predicted values, and a single value reporting the scale parameter
 of the model. ds.glmPredict's &lt;se.fit&gt; argument is precisely equivalent to
 the corresponding argument in predict.glm in native R.
 argument is equivalent to the &lt;type&gt; argument in native R's predict.glm function.</p></dd>
+
+
 <dt>dispersion</dt>
 <dd><p>numeric value specifying the dispersion of the GLM fit to be assumed
 in computing the standard errors. If omitted, that returned by
@@ -106,22 +114,30 @@ dispersion is set to 4, the standard errors of the predictions will all be
 multiplied by 2 (i.e. sqrt(4)). This is useful in making predictions from
 models subject to overdispersion. ds.glmPredict's &lt;dispersion&gt; argument
 is precisely equivalent to the corresponding argument in predict.glm in native R.</p></dd>
+
+
 <dt>terms</dt>
 <dd><p>a character vector specifying a subset of terms to return in the
 prediction. Only applies if output.type='terms'. ds.glmPredict's &lt;terms&gt;
 argument is precisely equivalent to the corresponding argument in predict.glm
 in native R.</p></dd>
+
+
 <dt>na.action</dt>
 <dd><p>character string determining what should be done with missing
 values in the data.frame identified by &lt;newdataname&gt;. Default is na.pass which
 predicts from the specified new data.frame with all NAs left in place. na.omit
 removes all rows containing NAs. na.fail stops the function if there are any
 NAs anywhere in the data.frame. For further details see help in native R.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string specifying the name of the serverside object
 to which the output object from the call to ds.glmPredict is to be written
 in each study. If no &lt;newobj&gt; argument is specified, the output
 object on the serverside defaults to the name "predict_glm".</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>specifies the particular 'connection object(s)' to use.
 e.g. if you have several data sets in the sources you are working with
@@ -141,10 +157,13 @@ of the studies/sources you are working with. For example, the second source
 in a set of three, can be specified using a call such as datasources=connection.xyz[2].
 On the other hand, if you wish to specify solely the first and third sources, the
 appropriate call will be datasources=connections.xyz[c(1,3)]</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>ds.glmPredict calls the serverside assign function glmPredictDS.as
+    
+
+<p>ds.glmPredict calls the serverside assign function glmPredictDS.as
 which writes a new object to the serverside containing output precisely equivalent to
 predict.glm in native R. The name for this serverside object is given by
 the newobj argument or if that argument is missing or null it is called "predict_glm".
@@ -155,7 +174,10 @@ either to a single prediction vector called fit or, if se.fit=TRUE, of two vecto
 in 'fit'. The non-disclosive summary statistics for the vector(s) include:
 length, the total number of valid (non-missing) values,
 the number of missing values, the mean and standard deviation of the valid
-values and the 5<!-- %, 10%, 25%, 50%, 75%, 90%, and 95% quantiles of these values. In addition, -->the output always includes: the name of the serverside glm object being predicted from,
+values and the 5<!-- %, 10%, 25%, 50%, 75%, 90%, and 95% quantiles of these values. In addition, --></p>
+
+
+<p>the output always includes: the name of the serverside glm object being predicted from,
 the name - if one was specified - of the dataframe being used as the basis for predictions,
 the output.type specified ('link', 'response' or 'terms'), the value of the
 dispersion parameter if one had been specified and the residual scale parameter (which is
@@ -211,7 +233,7 @@ in native R.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

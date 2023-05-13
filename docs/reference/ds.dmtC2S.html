@@ -18,7 +18,7 @@ that is equivalent to that same data.frame, matrix or tibble (DMT) on the client
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@ that is equivalent to that same data.frame, matrix or tibble (DMT) on the client
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.dmtC2S</span><span class="op">(</span>dfdata <span class="op">=</span> <span class="cn">NA</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.dmtC2S</span><span class="op">(</span>dfdata <span class="op">=</span> <span class="cn">NA</span>, newobj <span class="op">=</span> <span class="cn">NULL</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -54,10 +54,14 @@ that is equivalent to that same data.frame, matrix or tibble (DMT) on the client
     <dl><dt>dfdata</dt>
 <dd><p>is a character string that specifies the name of the DMT 
 to be copied from the clientside to the serverside</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>A character string specifying the name of the DMT on the serverside 
 to which the output is to be written. If no &lt;newobj&gt; argument is specified or it is NULL
 the name of the copied DMT defaults to "dmt.copied.C2S".</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>specifies the particular 'connection object(s)' to use.
 e.g. if you have several data sets in the sources you are working with
@@ -77,10 +81,13 @@ of the studies/sources you are working with. For example, the second source
 in a set of three, can be specified using a call such as datasources=connection.xyz[2].
 On the other hand, if you wish to specify solely the first and third sources, the
 appropriate call will be datasources=connections.xyz[c(1,3)]</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the object specified by the &lt;newobj&gt; argument (or default name "dmt.copied.C2S")
+    
+
+<p>the object specified by the &lt;newobj&gt; argument (or default name "dmt.copied.C2S")
 which is written as a data.frame/matrix/tibble to the serverside.</p>
     </div>
     <div id="details">
@@ -117,7 +124,7 @@ columns or by rows and this is defaulted to byrow=FALSE i.e. "by column".</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

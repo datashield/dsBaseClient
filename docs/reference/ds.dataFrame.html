@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -46,18 +46,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.dataFrame</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  row.names <span class="op">=</span> <span class="cn">NULL</span>,
-  check.rows <span class="op">=</span> <span class="cn">FALSE</span>,
-  check.names <span class="op">=</span> <span class="cn">TRUE</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>,
-  completeCases <span class="op">=</span> <span class="cn">FALSE</span>,
-  DataSHIELD.checks <span class="op">=</span> <span class="cn">FALSE</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>,
-  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.dataFrame</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  check.rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  completeCases <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  DataSHIELD.checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,22 +65,34 @@
     <dl><dt>x</dt>
 <dd><p>a character string that provides the name of the objects
 to be combined.</p></dd>
+
+
 <dt>row.names</dt>
 <dd><p>NULL, integer or character string that provides the
 row names of the output data frame.</p></dd>
+
+
 <dt>check.rows</dt>
 <dd><p>logical. If TRUE then the rows are checked for consistency of
 length and names. Default is FALSE.</p></dd>
+
+
 <dt>check.names</dt>
 <dd><p>logical. If TRUE the column names 
 in the data frame are checked to ensure that is unique. Default is TRUE.</p></dd>
+
+
 <dt>stringsAsFactors</dt>
 <dd><p>logical. If true the character vectors are
 converted to factors. Default TRUE.</p></dd>
+
+
 <dt>completeCases</dt>
 <dd><p>logical. If TRUE rows with one or more 
 missing values will be deleted from the output data frame.
 Default is FALSE.</p></dd>
+
+
 <dt>DataSHIELD.checks</dt>
 <dd><p>logical. Default FALSE. If TRUE undertakes all DataSHIELD checks 
 (time-consuming) which are:<br>
@@ -89,20 +101,29 @@ Default is FALSE.</p></dd>
 3. if there are any duplicated column names in the input objects in each study<br>
 4. the number of rows of the  data frames or matrices and the length of all component variables
 are the same</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string that provides the name for the output data frame
 that is stored on the data servers. Default <code>dataframe.newobj</code>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified 
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
+
 <dt>notify.of.progress</dt>
 <dd><p>specifies if console output should be produced to indicate
 progress. Default is FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>ds.dataFrame</code> returns the object specified by the <code>newobj</code> argument
+    
+
+<p><code>ds.dataFrame</code> returns the object specified by the <code>newobj</code> argument
 which is written to the serverside. Also, two validity messages are returned to the
 client-side indicating the name of the <code>newobj</code> that has been created in each data source
 and if it is in a valid form.</p>
@@ -123,51 +144,51 @@ data frame will have the same number of rows.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">## Version 6, for version 5 see the Wiki </span></span>
-<span class="r-in">  <span class="co"># Connecting to the Opal servers</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">                 </span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Log onto the remote Opal training servers</span></span>
-<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Create a new data frame</span></span>
-<span class="r-in">  <span class="fu">ds.dataFrame</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D$LAB_TSC"</span>,<span class="st">"D$GENDER"</span>,<span class="st">"D$PM_BMI_CATEGORICAL"</span><span class="op">)</span>,</span>
-<span class="r-in">               row.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span class="r-in">               check.rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">               check.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">               stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#character variables are converted to a factor </span></span>
-<span class="r-in">               completeCases <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#only rows with not missing values are selected</span></span>
-<span class="r-in">               DataSHIELD.checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">               newobj <span class="op">=</span> <span class="st">"df1"</span>,</span>
-<span class="r-in">               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="co">#only the first Opal server is used ("study1")</span></span>
-<span class="r-in">               notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># Clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co">## Version 6, for version 5 see the Wiki </span></span></span>
+<span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                 </span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Log onto the remote Opal training servers</span></span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Create a new data frame</span></span></span>
+<span class="r-in"><span>  <span class="fu">ds.dataFrame</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D$LAB_TSC"</span>,<span class="st">"D$GENDER"</span>,<span class="st">"D$PM_BMI_CATEGORICAL"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               row.names <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>               check.rows <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>               check.names <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>               stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#character variables are converted to a factor </span></span></span>
+<span class="r-in"><span>               completeCases <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#only rows with not missing values are selected</span></span></span>
+<span class="r-in"><span>               DataSHIELD.checks <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"df1"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="co">#only the first Opal server is used ("study1")</span></span></span>
+<span class="r-in"><span>               notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -182,7 +203,7 @@ data frame will have the same number of rows.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

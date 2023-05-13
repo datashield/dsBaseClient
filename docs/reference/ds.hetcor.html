@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -44,15 +44,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.hetcor</span><span class="op">(</span>
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  ML <span class="op">=</span> <span class="cn">TRUE</span>,
-  std.err <span class="op">=</span> <span class="cn">TRUE</span>,
-  bins <span class="op">=</span> <span class="fl">4</span>,
-  pd <span class="op">=</span> <span class="cn">TRUE</span>,
-  use <span class="op">=</span> <span class="st">"complete.obs"</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.hetcor</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ML <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  std.err <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  bins <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  pd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use <span class="op">=</span> <span class="st">"complete.obs"</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -60,30 +60,45 @@
     <dl><dt>data</dt>
 <dd><p>the name of a data frame consisting of factors, ordered factors, logical variables,
 character variables, and/or numeric variables, or the first of several variables.</p></dd>
+
+
 <dt>ML</dt>
 <dd><p>if TRUE, compute maximum-likelihood estimates; if FALSE (default), compute quick
 two-step estimates.</p></dd>
+
+
 <dt>std.err</dt>
 <dd><p>if TRUE (default), compute standard errors.</p></dd>
+
+
 <dt>bins</dt>
 <dd><p>number of bins to use for continuous variables in testing bivariate normality;
 the default is 4.</p></dd>
+
+
 <dt>pd</dt>
 <dd><p>if TRUE (default) and if the correlation matrix is not positive-definite, an attempt
 will be made to adjust it to a positive-definite matrix, using the nearPD function in the Matrix
 package. Note that default arguments to nearPD are used (except corr=TRUE); for more control call
 nearPD directly.</p></dd>
+
+
 <dt>use</dt>
 <dd><p>if "complete.obs", remove observations with any missing data; if "pairwise.complete.obs",
 compute each correlation using all observations with valid data for that pair of variables.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified the default set of connections will be
 used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns an object of class "hetcor" from each study, with the following components: the
+    
+
+<p>Returns an object of class "hetcor" from each study, with the following components: the
 correlation matrix; the type of each correlation: "Pearson", "Polychoric", or "Polyserial"; the
 standard errors of the correlations, if requested; the number (or numbers) of observations on which
 the correlations are based; p-values for tests of bivariate normality for each pair of variables; 
@@ -113,7 +128,7 @@ variables, and polychoric correlations between ordinal variables.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

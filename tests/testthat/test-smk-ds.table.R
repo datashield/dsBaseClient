@@ -24,7 +24,7 @@ test_that("setup", {
 #
 
 context("ds.table::smk::dataframe setup")
-test_that("simple table 2D", {
+test_that("simple dataframe input setup", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
   ds.asFactor(input.var.name="D$CATEGORY", newobj.name="factorCategory")
@@ -38,7 +38,7 @@ test_that("simple table 2D", {
   expect_equal(subset.res$validity.check, "<tablesource_subset> appears valid in all sources")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 1D")
 test_that("simple table 1D", {
   table1.res <- ds.table(rvar='tablesource_subset$factorCharacter')
 
@@ -53,7 +53,7 @@ test_that("simple table 1D", {
   expect_equal(table1.res$validity.message, "Data in all studies were valid")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 2D")
 test_that("simple table 2D", {
   table1.res <- ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter')
 
@@ -75,7 +75,7 @@ test_that("simple table 2D", {
   expect_equal(table1.res$validity.message, "Data in all studies were valid")
 })
 
-context("ds.table::smk")
+context("ds.table::smk::simple table 3D")
 test_that("simple table 3D", {
   expect_error(ds.table(rvar='tablesource_subset$factorInteger', cvar='tablesource_subset$factorCharacter', stvar='tablesource_subset$factorCategory'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
@@ -83,8 +83,8 @@ test_that("simple table 3D", {
   
   expect_length(res.errors, 2)
 
-  expect_equal(res.errors$study1, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' failed on 'study1': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
-  expect_equal(res.errors$study2, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' failed on 'study2': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
+  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
+  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
 })
 
 test_that("simple table 1D, with assign", {
@@ -133,8 +133,8 @@ test_that("simple table 3D, with assign", {
   
   expect_length(res.errors, 2)
 
-  expect_equal(res.errors$study1, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' failed on 'study1': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
-  expect_equal(res.errors$study2, "Command 'tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", \n    stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", \n    cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", \n    stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", \n    exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' failed on 'study2': Error while evaluating 'dsBase::tableDS(rvar.transmit = \"tablesource_subset$factorInteger\", cvar.transmit = \"tablesource_subset$factorCharacter\", stvar.transmit = \"tablesource_subset$factorCategory\", rvar.all.unique.levels.transmit = \"0,1,2,3,4,5\", cvar.all.unique.levels.transmit = \"married,divorced,single,widowed,in_civil_relationship\", stvar.all.unique.levels.transmit = \"100,200,300,400,500,600\", exclude.transmit = NULL, useNA.transmit = \"always\", force.nfilter.transmit = NULL)' -> Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3\n", fixed = TRUE)
+  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
+  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
 })
 
 #

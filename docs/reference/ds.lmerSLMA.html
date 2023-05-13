@@ -19,7 +19,7 @@ fixed and random-effects - on data from one or multiple sources with pooling via
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -48,23 +48,23 @@ fixed and random-effects - on data from one or multiple sources with pooling via
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.lmerSLMA</span><span class="op">(</span>
-  formula <span class="op">=</span> <span class="cn">NULL</span>,
-  offset <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  combine.with.metafor <span class="op">=</span> <span class="cn">TRUE</span>,
-  dataName <span class="op">=</span> <span class="cn">NULL</span>,
-  checks <span class="op">=</span> <span class="cn">FALSE</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>,
-  REML <span class="op">=</span> <span class="cn">TRUE</span>,
-  control_type <span class="op">=</span> <span class="cn">NULL</span>,
-  control_value <span class="op">=</span> <span class="cn">NULL</span>,
-  optimizer <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="fl">0</span>,
-  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span>,
-  assign <span class="op">=</span> <span class="cn">FALSE</span>,
-  newobj <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.lmerSLMA</span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  offset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  combine.with.metafor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dataName <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  REML <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  control_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  control_value <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  optimizer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  notify.of.progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  assign <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  newobj <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -72,104 +72,173 @@ fixed and random-effects - on data from one or multiple sources with pooling via
     <dl><dt>formula</dt>
 <dd><p>an object of class formula describing the model to be fitted. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>a character string specifying the name of a variable to be used as
 an offset.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>a character string specifying the name of a variable containing
 prior regression weights for the fitting process.</p></dd>
+
+
 <dt>combine.with.metafor</dt>
 <dd><p>logical. If TRUE the
 estimates and standard errors for each regression coefficient are pooled across
 studies using random-effects meta-analysis under maximum likelihood (ML),
 restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Default TRUE.</p></dd>
+
+
 <dt>dataName</dt>
 <dd><p>a character string specifying the name of an (optional) data frame
 that contains all of the variables in the LME formula. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>checks</dt>
 <dd><p>logical. If TRUE <code>ds.lmerSLMA</code> checks the structural integrity 
 of the model. Default FALSE. For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
+
 <dt>REML</dt>
 <dd><p>logical. If TRUE the REstricted Maximum Likelihood (REML)
 is used for parameter optimization. 
 If FALSE the parameters are optimized using standard ML (maximum likelihood). Default TRUE. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>control_type</dt>
 <dd><p>an optional character string vector specifying the nature of a parameter
 (or parameters) to be modified in the <code>convergence control options</code> which can be viewed or
 modified via the <code>lmerControl</code> function of the package <code>lme4</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>control_value</dt>
 <dd><p>numeric representing the new value which you want to allocate the
 control parameter corresponding to the <code>control-type</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>optimizer</dt>
 <dd><p>specifies the parameter optimizer that <code>lmer</code> should use.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>an integer value. If \(verbose &gt; 0\) the output is generated during the optimization of
 the parameter estimates. If \(verbose &gt; 1\) the output is generated during the individual penalized 
 iteratively reweighted least squares (PIRLS) steps. Default <code>verbose</code> 
  value is 0 which means no additional output.</p></dd>
+
+
 <dt>notify.of.progress</dt>
 <dd><p>specifies if console output should be produced to indicate
 progress. Default FALSE.</p></dd>
+
+
 <dt>assign</dt>
 <dd><p>a logical, indicates whether the function will call a second server-side function
 (an assign) in order to save the regression outcomes (i.e. a lmerMod object) on each server.
 Default FALSE.</p></dd>
+
+
 <dt>newobj</dt>
 <dd><p>a character string specifying the name of the object to which the lmerMod object
 representing the model fit on the serverside in each study is to be written. This argument is 
 used only when the argument <code>assign</code> is set to TRUE.
 If no &lt;newobj&gt; argument is specified, the output object defaults to "new.lmer.obj".</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Many of the elements of the output list returned by <code>ds.lmerSLMA</code> are 
+    
+
+<p>Many of the elements of the output list returned by <code>ds.lmerSLMA</code> are 
 equivalent to those returned by the <code>lmer()</code> function in native R. However,
 potentially disclosive elements
 such as individual-level residuals and linear predictor values are blocked. 
-In this case, only non-disclosive elements are returned from each study separately.
-The list of elements returned by <code>ds.lmerSLMA</code> is mentioned below:
-<code>ds.lmerSLMA</code> returns a list of  elements mentioned 
-below separately for each study.
-<code>coefficients</code>: a matrix with 5 columns:</p><ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
+In this case, only non-disclosive elements are returned from each study separately.</p>
+
+
+<p>The list of elements returned by <code>ds.lmerSLMA</code> is mentioned below:</p>
+
+
+<p><code>ds.lmerSLMA</code> returns a list of  elements mentioned 
+below separately for each study.</p>
+
+
+<p><code>coefficients</code>: a matrix with 5 columns:</p>
+<p></p>
+<ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
 <li><p>second: the estimated values</p></li>
 <li><p>third: corresponding standard errors of the estimated values</p></li>
 <li><p>fourth: the ratio of estimate/standard error</p></li>
 <li><p>fifth: the p-value treating that as a standardised normal deviate</p></li>
-</ul><p><code>CorrMatrix</code>: the correlation matrix of parameter estimates.
-<code>VarCovMatrix</code>: the variance-covariance matrix of parameter estimates.
-<code>weights</code>: the vector (if any) holding regression weights.
-<code>offset</code>: the vector (if any) holding an offset.
-<code>cov.scaled</code>: equivalent to <code>VarCovMatrix</code>.
-<code>Nmissing</code>: the number of missing observations in the given study.
-<code>Nvalid</code>: the number of valid (non-missing) observations in the given study.
-<code>Ntotal</code>: the total number of observations 
-                       in the given study (<code>Nvalid</code> + <code>Nmissing</code>).
-<code>data</code>: equivalent to input parameter <code>dataName</code> (above).
-<code>call</code>: summary of key elements of the call to fit the model.
-There are a small number of more esoteric items of the information returned
+</ul><p><code>CorrMatrix</code>: the correlation matrix of parameter estimates.</p>
+
+
+<p><code>VarCovMatrix</code>: the variance-covariance matrix of parameter estimates.</p>
+
+
+<p><code>weights</code>: the vector (if any) holding regression weights.</p>
+
+
+<p><code>offset</code>: the vector (if any) holding an offset.</p>
+
+
+<p><code>cov.scaled</code>: equivalent to <code>VarCovMatrix</code>.</p>
+
+
+<p><code>Nmissing</code>: the number of missing observations in the given study.</p>
+
+
+<p><code>Nvalid</code>: the number of valid (non-missing) observations in the given study.</p>
+
+
+<p><code>Ntotal</code>: the total number of observations 
+                       in the given study (<code>Nvalid</code> + <code>Nmissing</code>).</p>
+
+
+<p><code>data</code>: equivalent to input parameter <code>dataName</code> (above).</p>
+
+
+<p><code>call</code>: summary of key elements of the call to fit the model.</p>
+
+
+<p>There are a small number of more esoteric items of the information returned
 by <code>ds.lmerSLMA</code>. Additional information about these can be found in the help
-file for the <code>lmer()</code> function in the <code>lme4</code> package.
-Once the study-specific output has been returned, the function returns
+file for the <code>lmer()</code> function in the <code>lme4</code> package.</p>
+
+
+<p>Once the study-specific output has been returned, the function returns
 several elements relating to the pooling of estimates across studies via
-study-level meta-analysis. These are as follows:
-<code>input.beta.matrix.for.SLMA</code>: a matrix containing the vector of coefficient
-estimates from each study.
-<code>input.se.matrix.for.SLMA</code>: a matrix containing the vector of standard error
-estimates for coefficients from each study.
-<code>SLMA.pooled.estimates</code>: a matrix containing pooled estimates for each
+study-level meta-analysis. These are as follows:</p>
+
+
+<p><code>input.beta.matrix.for.SLMA</code>: a matrix containing the vector of coefficient
+estimates from each study.</p>
+
+
+<p><code>input.se.matrix.for.SLMA</code>: a matrix containing the vector of standard error
+estimates for coefficients from each study.</p>
+
+
+<p><code>SLMA.pooled.estimates</code>: a matrix containing pooled estimates for each
 regression coefficient across all studies with pooling under SLMA via
 random-effects meta-analysis under maximum likelihood (ML), restricted maximum
-likelihood (REML) or via fixed-effects meta-analysis (FE).
-<code>convergence.error.message</code>:  reports for each study whether the model converged.
+likelihood (REML) or via fixed-effects meta-analysis (FE).</p>
+
+
+<p><code>convergence.error.message</code>:  reports for each study whether the model converged.
 If it did not some information about the reason for this is reported.</p>
     </div>
     <div id="details">
@@ -237,45 +306,45 @@ the development team can activate this argument so alternatives can be specified
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co">## Version 6, for version 5 see Wiki</span></span>
-<span class="r-in">  <span class="co"># Connecting to the Opal servers</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
-<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
-<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
-<span class="r-in">                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">   <span class="co">#Log onto the remote Opal training servers</span></span>
-<span class="r-in">   <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span></span>
-<span class="r-in">               </span>
-<span class="r-in">  <span class="co"># Select all rows without missing values</span></span>
-<span class="r-in">  <span class="fu"><a href="ds.completeCases.html">ds.completeCases</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="st">"D"</span>, newobj <span class="op">=</span> <span class="st">"D.comp"</span>, datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in"> </span>
-<span class="r-in">  <span class="co"># Fit the lmer</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">ds.lmerSLMA</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"BMI ~  incid_rate + diabetes + (1 | Male)"</span>,</span>
-<span class="r-in">               dataName <span class="op">=</span> <span class="st">"D.comp"</span>,</span>
-<span class="r-in">               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># Clear the Datashield R sessions and logout</span></span>
-<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span>
-<span class="r-in">  <span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co">## Version 6, for version 5 see Wiki</span></span></span>
+<span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CLUSTER.CLUSTER_SLO3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>   <span class="co">#Log onto the remote Opal training servers</span></span></span>
+<span class="r-in"><span>   <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span>  <span class="co"># Select all rows without missing values</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.completeCases.html">ds.completeCases</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="st">"D"</span>, newobj <span class="op">=</span> <span class="st">"D.comp"</span>, datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span>  <span class="co"># Fit the lmer</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">ds.lmerSLMA</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"BMI ~  incid_rate + diabetes + (1 | Male)"</span>,</span></span>
+<span class="r-in"><span>               dataName <span class="op">=</span> <span class="st">"D.comp"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -290,7 +359,7 @@ the development team can activate this argument so alternatives can be specified
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

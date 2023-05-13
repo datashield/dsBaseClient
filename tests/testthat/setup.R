@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,11 +14,15 @@
 
 context("setup - start")
 
+# Convert 'warnings' to 'errors'
+# options(warn = 2)
+
 library(lme4)
 library(e1071)
 library(DescTools)
 
 library(DSOpal)
+library(DSMolgenisArmadillo)
 library(DSLite)
 
 source("dstest_functions/ds_expect_variables.R")

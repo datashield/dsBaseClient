@@ -55,6 +55,9 @@
     <loc>/reference/ds.assign.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.auc.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.boxPlot.html</loc>
   </url>
   <url>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/ds.boxPlotGG_table.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.bp_standards.html</loc>
   </url>
   <url>
     <loc>/reference/ds.c.html</loc>
@@ -139,6 +145,9 @@
     <loc>/reference/ds.forestplot.html</loc>
   </url>
   <url>
+    <loc>/reference/ds.gamlss.html</loc>
+  </url>
+  <url>
     <loc>/reference/ds.getWGSR.html</loc>
   </url>
   <url>
@@ -164,6 +173,9 @@
   </url>
   <url>
     <loc>/reference/ds.histogram.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.igb_standards.html</loc>
   </url>
   <url>
     <loc>/reference/ds.isNA.html</loc>
@@ -257,6 +269,9 @@
   </url>
   <url>
     <loc>/reference/ds.metadata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ds.mice.html</loc>
   </url>
   <url>
     <loc>/reference/ds.names.html</loc>

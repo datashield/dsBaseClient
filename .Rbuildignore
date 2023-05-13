@@ -8,7 +8,12 @@
 ^azure-pipelines_check\.Rout$
 ^azure-pipelines_test\.Rout$
 ^checkDocumentationUpdated\.sh$
+^docker-compose_armadillo\.yml$
+^docker-compose_opal\.yml$
+^docker-compose\.yml$
+^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$
-^pkgdown$
-^R/secure.global.ranking.md$
+^dsBase_6.3.0.tar.gz$
+^dsBase_6.3.0-permissive.tar.gz$
+^dsDanger_6.3.0.tar.gz$

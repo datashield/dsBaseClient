@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -44,58 +44,77 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.histogram</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="st">"split"</span>,
-  num.breaks <span class="op">=</span> <span class="fl">10</span>,
-  method <span class="op">=</span> <span class="st">"smallCellsRule"</span>,
-  k <span class="op">=</span> <span class="fl">3</span>,
-  noise <span class="op">=</span> <span class="fl">0.25</span>,
-  vertical.axis <span class="op">=</span> <span class="st">"Frequency"</span>,
-  datasources <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.histogram</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"split"</span>,</span>
+<span>  num.breaks <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"smallCellsRule"</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  noise <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  vertical.axis <span class="op">=</span> <span class="st">"Frequency"</span>,</span>
+<span>  datasources <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a character string specifying the name of a numerical vector.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>a character string that represents the type of graph to display.
 The <code>type</code> argument can be set as <code>'combine'</code> or <code>'split'</code>. 
 Default <code>'split'</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>num.breaks</dt>
 <dd><p>a numeric specifying the number of breaks of the histogram. Default value
 is <code>10</code>.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>a character string that defines which histogram will be created.
 The <code>method</code> argument can be set as <code>'smallCellsRule'</code>, 
 <code>'deterministic'</code> or <code>'probabilistic'</code>. 
 Default <code>'smallCellsRule'</code>.  
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>the number of the nearest neighbours for which their centroid is calculated. 
 Default <code>k</code> value is <code>3</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>noise</dt>
 <dd><p>the percentage of the initial variance that is used as the variance of the embedded
 noise if the argument <code>method</code> is set to <code>'probabilistic'</code>. 
 Default <code>noise</code> value is  <code>0.25</code>.
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>vertical.axis, </dt>
 <dd><p>a character string that defines what is shown in the vertical axis of the
 plot. The <code>vertical.axis</code> argument can be set as <code>'Frequency'</code> or <code>'Density'</code>.
 Default <code>'Frequency'</code>. 
 For more information see <strong>Details</strong>.</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>one or more histogram objects and plots depending on the argument <code>type</code></p>
+    
+
+<p>one or more histogram objects and plots depending on the argument <code>type</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -159,7 +178,7 @@ By default the value of noise is set to be equal to 0.25.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

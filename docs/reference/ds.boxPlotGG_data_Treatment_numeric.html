@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.0</span>
       </span>
     </div>
 
@@ -44,20 +44,34 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.boxPlotGG_data_Treatment_numeric</span><span class="op">(</span><span class="va">vector</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.boxPlotGG_data_Treatment_numeric</span><span class="op">(</span><span class="va">vector</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>vector</dt>
 <dd><p><code>character</code> Name of the table on the server side that holds the information to be plotted later</p></dd>
+
+
 <dt>datasources</dt>
 <dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> (default <code>NULL</code>) objects obtained after login</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Does not return nothing, it creates the table <code>"boxPlotRawDataNumeric"</code> on the server arranged to be passed to the
-ggplot boxplot function. Structure of the created table: <br> Column 'x': Names on the X axis of the boxplot, aka name of the vector (vector argument) <br> Column 'value': Values for that variable <br></p>
+    
+
+<p>Does not return nothing, it creates the table <code>"boxPlotRawDataNumeric"</code> on the server arranged to be passed to the
+ggplot boxplot function. Structure of the created table: <br></p>
+
+
+
+<p>Column 'x': Names on the X axis of the boxplot, aka name of the vector (vector argument) <br></p>
+
+
+<p>Column 'value': Values for that variable <br></p>
+
+
     </div>
 
   </div>
@@ -72,7 +86,7 @@ ggplot boxplot function. Structure of the created table: <br> Column 'x': Names 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
