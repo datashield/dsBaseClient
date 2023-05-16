@@ -46,7 +46,7 @@ aggregate function more simply than using the <code>datashield.aggregate</code> 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="cn">NULL</span>, checks <span class="op">=</span> <span class="cn">FALSE</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="cn">NULL</span>, checks <span class="op">=</span> <span class="cn">FALSE</span>, datasources <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,48 +95,48 @@ and less error-prone to call a server-side function using its client-side pair.<
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co">## Version 6, for version 5 see the Wiki</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># connecting to the Opal servers</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
-<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
-<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
-<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
-<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
-<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
-<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
-<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
-<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
-<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co">#Calculate the length of a variable using the server-side function</span></span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="st">"lengthDS(D$age.60)"</span>, </span></span>
-<span class="r-in"><span>          checks <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>          datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span></span>
-<span class="r-in"><span>          </span></span>
-<span class="r-in"><span>  <span class="co">#Calculate the column names of "D" object using the server-side function</span></span></span>
-<span class="r-in"><span>          </span></span>
-<span class="r-in"><span>  <span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="st">"colnames(D)"</span>,</span></span>
-<span class="r-in"><span>          checks <span class="op">=</span> <span class="cn">FALSE</span>, </span></span>
-<span class="r-in"><span>          datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span>        </span></span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"></span>
+<span class="r-in">  <span class="co">## Version 6, for version 5 see the Wiki</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># connecting to the Opal servers</span></span>
+<span class="r-in"></span>
+<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span>
+<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span>
+<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in">  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span>
+<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
+<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
+<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span>
+<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
+<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
+<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span>
+<span class="r-in">                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span>
+<span class="r-in">                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span>
+<span class="r-in">                 table <span class="op">=</span> <span class="st">"SURVIVAL.EXPAND_NO_MISSING3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co">#Calculate the length of a variable using the server-side function</span></span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="st">"lengthDS(D$age.60)"</span>, </span>
+<span class="r-in">          checks <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span class="r-in">          datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span> </span>
+<span class="r-in">          </span>
+<span class="r-in">  <span class="co">#Calculate the column names of "D" object using the server-side function</span></span>
+<span class="r-in">          </span>
+<span class="r-in">  <span class="fu">ds.look</span><span class="op">(</span>toAggregate <span class="op">=</span> <span class="st">"colnames(D)"</span>,</span>
+<span class="r-in">          checks <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span class="r-in">          datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span>        </span>
+<span class="r-in">  </span>
+<span class="r-in">  <span class="co"># clear the Datashield R sessions and logout</span></span>
+<span class="r-in">  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </div>
