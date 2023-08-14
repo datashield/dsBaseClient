@@ -3,15 +3,15 @@ version: "3.4"
 services:
     armadillo:
         hostname: armadillo
-        image: datashield/armadillo3.3:1.0.0
+        image: datashield/armadillo_citest:1.0.0
         environment:
-            RSERVE_HOST: rserver
-            DEBUG: "TRUE"
+            DEBUG: "FALSE"
         ports:
             - 8080:8080
-    rserver:
-        hostname: rserver
-        image: datashield/armadillo-rserver_ionic-aquaduct:1.0.0
+
+    citest_rserver:
+        hostname: citest_rserver
+        image: datashield/armadillo-rserver_ionic-aqueduct:1.0.0
         environment:
             DEBUG: "FALSE"
         ports:
