@@ -51,9 +51,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error in data\\.frame\\(M\\) : object 'M' not found")
-    expect_match(res.errors$sim2, "* Error in data\\.frame\\(M\\) : object 'M' not found")
-    expect_match(res.errors$sim3, "* Error in data\\.frame\\(M\\) : object 'M' not found")
+    expect_match(res.errors$sim1, "* object 'M' not found")
+    expect_match(res.errors$sim2, "* object 'M' not found")
+    expect_match(res.errors$sim3, "* object 'M' not found")
 })
 
 context("ds.dataFrameSubset::arg::missing 'V1' value server-side")
