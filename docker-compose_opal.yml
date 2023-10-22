@@ -22,4 +22,4 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: obiba/rock:1.0-R4.3
+        image: datashield/rock-base:6.3-R4.3
