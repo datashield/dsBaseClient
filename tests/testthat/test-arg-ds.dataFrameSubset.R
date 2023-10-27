@@ -1,3 +1,4 @@
+
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
 #
@@ -51,9 +52,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* object 'M' not found")
-    expect_match(res.errors$sim2, "* object 'M' not found")
-    expect_match(res.errors$sim3, "* object 'M' not found")
+    expect_match(res.errors$sim1, "* object 'M' not found\\n")
+    expect_match(res.errors$sim2, "* object 'M' not found\\n")
+    expect_match(res.errors$sim3, "* object 'M' not found\\n")
 })
 
 context("ds.dataFrameSubset::arg::missing 'V1' value server-side")
