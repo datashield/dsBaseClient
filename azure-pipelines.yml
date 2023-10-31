@@ -55,10 +55,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.3.0-dev
+    displayName: Nightly build - v6.3.1-dev
     branches:
       include:
-      - v6.3.0-dev
+      - v6.3.1-dev
     always: true
 
 #########################################################################################
@@ -229,7 +229,7 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.0-dev'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.1-dev'); opal.logout(opal)"
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
 
@@ -554,7 +554,7 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.0-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 120
@@ -683,7 +683,7 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.0.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.1.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 120

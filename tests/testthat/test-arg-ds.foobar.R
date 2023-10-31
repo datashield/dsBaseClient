@@ -55,13 +55,14 @@ test_that("non existent aggregate foobarDS", {
     expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=calltext))
 
     errs <- datashield.errors()
+
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
     expect_length(errs$sim2, 1)
-    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
     expect_length(errs$sim3, 1)
-    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
 })
 
 context("ds.foobar::arg::assign")
@@ -105,11 +106,11 @@ test_that("non existent assign foobarDS", {
     errs <- datashield.errors()
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
     expect_length(errs$sim2, 1)
-    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
     expect_length(errs$sim3, 1)
-    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: "))
+    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
 })
 
 #
