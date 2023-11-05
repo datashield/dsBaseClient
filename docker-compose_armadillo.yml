@@ -3,7 +3,7 @@ version: "3.4"
 services:
     armadillo:
         hostname: armadillo
-        image: datashield/armadillo_citest:1.0.0
+        image: datashield/armadillo_citest:1.1.0
         environment:
             DEBUG: "FALSE"
         ports:
@@ -11,7 +11,7 @@ services:
 
     citest_rserver:
         hostname: citest_rserver
-        image: datashield/armadillo-rserver_ionic-aqueduct:1.0.0
+        image: datashield/armadillo-rserver_ionic-babel:1.0.0
         environment:
             DEBUG: "FALSE"
         ports:
