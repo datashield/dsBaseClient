@@ -552,16 +552,15 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
-      curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -X GET http://localhost:8080/packages
+
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 120
 
       curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
-
-      curl -u admin:admin http://localhost:8080/whitelist
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsBase to Armadillo'
