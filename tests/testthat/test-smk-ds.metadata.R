@@ -70,8 +70,6 @@ test_that("data.frame metadata", {
 test_that("column metadata", {
     res <- ds.metadata(x='D$LAB_TSC')
 
-    print(res)
-
     if (ds.test_env$driver == "ArmadilloDriver") {
         expect_true(all(class(res) %in% c('list')))
         expect_length(res, 3)
