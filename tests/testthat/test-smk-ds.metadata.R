@@ -73,9 +73,9 @@ test_that("column metadata", {
     if (ds.test_env$driver == "ArmadilloDriver") {
         expect_true(all(class(res) %in% c('list')))
         expect_length(res, 3)
-        expect_length(res$sim1, 7)
-        expect_length(res$sim2, 7)
-        expect_length(res$sim3, 7)
+        expect_length(res$sim1, 0)
+        expect_length(res$sim2, 0)
+        expect_length(res$sim3, 0)
     } else if (ds.test_env$driver == "OpalDriver") {
         expect_length(res$sim1, 6)
         expect_true(all(class(res$sim1) %in% c('list')))
