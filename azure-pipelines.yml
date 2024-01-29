@@ -556,9 +556,10 @@ jobs:
       curl -u admin:admin -X GET http://localhost:8080/packages
 
       curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      sleep 600
 
       docker container restart dsbaseclient_armadillo_1
-      sleep 120
+      sleep 30
 
       curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
 
