@@ -15,7 +15,7 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-dolomite-xenon:latest
+      image: datashield/rock-dolomite-xenon-permissive:latest
       port: 8085
       host: default
       package-whitelist:
