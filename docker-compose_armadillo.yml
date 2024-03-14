@@ -5,24 +5,19 @@ services:
         hostname: armadillo
         ports:
             - 8080:8080
-        build:
-            context: '.'
-            dockerfile: 'Dockerfile'
-            args:
-                JAR_FILE: '*.jar'
-        image: datashield/armadillo_citest:2.0.0
+        image: datashield/armadillo_citest:2.1.0
         environment:
             LOGGING_CONFIG: 'classpath:logback-file.xml'
             AUDIT_LOG_PATH: '/app/logs/audit.log'
             SPRING_SECURITY_USER_PASSWORD: 'admin'
         volumes:
-            - ${PWD}/tests/docker/armadillo/standard/logs:/logs
-            - ${PWD}/tests/docker/armadillo/standard/data:/data
-            - ${PWD}/tests/docker/armadillo/standard/config:/config
+            - ./tests/docker/armadillo/standard/logs:/logs
+            - ./tests/docker/armadillo/standard/data:/data
+            - ./tests/docker/armadillo/standard/config:/config
             - /var/run/docker.sock:/var/run/docker.sock
 
     default:
         hostname: default
-        image: datashield/rock-dolomite-xenon:latest
+        image: datashield/rock-dolomite-xenon-permissive:latest
         environment:
             DEBUG: "FALSE"
