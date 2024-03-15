@@ -18,6 +18,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-dolomite-xenon-permissive:latest
+        image: datashield/rock-dolomite-devel-permissive:latest
         environment:
             DEBUG: "FALSE"

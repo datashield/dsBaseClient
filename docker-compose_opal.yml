@@ -22,4 +22,4 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: datashield/rock-dolomite-xenon-permissive:latest
+        image: datashield/rock-dolomite-devel-permissive:latest
