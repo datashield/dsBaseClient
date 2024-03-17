@@ -1,0 +1,1 @@
+{"profiles":{"default":{"name":"default","image":"datashield/rock-dolomite-xenon:latest","host":"default","port":8085,"packageWhitelist":["dsBase"],"functionBlacklist":[],"options":{"datashield.seed":"342325352"}}}}
