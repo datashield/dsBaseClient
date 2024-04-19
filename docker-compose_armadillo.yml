@@ -16,6 +16,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-dolomite-devel-permissive:latest
+        image: datashield/rock-dolomite-devel-permissive:2.0.0
         environment:
             DEBUG: "FALSE"
