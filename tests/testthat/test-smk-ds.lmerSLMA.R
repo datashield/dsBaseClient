@@ -112,7 +112,7 @@ test_that("check slope formulae", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$betamatrix.all), 1)
         expect_true("matrix" %in% class(res$betamatrix.all))
@@ -124,7 +124,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$betamatrix.all))
     }
     expect_length(res$sematrix.all, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$sematrix.all), 1)
         expect_true("matrix" %in% class(res$sematrix.all))
@@ -136,7 +136,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$sematrix.all))
     }
     expect_length(res$betamatrix.valid, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$betamatrix.valid), 1)
         expect_true("matrix" %in% class(res$betamatrix.valid))
@@ -148,7 +148,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$betamatrix.valid))
     }
     expect_length(res$sematrix.valid, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$sematrix.valid), 1)
         expect_true("matrix" %in% class(res$sematrix.valid))
@@ -160,7 +160,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$sematrix.valid))
     }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$SLMA.pooled.ests.matrix), 1)
         expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
@@ -184,7 +184,7 @@ test_that("check slope formulae", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$betamatrix.all), 1)
         expect_true("matrix" %in% class(res$betamatrix.all))
@@ -196,7 +196,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$betamatrix.all))
     }
     expect_length(res$sematrix.all, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$sematrix.all), 1)
         expect_true("matrix" %in% class(res$sematrix.all))
@@ -208,7 +208,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$sematrix.all))
     }
     expect_length(res$betamatrix.valid, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$betamatrix.valid), 1)
         expect_true("matrix" %in% class(res$betamatrix.valid))
@@ -220,7 +220,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$betamatrix.valid))
     }
     expect_length(res$sematrix.valid, 9)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$sematrix.valid), 1)
         expect_true("matrix" %in% class(res$sematrix.valid))
@@ -232,7 +232,7 @@ test_that("check slope formulae", {
         expect_true("array" %in% class(res$sematrix.valid))
     }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    if (base::getRversion() < 4.0)
+    if (base::getRversion() < '4.0.0')
     {
         expect_length(class(res$SLMA.pooled.ests.matrix), 1)
         expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
