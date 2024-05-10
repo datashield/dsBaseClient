@@ -1,8 +1,6 @@
-version: '3'
-
 services:
     opal:
-        image: obiba/opal:4.6
+        image: obiba/opal:4.7.2
         ports:
             - "8443:8443"
         links:
@@ -22,4 +20,4 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: datashield/rock-base:6.3-R4.3
+        image: datashield/rock-junction-xenon-permissive:latest

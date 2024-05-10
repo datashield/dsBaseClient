@@ -83,8 +83,8 @@ test_that("simple table 3D", {
   
   expect_length(res.errors, 2)
 
-  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
-  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
+  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3*")
+  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3*")
 })
 
 test_that("simple table 1D, with assign", {
@@ -133,8 +133,8 @@ test_that("simple table 3D, with assign", {
   
   expect_length(res.errors, 2)
 
-  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
-  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3")
+  expect_match(res.errors$study1, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3*")
+  expect_match(res.errors$study2, "* Error : Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3*")
 })
 
 #
