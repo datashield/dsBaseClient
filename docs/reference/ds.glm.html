@@ -179,12 +179,23 @@ In this case, only non-disclosive elements are returned from each study separate
 
 <p><code>coefficients</code>: a matrix with 5 columns:</p>
 <p></p>
-<ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
-<li><p>second: the estimated values</p></li>
-<li><p>third: corresponding standard errors of the estimated values</p></li>
-<li><p>fourth: the ratio of estimate/standard error.</p></li>
-<li><p>fifth: the p-value treating that as a standardised normal deviate</p></li>
-</ul><p><code>dev</code>: residual deviance.</p>
+<dl><dt>First</dt>
+<dd><p>: the names of all of the regression parameters (coefficients) in the model</p></dd>
+
+   <dt>second</dt>
+<dd><p>: the estimated values</p></dd>
+
+   <dt>third</dt>
+<dd><p>: corresponding standard errors of the estimated values</p></dd>
+
+   <dt>fourth</dt>
+<dd><p>: the ratio of estimate/standard error</p></dd>
+.
+   <dt>fifth</dt>
+<dd><p>: the p-value treating that as a standardised normal deviate</p></dd>
+
+    
+</dl><p><code>dev</code>: residual deviance.</p>
 
 
 <p><code>df</code>: residual degrees of freedom. <code>nb</code> residual degrees of freedom + number of
@@ -238,12 +249,19 @@ means fit all possible main effects and interactions for and between those two c
  the survival time is added as an offset (<code>log(survtime)</code>).</p> 
 
 <p>In the <code>family</code> argument can be specified three types of models to fit:</p>
-<p></p><ul><li><p><code>"gaussian"</code>: conventional linear model with normally distributed errors</p></li>
-<li><p><code>"binomial"</code>: conventional unconditional logistic regression model</p></li>
-<li><p><code>"poisson"</code>: Poisson regression model which is the most used in survival analysis. 
+<p></p><dl><dt><code>"gaussian"</code></dt>
+<dd><p>: conventional linear model with normally distributed errors</p></dd>
+ 
+   <dt><code>"binomial"</code></dt>
+<dd><p>: conventional unconditional logistic regression model</p></dd>
+
+   <dt><code>"poisson"</code></dt>
+<dd><p>: Poisson regression model which is the most used in survival analysis. 
     The model used Piecewise Exponential Regression (PER) which typically closely approximates
-    Cox regression in its main estimates and standard errors.</p></li>
-</ul><p>At present the gaussian family is automatically coupled with
+    Cox regression in its main estimates and standard errors.</p></dd>
+
+
+</dl><p>At present the gaussian family is automatically coupled with
 an <code>identity</code> link function, the binomial family with a
 <code>logistic</code> link function and the poisson family with a <code>log</code> link function.</p>
 

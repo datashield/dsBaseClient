@@ -46,7 +46,7 @@
 #' 
 #' In the \code{family} argument can be specified three types of models to fit:
 #' 
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
 #'    \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
@@ -190,7 +190,7 @@
 #' @return \code{family}: error family and link function.
 #' @return \code{formula}: model formula, see description of formula as an input parameter (above).
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model}
 #'    \item{second}{: the estimated values}
 #'    \item{third}{: corresponding standard errors of the estimated values}

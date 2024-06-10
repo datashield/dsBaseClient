@@ -121,19 +121,32 @@ the default set of connections will be used: see <code><a href="https://datashie
     <p><code>ds.histogram</code> function allows the user to plot
 distinct histograms (one for each study) or a combined histogram that merges
 the single plots.</p>
-<p>In the argument <code>type</code> can be specified two types of graphics to display:</p><ul><li><p><code>'combine'</code>: a histogram that merges the single plot is displayed.</p></li>
-<li><p><code>'split'</code>: each histogram is plotted separately.</p></li>
-</ul><p>In the argument <code>method</code> can be specified 3 different histograms to be created:</p><ul><li><p><code>'smallCellsRule'</code>: the histogram of the actual variable is
-          created but bins with low counts are removed.</p></li>
-<li><p><code>'deterministic'</code>: the histogram of the scaled centroids of each 
+<p>In the argument <code>type</code> can be specified two types of graphics to display:</p><dl><dt><code>'combine'</code></dt>
+<dd><p>: a histogram that merges the single plot is displayed.</p></dd>
+ 
+   <dt><code>'split'</code></dt>
+<dd><p>: each histogram is plotted separately.</p></dd>
+
+    
+</dl><p>In the argument <code>method</code> can be specified 3 different histograms to be created:</p><dl><dt><code>'smallCellsRule'</code></dt>
+<dd><p>: the histogram of the actual variable is
+          created but bins with low counts are removed.</p></dd>
+ 
+   <dt><code>'deterministic'</code></dt>
+<dd><p>: the histogram of the scaled centroids of each 
          <code>k</code> nearest neighbours of the original variable
-         where the value of <code>k</code> is set by the user.</p></li>
-<li><p><code>'probabilistic'</code>: the histogram shows the original distribution disturbed 
+         where the value of <code>k</code> is set by the user.</p></dd>
+ 
+   <dt><code>'probabilistic'</code></dt>
+<dd><p>: the histogram shows the original distribution disturbed 
          by the addition of random stochastic noise.
          The added noise follows a normal distribution with zero mean and
          variance equal to a percentage of the initial variance of the input variable. 
-         This percentage is specified by the user in the argument <code>noise</code>.</p></li>
-</ul><p>In the <code>k</code> argument the user can choose any value for <code>k</code> equal 
+         This percentage is specified by the user in the argument <code>noise</code>.</p></dd>
+ 
+ 
+    
+</dl><p>In the <code>k</code> argument the user can choose any value for <code>k</code> equal 
 to or greater than the pre-specified threshold
 used as a disclosure control for this method and lower than the number of observations
 minus the value of this threshold. By default the value of <code>k</code> is set to be equal to 3
@@ -151,11 +164,16 @@ Any value of noise is ignored if the argument
 The user can choose any value for noise equal to or greater 
 than the pre-specified threshold <code>'nfilter.noise'</code>.
 By default the value of noise is set to be equal to 0.25.</p>
-<p>In the argument  <code>vertical.axis</code> can be specified two types of histograms:</p><ul><li><p><code>'Frequency'</code>: the histogram of the frequencies
-    is returned.</p></li>
-<li><p><code>'Density'</code>: the histogram of the densities
-    is returned.</p></li>
-</ul><p>Server function called: <code>histogramDS2</code></p>
+<p>In the argument  <code>vertical.axis</code> can be specified two types of histograms:</p><dl><dt><code>'Frequency'</code></dt>
+<dd><p>: the histogram of the frequencies
+    is returned.</p></dd>
+ 
+   <dt><code>'Density'</code></dt>
+<dd><p>: the histogram of the densities
+    is returned.</p></dd>
+
+    
+</dl><p>Server function called: <code>histogramDS2</code></p>
     </div>
     <div id="author">
     <h2>Author</h2>

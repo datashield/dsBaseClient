@@ -130,22 +130,40 @@ disclosure. A message is printed to inform the user about the number of invalid 
 The ranges returned by each study and used in the process of getting the grid density matrix
 are not the exact minimum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.</p>
-<p>In the argument <code>type</code> can be specified two types of graphics to display:</p><ul><li><p><code>'combine'</code>: a combined heat map plot is displayed</p></li>
-<li><p><code>'split'</code>: each heat map is plotted separately</p></li>
-</ul><p>In the argument <code>show</code> can be specified two options:</p><ul><li><p><code>'all'</code>: the ranges of the variables are used as plot limits</p></li>
-<li><p><code>'zoomed'</code>: the plot is zoomed to the region where the actual data are</p></li>
-</ul><p>In the argument <code>method</code> can be specified 3 different heat map to be created:</p><ul><li><p><code>'smallCellsRule'</code>: the heat map of the actual variables is
-    created but grids with low counts are replaced with grids with zero counts</p></li>
-<li><p><code>'deterministic'</code>: the heat map of the scaled centroids of each 
+<p>In the argument <code>type</code> can be specified two types of graphics to display:</p><dl><dt><code>'combine'</code></dt>
+<dd><p>: a combined heat map plot is displayed</p></dd>
+ 
+   <dt><code>'split'</code></dt>
+<dd><p>: each heat map is plotted separately</p></dd>
+
+    
+</dl><p>In the argument <code>show</code> can be specified two options:</p><dl><dt><code>'all'</code></dt>
+<dd><p>: the ranges of the variables are used as plot limits</p></dd>
+ 
+   <dt><code>'zoomed'</code></dt>
+<dd><p>: the plot is zoomed to the region where the actual data are</p></dd>
+
+    
+</dl><p>In the argument <code>method</code> can be specified 3 different heat map to be created:</p><dl><dt><code>'smallCellsRule'</code></dt>
+<dd><p>: the heat map of the actual variables is
+    created but grids with low counts are replaced with grids with zero counts</p></dd>
+ 
+   <dt><code>'deterministic'</code></dt>
+<dd><p>: the heat map of the scaled centroids of each 
          <code>k</code> nearest neighbours of the
-        original variables are created, where the value of <code>k</code> is set by the user</p></li>
-<li><p><code>'probabilistic'</code>:  the heat map of <code>'noisy'</code> variables is generated. 
+        original variables are created, where the value of <code>k</code> is set by the user</p></dd>
+ 
+   <dt><code>'probabilistic'</code></dt>
+<dd><p>:  the heat map of <code>'noisy'</code> variables is generated. 
           The added noise follows a normal distribution with 
           zero mean and variance equal to a percentage of
           the initial variance of each input variable. 
           This percentage is specified by the user in the
-          argument <code>noise</code></p></li>
-</ul><p>In the <code>k</code> argument the user can choose any value for 
+          argument <code>noise</code></p></dd>
+ 
+ 
+    
+</dl><p>In the <code>k</code> argument the user can choose any value for 
 <code>k</code> equal to or greater than the pre-specified threshold
 used as a disclosure control for this method and lower than the number of observations
 minus the value of this threshold. By default the value of <code>k</code> is set to be equal to 3

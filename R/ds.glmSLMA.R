@@ -91,7 +91,7 @@
 #' relatively widely.
 #' 
 #' The standard models include:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
 #'    \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
@@ -199,7 +199,7 @@
 #' a series of other list objects that represent inferences aggregated across studies.
 #' @return the study specific items include: 
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 

@@ -152,12 +152,23 @@ a series of other list objects that represent inferences aggregated across studi
 
 <p><code>coefficients</code>: a matrix with 5 columns:</p>
 <p></p>
-<ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
-<li><p>second: the estimated values</p></li>
-<li><p>third: corresponding standard errors of the estimated values</p></li>
-<li><p>fourth: the ratio of estimate/standard error</p></li>
-<li><p>fifth: the p-value treating that as a standardised normal deviate</p></li>
-</ul><p><code>family</code>: indicates the error distribution and link function used
+<dl><dt>First</dt>
+<dd><p>: the names of all of the regression parameters (coefficients) in the model</p></dd>
+ 
+   <dt>second</dt>
+<dd><p>: the estimated values</p></dd>
+ 
+   <dt>third</dt>
+<dd><p>: corresponding standard errors of the estimated values</p></dd>
+ 
+   <dt>fourth</dt>
+<dd><p>: the ratio of estimate/standard error</p></dd>
+ 
+   <dt>fifth</dt>
+<dd><p>: the p-value treating that as a standardised normal deviate</p></dd>
+ 
+
+</dl><p><code>family</code>: indicates the error distribution and link function used
 in the GLM.</p>
 
 
@@ -355,16 +366,26 @@ means fit all possible main effects and interactions for and between those two c
 <p>In the <code>family</code> argument a range of model types can be fitted. This range has recently
 been extended to include a number of model types that are non-standard but are used
 relatively widely.</p>
-<p>The standard models include:</p><ul><li><p><code>"gaussian"</code>: conventional linear model with normally distributed errors</p></li>
-<li><p><code>"binomial"</code>: conventional unconditional logistic regression model</p></li>
-<li><p><code>"poisson"</code>: Poisson regression model which is often used in epidemiological
+<p>The standard models include:</p><dl><dt><code>"gaussian"</code></dt>
+<dd><p>: conventional linear model with normally distributed errors</p></dd>
+ 
+   <dt><code>"binomial"</code></dt>
+<dd><p>: conventional unconditional logistic regression model</p></dd>
+
+   <dt><code>"poisson"</code></dt>
+<dd><p>: Poisson regression model which is often used in epidemiological
     analysis of counts and rates and is also used in survival analysis. The
     Piecewise Exponential Regression (PER) model typically provides a close approximation
-    to the Cox regression model in its main estimates and standard errors.</p></li>
-<li><p><code>"gamma"</code>: a family of models for outcomes characterised by a constant
-    coefficient of variation, i.e. the variance increases with the square of the expected mean</p>
-<p>The extended range includes:</p></li>
-<li><p><code>"quasipoisson"</code>: a model with a Poisson variance function - variance
+    to the Cox regression model in its main estimates and standard errors.</p></dd>
+
+   <dt><code>"gamma"</code></dt>
+<dd><p>: a family of models for outcomes characterised by a constant
+    coefficient of variation, i.e. the variance increases with the square of the expected mean</p></dd>
+
+
+The extended range includes:
+   <dt><code>"quasipoisson"</code></dt>
+<dd><p>: a model with a Poisson variance function - variance
     equals expected mean - but the residual variance which is fixed to be 1.00 in
     a standard Poisson model can then take any value. This is achieved by a dispersion parameter
     which is estimated during the model fit and if it takes the value K it means
@@ -377,15 +398,19 @@ relatively widely.</p>
     modelled, either by including the blocks themselves as a factor or by including
     covariates for all the determinants that are relevant to that underlying risk. If
     there is no overdispersion (K=1) the estimates and standard errors from the
-    quasipoisson model will be almost identical to those from a standard poisson model.</p></li>
-<li><p><code>"quasibinomial"</code>: a model with a binomial variance function - if P
+    quasipoisson model will be almost identical to those from a standard poisson model.</p></dd>
+
+
+   <dt><code>"quasibinomial"</code></dt>
+<dd><p>: a model with a binomial variance function - if P
     is the expected proportion of successes, and N is the number of "trials" (always
     1 if analysing binary data which are formally described as having a Bernoulli
     distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
     But the residual variance which is fixed to be 1.00 in
     a binomial model can take any value. This is achieved by a dispersion parameter
-    which is estimated during the model fit (see quasipoisson information above).</p></li>
-</ul><p>Each class of models has a "canonical link" which represents the link function that
+    which is estimated during the model fit (see quasipoisson information above).</p></dd>
+
+</dl><p>Each class of models has a "canonical link" which represents the link function that
 maximises the information extraction by the model. The gaussian family uses the
 <code>identity</code> link, the poisson family the <code>log</code> link, the binomial/Bernoulli family the
 <code>logit</code> link and the the gamma family the <code>reciprocal</code> link.</p>

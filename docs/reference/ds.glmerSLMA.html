@@ -184,12 +184,23 @@ In this case, only non-disclosive elements are returned from each study separate
 
 <p><code>coefficients</code>: a matrix with 5 columns:</p>
 <p></p>
-<ul><li><p>First: the names of all of the regression parameters (coefficients) in the model</p></li>
-<li><p>second: the estimated values</p></li>
-<li><p>third: corresponding standard errors of the estimated values</p></li>
-<li><p>fourth: the ratio of estimate/standard error</p></li>
-<li><p>fifth: the p-value treating that as a standardised normal deviate</p></li>
-</ul><p><code>CorrMatrix</code>: the correlation matrix of parameter estimates.</p>
+<dl><dt>First</dt>
+<dd><p>: the names of all of the regression parameters (coefficients) in the model</p></dd>
+ 
+   <dt>second</dt>
+<dd><p>: the estimated values</p></dd>
+ 
+   <dt>third</dt>
+<dd><p>: corresponding standard errors of the estimated values</p></dd>
+ 
+   <dt>fourth</dt>
+<dd><p>: the ratio of estimate/standard error</p></dd>
+ 
+   <dt>fifth</dt>
+<dd><p>: the p-value treating that as a standardised normal deviate</p></dd>
+ 
+
+</dl><p><code>CorrMatrix</code>: the correlation matrix of parameter estimates.</p>
 
 
 <p><code>VarCovMatrix</code>: the variance-covariance matrix of parameter estimates.</p>
@@ -279,9 +290,14 @@ and that they have the correct characteristics required to fit the model.
 It is suggested to make <code>checks</code> argument TRUE if an unexplained
 problem in the model fit is encountered because the running process takes several minutes.</p>
 
-<p>In the <code>family</code> argument can be specified two types of models to fit:</p><ul><li><p><code>"binomial"</code>: logistic regression models</p></li>
-<li><p><code>"poisson"</code>: poisson regression models</p></li>
-</ul><p>Note if you are fitting a gaussian model (a standard linear mixed
+<p>In the <code>family</code> argument can be specified two types of models to fit:</p><dl><dt><code>"binomial"</code></dt>
+<dd><p>: logistic regression models</p></dd>
+
+   <dt><code>"poisson"</code></dt>
+<dd><p>: poisson regression models</p></dd>
+
+
+</dl><p>Note if you are fitting a gaussian model (a standard linear mixed
 model) you should use <code>ds.lmerSLMA</code> and not <code>ds.glmerSLMA</code>. 
 For more information you can see R help for <code>lmer</code> and <code>glmer</code>.</p>
 <p>In <code>control_type</code> at present only one such parameter can be modified,
