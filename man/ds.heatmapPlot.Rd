@@ -71,19 +71,19 @@ are not the exact minimum and maximum values but rather close approximates of th
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 
 In the argument \code{type} can be specified two types of graphics to display:
- \itemize{
+ \describe{
    \item{\code{'combine'}}{: a combined heat map plot is displayed} 
    \item{\code{'split'}}{: each heat map is plotted separately}
     }
 
 In the argument \code{show} can be specified two options:
- \itemize{
+ \describe{
    \item{\code{'all'}}{: the ranges of the variables are used as plot limits} 
    \item{\code{'zoomed'}}{: the plot is zoomed to the region where the actual data are}
     }
 
 In the argument \code{method} can be specified 3 different heat map to be created:
- \itemize{
+ \describe{
    \item{\code{'smallCellsRule'}}{: the heat map of the actual variables is
     created but grids with low counts are replaced with grids with zero counts} 
    \item{\code{'deterministic'}}{: the heat map of the scaled centroids of each 

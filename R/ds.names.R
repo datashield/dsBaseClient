@@ -6,7 +6,7 @@
 #' for example, it only works to extract names that already exist,
 #' not to create new names for objects. The function is restricted to objects of
 #' type list, but this includes objects that have a primary class other than list but which
-#' return TRUE to the native R function {is.list}. As an example this includes
+#' return TRUE to the native R function \code{is.list}. As an example this includes
 #' the multi-component object created by fitting a generalized linear model
 #' using ds.glmSLMA. The resultant object saved on each server separately
 #' is formally of class "glm" and "ls" but responds TRUE to is.list(),

@@ -217,7 +217,7 @@ jobs:
     # Install test datasets.
     # If previous steps have failed then don't run.
   - bash: |
-      sleep 240
+      sleep 60
 
       R -q -f "obiba_opal-upload_testing_datasets.R"
 
@@ -231,6 +231,8 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.1-dev'); opal.logout(opal)"
+
+      sleep 120
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
 
@@ -540,7 +542,7 @@ jobs:
     # Install test datasets.
     # If previous steps have failed then don't run.
   - bash: |
-      sleep 240
+      sleep 60
 
       R -q -f "molgenis_armadillo-upload_testing_datasets.R"
 
@@ -557,7 +559,7 @@ jobs:
       curl -u admin:admin -X GET http://localhost:8080/packages
 
       curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
-      sleep 600
+      sleep 60
 
       docker container restart dsbaseclient_armadillo_1
       sleep 30
@@ -687,7 +689,7 @@ jobs:
       curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.1.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
-      sleep 120
+      sleep 60
 
       curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
 

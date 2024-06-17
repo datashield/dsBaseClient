@@ -100,7 +100,7 @@ In this case, only non-disclosive elements are returned from each study separate
 The list of elements returned by \code{ds.glmerSLMA} is mentioned below:
 
 \code{coefficients}: a matrix with 5 columns:
-   \itemize{
+   \describe{
    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
    \item{second}{: the estimated values} 
    \item{third}{: corresponding standard errors of the estimated values} 
@@ -195,7 +195,7 @@ problem in the model fit is encountered because the running process takes severa
 
 
 In the \code{family} argument can be specified two types of models to fit:
- \itemize{
+ \describe{
    \item{\code{"binomial"}}{: logistic regression models}
    \item{\code{"poisson"}}{: poisson regression models}
 }

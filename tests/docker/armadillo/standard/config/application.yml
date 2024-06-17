@@ -1,0 +1,77 @@
+# NOTE these settings should be similar to application.template.yml
+
+armadillo:
+  # DO NOT CHANGE
+  docker-management-enabled: false
+  # DO NOT CHANGE
+  docker-run-in-container: true
+
+  # when running the R containers from a docker-compose.yml they get prefixes based on the directory name of the
+  # docker-compose.yml file ie armadillo-dev-" + profileName + "-1". Same goes for Armadillo ie armadillo-dev-armadillo-1"
+  container-prefix: 'dev-'
+
+  # uncomment this to configure an oidc user as admin user
+  # oidc-admin-user: user@yourdomain.org
+  profiles:
+    - name: default
+      image: datashield/rock-junction-xenon-permissive:latest
+      port: 8085
+      host: default
+      package-whitelist:
+        - dsBase
+        - resourcer
+        - dsMediation
+        - dsMTLBase
+        - dsSurvival
+        - dsOmics
+      function-blacklist: [ ]
+      options:
+        datashield:
+          # the seed can only be 9 digits
+          seed: 342325352
+
+# required settings:
+spring:
+  security:
+    user:
+      # please change this admin password!
+      password: admin
+    ## uncomment oauth2 settings below to enable oidcgit
+  #    oauth2:
+  #      client:
+  #        provider:
+  #          molgenis:
+  #            issuer-uri: 'http://auth.molgenis.org'
+  #        registration:
+  #          molgenis:
+  #            client-id: '...'
+  #            client-secret: '...'
+  #      resourceserver:
+  #        jwt:
+  #          issuer-uri: 'http://auth.molgenis.org'
+  #        opaquetoken:
+  #          client-id: '...'
+
+  # optional settings (review spring handbook to find more):
+  servlet:
+    multipart:
+      ## change this if your files are bigger
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+
+storage:
+  ## to change location of the data storage
+  root-dir: /data
+
+# Match with Dockerfile volume /logs
+audit.log.path: '/logs/audit.log'
+
+stdout.log.path: '/logs/armadillo.log'
+
+logging:
+  level:
+    root: INFO
+    ## change to DEBUG to have more details, typically when developing
+    org.molgenis: DEBUG
+    ## Don't log upload data
+    org.apache.coyote.http11.Http11InputBuffer: INFO
