@@ -202,7 +202,7 @@ jobs:
     #####################################################################################
     # Deploy docker for Opal.
     # If previous steps have failed then don't run.
-  - task: DockerCompose@0
+  - task: DockerCompose@1
     inputs:
       action: Run Services
       dockerComposeFile: ../dsBaseClient/docker-compose_opal.yml
@@ -527,7 +527,7 @@ jobs:
     #####################################################################################
     # Deploy docker for Opal.
     # If previous steps have failed then don't run.
-  - task: DockerCompose@0
+  - task: DockerCompose@1
     inputs:
       action: Run Services
       dockerComposeFile: ../dsBaseClient/docker-compose_armadillo.yml
