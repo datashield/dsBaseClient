@@ -531,7 +531,7 @@ jobs:
     inputs:
       action: Run Services
       dockerComposeFile: ../dsBaseClient/docker-compose_armadillo.yml
-      projectName: dsBaseClient
+      projectName: dsbaseclient
       qualifyImageNames: true
       buildImages: true
       abortOnContainerExit: true
