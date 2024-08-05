@@ -17,8 +17,8 @@ if (! is.null(getOption("default_driver"))) {
 } else {
     # switch between "DSLiteDriver" and "OpalDriver", "ArmadilloDriver" to test
     # ds.test_env$driver <- "DSLiteDriver"
-    ds.test_env$driver <- "OpalDriver"
-    # ds.test_env$driver <- "ArmadilloDriver"
+    # ds.test_env$driver <- "OpalDriver"
+    ds.test_env$driver <- "ArmadilloDriver"
 }
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
