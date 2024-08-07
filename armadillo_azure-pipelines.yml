@@ -1,8 +1,8 @@
 #########################################################################################
 # DataSHIELD Azure test suite.
-# Starts with a vanilla Opal docker composition, installs dsBase
+# Starts with a vanilla Armadillo docker composition, installs dsBase
 # and dsBaseClient (as well as dependencies - including a fully functional
-# Opal server).
+# Armadillo server).
 # Does checks and tests then saves results to testStatus repo.
 #
 # Inside the root directory $(Pipeline.Workspace) will be a file tree like:
@@ -195,7 +195,7 @@ jobs:
 
     #####################################################################################
     #
-    #                                  Opal phase
+    #                                  Armadillo phase
     #
     #####################################################################################
 
@@ -205,13 +205,13 @@ jobs:
   - task: DockerCompose@1
     inputs:
       action: Run Services
-      dockerComposeFile: ../dsBaseClient/docker-compose_opal.yml
+      dockerComposeFile: ../dsBaseClient/docker-compose_armadillo.yml
       projectName: dsbaseclient
       qualifyImageNames: true
       buildImages: true
       abortOnContainerExit: true
       detached: true
-    displayName: 'Install Opal servers (opal, rserver, mongodb)'
+    displayName: 'Install Armadillo servers (armadillo, rserver, minio)'
     condition: succeeded()
 
 
@@ -221,10 +221,10 @@ jobs:
   - bash: |
       sleep 60
 
-      R -q -f "obiba_opal-upload_testing_datasets.R"
+      R -q -f "molgenis_armadillo-upload_testing_datasets.R"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install test datasets to Opal'
+    displayName: 'Install test datasets to Armadillo'
     condition: succeeded()
 
 
@@ -232,14 +232,19 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.1-dev'); opal.logout(opal)"
 
-      sleep 120
+      curl -u admin:admin -X GET http://localhost:8080/packages
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      sleep 60
 
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
-    displayName: 'Install dsBase to Opal, as set disclosure test options'
+      docker container restart dsbaseclient_armadillo_1
+      sleep 30
+
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+
+    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
+    displayName: 'Install dsBase to Armadillo'
     condition: succeeded()
 
 
@@ -283,7 +288,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                options("default_driver" = "OpalDriver");
+                options("default_driver" = "ArmadilloDriver");
                 testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -336,7 +341,7 @@ jobs:
           # junit_rep <- JunitReporter$new(file = "test_results_discctrl.xml");
           # progress_rep <- ProgressReporter$new(max_failures = 999999);
           # multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-          # default_driver <- "OpalDriver";
+          # options("default_driver" = "ArmadilloDriver");
           # testthat::test_package("$(projectName)", filter = "_-|discctrl-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_discctrl.txt
@@ -356,11 +361,19 @@ jobs:
     # Install dsDanger on Opal server
     # If previous steps have failed then don't run
   - bash: |
+      curl -u admin:admin http://localhost:8080/whitelist
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = 'v6.3.0-dev'); opal.logout(opal)"
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.1.tar.gz" -X POST http://localhost:8080/install-package
+
+      docker container restart dsbaseclient_armadillo_1
+      sleep 60
+
+      curl -u admin:admin -X POST http://localhost:8080/whitelist/dsDanger
+
+      curl -u admin:admin http://localhost:8080/whitelist
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Install dsDanger package on Opal server'
+    displayName: 'Install dsDanger package on Armadillo server'
     condition: succeeded()
 
 
@@ -396,7 +409,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                options("default_driver" = "OpalDriver");
+                options("default_driver" = "ArmadilloDriver");
                 testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
@@ -467,7 +480,7 @@ jobs:
       #     junit_rep <- JunitReporter$new(file = "test_results_bug.xml");
       #     progress_rep <- ProgressReporter$new(max_failures = 999999);
       #     multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
-      #     options("default_driver" = "OpalDriver");
+      #     options("default_driver" = "ArmadilloDriver");
       #     testthat::test_package("$(projectName)", filter = "__bug-|datachk_bug-|smk_bug-|arg_bug-|disc_bug-|smk_expt_bug-|expt_bug-|math_bug-", reporter = multi_rep, stop_on_failure = FALSE)'
 
       # cat test_console_output_bug.txt
@@ -506,17 +519,6 @@ jobs:
     workingDirectory: $(Pipeline.Workspace)/logs
     displayName: 'Bug summary report output'
     condition: succeededOrFailed()
-
-
-    #####################################################################################
-    # 'Down' Opal Docker Composition
-  - bash: |
-
-      docker compose -f docker-compose_opal.yml down -v
-
-    workingDirectory: $(Pipeline.Workspace)/dsBaseClient
-    displayName: 'Down Opal Docker Composition'
-    condition: succeeded()
 
     #####################################################################################
     #                                Windup phase

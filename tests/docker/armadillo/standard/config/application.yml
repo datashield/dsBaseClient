@@ -14,16 +14,12 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-junction-xenon-permissive:latest
+      image: datashield/rock-junction-devel-permissive:latest
       port: 8085
       host: default
       package-whitelist:
         - dsBase
         - resourcer
-        - dsMediation
-        - dsMTLBase
-        - dsSurvival
-        - dsOmics
       function-blacklist: [ ]
       options:
         datashield:

@@ -16,6 +16,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-junction-xenon-permissive:latest
+        image: datashield/rock-junction-devel-permissive:latest
         environment:
             DEBUG: "FALSE"
