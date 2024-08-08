@@ -1,3 +1,4 @@
+
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
 #
@@ -51,9 +52,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error in data\\.frame\\(M\\) : object 'M' not found")
-    expect_match(res.errors$sim2, "* Error in data\\.frame\\(M\\) : object 'M' not found")
-    expect_match(res.errors$sim3, "* Error in data\\.frame\\(M\\) : object 'M' not found")
+    expect_match(res.errors$sim1, "* object 'M' not found*")
+    expect_match(res.errors$sim2, "* object 'M' not found*")
+    expect_match(res.errors$sim3, "* object 'M' not found*")
 })
 
 context("ds.dataFrameSubset::arg::missing 'V1' value server-side")
@@ -63,9 +64,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found")
-    expect_match(res.errors$sim2, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found")
-    expect_match(res.errors$sim3, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found")
+    expect_match(res.errors$sim1, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found*")
+    expect_match(res.errors$sim2, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found*")
+    expect_match(res.errors$sim3, "* Error in eval\\(parse\\(text = V1.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'A' not found*")
 })
 
 context("ds.dataFrameSubset::arg::missing 'V2' value server-side")
@@ -75,9 +76,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found")
-    expect_match(res.errors$sim2, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found")
-    expect_match(res.errors$sim3, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found")
+    expect_match(res.errors$sim1, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found*")
+    expect_match(res.errors$sim2, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found*")
+    expect_match(res.errors$sim3, "* Error in eval\\(parse\\(text = V2.name\\), envir = parent.frame\\(\\)\\) : \\n  object 'B' not found*")
 })
 
 context("ds.dataFrameSubset::arg::invalid 'Boolean.operator' value server-side")
@@ -87,9 +88,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='")
-    expect_match(res.errors$sim2, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='")
-    expect_match(res.errors$sim3, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='")
+    expect_match(res.errors$sim1, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
+    expect_match(res.errors$sim2, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
+    expect_match(res.errors$sim3, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
 })
 
 #

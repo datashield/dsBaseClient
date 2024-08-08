@@ -10,3 +10,5 @@
 inst/tests/test-template.R
 azure-pipelines.Rout
 tests/testthat/connection_to_datasets/local_settings.csv
+tests/docker/armadillo/standard/logs/
+tests/docker/armadillo/standard/data/

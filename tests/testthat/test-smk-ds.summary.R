@@ -28,9 +28,9 @@ test_that("summary_dataframe_variable", {
   res <- ds.summary(x='D')
 
   expect_length(res, 3)
-  expect_equal(res$sim1$class, "data.frame")
-  expect_equal(res$sim2$class, "data.frame")
-  expect_equal(res$sim3$class, "data.frame")
+  expect_true(all(res$sim1$class %in% c("tbl_df", "tbl", "data.frame")))
+  expect_true(all(res$sim2$class %in% c("tbl_df", "tbl", "data.frame")))
+  expect_true(all(res$sim3$class %in% c("tbl_df", "tbl", "data.frame")))
   expect_equal(res$sim1$`number of rows`, 2163)
   expect_equal(res$sim2$`number of rows`, 3088)
   expect_equal(res$sim3$`number of rows`, 4128)

@@ -31,9 +31,9 @@ test_that("missing variable", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$study1, "* Error in c\\(\"character\", \"integer\", \"logical\", \"numeric\"\\) %in% class\\(obj\\) : \n  object 'LAB_MISSING' not found")
-    expect_match(res.errors$study2, "* Error in c\\(\"character\", \"integer\", \"logical\", \"numeric\"\\) %in% class\\(obj\\) : \n  object 'LAB_MISSING' not found")
-    expect_match(res.errors$study3, "* Error in c\\(\"character\", \"integer\", \"logical\", \"numeric\"\\) %in% class\\(obj\\) : \n  object 'LAB_MISSING' not found")
+    expect_match(res.errors$study1, "* object 'LAB_MISSING' not found")
+    expect_match(res.errors$study2, "* object 'LAB_MISSING' not found")
+    expect_match(res.errors$study3, "* object 'LAB_MISSING' not found")
 })
 
 context("ds.ranksSecure::arg::NULL variable")

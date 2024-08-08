@@ -124,7 +124,7 @@
 #' @return \code{ds.lmerSLMA} returns a list of  elements mentioned 
 #' below separately for each study.  
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 
