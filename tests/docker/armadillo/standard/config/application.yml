@@ -68,6 +68,6 @@ logging:
   level:
     root: INFO
     ## change to DEBUG to have more details, typically when developing
-    org.molgenis: DEBUG
+    org.molgenis: INFO
     ## Don't log upload data
     org.apache.coyote.http11.Http11InputBuffer: INFO
