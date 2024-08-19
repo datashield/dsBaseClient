@@ -12,13 +12,13 @@
 # Set up
 #
 
-context("void::perf::setup")
+context("void::perf::void::setup")
 
 #
 # Tests
 #
 
-context("void::perf::simple0")
+context("void::perf::void::0")
 test_that("simple void performance", {
     .durationSec  <- 60 # seconds
     .count        <- 0
@@ -31,13 +31,13 @@ test_that("simple void performance", {
     }
     expect_true(TRUE)
 
-    print(paste("void::perf::simple0:", format(.count / (difftime(.current.time, .start.time, units = "secs")[[1]]), digits = 8)))
+    print(paste("void::perf::void::0", format(.count / (difftime(.current.time, .start.time, units = "secs")[[1]]), digits = 8)))
 })
 
 #
 # Done
 #
 
-context("void::perf::shutdown")
+context("void::perf::void::shutdown")
 
-context("void::perf::done")
+context("void::perf::void::done")
