@@ -126,15 +126,11 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
-      # sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      # sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
-      # sudo add-apt-repository ppa:cran/libgit2
-      # sudo apt-get update
-
       sudo apt update -qq
       sudo apt install --no-install-recommends software-properties-common dirmngr
       wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+      sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev -y
