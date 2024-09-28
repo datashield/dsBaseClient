@@ -12,32 +12,35 @@
 # Set up
 #
 
-context("void::perf::void::setup")
+context("ds.colnames::perf::setup")
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
 #
 
-context("void::perf::void::0")
-test_that("simple void performance", {
-    .durationSec  <- 60 # seconds
+context("ds.colnames::perf:0")
+test_that("combine - performance", {
+    .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
+        ds.colnames("D")
+
         .count <- .count + 1
         .current.time <- Sys.time()
     }
     expect_true(TRUE)
 
-    print(paste("void::perf::void::0", format(.count / (difftime(.current.time, .start.time, units = "secs")[[1]]), digits = 8)))
+    print(paste("ds.colnames::perf::0:", format(.count / (difftime(.current.time, .start.time, units = "secs")[[1]]), digits = 8)))
 })
 
 #
 # Done
 #
 
-context("void::perf::void::shutdown")
-
-context("void::perf::void::done")
+context("ds.colnames::perf::shutdown")
+disconnect.studies.dataset.cnsim()
+context("ds.colnames::perf::done")
