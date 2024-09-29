@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -29,13 +29,13 @@
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generates a Heat Map plot</h1>
-    
+
     <div class="hidden name"><code>ds.heatmapPlot.Rd</code></div>
     </div>
 
@@ -59,70 +59,70 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>a character string specifying the name of a numerical vector.</p></dd>
 
 
-<dt>y</dt>
+<dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
 <dd><p>a character string specifying the name of a numerical vector.</p></dd>
 
 
-<dt>type</dt>
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>a character string that represents the type of graph to display.
-<code>type</code> argument can be set as <code>'combine'</code> or <code>'split'</code>. 
+<code>type</code> argument can be set as <code>'combine'</code> or <code>'split'</code>.
 Default <code>'combine'</code>.
 For more information see <strong>Details</strong>.</p></dd>
 
 
-<dt>show</dt>
-<dd><p>a character string that represents where the plot should be focused. 
-<code>show</code> argument can be set as <code>'all'</code> or <code>'zoomed'</code>. 
-Default <code>'all'</code>. 
+<dt id="arg-show">show<a class="anchor" aria-label="anchor" href="#arg-show"></a></dt>
+<dd><p>a character string that represents where the plot should be focused.
+<code>show</code> argument can be set as <code>'all'</code> or <code>'zoomed'</code>.
+Default <code>'all'</code>.
 For more information see <strong>Details</strong>.</p></dd>
 
 
-<dt>numints</dt>
-<dd><p>the number of intervals for a density grid object. 
+<dt id="arg-numints">numints<a class="anchor" aria-label="anchor" href="#arg-numints"></a></dt>
+<dd><p>the number of intervals for a density grid object.
 Default <code>numints</code> value is <code>20</code>.</p></dd>
 
 
-<dt>method</dt>
-<dd><p>a character string that defines which heat map will be created. 
-The <code>method</code> argument can be set as <code>'smallCellsRule'</code>, 
-<code>'deterministic'</code> or <code>'probabilistic'</code>. 
-Default <code>'smallCellsRule'</code>. 
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>a character string that defines which heat map will be created.
+The <code>method</code> argument can be set as <code>'smallCellsRule'</code>,
+<code>'deterministic'</code> or <code>'probabilistic'</code>.
+Default <code>'smallCellsRule'</code>.
 For more information see <strong>Details</strong>.</p></dd>
 
 
-<dt>k</dt>
-<dd><p>the number of the nearest neighbours for which their centroid is calculated. 
-Default <code>k</code> value is <code>3</code>. 
+<dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
+<dd><p>the number of the nearest neighbours for which their centroid is calculated.
+Default <code>k</code> value is <code>3</code>.
 For more information see <strong>Details</strong>.</p></dd>
 
 
-<dt>noise</dt>
+<dt id="arg-noise">noise<a class="anchor" aria-label="anchor" href="#arg-noise"></a></dt>
 <dd><p>the percentage of the initial variance that is used as the variance of the embedded
-noise if the argument <code>method</code> is set to <code>'probabilistic'</code>. 
+noise if the argument <code>method</code> is set to <code>'probabilistic'</code>.
 Default <code>noise</code> value is  <code>0.25</code>.
 For more information see <strong>Details</strong>.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login.
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>ds.heatmapPlot</code> returns to the client-side a heat map plot and a message specifying 
+    <p><code>ds.heatmapPlot</code> returns to the client-side a heat map plot and a message specifying
 the number of invalid cells in each study.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The <code>ds.heatmapPlot</code> function first generates a density grid 
+    <p>The <code>ds.heatmapPlot</code> function first generates a density grid
 and uses it to plot the graph.
 Cells of the grid density matrix that hold a count of less than the filter set by
 DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
@@ -132,53 +132,53 @@ are not the exact minimum and maximum values but rather close approximates of th
 minimum and maximum value. This was done to reduce the risk of potential disclosure.</p>
 <p>In the argument <code>type</code> can be specified two types of graphics to display:</p><dl><dt><code>'combine'</code></dt>
 <dd><p>: a combined heat map plot is displayed</p></dd>
- 
+
    <dt><code>'split'</code></dt>
 <dd><p>: each heat map is plotted separately</p></dd>
 
-    
+
 </dl><p>In the argument <code>show</code> can be specified two options:</p><dl><dt><code>'all'</code></dt>
 <dd><p>: the ranges of the variables are used as plot limits</p></dd>
- 
+
    <dt><code>'zoomed'</code></dt>
 <dd><p>: the plot is zoomed to the region where the actual data are</p></dd>
 
-    
+
 </dl><p>In the argument <code>method</code> can be specified 3 different heat map to be created:</p><dl><dt><code>'smallCellsRule'</code></dt>
 <dd><p>: the heat map of the actual variables is
     created but grids with low counts are replaced with grids with zero counts</p></dd>
- 
+
    <dt><code>'deterministic'</code></dt>
-<dd><p>: the heat map of the scaled centroids of each 
+<dd><p>: the heat map of the scaled centroids of each
          <code>k</code> nearest neighbours of the
         original variables are created, where the value of <code>k</code> is set by the user</p></dd>
- 
+
    <dt><code>'probabilistic'</code></dt>
-<dd><p>:  the heat map of <code>'noisy'</code> variables is generated. 
-          The added noise follows a normal distribution with 
+<dd><p>:  the heat map of <code>'noisy'</code> variables is generated.
+          The added noise follows a normal distribution with
           zero mean and variance equal to a percentage of
-          the initial variance of each input variable. 
+          the initial variance of each input variable.
           This percentage is specified by the user in the
           argument <code>noise</code></p></dd>
- 
- 
-    
-</dl><p>In the <code>k</code> argument the user can choose any value for 
+
+
+
+</dl><p>In the <code>k</code> argument the user can choose any value for
 <code>k</code> equal to or greater than the pre-specified threshold
 used as a disclosure control for this method and lower than the number of observations
 minus the value of this threshold. By default the value of <code>k</code> is set to be equal to 3
 (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
-uses the default value but the study has set a bigger threshold. 
+uses the default value but the study has set a bigger threshold.
 The value of <code>k</code> is used only
-if the argument <code>method</code> is set to <code>'deterministic'</code>. 
+if the argument <code>method</code> is set to <code>'deterministic'</code>.
 Any value of <code>k</code> is ignored if the
 argument <code>method</code> is set to <code>'probabilistic'</code> or <code>'smallCellsRule'</code>.</p>
 
-<p>The value of <code>noise</code> is used only if the argument 
+<p>The value of <code>noise</code> is used only if the argument
 <code>method</code> is set to <code>'probabilistic'</code>.
-Any value of <code>noise</code> is ignored if the argument 
-<code>method</code> is set to <code>'deterministic'</code> or <code>'smallCellsRule'</code>. 
-The user can choose any value for <code>noise</code> equal 
+Any value of <code>noise</code> is ignored if the argument
+<code>method</code> is set to <code>'deterministic'</code> or <code>'smallCellsRule'</code>.
+The user can choose any value for <code>noise</code> equal
 to or greater than the pre-specified threshold <code>'nfilter.noise'</code>.</p>
 <p>Server function called: <code>heatmapPlotDS</code></p>
     </div>
@@ -189,7 +189,7 @@ to or greater than the pre-specified threshold <code>'nfilter.noise'</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    
+
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -203,15 +203,15 @@ to or greater than the pre-specified threshold <code>'nfilter.noise'</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
