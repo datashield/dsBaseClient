@@ -8,8 +8,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-library(tidyverse)
-
 .perf.reference.filename <- 'perf_files/azure_pipeline.csv'
 
 .perf.reference <- NULL
