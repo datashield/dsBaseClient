@@ -34,9 +34,21 @@ test_that("simple connect - disconnect performance", {
         .count <- .count + 1
         .current.time <- Sys.time()
     }
-    expect_true(TRUE)
 
-    print(paste("conndisconn::perf::simple::0:", format(.count / (difftime(.current.time, .start.time, units = "secs")[[1]]), digits = 8)))
+    .current.rate   <- .count / (difftime(.current.time, .start.time, units = "secs")[[1]])
+    .reference.rate <- perf.reference.rate("conndisconn::perf::simple0")
+    if (is.na(.reference.rate)) {
+        print(paste("conndisconn::perf::simple0:", format(.current.rate, digits = 8)))
+        perf.reference.save("conndisconn::perf::simple0", .current.rate, 0.5, 2.0)
+    } else
+        print(paste("conndisconn::perf::simple0:", format(.current.rate, digits = 8), ",", format(.current.rate / .reference.rate, digits = 4), "%", sep = ''))
+
+    .reference.rate            <- perf.reference.rate("conndisconn::perf::simple0")
+    .reference.tolerance.lower <- perf.reference.tolerance.lower("conndisconn::perf::simple0")
+    .reference.tolerance.upper <- perf.reference.tolerance.upper("conndisconn::perf::simple0")
+
+    expect_gt(.current.rate, .reference.rate * .reference.tolerance.lower, label = "Observed rate", expected.label = "lower threshold on rate")
+    expect_lt(.current.rate, .reference.rate * .reference.tolerance.upper, label = "Observed rate", expected.label = "upper threshold on rate")
 })
 
 #
