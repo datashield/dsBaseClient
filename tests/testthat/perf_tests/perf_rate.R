@@ -20,29 +20,31 @@ perf.reference.save <- function(perf.ref.name, rate, tolerance.lower, tolerance.
     if (is.null(.perf.reference))
         load.pref()
 
-    .perf.reference[nrow(.perf.reference),] = c(perf.ref.name, rate, tolerance.lower, tolerance.upper)
+    .perf.reference[nrow(.perf.reference)+1,] <- c(perf.ref.name, rate, tolerance.lower, tolerance.upper)
 
     write.csv(.perf.reference, .perf.reference.filename, row.names = FALSE)
+
+    .perf.reference <<- .perf.reference
 }
 
 perf.reference.rate <- function(perf.ref.name) {
     if (is.null(.perf.reference))
         .load.pref()
 
-    return(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$rate)
+    return(as.numeric(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$rate))
 }
 
 perf.reference.tolerance.lower <- function(perf.ref.name) {
     if (is.null(.perf.reference))
         .load.pref()
 
-    return(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$lower_tolerance)
+    return(as.numeric(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$lower_tolerance))
 }
 
 perf.reference.tolerance.upper <- function(perf.ref.name) {
     if (is.null(.perf.reference))
         .load.pref()
 
-    return(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$upper_tolerance)
+    return(as.numeric(.perf.reference[which(.perf.reference$refer_name == perf.ref.name),]$upper_tolerance))
 }
 

@@ -37,11 +37,12 @@ test_that("simple connect - disconnect performance", {
 
     .current.rate   <- .count / (difftime(.current.time, .start.time, units = "secs")[[1]])
     .reference.rate <- perf.reference.rate("conndisconn::perf::simple0")
-    if (is.na(.reference.rate)) {
-        print(paste("conndisconn::perf::simple0:", format(.current.rate, digits = 8)))
+    if (any(length(.reference.rate) == 0) || any(is.null(.reference.rate))) {
+        print(paste("conndisconn::perf::simple0 ", .current.rate, 0.5, 2.0))
         perf.reference.save("conndisconn::perf::simple0", .current.rate, 0.5, 2.0)
-    } else
-        print(paste("conndisconn::perf::simple0:", format(.current.rate, digits = 8), ",", format(.current.rate / .reference.rate, digits = 4), "%", sep = ''))
+    } else {
+        print(paste("conndisconn::perf::simple0 ", format(.current.rate, digits = 8), ",", format(.current.rate / .reference.rate, digits = 4), "%", sep = ''))
+    }
 
     .reference.rate            <- perf.reference.rate("conndisconn::perf::simple0")
     .reference.tolerance.lower <- perf.reference.tolerance.lower("conndisconn::perf::simple0")
