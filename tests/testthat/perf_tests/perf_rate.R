@@ -13,7 +13,7 @@
 .perf.reference <- NULL
 
 .load.pref <- function() {
-    .perf.reference <<- read.csv(perf.reference.filename, header = TRUE, sep = ",")
+    .perf.reference <<- read.csv(.perf.reference.filename, header = TRUE, sep = ",")
 }
 
 perf.reference.save <- function(perf.ref.name, rate, tolerance.lower, tolerance.upper) {
