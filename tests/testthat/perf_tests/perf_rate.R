@@ -8,7 +8,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-.perf.reference.filename <- 'perf_files/azure_pipeline.csv'
+.perf.reference.filename <- 'perf_files/default_perf_profile.csv'
 
 .perf.reference <- NULL
 
