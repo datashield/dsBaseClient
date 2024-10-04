@@ -39,7 +39,7 @@ test_that("performance", {
         print(paste("ds.assign::perf::0 ", .current.rate, 0.5, 2.0))
         perf.reference.save("ds.assign::perf::0", .current.rate, 0.5, 2.0)
     } else {
-        print(paste("ds.assign::perf::0 ", format(.current.rate, digits = 8), ",", format(.current.rate / .reference.rate, digits = 4), "%", sep = ''))
+        print(paste("ds.assign::perf::0 ", format(.current.rate, digits = 8), ", ", format(100.0 * .current.rate / .reference.rate, digits = 4), "%", sep = ''))
     }
 
     .reference.rate            <- perf.reference.rate("ds.assign::perf::0")
