@@ -126,10 +126,11 @@ jobs:
     # If previous steps have failed then don't run.
   - bash: |
 
-      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
-      sudo add-apt-repository ppa:cran/libgit2
-      sudo apt-get update
+      sudo apt-get update -qq
+      sudo apt-get install --no-install-recommends software-properties-common dirmngr
+      wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+      sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+      sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev -y
@@ -139,7 +140,7 @@ jobs:
       sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.3.0-dev', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.1', dependencies = TRUE)"
 
       # XML grep for coverage report merging
       sudo apt-get install -qq xml-twig-tools -y
@@ -273,7 +274,7 @@ jobs:
       # junit reporter output is to test_results.xml
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
-      # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+      # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
       sudo R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
@@ -289,7 +290,7 @@ jobs:
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
                 options("default_driver" = "ArmadilloDriver");
-                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+                testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
             )
         );

@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -29,13 +29,13 @@
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Server-side random number generation</h1>
-    
+
     <div class="hidden name"><code>ds.setSeed.Rd</code></div>
     </div>
 
@@ -49,22 +49,22 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>seed.as.integer</dt>
+
+
+<dl><dt id="arg-seed-as-integer">seed.as.integer<a class="anchor" aria-label="anchor" href="#arg-seed-as-integer"></a></dt>
 <dd><p>a numeric value or a NULL that primes the random seed
 in each data source.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login.
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Sets the values of the vector of integers of length 626 known as
+    <p>Sets the values of the vector of integers of length 626 known as
 <code>.Random.seed</code> on each data source that is the true current state of the
 random seed in each source. It also returns the value of the trigger
 integer that has primed the random seed vector (<code>.Random.seed</code>) in
@@ -77,9 +77,9 @@ that is <code>.Random.seed itself</code>.</p>
 the full pseudorandom number seed that is a vector of integers
 of length 626 called <code>.Random.seed</code>, this vector is written to the server-side.</p>
 <p>This function is similar to a native R function <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>.</p>
-<p>In <code>seed.as.integer</code> argument 
+<p>In <code>seed.as.integer</code> argument
 the current limitation on the value of the integer that
-can be specified is <code>-2147483647</code> up to <code>+2147483647</code> 
+can be specified is <code>-2147483647</code> up to <code>+2147483647</code>
 (this is <code>+/- ([2^31]-1)</code>).</p>
 <p>Because you only specify one integer in the call to <code>ds.setSeed</code>
 (i.e. the value for the <code>seed.as.integer</code> argument) that value will be
@@ -88,7 +88,7 @@ data sources and so the pseudorandom number generators will all start from
 the same position and if a vector of pseudorandom number values is requested
 based on one of DataSHIELD's pseudorandom number generating functions precisely
 the same random vector will be generated in each source. If you want to avoid this
-you can specify a different priming value in each source by using 
+you can specify a different priming value in each source by using
 the <code>datasources</code> argument to generate the random number vectors one source
 at a time with a different integer in each case.</p>
 <p>Furthermore, if you use any one
@@ -105,7 +105,7 @@ integer priming seed you specify to generate different integers in each source.<
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>  <span class="co">## Version 6, for version 5 see the Wiki </span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
@@ -144,7 +144,7 @@ integer priming seed you specify to generate different integers in each source.<
 <span class="r-in"><span>                   </span></span>
 <span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout  </span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -160,15 +160,15 @@ integer priming seed you specify to generate different integers in each source.<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

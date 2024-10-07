@@ -4,7 +4,7 @@ thereby coerces a numeric or character vector into a factor"><!-- mathjax --><sc
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ thereby coerces a numeric or character vector into a factor"><!-- mathjax --><sc
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -30,13 +30,13 @@ thereby coerces a numeric or character vector into a factor"><!-- mathjax --><sc
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Converts a numeric vector into a factor</h1>
-    
+
     <div class="hidden name"><code>ds.asFactorSimple.Rd</code></div>
     </div>
 
@@ -55,33 +55,33 @@ thereby coerces a numeric or character vector into a factor</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>input.var.name</dt>
-<dd><p>a character string which provides 
+
+
+<dl><dt id="arg-input-var-name">input.var.name<a class="anchor" aria-label="anchor" href="#arg-input-var-name"></a></dt>
+<dd><p>a character string which provides
 the name of the variable to be converted to a factor.</p></dd>
 
 
-<dt>newobj.name</dt>
-<dd><p>a character string that provides the name for the output variable 
+<dt id="arg-newobj-name">newobj.name<a class="anchor" aria-label="anchor" href="#arg-newobj-name"></a></dt>
+<dd><p>a character string that provides the name for the output variable
 that is stored on the data servers. Default <code>asfactor.newobj</code>.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login.
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>an output vector of class factor to the serverside. In addition, returns a validity 
+    <p>an output vector of class factor to the serverside. In addition, returns a validity
 message with the name of the created object on the client-side and if creation fails an
 error message which can be viewed using datashield.errors().</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The function converts the input variable into a factor. Unlike 
+    <p>The function converts the input variable into a factor. Unlike
 ds.asFactor and its serverside functions, ds.asFactorSimple does no more than
 coerce the class of a variable to make it a factor on the serverside in each data source.
 It does not check for or enforce consistency of factor levels across sources or allow you to
@@ -107,15 +107,15 @@ of these things you will have to use the ds.asFactor function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
