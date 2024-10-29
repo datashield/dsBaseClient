@@ -61,7 +61,7 @@ jobs:
               sudo Rscript -e "install.packages('covr', dependencies=TRUE)"
       - run:
           command: |
-              sudo Rscript -e 'library(covr); options("default_driver"="OpalDriver"); covr::codecov("dsBaseClient", token="'$CODECOV_TOKEN'", quiet=FALSE)'
+              sudo Rscript -e 'library(covr); options("default_driver"="OpalDriver"); covr::codecov(token="'$CODECOV_TOKEN'", quiet=FALSE)'
 workflows:
   build:
     jobs:
