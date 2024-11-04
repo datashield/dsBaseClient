@@ -4,7 +4,7 @@ This function is based on the native R function as.list."><!-- mathjax --><scrip
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ This function is based on the native R function as.list."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -30,13 +30,13 @@ This function is based on the native R function as.list."><!-- mathjax --><scrip
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Converts a server-side R object into a list</h1>
-    
+
     <div class="hidden name"><code>ds.asList.Rd</code></div>
     </div>
 
@@ -51,29 +51,29 @@ This function is based on the native R function <code>as.list</code>.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x.name</dt>
-<dd><p>a character string providing the name of the input object to be coerced to 
+
+
+<dl><dt id="arg-x-name">x.name<a class="anchor" aria-label="anchor" href="#arg-x-name"></a></dt>
+<dd><p>a character string providing the name of the input object to be coerced to
 a list.</p></dd>
 
 
-<dt>newobj</dt>
+<dt id="arg-newobj">newobj<a class="anchor" aria-label="anchor" href="#arg-newobj"></a></dt>
 <dd><p>a character string that provides the name for the output object
 that is stored on the data servers. Default <code>aslist.newobj</code>.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code>
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>ds.asList</code> returns the R object converted into a list 
+    <p><code>ds.asList</code> returns the R object converted into a list
 which is written to the server-side. Also, two validity messages are returned to the
-client-side indicating the name of the <code>newobj</code> which has been created in each data 
+client-side indicating the name of the <code>newobj</code> which has been created in each data
 source and if it is in a valid form.</p>
     </div>
     <div id="details">
@@ -87,7 +87,7 @@ source and if it is in a valid form.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>  <span class="co">## Version 6, for version 5 see the Wiki</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span>  <span class="co"># connecting to the Opal servers</span></span></span>
@@ -122,7 +122,7 @@ source and if it is in a valid form.</p>
 <span class="r-in"><span>  <span class="co"># Clear the Datashield R sessions and logout                 </span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span> </span></span>
 <span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="op">}</span>   </span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }   </span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -137,15 +137,15 @@ source and if it is in a valid form.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

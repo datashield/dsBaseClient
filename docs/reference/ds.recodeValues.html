@@ -4,7 +4,7 @@ them to a matched set of alternative specified values."><!-- mathjax --><script 
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ them to a matched set of alternative specified values."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -30,13 +30,13 @@ them to a matched set of alternative specified values."><!-- mathjax --><script 
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Recodes server-side variable values</h1>
-    
+
     <div class="hidden name"><code>ds.recodeValues.Rd</code></div>
     </div>
 
@@ -59,49 +59,49 @@ them to a matched set of alternative specified values.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>var.name</dt>
+
+
+<dl><dt id="arg-var-name">var.name<a class="anchor" aria-label="anchor" href="#arg-var-name"></a></dt>
 <dd><p>a character string providing the name of the variable to be recoded.</p></dd>
 
 
-<dt>values2replace.vector</dt>
+<dt id="arg-values-replace-vector">values2replace.vector<a class="anchor" aria-label="anchor" href="#arg-values-replace-vector"></a></dt>
 <dd><p>a numeric or character vector specifying the values
 in the variable <code>var.name</code> to be replaced.</p></dd>
 
 
-<dt>new.values.vector</dt>
+<dt id="arg-new-values-vector">new.values.vector<a class="anchor" aria-label="anchor" href="#arg-new-values-vector"></a></dt>
 <dd><p>a numeric or character vector specifying the new values.</p></dd>
 
 
-<dt>missing</dt>
-<dd><p>If supplied, any missing values in var.name will be replaced by this value. 
-Must be of length 1. If the analyst want to recode only missing values then it should also 
-specify an identical vector of values in both arguments <code>values2replace.vector</code> and 
+<dt id="arg-missing">missing<a class="anchor" aria-label="anchor" href="#arg-missing"></a></dt>
+<dd><p>If supplied, any missing values in var.name will be replaced by this value.
+Must be of length 1. If the analyst want to recode only missing values then it should also
+specify an identical vector of values in both arguments <code>values2replace.vector</code> and
 <code>new.values.vector</code>. Otherwise please look the <code>ds.replaceNA</code> function.</p></dd>
 
 
-<dt>newobj</dt>
+<dt id="arg-newobj">newobj<a class="anchor" aria-label="anchor" href="#arg-newobj"></a></dt>
 <dd><p>a character string that provides the name for the output object
 that is stored on the data servers.
 Default <code>recodevalues.newobj</code>.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code>
 objects obtained after login. If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 
-<dt>notify.of.progress</dt>
+<dt id="arg-notify-of-progress">notify.of.progress<a class="anchor" aria-label="anchor" href="#arg-notify-of-progress"></a></dt>
 <dd><p>logical. If TRUE console output should be produced to indicate
 progress. Default FALSE.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Assigns to each server a new variable with the recoded values. 
-Also, two validity messages are returned to the client-side 
+    <p>Assigns to each server a new variable with the recoded values.
+Also, two validity messages are returned to the client-side
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.</p>
     </div>
@@ -122,7 +122,7 @@ Server function called: <code>recodeValuesDS</code></p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    
+
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -136,15 +136,15 @@ Server function called: <code>recodeValuesDS</code></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

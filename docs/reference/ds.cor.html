@@ -4,7 +4,7 @@ matrix for the variables of an input data frame."><!-- mathjax --><script src="h
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ matrix for the variables of an input data frame."><!-- mathjax --><script src="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
@@ -30,13 +30,13 @@ matrix for the variables of an input data frame."><!-- mathjax --><script src="h
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculates the correlation of R objects in the server-side</h1>
-    
+
     <div class="hidden name"><code>ds.cor.Rd</code></div>
     </div>
 
@@ -51,32 +51,32 @@ matrix for the variables of an input data frame.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>a character string providing the name of the input vector, data frame or matrix.</p></dd>
 
 
-<dt>y</dt>
+<dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
 <dd><p>a character string providing the name of the input vector, data frame or matrix.
 Default NULL.</p></dd>
 
 
-<dt>type</dt>
-<dd><p>a character string that represents the type of analysis to carry out. 
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>a character string that represents the type of analysis to carry out.
 This must be set to <code>'split'</code> or <code>'combine'</code>.  Default <code>'split'</code>. For more information see details.</p></dd>
 
 
-<dt>datasources</dt>
-<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login. 
+<dt id="arg-datasources">datasources<a class="anchor" aria-label="anchor" href="#arg-datasources"></a></dt>
+<dd><p>a list of <code><a href="https://datashield.github.io/DSI/reference/DSConnection-class.html" class="external-link">DSConnection-class</a></code> objects obtained after login.
 If the <code>datasources</code> argument is not specified
 the default set of connections will be used: see <code><a href="https://datashield.github.io/DSI/reference/datashield.connections_default.html" class="external-link">datashield.connections_default</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p><code>ds.cor</code> returns a list containing the number of missing values in each variable,
-the number of missing variables casewise, the correlation matrix, 
+    <p><code>ds.cor</code> returns a list containing the number of missing values in each variable,
+the number of missing variables casewise, the correlation matrix,
 the number of used complete cases. The function applies two disclosure controls. The first disclosure
 control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
 percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
@@ -88,7 +88,7 @@ with a level having fewer counts than the pre-specified 'nfilter.tab' threshold.
 number of complete cases and a table outlining the number of missing values to allow the
 user to decide the 'relevance' of the correlation based on the number of complete
 cases included in the correlation calculations.</p>
-<p>If the argument <code>y</code> is not NULL, the dimensions of the object have to be 
+<p>If the argument <code>y</code> is not NULL, the dimensions of the object have to be
 compatible with the argument <code>x</code>.</p>
 <p>The function calculates the pairwise correlations based on casewise complete cases which means that
 it omits all the rows in the input data frame that include at least one cell with a missing value,
@@ -97,7 +97,7 @@ before the calculation of correlations.</p>
 variance-correlation matrix of an input data frame and the number of complete cases and missing
 values are returned for every single study. If type is set to <code>'combine'</code>, the pooled
 correlation, the total number of complete cases and the total number of missing values aggregated
-from all the involved studies, are returned.</p> 
+from all the involved studies, are returned.</p>
 <p>Server function called: <code>corDS</code></p>
     </div>
     <div id="author">
@@ -107,7 +107,7 @@ from all the involved studies, are returned.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Version 6, for version 5 see the Wiki</span></span></span>
 <span class="r-in"><span>  <span class="co"># Connecting to the Opal servers</span></span></span>
@@ -145,7 +145,7 @@ from all the involved studies, are returned.</p>
 <span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -160,15 +160,15 @@ from all the involved studies, are returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
