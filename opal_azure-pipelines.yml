@@ -71,7 +71,7 @@ jobs:
 - job: build_and_run_tests
   timeoutInMinutes: 360
   pool:
-    vmImage: ubuntu-22.04
+    vmImage: ubuntu-24.04
 
   steps:
     #####################################################################################
@@ -125,11 +125,10 @@ jobs:
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
   - bash: |
-
-      sudo apt-get update
       sudo apt-get install --no-install-recommends software-properties-common dirmngr
       wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+      sudo apt-get update -qq
       sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
@@ -287,6 +286,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsbase.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE);
                 options("default_driver" = "OpalDriver");
                 testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
@@ -402,6 +402,7 @@ jobs:
                 junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
                 progress_rep <- ProgressReporter$new(max_failures = 999999);
                 multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE);
                 options("default_driver" = "OpalDriver");
                 testthat::test_package("$(projectName)", filter = "__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-", reporter = multi_rep, stop_on_failure = FALSE)
                 '"'"'
