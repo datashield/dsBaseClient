@@ -17,6 +17,10 @@ Imports:
     data.table,
     panelaggregation,
     methods,
+    assertthat,
+    cli,
+    purrr,
+    stringr
     dplyr
 Suggests:
     testthat
