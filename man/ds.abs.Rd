@@ -12,9 +12,9 @@ ds.abs(x = NULL, newobj = NULL, datasources = NULL)
 \item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Default name is set to \code{abs.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link{datashield.connections_default}}.}
+used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.abs} assigns a vector for each study that includes the absolute values of
@@ -22,13 +22,13 @@ the input numeric or integer vector specified in the argument \code{x}. The crea
 are stored in the servers.
 }
 \description{
-Computes the absolute values for a specified numeric or integer vector. 
+Computes the absolute values for a specified numeric or integer vector.
 This function is similar to R function \code{abs}.
 }
 \details{
-The function calls the server-side function \code{absDS} that computes the 
-absolute values of the elements of a numeric or integer vector and assigns a new vector 
-with those absolute values on the server-side. The name of the new generated vector is 
+The function calls the server-side function \code{absDS} that computes the
+absolute values of the elements of a numeric or integer vector and assigns a new vector
+with those absolute values on the server-side. The name of the new generated vector is
 specified by the user through the argument \code{newobj}, otherwise is named by default to
 \code{abs.newobj}.
 }

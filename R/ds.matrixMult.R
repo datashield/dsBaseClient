@@ -2,20 +2,20 @@
 #' @description Calculates the matrix product of two matrices and 
 #' writes output to the server-side. 
 #' @details Undertakes standard matrix multiplication wherewith input matrices 
-#' \code{A} and \code{B} with dimensions \code{A: m x n} and \code{B: n x p} 
-#' the output matrix \code{C} has dimensions \code{m x p}. This calculation
-#' is only valid if the number of columns of \code{A} 
-#' is the same as the number of rows of \code{B}. 
+#' `A` and `B` with dimensions `A: m x n` and `B: n x p` 
+#' the output matrix `C` has dimensions `m x p`. This calculation
+#' is only valid if the number of columns of `A` 
+#' is the same as the number of rows of `B`. 
 #' 
-#' Server function called: \code{matrixMultDS}
+#' Server function called: `matrixMultDS`
 #' @param M1  a character string specifying the name of the first matrix.
 #' @param M2  a character string specifying the name of the second matrix.
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{matrixmult.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.matrixMult} returns to the server-side 
+#' variable that is stored on the data servers. Default `matrixmult.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.matrixMult` returns to the server-side 
 #' the result of the two matrix multiplication.
 #' Also, two validity messages are returned to the client-side 
 #' indicating whether the new object  has been created in each data source and if so whether

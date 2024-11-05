@@ -5,33 +5,33 @@
 #' @details The function splits the input dataset into subsets (one for each category) and calculates
 #' the mean and SD of the specified numeric variables. It is important to note that the process of
 #' generating the final table(s) can be time consuming particularly if the subsetting is done across
-#' more than one categorical variable and the run-time lengthens if the parameter \code{type} is set to
-#' \code{'split'} as a table is then produced for each study. It is therefore advisable to run the function
+#' more than one categorical variable and the run-time lengthens if the parameter `type` is set to
+#' `'split'` as a table is then produced for each study. It is therefore advisable to run the function
 #' only for the studies of the user interested in but including only those studies in the
-#' parameter \code{datasources}.
+#' parameter `datasources`.
 #' 
-#'  Depending on the variable \code{type} can be carried out two analysis:\cr
-#'  (1) \code{'combine'}: a pooled table of results is generated. \cr
-#'  (2) \code{'split'}: a table of results is generated for each study. 
+#'  Depending on the variable `type` can be carried out two analysis:\cr
+#'  (1) `'combine'`: a pooled table of results is generated. \cr
+#'  (2) `'split'`: a table of results is generated for each study. 
 #'  
 #' 
 #' @param x a character string specifying the name of the dataset or a text formula.
 #' @param outvar a character vector specifying the names of the continuous variables.
 #' @param covar a character vector specifying the names of up to 3 categorical variables
 #' @param type a character string that represents the type of analysis to carry out.
-#' \code{type} can be set as: \code{'combine'} or \code{'split'}. 
-#' Default \code{'combine'}. 
-#' For more information see \strong{Details}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.meanByClass} returns to the client-side a table or a list of tables that 
+#' `type` can be set as: `'combine'` or `'split'`. 
+#' Default `'combine'`. 
+#' For more information see **Details**. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.meanByClass` returns to the client-side a table or a list of tables that 
 #' hold the length of the numeric variable(s) and their mean
 #' and standard deviation in each subgroup (subset).
 #' @export
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
+#' @seealso [ds.subsetByClass()] to subset by the classes of factor vector(s).
+#' @seealso [ds.subset()] to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @examples
 #' \dontrun{
 #'

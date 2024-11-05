@@ -33,14 +33,14 @@
 #' @param seed either NA (default) or "fixed". If seed is set to "fixed" then a fixed
 #' seed random number generator which is study-specific is used. 
 #' @param newobj_mids a character string that provides the name for the output mids object
-#' that is stored on the data servers. Default \code{mids_object}. 
+#' that is stored on the data servers. Default `mids_object`. 
 #' @param newobj_df a character string that provides the name for the output dataframes 
-#' that are stored on the data servers. Default \code{imputationSet}. For example, if m=5, and 
+#' that are stored on the data servers. Default `imputationSet`. For example, if m=5, and 
 #' newobj_df="imputationSet", then five imputed dataframes are saved on the servers with names
 #' imputationSet.1, imputationSet.2, imputationSet.3, imputationSet.4, imputationSet.5.
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @param datasources  a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @return a list with three elements: the method, the predictorMatrix and the post.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export

@@ -9,20 +9,20 @@ ds.replaceNA(x = NULL, forNA = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the name of the vector.}
 
-\item{forNA}{a list or a vector that contains the replacement value(s), for each study. 
+\item{forNA}{a list or a vector that contains the replacement value(s), for each study.
 The length of the list or vector must be equal to the number of servers (studies).}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{replacena.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.replaceNA} returns to the server-side a new vector or table structure 
+\code{ds.replaceNA} returns to the server-side a new vector or table structure
 with the missing values replaced by the specified values.
- The class of the vector is the same as the initial vector.
+The class of the vector is the same as the initial vector.
 }
 \description{
 This function identifies missing values and replaces them by a value or
@@ -38,7 +38,7 @@ values have been replaced a new vector is created.
 
 \strong{Note}: If the vector is within a table structure such as a data frame the new vector is
 appended to table structure so that the table holds both the vector with and without
-missing values. 
+missing values.
 
 Server function called: \code{replaceNaDS}
 }

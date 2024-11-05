@@ -9,27 +9,27 @@ ds.matrixDet(M1 = NULL, newobj = NULL, logarithm = FALSE, datasources = NULL)
 \arguments{
 \item{M1}{a character string specifying the name of the matrix.}
 
-\item{newobj}{a character string that provides the name for the output 
+\item{newobj}{a character string that provides the name for the output
 variable that is stored on the data servers. Default \code{matrixdet.newobj}.}
 
 \item{logarithm}{logical. If TRUE the logarithm of the modulus of the determinant
 is calculated. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.matrixDet} returns the determinant of an existing matrix on the server-side. 
-The created new object is stored on the server-side. 
+\code{ds.matrixDet} returns the determinant of an existing matrix on the server-side.
+The created new object is stored on the server-side.
 Also, two validity messages are returned
 indicating whether the matrix has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
-Calculates the determinant of a square matrix that is 
-written on the server-side. 
-This operation is only 
+Calculates the determinant of a square matrix that is
+written on the server-side.
+This operation is only
 possible if the number of columns and rows of the matrix are the same.
 }
 \details{

@@ -20,7 +20,7 @@ ds.glmSLMA(
 }
 \arguments{
 \item{formula}{an object of class formula describing
-the model to be fitted. For more information see 
+the model to be fitted. For more information see
 \strong{Details}.}
 
 \item{family}{identifies the error distribution function to use in
@@ -42,25 +42,25 @@ restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Defaul
 
 \item{newobj}{a character string specifying the name of the object to which the glm object
 representing the model fit on the serverside in each study is to be written.
-If no <newobj> argument is specified, the output
+If no \if{html}{\out{<newobj>}} argument is specified, the output
 object defaults to "new.glm.obj".}
 
 \item{dataName}{a character string specifying the name of an (optional) data frame
 that contains all of the variables in the GLM formula.}
 
-\item{checks}{logical. If TRUE \code{ds.glmSLMA} checks the structural integrity 
+\item{checks}{logical. If TRUE \code{ds.glmSLMA} checks the structural integrity
 of the model. Default FALSE. For more information see \strong{Details}.}
 
 \item{maxit}{a numeric scalar denoting the maximum number of iterations that
-are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
+are permitted before \code{ds.glmSLMA} declares that the model has failed to converge.
 For more information see \strong{Details}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 The serverside aggregate functions \code{glmSLMADS1} and \code{glmSLMADS2} return
@@ -80,12 +80,12 @@ a series of other list objects that represent inferences aggregated across studi
 the study specific items include:
 
 \code{coefficients}: a matrix with 5 columns:
-   \describe{
-   \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
-   \item{second}{: the estimated values} 
-   \item{third}{: corresponding standard errors of the estimated values} 
-   \item{fourth}{: the ratio of estimate/standard error} 
-   \item{fifth}{: the p-value treating that as a standardised normal deviate} 
+\describe{
+\item{First}{: the names of all of the regression parameters (coefficients) in the model}
+\item{second}{: the estimated values}
+\item{third}{: corresponding standard errors of the estimated values}
+\item{fourth}{: the ratio of estimate/standard error}
+\item{fifth}{: the p-value treating that as a standardised normal deviate}
 }
 
 \code{family}: indicates the error distribution and link function used
@@ -119,8 +119,8 @@ parameter is 1.
 
 \code{Nvalid}: the number of valid (non-missing) observations in the given study.
 
-\code{Ntotal}: the total number of observations in the given study 
-                       (\code{Nvalid} + \code{Nmissing}).
+\code{Ntotal}: the total number of observations in the given study
+(\code{Nvalid} + \code{Nmissing}).
 
 \code{data}: equivalent to input parameter \code{dataName} (above).
 
@@ -129,7 +129,7 @@ a gaussian family multiple regression model, 1.00 for logistic and poisson regre
 
 \code{call}:  summary of key elements of the call to fit the model.
 
-\code{na.action}:  chosen method of dealing with missing values. This is 
+\code{na.action}:  chosen method of dealing with missing values. This is
 usually, \code{na.action = na.omit} - see help in native R.
 
 \code{iter}: the number of iterations required to achieve convergence
@@ -181,9 +181,9 @@ Fits a generalized linear model (GLM) on data from single or multiple sources
 with pooled co-analysis across studies being based on SLMA (Study Level Meta Analysis).
 }
 \details{
-\code{ds.glmSLMA} specifies the structure of a Generalized Linear Model 
+\code{ds.glmSLMA} specifies the structure of a Generalized Linear Model
 to be fitted separately on each study or data source. Calls serverside functions
-glmSLMADS1 (aggregate),glmSLMADS2 (aggregate) and glmSLMADS.assign (assign). 
+glmSLMADS1 (aggregate),glmSLMADS2 (aggregate) and glmSLMADS.assign (assign).
 From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
 differs fundamentally from the alternative approach using \code{ds.glm}.
 ds.glm fits the model iteratively across all studies together. At each
@@ -227,8 +227,8 @@ if heterogeneity exists and if it is strong you can get theoretically results
 that are badly confounded by study. Before we introduced ds.glmSLMA we
 encountered a real world example of a ds.glm (without centre effects)
 which generated combined inferences over all studies which were more extreme than
-the results from any of the individual studies: the lower 95% confidence limit
-of the combined estimate was higher than the upper 95% confidence limits in
+the results from any of the individual studies: the lower 95\% confidence limit
+of the combined estimate was higher than the upper 95\% confidence limits in
 ALL of the individual studies. This was clearly incorrect and provided a
 salutary lesson on the potential impact of confounding by study if a ds.glm
 model does not include appropriate centre-effects. Even if you are going
@@ -237,97 +237,96 @@ is no heterogeneity) it may still be useful to also carry out a ds.glmSLMA
 analysis as this provides a very easy way to examine the extent of heterogeneity.
 
 In \code{formula} Most shortcut notation for formulas allowed under R's standard \code{glm()}
-function is also allowed by \code{ds.glmSLMA}. 
+function is also allowed by \code{ds.glmSLMA}.
 
 Many glms can be fitted very simply using a formula such as:
 
-\deqn{y~a+b+c+d} 
+\deqn{y~a+b+c+d}
 
-which simply means fit a glm with \code{y} as the outcome variable and 
-\code{a}, \code{b}, \code{c} and \code{d} as covariates. 
+which simply means fit a glm with \code{y} as the outcome variable and
+\code{a}, \code{b}, \code{c} and \code{d} as covariates.
 By default all such models also include an intercept (regression constant) term.
 
 Instead, if you need to fit a more complex
 model, for example:
 
- \deqn{EVENT~1+TID+SEXF*AGE.60}
+\deqn{EVENT~1+TID+SEXF*AGE.60}
 
-In the above model the outcome variable is \code{EVENT} 
-and the  covariates 
-\code{TID} (factor variable with level values between 1 and 6 denoting the period time), 
+In the above model the outcome variable is \code{EVENT}
+and the  covariates
+\code{TID} (factor variable with level values between 1 and 6 denoting the period time),
 \code{SEXF} (factor variable denoting sex)
-and \code{AGE.60} (quantitative variable representing age-60 in years). 
+and \code{AGE.60} (quantitative variable representing age-60 in years).
 The term \code{1} forces
-the model to include an intercept term, in contrast if you use the term \code{0} the 
+the model to include an intercept term, in contrast if you use the term \code{0} the
 intercept term is removed. The \code{*} symbol  between \code{SEXF} and \code{AGE.60}
 means fit all possible main effects and interactions for and between those two covariates.
- This takes the value 0 in all males \code{0 * AGE.60} 
- and in females  \code{1 * AGE.60}. 
- This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
- the survival time is added as an offset (\code{log(survtime)}).
+This takes the value 0 in all males \code{0 * AGE.60}
+and in females  \code{1 * AGE.60}.
+This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of
+the survival time is added as an offset (\code{log(survtime)}).
 
 In the \code{family} argument a range of model types can be fitted. This range has recently
 been extended to include a number of model types that are non-standard but are used
 relatively widely.
 
 The standard models include:
- \describe{
-   \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
-   \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
-   \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
-    analysis of counts and rates and is also used in survival analysis. The
-    Piecewise Exponential Regression (PER) model typically provides a close approximation
-    to the Cox regression model in its main estimates and standard errors.}
-   \item{\code{"gamma"}}{: a family of models for outcomes characterised by a constant
-    coefficient of variation, i.e. the variance increases with the square of the expected mean}
+\describe{
+\item{\code{"gaussian"}}{: conventional linear model with normally distributed errors}
+\item{\code{"binomial"}}{: conventional unconditional logistic regression model}
+\item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
+analysis of counts and rates and is also used in survival analysis. The
+Piecewise Exponential Regression (PER) model typically provides a close approximation
+to the Cox regression model in its main estimates and standard errors.}
+\item{\code{"gamma"}}{: a family of models for outcomes characterised by a constant
+coefficient of variation, i.e. the variance increases with the square of the expected mean}
 
 The extended range includes:
-   \item{\code{"quasipoisson"}}{: a model with a Poisson variance function - variance
-    equals expected mean - but the residual variance which is fixed to be 1.00 in
-    a standard Poisson model can then take any value. This is achieved by a dispersion parameter
-    which is estimated during the model fit and if it takes the value K it means
-   that the expected variance is K x the expected mean, which implies that all
-    standard errors will be sqrt(K) times larger than in a standard Poisson model
-    fitted to the same data. This allows for the extra uncertainty which is associated 
-    with 'overdispersion' that occurs very commonly with Poisson distributed data,
-    and typically arises when the count/rate data being modelled occur in blocks
-   which exhibit heterogeneity of underlying risk which is not being fully
-    modelled, either by including the blocks themselves as a factor or by including
-    covariates for all the determinants that are relevant to that underlying risk. If
-    there is no overdispersion (K=1) the estimates and standard errors from the
-    quasipoisson model will be almost identical to those from a standard poisson model.}
+\item{\code{"quasipoisson"}}{: a model with a Poisson variance function - variance
+equals expected mean - but the residual variance which is fixed to be 1.00 in
+a standard Poisson model can then take any value. This is achieved by a dispersion parameter
+which is estimated during the model fit and if it takes the value K it means
+that the expected variance is K x the expected mean, which implies that all
+standard errors will be sqrt(K) times larger than in a standard Poisson model
+fitted to the same data. This allows for the extra uncertainty which is associated
+with 'overdispersion' that occurs very commonly with Poisson distributed data,
+and typically arises when the count/rate data being modelled occur in blocks
+which exhibit heterogeneity of underlying risk which is not being fully
+modelled, either by including the blocks themselves as a factor or by including
+covariates for all the determinants that are relevant to that underlying risk. If
+there is no overdispersion (K=1) the estimates and standard errors from the
+quasipoisson model will be almost identical to those from a standard poisson model.}
 
-   \item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
-    is the expected proportion of successes, and N is the number of "trials" (always
-    1 if analysing binary data which are formally described as having a Bernoulli
-    distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
-    But the residual variance which is fixed to be 1.00 in
-    a binomial model can take any value. This is achieved by a dispersion parameter
-    which is estimated during the model fit (see quasipoisson information above).}}
+\item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
+is the expected proportion of successes, and N is the number of "trials" (always
+1 if analysing binary data which are formally described as having a Bernoulli
+distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
+But the residual variance which is fixed to be 1.00 in
+a binomial model can take any value. This is achieved by a dispersion parameter
+which is estimated during the model fit (see quasipoisson information above).}}
 Each class of models has a "canonical link" which represents the link function that
 maximises the information extraction by the model. The gaussian family uses the
 \code{identity} link, the poisson family the \code{log} link, the binomial/Bernoulli family the
 \code{logit} link and the the gamma family the \code{reciprocal} link.
 
 The \code{dataName} argument avoids you having to specify the name of the
-data frame in front of each covariate in the formula. 
+data frame in front of each covariate in the formula.
 For example, if the data frame is called \code{DataFrame} you
 avoid having to write: \eqn{DataFrame\$y ~ DataFrame\$a + DataFrame\$b + DataFrame\$c + DataFrame\$d}
 
-The \code{checks} argument verifies that the variables in the model are all defined (exist) 
+The \code{checks} argument verifies that the variables in the model are all defined (exist)
 on the server-site at every study
-and that they have the correct characteristics required to fit the model. 
+and that they have the correct characteristics required to fit the model.
 It is suggested to make \code{checks} argument TRUE only if an unexplained
- problem in the model fit is encountered because the running process takes several minutes.
- 
+problem in the model fit is encountered because the running process takes several minutes.
+
 In \code{maxit} Logistic regression and Poisson regression
 models can require many iterations, particularly if the starting value of the
 regression constant is far away from its actual value that the GLM
 is trying to estimate. In consequence we often set \code{maxit=30}
 but depending on the nature of the models you wish to fit, you may wish
-to be alerted much more quickly than this if there is a delay in convergence, 
+to be alerted much more quickly than this if there is a delay in convergence,
 or you may wish to allow more iterations.
-
 
 Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.assign}
 }

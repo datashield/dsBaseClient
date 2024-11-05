@@ -1,12 +1,12 @@
 #' @title Reshapes server-side grouped data 
 #' @description Reshapes a data frame containing longitudinal or
 #' otherwise grouped data from 'wide' to 'long' format or vice-versa. 
-#' @details This function is based on the native R function \code{reshape}.
+#' @details This function is based on the native R function `reshape`.
 #' It reshapes a data frame containing longitudinal or otherwise grouped data
 #' between 'wide' format with repeated
 #' measurements in separate columns of the same record and 'long' format with the repeated
 #' measurements in separate records. The reshaping can be in either direction. 
-#' Server function called: \code{reShapeDS}
+#' Server function called: `reShapeDS`
 #' @param data.name a character string specifying the name of the data frame to be reshaped.
 #' @param varying names of sets of variables in the wide format that correspond to single
 #' variables in 'long' format. 
@@ -22,17 +22,17 @@
 #' @param direction a character string that partially matched to either 'wide' to reshape from
 #' 'long' to 'wide' format, or 'long' to reshape from 'wide' to 'long' format.
 #' @param sep a character vector of length 1, indicating a separating character in the variable
-#' names in the 'wide' format. This is used for creating good \code{v.names} and times arguments based
-#' on the names in the \code{varying} argument. This is also used to create variable names
+#' names in the 'wide' format. This is used for creating good `v.names` and times arguments based
+#' on the names in the `varying` argument. This is also used to create variable names
 #' when reshaping
 #' to 'wide' format. 
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. 
-#' Default \code{reshape.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.reShape} returns to the server-side  a reshaped data frame 
+#' Default `reshape.newobj`.
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.reShape` returns to the server-side  a reshaped data frame 
 #' converted from 'long' to 'wide' format or from 'wide' to long' format. 
 #' Also, two validity messages are returned to the client-side
 #' indicating whether the new object  has been created in each data source and if so whether

@@ -17,7 +17,7 @@ ds.ns(
 \arguments{
 \item{x}{the predictor variable. Missing values are allowed.}
 
-\item{df}{degrees of freedom. One can supply df rather than knots; ns() then chooses 
+\item{df}{degrees of freedom. One can supply df rather than knots; ns() then chooses
 df - 1 - intercept knots at suitably chosen quantiles of x (which will ignore missing values).
 The default, df = NULL, sets the number of inner knots as length(knots).}
 
@@ -31,12 +31,12 @@ are the mean or median for one knot, quantiles for more knots. See also Boundary
 anchor the B-spline basis (default the range of the data). If both knots and Boundary.knots
 are supplied, the basis parameters do not depend on x. Data can extend beyond Boundary.knots.}
 
-\item{newobj}{a character string that provides the name for the output 
+\item{newobj}{a character string that provides the name for the output
 variable that is stored on the data servers. Default \code{ns.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 A matrix of dimension length(x) * df where either df was supplied or if knots were

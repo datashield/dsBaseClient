@@ -9,10 +9,10 @@ ds.dim(x = NULL, type = "both", checks = FALSE, datasources = NULL)
 \arguments{
 \item{x}{a character string providing the name of the input object.}
 
-\item{type}{a character string that represents the type of analysis to carry out. 
+\item{type}{a character string that represents the type of analysis to carry out.
 If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
- the global dimension is returned. 
-If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+the global dimension is returned.
+If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
 the dimension is returned separately for each study.
 If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
 Default \code{'both'}.}
@@ -20,26 +20,26 @@ Default \code{'both'}.}
 \item{checks}{logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
 Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.dim} retrieves to the client-side the dimension of the object 
+\code{ds.dim} retrieves to the client-side the dimension of the object
 in the form of a vector where the first
 element indicates the number of rows and the second element indicates the number of columns.
 }
 \description{
-Gives the dimensions of an R object on the server-side. 
+Gives the dimensions of an R object on the server-side.
 This function is similar to R function \code{dim}.
 }
 \details{
-The function returns the dimension of the server-side 
+The function returns the dimension of the server-side
 input object (e.g. array, matrix or data frame)
-from every single study and the pooled dimension of the object by summing up the individual 
+from every single study and the pooled dimension of the object by summing up the individual
 dimensions returned from each study.
 
-In \code{checks} parameter is suggested that checks should only be undertaken once the 
+In \code{checks} parameter is suggested that checks should only be undertaken once the
 function call has failed.
 
 Server function called: \code{dimDS}
@@ -95,15 +95,15 @@ Server function called: \code{dimDS}
 
 }
 \seealso{
-\code{\link{ds.dataFrame}} to generate a table of the type data frame.
+\code{\link[=ds.dataFrame]{ds.dataFrame()}} to generate a table of the type data frame.
 
-\code{\link{ds.changeRefGroup}} to change the reference level of a factor.
+\code{\link[=ds.changeRefGroup]{ds.changeRefGroup()}} to change the reference level of a factor.
 
-\code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
+\code{\link[=ds.colnames]{ds.colnames()}} to obtain the column names of a matrix or a data frame
 
-\code{\link{ds.asMatrix}} to coerce an object into a matrix type.
+\code{\link[=ds.asMatrix]{ds.asMatrix()}} to coerce an object into a matrix type.
 
-\code{\link{ds.length}} to obtain the size of a vector.
+\code{\link[=ds.length]{ds.length()}} to obtain the size of a vector.
 }
 \author{
 DataSHIELD Development Team

@@ -3,19 +3,19 @@
 #' the result to the client-side
 #' @details Calculates and returns to the client-side
 #' the determinant of a square matrix on the server-side. 
-#' This function is similar to the native R \code{determinant} function.  
+#' This function is similar to the native R `determinant` function.  
 #' This operation is only
 #' possible if the number of columns and rows of the matrix are the same.
 #' 
-#' Server function called: \code{matrixDetDS1}
+#' Server function called: `matrixDetDS1`
 #' 
 #' @param M1  a character string specifying the name of the matrix. 
 #' @param logarithm logical. If TRUE the logarithm of the modulus of the determinant
 #' is calculated. Default FALSE. 
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.matrixDet.report} returns to the client-side
+#' @param datasources  a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.matrixDet.report` returns to the client-side
 #' the determinant of a matrix that is stored on the server-side.
 #' @author DataSHIELD Development Team
 #' @examples 

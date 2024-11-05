@@ -4,25 +4,25 @@
 #' values specified by the analyst.
 #' @details This function is used when the analyst prefers or requires complete vectors.
 #' It is then possible the specify one value for each missing value by first returning
-#' the number of missing values using the function \code{ds.numNA} but in most cases,
+#' the number of missing values using the function `ds.numNA` but in most cases,
 #' it might be more sensible to replace all missing values by one specific value e.g.
 #' replace all missing values in a vector by the mean or median value. Once the missing
 #' values have been replaced a new vector is created.
 #' 
-#' \strong{Note}: If the vector is within a table structure such as a data frame the new vector is
+#' **Note**: If the vector is within a table structure such as a data frame the new vector is
 #' appended to table structure so that the table holds both the vector with and without
 #' missing values. 
 #' 
-#' Server function called: \code{replaceNaDS}
+#' Server function called: `replaceNaDS`
 #' @param x a character string specifying the name of the vector. 
 #' @param forNA a list or a vector that contains the replacement value(s), for each study. 
 #' The length of the list or vector must be equal to the number of servers (studies). 
 #' @param newobj a character string that provides the name for the output object
-#' that is stored on the data servers. Default \code{replacena.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.replaceNA} returns to the server-side a new vector or table structure 
+#' that is stored on the data servers. Default `replacena.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.replaceNA` returns to the server-side a new vector or table structure 
 #' with the missing values replaced by the specified values.
 #'  The class of the vector is the same as the initial vector. 
 #' @author DataSHIELD Development Team

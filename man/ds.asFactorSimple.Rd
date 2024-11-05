@@ -11,18 +11,18 @@ ds.asFactorSimple(
 )
 }
 \arguments{
-\item{input.var.name}{a character string which provides 
+\item{input.var.name}{a character string which provides
 the name of the variable to be converted to a factor.}
 
-\item{newobj.name}{a character string that provides the name for the output variable 
+\item{newobj.name}{a character string that provides the name for the output variable
 that is stored on the data servers. Default \code{asfactor.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-an output vector of class factor to the serverside. In addition, returns a validity 
+an output vector of class factor to the serverside. In addition, returns a validity
 message with the name of the created object on the client-side and if creation fails an
 error message which can be viewed using datashield.errors().
 }
@@ -31,7 +31,7 @@ ds.asFactorSimple calls the assign function asFactorSimpleDS and
 thereby coerces a numeric or character vector into a factor
 }
 \details{
-The function converts the input variable into a factor. Unlike 
+The function converts the input variable into a factor. Unlike
 ds.asFactor and its serverside functions, ds.asFactorSimple does no more than
 coerce the class of a variable to make it a factor on the serverside in each data source.
 It does not check for or enforce consistency of factor levels across sources or allow you to

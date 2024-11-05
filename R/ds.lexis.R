@@ -5,18 +5,18 @@
 #' multiple records over a series of pre-defined time intervals.
 #' 
 #' 
-#' @details The function \code{ds.lexis} splits the survival interval time of subjects into pre-specified
+#' @details The function `ds.lexis` splits the survival interval time of subjects into pre-specified
 #' sub-intervals that are each assumed to encompass a constant base-line hazard which means a
 #' constant instantaneous risk of death). In the expanded dataset a row is included for every
 #' interval in which a given individual is followed - regardless of how short or long that period may
 #' be. Each row includes:\cr
-#' (1) \strong{CENSOR}: a variable indicating failure status for a particular
+#' (1) **CENSOR**: a variable indicating failure status for a particular
 #' interval in that interval also known as censoring status. 
-#' This variable can take two values: \strong{1} representing that the patient
+#' This variable can take two values: **1** representing that the patient
 #' has died, relapsed or developed a
-#' disease. \strong{0} representing the lost-to-follow-up 
+#' disease. **0** representing the lost-to-follow-up 
 #' or passed right through the interval without failing. \cr
-#' (2) \strong{SURVTIME} an exposure-time variable indicating the duration of exposure-to-risk-of-failure
+#' (2) **SURVTIME** an exposure-time variable indicating the duration of exposure-to-risk-of-failure
 #' the corresponding individual experienced in that interval before he/she failed or was censored.
 #' 
 #' To illustrate, an individual who survives through 5 such intervals and then dies/fails in the
@@ -26,13 +26,13 @@
 #' length of time they survived in the sixth interval before they failed or were censored. If they
 #' survive through the first interval and they are censored in the second interval, the
 #' failure-status variable will take the value 0 in both intervals.\cr
-#' (3) \strong{UID.expanded} the expanded data set also
+#' (3) **UID.expanded** the expanded data set also
 #' includes a unique ID in a form such as 77.13 which identifies that row of the
 #' dataset as relating to the 77th individual in the input data set and his/her experience 
 #' (exposure-time and failure status)in the
-#' 14th interval. Note that \code{.N} indicates the \code{(N+1)}th interval because 
+#' 14th interval. Note that `.N` indicates the `(N+1)`th interval because 
 #' interval 1 has no suffix.\cr
-#' (4) \strong{IDSEQ} the first part of \code{UID.expanded} (before the \code{'.'}). 
+#' (4) **IDSEQ** the first part of `UID.expanded` (before the `'.'`). 
 #' The value of this
 #' variable is repeated in every row to which the corresponding individual contributes data (i.e.
 #' to every row corresponding to an interval in which that individual was followed).\cr
@@ -43,15 +43,15 @@
 #' interval to which they were exposed.  The value of each of these variables is also repeated in
 #' every row corresponding to an interval in which that individual was followed. 
 #' 
-#' In \code{intervalWidth} argument if the total sum of the duration across all intervals is less 
+#' In `intervalWidth` argument if the total sum of the duration across all intervals is less 
 #' than the maximum follow-up of any individual in
-#' any contributing study, a final interval will be added by \code{ds.lexis} extending from the end of the
+#' any contributing study, a final interval will be added by `ds.lexis` extending from the end of the
 #' last interval specified to the maximum follow-up time. If a single numeric value is specified
-#' rather than a vector, \code{ds.lexis} will keep adding intervals of the length specified until the
+#' rather than a vector, `ds.lexis` will keep adding intervals of the length specified until the
 #' maximum follow-up time in any single study is exceeded. This argument is subject to
 #' disclosure checks. 
 #' 
-#' The \code{idCol} argument must be a numeric or character. Note that when a particular variable is
+#' The `idCol` argument must be a numeric or character. Note that when a particular variable is
 #' identified as being the main ID to the data repository when the data are first transferred 
 #' to the data repository (i.e. before
 #' DataSHIELD is used), that ID often ends up being of class character and will then be sorted in
@@ -63,32 +63,32 @@
 #' 
 #' This alphabetic order or the ID listing will then carry forward to the
 #' expanded dataset. But the nature and order of the original ID 
-#' variable held in \code{idCol} doesn't
-#' matter to \code{ds.lexis}. Provided every individual appears only once 
+#' variable held in `idCol` doesn't
+#' matter to `ds.lexis`. Provided every individual appears only once 
 #' in the original data set (before expansion) the order does not matter because 
-#' \code{ds.lexis} works on its unique numeric vector
-#' that is allocated from \code{1:M} (where there are \code{M} individuals) 
+#' `ds.lexis` works on its unique numeric vector
+#' that is allocated from `1:M` (where there are `M` individuals) 
 #' in whatever order they appear in the original dataset. 
 #' 
-#' in \code{entryCol} argument rather than using a total survival time variable to identify the
-#' intervals to which any given individual is exposed, \code{ds.lexis} 
+#' in `entryCol` argument rather than using a total survival time variable to identify the
+#' intervals to which any given individual is exposed, `ds.lexis` 
 #' requires an initial entry time and a final exit time. If the data you wish to expand 
 #' contain only a total survival time variable
 #' and every individual starts follow-up at time 0, the entry times should all
 #' be specified as zero, and the exit times as the total survival time. 
-#' So, \code{entryCol} should either be the name of the column 
-#' holding the entry time of each individual or else if no \code{entryCol} is
+#' So, `entryCol` should either be the name of the column 
+#' holding the entry time of each individual or else if no `entryCol` is
 #' specified it will be defaulted to zero anyway and put into a variable 
-#' called \code{starttime} in the expanded data set.
+#' called `starttime` in the expanded data set.
 #' 
-#' In \code{exitCol} argument, if the entry times (\code{entryCol}) are set, 
-#' or defaulted, to zero, the \code{exitCol} variable should contain the total survival times.
+#' In `exitCol` argument, if the entry times (`entryCol`) are set, 
+#' or defaulted, to zero, the `exitCol` variable should contain the total survival times.
 #' 
-#' If \code{variables} argument is not set (is
-#' null) but the \code{data} argument is set, the expanded data 
-#' set will contain all variables in the data frame identified by the \code{data} argument. 
-#' If neither the \code{data} or 
-#' \code{variables} arguments are set, the expanded data set will only include the ID, 
+#' If `variables` argument is not set (is
+#' null) but the `data` argument is set, the expanded data 
+#' set will contain all variables in the data frame identified by the `data` argument. 
+#' If neither the `data` or 
+#' `variables` arguments are set, the expanded data set will only include the ID, 
 #' exposure time and failure/censoring status
 #' variables which may still be useful for plotting survival data once these become available.
 #' 
@@ -105,36 +105,36 @@
 #' 
 #' If the number of failures in one or more 
 #' periods in a given study is less than the specified disclosure filter determining minimum
-#' acceptable cell size in a table (\code{nfilter.tab}) 
+#' acceptable cell size in a table (`nfilter.tab`) 
 #' then the expanded data frame is not created in that study, and a study-side message 
-#' to this effect is made available in that study via \code{ds.message()} function.
+#' to this effect is made available in that study via `ds.message()` function.
 #' 
 #' 
-#' Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3} 
+#' Server functions called: `lexisDS1`, `lexisDS2` and `lexisDS3` 
 #' @param data a character string specifying the name of a data frame containing the
 #' survival data to be expanded.
 #' @param intervalWidth a numeric vector specifying the length of each interval.
-#' For more information see \strong{Details}. 
+#' For more information see **Details**. 
 #' @param idCol a character string denoting the column name that holds the individual IDs
-#' of the subjects. For more information see \strong{Details}. 
+#' of the subjects. For more information see **Details**. 
 #' @param entryCol a character string denoting the column name that holds the entry times
-#' (i.e. start of follow up). For more information see \strong{Details}.
+#' (i.e. start of follow up). For more information see **Details**.
 #' @param exitCol a character string denoting the column name that holds the exit times
-#' (i.e. end of follow up). For more information see \strong{Details}.
+#' (i.e. end of follow up). For more information see **Details**.
 #' @param statusCol a character string denoting the column name that holds the
-#' failure/censoring status of each subject. For more information see \strong{Details}.
+#' failure/censoring status of each subject. For more information see **Details**.
 #' @param variables a vector of character strings denoting the column names of additional
-#' variables to include in the final expanded table. For more information see \strong{Details}.
+#' variables to include in the final expanded table. For more information see **Details**.
 #' @param expandDF a character string denoting the name of the new data frame containing the
-#' expanded data set. Default \code{lexis.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified 
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.lexis} returns to the server-side a data frame for each study with 
+#' expanded data set. Default `lexis.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified 
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.lexis` returns to the server-side a data frame for each study with 
 #' the expanded version of the input table.
 #' 
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.glm}} for generalized linear models. 
+#' @seealso [ds.glm()] for generalized linear models. 
 #' @export
 #' @examples
 #' \dontrun{

@@ -20,22 +20,22 @@ ds.meanByClass(
 \item{covar}{a character vector specifying the names of up to 3 categorical variables}
 
 \item{type}{a character string that represents the type of analysis to carry out.
-\code{type} can be set as: \code{'combine'} or \code{'split'}. 
-Default \code{'combine'}. 
+\code{type} can be set as: \code{'combine'} or \code{'split'}.
+Default \code{'combine'}.
 For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.meanByClass} returns to the client-side a table or a list of tables that 
+\code{ds.meanByClass} returns to the client-side a table or a list of tables that
 hold the length of the numeric variable(s) and their mean
 and standard deviation in each subgroup (subset).
 }
 \description{
 This function calculates the mean and  the standard deviation (SD)
- of a continuous variable for each class of up to 3 categorical variables.
+of a continuous variable for each class of up to 3 categorical variables.
 }
 \details{
 The function splits the input dataset into subsets (one for each category) and calculates
@@ -46,9 +46,9 @@ more than one categorical variable and the run-time lengthens if the parameter \
 only for the studies of the user interested in but including only those studies in the
 parameter \code{datasources}.
 
- Depending on the variable \code{type} can be carried out two analysis:\cr
- (1) \code{'combine'}: a pooled table of results is generated. \cr
- (2) \code{'split'}: a table of results is generated for each study.
+Depending on the variable \code{type} can be carried out two analysis:\cr
+(1) \code{'combine'}: a pooled table of results is generated. \cr
+(2) \code{'split'}: a table of results is generated for each study.
 }
 \examples{
 \dontrun{
@@ -97,9 +97,9 @@ parameter \code{datasources}.
 
 }
 \seealso{
-\code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
+\code{\link[=ds.subsetByClass]{ds.subsetByClass()}} to subset by the classes of factor vector(s).
 
-\code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
+\code{\link[=ds.subset]{ds.subset()}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 }
 \author{
 DataSHIELD Development Team

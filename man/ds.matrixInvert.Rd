@@ -9,17 +9,17 @@ ds.matrixInvert(M1 = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{M1}{A character string specifying the name of the matrix to be inverted.}
 
-\item{newobj}{a character string that provides the name for the output 
+\item{newobj}{a character string that provides the name for the output
 variable that is stored on the data servers.
 Default \code{matrixinvert.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.matrixInvert} returns to the server-side the inverts square matrix. 
-Also, two validity messages are returned to the client-side 
+\code{ds.matrixInvert} returns to the server-side the inverts square matrix.
+Also, two validity messages are returned to the client-side
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
 }
@@ -29,7 +29,7 @@ Inverts a square matrix and writes the output to the server-side
 \details{
 This operation is only
 possible if the number of columns and rows of  the matrix are the same and it
-is non-singular-positive definite (e.g. there is no row or column that is all zeros). 
+is non-singular-positive definite (e.g. there is no row or column that is all zeros).
 
 Server function called: \code{matrixInvertDS}
 }

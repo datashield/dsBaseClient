@@ -9,11 +9,11 @@ ds.names(xname = NULL, datasources = NULL)
 \arguments{
 \item{xname}{a character string specifying the name of the list.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login that represent the particular data sources
 (studies) to be addressed by the function call. If the \code{datasources}
 argument is not specified the default set of connections will be used:
-see \code{\link{datashield.connections_default}}.}
+see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.names} returns to the client-side the names

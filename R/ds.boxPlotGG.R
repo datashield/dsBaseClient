@@ -3,7 +3,7 @@
 #' @description Internal function. Renders a ggplot boxplot by retrieving from the server side a list with the identity stats and other
 #' parameters to render the plot without passing any data from the original dataset
 #'
-#' @param x \code{character} Name on the server side of the data frame to form a boxplot. Structure on the server 
+#' @param x `character` Name on the server side of the data frame to form a boxplot. Structure on the server 
 #' of this object must be: \cr
 #' 
 #'  Column 'x': Names on the X axis of the boxplot, aka variables to plot \cr
@@ -11,15 +11,15 @@
 #'  Column 'group': (Optional) Values of the grouping variable \cr
 #'  Column 'group2': (Optional) Values of the second grouping variable \cr
 #'  
-#' @param group \code{character} (default \code{NULL}) Name of the first grouping variable. 
-#' @param group2 \code{character} (default \code{NULL}) Name of the second grouping variable. 
-#' @param xlabel \code{caracter} (default \code{"x axis"}) Label to put on the x axis of the plot
-#' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
-#' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
-#' \code{"split"})
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param group `character` (default `NULL`) Name of the first grouping variable. 
+#' @param group2 `character` (default `NULL`) Name of the second grouping variable. 
+#' @param xlabel `caracter` (default `"x axis"`) Label to put on the x axis of the plot
+#' @param ylabel `caracter` (default `"y axis"`) Label to put on the y axis of the plot
+#' @param type `character` Return a pooled plot (`"pooled"`) or a split plot (one for each study server
+#' `"split"`)
+#' @param datasources a list of [DSConnection-class()] (default `NULL`) objects obtained after login
 #'
-#' @return \code{ggplot} object
+#' @return `ggplot` object
 
 ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
   x_var <- lower <- upper <- ymin <- ymax <- middle <- fill <- NULL

@@ -1,13 +1,13 @@
 #'
 #' @title Performs direct call to a server-side aggregate function
-#' @description The function \code{ds.look} can be used to make a direct call to a server-side
-#' aggregate function more simply than using the \code{datashield.aggregate} function. 
-#' @details The \code{ds.look} and \code{datashield.aggregate} functions are generally
-#' only recommended for experienced developers. For example, the \code{toAggregate} argument has to
+#' @description The function `ds.look` can be used to make a direct call to a server-side
+#' aggregate function more simply than using the `datashield.aggregate` function. 
+#' @details The `ds.look` and `datashield.aggregate` functions are generally
+#' only recommended for experienced developers. For example, the `toAggregate` argument has to
 #' be expressed in the same form that the server-side function would usually expect from its
-#' client-side pair. For example: \code{ds.look("table1DDS(female)")} works. But, if you express
-#' this as \code{ds.look("table1DDS('female')")} it won't work because although when
-#' you call this same function using its client-side function you write \code{ds.table1D('female')}
+#' client-side pair. For example: `ds.look("table1DDS(female)")` works. But, if you express
+#' this as `ds.look("table1DDS('female')")` it won't work because although when
+#' you call this same function using its client-side function you write `ds.table1D('female')`
 #' the inverted commas are stripped off during processing by the client-side function so the
 #' call to the server-side does not contain inverted commas. 
 #' 
@@ -15,14 +15,14 @@
 #' work (e.g. before a client-side function has been written) it is almost always easier
 #' and less error-prone to call a server-side function using its client-side pair.
 #' 
-#' The function is a wrapper for the DSI package function \code{datashield.aggregate}.
+#' The function is a wrapper for the DSI package function `datashield.aggregate`.
 #' @param toAggregate a character string specifying the function call to be made.
-#' For more information see \strong{Details}. 
+#' For more information see **Details**. 
 #' @param checks logical. If TRUE the optional checks are undertaken. 
 #' Default FALSE to save time. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @return the output from the specified server-side aggregate function to the client-side.
 #' @author DataSHIELD Development Team
 #' 

@@ -29,7 +29,7 @@ or vector.}
 
 \item{each}{a clientside or serverside integer.}
 
-\item{source.x1}{the source \code{x1} argument. It can be "clientside" or "c" 
+\item{source.x1}{the source \code{x1} argument. It can be "clientside" or "c"
 and serverside or "s".}
 
 \item{source.times}{see \code{source.x1}}
@@ -38,20 +38,20 @@ and serverside or "s".}
 
 \item{source.each}{see \code{source.x1}}
 
-\item{x1.includes.characters}{Boolean parameter which specifies if 
+\item{x1.includes.characters}{Boolean parameter which specifies if
 the \code{x1} is a character.}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{seq.vect}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.rep} returns in the server-side a vector with the specified repetitive sequence.  
+\code{ds.rep} returns in the server-side a vector with the specified repetitive sequence.
 Also, two validity messages are returned to the client-side
- the name of \code{newobj} that has been created 
+the name of \code{newobj} that has been created
 in each data source and if it is in a valid form.
 }
 \description{
@@ -61,7 +61,7 @@ the specified scalar number, vector or list in each data source.
 \details{
 All arguments that can denote in a clientside  or
 a serverside (i.e. \code{x1}, \code{times}, \code{length.out}
-or \code{each}). 
+or \code{each}).
 
 Server function called: \code{repDS}.
 }

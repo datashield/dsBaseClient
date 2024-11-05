@@ -29,13 +29,13 @@ To mitigate disclosure risk only the following set of quantiles can be
 generated: c(0.025,0.05,0.10,0.20,0.25,0.30,0.3333,0.40,0.50,0.60,0.6667,
 0.70,0.75,0.80,0.90,0.95,0.975). The allowable formats for the argument
 are of the general form: "0.025-0.975" where the first number is the lowest
-quantile to be estimated and the second number is the equivalent highest 
+quantile to be estimated and the second number is the equivalent highest
 quantile to estimate. These two quantiles are then estimated along with
 all allowable quantiles in between. The allowable argument values are then:
 "0.025-0.975", "0.05-0.95", "0.10-0.90", "0.20-0.80". Two alternative values
 are "quartiles" i.e. c(0.25,0.50,0.75), and "median" i.e. c(0.50). The
 default value is "0.05-0.95". If the sample size is so small that an extreme
-quartile could be disclosive the function will be terminated and an error 
+quartile could be disclosive the function will be terminated and an error
 message returned telling you that you might try using an argument with a
 narrower set of quantiles. This disclosure trap will be triggered if the
 total number of subjects across all studies divided by the total number
@@ -55,7 +55,7 @@ they can then be used for non-parameteric analysis, even if the key values
 cannot be estimated. A real example of an unusual configuration was in a
 reasonably large dataset of survival times, where a substantial proportion
 of survival profiles were censored at precisely 10 years. This meant that
-the 97.5% percentile could not be separated from the 95% percentile and so
+the 97.5\% percentile could not be separated from the 95\% percentile and so
 the former was allocated the value NA. This stopped processing of the ranks
 which could then be enabled by setting generate.quantiles to FALSE. However,
 if this problem is detected an error message is returned which indicates that
@@ -90,7 +90,7 @@ output.ranks.df and summary.output.ranks.df data frames are presented. If
 the argument is set as "ID.orig" the order of rows in the output data frames
 are precisely the same as the order of original input vector that is being
 ranked (i.e. V2BR). This means the ranks can simply be cbinded to the
-matrix, data frame or tibble that originally included V2BR so it also 
+matrix, data frame or tibble that originally included V2BR so it also
 includes the corresponding ranks. If it is set as "vals.orig" the output
 data frames are in order of increasing magnitude of the original values of
 V2BR. Default value is "ID.orig".}
@@ -98,7 +98,7 @@ V2BR. Default value is "ID.orig".}
 \item{shared.seed.value}{an integer value which is used to set the
 random seed generator in each study. Initially, the seed is set to be the
 same in all studies, so the order and parameters of the repeated
-encryption procedures are precisely the same in each study. Then a 
+encryption procedures are precisely the same in each study. Then a
 study-specific modification of the seed in each study ensures that the
 procedures initially generating the masking pseudodata (which are then
 subject to the same encryption procedures as the real data) are different
@@ -113,7 +113,7 @@ the number of real data values in V2BR.}
 \item{NA.manage}{character string taking three possible values: "NA.delete",
 "NA.low","NA.hi". This argument determines how missing values are managed
 before ranking. "NA.delete" results in all missing values being removed
-prior to ranking. This means that the vector of ranks in each study is 
+prior to ranking. This means that the vector of ranks in each study is
 shorter than the original vector of V2BR values by an amount corresponding
 to the number of missing values in V2BR in that study. Any rows containing
 missing values in V2BR are simply removed before the ranking procedure is
@@ -124,7 +124,7 @@ than the lowest non-missing value of V2BR in any of the studies. This means,
 for example, that if there are a total of M values of V2BR that are missing
 across all studies, there will be a total of M observations that are ranked
 lowest each with a rank of (M+1)/2. So if 7 are missing the lowest 7 ranks
-will be 4,4,4,4,4,4,4 and if 4 are missing the first 4 ranks will be 
+will be 4,4,4,4,4,4,4 and if 4 are missing the first 4 ranks will be
 2.5,2.5,2.5,2.5. "NA.hi" indicates that all missing values should be
 converted to a new value that has a meaningful magnitude that is higher(less
 negative or more positive)than the highest non-missing value of V2BR in any
@@ -147,13 +147,13 @@ the residual objects}
 outputs information about its progress.}
 
 \item{datasources}{specifies the particular opal object(s) to use. If the
-<datasources> argument is not specified (NULL) the default set of opals
-will be used. If <datasources> is specified, it should be set without
+\if{html}{\out{<datasources>}} argument is not specified (NULL) the default set of opals
+will be used. If \if{html}{\out{<datasources>}} is specified, it should be set without
 inverted commas: e.g. datasources=opals.em. If you wish to
 apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
+the argument can be specified as: e.g. datasources=opals.em\link{2}.
 If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)].}
+e.g. datasources=opals.em\link{c(1,3)}.}
 }
 \value{
 the data frame objects specified by the arguments output.ranks.df
@@ -189,12 +189,12 @@ other clientside and serverside functions to securely generate the global
 ranks of a numeric vector "V2BR" (vector to be ranked)
 in order to set up analyses on V2BR based on
 non-parametric methods, some types of survival analysis and to derive true
-global quantiles (such as the median, lower (25%) and upper (75%) quartiles,
-and the 95% and 97.5% quantiles) across all sources simultaneously. These
+global quantiles (such as the median, lower (25\%) and upper (75\%) quartiles,
+and the 95\% and 97.5\% quantiles) across all sources simultaneously. These
 global quantiles are, in general, different to the mean or median of the
 equivalent quantiles calculated independently in each data source separately.
 For more details about the cluster of functions that collectively
-enable secure global ranking and estimation of global quantiles see the 
+enable secure global ranking and estimation of global quantiles see the
 associated document entitled "secure.global.ranking.docx".
 }
 \author{

@@ -7,11 +7,11 @@
 ds.dmtC2S(dfdata = NA, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{dfdata}{is a character string that specifies the name of the DMT 
+\item{dfdata}{is a character string that specifies the name of the DMT
 to be copied from the clientside to the serverside}
 
-\item{newobj}{A character string specifying the name of the DMT on the serverside 
-to which the output is to be written. If no <newobj> argument is specified or it is NULL
+\item{newobj}{A character string specifying the name of the DMT on the serverside
+to which the output is to be written. If no \if{html}{\out{<newobj>}} argument is specified or it is NULL
 the name of the copied DMT defaults to "dmt.copied.C2S".}
 
 \item{datasources}{specifies the particular 'connection object(s)' to use.
@@ -23,18 +23,18 @@ that will be the dataset used by default if no other dataset is specified. If yo
 wish to change the connections you wish to use by default the call
 datashield.connections_default('opals.a') will set 'default.connections'
 to be 'opals.a' and so in the absence of specific instructions to the contrary
-(e.g. by specifiying a particular dataset to be used via the <datasources>
+(e.g. by specifiying a particular dataset to be used via the \if{html}{\out{<datasources>}}
 argument) all subsequent function calls will be to the datasets held in opals.a.
-If the <datasources> argument is specified, it should be set without
+If the \if{html}{\out{<datasources>}} argument is specified, it should be set without
 inverted commas: e.g. datasources=opals.a or datasources=default.connections.
-The <datasources> argument also allows you to apply a function solely to a subset
+The \if{html}{\out{<datasources>}} argument also allows you to apply a function solely to a subset
 of the studies/sources you are working with. For example, the second source
-in a set of three, can be specified using a call such as datasources=connection.xyz[2].
+in a set of three, can be specified using a call such as datasources=connection.xyz\link{2}.
 On the other hand, if you wish to specify solely the first and third sources, the
-appropriate call will be datasources=connections.xyz[c(1,3)]}
+appropriate call will be datasources=connections.xyz\link{c(1,3)}}
 }
 \value{
-the object specified by the <newobj> argument (or default name "dmt.copied.C2S")
+the object specified by the \if{html}{\out{<newobj>}} argument (or default name "dmt.copied.C2S")
 which is written as a data.frame/matrix/tibble to the serverside.
 }
 \description{
@@ -46,15 +46,15 @@ ds.dmtC2S calls assign function dmtC2SDS. To keep the
 function simple (though less flexible), a number of the parameters specifying
 the DMT to be generated on the serverside are fixed by the
 characteristics of the DMT to be copied rather than explicitly
-specifying them as selected arguments. In consequence, 
+specifying them as selected arguments. In consequence,
 they have been removed from the list of arguments and are instead given invariant
 values in the first few lines of code. These include: from="clientside.dmt",
 nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE. The specific value
-"clientside.dmt" for the argument <from> simply
+"clientside.dmt" for the argument \if{html}{\out{<from>}} simply
 means that the required information is generated from
 the characteristics of a clientside DMT.  The <nrows.scalar>
 and <ncols.scalar> are fixed empirically by the number of rows and columns of
-the DMT to be copied. <byrow> specifies writing the serverside DMT by
+the DMT to be copied. \if{html}{\out{<byrow>}} specifies writing the serverside DMT by
 columns or by rows and this is defaulted to byrow=FALSE i.e. "by column".
 }
 \author{

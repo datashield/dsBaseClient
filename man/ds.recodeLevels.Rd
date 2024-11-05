@@ -20,9 +20,9 @@ to the current number of levels.}
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{recodelevels.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.recodeLevels} returns to the server-side a variable of type factor
@@ -32,7 +32,7 @@ with the replaces levels.
 The function replaces the levels of a factor by the specified new ones.
 }
 \details{
-This function is similar to native R function \code{levels()}. 
+This function is similar to native R function \code{levels()}.
 
 It can for example be used to merge two classes into one, to add a level(s) to a vector
 or to rename (i.e. re-label) the levels of a vector.

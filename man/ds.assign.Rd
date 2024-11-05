@@ -12,12 +12,12 @@ ds.assign(toAssign = NULL, newobj = NULL, datasources = NULL)
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{assign.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.assign} returns the R object assigned to a name 
+\code{ds.assign} returns the R object assigned to a name
 that is written to the server-side.
 }
 \description{
@@ -26,8 +26,8 @@ This function assigns a datashield object to a name, hence creating a new object
 \details{
 The new object is stored on the server-side.
 
-\code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}. 
-The \code{toAssign} argument is checked at the server and 
+\code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}.
+The \code{toAssign} argument is checked at the server and
 assigned the variable called \code{newobj} on the server-side.
 }
 \examples{

@@ -9,16 +9,16 @@ ds.class(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string providing the name of the input R object.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.class} returns the type of the R object.
 }
 \description{
 Retrieves the class of an R object.
- This function is similar to the R function \code{class}.
+This function is similar to the R function \code{class}.
 }
 \details{
 Same as the native R function \code{class}.
@@ -65,7 +65,7 @@ Server function called: \code{classDS}
 }
 }
 \seealso{
-\code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.
+\code{\link[=ds.exists]{ds.exists()}} to verify if an object is defined (exists) on the server-side.
 }
 \author{
 DataSHIELD Development Team

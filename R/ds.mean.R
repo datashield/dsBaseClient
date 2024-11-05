@@ -3,33 +3,33 @@
 #' @description This function computes the statistical mean
 #'  of a given server-side vector. 
 #'
-#' @details  This function is similar to the R function \code{mean}.
+#' @details  This function is similar to the R function `mean`.
 #' 
 #' The function can carry out 3 types of analysis depending on
-#' the argument \code{type}:\cr
-#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, 
-#' \code{'combines'} or \code{'c'}, a global mean is calculated.\cr
-#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
+#' the argument `type`:\cr
+#' (1) If `type` is set to `'combine'`, `'combined'`, 
+#' `'combines'` or `'c'`, a global mean is calculated.\cr
+#' (2) If `type` is set to `'split'`, `'splits'` or `'s'`,
 #'  the mean is calculated separately for each study. \cr
-#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, 
+#' (3) If `type` is set to `'both'` or `'b'`, 
 #' both sets of outputs are produced.
 #' 
-#' If the argument \code{save.mean.Nvalid} is set to TRUE 
-#'  study-specific means and \code{Nvalids}
+#' If the argument `save.mean.Nvalid` is set to TRUE 
+#'  study-specific means and `Nvalids`
 #' as well as the global equivalents across all studies combined 
 #' are saved in the server-side. 
-#' Once the estimated means and \code{Nvalids}
+#' Once the estimated means and `Nvalids`
 #' are written into the server-side R environments, they can be used directly to centralize
 #' the variable of interest around its global mean or its study-specific means. Finally,
-#' the \code{isDefined} internal function checks whether the key variables have been created.
+#' the `isDefined` internal function checks whether the key variables have been created.
 #' 
-#' Server function called: \code{meanDS}
+#' Server function called: `meanDS`
 #' @param x a character specifying the name of a numerical vector.
 #' @param type a character string that represents the type of analysis to carry out.
-#' This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
-#' \code{'split'}, \code{'splits'}, \code{'s'},
-#' \code{'both'} or \code{'b'}. 
-#' For more information see \strong{Details}. 
+#' This can be set as `'combine'`, `'combined'`, `'combines'`,
+#' `'split'`, `'splits'`, `'s'`,
+#' `'both'` or `'b'`. 
+#' For more information see **Details**. 
 #' @param checks logical. If TRUE  optional checks of model
 #' components will be undertaken. Default is FALSE to save time. 
 #' It is suggested that checks
@@ -37,28 +37,28 @@
 #' @param save.mean.Nvalid logical. If TRUE generated values of the mean and 
 #' the number of valid (non-missing) observations will be saved  on the data servers. 
 #' Default FALSE. 
-#' For more information see \strong{Details}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.mean} returns to the client-side a list including: \cr
+#' For more information see **Details**. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.mean` returns to the client-side a list including: \cr
 #' 
-#' \code{Mean.by.Study}:  estimated mean, \code{Nmissing}
-#' (number of missing observations), \code{Nvalid} (number of valid observations) and
-#' \code{Ntotal} (sum of missing and valid observations) 
-#' separately for each study (if \code{type = split} or \code{type = both}). \cr
-#' \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
-#' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
-#' \code{Nstudies}: number of studies being analysed. \cr
-#' \code{ValidityMessage}: indicates if the analysis was possible. \cr
+#' `Mean.by.Study`:  estimated mean, `Nmissing`
+#' (number of missing observations), `Nvalid` (number of valid observations) and
+#' `Ntotal` (sum of missing and valid observations) 
+#' separately for each study (if `type = split` or `type = both`). \cr
+#' `Global.Mean`: estimated mean, `Nmissing`, `Nvalid` and `Ntotal` 
+#' across all studies combined (if `type = combine` or `type = both`). \cr
+#' `Nstudies`: number of studies being analysed. \cr
+#' `ValidityMessage`: indicates if the analysis was possible. \cr
 #' 
-#' If \code{save.mean.Nvalid} is set as TRUE, the objects 
-#' \code{Nvalid.all.studies}, \code{Nvalid.study.specific},
-#' \code{mean.all.studies} and \code{mean.study.specific} are written to the server-side. 
+#' If `save.mean.Nvalid` is set as TRUE, the objects 
+#' `Nvalid.all.studies`, `Nvalid.study.specific`,
+#' `mean.all.studies` and `mean.study.specific` are written to the server-side. 
 #' 
 #' @author DataSHIELD Development Team
-#' @seealso \code{ds.quantileMean} to compute quantiles.
-#' @seealso \code{ds.summary} to generate the summary of a variable.
+#' @seealso `ds.quantileMean` to compute quantiles.
+#' @seealso `ds.summary` to generate the summary of a variable.
 #' @export
 #' @examples
 #' \dontrun{

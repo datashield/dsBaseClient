@@ -12,7 +12,7 @@
 #' in all studies. Option "ask" (default) provides the user with a prompt asking if they want to set
 #' the levels of factor variables to be the same across all studies, whilst option "no" will throw
 #' an error if factor variables do not have the same class.
-#' @param datasources Data sources from which to aggregate data. Default is \code{NULL}.
+#' @param datasources Data sources from which to aggregate data. Default is `NULL`.
 #' @importFrom assertthat assert_that
 #' @importFrom DSI datashield.aggregate datashield.assign
 #' @return The filled DataFrame with added columns and adjusted classes or factor levels.

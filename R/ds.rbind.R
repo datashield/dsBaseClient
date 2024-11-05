@@ -4,15 +4,15 @@
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined  by rows to produce a matrix on the server-side.
 #' 
-#' In \code{DataSHIELD.checks} the checks are relatively slow. 
-#' Default \code{DataSHIELD.checks} value is FALSE. 
+#' In `DataSHIELD.checks` the checks are relatively slow. 
+#' Default `DataSHIELD.checks` value is FALSE. 
 #' 
-#' If \code{force.colnames} is NULL column names are inferred from the names or column names
-#' of the first object specified in the \code{x} argument.
+#' If `force.colnames` is NULL column names are inferred from the names or column names
+#' of the first object specified in the `x` argument.
 #' The vector of column names must have the same number of elements as 
 #' the columns in the output object.
 #' 
-#' Server functions called: \code{rbindDS}. 
+#' Server functions called: `rbindDS`. 
 #' 
 #' 
 #' @param x a character vector with the  name of the objects to be combined.  
@@ -21,17 +21,17 @@
 #' @param force.colnames can be NULL or a vector of characters that 
 #' specifies column names of the output object. 
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Defaults \code{rbind.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' that is stored on the data servers. Defaults `rbind.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return \code{ds.rbind} returns a matrix combining the rows of the 
+#' @return `ds.rbind` returns a matrix combining the rows of the 
 #' R objects specified in the function
 #' which is written to the server-side. 
-#' It also returns two messages to the client-side with the name of \code{newobj}
-#' that has been created in each data source and \code{DataSHIELD.checks} result. 
+#' It also returns two messages to the client-side with the name of `newobj`
+#' that has been created in each data source and `DataSHIELD.checks` result. 
 #' @examples 
 #' 
 #' \dontrun{

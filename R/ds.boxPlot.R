@@ -3,18 +3,18 @@
 #' @description Draw boxplot with data on the study servers (data frames or numeric vectors) with the option
 #' of grouping using categorical variables on the dataset (only for data frames)
 #'
-#' @param x \code{character} Name of the data frame (or numeric vector) on the server side that
+#' @param x `character` Name of the data frame (or numeric vector) on the server side that
 #'  holds the information to be plotted
-#' @param variables \code{character vector} Name of the column(s) of the data frame to include on the boxplot
-#' @param group \code{character} (default \code{NULL}) Name of the first grouping variable. 
-#' @param group2 \code{character} (default \code{NULL}) Name of the second grouping variable. 
-#' @param xlabel \code{caracter} (default \code{"x axis"}) Label to put on the x axis of the plot
-#' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
-#' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
-#' \code{"split"})
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param variables `character vector` Name of the column(s) of the data frame to include on the boxplot
+#' @param group `character` (default `NULL`) Name of the first grouping variable. 
+#' @param group2 `character` (default `NULL`) Name of the second grouping variable. 
+#' @param xlabel `caracter` (default `"x axis"`) Label to put on the x axis of the plot
+#' @param ylabel `caracter` (default `"y axis"`) Label to put on the y axis of the plot
+#' @param type `character` Return a pooled plot (`"pooled"`) or a split plot (one for each study server
+#' `"split"`)
+#' @param datasources a list of [DSConnection-class()] (default `NULL`) objects obtained after login
 #'
-#' @return \code{ggplot} object
+#' @return `ggplot` object
 #' @export
 #' @examples 
 #' \dontrun{

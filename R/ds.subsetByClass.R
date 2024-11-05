@@ -11,12 +11,12 @@
 #' @param variables a vector of string characters, the name(s) of the variables to subset by.
 #' @param subsets the name of the output object, a list that holds the subset objects. If set to NULL
 #' the default name of this list is 'subClasses'.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see [datashield.connections_default].
 #' @return a no data are return to the user but messages are printed out.
 #' @author Gaye, A.
-#' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
-#' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
+#' @seealso [ds.meanByClass] to compute mean and standard deviation across categories of a factor vectors.
+#' @seealso [ds.subset] to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @export
 #' @examples
 #' \dontrun{
