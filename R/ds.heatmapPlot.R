@@ -1,7 +1,7 @@
 #'
 #' @title Generates a Heat Map plot
 #' @description Generates a heat map plot of the pooled data or one plot for each dataset.
-#' @details The \code{ds.heatmapPlot} function first generates a density grid 
+#' @details The `ds.heatmapPlot` function first generates a density grid 
 #' and uses it to plot the graph.
 #' Cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
@@ -10,82 +10,82 @@
 #' are not the exact minimum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
 #' 
-#' In the argument \code{type} can be specified two types of graphics to display:
+#' In the argument `type` can be specified two types of graphics to display:
 #'  \describe{
-#'    \item{\code{'combine'}}{: a combined heat map plot is displayed} 
-#'    \item{\code{'split'}}{: each heat map is plotted separately}
+#'    \item{`'combine'`}{: a combined heat map plot is displayed} 
+#'    \item{`'split'`}{: each heat map is plotted separately}
 #'     }
 #'
-#' In the argument \code{show} can be specified two options:
+#' In the argument `show` can be specified two options:
 #'  \describe{
-#'    \item{\code{'all'}}{: the ranges of the variables are used as plot limits} 
-#'    \item{\code{'zoomed'}}{: the plot is zoomed to the region where the actual data are}
+#'    \item{`'all'`}{: the ranges of the variables are used as plot limits} 
+#'    \item{`'zoomed'`}{: the plot is zoomed to the region where the actual data are}
 #'     }
 #' 
-#' In the argument \code{method} can be specified 3 different heat map to be created:
+#' In the argument `method` can be specified 3 different heat map to be created:
 #'  \describe{
-#'    \item{\code{'smallCellsRule'}}{: the heat map of the actual variables is
+#'    \item{`'smallCellsRule'`}{: the heat map of the actual variables is
 #'     created but grids with low counts are replaced with grids with zero counts} 
-#'    \item{\code{'deterministic'}}{: the heat map of the scaled centroids of each 
-#'          \code{k} nearest neighbours of the
-#'         original variables are created, where the value of \code{k} is set by the user} 
-#'    \item{\code{'probabilistic'}}{:  the heat map of \code{'noisy'} variables is generated. 
+#'    \item{`'deterministic'`}{: the heat map of the scaled centroids of each 
+#'          `k` nearest neighbours of the
+#'         original variables are created, where the value of `k` is set by the user} 
+#'    \item{`'probabilistic'`}{:  the heat map of `'noisy'` variables is generated. 
 #'           The added noise follows a normal distribution with 
 #'           zero mean and variance equal to a percentage of
 #'           the initial variance of each input variable. 
 #'           This percentage is specified by the user in the
-#'           argument \code{noise}} 
+#'           argument `noise`} 
 #'  
 #'     }
 #' 
-#' In the \code{k} argument the user can choose any value for 
-#' \code{k} equal to or greater than the pre-specified threshold
+#' In the `k` argument the user can choose any value for 
+#' `k` equal to or greater than the pre-specified threshold
 #' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of \code{k} is set to be equal to 3
+#' minus the value of this threshold. By default the value of `k` is set to be equal to 3
 #' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
 #' uses the default value but the study has set a bigger threshold. 
-#' The value of \code{k} is used only
-#' if the argument \code{method} is set to \code{'deterministic'}. 
-#' Any value of \code{k} is ignored if the
-#' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
+#' The value of `k` is used only
+#' if the argument `method` is set to `'deterministic'`. 
+#' Any value of `k` is ignored if the
+#' argument `method` is set to `'probabilistic'` or `'smallCellsRule'`.
 #'
 #' 
-#' The value of \code{noise} is used only if the argument 
-#' \code{method} is set to \code{'probabilistic'}.
-#' Any value of \code{noise} is ignored if the argument 
-#' \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. 
-#' The user can choose any value for \code{noise} equal 
-#' to or greater than the pre-specified threshold \code{'nfilter.noise'}.
+#' The value of `noise` is used only if the argument 
+#' `method` is set to `'probabilistic'`.
+#' Any value of `noise` is ignored if the argument 
+#' `method` is set to `'deterministic'` or `'smallCellsRule'`. 
+#' The user can choose any value for `noise` equal 
+#' to or greater than the pre-specified threshold `'nfilter.noise'`.
 #' 
-#' Server function called: \code{heatmapPlotDS}
+#' Server function called: `heatmapPlotDS`
 #' @param x a character string specifying the name of a numerical vector.
 #' @param y a character string specifying the name of a numerical vector.
 #' @param type a character string that represents the type of graph to display.
-#' \code{type} argument can be set as \code{'combine'} or \code{'split'}. 
-#' Default \code{'combine'}.
-#' For more information see \strong{Details}.
+#' `type` argument can be set as `'combine'` or `'split'`. 
+#' Default `'combine'`.
+#' For more information see **Details**.
 #' @param show a character string that represents where the plot should be focused. 
-#' \code{show} argument can be set as \code{'all'} or \code{'zoomed'}. 
-#' Default \code{'all'}. 
-#' For more information see \strong{Details}.
+#' `show` argument can be set as `'all'` or `'zoomed'`. 
+#' Default `'all'`. 
+#' For more information see **Details**.
 #' @param numints the number of intervals for a density grid object. 
-#' Default \code{numints} value is \code{20}. 
+#' Default `numints` value is `20`. 
 #' @param method a character string that defines which heat map will be created. 
-#' The \code{method} argument can be set as \code{'smallCellsRule'}, 
-#' \code{'deterministic'} or \code{'probabilistic'}. 
-#' Default \code{'smallCellsRule'}. 
-#' For more information see \strong{Details}.
+#' The `method` argument can be set as `'smallCellsRule'`, 
+#' `'deterministic'` or `'probabilistic'`. 
+#' Default `'smallCellsRule'`. 
+#' For more information see **Details**.
 #' @param k the number of the nearest neighbours for which their centroid is calculated. 
-#' Default \code{k} value is \code{3}. 
-#' For more information see \strong{Details}.
+#' Default `k` value is `3`. 
+#' For more information see **Details**.
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument \code{method} is set to \code{'probabilistic'}. 
-#' Default \code{noise} value is  \code{0.25}.
-#' For more information see \strong{Details}.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.heatmapPlot} returns to the client-side a heat map plot and a message specifying 
+#' noise if the argument `method` is set to `'probabilistic'`. 
+#' Default `noise` value is  `0.25`.
+#' For more information see **Details**.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.heatmapPlot` returns to the client-side a heat map plot and a message specifying 
 #' the number of invalid cells in each study. 
 #' @author DataSHIELD Development Team
 #' @export

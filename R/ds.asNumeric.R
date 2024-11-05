@@ -1,14 +1,14 @@
 #' 
 #' @title Converts a server-side R object into a numeric class 
 #' @description Coerces an R object into a numeric class. 
-#' This function is based on the native R function \code{as.numeric}.
-#' @details This function is based on the native R function \code{as.numeric}.
+#' This function is based on the native R function `as.numeric`.
+#' @details This function is based on the native R function `as.numeric`.
 #' However, it behaves differently with some specific classes of variables. For example, if the input 
 #' object is of class factor, it first converts its values into characters and then convert those to
 #' numerics. This behavior is important for the case where the input object is of class factor having
 #' numbers as levels. In that case, the native R 
-#' \code{as.numeric} function returns the underlying level codes and not the values as numbers. 
-#' For example \code{as.numeric} in R converts the factor vector: \cr
+#' `as.numeric` function returns the underlying level codes and not the values as numbers. 
+#' For example `as.numeric` in R converts the factor vector: \cr
 #' 0 1 1 2 1 0 1 0 2 2 2 1 \cr
 #' Levels: 0 1 2 \cr
 #' to the following numeric vector:
@@ -16,18 +16,18 @@
 #' In contrast DataSHIELD converts an input factor with numeric 
 #' levels to its original numeric values.
 #' 
-#' Server function called: \code{asNumericDS}
+#' Server function called: `asNumericDS`
 #' 
 #' @param x.name a character string providing the name of the input object to be coerced to 
 #' a numeric. 
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the data servers. Default \code{asnumeric.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.asNumeric} returns the R object converted into a numeric class
+#'  that is stored on the data servers. Default `asnumeric.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.asNumeric` returns the R object converted into a numeric class
 #' that is written to the server-side. Also, two validity messages are returned 
-#' to the client-side indicating the name of the \code{newobj} which 
+#' to the client-side indicating the name of the `newobj` which 
 #' has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 

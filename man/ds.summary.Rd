@@ -9,28 +9,28 @@ ds.summary(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the name of a numeric or factor variable.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.summary} returns to the client-side the class and 
-size of the server-side object. 
+\code{ds.summary} returns to the client-side the class and
+size of the server-side object.
 Also other information is returned depending on the class of the object.
 For example, potentially disclosive information
-such as the minimum and maximum values of numeric vectors are not returned. 
+such as the minimum and maximum values of numeric vectors are not returned.
 The summary is given for each study separately.
 }
 \description{
 Generates the summary of a server-side object.
 }
 \details{
-This function provides some insight about an object. Unlike the similar native R 
+This function provides some insight about an object. Unlike the similar native R
 \code{summary} function
 only a limited class of objects can be used as input to reduce the risk of disclosure.
 For example, the minimum and the maximum values of a numeric vector
- are not given to the client because they are potentially disclosive. 
- 
+are not given to the client because they are potentially disclosive.
+
 server functions called: \code{isValidDS}, \code{dimDS} and \code{colnamesDS}
 }
 \examples{

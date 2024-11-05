@@ -2,17 +2,17 @@
 #' @title Generates the summary of a server-side object
 #' @description Generates the summary of a server-side object. 
 #' @details This function provides some insight about an object. Unlike the similar native R 
-#' \code{summary} function
+#' `summary` function
 #' only a limited class of objects can be used as input to reduce the risk of disclosure.
 #' For example, the minimum and the maximum values of a numeric vector
 #'  are not given to the client because they are potentially disclosive. 
 #'  
-#' server functions called: \code{isValidDS}, \code{dimDS} and \code{colnamesDS}
+#' server functions called: `isValidDS`, `dimDS` and `colnamesDS`
 #' @param x a character string specifying the name of a numeric or factor variable.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.summary} returns to the client-side the class and 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.summary` returns to the client-side the class and 
 #' size of the server-side object. 
 #' Also other information is returned depending on the class of the object.
 #' For example, potentially disclosive information

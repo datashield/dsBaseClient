@@ -2,13 +2,13 @@
 #' 
 #' @description Internal function
 #'
-#' @param table \code{character} Name of the table on the server side that holds the information to be plotted later
-#' @param variables \code{character vector} Name of the column(s) of the data frame to include on the boxplot
-#' @param group \code{character} (default \code{NULL}) Name of the first grouping variable. 
-#' @param group2 \code{character} (default \code{NULL}) Name of the second grouping variable. 
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param table `character` Name of the table on the server side that holds the information to be plotted later
+#' @param variables `character vector` Name of the column(s) of the data frame to include on the boxplot
+#' @param group `character` (default `NULL`) Name of the first grouping variable. 
+#' @param group2 `character` (default `NULL`) Name of the second grouping variable. 
+#' @param datasources a list of [DSConnection-class()] (default `NULL`) objects obtained after login
 #'
-#' @return Does not return nothing, it creates the table \code{"boxPlotRawData"} on the server arranged to be passed to the
+#' @return Does not return nothing, it creates the table `"boxPlotRawData"` on the server arranged to be passed to the
 #' ggplot boxplot function. Structure of the created table: \cr
 #' 
 #'  Column 'x': Names on the X axis of the boxplot, aka variables to plot \cr

@@ -21,8 +21,10 @@ Imports:
     cli,
     purrr,
     stringr
-    dplyr
+    dplyr,
+    lifecycle
 Suggests:
     testthat
 RoxygenNote: 7.3.2
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)

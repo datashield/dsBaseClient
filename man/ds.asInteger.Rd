@@ -7,21 +7,21 @@
 ds.asInteger(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{a character string providing the name of the input object to be coerced to 
+\item{x.name}{a character string providing the name of the input object to be coerced to
 an integer.}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{asinteger.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.asInteger} returns the R object converted into an integer
 that is written to the server-side. Also, two validity messages are returned to the
-client-side indicating the name of the \code{newobj} which 
-has been created in each data source and if 
+client-side indicating the name of the \code{newobj} which
+has been created in each data source and if
 it is in a valid form.
 }
 \description{
@@ -29,18 +29,18 @@ Coerces an R object into an integer class.
 This function is based on the native R function \code{as.integer}.
 }
 \details{
-This function is based on the native R function \code{as.integer}. 
- The only difference is that the DataSHIELD 
-function first converts the values of the input object into characters and then convert 
-those to integers. This addition, 
+This function is based on the native R function \code{as.integer}.
+The only difference is that the DataSHIELD
+function first converts the values of the input object into characters and then convert
+those to integers. This addition,
 it is important for the case where the input object is of class
-factor having integers as levels. 
+factor having integers as levels.
 In that case, the native R \code{as.integer} function returns
 the underlying level codes and not the values as integers.
- For example \code{as.integer} in R
+For example \code{as.integer} in R
 converts the factor vector: \cr
-[1] 0 1 1 2 1 0 1 0 2 2 2 1 \cr
- Levels: 0 1 2  \cr
+\link{1} 0 1 1 2 1 0 1 0 2 2 2 1 \cr
+Levels: 0 1 2  \cr
 to the following integer vector:
 1 2 2 3 2 1 2 1 3 3 3 2 \cr
 

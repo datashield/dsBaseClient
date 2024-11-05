@@ -1,20 +1,20 @@
 #'
 #' @title Computes the square root values of a variable
 #' @description Computes the square root values for a specified numeric or integer vector. 
-#' This function is similar to R function \code{sqrt}.
-#' @details The function calls the server-side function \code{sqrtDS} that computes the 
+#' This function is similar to R function `sqrt`.
+#' @details The function calls the server-side function `sqrtDS` that computes the 
 #' square root values of the elements of a numeric or integer vector and assigns a new vector 
 #' with those square root values on the server-side. The name of the new generated vector is 
-#' specified by the user through the argument \code{newobj}, otherwise is named by default to
-#' \code{sqrt.newobj}.
+#' specified by the user through the argument `newobj`, otherwise is named by default to
+#' `sqrt.newobj`.
 #' @param x a character string providing the name of a numeric or an integer vector.
 #' @param newobj a character string that provides the name for the output variable
-#' that is stored on the data servers. Default name is set to \code{sqrt.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.sqrt} assigns a vector for each study that includes the square root values of
-#' the input numeric or integer vector specified in the argument \code{x}. The created vectors
+#' that is stored on the data servers. Default name is set to `sqrt.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified the default set of connections will be
+#' used: see [datashield.connections_default()].
+#' @return `ds.sqrt` assigns a vector for each study that includes the square root values of
+#' the input numeric or integer vector specified in the argument `x`. The created vectors
 #' are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export

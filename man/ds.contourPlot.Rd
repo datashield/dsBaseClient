@@ -44,9 +44,9 @@ see details.}
 \item{noise}{the percentage of the initial variance that is used as the variance of the embedded
 noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.contourPlot} returns a contour plot to the client-side.
@@ -56,7 +56,7 @@ It generates a contour plot of the pooled data
 or one plot for each dataset on the client-side.
 }
 \details{
-The \code{ds.contourPlot} function first generates 
+The \code{ds.contourPlot} function first generates
 a density grid and uses it to plot the graph.
 The cells of the grid density matrix that hold a count of less than the filter set by
 DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
@@ -66,20 +66,20 @@ The ranges returned by each study and used in the process of getting the grid de
 are not the exact minimum and maximum values but rather close approximates of the real
 minimum and maximum value. This was done to reduce the risk of potential disclosure.
 
-In the \code{k} parameter the user can choose any value for \code{k} equal to or greater 
-than the pre-specified threshold used as a disclosure control for this method 
-and lower than the number of observations minus the value of this threshold. 
-\code{k} default value is  3 (we suggest k to be equal to, or bigger than, 3). 
+In the \code{k} parameter the user can choose any value for \code{k} equal to or greater
+than the pre-specified threshold used as a disclosure control for this method
+and lower than the number of observations minus the value of this threshold.
+\code{k} default value is  3 (we suggest k to be equal to, or bigger than, 3).
 Note that the function fails if the user
-uses the default value but the study has set a bigger threshold. 
-The value of \code{k} is used only if the argument \code{method} is set to \code{'deterministic'}. 
+uses the default value but the study has set a bigger threshold.
+The value of \code{k} is used only if the argument \code{method} is set to \code{'deterministic'}.
 Any value of k is ignored if the
 argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
 
 In \code{noise} any value of noise is ignored if
 the argument \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. The user can choose
 any value for noise equal to or greater than the pre-specified threshold \code{'nfilter.noise'}.
-Default noise value is  0.25. 
+Default noise value is  0.25.
 The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 the initial variance of each input variable.
 

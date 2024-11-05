@@ -3,17 +3,17 @@
 #' @description This function assigns a datashield object to a name, hence creating a new object.
 #' @details The new object is stored on the server-side.
 #' 
-#' \code{ds.assign}  causes a remote assignment by using \code{DSI::datashield.assign}. 
-#' The \code{toAssign} argument is checked at the server and 
-#' assigned the variable called \code{newobj} on the server-side.
+#' `ds.assign`  causes a remote assignment by using `DSI::datashield.assign`. 
+#' The `toAssign` argument is checked at the server and 
+#' assigned the variable called `newobj` on the server-side.
 #' 
 #' @param toAssign a character string providing the object to assign. 
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the data servers. Default \code{assign.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.assign} returns the R object assigned to a name 
+#'  that is stored on the data servers. Default `assign.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.assign` returns the R object assigned to a name 
 #' that is written to the server-side.
 #' @author DataSHIELD Development Team
 #' @export

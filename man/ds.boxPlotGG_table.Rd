@@ -18,7 +18,7 @@ ds.boxPlotGG_table(
 \arguments{
 \item{x}{\code{character} Name of the table on the server side that holds the information to be plotted}
 
-\item{variables}{\code{character vector} Name of the column(s) of the data frame to include on the boxplot}
+\item{variables}{\verb{character vector} Name of the column(s) of the data frame to include on the boxplot}
 
 \item{group}{\code{character} (default \code{NULL}) Name of the first grouping variable.}
 
@@ -31,7 +31,7 @@ ds.boxPlotGG_table(
 \item{type}{\code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 \code{"split"})}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 \code{ggplot} object

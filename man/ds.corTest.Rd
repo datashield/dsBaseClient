@@ -20,7 +20,7 @@ ds.corTest(
 \item{y}{a character string providing the name of a numerical vector.}
 
 \item{method}{a character string indicating which correlation coefficient is to be
-used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated. 
+used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated.
 Default is set to "pearson".}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed. Used for
@@ -31,14 +31,14 @@ the meaning of NULL (the default).}
 only used for the Pearson product moment correlation coefficient if there are at least
 4 complete pairs of observations. Default is set to 0.95.}
 
-\item{type}{a character string that represents the type of analysis to carry out. 
-This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If 
-\code{type} is set to "combine" then an approximated pooled correlation is estimated based on 
+\item{type}{a character string that represents the type of analysis to carry out.
+This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If
+\code{type} is set to "combine" then an approximated pooled correlation is estimated based on
 Fisher's z transformation.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.corTest} returns to the client-side the results of the correlation test.

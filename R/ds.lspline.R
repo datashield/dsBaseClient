@@ -1,7 +1,7 @@
 #' 
 #' @title Basis for a piecewise linear spline with meaningful coefficients
-#' @description This function is based on the native R function \code{lspline} from the
-#' \code{lspline} package. This function computes the basis of piecewise-linear spline
+#' @description This function is based on the native R function `lspline` from the
+#' `lspline` package. This function computes the basis of piecewise-linear spline
 #' such that, depending on the argument marginal, the coefficients can be interpreted as
 #' (1) slopes of consecutive spline segments, or (2) slope change at consecutive knots.
 #' @details If marginal is FALSE (default) the coefficients of the spline correspond to
@@ -13,12 +13,12 @@
 #' @param marginal logical, how to parametrize the spline, see Details
 #' @param names character, vector of names for constructed variables
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{lspline.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' variable that is stored on the data servers. Default `lspline.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @return an object of class "lspline" and "matrix", which its name is specified by the
-#' \code{newobj} argument (or its default name "lspline.newobj"), is assigned on the serverside.
+#' `newobj` argument (or its default name "lspline.newobj"), is assigned on the serverside.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
 #'

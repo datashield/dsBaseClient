@@ -11,14 +11,14 @@
 #' @param x a character, the name of a numerical vector with discrete values - usually a factor.
 #' @param y a character, the name of a numerical vector with discrete values - usually a factor.
 #' @param type a character which represent the type of table to ouput: pooled table or one table for each
-#' data source or both. If \code{type} is set to 'combine', a pooled 2-dimensional table is returned; If \code{type}
-#' is set to 'split' a 2-dimensional table is returned for each data source. If \code{type} is set to 'both' (default)
+#' data source or both. If `type` is set to 'combine', a pooled 2-dimensional table is returned; If `type`
+#' is set to 'split' a 2-dimensional table is returned for each data source. If `type` is set to 'both' (default)
 #' a pooled 2-dimensional table plus a 2-dimensional table for each data source are returned.
 #' @param warningMessage a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
 #' messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 #' which are stored in the output object 'validity' - see the list of output objects.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see [datashield.connections_default].
 #' @return A list object containing the following items:
 #' \item{colPercent}{table(s) that hold column percentages for each level/category. Inner cells are reported as
 #' missing if one or more cells are 'invalid'.}
@@ -31,7 +31,7 @@
 #' \item{validity}{a text that informs the analyst about the validity of the output tables. If any tables are invalid the
 #' studies they are originated from are also mentioned in the text message.}
 #' @author Amadou Gaye, Paul Burton, Demetris Avraam, for DataSHIELD Development Team
-#' @seealso \link{ds.table1D} for the tabulating one vector.
+#' @seealso [ds.table1D] for the tabulating one vector.
 #' @export
 #' @examples
 #' \dontrun{

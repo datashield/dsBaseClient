@@ -8,7 +8,7 @@
 #' of the  data frames or matrices must be the same.  The output 
 #' data frame will have the same number of rows. 
 #' 
-#' Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
+#' Server functions called: `classDS`, `colnamesDS`, `dataFrameDS`
 #' 
 #' @param x a character string that provides the name of the objects
 #' to be combined.
@@ -31,15 +31,15 @@
 #' 4. the number of rows of the  data frames or matrices and the length of all component variables
 #' are the same
 #' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. Default \code{dataframe.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified 
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}. 
+#' that is stored on the data servers. Default `dataframe.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified 
+#' the default set of connections will be used: see [datashield.connections_default()]. 
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default is FALSE.
-#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument
+#' @return `ds.dataFrame` returns the object specified by the `newobj` argument
 #' which is written to the serverside. Also, two validity messages are returned to the
-#' client-side indicating the name of the \code{newobj} that has been created in each data source
+#' client-side indicating the name of the `newobj` that has been created in each data source
 #' and if it is in a valid form.
 #' @examples 
 #' 

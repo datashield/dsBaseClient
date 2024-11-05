@@ -1,22 +1,22 @@
 #' @title  Converts a server-side  R object into a matrix 
 #' @description Coerces an R object into a matrix. 
 #' This converts all columns into character class. 
-#' @details This function is based on the native R function \code{as.matrix}. 
+#' @details This function is based on the native R function `as.matrix`. 
 #' If this function is applied to a data frame, all columns are converted into a character class.
 #' If you wish to convert a data frame to a matrix but maintain all data columns in their
-#' original class you should use the function \code{ds.asDataMatrix}. 
+#' original class you should use the function `ds.asDataMatrix`. 
 #' 
-#' Server function called: \code{asMatrixDS}
+#' Server function called: `asMatrixDS`
 #' @param x.name a character string providing the name of the input object to be coerced to 
 #' a matrix. 
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the data servers. Default \code{asmatrix.newobj}.
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.asMatrix} returns the object converted into a matrix 
+#'  that is stored on the data servers. Default `asmatrix.newobj`.
+#' @param datasources  a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.asMatrix` returns the object converted into a matrix 
 #' that is written to the server-side. Also, two validity messages are returned
-#' to the client-side indicating the name of the \code{newobj} which 
+#' to the client-side indicating the name of the `newobj` which 
 #' has been created in each data source and if it is in a valid form.
 #' @examples 
 #' \dontrun{

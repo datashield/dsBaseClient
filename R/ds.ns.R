@@ -1,9 +1,9 @@
 #' 
 #' @title Generate a Basis Matrix for Natural Cubic Splines
-#' @description This function is based on the native R function \code{ns} from the
-#' \code{splines} package. This function generate the B-spline basis matrix for a natural
+#' @description This function is based on the native R function `ns` from the
+#' `splines` package. This function generate the B-spline basis matrix for a natural
 #' cubic spline.
-#' @details \code{ns} is native R is based on the function \code{splineDesign}. It generates
+#' @details `ns` is native R is based on the function `splineDesign`. It generates
 #' a basis matrix for representing the family of piecewise-cubic splines with the specified
 #' sequence of interior knots, and the natural boundary conditions. These enforce the constraint
 #' that the function is linear beyond the boundary knots, which can either be supplied or default
@@ -21,10 +21,10 @@
 #' anchor the B-spline basis (default the range of the data). If both knots and Boundary.knots
 #' are supplied, the basis parameters do not depend on x. Data can extend beyond Boundary.knots.
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{ns.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' variable that is stored on the data servers. Default `ns.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @return A matrix of dimension length(x) * df where either df was supplied or if knots were
 #' supplied, df = length(knots) + 1 + intercept. Attributes are returned that correspond to the
 #' arguments to ns, and explicitly give the knots, Boundary.knots etc for use by predict.ns().

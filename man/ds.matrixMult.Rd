@@ -11,30 +11,30 @@ ds.matrixMult(M1 = NULL, M2 = NULL, newobj = NULL, datasources = NULL)
 
 \item{M2}{a character string specifying the name of the second matrix.}
 
-\item{newobj}{a character string that provides the name for the output 
+\item{newobj}{a character string that provides the name for the output
 variable that is stored on the data servers. Default \code{matrixmult.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.matrixMult} returns to the server-side 
+\code{ds.matrixMult} returns to the server-side
 the result of the two matrix multiplication.
-Also, two validity messages are returned to the client-side 
+Also, two validity messages are returned to the client-side
 indicating whether the new object  has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
-Calculates the matrix product of two matrices and 
+Calculates the matrix product of two matrices and
 writes output to the server-side.
 }
 \details{
-Undertakes standard matrix multiplication wherewith input matrices 
-\code{A} and \code{B} with dimensions \code{A: m x n} and \code{B: n x p} 
-the output matrix \code{C} has dimensions \code{m x p}. This calculation
-is only valid if the number of columns of \code{A} 
-is the same as the number of rows of \code{B}. 
+Undertakes standard matrix multiplication wherewith input matrices
+\code{A} and \code{B} with dimensions \verb{A: m x n} and \verb{B: n x p}
+the output matrix \code{C} has dimensions \verb{m x p}. This calculation
+is only valid if the number of columns of \code{A}
+is the same as the number of rows of \code{B}.
 
 Server function called: \code{matrixMultDS}
 }

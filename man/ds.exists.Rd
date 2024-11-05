@@ -9,22 +9,22 @@ ds.exists(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string providing the name of the object to look for.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.exists} returns a logical object. 
+\code{ds.exists} returns a logical object.
 TRUE if the object is on the server-side and FALSE otherwise.
 }
 \description{
-Looks if an R object of the given name is defined on the server-side. 
+Looks if an R object of the given name is defined on the server-side.
 This function is similar to the R function \code{exists}.
 }
 \details{
 In DataSHIELD it is not possible to see the data on the servers
 of the collaborating studies. It is only possible to get summaries of objects stored on the
-server-side. 
+server-side.
 It is however important to know if an object is defined (i.e. exists) on the server-side.
 This function checks if an object does exist on the server-side.
 
@@ -71,11 +71,11 @@ Server function called: \code{exists}
 
 }
 \seealso{
-\code{\link{ds.class}} to check the type of an object.
+\code{\link[=ds.class]{ds.class()}} to check the type of an object.
 
-\code{\link{ds.length}} to check the length of an object.
+\code{\link[=ds.length]{ds.length()}} to check the length of an object.
 
-\code{\link{ds.dim}} to check the dimension of an object.
+\code{\link[=ds.dim]{ds.dim()}} to check the dimension of an object.
 }
 \author{
 DataSHIELD Development Team

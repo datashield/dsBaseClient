@@ -15,78 +15,75 @@ ds.seq(
 )
 }
 \arguments{
-\item{FROM.value.char}{an integer or a number in character from specifying 
-the starting value for the sequence. 
+\item{FROM.value.char}{an integer or a number in character from specifying
+the starting value for the sequence.
 Default \code{"1"}.}
 
-\item{BY.value.char}{an integer or a number in character from specifying 
+\item{BY.value.char}{an integer or a number in character from specifying
 the value to increment each step in the sequence.
 Default \code{"1"}.}
 
-\item{TO.value.char}{an integer or a number in character from specifying 
+\item{TO.value.char}{an integer or a number in character from specifying
 the terminal value for the sequence.
-Default NULL. 
+Default NULL.
 For more information see \strong{Details}.}
 
-\item{LENGTH.OUT.value.char}{an integer or a number in character from specifying 
+\item{LENGTH.OUT.value.char}{an integer or a number in character from specifying
 the length of the sequence at which point
 its extension should be stopped.
-Default NULL. 
+Default NULL.
 For more information see \strong{Details}.}
 
-\item{ALONG.WITH.name}{a character string specifying the name of a standard vector 
-to generate a vector of the same length. 
+\item{ALONG.WITH.name}{a character string specifying the name of a standard vector
+to generate a vector of the same length.
 For more information see \strong{Details}.}
 
-\item{newobj}{a character string that provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Default \code{seq.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.seq} returns to the server-side the generated sequence. 
-Also, two validity messages are returned to the client-side 
+\code{ds.seq} returns to the server-side the generated sequence.
+Also, two validity messages are returned to the client-side
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
-This function generates a sequence for given parameters 
+This function generates a sequence for given parameters
 on the server-side.
 }
 \details{
-This function is similar to a native R function \code{seq()}. 
+This function is similar to a native R function \code{seq()}.
 It creates a flexible range of sequence vectors that can then be used to help
-manage and analyse data. 
+manage and analyse data.
 
 \strong{Note}: the combinations of arguments that are not allowed
-for the function \code{seq} in native R are also prohibited in \code{ds.seq}. 
- 
-To be specific, \code{FROM.value.char} argument 
+for the function \code{seq} in native R are also prohibited in \code{ds.seq}.
+
+To be specific, \code{FROM.value.char} argument
 defines the start of the sequence and \code{BY.value.char} defines how
 the sequence is incremented (or decremented) at each step. But where the
 sequence stops can be defined in three different ways:\cr
-(1) \code{TO.value.char} indicates the terminal value of the sequence. 
-For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2",
-TO.value.char = "7")}  creates the sequence \code{3,5,7} on the server-side.\cr
-(2) \code{LENGTH.OUT.value.char} indicates the length of the sequence. 
-For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2", 
-LENGTH.OUT.value.char = "7")} 
-creates the sequence \code{3,5,7,9,11,13,15} on the server-side.\cr
+(1) \code{TO.value.char} indicates the terminal value of the sequence.
+For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2", TO.value.char = "7")}  creates the sequence \verb{3,5,7} on the server-side.\cr
+(2) \code{LENGTH.OUT.value.char} indicates the length of the sequence.
+For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2",  LENGTH.OUT.value.char = "7")}
+creates the sequence \verb{3,5,7,9,11,13,15} on the server-side.\cr
 (3) \code{ALONG.WITH.name} specifies the name of a variable on the server-side,
 such that the sequence in each study will be equal in length to that variable.
-For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2", 
-ALONG.WITH.name = "var.x")}
+For example, \code{ds.seq(FROM.value.char = "3", BY.value.char = "2",  ALONG.WITH.name = "var.x")}
 creates a sequence such that if \code{var.x} is of length 100 in study 1 the
-sequence written to study 1 will be \code{3,5,7,...,197,199,201} and if \code{var.x} is
-of length 4 in study 2, the sequence written to study 2 will be \code{3,5,7,9}.\cr
+sequence written to study 1 will be \verb{3,5,7,...,197,199,201} and if \code{var.x} is
+of length 4 in study 2, the sequence written to study 2 will be \verb{3,5,7,9}.\cr
 Only one of the three arguments: \code{TO.value.char},
 \code{LENGTH.OUT.value.char} and \code{ALONG.WITH.name} can be non-null in any one call.
 
-In \code{LENGTH.OUT.value.char} argument if you specify a number with a decimal point but 
+In \code{LENGTH.OUT.value.char} argument if you specify a number with a decimal point but
 in character form this result in a sequence \code{length(integer) + 1}.
-For example, \code{LENGTH.OUT.value.char = "1000.0001"} 
+For example, \code{LENGTH.OUT.value.char = "1000.0001"}
 generates a sequence of length 1001.
 
 Server function called: \code{seqDS}

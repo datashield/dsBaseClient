@@ -15,13 +15,13 @@ ds.boxPlotGG(
 )
 }
 \arguments{
-\item{x}{\code{character} Name on the server side of the data frame to form a boxplot. Structure on the server 
+\item{x}{\code{character} Name on the server side of the data frame to form a boxplot. Structure on the server
 of this object must be: \cr
 
- Column 'x': Names on the X axis of the boxplot, aka variables to plot \cr
- Column 'value': Values for that variable (raw data of columns rbinded) \cr
- Column 'group': (Optional) Values of the grouping variable \cr
- Column 'group2': (Optional) Values of the second grouping variable \cr}
+Column 'x': Names on the X axis of the boxplot, aka variables to plot \cr
+Column 'value': Values for that variable (raw data of columns rbinded) \cr
+Column 'group': (Optional) Values of the grouping variable \cr
+Column 'group2': (Optional) Values of the second grouping variable \cr}
 
 \item{group}{\code{character} (default \code{NULL}) Name of the first grouping variable.}
 
@@ -34,7 +34,7 @@ of this object must be: \cr
 \item{type}{\code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 \code{"split"})}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 \code{ggplot} object

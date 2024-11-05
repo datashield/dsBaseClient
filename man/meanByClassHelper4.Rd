@@ -13,7 +13,7 @@ meanByClassHelper4(
 )
 }
 \arguments{
-\item{dtsource}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{dtsource}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login. If the \if{html}{\out{<datasources>}}
 the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{alist}{the name of the list that holds the final subset tables}

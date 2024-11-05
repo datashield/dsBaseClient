@@ -7,7 +7,7 @@
 isAssigned(datasources = NULL, newobj = NULL)
 }
 \arguments{
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login. If the \if{html}{\out{<datasources>}}
 the default set of connections will be used: see \link{datashield.connections_default}.}
 
 \item{newobj}{a character, the name the object to look for.}

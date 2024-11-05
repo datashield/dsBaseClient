@@ -1,21 +1,21 @@
 #'
 #' @title Ensures that the requested subset is not larger than the original object
 #' @description Compares subset and original object sizes and eventually carries out subsetting. 
-#' @details This function is called by the function \code{ds.subset} to ensure that the requested subset
+#' @details This function is called by the function `ds.subset` to ensure that the requested subset
 #' is not larger than the original object.
 #' 
 #' This function is internal.
 #' 
-#' Server function called: \code{dimDS}
-#' @param dts a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' Server function called: `dimDS`
+#' @param dts a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @param data a character string specifying the name of the data frame or
 #' the factor vector and the range of the subset.
 #' @param rs a vector of two integers specifying the indices of the rows de extract.
 #' @param cs a vector of two integers or one or more characters.
 #' @keywords internal
-#' @return \code{subsetHelper} returns a message or the class of the object if the 
+#' @return `subsetHelper` returns a message or the class of the object if the 
 #' object has the same class in all studies.
 #' @examples
 #' \dontrun{

@@ -16,8 +16,8 @@ ds.bp_standards(
 }
 \arguments{
 \item{sex}{the name of the sex variable. The variable should be coded as 1 for males
-and 2 for females. If it is coded differently (e.g. 0/1), then you can use the 
-ds.recodeValues function to recode the categories to 1/2 before the use of 
+and 2 for females. If it is coded differently (e.g. 0/1), then you can use the
+ds.recodeValues function to recode the categories to 1/2 before the use of
 ds.bp_standards}
 
 \item{age}{the name of the age variable in years.}
@@ -26,25 +26,25 @@ ds.bp_standards}
 
 \item{bp}{the name of the blood pressure variable.}
 
-\item{systolic}{logical. If TRUE (default) the function assumes conversion of 
-systolic blood pressure. If FALSE the function assumes conversion of diastolic 
+\item{systolic}{logical. If TRUE (default) the function assumes conversion of
+systolic blood pressure. If FALSE the function assumes conversion of diastolic
 blood pressure.}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default name is set to \code{bp.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link{datashield.connections_default}}.}
+used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-assigns a new object on the server-side. The assigned object is a list 
+assigns a new object on the server-side. The assigned object is a list
 with two elements: the 'Zbp' which is the zscores of the blood pressure and 'perc'
 which is the percentiles of the BP zscores.
 }
 \description{
 The function calculates blood pressure z-scores in two steps:
-Step 1. Calculates z-score of height according to CDC growth chart (Not the 
+Step 1. Calculates z-score of height according to CDC growth chart (Not the
 WHO growth chart!). Step 2. Calculates z-score of BP according to the fourth
 report on BP management, USA
 }

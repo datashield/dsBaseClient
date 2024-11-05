@@ -9,30 +9,30 @@ ds.skewness(x = NULL, method = 1, type = "both", datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the name of a numeric variable.}
 
-\item{method}{an integer value between 1 and 3 selecting one of the algorithms for computing skewness. 
+\item{method}{an integer value between 1 and 3 selecting one of the algorithms for computing skewness.
 For more information see \strong{Details}. The default value is set to 1.}
 
-\item{type}{a character string which represents the type of analysis to carry out. 
+\item{type}{a character string which represents the type of analysis to carry out.
 \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
-see \strong{Details}. 
+see \strong{Details}.
 The default value is set to \code{'both'}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
 the number of valid observations and the validity message.
 }
 \description{
-This function calculates the skewness of a numeric variable 
+This function calculates the skewness of a numeric variable
 that is stored on the server-side (Opal server).
 }
 \details{
 This function is similar to the function \code{skewness} in R package \code{e1071}.
 
-The function calculates the skewness of an input variable \code{x} 
+The function calculates the skewness of an input variable \code{x}
 with three different methods: \cr
 (1)  If \code{method} is set to 1 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
 where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations.\cr
@@ -41,14 +41,14 @@ the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x
 (3) If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
 
 The \code{type} argument can be set as follows:\cr
-(1) If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'}, 
+(1) If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
 the global skewness is returned.\cr
-(2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+(2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
 the skewness is returned separately for each study.\cr
 (3) If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.\cr
 
 If \code{x} contains any missing value, the function removes those before
-the calculation of the skewness. 
+the calculation of the skewness.
 
 Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
 }

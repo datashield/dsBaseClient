@@ -6,14 +6,14 @@
 #' and the server-side function loops through that list to 
 #' concatenate the list's elements into a vector.
 #' 
-#' Server function called: \code{cDS}
+#' Server function called: `cDS`
 #' @param x  a vector of character string providing the names of the objects to be combined.
 #' @param newobj a character string that provides the name for the output object 
-#' that is stored on the data servers. Default \code{c.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return  \code{ds.c} returns the vector of concatenating R
+#' that is stored on the data servers. Default `c.newobj`.
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return  `ds.c` returns the vector of concatenating R
 #'  objects which are written to the server-side.
 #' @examples 
 #' \dontrun{

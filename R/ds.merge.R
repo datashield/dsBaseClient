@@ -1,16 +1,16 @@
 #' @title Merges two data frames in the server-side
 #' @description Merges (links) two data frames together based on common
 #' values in defined vectors in each data frame. 
-#' @details This function is similar to the native R function \code{merge}.
+#' @details This function is similar to the native R function `merge`.
 #' There are some changes compared with the native R function 
-#' in choosing which variables to use to merge the data frames, the function \code{merge}
+#' in choosing which variables to use to merge the data frames, the function `merge`
 #' is very flexible. For example, you can choose to merge
-#' using all vectors that appear in both data frames. However, for \code{ds.merge}
+#' using all vectors that appear in both data frames. However, for `ds.merge`
 #' in DataSHIELD it is required that all the vectors which dictate the merging
-#' are explicitly identified for both data frames using the \code{by.x.names} and
-#' \code{by.y.names} arguments. 
+#' are explicitly identified for both data frames using the `by.x.names` and
+#' `by.y.names` arguments. 
 #' 
-#' Server function called: \code{mergeDS}
+#' Server function called: `mergeDS`
 #' @param x.name a character string specifying the name of the
 #' first data frame to be merged. The length of the string should be less than the 
 #' specified threshold for the nfilter.stringShort which is one of the disclosure 
@@ -20,19 +20,19 @@
 #' specified threshold for the nfilter.stringShort which is one of the disclosure 
 #' prevention checks in DataSHIELD.
 #' @param by.x.names a character string  or a vector of names specifying 
-#' of the column(s) in data frame \code{x.name} for merging. 
+#' of the column(s) in data frame `x.name` for merging. 
 #' @param by.y.names a character string  or a vector of names specifying 
-#' of the column(s) in data frame \code{y.name} for merging. 
+#' of the column(s) in data frame `y.name` for merging. 
 #' @param all.x logical. If TRUE then extra rows will be added to the output,
-#' one for each row in \code{x.name} that has no matching row in \code{y.name}. 
+#' one for each row in `x.name` that has no matching row in `y.name`. 
 #' If FALSE the rows with data from both data frames are included in the output.
 #' Default FALSE. 
 #' @param all.y logical. If TRUE then extra rows will be added to the output,
-#' one for each row in \code{y.name} that has no matching row in \code{x.name}. 
+#' one for each row in `y.name` that has no matching row in `x.name`. 
 #' If FALSE the rows with data from both data frames are included in the output.
 #' Default FALSE. 
 #' @param sort logical. If TRUE the merged result is sorted on elements
-#' in the \code{by.x.names} and \code{by.y.names} columns. Default TRUE.
+#' in the `by.x.names` and `by.y.names` columns. Default TRUE.
 #' @param suffixes a character vector of length 2 specifying the suffixes to be used for
 #' making unique common column names in the two input data frames
 #' when they both appear in the merged data frame. 
@@ -42,13 +42,13 @@
 #' @param incomparables values that cannot be matched. This is intended to 
 #' be used for merging on
 #' one column, so these are incomparable values of that column.
-#' For more information see \code{match} in native R \code{merge} function. 
+#' For more information see `match` in native R `merge` function. 
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{merge.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.merge} returns the merged data frame that is written on the server-side. 
+#' variable that is stored on the data servers. Default `merge.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.merge` returns the merged data frame that is written on the server-side. 
 #' Also, two validity messages are returned to the client-side
 #' indicating whether the new object has been created in each data source and if so whether
 #' it is in a valid form. 
