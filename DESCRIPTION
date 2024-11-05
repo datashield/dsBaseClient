@@ -20,7 +20,7 @@ Imports:
     assertthat,
     cli,
     purrr,
-    stringr
+    stringr,
     dplyr,
     lifecycle
 Suggests:
