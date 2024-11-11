@@ -1,0 +1,43 @@
+# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+
+version: 2.1
+
+jobs:
+  dsbaseclient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layout_caching: true
+      - run: |
+          echo "Building"
+          echo "  Repo Name: " $CIRCLE_PROJECT_REPONAME
+          echo "  Branch:    " $CIRCLE_BRANCH
+          echo "  Tag:       " $CIRCLE_TAG
+      - run:
+          command: |
+              sudo apt-get update -y
+              sudo apt-get install -y r-base-core cmake
+      - run:
+          command: |
+              sudo apt-get install -y libxml2-dev
+      - run:
+          command: |
+              sudo Rscript -e "install.packages('fields', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('metafor', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('meta', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('ggplot2', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('gridExtra', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('data.table', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('panelaggregation', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('methods', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
+      - run:
+          command: |
+              sudo Rscript -e 'library(covr); covr::codecov(token = "'$CODECOV_TOKEN'")'
+workflows:
+  build:
+    jobs:
+      - dsbaseclient
