@@ -173,7 +173,7 @@ which simply means fit an LME with \code{y} as the outcome variable with \code{a
 as fixed effects, and \code{c} as a random effect or grouping factor.
 
 It is also possible to fit models with random slopes by specifying a model such as 
-\deqn{y ~ a + b + (1 + b | c)} 
+\deqn{y ~ a + b + (1 + b | c)}
 where the effect of \code{b} can vary randomly between groups defined by \code{c}.
 Implicit nesting can be specified with formulae such as \eqn{y ~ a + b + (1 | c / d)}
 or \eqn{y ~ a + b + (1 | c) + (1 | c : d)}.
@@ -181,7 +181,7 @@ or \eqn{y ~ a + b + (1 | c) + (1 | c : d)}.
 The \code{dataName} argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula. 
 For example, if the data frame is called \code{DataFrame} you avoid having to write: 
-\eqn{DataFrame$y ~ DataFrame$a + DataFrame$b + (1 | DataFrame$c)}.
+\eqn{DataFrame\$y ~ DataFrame\$a + DataFrame\$b + (1 | DataFrame\$c)}.
 
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-site at every study
