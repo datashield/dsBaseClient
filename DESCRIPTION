@@ -6,7 +6,7 @@ Maintainer: DataSHIELD Developers <datashield@liverpool.ac.uk>
 Description: DataSHIELD client functions for the client side.
 License: GPL-3
 Depends:
-    R (>= 4.4.0),
+    R (>= 4.0.0),
     DSI (>= 1.7.1)
 Imports:
     fields,
