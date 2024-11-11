@@ -249,7 +249,7 @@ or \(y~a+b+(1|c)+(1|c:d)\).</p>
 <p>The <code>dataName</code> argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula.
 For example, if the data frame is called <code>DataFrame</code> you avoid having to write:
-\(DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)\).</p>
+\(DataFrame$y ~ DataFrame$a + DataFrame$b + (1 | DataFrame$c)\).</p>
 <p>The <code>checks</code> argument verifies that the variables in the model are all defined (exist)
 on the server-site at every study
 and that they have the correct characteristics required to fit the model.
