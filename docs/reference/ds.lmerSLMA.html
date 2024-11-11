@@ -229,18 +229,18 @@ LMEs using the <code>lmer</code> function can be
 obtained using R help for <code>lmer</code> and the <code>lme4</code> package.</p>
 <p>In <code>formula</code> most shortcut notation allowed by  <code>lmer()</code> function is
 also allowed by <code>ds.lmerSLMA</code>. Many LMEs can be fitted very simply using a formula like:
-$$y~a+b+(1|c)$$
+$$y ~ a + b + (1 | c)$$
 which simply means fit an LME with <code>y</code> as the outcome variable with <code>a</code> and <code>b</code>
 as fixed effects, and <code>c</code> as a random effect or grouping factor.</p>
 <p>It is also possible to fit models with random slopes by specifying a model such as
-$$y~a+b+(1+b|c)$$
+$$y ~ a + b + (1 + b | c)$$
 where the effect of <code>b</code> can vary randomly between groups defined by <code>c</code>.
-Implicit nesting can be specified with formulae such as \(y~a+b+(1|c/d)\)
-or \(y~a+b+(1|c)+(1|c:d)\).</p>
+Implicit nesting can be specified with formulae such as \(y ~ a + b + (1 | c / d)\)
+or \(y ~ a + b + (1 | c) + (1 | c : d)\).</p>
 <p>The <code>dataName</code> argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula.
 For example, if the data frame is called <code>DataFrame</code> you avoid having to write:
-\(DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)\).</p>
+\(DataFrame$y ~ DataFrame$a + DataFrame$b + (1 | DataFrame$c)\).</p>
 <p>The <code>checks</code> argument verifies that the variables in the model are all defined (exist)
 on the server-site at every study
 and that they have the correct characteristics required to fit the model.
@@ -311,7 +311,7 @@ the development team can activate this argument so alternatives can be specified
 <span class="r-in"><span> </span></span>
 <span class="r-in"><span>  <span class="co"># Fit the lmer</span></span></span>
 <span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="fu">ds.lmerSLMA</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"BMI ~  incid_rate + diabetes + (1 | Male)"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">ds.lmerSLMA</span><span class="op">(</span>formula <span class="op">=</span> <span class="st">"BMI ~ incid_rate + diabetes + (1 | Male)"</span>,</span></span>
 <span class="r-in"><span>               dataName <span class="op">=</span> <span class="st">"D.comp"</span>,</span></span>
 <span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>

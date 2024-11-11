@@ -185,7 +185,7 @@ or \eqn{y~a+b+(1|c)+(1|c:d)}.
 The \code{dataName} argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula. 
 For example, if the data frame is called \code{DataFrame} you avoid having to write: 
-\eqn{DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)}.
+\eqn{DataFrame\$y ~ DataFrame\$a + DataFrame\$b + (1 | DataFrame\$c)}.
 
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-site at every study
