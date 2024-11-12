@@ -91,7 +91,7 @@
 #' relatively widely.
 #' 
 #' The standard models include:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
 #'    \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
@@ -134,7 +134,7 @@
 #' The \code{dataName} argument avoids you having to specify the name of the
 #' data frame in front of each covariate in the formula. 
 #' For example, if the data frame is called \code{DataFrame} you
-#' avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
+#' avoid having to write: \eqn{DataFrame\$y ~ DataFrame\$a + DataFrame\$b + DataFrame\$c + DataFrame\$d}
 #' 
 #' The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 #' on the server-site at every study
@@ -199,7 +199,7 @@
 #' a series of other list objects that represent inferences aggregated across studies.
 #' @return the study specific items include: 
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 

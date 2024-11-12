@@ -100,7 +100,7 @@ In this case, only non-disclosive elements are returned from each study separate
 The list of elements returned by \code{ds.glmerSLMA} is mentioned below:
 
 \code{coefficients}: a matrix with 5 columns:
-   \itemize{
+   \describe{
    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
    \item{second}{: the estimated values} 
    \item{third}{: corresponding standard errors of the estimated values} 
@@ -185,7 +185,7 @@ or \eqn{y~a+b+(1|c)+(1|c:d)}.
 The \code{dataName} argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula. 
 For example, if the data frame is called \code{DataFrame} you avoid having to write: 
-\eqn{DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)}.
+\eqn{DataFrame\$y ~ DataFrame\$a + DataFrame\$b + (1 | DataFrame\$c)}.
 
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-site at every study
@@ -195,7 +195,7 @@ problem in the model fit is encountered because the running process takes severa
 
 
 In the \code{family} argument can be specified two types of models to fit:
- \itemize{
+ \describe{
    \item{\code{"binomial"}}{: logistic regression models}
    \item{\code{"poisson"}}{: poisson regression models}
 }
