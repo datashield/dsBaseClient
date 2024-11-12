@@ -23,6 +23,14 @@ jobs:
       - run:
           command: |
               sudo apt-get install -y libxml2-dev
+              sudo apt-get install -y libfontconfig1-dev
+              sudo apt-get install -y libudunits2-dev
+              sudo apt-get install -y libharfbuzz-dev
+              sudo apt-get install -y libfribidi-dev
+              sudo apt-get install -y libfreetype6-dev
+              sudo apt-get install -y libpng-dev
+              sudo apt-get install -y libtiff5-dev
+              sudo apt-get install -y libjpeg-dev
       - run:
           command: |
               sudo Rscript -e "install.packages('fields', dependencies=TRUE)"
@@ -36,7 +44,7 @@ jobs:
               sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
       - run:
           command: |
-              sudo Rscript -e 'library(covr); covr::codecov(token = "'$CODECOV_TOKEN'")'
+              sudo Rscript -e 'library(covr); covr::codecov(token = "'$CODECOV_TOKEN'", quiet=FALSE)'
 workflows:
   build:
     jobs:
