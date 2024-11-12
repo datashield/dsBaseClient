@@ -27,6 +27,10 @@ jobs:
               sudo apt-get install -y libudunits2-dev
               sudo apt-get install -y libharfbuzz-dev
               sudo apt-get install -y libfribidi-dev
+              sudo apt-get install -y libfreetype6-dev
+              sudo apt-get install -y libpng-dev
+              sudo apt-get install -y libtiff5-dev
+              sudo apt-get install -y libjpeg-dev
       - run:
           command: |
               sudo Rscript -e "install.packages('fields', dependencies=TRUE)"
