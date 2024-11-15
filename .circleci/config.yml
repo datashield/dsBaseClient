@@ -22,8 +22,16 @@ jobs:
               sudo apt-get install -y r-base-core cmake
       - run:
           command: |
-              sudo apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev
-              sudo apt-get install -y libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev
+              sudo apt-get install -y libxml2-dev
+              sudo apt-get install -y libfontconfig1-dev
+              sudo apt-get install -y libudunits2-dev
+              sudo apt-get install -y libharfbuzz-dev
+              sudo apt-get install -y libfribidi-dev
+              sudo apt-get install -y libfreetype6-dev
+              sudo apt-get install -y libpng-dev
+              sudo apt-get install -y libtiff5-dev
+              sudo apt-get install -y libjpeg-dev
+
       - run:
           command: |
               sudo Rscript -e "install.packages('devtools', dependencies=TRUE)"
@@ -58,7 +66,6 @@ jobs:
               sudo Rscript -e "install.packages('mice', dependencies=TRUE)"
               sudo Rscript -e "install.packages('childsds', dependencies=TRUE)"
               sudo Rscript -e "install.packages('xml2', dependencies=TRUE)"
-              sudo Rscript -e "install.packages('covr', dependencies=TRUE)"
       - run:
           command: |
               sudo Rscript -e 'library(covr); options("default_driver"="DSLiteDriver"); covr::codecov(token="'$CODECOV_TOKEN'", quiet=FALSE)'
