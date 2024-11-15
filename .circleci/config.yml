@@ -5,7 +5,8 @@ version: 2.1
 jobs:
   dsbaseclient:
     docker:
-      - image: cimg/base:current
+#      - image: cimg/base:current
+      - image: cimg/base:2024.11
     resource_class: small
     steps:
       - checkout
