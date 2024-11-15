@@ -6,7 +6,7 @@ jobs:
   dsbaseclient:
     docker:
 #      - image: cimg/base:current
-      - image: ubuntu:2404
+      - image: cimg/base:2024.11
     resource_class: small
     steps:
       - checkout
