@@ -19,6 +19,7 @@ jobs:
           echo "  Tag:       " $CIRCLE_TAG
       - run:
           command: |
+              sudo dep https://cloud.r-project.org/bin/linux/ubuntu-noble-cran40/
               sudo apt-get update -y
               sudo apt-get install -y r-base-core cmake
       - run:
