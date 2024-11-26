@@ -19,6 +19,8 @@ Imports:
     methods,
     dplyr
 Suggests:
-    testthat
+    testthat,
+    e1071,
+    DescTools
 RoxygenNote: 7.3.2
 Encoding: UTF-8
