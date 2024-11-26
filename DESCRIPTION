@@ -21,6 +21,9 @@ Imports:
 Suggests:
     testthat,
     e1071,
-    DescTools
+    DescTools,
+    DSOpal,
+    DSMolgenisArmadillo,
+    DSLite
 RoxygenNote: 7.3.2
 Encoding: UTF-8
