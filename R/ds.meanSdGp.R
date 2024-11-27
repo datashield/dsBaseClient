@@ -6,70 +6,70 @@
 #' and the standard error of the mean (SEM) of a continuous variable broken down into subgroups
 #' defined by a single factor. 
 #' 
-#' There are important differences between \code{ds.meanSdGp} function compared to 
-#' the function \code{ds.meanByClass}:
+#' There are important differences between `ds.meanSdGp` function compared to 
+#' the function `ds.meanByClass`:
 #' 
-#' (A) \code{ds.meanSdGp} does not actually subset the data it simply calculates the required statistics
+#' (A) `ds.meanSdGp` does not actually subset the data it simply calculates the required statistics
 #' and reports them. This means you cannot use this function if you wish to physically break the
-#' data into subsets. On the other hand, it makes the function very much faster than \code{ds.meanByClass}
+#' data into subsets. On the other hand, it makes the function very much faster than `ds.meanByClass`
 #' if you do not need to create physical subsets. \cr
-#' (B) \code{ds.meanByClass} allows you to specify up to
-#' three categorising factors, but \code{ds.meanSdGp} only allows one. However, this is not a serious
-#' problem. If you have two factors (e.g. sex with two levels \code{[0,1]} and \code{BMI.categorical} with
-#' three levels \code{[1,2,3]}) you simply need to create a new factor that combines the two together in a
+#' (B) `ds.meanByClass` allows you to specify up to
+#' three categorising factors, but `ds.meanSdGp` only allows one. However, this is not a serious
+#' problem. If you have two factors (e.g. sex with two levels `[0,1]` and `BMI.categorical` with
+#' three levels `[1,2,3]`) you simply need to create a new factor that combines the two together in a
 #' way that gives each combination of levels a different value in the new factor. So, in the
-#' example given, the calculation \code{newfactor = (3*sex) + BMI} gives you six values: \cr
-#' (1) \code{sex = 0} and \code{BMI = 1} -> \code{newfactor = 1} \cr
-#' (2) \code{sex = 0} and \code{BMI = 2} -> \code{newfactor = 2} \cr
-#' (3) \code{sex = 0} and \code{BMI = 3} -> \code{newfactor = 3} \cr
-#' (4) \code{sex = 1} and \code{BMI = 1} -> \code{newfactor = 4} \cr
-#' (5) \code{sex = 1} and \code{BMI = 2} -> \code{newfactor = 5} \cr
-#' (6) \code{sex = 1} and \code{BMI = 3} -> \code{newfactor = 6} \cr
+#' example given, the calculation `newfactor = (3*sex) + BMI` gives you six values: \cr
+#' (1) `sex = 0` and `BMI = 1` -> `newfactor = 1` \cr
+#' (2) `sex = 0` and `BMI = 2` -> `newfactor = 2` \cr
+#' (3) `sex = 0` and `BMI = 3` -> `newfactor = 3` \cr
+#' (4) `sex = 1` and `BMI = 1` -> `newfactor = 4` \cr
+#' (5) `sex = 1` and `BMI = 2` -> `newfactor = 5` \cr
+#' (6) `sex = 1` and `BMI = 3` -> `newfactor = 6` \cr
 #' 
-#' (C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the 
+#' (C) At present, `ds.meanByClass` calculates the sample size in each group to mean the 
 #' total sample size (i.e. it
 #' includes all observations in each group regardless of whether or not they include missing values
 #' for the continuous variable or the factor). The calculation of sample size in each group by
-#' \code{ds.meanSdGp} always reports the number of observations that are non-missing both for the
-#' continuous variable and the factor. This makes sense - in the case of \code{ds.meanByClass},
+#' `ds.meanSdGp` always reports the number of observations that are non-missing both for the
+#' continuous variable and the factor. This makes sense - in the case of `ds.meanByClass`,
 #' the total size of the physical subsets was important, 
-#' but when it comes down only to \code{ds.meanSdGp} which
+#' but when it comes down only to `ds.meanSdGp` which
 #' undertakes analysis without physical subsetting,  it is only the observations with non-missing
 #' values in both variables that contribute to the calculation of means and SDs within each group
-#' and so it is logical to consider those counts as primary. The only reference \code{ds.meanSdGp} makes
-#' to missing counts is in the reporting of \code{Ntotal} and \code{Nmissing} overall (ie not broken down by
+#' and so it is logical to consider those counts as primary. The only reference `ds.meanSdGp` makes
+#' to missing counts is in the reporting of `Ntotal` and `Nmissing` overall (ie not broken down by
 #' group). 
 #' 
-#' For the future, we plan to extend \code{ds.meanByClass} to report both total and non-missing
+#' For the future, we plan to extend `ds.meanByClass` to report both total and non-missing
 #' counts in subgroups.
 #' 
-#' Depending on the variable \code{type} can be carried out different analysis:\cr
-#' (1) \code{"combine"}: a pooled table of results is generated. \cr
-#' (2) \code{"split"} a table of results is generated for each study. \cr
-#' (3) \code{"both"} both sets of outputs are produced.
+#' Depending on the variable `type` can be carried out different analysis:\cr
+#' (1) `"combine"`: a pooled table of results is generated. \cr
+#' (2) `"split"` a table of results is generated for each study. \cr
+#' (3) `"both"` both sets of outputs are produced.
 #' 
-#' Server function called: \code{meanSdGpDS}
+#' Server function called: `meanSdGpDS`
 #' @param x a character string specifying the name of a numeric continuous
 #' variable.
 #' @param y  a character string specifying the name of a categorical
 #' variable of class factor.
 #' @param type a character string that represents the type of analysis to carry out.
-#' This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}. 
-#' Default \code{"both"}. 
-#' For more information see \strong{Details}.  
+#' This can be set as: `"combine"`, `"split"` or `"both"`. 
+#' Default `"both"`. 
+#' For more information see **Details**.  
 #' @param do.checks logical. If TRUE the administrative checks
 #' are undertaken to ensure that the input objects are defined in all studies and that the
 #' variables are of equivalent class in each study. 
 #' Default is FALSE to save time.  
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.meanSdGp} returns to the client-side the mean, SD, Nvalid and SEM combined
-#' across studies and/or separately for each study, depending on the argument \code{type}. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.meanSdGp` returns to the client-side the mean, SD, Nvalid and SEM combined
+#' across studies and/or separately for each study, depending on the argument `type`. 
 #' 
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
+#' @seealso [ds.subsetByClass()] to subset by the classes of factor vector(s).
+#' @seealso [ds.subset()] to subset by complete cases (i.e. removing missing values), threshold,
 #' columns and rows.
 #' @export
 #' @examples

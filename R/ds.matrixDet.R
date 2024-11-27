@@ -5,18 +5,18 @@
 #' possible if the number of columns and rows of the matrix are the same.
 #' 
 #' @details Calculates the determinant of a square matrix on the server-side.
-#' This function is similar to the native R \code{determinant} function.
+#' This function is similar to the native R `determinant` function.
 #' 
-#' Server function called: \code{matrixDetDS2}
+#' Server function called: `matrixDetDS2`
 #' @param M1  a character string specifying the name of the matrix. 
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default \code{matrixdet.newobj}. 
+#' variable that is stored on the data servers. Default `matrixdet.newobj`. 
 #' @param logarithm logical. If TRUE the logarithm of the modulus of the determinant
 #' is calculated. Default FALSE. 
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.matrixDet} returns the determinant of an existing matrix on the server-side. 
+#' @param datasources  a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.matrixDet` returns the determinant of an existing matrix on the server-side. 
 #' The created new object is stored on the server-side. 
 #' Also, two validity messages are returned
 #' indicating whether the matrix has been created in each data source and if so whether

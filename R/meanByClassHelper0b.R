@@ -6,11 +6,11 @@
 #' @param x a character, the name of the dataset to get the subsets from.
 #' @param outvar a character vector, the names of the continuous variables
 #' @param covar a character vector, the names of up to 3 categorical variables
-#' @param type a character which represents the type of analysis to carry out. If \code{type} is set to
-#' 'combine', a pooled table of results is generated. If \code{type} is set to 'split', a table of results
+#' @param type a character which represents the type of analysis to carry out. If `type` is set to
+#' 'combine', a pooled table of results is generated. If `type` is set to 'split', a table of results
 #' is genrated for each study.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see [datashield.connections_default].
 #' @return a table or a list of tables that hold the length of the numeric variable(s) and their mean
 #' and standard deviation in each subgroup (subset).
 #' @keywords internal

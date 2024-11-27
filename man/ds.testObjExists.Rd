@@ -9,14 +9,14 @@ ds.testObjExists(test.obj.name = NULL, datasources = NULL)
 \arguments{
 \item{test.obj.name}{a character string specifying the name of the object to search.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.testObjExists} returns a list of messages specifying that the object exists
 on the server-side.
-If the specified object does not exist in at least one 
+If the specified object does not exist in at least one
 of the specified data sources or it exists but is of
 class NULL, the function returns an error message specifying that
 the object does not exist in all data sources.
@@ -28,7 +28,7 @@ specified set of data servers.
 \details{
 Close copies of the code in this function
 are embedded into other functions that create an object and you then wish to test whether it has successfully
-been created e.g. \code{ds.make} or \code{ds.asFactor}. 
+been created e.g. \code{ds.make} or \code{ds.asFactor}.
 
 Server function called: \code{testObjExistsDS}
 }

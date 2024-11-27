@@ -22,7 +22,7 @@ ds.igb_standards(
 \item{z}{z-score(s) to convert (must be between 0 and 1). Default value is 0.
 This value is used only if \code{fun} is set to "igb_zscore2value".}
 
-\item{p}{centile(s) to convert (must be between 0 and 100). Default value is p=50. 
+\item{p}{centile(s) to convert (must be between 0 and 100). Default value is p=50.
 This value is used only if \code{fun} is set to "igb_centile2value".}
 
 \item{val}{the name of the anthropometric variable to convert.}
@@ -30,7 +30,7 @@ This value is used only if \code{fun} is set to "igb_centile2value".}
 \item{var}{the name of the measurement to convert ("lencm", "wtkg", "hcircm", "wlr").}
 
 \item{sex}{the name of the sex factor variable. The variable should be coded as Male/Female.
-If it is coded differently (e.g. 0/1), then you can use the ds.recodeValues function to 
+If it is coded differently (e.g. 0/1), then you can use the ds.recodeValues function to
 recode the categories to Male/Female before the use of ds.igb_standards.}
 
 \item{fun}{the name of the function to be used. This can be one of: "igb_centile2value",
@@ -39,9 +39,9 @@ recode the categories to Male/Female before the use of ds.igb_standards.}
 \item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Default name is set to \code{igb.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link{datashield.connections_default}}.}
+used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 assigns the converted measurement as a new object on the server-side
@@ -50,14 +50,14 @@ assigns the converted measurement as a new object on the server-side
 Converts birth measurements to INTERGROWTH z-scores/centiles (generic)
 }
 \note{
-For gestational ages between 24 and 33 weeks, the INTERGROWTH very early preterm 
+For gestational ages between 24 and 33 weeks, the INTERGROWTH very early preterm
 standard is used.
 }
 \references{
-International standards for newborn weight, length, and head circumference by 
+International standards for newborn weight, length, and head circumference by
 gestational age and sex: the Newborn Cross-Sectional Study of the INTERGROWTH-21st Project
 Villar, José et al. The Lancet, Volume 384, Issue 9946, 857-868
-INTERGROWTH-21st very preterm size at birth reference charts. Lancet 2016 
+INTERGROWTH-21st very preterm size at birth reference charts. Lancet 2016
 doi.org/10.1016/S0140-6736(16) 00384-6. Villar, José et al.
 }
 \author{

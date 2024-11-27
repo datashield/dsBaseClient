@@ -7,16 +7,16 @@
 ds.forestplot(mod, variable = NULL, method = "ML", layout = "JAMA")
 }
 \arguments{
-\item{mod}{\code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
+\item{mod}{\code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA},
 \code{ds.glmSLMA}, \code{ds.lmerSLMA})}
 
-\item{variable}{\code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this 
+\item{variable}{\code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this
 argument to \code{NULL} (default) the first independent variable will be used.}
 
-\item{method}{\code{character} (Default \code{"ML"}) Method to estimate the between study variance. 
+\item{method}{\code{character} (Default \code{"ML"}) Method to estimate the between study variance.
 See details from \code{?meta::metagen} for the different options.}
 
-\item{layout}{\code{character} (default \code{"JAMA"}) Layout of the plot. 
+\item{layout}{\code{character} (default \code{"JAMA"}) Layout of the plot.
 See details from \code{?meta::metagen} for the different options.}
 }
 \description{

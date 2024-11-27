@@ -4,21 +4,21 @@
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined column by column to produce a data-frame that is written to the server-side. 
 #' 
-#' This function is similar to the native R function \code{cbind}.
+#' This function is similar to the native R function `cbind`.
 #' 
-#' In \code{DataSHIELD.checks} the checks are relatively slow. 
-#' Default \code{DataSHIELD.checks} value is FALSE.
+#' In `DataSHIELD.checks` the checks are relatively slow. 
+#' Default `DataSHIELD.checks` value is FALSE.
 #' 
-#' If \code{force.colnames} is NULL (which is recommended), the column names are inferred
-#' from the names or column names of the first object specified in the \code{x} argument.
+#' If `force.colnames` is NULL (which is recommended), the column names are inferred
+#' from the names or column names of the first object specified in the `x` argument.
 #' If this argument is not NULL, then the column names of the assigned data.frame have the
 #' same order as the characters specified by the user in this argument. Therefore, the
-#' vector of \code{force.colnames} must have the same number of elements as the columns in
+#' vector of `force.colnames` must have the same number of elements as the columns in
 #' the output object. In a multi-site DataSHIELD setting to use this argument, the user should
 #' make sure that each study has the same number of names and column names of the input elements
-#' specified in the \code{x} argument and in the same order in all the studies. 
+#' specified in the `x` argument and in the same order in all the studies. 
 #' 
-#' Server function called: \code{cbindDS}
+#' Server function called: `cbindDS`
 #' 
 #' @param x a character vector with the  name of the objects to be combined.
 #' @param DataSHIELD.checks logical. if TRUE does four checks:\cr
@@ -29,18 +29,18 @@
 #' Default FALSE. 
 #' @param force.colnames can be NULL (recommended) or a vector of characters that specifies 
 #' column names of the output object. If it is not NULL the user should take some caution. 
-#' For more information see \strong{Details}.
+#' For more information see **Details**.
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Defaults \code{cbind.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' that is stored on the data servers. Defaults `cbind.newobj`. 
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return \code{ds.cbind} returns a data frame combining the columns of the R 
+#' @return `ds.cbind` returns a data frame combining the columns of the R 
 #' objects specified in the function which is written to the server-side. 
-#' It also returns to the client-side two messages with the name of \code{newobj}
-#' that has been created in each data source and \code{DataSHIELD.checks} result. 
+#' It also returns to the client-side two messages with the name of `newobj`
+#' that has been created in each data source and `DataSHIELD.checks` result. 
 #' @examples 
 #' 
 #' \dontrun{

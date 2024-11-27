@@ -1,6 +1,6 @@
 #' 
 #' @title Heterogeneous Correlation Matrix
-#' @description This function is based on the hetcor function from the R package \code{polycor}.
+#' @description This function is based on the hetcor function from the R package `polycor`.
 #' @details Computes a heterogenous correlation matrix, consisting of Pearson product-moment
 #' correlations between numeric variables, polyserial correlations between numeric and ordinal
 #' variables, and polychoric correlations between ordinal variables.
@@ -17,9 +17,9 @@
 #' nearPD directly.
 #' @param use if "complete.obs", remove observations with any missing data; if "pairwise.complete.obs",
 #' compute each correlation using all observations with valid data for that pair of variables.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified the default set of connections will be
+#' used: see [datashield.connections_default()].
 #' @return Returns an object of class "hetcor" from each study, with the following components: the
 #' correlation matrix; the type of each correlation: "Pearson", "Polychoric", or "Polyserial"; the
 #' standard errors of the correlations, if requested; the number (or numbers) of observations on which

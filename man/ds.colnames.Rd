@@ -9,20 +9,20 @@ ds.colnames(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string providing the name of the input data frame or matrix.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.colnames} returns the column names of 
+\code{ds.colnames} returns the column names of
 the specified server-side data frame or matrix.
 }
 \description{
-Retrieves column names of an R object on the server-side.  
+Retrieves column names of an R object on the server-side.
 This function is similar to R function \code{colnames}.
 }
 \details{
-The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
+The input is restricted to the object of type \code{data.frame} or \code{matrix}.
 
 Server function called: \code{colnamesDS}
 }
@@ -62,7 +62,7 @@ Server function called: \code{colnamesDS}
 }
 }
 \seealso{
-\code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
+\code{\link[=ds.dim]{ds.dim()}} to obtain the dimensions of a matrix or a data frame.
 }
 \author{
 DataSHIELD Development Team

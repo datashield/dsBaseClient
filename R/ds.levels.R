@@ -2,14 +2,14 @@
 #' @title Produces levels attributes of a server-side factor
 #' @description This function provides access to the level attribute of
 #' a factor variable stored on the server-side. 
-#' This function is similar to R function \code{levels}. 
+#' This function is similar to R function `levels`. 
 #' @details 
-#' Server function called: \code{levelsDS}
+#' Server function called: `levelsDS`
 #' @param  x a character string specifying  the name of a factor variable. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.levels} returns to the client-side the levels of a factor 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.levels` returns to the client-side the levels of a factor 
 #' class variable stored in the server-side. 
 #' @author DataSHIELD Development Team
 #' @export

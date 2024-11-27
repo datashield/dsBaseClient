@@ -9,14 +9,14 @@ ds.boxPlotGG_data_Treatment_numeric(vector, datasources = NULL)
 \arguments{
 \item{vector}{\code{character} Name of the table on the server side that holds the information to be plotted later}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 Does not return nothing, it creates the table \code{"boxPlotRawDataNumeric"} on the server arranged to be passed to the
 ggplot boxplot function. Structure of the created table: \cr
 
- Column 'x': Names on the X axis of the boxplot, aka name of the vector (vector argument) \cr
- Column 'value': Values for that variable \cr
+Column 'x': Names on the X axis of the boxplot, aka name of the vector (vector argument) \cr
+Column 'value': Values for that variable \cr
 }
 \description{
 Internal function

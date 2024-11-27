@@ -10,9 +10,9 @@ ds.setSeed(seed.as.integer = NULL, datasources = NULL)
 \item{seed.as.integer}{a numeric value or a NULL that primes the random seed
 in each data source.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 Sets the values of the vector of integers of length 626 known as
@@ -20,7 +20,7 @@ Sets the values of the vector of integers of length 626 known as
 random seed in each source. It also returns the value of the trigger
 integer that has primed the random seed vector (\code{.Random.seed}) in
 each source and also the integer vector of 626 elements
-that is \code{.Random.seed itself}.
+that is \verb{.Random.seed itself}.
 }
 \description{
 Primes the pseudorandom number generator in a data source
@@ -28,14 +28,14 @@ Primes the pseudorandom number generator in a data source
 \details{
 This function generates an instance of
 the full pseudorandom number seed that is a vector of integers
-of length 626 called \code{.Random.seed}, this vector is written to the server-side. 
+of length 626 called \code{.Random.seed}, this vector is written to the server-side.
 
-This function is similar to a native R function \code{set.seed()}. 
+This function is similar to a native R function \code{set.seed()}.
 
-In \code{seed.as.integer} argument 
+In \code{seed.as.integer} argument
 the current limitation on the value of the integer that
-can be specified is \code{-2147483647} up to \code{+2147483647} 
-(this is \code{+/- ([2^31]-1)}).
+can be specified is \code{-2147483647} up to \code{+2147483647}
+(this is \verb{+/- ([2^31]-1)}).
 
 Because you only specify one integer in the call to \code{ds.setSeed}
 (i.e. the value for the \code{seed.as.integer} argument) that value will be
@@ -44,15 +44,14 @@ data sources and so the pseudorandom number generators will all start from
 the same position and if a vector of pseudorandom number values is requested
 based on one of DataSHIELD's pseudorandom number generating functions precisely
 the same random vector will be generated in each source. If you want to avoid this
-you can specify a different priming value in each source by using 
+you can specify a different priming value in each source by using
 the \code{datasources} argument to generate the random number vectors one source
-at a time with a different integer in each case. 
+at a time with a different integer in each case.
 
 Furthermore, if you use any one
 of DataSHIELD's pseudorandom number generating functions: \code{ds.rNorm}, \code{ds.rUnif},
 \code{ds.rPois} or \code{ds.rBinom}. The function call itself automatically uses the single
 integer priming seed you specify to generate different integers in each source.
-
 
 Server function called: \code{setSeedDS}
 }

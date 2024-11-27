@@ -2,25 +2,25 @@
 #' @title Gets the length of an object in the server-side
 #' @description This function gets the length of a vector
 #' or list that is stored on the server-side. 
-#' This function is similar to the R function \code{length}.
+#' This function is similar to the R function `length`.
 #' @details 
-#' Server function called: \code{lengthDS}
+#' Server function called: `lengthDS`
 #' @param x a character string specifying the name of a vector or list. 
 #' @param type a character that represents the type of analysis to carry out.
-#' If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
+#' If `type` is set to `'combine'`, `'combined'`, `'combines'` or `'c'`,
 #'  a global length is returned
-#' if \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+#' if `type` is set to `'split'`, `'splits'` or `'s'`, 
 #' the length is returned separately for each study.
-#' if \code{type} is set to \code{'both'} or \code{'b'}, 
+#' if `type` is set to `'both'` or `'b'`, 
 #' both sets of outputs are produced. 
-#' Default \code{'both'}. 
+#' Default `'both'`. 
 #' @param checks logical. If TRUE the model components are checked. 
 #' Default FALSE to save time. It is suggested that checks
 #' should only be undertaken once the function call has failed.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.length} returns to the client-side the pooled length of a vector or a list, 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.length` returns to the client-side the pooled length of a vector or a list, 
 #' or the length of a vector or a list for each study separately.
 #' @author DataSHIELD Development Team
 #' @export

@@ -27,12 +27,12 @@ to na.rm of quantile. Default set to TRUE}
 
 \item{names}{character, vector of names for constructed variables}
 
-\item{newobj}{a character string that provides the name for the output 
+\item{newobj}{a character string that provides the name for the output
 variable that is stored on the data servers. Default \code{qlspline.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 an object of class "lspline" and "matrix", which its name is specified by the
@@ -50,9 +50,9 @@ slopes of the consecutive segments. If it is TRUE the first coefficient correspo
 the slope of the first segment. The consecutive coefficients correspond to the change
 in slope as compared to the previous segment.
 Function qlspline wraps lspline and calculates the knot positions to be at quantiles
-of x. If q is a numerical scalar greater or equal to 2, the quantiles are computed at 
-seq(0, 1, length.out = q + 1)[-c(1, q+1)], i.e. knots are at q-tiles of the distribution
-of x. Alternatively, q can be a vector of values in [0; 1] specifying the quantile
+of x. If q is a numerical scalar greater or equal to 2, the quantiles are computed at
+seq(0, 1, length.out = q + 1)\link{-c(1, q+1)}, i.e. knots are at q-tiles of the distribution
+of x. Alternatively, q can be a vector of values in \link{0; 1} specifying the quantile
 probabilities directly (the vector is passed to argument probs of quantile).
 }
 \author{

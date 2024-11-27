@@ -9,13 +9,13 @@ ds.rm(x.names = NULL, datasources = NULL)
 \arguments{
 \item{x.names}{a character string specifying the objects to be deleted.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
-If the \code{datasources} argument is not specified 
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-The \code{ds.rm}  function deletes from the server-side 
-the specified object.  If this 
+The \code{ds.rm}  function deletes from the server-side
+the specified object.  If this
 is successful the message \code{"Object(s) '<x.names>' was deleted."} is returned
 to the client-side.
 }
@@ -23,7 +23,7 @@ to the client-side.
 deletes R objects on the server-side
 }
 \details{
-This function is similar to the native R function 
+This function is similar to the native R function
 \code{rm()}.
 
 The fact that it is an aggregate

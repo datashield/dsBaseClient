@@ -8,12 +8,12 @@
 #' its levels (categories) have a count equal or greater than the set threshold. A data frame or a matrix
 #' is valid if the number of rows is equal or greater than the set threshold.
 #' 
-#' Server function called: \code{isValidDS}
+#' Server function called: `isValidDS`
 #' @param x a character string specifying the name of a vector, dataframe or matrix.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.isValid} returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.isValid` returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples

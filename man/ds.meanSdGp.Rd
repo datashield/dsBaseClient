@@ -20,18 +20,18 @@ variable.}
 variable of class factor.}
 
 \item{type}{a character string that represents the type of analysis to carry out.
-This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}. 
-Default \code{"both"}. 
+This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}.
+Default \code{"both"}.
 For more information see \strong{Details}.}
 
 \item{do.checks}{logical. If TRUE the administrative checks
 are undertaken to ensure that the input objects are defined in all studies and that the
-variables are of equivalent class in each study. 
+variables are of equivalent class in each study.
 Default is FALSE to save time.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
 \code{ds.meanSdGp} returns to the client-side the mean, SD, Nvalid and SEM combined
@@ -44,9 +44,9 @@ a single factor.
 \details{
 This function calculates the mean, standard deviation (SD), N (number of observations)
 and the standard error of the mean (SEM) of a continuous variable broken down into subgroups
-defined by a single factor. 
+defined by a single factor.
 
-There are important differences between \code{ds.meanSdGp} function compared to 
+There are important differences between \code{ds.meanSdGp} function compared to
 the function \code{ds.meanByClass}:
 
 (A) \code{ds.meanSdGp} does not actually subset the data it simply calculates the required statistics
@@ -55,8 +55,8 @@ data into subsets. On the other hand, it makes the function very much faster tha
 if you do not need to create physical subsets. \cr
 (B) \code{ds.meanByClass} allows you to specify up to
 three categorising factors, but \code{ds.meanSdGp} only allows one. However, this is not a serious
-problem. If you have two factors (e.g. sex with two levels \code{[0,1]} and \code{BMI.categorical} with
-three levels \code{[1,2,3]}) you simply need to create a new factor that combines the two together in a
+problem. If you have two factors (e.g. sex with two levels \verb{[0,1]} and \code{BMI.categorical} with
+three levels \verb{[1,2,3]}) you simply need to create a new factor that combines the two together in a
 way that gives each combination of levels a different value in the new factor. So, in the
 example given, the calculation \code{newfactor = (3*sex) + BMI} gives you six values: \cr
 (1) \code{sex = 0} and \code{BMI = 1} -> \code{newfactor = 1} \cr
@@ -66,19 +66,19 @@ example given, the calculation \code{newfactor = (3*sex) + BMI} gives you six va
 (5) \code{sex = 1} and \code{BMI = 2} -> \code{newfactor = 5} \cr
 (6) \code{sex = 1} and \code{BMI = 3} -> \code{newfactor = 6} \cr
 
-(C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the 
+(C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the
 total sample size (i.e. it
 includes all observations in each group regardless of whether or not they include missing values
 for the continuous variable or the factor). The calculation of sample size in each group by
 \code{ds.meanSdGp} always reports the number of observations that are non-missing both for the
 continuous variable and the factor. This makes sense - in the case of \code{ds.meanByClass},
-the total size of the physical subsets was important, 
+the total size of the physical subsets was important,
 but when it comes down only to \code{ds.meanSdGp} which
 undertakes analysis without physical subsetting,  it is only the observations with non-missing
 values in both variables that contribute to the calculation of means and SDs within each group
 and so it is logical to consider those counts as primary. The only reference \code{ds.meanSdGp} makes
 to missing counts is in the reporting of \code{Ntotal} and \code{Nmissing} overall (ie not broken down by
-group). 
+group).
 
 For the future, we plan to extend \code{ds.meanByClass} to report both total and non-missing
 counts in subgroups.
@@ -146,9 +146,9 @@ Server function called: \code{meanSdGpDS}
 
 }
 \seealso{
-\code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
+\code{\link[=ds.subsetByClass]{ds.subsetByClass()}} to subset by the classes of factor vector(s).
 
-\code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
+\code{\link[=ds.subset]{ds.subset()}} to subset by complete cases (i.e. removing missing values), threshold,
 columns and rows.
 }
 \author{

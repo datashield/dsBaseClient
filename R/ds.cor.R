@@ -7,30 +7,30 @@
 #' user to decide the 'relevance' of the correlation based on the number of complete
 #' cases included in the correlation calculations.
 #' 
-#' If the argument \code{y} is not NULL, the dimensions of the object have to be 
-#' compatible with the argument \code{x}. 
+#' If the argument `y` is not NULL, the dimensions of the object have to be 
+#' compatible with the argument `x`. 
 #' 
 #' The function calculates the pairwise correlations based on casewise complete cases which means that
 #' it omits all the rows in the input data frame that include at least one cell with a missing value,
 #' before the calculation of correlations.
 #' 
-#' If \code{type} is set to \code{'split'} (default), the correlation of two variables or the
+#' If `type` is set to `'split'` (default), the correlation of two variables or the
 #' variance-correlation matrix of an input data frame and the number of complete cases and missing
-#' values are returned for every single study. If type is set to \code{'combine'}, the pooled
+#' values are returned for every single study. If type is set to `'combine'`, the pooled
 #' correlation, the total number of complete cases and the total number of missing values aggregated
 #' from all the involved studies, are returned.
 #'  
-#' Server function called: \code{corDS}
+#' Server function called: `corDS`
 #' 
 #' @param x a character string providing the name of the input vector, data frame or matrix.
 #' @param y a character string providing the name of the input vector, data frame or matrix.
 #' Default NULL. 
 #' @param type a character string that represents the type of analysis to carry out. 
-#' This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.cor} returns a list containing the number of missing values in each variable,
+#' This must be set to `'split'` or `'combine'`.  Default `'split'`. For more information see details.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.cor` returns a list containing the number of missing values in each variable,
 #' the number of missing variables casewise, the correlation matrix, 
 #' the number of used complete cases. The function applies two disclosure controls. The first disclosure
 #' control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed

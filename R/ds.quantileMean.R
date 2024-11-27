@@ -5,24 +5,24 @@
 #' @details This function does not return the minimum and maximum values
 #' because they are potentially disclosive.
 #' 
-#' Depending on the argument \code{type} can be carried out two types of analysis: \cr
-#' (1) \code{type = 'combine'} pooled values are displayed \cr
-#' (2) \code{type = 'split'} summaries are
+#' Depending on the argument `type` can be carried out two types of analysis: \cr
+#' (1) `type = 'combine'` pooled values are displayed \cr
+#' (2) `type = 'split'` summaries are
 #' returned for each study. 
 #' 
-#' Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
+#' Server functions called: `quantileMeanDS`, `length` and `numNaDS`
 #' @param x a character string specifying the name of the numeric vector. 
 #' @param type a character that represents the type of graph to display.
-#' This can be set as \code{'combine'} or \code{'split'}.
-#' For more information see \strong{Details}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
+#' This can be set as `'combine'` or `'split'`.
+#' For more information see **Details**. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.quantileMean` returns to the client-side the quantiles and statistical mean
 #' of a server-side numeric vector. 
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.mean}} to compute the statistical mean.
-#' @seealso \code{\link{ds.summary}} to generate the summary of a variable.
+#' @seealso [ds.mean()] to compute the statistical mean.
+#' @seealso [ds.summary()] to generate the summary of a variable.
 #' @export
 #' @examples
 #' \dontrun{

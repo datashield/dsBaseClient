@@ -1,21 +1,21 @@
 #' @title Transposes a server-side matrix
 #' @description Transposes a matrix and writes the output to the server-side
 #' @details This operation converts matrix
-#' \code{A} to matrix \code{C} where element \code{C[i,j]} of 
-#' matrix \code{C} equals element \code{A[j,i]} of matrix
-#' \code{A}. Matrix \code{A}, therefore, has the same number 
-#' of rows as matrix \code{C} has columns and vice versa.
+#' `A` to matrix `C` where element `C[i,j]` of 
+#' matrix `C` equals element `A[j,i]` of matrix
+#' `A`. Matrix `A`, therefore, has the same number 
+#' of rows as matrix `C` has columns and vice versa.
 #' 
-#' Server function called: \code{matrixTransposeDS}
+#' Server function called: `matrixTransposeDS`
 #' 
 #' @param M1 a character string specifying the name of the matrix.  
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. 
-#' Default \code{matrixtranspose.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.matrixTranspose} returns to the server-side the transpose matrix. 
+#' Default `matrixtranspose.newobj`.
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.matrixTranspose` returns to the server-side the transpose matrix. 
 #' Also, two validity messages are returned to the client-side 
 #' indicating whether the new object has been created in each data source and if so whether
 #' it is in a valid form. 

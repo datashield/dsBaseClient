@@ -2,22 +2,22 @@
 #' @title Computes rows and columns sums and means in the server-side
 #' @description Computes sums and means of rows or columns 
 #' of a numeric matrix or data frame on the server-side.
-#' @details The function is similar to R base functions \code{rowSums}, \code{colSums},
-#' \code{rowMeans} and \code{colMeans} with some restrictions.
+#' @details The function is similar to R base functions `rowSums`, `colSums`,
+#' `rowMeans` and `colMeans` with some restrictions.
 #' 
 #' The results of the calculation are not returned to the user if they are potentially
 #' revealing i.e. if the number of rows is less than the allowed number of observations.
 #' 
-#' Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS} 
+#' Server functions called: `classDS`, `dimDS` and `colnamesDS` 
 #' @param x a character string specifying  the name of a matrix or a data frame.
 #' @param operation a character string that indicates the operation to carry out:
-#' \code{"rowSums"}, \code{"colSums"}, \code{"rowMeans"} or \code{"colMeans"}.
+#' `"rowSums"`, `"colSums"`, `"rowMeans"` or `"colMeans"`.
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Default \code{rowcolcalc.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.rowColCalc} returns to the server-side  rows and columns sums and means. 
+#' that is stored on the data servers. Default `rowcolcalc.newobj`.
+#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.rowColCalc` returns to the server-side  rows and columns sums and means. 
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{

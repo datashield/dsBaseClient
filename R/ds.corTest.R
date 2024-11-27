@@ -1,28 +1,28 @@
 #'
 #' @title Tests for correlation between paired samples in the server-side
-#' @description This is similar to the R stats function \code{cor.test}.
+#' @description This is similar to the R stats function `cor.test`.
 #' @details Runs a two-sided correlation test between paired samples, using one of
 #' Pearson's product moment correlation coefficient, Kendall's tau or Spearman's rho.
-#' Server function called: \code{corTestDS}
+#' Server function called: `corTestDS`
 #' @param x a character string providing the name of a numerical vector. 
 #' @param y a character string providing the name of a numerical vector.
 #' @param method a character string indicating which correlation coefficient is to be
 #' used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated. 
 #' Default is set to "pearson".
 #' @param exact a logical indicating whether an exact p-value should be computed. Used for
-#' Kendall's tau and Spearman's rho. See ‘Details’ of R stats function \code{cor.test} for
+#' Kendall's tau and Spearman's rho. See ‘Details’ of R stats function `cor.test` for
 #' the meaning of NULL (the default).
 #' @param conf.level confidence level for the returned confidence interval. Currently
 #' only used for the Pearson product moment correlation coefficient if there are at least
 #' 4 complete pairs of observations. Default is set to 0.95.
 #' @param type a character string that represents the type of analysis to carry out. 
-#' This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If 
-#' \code{type} is set to "combine" then an approximated pooled correlation is estimated based on 
+#' This must be set to `'split'` or `'combine'`. Default is set to `'split'`. If 
+#' `type` is set to "combine" then an approximated pooled correlation is estimated based on 
 #' Fisher's z transformation.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.corTest} returns to the client-side the results of the correlation test. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.corTest` returns to the client-side the results of the correlation test. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples

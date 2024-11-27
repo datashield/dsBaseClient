@@ -12,16 +12,16 @@ ds.exp(x = NULL, newobj = NULL, datasources = NULL)
 \item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Default \code{exp.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
-If the \code{datasources} argument is not specified 
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+If the \code{datasources} argument is not specified
+the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
 }
 \value{
-\code{ds.exp} returns a vector for each study of the exponential values for the numeric vector 
+\code{ds.exp} returns a vector for each study of the exponential values for the numeric vector
 specified in the argument \code{x}. The created vectors are stored in the server-side.
 }
 \description{
-Computes the exponential values for a specified numeric vector. 
+Computes the exponential values for a specified numeric vector.
 This function is similar to R function \code{exp}.
 }
 \details{

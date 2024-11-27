@@ -2,14 +2,14 @@
 #' @description Draws a foresplot of the coefficients for Study-Level Meta-Analysis performed with
 #' DataSHIELD
 #'
-#' @param mod \code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
-#' \code{ds.glmSLMA}, \code{ds.lmerSLMA})
-#' @param variable \code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this 
-#' argument to \code{NULL} (default) the first independent variable will be used.
-#' @param method \code{character} (Default \code{"ML"}) Method to estimate the between study variance. 
-#' See details from \code{?meta::metagen} for the different options.
-#' @param layout \code{character} (default \code{"JAMA"}) Layout of the plot. 
-#' See details from \code{?meta::metagen} for the different options.
+#' @param mod `list` List outputed by any of the SLMA models of DataSHIELD (`ds.glmerSLMA`, 
+#' `ds.glmSLMA`, `ds.lmerSLMA`)
+#' @param variable `character` (default `NULL`) Variable to meta-analyze and visualize, by setting this 
+#' argument to `NULL` (default) the first independent variable will be used.
+#' @param method `character` (Default `"ML"`) Method to estimate the between study variance. 
+#' See details from `?meta::metagen` for the different options.
+#' @param layout `character` (default `"JAMA"`) Layout of the plot. 
+#' See details from `?meta::metagen` for the different options.
 #'
 #' @export
 #'

@@ -1,20 +1,20 @@
 #' 
 #' @title Converts a server-side R object into a list 
 #' @description Coerces an R object into a list.
-#' This function is based on the native R function \code{as.list}.
+#' This function is based on the native R function `as.list`.
 #' @details 
 #' 
-#' Server function called: \code{asListDS}
+#' Server function called: `asListDS`
 #' @param x.name a character string providing the name of the input object to be coerced to 
 #' a list.
 #' @param newobj a character string that provides the name for the output object
-#' that is stored on the data servers. Default \code{aslist.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.asList} returns the R object converted into a list 
+#' that is stored on the data servers. Default `aslist.newobj`. 
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.asList` returns the R object converted into a list 
 #' which is written to the server-side. Also, two validity messages are returned to the
-#' client-side indicating the name of the \code{newobj} which has been created in each data 
+#' client-side indicating the name of the `newobj` which has been created in each data 
 #' source and if it is in a valid form.
 #' @examples 
 #' \dontrun{

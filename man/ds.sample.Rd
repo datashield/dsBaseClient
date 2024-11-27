@@ -19,7 +19,7 @@ ds.sample(
 \item{x}{Either a character string providing the name for the serverside
 vector, matrix or data.frame to be sampled or permuted, or an integer/numeric
 scalar (e.g. 923) indicating that one should create a new vector on the serverside
-that is a randomly permuted sample of the vector 1:923, or (if [replace]
+that is a randomly permuted sample of the vector 1:923, or (if \link{replace}
 = FALSE, a full random permutation of that same vector. For further details
 of using ds.sample with x set as an integer/numeric please see help for
 the \code{sample} function in native R. But if x is set as a character string
@@ -30,32 +30,32 @@ at the top of 'details' and so help for \code{sample} should be used as a guide
 only.}
 
 \item{size}{a numeric/integer scalar indicating the size of the sample to
-be drawn. If the [x] argument is a vector, matrix or data.frame on the
-serverside and if the [size] argument is set either to 0 or to the length of
-the object to be 'sampled' and [replace] is FALSE, then ds.sample will
+be drawn. If the \link{x} argument is a vector, matrix or data.frame on the
+serverside and if the \link{size} argument is set either to 0 or to the length of
+the object to be 'sampled' and \link{replace} is FALSE, then ds.sample will
 draw a random sample that includes all rows of the input object but will randomly
-permute them. If the [x] argument is numeric (e.g. 923) and size is either undefined
+permute them. If the \link{x} argument is numeric (e.g. 923) and size is either undefined
 or set equal to 923, the output on the serverside will be a vector of length 923
-permuted into a random order. If the [replace] argument is FALSE then the value
-of [size] must be no greater than the length of object to be sorted - if
+permuted into a random order. If the \link{replace} argument is FALSE then the value
+of \link{size} must be no greater than the length of object to be sorted - if
 this is violated an error message will be returned.}
 
-\item{seed.as.integer}{this is precisely equivalent to the [seed.as.integer]
+\item{seed.as.integer}{this is precisely equivalent to the \link{seed.as.integer}
 arguments for the pseudo-random number generating functions (e.g.
 also see help for ds.rBinom, ds.rNorm, ds.rPois and ds.rUnif).
 In other words the seed.as.integer argument is either a a numeric scalar
 or a NULL which primes the random seed
 in each data source. If <seed.as.integer> is a numeric scalar (e.g. 938)
-the seed in each study is set as 938*1 in the first study in the set of
-data sources being used, 938*2 in the second, up to 938*N in the Nth study.
+the seed in each study is set as 938\emph{1 in the first study in the set of
+data sources being used, 938}2 in the second, up to 938\emph{N in the Nth study.
 If <seed.as.integer> is set as 0 all sources will start with the seed value
 0 and all the random number generators will therefore start from the same position.
 If you want to use the same starting seed in all studies but do not wish it to
 be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
-use the <datasources> argument to generate the random number vectors one source at
-a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
+use the \if{html}{\out{<datasources>}} argument to generate the random number vectors one source at
+a time (e.g. ,datasources=default.opals\link{2} to generate the random vector in source 2).
 As an example, if the <seed.as.integer> value is 78326 then the seed
-in each source will be set at 78326*1 = 78326 because the vector of datasources
+in each source will be set at 78326}1 = 78326 because the vector of datasources
 being used in each call to the function will always be of length 1 and so the
 source-specific seed multiplier will also be 1. The function ds.rUnif.o
 calls the serverside assign function setSeedDS.o to create the random seeds in
@@ -75,24 +75,24 @@ For further details see help for \code{sample} in native R.}
 \item{newobj}{This a character string providing a name for the output
 data.frame which defaults to 'newobj.sample' if no name is specified.}
 
-\item{datasources}{specifies the particular opal object(s) to use. If the <datasources>
+\item{datasources}{specifies the particular opal object(s) to use. If the \if{html}{\out{<datasources>}}
 argument is not specified the default set of opals will be used. The default opals
 are called default.opals and the default can be set using the function
-\code{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
+\code{ds.setDefaultOpals}. If the \if{html}{\out{<datasources>}} is to be specified, it should be set without
 inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 apply the function solely to e.g. the second opal server in a set of three,
-the argument can be specified as: e.g. datasources=opals.em[2].
+the argument can be specified as: e.g. datasources=opals.em\link{2}.
 If you wish to specify the first and third opal servers in a set you specify:
-e.g. datasources=opals.em[c(1,3)]}
+e.g. datasources=opals.em\link{c(1,3)}}
 
 \item{notify.of.progress}{specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.}
 }
 \value{
-the object specified by the <newobj> argument (or default name
+the object specified by the \if{html}{\out{<newobj>}} argument (or default name
 'newobj.sample')
 which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
+indicating whether \if{html}{\out{<newobj>}} has been created in each data source and if so whether
 it is in a valid form. If its form is not valid in at least one study - e.g. because
 a disclosure trap was tripped and creation of the full output object was blocked -
 ds.dataFrameSort() also returns any studysideMessages that may explain the error in creating
@@ -113,19 +113,19 @@ of that length. But length(data.frame) in native R returns the number of columns
 not the number of rows. So if you have a data.frame with 71 rows and 10 columns,
 the sample() function will select 10 columns at random, which is often not what
 is required. So, ds.sample(x="data.frame",size=10) in DataSHIELD will sample
-10 rows at random(with or without replacement depending whether the [replace]
+10 rows at random(with or without replacement depending whether the \link{replace}
 argument is TRUE or FALSE, with False being default). If x is a simple vector
 or a matrix it is first coerced to a data.frame on the serverside and so is dealt
 with in the same way (i.e. random selection of 10 rows). If x is an integer
 not expressed as a character string, it is dealt with in exactly the same way
-as in native R. That is, if x = 923 and size=117, DataSHIELD will draw a 
+as in native R. That is, if x = 923 and size=117, DataSHIELD will draw a
 random sample in random order of size 117 from the vector 1:923 (i.e.
-1, 2, ... ,923) with or without replacement depending whether [replace] is
-TRUE or FALSE. If the [x] argument is numeric (e.g. 923) and size is either undefined
+1, 2, ... ,923) with or without replacement depending whether \link{replace} is
+TRUE or FALSE. If the \link{x} argument is numeric (e.g. 923) and size is either undefined
 or set equal to 923, the output on the serverside will be a vector of length 923
-permuted into a random order. If the [x] argument is a vector, matrix or data.frame on the
-serverside and if the [size] argument is set either to 0 or to the length of
-the object to be 'sampled' and [replace] is FALSE, then ds.sample will
+permuted into a random order. If the \link{x} argument is a vector, matrix or data.frame on the
+serverside and if the \link{size} argument is set either to 0 or to the length of
+the object to be 'sampled' and \link{replace} is FALSE, then ds.sample will
 draw a random sample that includes all rows of the input object but will randomly
 permute them. This is how ds.sample enables random permuting as well as random
 sub-sampling. When a serverside vector, matrix or data.frame is sampled using ds.sample
@@ -134,9 +134,9 @@ sub-sampling. When a serverside vector, matrix or data.frame is sampled using ds
 1 whenever a row enters the sample and as a QA test, all values in that column
 in the output object should be 1. 'ID.seq' is a sequential numeric ID appended to
 the right of the object to be sampled during the running of ds.sample that runs from
-1 to the length of the object and will be appended even if there is already 
+1 to the length of the object and will be appended even if there is already
 an equivalent sequential ID in the object. The output object is stored in
-the same original order as it was before sampling, and so if the first 
+the same original order as it was before sampling, and so if the first
 four elements of 'ID.seq' are 3,4, 6, 15 ... then it means that rows 1 and 2 were
 not included in the random sample, but rows 3, 4 were. Row 5 was not included,
 6 was included and rows 7-14 were not etc. The 'sampling.order' vector is

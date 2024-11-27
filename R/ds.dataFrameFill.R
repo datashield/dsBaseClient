@@ -1,81 +1,86 @@
 #'
 #' @title Creates missing values columns in the server-side
-#' @description Adds extra columns with missing values in a data frame on the server-side. 
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function added extra columns with missing values in a data frame on the
+#' server-side. It was deprecated in favour of `ds.standardiseDf` which is much quicker and
+#' offers additional functionality such as setting the levels of class of data.
 #' @details This function checks if the input data frames have the same variables (i.e. the same
 #' column names) in all of the used studies. When a study does not have some of the variables, the
 #' function generates those variables as vectors of missing values and combines them as columns to
-#' the input data frame. If any of the generated variables are of class factor, the function 
-#' assigns to those the corresponding levels of the factors given from the studies where such 
+#' the input data frame. If any of the generated variables are of class factor, the function
+#' assigns to those the corresponding levels of the factors given from the studies where such
 #' factors exist.
-#' 
-#' Server function called: \code{dataFrameFillDS}
+#'
+#' Server function called: `dataFrameFillDS`
 #' @param df.name a character string representing the name of the input data frame that will be
-#' filled with extra columns of missing values. 
-#' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. Default value is "dataframefill.newobj". 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
-#' If the \code{datasources} argument is not specified 
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
+#' filled with extra columns of missing values.
+#' @param newobj a character string that provides the name for the output data frame
+#' that is stored on the data servers. Default value is "dataframefill.newobj".
+#' @param datasources a list of [DSConnection-class()] objects obtained after login.
+#' If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.dataFrameFill` returns the object specified by the `newobj` argument which
 #' is written to the server-side. Also, two validity messages are returned to the
-#' client-side indicating the name of the \code{newobj} that has been created in each data source
+#' client-side indicating the name of the `newobj` that has been created in each data source
 #' and if it is in a valid form.
 #' @author Demetris Avraam for DataSHIELD Development Team
-#' 
-#' @examples 
+#' @keywords internal
+#' @examples
 #' \dontrun{
-#' 
-#'   ## Version 6, for version 5 see the Wiki 
+#'
+#'   ## Version 6, for version 5 see the Wiki
 #'   # Connecting to the Opal servers
-#' 
+#'
 #'   require('DSI')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
-#' 
+#'
 #'   builder <- DSI::newDSLoginBuilder()
-#'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
+#'   builder$append(server = "study1",
+#'                  url = "http://192.168.56.100:8080/",
+#'                  user = "administrator", password = "datashield_test&",
 #'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-#'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
+#'   builder$append(server = "study2",
+#'                  url = "http://192.168.56.100:8080/",
+#'                  user = "administrator", password = "datashield_test&",
 #'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
 #'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
+#'                  url = "http://192.168.56.100:8080/",
+#'                  user = "administrator", password = "datashield_test&",
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
-#'                  
+#'
 #'   logindata <- builder$build()
-#'   
+#'
 #'   # Log onto the remote Opal training servers
-#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-#'   
+#'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
+#'
 #'   # Create two data frames with one different column
-#'   
+#'
 #'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
 #'                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
 #'                newobj = "df1",
 #'                datasources = connections[1])
-#'                
+#'
 #'   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL","D$LAB_GLUC_ADJUSTED"),
 #'                newobj = "df1",
 #'                datasources = connections[2])
-#'   
+#'
 #'   # Fill the data frame with NA columns
-#'   
+#'
 #'   ds.dataFrameFill(df.name = "df1",
 #'                    newobj = "D.Fill",
 #'                    datasources = connections[c(1,2)]) # Two servers are used
 #'
 #'
 #'   # Clear the Datashield R sessions and logout
-#'   datashield.logout(connections) 
+#'   datashield.logout(connections)
 #' }
 #' @export
 #'
 ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
-
+  lifecycle::deprecate_warn("6.4.0", "ds.dataFrameFill()", "ds.standardiseDf()")
   # if no connections details are provided look for 'connection' objects in the environment
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
@@ -108,7 +113,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
 
   column.names <- lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call("colnamesDS", df.name))})
-  
+
   allNames <- unique(unlist(column.names))
 
   # if the datasets share the same variables then the function stops
@@ -129,11 +134,11 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }else{
     allNames.transmit <- NULL
   }
-  
+
   defined.list <- lapply(allNames, function(x){isDefined(datasources=datasources, obj=paste0(df.name, '$', x), error.message=FALSE)})
   defined.vect1 <- lapply(defined.list, function(x){unlist(x)})
   defined.vect2 <- lapply(defined.vect1, function(x){which(x == FALSE)})
-  
+
   # get the class of each variable in the dataframes
   class.list <- lapply(allNames, function(x){lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call('classDS', paste0(df.name, '$', x)))})})
   class.vect1 <- lapply(class.list, function(x){unlist(x)})
@@ -143,7 +148,7 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   }
   class.vect2 <- lapply(class.vect1, function(x){x[which(x != 'NULL')[[1]]]})
   class.vect2 <- unname(unlist(class.vect2))
-  
+
   # check if any of the elements in class.vect2 are factor
   # and if yes then get their levels
   df.indicator <- list()
@@ -162,13 +167,13 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
     }
   }
   levels.vec.transmit <- unlist(lapply(levels.vec, function(x){paste(x,collapse=",")}))
-  
+
   if(!is.null(class.vect2)){
     class.vect.transmit <- paste(class.vect2,collapse=",")
   }else{
     class.vect.transmit <- NULL
   }
-  
+
   calltext <- call("dataFrameFillDS", df.name, allNames.transmit, class.vect.transmit, levels.vec.transmit)
   DSI::datashield.assign(datasources, newobj, calltext)
 

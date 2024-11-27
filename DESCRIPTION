@@ -17,8 +17,14 @@ Imports:
     data.table,
     panelaggregation,
     methods,
-    dplyr
+    assertthat,
+    cli,
+    purrr,
+    stringr,
+    dplyr,
+    lifecycle
 Suggests:
     testthat
 RoxygenNote: 7.3.2
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)

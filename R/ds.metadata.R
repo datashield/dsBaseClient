@@ -3,13 +3,13 @@
 #' @description This function gets the metadata of a variable
 #' stored on the server.
 #' @details 
-#' Server function \code{metadataDS} is called examines the attributes associated with the variable
+#' Server function `metadataDS` is called examines the attributes associated with the variable
 #' which are non-disclosive.
 #' @param x a character string specifying the name of the object.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
-#' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return \code{ds.metadata} returns to the client-side the metadata of associated to an object
+#' @param datasources a list of [DSConnection-class()] 
+#' objects obtained after login. If the `datasources` argument is not specified
+#' the default set of connections will be used: see [datashield.connections_default()].
+#' @return `ds.metadata` returns to the client-side the metadata of associated to an object
 #' held at the server.
 #' @author Stuart Wheater, DataSHIELD Development Team
 #' @export

@@ -3,10 +3,10 @@
 #' @description Lists all current client-side functions
 #' @details This function operates by directly interrogating
 #' the R objects stored in the input client packages and objects of name
-#' starting with \code{ds.} character in \code{.GlobalEnv}. 
+#' starting with `ds.` character in `.GlobalEnv`. 
 #' 
 #' This function does not call any server-side function. 
-#' @return \code{ds.listClientsideFunctions} returns a list containing 
+#' @return `ds.listClientsideFunctions` returns a list containing 
 #' all  server-side functions. 
 #' @author DataSHIELD Development Team
 #' 
