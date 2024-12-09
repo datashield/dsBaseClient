@@ -1,6 +1,6 @@
 services:
     opal:
-        image: obiba/opal:5.0.1
+        image: obiba/opal:5.0.3
         ports:
             - "8443:8443"
         links:
