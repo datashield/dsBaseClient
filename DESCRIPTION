@@ -19,6 +19,9 @@ Imports:
     methods,
     dplyr
 Suggests:
+    lme4,
+    httr,
+    tibble,
     testthat,
     e1071,
     DescTools,
