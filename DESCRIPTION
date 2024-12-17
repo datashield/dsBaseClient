@@ -19,6 +19,14 @@ Imports:
     methods,
     dplyr
 Suggests:
-    testthat
+    lme4,
+    httr,
+    tibble,
+    testthat,
+    e1071,
+    DescTools,
+    DSOpal,
+    DSMolgenisArmadillo,
+    DSLite
 RoxygenNote: 7.3.2
 Encoding: UTF-8
