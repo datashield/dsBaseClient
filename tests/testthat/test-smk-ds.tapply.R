@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2014 OBiBa,
-#               2019-2021 University of Newcastle upon Tyne. All rights reserved.
+#               2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -118,14 +118,14 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 
     expect_length(list, 3)
     expect_length(list$sim1, 2)
-    expect_length(list$sim1$`0`, 15)
-    expect_length(list$sim1$`1`, 15)
+    expect_length(list$sim1$GENDER.1, 15)
+    expect_length(list$sim1$GENDER.2, 15)
     expect_length(list$sim2, 2)
-    expect_length(list$sim2$`0`, 15)
-    expect_length(list$sim2$`1`, 15)
+    expect_length(list$sim2$GENDER.1, 15)
+    expect_length(list$sim2$GENDER.2, 15)
     expect_length(list$sim3, 2)
-    expect_length(list$sim3$`0`, 15)
-    expect_length(list$sim3$`1`, 15)
+    expect_length(list$sim3$GENDER.1, 15)
+    expect_length(list$sim3$GENDER.2, 15)
 })
 
 #

@@ -91,7 +91,7 @@
 #' relatively widely.
 #' 
 #' The standard models include:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
 #'    \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
@@ -179,6 +179,8 @@
 #' @param maxit a numeric scalar denoting the maximum number of iterations that
 #' are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
 #' For more information see \strong{Details}.
+#' @param notify.of.progress specifies if console output should be produced to indicate
+#' progress. Default FALSE.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
@@ -197,7 +199,7 @@
 #' a series of other list objects that represent inferences aggregated across studies.
 #' @return the study specific items include: 
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 
@@ -373,7 +375,7 @@
 #'
 #' @export
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,
-	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, datasources=NULL) {
+	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, notify.of.progress=FALSE, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
@@ -613,7 +615,10 @@ if(at.least.one.study.data.error)
 		if(is.null(newobj)){
 		newobj <- "new.glm.obj"
 		}
-   cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+
+   if (notify.of.progress) {
+       cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+   }
 
    calltext.2 <- call('glmSLMADS.assign', formula, family, offset, weights, dataName)
 
@@ -870,7 +875,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(object.info[[j]]$test.obj.class[1]=="ABSENT"){														#
+	if("ABSENT" %in% object.info[[j]]$test.obj.class){														#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

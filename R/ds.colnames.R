@@ -4,7 +4,7 @@
 #' This function is similar to R function \code{colnames}.
 #' @details The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
 #' 
-#' Server function called: \code{colnames}
+#' Server function called: \code{colnamesDS}
 #' @param x a character string providing the name of the input data frame or matrix.
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
@@ -48,7 +48,7 @@
 #'   datashield.logout(connections) 
 #' }
 #' @export
-
+#'
 ds.colnames <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections

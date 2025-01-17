@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("DIS_DIAB","PM_BMI_CONTINUOUS","LAB_HDL", "GE
 
 context("ds.subset::arg::test errors")
 test_that("subset_erros", {
-    expect_error(ds.subset(), "Please provide the name of the object to subset from!", fixed=TRUE)
+    expect_error(expect_warning(ds.subset(), "'ds.subset' is deprecated.", fixed = TRUE), "Please provide the name of the object to subset from!", fixed=TRUE)
 })
 
 #

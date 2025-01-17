@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -23,6 +23,24 @@ test_that("setup", {
 #
 # Tests
 #
+context("ds.summary::smk::summary of a dataframe variable")
+test_that("summary_dataframe_variable", {
+  res <- ds.summary(x='D')
+
+  expect_length(res, 3)
+  expect_true(all(res$sim1$class %in% c("tbl_df", "tbl", "data.frame")))
+  expect_true(all(res$sim2$class %in% c("tbl_df", "tbl", "data.frame")))
+  expect_true(all(res$sim3$class %in% c("tbl_df", "tbl", "data.frame")))
+  expect_equal(res$sim1$`number of rows`, 2163)
+  expect_equal(res$sim2$`number of rows`, 3088)
+  expect_equal(res$sim3$`number of rows`, 4128)
+  expect_equal(res$sim1$`number of columns`, 11)
+  expect_equal(res$sim2$`number of columns`, 11)
+  expect_equal(res$sim3$`number of columns`, 11)
+  expect_length(res$sim1$`variables held`, 11)
+  expect_length(res$sim2$`variables held`, 11)
+  expect_length(res$sim3$`variables held`, 11)
+})
 
 context("ds.summary::smk::summary of a numerical variable")
 test_that("summary_numerical_variable", {
@@ -92,7 +110,8 @@ context("ds.summary::smk::summary of a data frame")
 test_that("summary_data_frame", {
   res <- ds.summary(x='D')
 
-  expect_equal(res$sim1$class, "data.frame")
+  expect_gte(length(res$sim1$class), 1)
+  expect_true("data.frame" %in% res$sim1$class)
   expect_equal(res$sim2$`number of rows`, 3088)
   expect_equal(res$sim2$`number of columns`, 11)
   expect_equal(res$sim3$`variables held`[[11]], "PM_BMI_CATEGORICAL")

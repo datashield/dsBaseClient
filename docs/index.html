@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DataSHIELD Client Functions • dsBaseClient</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -55,14 +51,14 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="dsbaseclient" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#dsbaseclient" class="anchor"></a>dsBaseClient</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="dsbaseclient">dsBaseClient<a class="anchor" aria-label="anchor" href="#dsbaseclient"></a>
+</h1></div>
 <p>DataSHIELD client side base R library.</p>
 <table class="table">
 <thead><tr class="header">
@@ -75,60 +71,58 @@
 <tbody>
 <tr class="odd">
 <td>Master</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=master"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=master" alt="Build Status"></a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=master" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=master" alt="Build Status"></a></td>
 <td></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=master"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=master" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/master/latest/">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=master" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=master" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/master/latest/" class="external-link">Tests</a></td>
 </tr>
 <tr class="even">
 <td>6.0</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.0"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0" alt="Build Status"></a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.0" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0" alt="Build Status"></a></td>
 <td></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.0"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.0/latest/">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.0" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.0/latest/" class="external-link">Tests</a></td>
 </tr>
 <tr class="odd">
 <td>6.0.1</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.0.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0.1" alt="Build Status"></a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.0.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.0.1" alt="Build Status"></a></td>
 <td></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.0.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0.1" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.0.1/latest/">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.0.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.0.1" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.0.1/latest/" class="external-link">Tests</a></td>
 </tr>
 <tr class="even">
 <td>6.1</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.1" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBase/v6.1/latest/">Tests</a></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.1" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.1/latest/">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.1" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBase/v6.1/latest/" class="external-link">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.1" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.1/latest/" class="external-link">Tests</a></td>
 </tr>
 <tr class="odd">
 <td>6.1.1</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.1.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.1.1" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBase/v6.1.1/latest/">Tests</a></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.1.1"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.1.1" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.1.1/latest/">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.1.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.1.1" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBase/v6.1.1/latest/" class="external-link">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.1.1" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.1.1" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.1.1/latest/" class="external-link">Tests</a></td>
 </tr>
 <tr class="even">
-<td>v6.2-dev</td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.2-dev"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.2-dev" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBase/v6.2-dev/latest/">Tests</a></td>
-<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.2-dev"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.2-dev" alt="Build Status"></a></td>
-<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.2-dev/latest/">Tests</a></td>
+<td>6.2</td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=3&amp;branchName=v6.2" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBase?branchName=v6.2" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBase/v6.2/latest/" class="external-link">Tests</a></td>
+<td><a href="https://dev.azure.com/datashield-testing/datashield/_build/latest?definitionId=1&amp;branchName=v6.2" class="external-link"><img src="https://dev.azure.com/datashield-testing/datashield/_apis/build/status/datashield.dsBaseClient?branchName=v6.2" alt="Build Status"></a></td>
+<td><a href="https://datashield.github.io/testStatus/dsBaseClient/v6.2/latest/" class="external-link">Tests</a></td>
 </tr>
 </tbody>
 </table>
-<p><a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License"></a></p>
+<p><a href="https://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License"></a></p>
 </div>
-<div id="about" class="section level1">
-<h1 class="hasAnchor">
-<a href="#about" class="anchor"></a>About</h1>
-<p>DataSHIELD is a software package which allows you to do non-disclosive federated analysis on sensitive data. Our website (<a href="https://www.datashield.ac.uk" class="uri">https://www.datashield.ac.uk</a>) has in depth descriptions of what it is, how it works and how to install it. A key point to highlight is that DataSHIELD has a client-server infrastructure, so the dsBase package (<a href="https://github.com/datashield/dsBase" class="uri">https://github.com/datashield/dsBase</a>) needs to be used in conjuction with the dsBaseClient package (<a href="https://github.com/datashield/dsBaseClient" class="uri">https://github.com/datashield/dsBaseClient</a>) - trying to use one without the other makes no sense.</p>
-<p>Detailed instructions on how to install DataSHIELD are at <a href="https://www.datashield.ac.uk/wiki" class="uri">https://www.datashield.ac.uk/wiki</a>. The code here is organised as:</p>
+<div class="section level1">
+<h1 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h1>
+<p>DataSHIELD is a software package which allows you to do non-disclosive federated analysis on sensitive data. Our website (<a href="https://www.datashield.org" class="external-link uri">https://www.datashield.org</a>) has in depth descriptions of what it is, how it works and how to install it. A key point to highlight is that DataSHIELD has a client-server infrastructure, so the dsBase package (<a href="https://github.com/datashield/dsBase" class="external-link uri">https://github.com/datashield/dsBase</a>) needs to be used in conjuction with the dsBaseClient package (<a href="https://github.com/datashield/dsBaseClient" class="external-link uri">https://github.com/datashield/dsBaseClient</a>) - trying to use one without the other makes no sense.</p>
+<p>Detailed instructions on how to install DataSHIELD are at <a href="https://www.datashield.org/wiki" class="external-link uri">https://www.datashield.org/wiki</a>.</p>
+<p>Discussion and help with using DataSHIELD can be obtained from The DataSHIELD Forum <a href="https://datashield.discourse.group/" class="external-link uri">https://datashield.discourse.group/</a></p>
+<p>The code here is organised as:</p>
 <table class="table">
-<colgroup>
-<col width="70%">
-<col width="30%">
-</colgroup>
 <thead><tr class="header">
 <th>Location</th>
 <th>What is it?</th>
@@ -146,10 +140,6 @@
 <td>master branch</td>
 <td>Mostly in sync with the latest release, changes rarely.</td>
 </tr>
-<tr class="even">
-<td>v6.2-dev branch (or similar)</td>
-<td>Bleeding edge development. We make no claims that this branch is fully functional at any given time.</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -158,35 +148,50 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing dsBaseClient</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>DataSHIELD Developers <br><small class="roles"> Maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by DataSHIELD Developers.</p>
+  <p></p>
+<p>Developed by DataSHIELD Developers.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
+
+
+
 
 
   </body>

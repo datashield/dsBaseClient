@@ -46,7 +46,7 @@
 #' 
 #' In the \code{family} argument can be specified three types of models to fit:
 #' 
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
 #'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
 #'    \item{\code{"poisson"}}{: Poisson regression model which is the most used in survival analysis. 
@@ -190,7 +190,7 @@
 #' @return \code{family}: error family and link function.
 #' @return \code{formula}: model formula, see description of formula as an input parameter (above).
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model}
 #'    \item{second}{: the estimated values}
 #'    \item{third}{: corresponding standard errors of the estimated values}
@@ -322,9 +322,9 @@
 #' }
 #'
 ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=20, CI=0.95,
-                     viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL) {
+                     viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL){
 
- # look for DS connections
+  # look for DS connections
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
@@ -339,11 +339,10 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
     stop(" Please provide a valid regression formula!", call.=FALSE)
   }
 
-# check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
-# to provide name of offset or weights variable
-    if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
-       sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0)
-	{
+  # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
+  # to provide name of offset or weights variable
+  if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
+     sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0){
        cat("\n\n WARNING: you may have specified an offset or regression weights")
        cat("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
        cat("\n you must specify an offset or weights separately from the formula")
@@ -351,7 +350,6 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 	}
 
   formula <- stats::as.formula(formula)
-
 
   # check that 'family' was set
   if(is.null(family)){
@@ -367,106 +365,92 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
   if(checks){
     message(" -- Verifying the variables in the model")
     # call the function that checks the variables in the formula are defined (exist) on the server site and are not missing at complete
-
-   glmChecks(formula, data, offset, weights, datasources)
+    glmChecks(formula, data, offset, weights, datasources)
   }else{
     #message("WARNING:'checks' is set to FALSE; variables in the model are not checked and error messages may not be intelligible!")
   }
 
-#MOVE ITERATION COUNT BEFORE ASSIGNMENT OF beta.vect.next
-#Iterations need to be counted. Start off with the count at 0
-  #and increment by 1 at each new iteration
-  iteration.count<-0
+  # MOVE ITERATION COUNT BEFORE ASSIGNMENT OF beta.vect.next
+  # Iterations need to be counted. Start off with the count at 0
+  # and increment by 1 at each new iteration
+  iteration.count <- 0
 
   # number of 'valid' studies (those that passed the checks) and vector of beta values
   numstudies <- length(datasources)
 
+  # ARBITRARY LENGTH FOR START BETAs AT THIS STAGE BUT IN LEGAL TRANSMISSION FORMAT ("0,0,0,0,0")
+  beta.vect.next <- rep(0,5)
+  beta.vect.temp <- paste0(as.character(beta.vect.next), collapse=",")
 
-#ARBITRARY LENGTH FOR START BETAs AT THIS STAGE BUT IN LEGAL TRANSMISSION FORMAT ("0,0,0,0,0")
- beta.vect.next <- rep(0,5)
- beta.vect.temp <- paste0(as.character(beta.vect.next), collapse=",")
+  # IDENTIFY THE CORRECT DIMENSION FOR START BETAs VIA CALLING FIRST COMPONENT OF glmDS
+  cally1 <- call('glmDS1', formula, family, weights, offset, data)
+  study.summary.0 <- DSI::datashield.aggregate(datasources, cally1)
 
+  at.least.one.study.data.error <- 0
 
-#IDENTIFY THE CORRECT DIMENSION FOR START BETAs VIA CALLING FIRST COMPONENT OF glmDS
+  for(hh in 1:numstudies) {
+  	if(study.summary.0[[hh]]$errorMessage!="No errors"){
+  	  at.least.one.study.data.error <- 1
+  	}
+  }
 
-   cally1 <- call('glmDS1', formula, family, weights, offset, data)
+  num.par.glm <- NULL
+  coef.names <- NULL
 
-   study.summary.0 <- DSI::datashield.aggregate(datasources, cally1)
+  if(at.least.one.study.data.error==0){
+    num.par.glm <- study.summary.0[[1]][[1]][[2]]
+    coef.names <- study.summary.0[[1]][[2]]
+  }
 
-at.least.one.study.data.error<-0
+  y.invalid <- NULL
+  Xpar.invalid <- NULL
+  w.invalid <- NULL
+  o.invalid <- NULL
+  glm.saturation.invalid <- NULL
+  errorMessage <- NULL
 
-for(hh in 1:numstudies) {
-	if(study.summary.0[[hh]]$errorMessage!="No errors"){
-	at.least.one.study.data.error<-1
-	}
-}
-
-
-num.par.glm<-NULL
-coef.names<-NULL
-
-if(at.least.one.study.data.error==0){
-num.par.glm<-study.summary.0[[1]][[1]][[2]]
-coef.names<-study.summary.0[[1]][[2]]
-}
-
-y.invalid<-NULL
-Xpar.invalid<-NULL
-w.invalid<-NULL
-o.invalid<-NULL
-glm.saturation.invalid<-NULL
-errorMessage<-NULL
-
-	for(ss in 1:numstudies)
-	{
-          y.invalid<-c(y.invalid,study.summary.0[[ss]][[3]])
-          Xpar.invalid<-rbind(Xpar.invalid,study.summary.0[[ss]][[4]])
-          w.invalid<-c(w.invalid,study.summary.0[[ss]][[5]])
-          o.invalid<-c(o.invalid,study.summary.0[[ss]][[6]])
-          glm.saturation.invalid <-c(glm.saturation.invalid,study.summary.0[[ss]][[7]])
-          errorMessage<-c(errorMessage,study.summary.0[[ss]][[8]])
+	for(ss in 1:numstudies){
+    y.invalid<-c(y.invalid,study.summary.0[[ss]][[3]])
+    Xpar.invalid<-rbind(Xpar.invalid,study.summary.0[[ss]][[4]])
+    w.invalid<-c(w.invalid,study.summary.0[[ss]][[5]])
+    o.invalid<-c(o.invalid,study.summary.0[[ss]][[6]])
+    glm.saturation.invalid <-c(glm.saturation.invalid,study.summary.0[[ss]][[7]])
+    errorMessage<-c(errorMessage,study.summary.0[[ss]][[8]])
 	}
 
-y.invalid<-as.matrix(y.invalid)
-sum.y.invalid<-sum(y.invalid)
-dimnames(y.invalid)<-list(names(datasources),"Y VECTOR")
+  y.invalid <- as.matrix(y.invalid)
+  sum.y.invalid <- sum(y.invalid)
+  dimnames(y.invalid) <- list(names(datasources), "Y VECTOR")
 
-Xpar.invalid<-as.matrix(Xpar.invalid)
-sum.Xpar.invalid<-sum(Xpar.invalid)
-dimnames(Xpar.invalid)<-list(names(datasources),coef.names)
+  Xpar.invalid <- as.matrix(Xpar.invalid)
+  sum.Xpar.invalid <- sum(Xpar.invalid)
+  dimnames(Xpar.invalid) <- list(names(datasources), coef.names)
 
+  w.invalid <- as.matrix(w.invalid)
+  sum.w.invalid <- sum(w.invalid)
+  dimnames(w.invalid) <- list(names(datasources), "WEIGHT VECTOR")
+  
+  o.invalid <- as.matrix(o.invalid)
+  sum.o.invalid <- sum(o.invalid)
+  dimnames(o.invalid) <- list(names(datasources),"OFFSET VECTOR")
+  
+  glm.saturation.invalid <- as.matrix(glm.saturation.invalid)
+  sum.glm.saturation.invalid <- sum(glm.saturation.invalid)
+  dimnames(glm.saturation.invalid) <- list(names(datasources), "MODEL OVERPARAMETERIZED")
+  
+  errorMessage <- as.matrix(errorMessage)
+  dimnames(errorMessage) <- list(names(datasources), "ERROR MESSAGES")
+  
+  output.blocked.information.1 <- "MODEL FITTING TERMINATED AT FIRST ITERATION:"
+  output.blocked.information.2 <- "Any values of 1 in the following tables denote potential disclosure risks"
+  output.blocked.information.3 <- "please use the argument <datasources> to include only valid studies."
+  output.blocked.information.4 <- "Errors by study are as follows:"
 
-w.invalid<-as.matrix(w.invalid)
-sum.w.invalid<-sum(w.invalid)
-dimnames(w.invalid)<-list(names(datasources),"WEIGHT VECTOR")
-
-o.invalid<-as.matrix(o.invalid)
-sum.o.invalid<-sum(o.invalid)
-dimnames(o.invalid)<-list(names(datasources),"OFFSET VECTOR")
-
-glm.saturation.invalid<-as.matrix(glm.saturation.invalid)
-sum.glm.saturation.invalid<-sum(glm.saturation.invalid)
-dimnames(glm.saturation.invalid)<-list(names(datasources),"MODEL OVERPARAMETERIZED")
-
-errorMessage<-as.matrix(errorMessage)
-dimnames(errorMessage)<-list(names(datasources),"ERROR MESSAGES")
-
-
-
-output.blocked.information.1<-"MODEL FITTING TERMINATED AT FIRST ITERATION:"
-output.blocked.information.2<-"Any values of 1 in the following tables denote potential disclosure risks"
-output.blocked.information.3<-"please use the argument <datasources> to include only valid studies."
-output.blocked.information.4<-"Errors by study are as follows:"
-
-
-
-
-if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.glm.saturation.invalid>0||at.least.one.study.data.error==1)
-	{
-	message("\n\nMODEL FITTING TERMINATED AT FIRST ITERATION:\n",
-        "Any values of 1 in the following tables denote potential disclosure risks\n",
-		"please use the argument <datasources> to include only valid studies.\n",
-		"Errors by study are as follows:\n")
+  if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.glm.saturation.invalid>0||at.least.one.study.data.error==1){
+	  message("\n\nMODEL FITTING TERMINATED AT FIRST ITERATION:\n",
+            "Any values of 1 in the following tables denote potential disclosure risks\n",
+		        "please use the argument <datasources> to include only valid studies.\n",
+		        "Errors by study are as follows:\n")
 		print(as.matrix(y.invalid))
 		print(as.matrix(Xpar.invalid))
 		print(as.matrix(w.invalid))
@@ -474,44 +458,36 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.gl
 		print(as.matrix(glm.saturation.invalid))
 		print(as.matrix(errorMessage))
 
-
-
-
-    return(list(
-		    output.blocked.information.1,
-		    output.blocked.information.2,
-		    output.blocked.information.3,
-		    output.blocked.information.4,
-				y.vector.error=y.invalid,
-                X.matrix.error=Xpar.invalid,
-                weight.vector.error=w.invalid,
-                offset.vector.error=o.invalid,
-                glm.overparameterized=glm.saturation.invalid,
-                errorMessage=errorMessage
-                ))
+	  return(list(
+      		    output.blocked.information.1,
+      		    output.blocked.information.2,
+      		    output.blocked.information.3,
+      		    output.blocked.information.4,
+      				y.vector.error=y.invalid,
+              X.matrix.error=Xpar.invalid,
+              weight.vector.error=w.invalid,
+              offset.vector.error=o.invalid,
+              glm.overparameterized=glm.saturation.invalid,
+              errorMessage=errorMessage
+          ))
 		stop("DATA ERROR")
- }
+  }
 
-
-
-   beta.vect.next <- rep(0,num.par.glm)
+   beta.vect.next <- rep(0, num.par.glm)
    beta.vect.temp <- paste0(as.character(beta.vect.next), collapse=",")
 
+  # Provide arbitrary starting value for deviance to enable subsequent calculation of the
+  # change in deviance between iterations
+  dev.old <- 9.99e+99
 
-  #Provide arbitrary starting value for deviance to enable subsequent calculation of the
-  #change in deviance between iterations
-  dev.old<-9.99e+99
+  # Convergence state needs to be monitored.
+  converge.state <- FALSE
 
-  #Convergence state needs to be monitored.
-  converge.state<-FALSE
+  # Define a convergence criterion. This value of epsilon corresponds to that used
+  # by default for GLMs in R (see section S3 for details)
+  epsilon <- 1.0e-08
 
-  #Define a convergence criterion. This value of epsilon corresponds to that used
-  #by default for GLMs in R (see section S3 for details)
-  epsilon<-1.0e-08
-
-  f<-NULL
-
-
+  f <- NULL
 
   while(!converge.state && iteration.count < maxit) {
 
@@ -519,38 +495,32 @@ if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.gl
 
     message("Iteration ", iteration.count, "...")
 
-#NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
-    cally2 <- call('glmDS2', formula, family, beta.vect.temp, offset, weights, data)
+  # NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
+  cally2 <- call('glmDS2', formula, family, beta.vect.temp, offset, weights, data)
+  study.summary <- DSI::datashield.aggregate(datasources, cally2)
 
-      study.summary <- DSI::datashield.aggregate(datasources, cally2)
+  # INTEGRATE RETURNED OUTPUT
+  .select <- function(l, field){
+    lapply(l, function(obj) {obj[[field]]})
+  }
 
+  disclosure.risk.total <- Reduce(f="+", .select(study.summary, 'disclosure.risk'))
 
-
-
-
-#INTEGRATE RETURNED OUTPUT
-      .select <- function(l, field) {
-      lapply(l, function(obj) {obj[[field]]})
-    }
-
-    disclosure.risk.total<-Reduce(f="+", .select(study.summary, 'disclosure.risk'))
-
-	disclosure.risk<-NULL
-      errorMessage2<-NULL
+	disclosure.risk <- NULL
+  errorMessage2 <- NULL
 
 	for(ss2 in 1:numstudies){
-         disclosure.risk<-c(disclosure.risk,study.summary[[ss]][[9]])
-         errorMessage2<-c(errorMessage2,study.summary[[ss]][[10]])
+    disclosure.risk <- c(disclosure.risk,study.summary[[ss]][[9]])
+    errorMessage2 <- c(errorMessage2,study.summary[[ss]][[10]])
 	}
 
-    disclosure.risk<-as.matrix(disclosure.risk)
-    dimnames(disclosure.risk)<-list(names(datasources),"RISK OF DISCLOSURE")
+  disclosure.risk <- as.matrix(disclosure.risk)
+  dimnames(disclosure.risk) <- list(names(datasources), "RISK OF DISCLOSURE")
 
+  errorMessage2 <- as.matrix(errorMessage2)
+  dimnames(errorMessage2) <- list(names(datasources), "ERROR MESSAGES")
 
-    errorMessage2<-as.matrix(errorMessage2)
-    dimnames(errorMessage2)<-list(names(datasources),"ERROR MESSAGES")
-
-    if(disclosure.risk.total>0){
+  if(disclosure.risk.total>0){
 	message("Potential disclosure risk in y.vect, X.mat, w.vect or offset \n",
 	        "or model overparameterized in at least one study.\n",
 			"In addition clientside function appears to have been modified\n",

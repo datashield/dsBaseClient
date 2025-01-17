@@ -227,9 +227,8 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
     stop("Please provide the name of the column that holds the exit times (i.e. end of follow up time)!", call.=FALSE)
   }
 
-
   # if no valid value provided for 'intervalWidth' instruct user to specify one
-  if(is.null(intervalWidth)||is.na(intervalWidth)||intervalWidth==0){
+  if(any(is.null(intervalWidth))||any(is.na(intervalWidth))||any(intervalWidth==0)){
     stop("Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", call.=FALSE)
   }
 
@@ -238,20 +237,18 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
     expandDF <- "lexis.newobj"
   }
 
-#FIRST CALL TO SERVER SIDE TO IDENTIFY THE MAXIMUM FOLLOW UP TIME IN ANY
-#SOURCE. THE MAXIMUM I EACH SOURCE IS MASKED BY A RANDOM POSITIVE INCREMENT
+  # FIRST CALL TO SERVER SIDE TO IDENTIFY THE MAXIMUM FOLLOW UP TIME IN ANY
+  # SOURCE. THE MAXIMUM I EACH SOURCE IS MASKED BY A RANDOM POSITIVE INCREMENT
   calltext1 <- call("lexisDS1", exitCol)
+  maxtime <- DSI::datashield.aggregate(datasources, calltext1)
 
-  maxtime<-DSI::datashield.aggregate(datasources, calltext1)
-
-  num.studies<-length(datasources)
+  num.studies <- length(datasources)
 
   for(ss in 1:num.studies){
-#  print(maxtime[ss][[1]]$max.time)
-
+  # print(maxtime[ss][[1]]$max.time)
     if(is.null(maxtime[ss][[1]]$max.time)){
-    return(list(maxtime=maxtime))
-	}
+      return(list(maxtime=maxtime))
+	  }
   }
 
   nummax<-length(maxtime)

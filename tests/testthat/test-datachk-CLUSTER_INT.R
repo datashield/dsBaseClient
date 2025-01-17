@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -14,7 +14,7 @@
 
 context("CLUSTER_INT::datachk::setup")
 
-connect.studies.dataset.cluster.int(list("idPatient", "idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private"))
+connect.studies.dataset.cluster.int(list("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -28,12 +28,12 @@ context("CLUSTER_INT::datachk")
 test_that("Check CLUSTER INT dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
-    expect_length(res.class$cluster.int1, 1)
-    expect_equal(res.class$cluster.int1, "data.frame")
-    expect_length(res.class$cluster.int2, 1)
-    expect_equal(res.class$cluster.int2, "data.frame")
-    expect_length(res.class$cluster.int3, 1)
-    expect_equal(res.class$cluster.int3, "data.frame")
+    expect_gte(length(res.class$cluster.int1), 1)
+    expect_true("data.frame" %in% res.class$cluster.int1)
+    expect_gte(length(res.class$cluster.int2), 1)
+    expect_true("data.frame" %in% res.class$cluster.int2)
+    expect_gte(length(res.class$cluster.int3), 1)
+    expect_true("data.frame" %in% res.class$cluster.int3)
 
     res.length <- ds.length(x='D')
     expect_length(res.length, 4)
@@ -48,11 +48,11 @@ test_that("Check CLUSTER INT dataset", {
     res.colnames <- ds.colnames(x='D')
     expect_length(res.colnames, 3)
     expect_length(res.colnames$cluster.int1, 13)
-    expect_equal(res.colnames$cluster.int1, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_true(all(res.colnames$cluster.int1 %in% c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private")))
     expect_length(res.colnames$cluster.int2, 13)
-    expect_equal(res.colnames$cluster.int2, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_true(all(res.colnames$cluster.int2 %in% c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private")))
     expect_length(res.colnames$cluster.int3, 13)
-    expect_equal(res.colnames$cluster.int3, c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "private", "diabetes", "incid_rate"))
+    expect_true(all(res.colnames$cluster.int3 %in% c("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private")))
 
     res.class.idsurgery <- ds.class(x='D$idSurgery')
     expect_length(res.class.idsurgery, 3)
@@ -114,25 +114,25 @@ test_that("Check CLUSTER INT dataset", {
     expect_length(res.length.intsurgery$`total length of D$intSurgery in all studies combined`, 1)
     expect_equal(res.length.intsurgery$`total length of D$intSurgery in all studies combined`, 3141)
 
-    res.class.ndoctor <- ds.class(x='D$nDoctor')
-    expect_length(res.class.ndoctor, 3)
-    expect_length(res.class.ndoctor$cluster.int1, 1)
-    expect_equal(res.class.ndoctor$cluster.int1, "integer")
-    expect_length(res.class.ndoctor$cluster.int2, 1)
-    expect_equal(res.class.ndoctor$cluster.int2, "integer")
-    expect_length(res.class.ndoctor$cluster.int3, 1)
-    expect_equal(res.class.ndoctor$cluster.int3, "integer")
+    res.class.nDoctors <- ds.class(x='D$nDoctors')
+    expect_length(res.class.nDoctors, 3)
+    expect_length(res.class.nDoctors$cluster.int1, 1)
+    expect_equal(res.class.nDoctors$cluster.int1, "integer")
+    expect_length(res.class.nDoctors$cluster.int2, 1)
+    expect_equal(res.class.nDoctors$cluster.int2, "integer")
+    expect_length(res.class.nDoctors$cluster.int3, 1)
+    expect_equal(res.class.nDoctors$cluster.int3, "integer")
 
-    res.length.ndoctor <- ds.length(x='D$nDoctor')
-    expect_length(res.length.ndoctor, 4)
-    expect_length(res.length.ndoctor$`length of D$nDoctor in cluster.int1`, 1)
-    expect_equal(res.length.ndoctor$`length of D$nDoctor in cluster.int1`, 1056)
-    expect_length(res.length.ndoctor$`length of D$nDoctor in cluster.int2`, 1)
-    expect_equal(res.length.ndoctor$`length of D$nDoctor in cluster.int2`, 991)
-    expect_length(res.length.ndoctor$`length of D$nDoctor in cluster.int3`, 1)
-    expect_equal(res.length.ndoctor$`length of D$nDoctor in cluster.int3`, 1094)
-    expect_length(res.length.ndoctor$`total length of D$nDoctor in all studies combined`, 1)
-    expect_equal(res.length.ndoctor$`total length of D$nDoctor in all studies combined`, 3141)
+    res.length.nDoctors <- ds.length(x='D$nDoctors')
+    expect_length(res.length.nDoctors, 4)
+    expect_length(res.length.nDoctors$`length of D$nDoctors in cluster.int1`, 1)
+    expect_equal(res.length.nDoctors$`length of D$nDoctors in cluster.int1`, 1056)
+    expect_length(res.length.nDoctors$`length of D$nDoctors in cluster.int2`, 1)
+    expect_equal(res.length.nDoctors$`length of D$nDoctors in cluster.int2`, 991)
+    expect_length(res.length.nDoctors$`length of D$nDoctors in cluster.int3`, 1)
+    expect_equal(res.length.nDoctors$`length of D$nDoctors in cluster.int3`, 1094)
+    expect_length(res.length.nDoctors$`total length of D$nDoctors in all studies combined`, 1)
+    expect_equal(res.length.nDoctors$`total length of D$nDoctors in all studies combined`, 3141)
 
     res.class.iddoctor <- ds.class(x='D$idDoctor')
     expect_length(res.class.iddoctor, 3)

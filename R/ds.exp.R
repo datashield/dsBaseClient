@@ -71,26 +71,15 @@ ds.exp <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   if(!('numeric' %in% typ) && !('integer' %in% typ)){
-      stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
+    stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
   }
 
   # create a name by default if user did not provide a name for the new variable

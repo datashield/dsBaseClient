@@ -76,69 +76,46 @@
 #'
 ds.length <- function(x=NULL, type='both', checks='FALSE', datasources=NULL){
 
-  ##################################################################################################################
-  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                                                          #
-  # look for DS connections                                                                                        #
-  if(is.null(datasources)){                                                                                        #
-    datasources <- datashield.connections_find()                                                                   #
-  }                                                                                                                #
-                                                                                                                   #
-  # ensure datasources is a list of DSConnection-class                                                             #
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){    #
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)                #
-  }                                                                                                                #
-  ##################################################################################################################
+  # look for DS connections
+  if(is.null(datasources)){
+    datasources <- datashield.connections_find()
+  }
+  
+  # ensure datasources is a list of DSConnection-class
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
+  }
+  
+  if(is.null(x)){
+    stop("Please provide the name of the input object!", call.=FALSE)
+  }                                                                               
 
-  #####################################################################################
-  #MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
-  if(is.null(x)){                                                                   #
-    stop("Please provide the name of the input vector!", call.=FALSE)               #
-  }                                                                                 #
-  # the input variable might be given as a variable in a data frame (i.e. D$x)      #
-  # or just as a vector not attached to a table (i.e. x)                            #
-  # we have to make sure the function deals with each case                          #
-  xnames <- extract(x)                                                              #
-  varname <- xnames$elements                                                        #
-  obj2lookfor <- xnames$holders                                                     #
-  #####################################################################################
-
-
-  ###############################################################################################
-  #MODULE 3: GENERIC OPTIONAL CHECKS TO ENSURE CONSISTENT STRUCTURE OF KEY VARIABLES            #
-  #IN DIFFERENT SOURCES                                                                         #
-  # beginning of optional checks - the process stops and reports as soon as one               #
-  #check fails                                                                                #
-  #
-  if(checks){                                                                                 #
-    message(" -- Verifying the variables in the model")                                       #
-    #
-    # check if the input object(s) is(are) defined in all the studies                           #
-    if(is.na(obj2lookfor)){                                                                     #
-      defined <- isDefined(datasources, varname)                                                #
-    }else{                                                                                      #
-      defined <- isDefined(datasources, obj2lookfor)                                            #
-    }                                                                                           #
-    #
-    # call the internal function that checks the input object is suitable in all studies        #
-    typ <- checkClass(datasources, x)                                                      #
+  # beginning of optional checks - the process stops and reports as soon as one check fails
+  if(checks){  
+    
+    # check if the input object is defined in all the studies
+    isDefined(datasources, x)
+    
+    # call the internal function that checks the input object is suitable in all studies 
+    typ <- checkClass(datasources, x)
+    
     # the input object must be a vector or a list
     if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('list' %in% typ)){
       stop("The input object must be a character, factor, integer, logical or numeric vector or a list.", call.=FALSE)
-    }                                                                                         #
-  }                                                                                             #
-  ###############################################################################################
+    }
+    
+  } 
 
   ###################################################################################################
-  #MODULE 4: EXTEND "type" argument to include "both" and enable valid alisases                     #
+  # MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
-  if(type != 'combine' & type != 'split' & type != 'both')                                          #
+  if(type != 'combine' & type != 'split' & type != 'both'){                                         #
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
-                                                                                                    #
-  #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
-  ###################################################################################################
-
+  }
+  
+  # call the server-side function
   cally <- call("lengthDS", x)
   lengths <- DSI::datashield.aggregate(datasources, cally)
 

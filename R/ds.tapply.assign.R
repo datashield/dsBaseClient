@@ -61,8 +61,7 @@
 #' Server function called: \code{ds.tapply.assign}
 #' @param X.name a character string specifying the name of the variable to be summarized.
 #' @param INDEX.names a character string specifying the name of a single factor 
-#' or a vector of names of factors to
-#' index the variable to be summarized. 
+#' or a vector of names of up to two factors to index the variable to be summarized. 
 #' For more information see \strong{Details}. 
 #' @param FUN.name a character string specifying the name of one of the allowable 
 #' summarizing functions. This can be set as: 
@@ -145,7 +144,10 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
   if(is.null(X.name)){
     return("Error: Please provide the name of the variable to be summarized, as a character string")
   }
-
+  
+  # check if the X object is defined in all the studies
+  isDefined(datasources, X.name)
+  
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names
   if(is.null(INDEX.names)){
@@ -154,14 +156,24 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
     Err.3 <- "In either case the argument must be specified in inverted commas"
     return(list(Error.message=Err.1, Err.cont2=Err.2, Err.cont3=Err.3))
   }
-
- #make INDEX.names transmitable
+  
+  # check if the vector or list of INDEX.names includes up to two names
+  if(length(INDEX.names) > 2){
+    stop("The 'INDEX.names' can include the names of up to two factors", call.=FALSE)
+  }
+  
+  # check if the INDEX objects are defined in all the studies
+  for(i in 1:length(INDEX.names)){
+    isDefined(datasources, INDEX.names[i])
+  }
+  
+  # make INDEX.names transmitable
   if(!is.null(INDEX.names)){
-    INDEX.names.transmit <- paste(INDEX.names,collapse=",")
+    INDEX.names.transmit <- paste(INDEX.names, collapse=",")
   }else{
     INDEX.names.transmit <- NULL
   }
-
+  
   ###FUN.name
   # check if user has provided a valid summarizing function
   if(is.null(FUN.name)){
@@ -202,7 +214,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

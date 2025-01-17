@@ -14,6 +14,7 @@ ds.glmSLMA(
   dataName = NULL,
   checks = FALSE,
   maxit = 30,
+  notify.of.progress = FALSE,
   datasources = NULL
 )
 }
@@ -54,6 +55,9 @@ of the model. Default FALSE. For more information see \strong{Details}.}
 are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
 For more information see \strong{Details}.}
 
+\item{notify.of.progress}{specifies if console output should be produced to indicate
+progress. Default FALSE.}
+
 \item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
@@ -76,7 +80,7 @@ a series of other list objects that represent inferences aggregated across studi
 the study specific items include:
 
 \code{coefficients}: a matrix with 5 columns:
-   \itemize{
+   \describe{
    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
    \item{second}{: the estimated values} 
    \item{third}{: corresponding standard errors of the estimated values} 
@@ -267,7 +271,7 @@ been extended to include a number of model types that are non-standard but are u
 relatively widely.
 
 The standard models include:
- \itemize{
+ \describe{
    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
    \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological

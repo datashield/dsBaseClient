@@ -11,19 +11,19 @@
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
 #' 
 #' In the argument \code{type} can be specified two types of graphics to display:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{'combine'}}{: a combined heat map plot is displayed} 
 #'    \item{\code{'split'}}{: each heat map is plotted separately}
 #'     }
 #'
 #' In the argument \code{show} can be specified two options:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{'all'}}{: the ranges of the variables are used as plot limits} 
 #'    \item{\code{'zoomed'}}{: the plot is zoomed to the region where the actual data are}
 #'     }
 #' 
 #' In the argument \code{method} can be specified 3 different heat map to be created:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{'smallCellsRule'}}{: the heat map of the actual variables is
 #'     created but grids with low counts are replaced with grids with zero counts} 
 #'    \item{\code{'deterministic'}}{: the heat map of the scaled centroids of each 
@@ -148,7 +148,8 @@
 #'
 #' }
 #'
-ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
+ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, 
+                           method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -168,27 +169,9 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
   }
 
-  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
-  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
-  }
-
-  # the input variable might be given as column table (i.e. D$object)
-  # or just as a vector not attached to a table (i.e. object)
-  # we have to make sure the function deals with each case
-  objects <- c(x, y)
-  xnames <- extract(objects)
-  varnames <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  for(i in 1:length(varnames)){
-    if(is.na(obj2lookfor[i])){
-      defined <- isDefined(datasources, varnames[i])
-    }else{
-      defined <- isDefined(datasources, obj2lookfor[i])
-    }
-  }
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, x)
+  isDefined(datasources, y)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -203,10 +186,13 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     message(paste0(y, " is of type ", typ.y, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
+  
+  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
+  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
+    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+  }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
+  # prepare the axis labels
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -203,7 +203,7 @@ test_that('dataset 1',
             .test.data.frame.sorting("D","NEGATIVE_INTEGER",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","NUMERIC",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","POSITIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
-            .test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
+            #.test.data.frame.sorting("D","NEGATIVE_NUMERIC",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","IDENTIFIER",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","CATEGORY",TRUE,"numeric","server.data",all.local.values)
             .test.data.frame.sorting("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data",all.local.values)

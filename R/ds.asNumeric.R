@@ -3,12 +3,12 @@
 #' @description Coerces an R object into a numeric class. 
 #' This function is based on the native R function \code{as.numeric}.
 #' @details This function is based on the native R function \code{as.numeric}.
-#'  The only difference is that the DataSHIELD 
-#' function first converts the values of the input object into characters and then convert 
-#' those to numerics. This addition is important for the case where the input object is of class
-#' factor having numbers as levels. In that case, the native R \code{as.numeric} function returns
-#' the underlying level codes and not the values as numbers. For example \code{as.numeric} in R
-#' converts the factor vector: \cr
+#' However, it behaves differently with some specific classes of variables. For example, if the input 
+#' object is of class factor, it first converts its values into characters and then convert those to
+#' numerics. This behavior is important for the case where the input object is of class factor having
+#' numbers as levels. In that case, the native R 
+#' \code{as.numeric} function returns the underlying level codes and not the values as numbers. 
+#' For example \code{as.numeric} in R converts the factor vector: \cr
 #' 0 1 1 2 1 0 1 0 2 2 2 1 \cr
 #' Levels: 0 1 2 \cr
 #' to the following numeric vector:
@@ -25,7 +25,7 @@
 #' @param datasources a list of \code{\link{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
-#' @return  \code{ds.asNumeric} returns the R object converted into a numeric class
+#' @return \code{ds.asNumeric} returns the R object converted into a numeric class
 #' that is written to the server-side. Also, two validity messages are returned 
 #' to the client-side indicating the name of the \code{newobj} which 
 #' has been created in each data source and if 
@@ -69,6 +69,7 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
+#' 
 ds.asNumeric <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -84,6 +85,9 @@ ds.asNumeric <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x.name)
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -119,7 +123,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

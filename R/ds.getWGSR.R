@@ -124,6 +124,11 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     stop("Please provide the column name of the 'secondPart' variable!", call.=FALSE)
   }
   
+  # check if the input objects are defined in all the studies
+  isDefined(datasources, sex)
+  isDefined(datasources, firstPart)
+  isDefined(datasources, secondPart)
+  
   # if 'firstPart' or 'secondPart' are not numeric return an error message
   typ.firstPart <- checkClass(datasources, firstPart)
   typ.secondPart <- checkClass(datasources, secondPart)
@@ -185,7 +190,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     if(!object.info[[j]]$test.obj.exists){
       obj.name.exists.in.all.sources <- FALSE
     }
-    if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){
+    if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){
       obj.non.null.in.all.sources <- FALSE
     }
   }

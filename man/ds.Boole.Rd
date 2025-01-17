@@ -18,7 +18,7 @@ ds.Boole(
 \item{V1}{A character string specifying the name of the vector to which the Boolean operator
 is to be applied.}
 
-\item{V2}{A character string specifying the name of the vector  to compare with \code{V1}.}
+\item{V2}{A character string specifying the name of the vector to compare with \code{V1}.}
 
 \item{Boolean.operator}{A character string specifying one of six possible Boolean operators:
 \code{'==', '!=', '>', '>=', '<'} and \code{'<='}.}

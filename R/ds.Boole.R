@@ -24,7 +24,7 @@
 #' 
 #' @param V1 A character string specifying the name of the vector to which the Boolean operator
 #' is to be applied. 
-#' @param V2 A character string specifying the name of the vector  to compare with \code{V1}. 
+#' @param V2 A character string specifying the name of the vector to compare with \code{V1}. 
 #' @param Boolean.operator A character string specifying one of six possible Boolean operators:
 #' \code{'==', '!=', '>', '>=', '<'} and \code{'<='}. 
 #' @param numeric.output logical. If TRUE the output variable should be of class numeric (\code{1/0}).
@@ -177,7 +177,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
     newobj <- paste0(V1,"_Boole")
   }
 
-# CALL THE MAIN SERVER SIDE FUNCTION
+  # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("BooleDS", V1, V2, BO.n, na.assign,numeric.output)
   DSI::datashield.assign(datasources, newobj, calltext)
 
@@ -209,7 +209,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -28,12 +28,12 @@ context("TESTING::datachk")
 test_that("Check TESTING dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
-    expect_length(res.class$study1, 1)
-    expect_equal(res.class$study1, "data.frame")
-    expect_length(res.class$study2, 1)
-    expect_equal(res.class$study2, "data.frame")
-    expect_length(res.class$study3, 1)
-    expect_equal(res.class$study3, "data.frame")
+    expect_gte(length(res.class$study1), 1)
+    expect_true("data.frame" %in% res.class$study1)
+    expect_gte(length(res.class$study2), 1)
+    expect_true("data.frame" %in% res.class$study2)
+    expect_gte(length(res.class$study3), 1)
+    expect_true("data.frame" %in% res.class$study3)
 
     res.length <- ds.length(x='D')
     expect_length(res.length, 4)

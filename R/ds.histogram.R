@@ -6,13 +6,13 @@
 #' the single plots.
 #' 
 #' In the argument \code{type} can be specified two types of graphics to display:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{'combine'}}{: a histogram that merges the single plot is displayed.} 
 #'    \item{\code{'split'}}{: each histogram is plotted separately.}
 #'     }
 #'     
 #' In the argument \code{method} can be specified 3 different histograms to be created:
-#'  \itemize{
+#'  \describe{
 #'    \item{\code{'smallCellsRule'}}{: the histogram of the actual variable is
 #'           created but bins with low counts are removed.} 
 #'    \item{\code{'deterministic'}}{: the histogram of the scaled centroids of each 
@@ -48,7 +48,7 @@
 #' By default the value of noise is set to be equal to 0.25.
 #' 
 #' In the argument  \code{vertical.axis} can be specified two types of histograms:
-#' \itemize{
+#' \describe{
 #'    \item{\code{'Frequency'}}{: the histogram of the frequencies
 #'     is returned.} 
 #'    \item{\code{'Density'}}{: the histogram of the densities
@@ -167,19 +167,8 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # the input variable might be given as column table (i.e. D$x)
-  # or just as a vector not attached to a table (i.e. x)
-  # we have to make sure the function deals with each case
-  xnames <- extract(x)
-  varname <- xnames$elements
-  obj2lookfor <- xnames$holders
-
-  # check if the input object(s) is(are) defined in all the studies
-  if(is.na(obj2lookfor)){
-    defined <- isDefined(datasources, varname)
-  }else{
-    defined <- isDefined(datasources, obj2lookfor)
-  }
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x)
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -215,9 +204,13 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   ranges <- unique(unlist(DSI::datashield.aggregate(datasources, as.symbol(cally1))))
 
   # produce the 'global' range
-  range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
+  range.arg <- c(min(ranges, na.rm=TRUE), max(ranges, na.rm=TRUE))
   min <- range.arg[1]
   max <- range.arg[2]
+  
+  # get the axis label
+  xnames <- extract(x)
+  varname <- xnames$elements
 
   # call the server-side function that generates the histogram object to plot
   call <- paste0("histogramDS2(", x, ",", num.breaks, ",", min, ",", max, ",", method.indicator, ",", k, ",", noise, ")")

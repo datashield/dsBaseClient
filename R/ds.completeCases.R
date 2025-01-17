@@ -86,10 +86,12 @@ ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x1)){
     return("Error: x1 must be a character string naming a serverside data.frame, matrix or vector")
   }
+  
+  # check if the input object is defined in all the studies
+  isDefined(datasources, x1)
 
   # rename target object for transfer (not strictly necessary as string will pass parser anyway)
   # but maintains consistency with other functions
- 
   x1.transmit <- x1
 
   # if no value specified for output object, then specify a default
@@ -130,7 +132,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -124,7 +124,7 @@
 #' @return \code{ds.lmerSLMA} returns a list of  elements mentioned 
 #' below separately for each study.  
 #' @return \code{coefficients}: a matrix with 5 columns:
-#'    \itemize{
+#'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 
@@ -302,7 +302,9 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
       newobj <- "new.lmer.obj"
     }
     
-    cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+    if (notify.of.progress) {
+        cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+    }
     
     calltext.2 <- call('lmerSLMADS.assign', formula, offset, weights, dataName, REML,
                        control_type, control_value.transmit, optimizer, verbose)
