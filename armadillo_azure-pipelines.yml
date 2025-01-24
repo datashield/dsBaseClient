@@ -71,7 +71,7 @@ jobs:
 - job: build_and_run_tests
   timeoutInMinutes: 360
   pool:
-    vmImage: ubuntu-22.04
+    vmImage: ubuntu-24.04
 
   steps:
     #####################################################################################
@@ -125,11 +125,10 @@ jobs:
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
   - bash: |
-
-      sudo apt-get update -qq
       sudo apt-get install --no-install-recommends software-properties-common dirmngr
       wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
       sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+      sudo apt-get update -qq
       sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
@@ -186,7 +185,7 @@ jobs:
     # If this step fails still mark as failed, but don't stop the rest of the steps running.    
   - bash: |
 
-      R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
+      R -q -e "library('devtools'); devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -264,7 +263,7 @@ jobs:
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
 
-      sudo R --verbose -e 'devtools::check()'
+      sudo R --verbose -e 'devtools::reload()'
 
       mkdir $(Pipeline.Workspace)/logs
 
@@ -388,7 +387,7 @@ jobs:
   - bash: |
 
       # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
-      sudo R --verbose -e 'devtools::check()'
+      sudo R --verbose -e 'devtools::reload()'
 
       pwd
       mkdir $(Pipeline.Workspace)/logs

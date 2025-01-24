@@ -5,7 +5,8 @@ version: 2.1
 jobs:
   dsbaseclient:
     docker:
-      - image: cimg/base:current
+#      - image: cimg/base:current
+      - image: cimg/base:2024.11
     resource_class: small
     steps:
       - checkout
@@ -18,6 +19,10 @@ jobs:
           echo "  Tag:       " $CIRCLE_TAG
       - run:
           command: |
+              sudo apt-get install --no-install-recommends software-properties-common dirmngr
+              wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+              sudo add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
               sudo apt-get update -y
               sudo apt-get install -y r-base-core cmake
       - run:
@@ -31,20 +36,20 @@ jobs:
               sudo apt-get install -y libpng-dev
               sudo apt-get install -y libtiff5-dev
               sudo apt-get install -y libjpeg-dev
-
       - run:
           command: |
               sudo Rscript -e "install.packages('devtools', dependencies=TRUE)"
               sudo Rscript -e "install.packages('covr', dependencies=TRUE)"
 
               sudo Rscript -e "install.packages('fields', dependencies=TRUE)"
-              sudo Rscript -e "install.packages('meta', dependencies=TRUE)"
               sudo Rscript -e "install.packages('metafor', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('meta', dependencies=TRUE)"
               sudo Rscript -e "install.packages('ggplot2', dependencies=TRUE)"
               sudo Rscript -e "install.packages('gridExtra', dependencies=TRUE)"
               sudo Rscript -e "install.packages('data.table', dependencies=TRUE)"
               sudo Rscript -e "install.packages('panelaggregation', dependencies=TRUE)"
-
+              sudo Rscript -e "install.packages('methods', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DSI', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DSOpal', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DSLite', dependencies=TRUE)"

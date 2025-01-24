@@ -185,7 +185,7 @@ jobs:
     # If this step fails still mark as failed, but don't stop the rest of the steps running.    
   - bash: |
 
-      R -q -e "library('devtools'); devtools::check(args = c('--no-examples'))" | tee azure-pipelines_check.Rout
+      R -q -e "library('devtools'); devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
       grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -258,7 +258,7 @@ jobs:
       # best guess is that there is an implicit build or similar that happens. Although
       # I cannot replicate that directly with build etc directly.
 
-      sudo R --verbose -e 'devtools::check()'
+      sudo R --verbose -e 'devtools::reload()'
 
       mkdir $(Pipeline.Workspace)/logs
 
@@ -374,7 +374,7 @@ jobs:
   - bash: |
 
       # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
-      sudo R --verbose -e 'devtools::check()'
+      sudo R --verbose -e 'devtools::reload()'
 
       pwd
       mkdir $(Pipeline.Workspace)/logs
