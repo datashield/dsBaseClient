@@ -72,8 +72,6 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
 }
 \seealso{
 \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
-
-\link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 }
 \author{
 Gaye, A.

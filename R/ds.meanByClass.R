@@ -31,7 +31,6 @@
 #' @export
 #' @author DataSHIELD Development Team
 #' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @examples
 #' \dontrun{
 #'
