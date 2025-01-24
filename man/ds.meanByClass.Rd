@@ -96,9 +96,6 @@ parameter \code{datasources}.
 }
 
 }
-\seealso{
-\code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-}
 \author{
 DataSHIELD Development Team
 }
