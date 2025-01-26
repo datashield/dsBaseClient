@@ -30,7 +30,6 @@
 #' and standard deviation in each subgroup (subset).
 #' @export
 #' @author DataSHIELD Development Team
-#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
 #' @examples
 #' \dontrun{
 #'

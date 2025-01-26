@@ -18,7 +18,6 @@
 #' it is in a valid form.
 #' @examples 
 #' \dontrun{
-#'   ## Version 6, for version 5 see the Wiki
 #'   
 #'   # connecting to the Opal servers
 #' 

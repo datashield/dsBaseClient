@@ -138,7 +138,7 @@ function is also allowed by \code{ds.glm}.
 
 Many GLMs can be fitted very simply using a formula such as:
 
-\deqn{y~a+b+c+d} 
+\code{y~a+b+c+d} 
 
 which simply means fit a GLM with \code{y} as the outcome variable and 
 \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
@@ -147,7 +147,7 @@ By default all such models also include an intercept (regression constant) term.
 Instead, if you need to fit a more complex
 model, for example:
 
- \deqn{EVENT~1+TID+SEXF*AGE.60}
+ \code{EVENT~1+TID+SEXF*AGE.60}
 
 In the above model the outcome variable is \code{EVENT} 
 and the  covariates 
@@ -183,7 +183,7 @@ an \code{identity} link function, the binomial family with a
 The \code{data} argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula. 
 For example, if the data frame is called \code{DataFrame} you
-avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
+avoid having to write: \code{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
 
 The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-side at every study

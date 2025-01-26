@@ -124,7 +124,6 @@ test_that("check results", {
         "ds.setSeed",
         "ds.skewness",
         "ds.sqrt",
-        "ds.subsetByClass",
         "ds.summary",
         "ds.table",
         "ds.table1D",
