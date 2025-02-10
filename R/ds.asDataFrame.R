@@ -49,7 +49,7 @@
 #'   datashield.logout(connections)
 #'
 #' }
-#' @author DataSHIELD Development Team
+#' @author Tim Cadman
 #' @export
 #'
 ds.asDataFrame <- function(x.name=NULL, newobj=NULL, datasources=NULL){
