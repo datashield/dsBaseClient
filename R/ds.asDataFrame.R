@@ -51,7 +51,6 @@
 #' }
 #' @author Tim Cadman
 #' @export
-#'
 ds.asDataFrame <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
