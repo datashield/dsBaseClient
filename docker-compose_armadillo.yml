@@ -3,7 +3,7 @@ services:
         hostname: armadillo
         ports:
             - 8080:8080
-        image: datashield/armadillo_citest:4.12.0
+        image: datashield/armadillo_citest:4.13.1
         environment:
             LOGGING_CONFIG: 'classpath:logback-file.xml'
             AUDIT_LOG_PATH: '/app/logs/audit.log'
