@@ -19,12 +19,8 @@ armadillo:
       host: default
       package-whitelist: # Packages for 'donkey'
         - dsBase
-        - dsMediation
-        - dsMTLBase
         - dsSurvival
         - dsTidyverse
-        - dsExposome
-        - dsOmics
         - resourcer
       function-blacklist: [ ]
       options:

@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.2.9000</span>
       </span>
     </div>
 
@@ -235,13 +235,13 @@ If it did not some information about the reason for this is reported.</p>
 <p>In <code>formula</code> most shortcut notation allowed by <code>glmer()</code> function is
 also allowed by <code>ds.glmerSLMA</code>.
 Many GLMEs can be fitted very simply using a formula like:
-$$y~a+b+(1|c)$$
+\(y~a+b+(1|c)\)
 which simply means fit an GLME  with <code>y</code> as the outcome variable (e.g.
 a binary case-control using a logistic regression model or a count or a survival
 time using a Poisson regression model), <code>a</code> and <code>b</code>
 as fixed effects, and <code>c</code> as a random effect or grouping factor.</p>
 <p>It is also possible to fit models with random slopes by specifying a model such as
-$$y~a+b+(1+b|c)$$
+\(y~a+b+(1+b|c)\)
 where the effect of <code>b</code> can vary randomly between groups defined by <code>c</code>.
 Implicit nesting can be specified with formulas such as: \(y~a+b+(1|c/d)\)
 or \(y~a+b+(1|c)+(1|c:d)\).</p>
@@ -249,7 +249,7 @@ or \(y~a+b+(1|c)+(1|c:d)\).</p>
 <p>The <code>dataName</code> argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula.
 For example, if the data frame is called <code>DataFrame</code> you avoid having to write:
-\(DataFrame$y ~ DataFrame$a + DataFrame$b + (1 | DataFrame$c)\).</p>
+\(DataFrame\$y ~ DataFrame\$a + DataFrame\$b + (1 | DataFrame\$c)\).</p>
 <p>The <code>checks</code> argument verifies that the variables in the model are all defined (exist)
 on the server-site at every study
 and that they have the correct characteristics required to fit the model.
