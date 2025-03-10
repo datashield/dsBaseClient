@@ -169,17 +169,17 @@ If it did not some information about the reason for this is reported.
 In \code{formula} most shortcut notation allowed by \code{glmer()} function is
 also allowed by \code{ds.glmerSLMA}. 
 Many GLMEs can be fitted very simply using a formula like:
-\deqn{y~a+b+(1|c)} 
+\eqn{y~a+b+(1|c)}
 which simply means fit an GLME  with \code{y} as the outcome variable (e.g. 
 a binary case-control using a logistic regression model or a count or a survival
 time using a Poisson regression model), \code{a} and \code{b}
 as fixed effects, and \code{c} as a random effect or grouping factor. 
 
 It is also possible to fit models with random slopes by specifying a model such as 
-\deqn{y~a+b+(1+b|c)} 
+\eqn{y~a+b+(1+b|c)}
 where the effect of \code{b} can vary randomly between groups defined by \code{c}.
 Implicit nesting can be specified with formulas such as: \eqn{y~a+b+(1|c/d)}
-or \eqn{y~a+b+(1|c)+(1|c:d)}. 
+or \eqn{y~a+b+(1|c)+(1|c:d)}.
 
 
 The \code{dataName} argument avoids you having to specify the name of the
