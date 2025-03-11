@@ -133,6 +133,7 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev -y
+      sudo R -q -e "install.packages(c('curl','httr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -232,9 +233,11 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '6.3.1'); opal.logout(opal)"
 
-      sleep 120
+      sleep 60
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
 
@@ -358,6 +361,8 @@ jobs:
     # If previous steps have failed then don't run
   - bash: |
 
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '6.3.1'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
@@ -376,7 +381,6 @@ jobs:
       # See, 'Code coverage and JUnit report output' for issues with the approach and improvement needed.
       sudo R --verbose -e 'devtools::reload()'
 
-      pwd
       mkdir $(Pipeline.Workspace)/logs
 
       # run the coverage tool and output to coveragelist.csv
