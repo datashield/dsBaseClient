@@ -58,10 +58,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.3.1-dev
+    displayName: Nightly build - v6.4.0-dev
     branches:
       include:
-      - v6.3.1-dev
+      - v6.4.0-dev
     always: true
 
 #########################################################################################
@@ -235,7 +235,7 @@ jobs:
 
       curl -u admin:admin -X GET http://localhost:8080/packages
 
-      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.1-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.4.0.9000-permissive.tar.gz" -X POST http://localhost:8080/install-package
       sleep 60
 
       docker container restart dsbaseclient_armadillo_1
@@ -364,7 +364,7 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.1.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.4.0.9000.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 60
