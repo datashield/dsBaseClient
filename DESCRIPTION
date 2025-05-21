@@ -1,6 +1,6 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.3.2.9000
+Version: 6.3.2
 Authors@R: c(person(given = "Paul",
                     family = "Burton",
                     role = c("aut")),
