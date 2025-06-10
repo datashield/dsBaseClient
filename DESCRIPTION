@@ -1,8 +1,42 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.3.1
-Author: DataSHIELD Developers <datashield@liverpool.ac.uk>
-Maintainer: DataSHIELD Developers <datashield@liverpool.ac.uk>
+Version: 6.3.2
+Authors@R: c(person(given = "Paul",
+                    family = "Burton",
+                    role = c("aut")),
+             person(given = "Rebecca",
+                    family = "Wilson",
+                    role = c("aut")),
+             person(given = "Olly",
+                    family = "Butters",
+                    role = c("aut")),
+             person(given = "Patricia",
+                    family = "Ryser-Welch",
+                    role = c("aut")),
+             person(given = "Alex",
+                    family = "Westerberg",
+                    role = c("aut")),
+             person(given = "Leire",
+                    family = "Abarrategui",
+                    role = c("aut")),
+             person(given = "Roberto",
+                    family = "Villegas-Diaz",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-5036-8661")),
+             person(given = "Demetris",
+                    family = "Avraam",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-8908-2441")),
+             person(given = "Yannick",
+                    family = "Marcon",
+                    role = c("aut", "cre"),
+                    email = "yannick.marcon@obiba.org",
+                    comment = c(ORCID = "0000-0003-0138-2023")),
+             person(given = "Stuart",
+                    family = "Wheater",
+                    role = c("aut", "cre"),
+                    email = "stuart.wheater@arjuna.com",
+                    comment = c(ORCID = "0009-0003-2419-1964")))
 Description: DataSHIELD client functions for the client side.
 License: GPL-3
 Depends:
@@ -19,6 +53,14 @@ Imports:
     methods,
     dplyr
 Suggests:
-    testthat
+    lme4,
+    httr,
+    tibble,
+    testthat,
+    e1071,
+    DescTools,
+    DSOpal,
+    DSMolgenisArmadillo,
+    DSLite
 RoxygenNote: 7.3.2
 Encoding: UTF-8

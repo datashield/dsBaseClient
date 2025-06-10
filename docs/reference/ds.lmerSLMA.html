@@ -19,7 +19,7 @@ fixed and random-effects - on data from one or multiple sources with pooling via
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsBaseClient</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">6.3.2</span>
       </span>
     </div>
 
@@ -229,18 +229,18 @@ LMEs using the <code>lmer</code> function can be
 obtained using R help for <code>lmer</code> and the <code>lme4</code> package.</p>
 <p>In <code>formula</code> most shortcut notation allowed by  <code>lmer()</code> function is
 also allowed by <code>ds.lmerSLMA</code>. Many LMEs can be fitted very simply using a formula like:
-$$y ~ a + b + (1 | c)$$
+\(y ~ a + b + (1 | c)\)
 which simply means fit an LME with <code>y</code> as the outcome variable with <code>a</code> and <code>b</code>
 as fixed effects, and <code>c</code> as a random effect or grouping factor.</p>
 <p>It is also possible to fit models with random slopes by specifying a model such as
-$$y ~ a + b + (1 + b | c)$$
+\(y ~ a + b + (1 + b | c)\)
 where the effect of <code>b</code> can vary randomly between groups defined by <code>c</code>.
 Implicit nesting can be specified with formulae such as \(y ~ a + b + (1 | c / d)\)
 or \(y ~ a + b + (1 | c) + (1 | c : d)\).</p>
 <p>The <code>dataName</code> argument avoids you having to specify the name of the
 data frame in front of each covariate in the formula.
 For example, if the data frame is called <code>DataFrame</code> you avoid having to write:
-\(DataFrame$y ~ DataFrame$a + DataFrame$b + (1 | DataFrame$c)\).</p>
+\(DataFrame\$y ~ DataFrame\$a + DataFrame\$b + (1 | DataFrame\$c)\).</p>
 <p>The <code>checks</code> argument verifies that the variables in the model are all defined (exist)
 on the server-site at every study
 and that they have the correct characteristics required to fit the model.
@@ -328,11 +328,11 @@ the development team can activate this argument so alternatives can be specified
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by DataSHIELD Developers.</p>
+  <p></p><p>Developed by Paul Burton, Rebecca Wilson, Olly Butters, Patricia Ryser-Welch, Alex Westerberg, Leire Abarrategui, Roberto Villegas-Diaz, Demetris Avraam, Stuart Wheater.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
