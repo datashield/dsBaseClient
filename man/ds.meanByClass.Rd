@@ -24,7 +24,7 @@ ds.meanByClass(
 Default \code{'combine'}. 
 For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }

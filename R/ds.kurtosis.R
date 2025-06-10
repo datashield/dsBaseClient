@@ -17,7 +17,7 @@
 #' if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
 #' if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 #' The default value is set to 'both'.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return a matrix showing the kurtosis of the input numeric variable, the number of valid observations and

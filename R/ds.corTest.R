@@ -19,7 +19,7 @@
 #' This must be set to \code{'split'} or \code{'combine'}. Default is set to \code{'split'}. If 
 #' \code{type} is set to "combine" then an approximated pooled correlation is estimated based on 
 #' Fisher's z transformation.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.corTest} returns to the client-side the results of the correlation test. 

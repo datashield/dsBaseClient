@@ -10,7 +10,7 @@
 #' 
 #' Server function called: \code{exists}
 #' @param x a character string providing the name of the object to look for.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.exists} returns a logical object. 

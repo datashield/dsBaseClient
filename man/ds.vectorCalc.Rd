@@ -14,7 +14,7 @@ ds.vectorCalc(x = NULL, calc = NULL, newobj = NULL, datasources = NULL)
 
 \item{newobj}{the name of the output object. By default the name is 'vectorcalc.newobj'.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{

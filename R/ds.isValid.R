@@ -10,7 +10,7 @@
 #' 
 #' Server function called: \code{isValidDS}
 #' @param x a character string specifying the name of a vector, dataframe or matrix.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.isValid} returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 

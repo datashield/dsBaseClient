@@ -7,7 +7,7 @@
 #' @param x.name a character string providing the name of the varable, in the server, to perform \code{unique} upon
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. Default \code{unique.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return  \code{ds.unique} returns the vector of unique R objects which are written to the server-side.

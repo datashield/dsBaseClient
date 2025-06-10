@@ -33,7 +33,7 @@ operator. This parameter is ignored if the input data is not a vector.}
 \item{threshold}{a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored
 if the input data is not a vector.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{

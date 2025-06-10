@@ -19,7 +19,7 @@
 #' operator. This parameter is ignored if the input data is not a vector.
 #' @param threshold a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored
 #' if the input data is not a vector.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return no data are return to the user, the generated subset dataframe is stored on the server side.
 #' @author Gaye, A.

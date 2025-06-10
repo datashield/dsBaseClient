@@ -15,7 +15,7 @@
 #' "igb_zscore2value", "igb_value2zscore" (default), "igb_value2centile".
 #' @param newobj a character string that provides the name for the output variable
 #' that is stored on the data servers. Default name is set to \code{igb.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
 #' used: see \code{\link{datashield.connections_default}}.
 #' @note For gestational ages between 24 and 33 weeks, the INTERGROWTH very early preterm 

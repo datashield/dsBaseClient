@@ -12,7 +12,7 @@
 #' included in the linear predictor during fitting.
 #' @param weights  a character, the name of an optional vector of 'prior weights' to be used in the fitting
 #' process. Should be NULL or a numeric vector.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @keywords internal
 #' @return an integer 0 if check was passed and 1 if failed

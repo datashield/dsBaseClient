@@ -18,7 +18,7 @@ if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned sepa
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 The default value is set to 'both'.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 
 the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }

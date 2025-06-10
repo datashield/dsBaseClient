@@ -9,7 +9,7 @@
 #' @param x a character string providing the name of a numerical vector.
 #' @param newobj a character string that provides the name for the output variable
 #' that is stored on the data servers. Default \code{exp.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.exp} returns a vector for each study of the exponential values for the numeric vector 

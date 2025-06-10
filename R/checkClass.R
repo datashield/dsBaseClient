@@ -3,7 +3,7 @@
 #' @description This is an internal function.
 #' @details In DataSHIELD an object included in analysis must be of the same type in all
 #' the collaborating studies. If that is not the case the process is stopped
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param obj a string character, the name of the object to check for.
 #' @keywords internal

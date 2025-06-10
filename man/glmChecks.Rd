@@ -18,7 +18,7 @@ included in the linear predictor during fitting.}
 \item{weights}{a character, the name of an optional vector of 'prior weights' to be used in the fitting
 process. Should be NULL or a numeric vector.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.}
 }
 \value{

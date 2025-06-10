@@ -15,7 +15,7 @@ that is stored on the data servers. If the user does not specify a name, then th
 generates a name for the generated object that is the name of the input object with the 
 suffix "_complete.cases"}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified, the default set of connections will be
 used: see \code{\link{datashield.connections_default}}.}
 }

@@ -22,7 +22,7 @@
 #' are supplied, the basis parameters do not depend on x. Data can extend beyond Boundary.knots.
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. Default \code{ns.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return A matrix of dimension length(x) * df where either df was supplied or if knots were

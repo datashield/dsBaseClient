@@ -22,7 +22,7 @@
 #' Default \code{'both'}. 
 #' @param checks logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
 #' Default FALSE.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return \code{ds.dim} retrieves to the client-side the dimension of the object 
