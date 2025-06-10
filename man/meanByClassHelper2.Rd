@@ -8,7 +8,7 @@ meanByClassHelper2(dtsources, tablenames, variables, invalidrecorder)
 }
 \arguments{
 \item{dtsources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{tablenames}{a character vector, the name of the subset tables}
 

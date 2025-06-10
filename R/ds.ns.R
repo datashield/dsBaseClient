@@ -24,7 +24,7 @@
 #' variable that is stored on the data servers. Default \code{ns.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return A matrix of dimension length(x) * df where either df was supplied or if knots were
 #' supplied, df = length(knots) + 1 + intercept. Attributes are returned that correspond to the
 #' arguments to ns, and explicitly give the knots, Boundary.knots etc for use by predict.ns().

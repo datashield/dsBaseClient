@@ -19,7 +19,7 @@ that is stored on the data servers. Default \code{asfactor.newobj}.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 an output vector of class factor to the serverside. In addition, returns a validity 

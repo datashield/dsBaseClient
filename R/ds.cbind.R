@@ -34,7 +34,7 @@
 #' that is stored on the data servers. Defaults \code{cbind.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
 #' @return \code{ds.cbind} returns a data frame combining the columns of the R 

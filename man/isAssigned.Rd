@@ -8,7 +8,7 @@ isAssigned(datasources = NULL, newobj = NULL)
 }
 \arguments{
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{newobj}{a character, the name the object to look for.}
 }

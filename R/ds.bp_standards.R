@@ -18,7 +18,7 @@
 #' that is stored on the data servers. Default name is set to \code{bp.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return assigns a new object on the server-side. The assigned object is a list 
 #' with two elements: the 'Zbp' which is the zscores of the blood pressure and 'perc'
 #' which is the percentiles of the BP zscores.

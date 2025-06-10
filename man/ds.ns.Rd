@@ -36,7 +36,7 @@ variable that is stored on the data servers. Default \code{ns.newobj}.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 A matrix of dimension length(x) * df where either df was supplied or if knots were

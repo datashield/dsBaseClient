@@ -14,7 +14,7 @@ that is stored on the data servers. Default \code{unique.newobj}.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.unique} returns the vector of unique R objects which are written to the server-side.

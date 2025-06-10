@@ -19,7 +19,7 @@ included in the linear predictor during fitting.}
 process. Should be NULL or a numeric vector.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 }
 \value{
 an integer 0 if check was passed and 1 if failed

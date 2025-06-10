@@ -22,7 +22,7 @@
 #' Default FALSE to save time. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return the output from the specified server-side aggregate function to the client-side.
 #' @author DataSHIELD Development Team
 #' 

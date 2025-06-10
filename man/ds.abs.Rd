@@ -14,7 +14,7 @@ that is stored on the data servers. Default name is set to \code{abs.newobj}.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link{datashield.connections_default}}.}
+used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.abs} assigns a vector for each study that includes the absolute values of

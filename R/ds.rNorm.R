@@ -54,7 +54,7 @@
 #' forces the output random numbers vector to have k decimals.  
 #' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.rNorm} returns random number vectors with a normal  distribution for each 
 #' study, taking into account the values specified in each parameter of the function. 
 #' The output vector is written to the server-side.

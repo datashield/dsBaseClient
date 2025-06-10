@@ -13,7 +13,7 @@ ds.names(xname = NULL, datasources = NULL)
 objects obtained after login that represent the particular data sources
 (studies) to be addressed by the function call. If the \code{datasources}
 argument is not specified the default set of connections will be used:
-see \code{\link{datashield.connections_default}}.}
+see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.names} returns to the client-side the names

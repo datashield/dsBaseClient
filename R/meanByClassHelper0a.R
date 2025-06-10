@@ -9,7 +9,7 @@
 #' 'combine', a pooled table of results is generated. If \code{type} is set to 'split', a table of results
 #' is genrated for each study.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @return a table or a list of tables that hold the length of the numeric variable and its mean
 #' and standard deviation in each subgroup (subset).
 #' @keywords internal

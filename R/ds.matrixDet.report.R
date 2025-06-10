@@ -14,7 +14,7 @@
 #' is calculated. Default FALSE. 
 #' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.matrixDet.report} returns to the client-side
 #' the determinant of a matrix that is stored on the server-side.
 #' @author DataSHIELD Development Team

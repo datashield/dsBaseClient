@@ -10,7 +10,7 @@
 #' This function does not call any server-side function. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.listServersideFunctions} returns to the client-side 
 #' a list containing all server-side functions separately for each study. 
 #' Firstly lists assign and then aggregate functions.

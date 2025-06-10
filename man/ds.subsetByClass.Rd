@@ -20,7 +20,7 @@ the default name of this list is 'subClasses'.}
 \item{variables}{a vector of string characters, the name(s) of the variables to subset by.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 }
 \value{
 a no data are return to the user but messages are printed out.

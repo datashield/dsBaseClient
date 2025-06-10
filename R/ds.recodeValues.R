@@ -21,7 +21,7 @@
 #' Default \code{recodevalues.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress logical. If TRUE console output should be produced to indicate
 #' progress. Default FALSE.
 #' @return Assigns to each server a new variable with the recoded values. 

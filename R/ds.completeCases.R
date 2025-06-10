@@ -16,7 +16,7 @@
 #' suffix "_complete.cases"
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified, the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.completeCases} generates a modified data frame, matrix or vector from which
 #' all rows containing at least one NA have been deleted. The output object is stored on the
 #' server-side. Only two validity messages are returned to the client-side indicating the name

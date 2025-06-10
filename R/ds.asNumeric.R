@@ -24,7 +24,7 @@
 #'  that is stored on the data servers. Default \code{asnumeric.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.asNumeric} returns the R object converted into a numeric class
 #' that is written to the server-side. Also, two validity messages are returned 
 #' to the client-side indicating the name of the \code{newobj} which 

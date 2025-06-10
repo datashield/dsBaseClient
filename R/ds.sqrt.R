@@ -12,7 +12,7 @@
 #' that is stored on the data servers. Default name is set to \code{sqrt.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.sqrt} assigns a vector for each study that includes the square root values of
 #' the input numeric or integer vector specified in the argument \code{x}. The created vectors
 #' are stored in the servers.
