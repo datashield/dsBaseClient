@@ -26,9 +26,9 @@ intervals along the range of x}
 \item{newobj}{a character string that provides the name for the output 
 variable that is stored on the data servers. Default \code{elspline.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 an object of class "lspline" and "matrix", which its name is specified by the

@@ -7,9 +7,9 @@
 #' This function is internal.
 #' 
 #' Server function called: \code{dimDS}
-#' @param dts a list of \code{\link{DSConnection-class}} 
+#' @param dts a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param data a character string specifying the name of the data frame or
 #' the factor vector and the range of the subset.
 #' @param rs a vector of two integers specifying the indices of the rows de extract.

@@ -27,9 +27,9 @@
 #' Default NULL. 
 #' @param type a character string that represents the type of analysis to carry out. 
 #' This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.cor} returns a list containing the number of missing values in each variable,
 #' the number of missing variables casewise, the correlation matrix, 
 #' the number of used complete cases. The function applies two disclosure controls. The first disclosure

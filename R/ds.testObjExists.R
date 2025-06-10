@@ -8,9 +8,9 @@
 #' 
 #' Server function called: \code{testObjExistsDS}
 #' @param test.obj.name a character string specifying the name of the object to search. 
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.testObjExists} returns a list of messages specifying that the object exists
 #' on the server-side.
 #' If the specified object does not exist in at least one 
