@@ -3,7 +3,7 @@
 #' @description Change the reference level of a factor, by putting 
 #' the reference group first.  
 #' 
-#' This function is similar to R function `relevel`.
+#' This function is similar to R function \code{relevel}.
 #' @details This function
 #' allows the user to re-order the vector, putting the reference
 #' group first. It should be mentioned that by default the reference is 
@@ -13,26 +13,26 @@
 #' into a table that is not reordered in the same way. Such mismatch
 #' can render the results of operations on that table invalid.
 #' 
-#' Server function called: `changeRefGroupDS`
+#' Server function called: \code{changeRefGroupDS}
 #' 
 #' @param x a character string providing the name of the input vector of type factor.
 #' @param ref the reference level.
 #' @param newobj a character string that provides the name for the output object
-#' that is stored on the server-side. Default `changerefgroup.newobj`.
+#' that is stored on the server-side. Default \code{changerefgroup.newobj}.
 #' @param reorderByRef logical, if TRUE the new vector
 #' should be ordered by the reference group (i.e. putting the reference group first).
 #' The default is to not re-order (see the reasons in the details). 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.changeRefGroup` returns a new vector  with the specified level as a reference
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.changeRefGroup} returns a new vector  with the specified level as a reference
 #' which is written to the server-side. 
 #' @author DataSHIELD Development Team
-#' @seealso [ds.cbind()] Combines objects column-wise.
-#' @seealso [ds.levels()] to obtain the levels (categories) of a vector of type factor.
-#' @seealso [ds.colnames()] to obtain the column names of a matrix or a data frame
-#' @seealso [ds.asMatrix()] to coerce an object into a matrix type.
-#' @seealso [ds.dim()] to obtain the dimensions of a matrix or a data frame.
+#' @seealso \code{\link{ds.cbind}} Combines objects column-wise.
+#' @seealso \code{\link{ds.levels}} to obtain the levels (categories) of a vector of type factor.
+#' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
+#' @seealso \code{\link{ds.asMatrix}} to coerce an object into a matrix type.
+#' @seealso \code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 #'
 #' @examples 
 #' \dontrun{
@@ -132,8 +132,19 @@ ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE,
     newobj <- "changerefgroup.newobj"
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

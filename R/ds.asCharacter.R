@@ -1,20 +1,20 @@
-#' 
 #' @title Converts a server-side R object into a character class
 #' @description Converts the input object into a character class. 
-#' This function is based on the native R function `as.character`.
+#' This function is based on the native R function \code{as.character}.
 #' @details 
-#' Server function called: `asCharacterDS`
+#' Server function called: \code{asCharacterDS}
 #' 
 #' @param x.name a character string providing  the name of the input object to be coerced to class
 #' character.
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the data servers. Default `ascharacter.newobj`. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.asCharacter` returns the object converted into a class character 
+#'  that is stored on the data servers. Default \code{ascharacter.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.asCharacter} returns the object converted into a class character 
 #' that is written to the server-side. Also, two validity messages are returned to the client-side
-#' indicating the name of the `newobj` which has been created in each data source and if 
+#' indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 
 #' \dontrun{
@@ -54,7 +54,6 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
-#' 
 ds.asCharacter <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -70,9 +69,7 @@ ds.asCharacter <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x.name)
+
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
@@ -110,7 +107,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

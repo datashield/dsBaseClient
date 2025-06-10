@@ -2,17 +2,17 @@
 #' @title Generates the summary of a server-side object
 #' @description Generates the summary of a server-side object. 
 #' @details This function provides some insight about an object. Unlike the similar native R 
-#' `summary` function
+#' \code{summary} function
 #' only a limited class of objects can be used as input to reduce the risk of disclosure.
 #' For example, the minimum and the maximum values of a numeric vector
 #'  are not given to the client because they are potentially disclosive. 
 #'  
-#' server functions called: `isValidDS`, `dimDS` and `colnamesDS`
+#' server functions called: \code{isValidDS}, \code{dimDS} and \code{colnamesDS}
 #' @param x a character string specifying the name of a numeric or factor variable.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.summary` returns to the client-side the class and 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.summary} returns to the client-side the class and 
 #' size of the server-side object. 
 #' Also other information is returned depending on the class of the object.
 #' For example, potentially disclosive information
@@ -80,8 +80,19 @@ ds.summary <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks if the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

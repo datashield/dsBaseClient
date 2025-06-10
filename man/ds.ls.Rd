@@ -12,7 +12,7 @@ ds.ls(
 )
 }
 \arguments{
-\item{search.filter}{character string (potentially including \code{*} symbol) specifying the filter
+\item{search.filter}{character string (potentially including \code{*} symbol) specifying the filter 
 for the object name that you want to find in the enviroment. For more information see \strong{Details}.}
 
 \item{env.to.search}{an integer (e.g. in \code{2} or \code{2L} format) specifying the position
@@ -23,12 +23,12 @@ For more information see \strong{Details}.}
 \item{search.GlobalEnv}{Logical. If TRUE, \code{ds.ls} will list all objects
 in the \code{.GlobalEnv} R environment on the server-side. If FALSE and if \code{env.to.search} is also
 set as a valid integer, \code{ds.ls} will list all objects in the server-side R environment
-identified by \code{env.to.search} in the search path.
+identified by \code{env.to.search} in the search path. 
 For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.ls} returns to the client-side a list containing: \cr
@@ -43,26 +43,26 @@ creates a list of the names of all of the objects in
 a specified serverside environment.
 }
 \details{
-When running analyses one may want to know the objects already generated. This
-request is not disclosive as it only returns the names of the objects and not their contents.
+When running analyses one may want to know the objects already generated. This 
+request is not disclosive as it only returns the names of the objects and not their contents. 
 
 By default, objects in DataSHIELD's Active Serverside Analytic Environment (\code{.GlobalEnv})
-will be listed. This is the environment that contains all of the objects that server-side DataSHIELD
+will be listed. This is the environment that contains all of the objects that server-side DataSHIELD 
 is using for the main analysis or has written out to the server-side during the process
 of managing or undertaking the analysis (variables, scalars, matrices, data frames, etc).
-
+ 
 The environment to explore is specified by the argument \code{env.to.search} (i.e. environment
-to search) to an integer value. The default environment
+to search) to an integer value. The default environment 
 which R names as \code{.GlobalEnv} is set by specifying \code{env.to.search = 1} or \code{1L}
-(\code{1L} is just an explicit way of writing the integer \code{1}).
+(\code{1L} is just an explicit way of writing the integer \code{1}). 
 
-If the \code{search.GlobalEnv} argument is set to TRUE the \code{env.to.search} parameter
+If the \code{search.GlobalEnv} argument is set to TRUE the \code{env.to.search} parameter  
 is set to \code{1L} regardless of what value it is set in the call
-or if it is set to NULL.
+or if it is set to NULL. 
 So, if \code{search.GlobalEnv} is set to TRUE, \code{ds.ls} will automatically
 search the \code{.GlobalEnv} R environment on the server-side which contains all of the
 variables, data frames and other objects read in at the start of the analysis,
-as well as any new objects of any sort created using DataSHIELD assign functions.
+as well as any new objects of any sort created using DataSHIELD assign functions. 
 
 Other server-side environments contain other
 objects. For example, environment \code{2L} contains the functions loaded via the native R
@@ -72,12 +72,12 @@ stats package and \code{6L} contains the standard list of datasets built into R.
 using the \code{search.filter} argument.
 
 In \code{search.filter} you can use the symbol \code{*} to find all the object that contains
-the specified characters. For example, \code{search.filter = "Sd2*"}
+the specified characters. For example, \code{search.filter = "Sd2*"} 
 will list the names of all objects in the specified
-environment with names beginning capital S, lower case d and number 2.
+environment with names beginning capital S, lower case d and number 2. 
 Similarly, \code{search.filter="*.ID"} will return all objects with names ending with \code{.ID},
-for example \code{Study.ID}.
-If a value is not specified for the \code{search.filter} argument or it is set as NULL, the names of
+for example \code{Study.ID}. 
+If a value is not specified for the \code{search.filter} argument or it is set as NULL, the names of 
 all objects in the specified environment will be returned.
 
 Server function called: \code{lsDS}.

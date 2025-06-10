@@ -27,32 +27,30 @@ row names of the output data frame.}
 \item{check.rows}{logical. If TRUE then the rows are checked for consistency of
 length and names. Default is FALSE.}
 
-\item{check.names}{logical. If TRUE the column names
+\item{check.names}{logical. If TRUE the column names 
 in the data frame are checked to ensure that is unique. Default is TRUE.}
 
 \item{stringsAsFactors}{logical. If true the character vectors are
 converted to factors. Default TRUE.}
 
-\item{completeCases}{logical. If TRUE rows with one or more
+\item{completeCases}{logical. If TRUE rows with one or more 
 missing values will be deleted from the output data frame.
 Default is FALSE.}
 
-\item{DataSHIELD.checks}{logical. Default FALSE. If TRUE undertakes all DataSHIELD checks
+\item{DataSHIELD.checks}{logical. Default FALSE. If TRUE undertakes all DataSHIELD checks 
 (time-consuming) which are:\cr
-\enumerate{
-\item the input object(s) is(are) defined in all the studies\cr
-\item the input object(s) is(are) of the same legal class in all the studies\cr
-\item if there are any duplicated column names in the input objects in each study\cr
-\item the number of rows of the  data frames or matrices and the length of all component variables
-are the same
-}}
+1. the input object(s) is(are) defined in all the studies\cr
+2. the input object(s) is(are) of the same legal class in all the studies\cr
+3. if there are any duplicated column names in the input objects in each study\cr
+4. the number of rows of the  data frames or matrices and the length of all component variables
+are the same}
 
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default \code{dataframe.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
-If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified 
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default is FALSE.}
@@ -65,15 +63,15 @@ and if it is in a valid form.
 }
 \description{
 Creates a data frame from its elemental components:
-pre-existing data frames, single variables or matrices.
+ pre-existing data frames, single variables or matrices.
 }
 \details{
 It creates a data frame by combining
 pre-existing data frames, matrices or variables.
 
-The length of all component variables and the number of rows
-of the  data frames or matrices must be the same.  The output
-data frame will have the same number of rows.
+The length of all component variables and the number of rows 
+of the  data frames or matrices must be the same.  The output 
+data frame will have the same number of rows. 
 
 Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
 }

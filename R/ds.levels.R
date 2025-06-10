@@ -2,14 +2,14 @@
 #' @title Produces levels attributes of a server-side factor
 #' @description This function provides access to the level attribute of
 #' a factor variable stored on the server-side. 
-#' This function is similar to R function `levels`. 
+#' This function is similar to R function \code{levels}. 
 #' @details 
-#' Server function called: `levelsDS`
+#' Server function called: \code{levelsDS}
 #' @param  x a character string specifying  the name of a factor variable. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.levels` returns to the client-side the levels of a factor 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.levels} returns to the client-side the levels of a factor 
 #' class variable stored in the server-side. 
 #' @author DataSHIELD Development Team
 #' @export
@@ -56,7 +56,7 @@
 #'
 #' }
 #'
-ds.levels <- function(x=NULL, datasources=NULL){
+ds.levels <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
@@ -72,8 +72,19 @@ ds.levels <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -83,10 +94,8 @@ ds.levels <- function(x=NULL, datasources=NULL){
     stop("The input object must be a factor.", call.=FALSE)
   }
 
-  # call the server-side function
   cally <- paste0("levelsDS(", x, ")")
-  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  levels_all <- DSI::datashield.aggregate(datasources, as.symbol(cally))
 
-  return(output)
-  
+  return(levels_all)
 }

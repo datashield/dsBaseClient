@@ -2,7 +2,7 @@
 % Please edit documentation in R/ds.glmSummary.R
 \name{ds.glmSummary}
 \alias{ds.glmSummary}
-\title{Summarize a glm object on the serverside}
+\title{summarize a glm object on the serverside}
 \usage{
 ds.glmSummary(x.name, newobj = NULL, datasources = NULL)
 }
@@ -12,7 +12,7 @@ serverside that has previously been created e.g. using ds.glmSLMA}
 
 \item{newobj}{a character string specifying the name of the object to which
 the summary_glm object representing the output of summary(glm object)
-in each study is to be written. If no \if{html}{\out{<newobj>}} argument is specified, the output
+in each study is to be written. If no <newobj> argument is specified, the output
 object on the serverside defaults to "summary_glm.newobj".}
 
 \item{datasources}{specifies the particular 'connection object(s)' to use.
@@ -24,26 +24,26 @@ that will be the dataset used by default if no other dataset is specified. If yo
 wish to change the connections you wish to use by default the call
 datashield.connections_default('opals.a') will set 'default.connections'
 to be 'opals.a' and so in the absence of specific instructions to the contrary
-(e.g. by specifiying a particular dataset to be used via the \if{html}{\out{<datasources>}}
+(e.g. by specifiying a particular dataset to be used via the <datasources>
 argument) all subsequent function calls will be to the datasets held in opals.a.
-If the \if{html}{\out{<datasources>}} argument is specified, it should be set without
+If the <datasources> argument is specified, it should be set without
 inverted commas: e.g. datasources=opals.a or datasources=default.connections.
-The \if{html}{\out{<datasources>}} argument also allows you to apply a function solely to a subset
+The <datasources> argument also allows you to apply a function solely to a subset
 of the studies/sources you are working with. For example, the second source
-in a set of three, can be specified using a call such as datasources=connection.xyz\link{2}.
+in a set of three, can be specified using a call such as datasources=connection.xyz[2].
 On the other hand, if you wish to specify solely the first and third sources, the
-appropriate call will be datasources=connections.xyz\link{c(1,3)}}
+appropriate call will be datasources=connections.xyz[c(1,3)]}
 }
 \value{
 ds.glmSummary writes a new object to the serverside with name given by
-the newobj argument or if that argument is missing or null it is called "summary_glm.newobj".
+the newobj argument or if that argument is missing or null it is called "summary_glm".
 In addition, ds.glmSummary returns an object containing two lists to the clientside
 the two lists are named "glm.obj" and "glm.summary.obj" which contain all of the
 elements of the original glm object and the summary_glm object on the serverside
 but with all potentially disclosive components set to NA or masked in another way
 see "details" above. The elements that are returned with a non-NA value in
 the glm.obj list object are: "coefficients", "rank", "family", "deviance", "aic",
-"null.deviance", "iter", "df.residual", "df.null", "converged", "boundary",
+"null.deviance", "iter", "df.residual", "df.null", "converged", "boundary",         
 "call", "formula", "terms", "data", "control", "method", "contrasts", "xlevels".
 The elements that are returned with a non-NA value in
 the glm.summary.obj list object are: "call", "terms", "family", "deviance",
@@ -53,8 +53,8 @@ For further information see help for glm and summary(glm) in native R
 and for ds.glmSLMA in DataSHIELD.
 }
 \description{
-Summarize a glm object on the serverside to create a
-summary_glm object. Also identify and return components of
+summarize a glm object on the serverside to create a 
+summary_glm object. Also identify and return components of 
 both the glm object and the summary_glm object
 that can safely be sent to the clientside without a risk of disclosure
 }
@@ -71,7 +71,7 @@ thirteen contain information about every records in the data set and so are
 disclosive. They are all therefore set to NA and so convey
 no information when returned to the clientside:
 1.residuals, 2.fitted.values, 3.effects, 4.R, 5.qr, 6.linear.predictors,
-7.weights, 8.prior.weights, 9.y, 10.model, 11. na.action, 12.x,  13. offset.
+7.weights, 8.prior.weights, 9.y, 10.model, 11. na.action, 12.x,  13. offset. 
 In addition the list element "data" which identifies a data.frame
 that was identified as containing all of the variables required
 for the model is also disclosive because it doesn't list

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.table2D::smk")
 test_that("simple table2D", {
-    table2D.res <- expect_warning(ds.table2D(x='D$DIS_DIAB', y='D$GENDER'), "'ds.table2D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    table2D.res <- ds.table2D(x='D$DIS_DIAB', y='D$GENDER')
 
     expect_length(table2D.res, 9)
     expect_length(table2D.res$colPercent, 3)

@@ -1,30 +1,20 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
-Version: 6.3.1
-Author: DataSHIELD Developers <datashield@liverpool.ac.uk>
-Maintainer: DataSHIELD Developers <datashield@liverpool.ac.uk>
+Version: 6.1.1
+Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
+Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: DataSHIELD client functions for the client side.
 License: GPL-3
 Depends:
-    R (>= 4.0.0),
-    DSI (>= 1.7.1)
+    R (>= 3.5.0),
+    DSI (>= 1.2.0)
 Imports:
     fields,
     metafor,
-    meta,
     ggplot2,
     gridExtra,
     data.table,
     panelaggregation,
-    methods,
-    assertthat,
-    cli,
-    purrr,
-    stringr,
-    dplyr,
-    lifecycle
-Suggests:
-    testthat
-RoxygenNote: 7.3.2
+    methods
+RoxygenNote: 7.1.1
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)

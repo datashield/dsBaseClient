@@ -1,18 +1,18 @@
 #' @title Fit a Generalized Linear Model (GLM) with pooling via Study Level Meta-Analysis (SLMA)
 #' @description Fits a generalized linear model (GLM) on data from single or multiple sources
 #' with pooled co-analysis across studies being based on SLMA (Study Level Meta Analysis). 
-#' @details `ds.glmSLMA` specifies the structure of a Generalized Linear Model 
+#' @details \code{ds.glmSLMA} specifies the structure of a Generalized Linear Model 
 #' to be fitted separately on each study or data source. Calls serverside functions
 #' glmSLMADS1 (aggregate),glmSLMADS2 (aggregate) and glmSLMADS.assign (assign). 
-#' From a mathematical perspective, the SLMA approach (using `ds.glmSLMA`)
-#' differs fundamentally from the alternative approach using `ds.glm`.
+#' From a mathematical perspective, the SLMA approach (using \code{ds.glmSLMA})
+#' differs fundamentally from the alternative approach using \code{ds.glm}.
 #' ds.glm fits the model iteratively across all studies together. At each
 #' iteration the model in every data source has precisely the same coefficients
 #' so when the model converges one essentially identifies the model that
 #' best fits all studies simultaneously. This mathematically equivalent
 #' to placing all individual-level data from all sources in
 #' one central warehouse and analysing those data as one combined dataset using the
-#' conventional `glm()` function in native R. In contrast ds.glmSLMA sends
+#' conventional \code{glm()} function in native R. In contrast ds.glmSLMA sends
 #' a command to every data source to fit the model required but each separate source
 #' simply fits that model to completion (ie undertakes all iterations until
 #' the model converges) and the estimates (regression coefficients) and their standard
@@ -56,15 +56,15 @@
 #' is no heterogeneity) it may still be useful to also carry out a ds.glmSLMA
 #' analysis as this provides a very easy way to examine the extent of heterogeneity.
 #'
-#' In `formula` Most shortcut notation for formulas allowed under R's standard `glm()`
-#' function is also allowed by `ds.glmSLMA`. 
+#' In \code{formula} Most shortcut notation for formulas allowed under R's standard \code{glm()}
+#' function is also allowed by \code{ds.glmSLMA}. 
 #' 
 #' Many glms can be fitted very simply using a formula such as:
 #' 
 #' \deqn{y~a+b+c+d} 
 #' 
-#' which simply means fit a glm with `y` as the outcome variable and 
-#' `a`, `b`, `c` and `d` as covariates. 
+#' which simply means fit a glm with \code{y} as the outcome variable and 
+#' \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
 #' By default all such models also include an intercept (regression constant) term.
 #' 
 #' Instead, if you need to fit a more complex
@@ -72,38 +72,38 @@
 #' 
 #'  \deqn{EVENT~1+TID+SEXF*AGE.60}
 #'
-#' In the above model the outcome variable is `EVENT` 
+#' In the above model the outcome variable is \code{EVENT} 
 #' and the  covariates 
-#' `TID` (factor variable with level values between 1 and 6 denoting the period time), 
-#' `SEXF` (factor variable denoting sex)
-#' and `AGE.60` (quantitative variable representing age-60 in years). 
-#' The term `1` forces
-#' the model to include an intercept term, in contrast if you use the term `0` the 
-#' intercept term is removed. The `*` symbol  between `SEXF` and `AGE.60`
+#' \code{TID} (factor variable with level values between 1 and 6 denoting the period time), 
+#' \code{SEXF} (factor variable denoting sex)
+#' and \code{AGE.60} (quantitative variable representing age-60 in years). 
+#' The term \code{1} forces
+#' the model to include an intercept term, in contrast if you use the term \code{0} the 
+#' intercept term is removed. The \code{*} symbol  between \code{SEXF} and \code{AGE.60}
 #' means fit all possible main effects and interactions for and between those two covariates.
-#'  This takes the value 0 in all males `0 * AGE.60` 
-#'  and in females  `1 * AGE.60`. 
-#'  This model is in example 1 of  the section **Examples**. In this case the logarithm of 
-#'  the survival time is added as an offset (`log(survtime)`).
+#'  This takes the value 0 in all males \code{0 * AGE.60} 
+#'  and in females  \code{1 * AGE.60}. 
+#'  This model is in example 1 of  the section \strong{Examples}. In this case the logarithm of 
+#'  the survival time is added as an offset (\code{log(survtime)}).
 #' 
-#' In the `family` argument a range of model types can be fitted. This range has recently
+#' In the \code{family} argument a range of model types can be fitted. This range has recently
 #' been extended to include a number of model types that are non-standard but are used
 #' relatively widely.
 #' 
 #' The standard models include:
-#'  \describe{
-#'    \item{`"gaussian"`}{: conventional linear model with normally distributed errors} 
-#'    \item{`"binomial"`}{: conventional unconditional logistic regression model}
-#'    \item{`"poisson"`}{: Poisson regression model which is often used in epidemiological
+#'  \itemize{
+#'    \item{\code{"gaussian"}}{: conventional linear model with normally distributed errors} 
+#'    \item{\code{"binomial"}}{: conventional unconditional logistic regression model}
+#'    \item{\code{"poisson"}}{: Poisson regression model which is often used in epidemiological
 #'     analysis of counts and rates and is also used in survival analysis. The
 #'     Piecewise Exponential Regression (PER) model typically provides a close approximation
 #'     to the Cox regression model in its main estimates and standard errors.}
-#'    \item{`"gamma"`}{: a family of models for outcomes characterised by a constant
+#'    \item{\code{"gamma"}}{: a family of models for outcomes characterised by a constant
 #'     coefficient of variation, i.e. the variance increases with the square of the expected mean}
 
 #'
 #'	The extended range includes:
-#'    \item{`"quasipoisson"`}{: a model with a Poisson variance function - variance
+#'    \item{\code{"quasipoisson"}}{: a model with a Poisson variance function - variance
 #'     equals expected mean - but the residual variance which is fixed to be 1.00 in
 #'     a standard Poisson model can then take any value. This is achieved by a dispersion parameter
 #'     which is estimated during the model fit and if it takes the value K it means
@@ -118,7 +118,7 @@
 #'     there is no overdispersion (K=1) the estimates and standard errors from the
 #'     quasipoisson model will be almost identical to those from a standard poisson model.}
 #' 
-#'    \item{`"quasibinomial"`}{: a model with a binomial variance function - if P
+#'    \item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
 #'     is the expected proportion of successes, and N is the number of "trials" (always
 #'     1 if analysing binary data which are formally described as having a Bernoulli
 #'     distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
@@ -128,41 +128,41 @@
 
 #' Each class of models has a "canonical link" which represents the link function that
 #' maximises the information extraction by the model. The gaussian family uses the
-#' `identity` link, the poisson family the `log` link, the binomial/Bernoulli family the
-#' `logit` link and the the gamma family the `reciprocal` link.
+#' \code{identity} link, the poisson family the \code{log} link, the binomial/Bernoulli family the
+#' \code{logit} link and the the gamma family the \code{reciprocal} link.
 #' 
-#' The `dataName` argument avoids you having to specify the name of the
+#' The \code{dataName} argument avoids you having to specify the name of the
 #' data frame in front of each covariate in the formula. 
-#' For example, if the data frame is called `DataFrame` you
+#' For example, if the data frame is called \code{DataFrame} you
 #' avoid having to write: \eqn{DataFrame$y~DataFrame$a+DataFrame$b+DataFrame$c+DataFrame$d}
 #' 
-#' The `checks` argument verifies that the variables in the model are all defined (exist) 
+#' The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 #' on the server-site at every study
 #' and that they have the correct characteristics required to fit the model. 
-#' It is suggested to make `checks` argument TRUE only if an unexplained
+#' It is suggested to make \code{checks} argument TRUE only if an unexplained
 #'  problem in the model fit is encountered because the running process takes several minutes.
 #'  
-#' In `maxit` Logistic regression and Poisson regression
+#' In \code{maxit} Logistic regression and Poisson regression
 #' models can require many iterations, particularly if the starting value of the
 #' regression constant is far away from its actual value that the GLM
-#' is trying to estimate. In consequence we often set `maxit=30`
+#' is trying to estimate. In consequence we often set \code{maxit=30}
 #' but depending on the nature of the models you wish to fit, you may wish
 #' to be alerted much more quickly than this if there is a delay in convergence, 
 #' or you may wish to allow more iterations.
 #' 
 #' 
-#' Server functions called: `glmSLMADS1`, `glmSLMADS2`, `glmSLMADS.assign`
+#' Server functions called: \code{glmSLMADS1}, \code{glmSLMADS2}, \code{glmSLMADS.assign}
 #' @param formula an object of class formula describing
 #' the model to be fitted. For more information see 
-#' **Details**.  
+#' \strong{Details}.  
 #' @param family identifies the error distribution function to use in
 #' the model. 
 #' @param offset  a character string specifying the name of a variable to be used as
-#' an offset.`ds.glmSLMA` does not allow an offset vector to be
+#' an offset.\code{ds.glmSLMA} does not allow an offset vector to be
 #' written directly into the GLM formula.  
 #' @param weights a character string specifying the name of a variable containing
 #' prior regression
-#' weights for the fitting process. `ds.glmSLMA` does not allow a weights vector to be
+#' weights for the fitting process. \code{ds.glmSLMA} does not allow a weights vector to be
 #' written directly into the GLM formula.
 #' @param combine.with.metafor logical. If TRUE the
 #' estimates and standard errors for each regression coefficient are pooled across
@@ -174,18 +174,16 @@
 #' object defaults to "new.glm.obj". 
 #' @param dataName a character string specifying the name of an (optional) data frame
 #' that contains all of the variables in the GLM formula. 
-#' @param checks logical. If TRUE `ds.glmSLMA` checks the structural integrity 
-#' of the model. Default FALSE. For more information see **Details**.
+#' @param checks logical. If TRUE \code{ds.glmSLMA} checks the structural integrity 
+#' of the model. Default FALSE. For more information see \strong{Details}.
 #' @param maxit a numeric scalar denoting the maximum number of iterations that
-#' are permitted before `ds.glmSLMA` declares that the model has failed to converge. 
-#' For more information see **Details**.
-#' @param notify.of.progress specifies if console output should be produced to indicate
-#' progress. Default FALSE.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return The serverside aggregate functions `glmSLMADS1` and `glmSLMADS2` return
-#' output to the clientside, while the assign function `glmSLMADS.assign` simply writes
+#' are permitted before \code{ds.glmSLMA} declares that the model has failed to converge. 
+#' For more information see \strong{Details}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return The serverside aggregate functions \code{glmSLMADS1} and \code{glmSLMADS2} return
+#' output to the clientside, while the assign function \code{glmSLMADS.assign} simply writes
 #' the glm object to the serverside
 #' created by the model fit on a given server as a permanent object on that same server.
 #' This is precisely
@@ -194,64 +192,64 @@
 #' object, no disclosure blocks apply. However, such disclosure blocks do apply to the information
 #' passed to the clientside. In consequence, rather than containing all the components of a
 #' standard glm object in native R, the components of the glm object that are returned by
-#' `ds.glmSLMA` include: a mixture of non-disclosive elements of the glm object
-#' reported separately by study included in a list object called `output.summary`; and
+#' \code{ds.glmSLMA} include: a mixture of non-disclosive elements of the glm object
+#' reported separately by study included in a list object called \code{output.summary}; and
 #' a series of other list objects that represent inferences aggregated across studies.
 #' @return the study specific items include: 
-#' @return `coefficients`: a matrix with 5 columns:
-#'    \describe{
+#' @return \code{coefficients}: a matrix with 5 columns:
+#'    \itemize{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
 #'    \item{second}{: the estimated values} 
 #'    \item{third}{: corresponding standard errors of the estimated values} 
 #'    \item{fourth}{: the ratio of estimate/standard error} 
 #'    \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 #' }
-#' @return `family`: indicates the error distribution and link function used
+#' @return \code{family}: indicates the error distribution and link function used
 #' in the GLM.
-#' @return `formula`: model formula, see description of formula as an input parameter (above).
-#' @return `df.resid`: the residual degrees of freedom around the model.
-#' @return `deviance.resid`: the residual deviance around the model.
-#' @return `df.null`: the degrees of freedom around the null model (with just an intercept).
-#' @return `dev.null`: the deviance around the null model (with just an intercept).
-#' @return `CorrMatrix`: the correlation matrix of parameter estimates.
-#' @return `VarCovMatrix`: the variance-covariance matrix of parameter estimates.
-#' @return `weights`: the name of the vector (if any) holding regression weights.
-#' @return `offset`: the name of the vector (if any) holding an offset (enters glm with a
+#' @return \code{formula}: model formula, see description of formula as an input parameter (above).
+#' @return \code{df.resid}: the residual degrees of freedom around the model.
+#' @return \code{deviance.resid}: the residual deviance around the model.
+#' @return \code{df.null}: the degrees of freedom around the null model (with just an intercept).
+#' @return \code{dev.null}: the deviance around the null model (with just an intercept).
+#' @return \code{CorrMatrix}: the correlation matrix of parameter estimates.
+#' @return \code{VarCovMatrix}: the variance-covariance matrix of parameter estimates.
+#' @return \code{weights}: the name of the vector (if any) holding regression weights.
+#' @return \code{offset}: the name of the vector (if any) holding an offset (enters glm with a
 #' coefficient of 1.00).
-#' @return `cov.scaled`: equivalent to `VarCovMatrix`.
-#' @return `cov.unscaled`: equivalent to VarCovMatrix but assuming dispersion (scale)
+#' @return \code{cov.scaled}: equivalent to \code{VarCovMatrix}.
+#' @return \code{cov.unscaled}: equivalent to VarCovMatrix but assuming dispersion (scale)
 #' parameter is 1.
-#' @return `Nmissing`: the number of missing observations in the given study.
-#' @return `Nvalid`: the number of valid (non-missing) observations in the given study.
-#' @return `Ntotal`: the total number of observations in the given study 
-#'                        (`Nvalid` + `Nmissing`).
-#' @return `data`: equivalent to input parameter `dataName` (above).
-#' @return `dispersion`: the estimated dispersion parameter: deviance.resid/df.resid for
+#' @return \code{Nmissing}: the number of missing observations in the given study.
+#' @return \code{Nvalid}: the number of valid (non-missing) observations in the given study.
+#' @return \code{Ntotal}: the total number of observations in the given study 
+#'                        (\code{Nvalid} + \code{Nmissing}).
+#' @return \code{data}: equivalent to input parameter \code{dataName} (above).
+#' @return \code{dispersion}: the estimated dispersion parameter: deviance.resid/df.resid for
 #' a gaussian family multiple regression model, 1.00 for logistic and poisson regression.
-#' @return `call`:  summary of key elements of the call to fit the model.
-#' @return `na.action`:  chosen method of dealing with missing values. This is 
-#' usually, `na.action = na.omit` - see help in native R.
-#' @return `iter`: the number of iterations required to achieve convergence
+#' @return \code{call}:  summary of key elements of the call to fit the model.
+#' @return \code{na.action}:  chosen method of dealing with missing values. This is 
+#' usually, \code{na.action = na.omit} - see help in native R.
+#' @return \code{iter}: the number of iterations required to achieve convergence
 #' of the glm model in each separate study.
-#' @return Once the study-specific output has been returned, `ds.glmSLMA`
+#' @return Once the study-specific output has been returned, \code{ds.glmSLMA}
 #' returns a series of lists relating to the aggregated inferences across studies.
 #' These include the following:
-#' @return `num.valid.studies`: the number of studies with valid output
+#' @return \code{num.valid.studies}: the number of studies with valid output
 #' included in the combined analysis
-#' @return `betamatrix.all`: matrix with a row for each regression coefficient
+#' @return \code{betamatrix.all}: matrix with a row for each regression coefficient
 #' and a column for each study reporting the estimated regression coefficients
 #' by study. 
-#' @return `sematrix.all`: matrix with a row for each regression coefficient
+#' @return \code{sematrix.all}: matrix with a row for each regression coefficient
 #' and a column for each study reporting the standard errors of the estimated
 #' regression coefficients by study. 
-#' @return `betamatrix.valid`: matrix with a row for each regression coefficient
+#' @return \code{betamatrix.valid}: matrix with a row for each regression coefficient
 #' and a column for each study reporting the estimated regression coefficients
 #' by study but only for studies with valid output (eg not violating disclosure traps) 
-#' @return `sematrix.all`: matrix with a row for each regression coefficient
+#' @return \code{sematrix.all}: matrix with a row for each regression coefficient
 #' and a column for each study reporting the standard errors of the estimated
 #' regression coefficients by study but only for studies with valid output
 #' (eg not violating disclosure traps)
-#' @return `SLMA.pooled.estimates.matrix`: a matrix with a row for each
+#' @return \code{SLMA.pooled.estimates.matrix}: a matrix with a row for each
 #' regression coefficient and six columns. The first two columns contain the
 #' pooled estimate of each regression coefficients and its standard error with
 #' pooling via random effect meta-analysis under maximum likelihood (ML). Columns
@@ -259,12 +257,12 @@
 #' under REML and columns 5 and 6 the estimates and standard errors under fixed
 #' effect meta-analysis. This matrix is only returned if the
 #' argument combine.with.metafor is set to TRUE. Otherwise, users can take
-#' the `betamatrix.valid` and `sematrix.valid` matrices and enter
+#' the \code{betamatrix.valid} and \code{sematrix.valid} matrices and enter
 #' them into their meta-analysis package of choice.
-#' @return `is.object.created` and `validity.check` are standard
+#' @return \code{is.object.created} and \code{validity.check} are standard
 #' items returned by an assign function when the designated newobj appears to have
 #' been successfuly created on the serverside at each study. This output is
-#' produced specifically by the assign function `glmSLMADS.assign` that writes
+#' produced specifically by the assign function \code{glmSLMADS.assign} that writes
 #' out the glm object on the serverside 
 #' @author Paul Burton, for DataSHIELD Development Team 07/07/20
 #' @examples
@@ -375,7 +373,7 @@
 #'
 #' @export
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,
-	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, notify.of.progress=FALSE, datasources=NULL) {
+	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
@@ -615,10 +613,7 @@ if(at.least.one.study.data.error)
 		if(is.null(newobj)){
 		newobj <- "new.glm.obj"
 		}
-
-   if (notify.of.progress) {
-       cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
-   }
+   cat("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
 
    calltext.2 <- call('glmSLMADS.assign', formula, family, offset, weights, dataName)
 
@@ -875,7 +870,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if("ABSENT" %in% object.info[[j]]$test.obj.class){														#
+	if(object.info[[j]]$test.obj.class[1]=="ABSENT"){														#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

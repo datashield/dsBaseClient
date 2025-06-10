@@ -7,9 +7,9 @@
 ds.listDisclosureSettings(datasources = NULL)
 }
 \arguments{
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.listDisclosureSettings} returns a list containing the current settings of the
@@ -61,11 +61,11 @@ neighbours used, typically defaulted to 3.
 be disclosed to the client. In the absence of this filter a user can convert a numeric variable
 to a factor and see its unique levels which are all the distinct values of the numeric vector. To
 prevent such disclosure we set this threshold to 0.33 which ensures that if a factor has unique
-levels more than the 33\% of its actual length, then the levels do not returned to the client.
+levels more than the 33% of its actual length, then the levels do not returned to the client.
 
 (8) \code{nfilter.noise} specifies the minimum level of noise added in some variables mainly used for
 data visualizations. The default value is 0.25 which means that the noise added to a given
-variable, follows a normal distribution with zero mean and variance equal to 25\% of the actual
+variable, follows a normal distribution with zero mean and variance equal to 25% of the actual
 variance of the given variable. Any value greater than this threshold can reduce the risk of
 disclosure.
 

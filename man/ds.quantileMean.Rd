@@ -13,16 +13,16 @@ ds.quantileMean(x = NULL, type = "combine", datasources = NULL)
 This can be set as \code{'combine'} or \code{'split'}.
 For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
 of a server-side numeric vector.
 }
 \description{
-This function calculates the mean and quantile values of a
+This function calculates the mean and quantile values of a 
 server-side quantitative variable.
 }
 \details{
@@ -32,7 +32,7 @@ because they are potentially disclosive.
 Depending on the argument \code{type} can be carried out two types of analysis: \cr
 (1) \code{type = 'combine'} pooled values are displayed \cr
 (2) \code{type = 'split'} summaries are
-returned for each study.
+returned for each study. 
 
 Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
 }
@@ -79,9 +79,9 @@ Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
 
 }
 \seealso{
-\code{\link[=ds.mean]{ds.mean()}} to compute the statistical mean.
+\code{\link{ds.mean}} to compute the statistical mean.
 
-\code{\link[=ds.summary]{ds.summary()}} to generate the summary of a variable.
+\code{\link{ds.summary}} to generate the summary of a variable.
 }
 \author{
 DataSHIELD Development Team

@@ -21,28 +21,28 @@ ds.merge(
 }
 \arguments{
 \item{x.name}{a character string specifying the name of the
-first data frame to be merged. The length of the string should be less than the
-specified threshold for the nfilter.stringShort which is one of the disclosure
+first data frame to be merged. The length of the string should be less than the 
+specified threshold for the nfilter.stringShort which is one of the disclosure 
 prevention checks in DataSHIELD.}
 
 \item{y.name}{a character string specifying the name of the
-second data frame to be merged. The length of the string should be less than the
-specified threshold for the nfilter.stringShort which is one of the disclosure
+second data frame to be merged. The length of the string should be less than the 
+specified threshold for the nfilter.stringShort which is one of the disclosure 
 prevention checks in DataSHIELD.}
 
-\item{by.x.names}{a character string  or a vector of names specifying
+\item{by.x.names}{a character string  or a vector of names specifying 
 of the column(s) in data frame \code{x.name} for merging.}
 
-\item{by.y.names}{a character string  or a vector of names specifying
+\item{by.y.names}{a character string  or a vector of names specifying 
 of the column(s) in data frame \code{y.name} for merging.}
 
 \item{all.x}{logical. If TRUE then extra rows will be added to the output,
-one for each row in \code{x.name} that has no matching row in \code{y.name}.
+one for each row in \code{x.name} that has no matching row in \code{y.name}. 
 If FALSE the rows with data from both data frames are included in the output.
 Default FALSE.}
 
 \item{all.y}{logical. If TRUE then extra rows will be added to the output,
-one for each row in \code{y.name} that has no matching row in \code{x.name}.
+one for each row in \code{y.name} that has no matching row in \code{x.name}. 
 If FALSE the rows with data from both data frames are included in the output.
 Default FALSE.}
 
@@ -57,20 +57,20 @@ when they both appear in the merged data frame.}
 avoid duplicated column names in the merged data frame. Default TRUE
 (FALSE before R version 3.5.0).}
 
-\item{incomparables}{values that cannot be matched. This is intended to
+\item{incomparables}{values that cannot be matched. This is intended to 
 be used for merging on
 one column, so these are incomparable values of that column.
 For more information see \code{match} in native R \code{merge} function.}
 
-\item{newobj}{a character string that provides the name for the output
+\item{newobj}{a character string that provides the name for the output 
 variable that is stored on the data servers. Default \code{merge.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.merge} returns the merged data frame that is written on the server-side.
+\code{ds.merge} returns the merged data frame that is written on the server-side. 
 Also, two validity messages are returned to the client-side
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
@@ -81,13 +81,13 @@ values in defined vectors in each data frame.
 }
 \details{
 This function is similar to the native R function \code{merge}.
-There are some changes compared with the native R function
+There are some changes compared with the native R function 
 in choosing which variables to use to merge the data frames, the function \code{merge}
 is very flexible. For example, you can choose to merge
 using all vectors that appear in both data frames. However, for \code{ds.merge}
 in DataSHIELD it is required that all the vectors which dictate the merging
 are explicitly identified for both data frames using the \code{by.x.names} and
-\code{by.y.names} arguments.
+\code{by.y.names} arguments. 
 
 Server function called: \code{mergeDS}
 }

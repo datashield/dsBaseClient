@@ -1,17 +1,17 @@
 #'
 #' @title Constructs a list of objects in the server-side
-#' @description This is similar to the R function `list`.
+#' @description This is similar to the R function \code{list}.
 #' @details If the objects to coerce into a list are for example vectors held in a matrix
 #' or a data frame the names of the elements in the list are the names of columns.
 #' 
-#' Server function called: `listDS`
+#' Server function called: \code{listDS}
 #' @param x a character string specifying the names of the objects to coerce into a list.
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Default `list.newobj`.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.list` returns a list of objects for each study that is stored on the server-side.  
+#' that is stored on the data servers. Default \code{list.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.list} returns a list of objects for each study that is stored on the server-side.  
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -67,8 +67,21 @@ ds.list <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("x=NULL. Please provide the names of the objects to coerce into a list!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(x)){
@@ -79,10 +92,6 @@ ds.list <- function(x=NULL, newobj=NULL, datasources=NULL){
   if(is.null(newobj)){
     newobj <- "list.newobj"
   }
-  
-  # get the variable names
-  xnames <- extract(x)
-  varnames <- xnames$elements
 
   # get the names of the list elements if the user has not specified any
   if(is.null(names)){

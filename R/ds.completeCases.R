@@ -2,11 +2,11 @@
 #' @title Identifies complete cases in server-side R objects 
 #' @description Selects complete cases of a data frame,
 #' matrix or vector that contain missing values.
-#' @details In the case of a data frame or matrix, `ds.completeCases` deletes 
-#' all rows containing one or more missing values. However `ds.completeCases` 
+#' @details In the case of a data frame or matrix, \code{ds.completeCases} deletes 
+#' all rows containing one or more missing values. However \code{ds.completeCases} 
 #' in vectors only deletes the observation recorded as NA.  
 #' 
-#' Server function called: `completeCasesDS`
+#' Server function called: \code{completeCasesDS}
 #' 
 #' @param x1 a character denoting the name of the input object which can be a data frame,
 #' matrix or vector.
@@ -14,13 +14,13 @@
 #' that is stored on the data servers. If the user does not specify a name, then the function 
 #' generates a name for the generated object that is the name of the input object with the 
 #' suffix "_complete.cases"
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified, the default set of connections will be
-#' used: see [datashield.connections_default()].
-#' @return `ds.completeCases` generates a modified data frame, matrix or vector from which
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified, the default set of connections will be
+#' used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.completeCases} generates a modified data frame, matrix or vector from which
 #' all rows containing at least one NA have been deleted. The output object is stored on the
 #' server-side. Only two validity messages are returned to the client-side indicating the name
-#' of the `newobj` that has been created in each data source and if it is in a valid form.  
+#' of the \code{newobj} that has been created in each data source and if it is in a valid form.  
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
@@ -86,12 +86,10 @@ ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x1)){
     return("Error: x1 must be a character string naming a serverside data.frame, matrix or vector")
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x1)
 
   # rename target object for transfer (not strictly necessary as string will pass parser anyway)
   # but maintains consistency with other functions
+ 
   x1.transmit <- x1
 
   # if no value specified for output object, then specify a default
@@ -132,7 +130,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

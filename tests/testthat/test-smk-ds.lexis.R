@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -43,7 +42,7 @@ test_that("simple lexis", {
     expect_true(res.exists$survival2)
     expect_true(res.exists$survival3)
 
-    res.message <- expect_warning(ds.message('messageobj'), "'ds.message' is deprecated.", fixed = TRUE)
+    res.message <- ds.message('messageobj')
 
     expect_length(res.message, 3)
     expect_equal(res.message$survival1, "ALL OK: there are no studysideMessage(s) on this datasource")

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -24,11 +24,11 @@ test_that("glmSLMA_errors", {
   
   expect_error(ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
   res.errors<-datashield.errors()
-
   expect_length(res.errors, 3)
-  expect_match(res.errors$sim1, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
-  expect_match(res.errors$sim2, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
-  expect_match(res.errors$sim3, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
+  expect_equal(res.errors[[1]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim1': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
+  expect_equal(res.errors[[2]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim2': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
+  expect_equal(res.errors[[3]], "Command 'glmSLMADS1(D$LAB_TSC ~ D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' failed on 'sim3': Error while evaluating 'dsBase::glmSLMADS1(D$LAB_TSC~D$LAB_TRIG, \"gaussian\", NULL, NULL, NULL)' -> Error in model.frame.default(formula = formula2use, data = dataTable,  : \n  invalid type (NULL) for variable 'D$LAB_TRIG'\n", fixed=TRUE)
+  
 })
 
 #

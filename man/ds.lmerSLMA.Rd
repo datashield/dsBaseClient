@@ -23,7 +23,7 @@ ds.lmerSLMA(
 )
 }
 \arguments{
-\item{formula}{an object of class formula describing the model to be fitted.
+\item{formula}{an object of class formula describing the model to be fitted. 
 For more information see \strong{Details}.}
 
 \item{offset}{a character string specifying the name of a variable to be used as
@@ -38,37 +38,37 @@ studies using random-effects meta-analysis under maximum likelihood (ML),
 restricted maximum likelihood (REML) or fixed-effects meta-analysis (FE). Default TRUE.}
 
 \item{dataName}{a character string specifying the name of an (optional) data frame
-that contains all of the variables in the LME formula.
+that contains all of the variables in the LME formula. 
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE \code{ds.lmerSLMA} checks the structural integrity
+\item{checks}{logical. If TRUE \code{ds.lmerSLMA} checks the structural integrity 
 of the model. Default FALSE. For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
 \item{REML}{logical. If TRUE the REstricted Maximum Likelihood (REML)
-is used for parameter optimization.
-If FALSE the parameters are optimized using standard ML (maximum likelihood). Default TRUE.
+is used for parameter optimization. 
+If FALSE the parameters are optimized using standard ML (maximum likelihood). Default TRUE. 
 For more information see \strong{Details}.}
 
 \item{control_type}{an optional character string vector specifying the nature of a parameter
-(or parameters) to be modified in the \verb{convergence control options} which can be viewed or
-modified via the \code{lmerControl} function of the package \code{lme4}.
+(or parameters) to be modified in the \code{convergence control options} which can be viewed or
+modified via the \code{lmerControl} function of the package \code{lme4}. 
 For more information see \strong{Details}.}
 
 \item{control_value}{numeric representing the new value which you want to allocate the
-control parameter corresponding to the \code{control-type}.
+control parameter corresponding to the \code{control-type}. 
 For more information see \strong{Details}.}
 
 \item{optimizer}{specifies the parameter optimizer that \code{lmer} should use.
 For more information see \strong{Details}.}
 
 \item{verbose}{an integer value. If \eqn{verbose > 0} the output is generated during the optimization of
-the parameter estimates. If \eqn{verbose > 1} the output is generated during the individual penalized
-iteratively reweighted least squares (PIRLS) steps. Default \code{verbose}
-value is 0 which means no additional output.}
+the parameter estimates. If \eqn{verbose > 1} the output is generated during the individual penalized 
+iteratively reweighted least squares (PIRLS) steps. Default \code{verbose} 
+ value is 0 which means no additional output.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
@@ -78,29 +78,29 @@ progress. Default FALSE.}
 Default FALSE.}
 
 \item{newobj}{a character string specifying the name of the object to which the lmerMod object
-representing the model fit on the serverside in each study is to be written. This argument is
+representing the model fit on the serverside in each study is to be written. This argument is 
 used only when the argument \code{assign} is set to TRUE.
-If no \if{html}{\out{<newobj>}} argument is specified, the output object defaults to "new.lmer.obj".}
+If no <newobj> argument is specified, the output object defaults to "new.lmer.obj".}
 }
 \value{
-Many of the elements of the output list returned by \code{ds.lmerSLMA} are
+Many of the elements of the output list returned by \code{ds.lmerSLMA} are 
 equivalent to those returned by the \code{lmer()} function in native R. However,
 potentially disclosive elements
-such as individual-level residuals and linear predictor values are blocked.
+such as individual-level residuals and linear predictor values are blocked. 
 In this case, only non-disclosive elements are returned from each study separately.
 
 The list of elements returned by \code{ds.lmerSLMA} is mentioned below:
 
-\code{ds.lmerSLMA} returns a list of  elements mentioned
+\code{ds.lmerSLMA} returns a list of  elements mentioned 
 below separately for each study.
 
 \code{coefficients}: a matrix with 5 columns:
-\describe{
-\item{First}{: the names of all of the regression parameters (coefficients) in the model}
-\item{second}{: the estimated values}
-\item{third}{: corresponding standard errors of the estimated values}
-\item{fourth}{: the ratio of estimate/standard error}
-\item{fifth}{: the p-value treating that as a standardised normal deviate}
+   \itemize{
+   \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
+   \item{second}{: the estimated values} 
+   \item{third}{: corresponding standard errors of the estimated values} 
+   \item{fourth}{: the ratio of estimate/standard error} 
+   \item{fifth}{: the p-value treating that as a standardised normal deviate} 
 }
 
 \code{CorrMatrix}: the correlation matrix of parameter estimates.
@@ -117,8 +117,8 @@ below separately for each study.
 
 \code{Nvalid}: the number of valid (non-missing) observations in the given study.
 
-\code{Ntotal}: the total number of observations
-in the given study (\code{Nvalid} + \code{Nmissing}).
+\code{Ntotal}: the total number of observations 
+                       in the given study (\code{Nvalid} + \code{Nmissing}).
 
 \code{data}: equivalent to input parameter \code{dataName} (above).
 
@@ -160,32 +160,32 @@ This function is similar to \code{lmer} function from \code{lme4} package in nat
 When there are multiple data sources,
 the LME is fitted to convergence in each data source independently. The
 estimates and standard errors returned to the client-side which enable cross-study pooling
-using Study-Level Meta-Analysis (SLMA).  The SLMA used by default \code{metafor} package
-but as the SLMA occurs on the client-side (a standard R environment), the user can choose
-any approach to meta-analysis.  Additional information about fitting
-LMEs using the \code{lmer} function can be
+using Study-Level Meta-Analysis (SLMA).  The SLMA used by default \code{metafor} package  
+ but as the SLMA occurs on the client-side (a standard R environment), the user can choose 
+ any approach to meta-analysis.  Additional information about fitting 
+LMEs using the \code{lmer} function can be 
 obtained using R help for \code{lmer} and the \code{lme4} package.
 
 In \code{formula} most shortcut notation allowed by  \code{lmer()} function is
 also allowed by \code{ds.lmerSLMA}. Many LMEs can be fitted very simply using a formula like:
-\deqn{y ~ a + b + (1 | c)}
+\deqn{y~a+b+(1|c)}
 which simply means fit an LME with \code{y} as the outcome variable with \code{a} and \code{b}
 as fixed effects, and \code{c} as a random effect or grouping factor.
 
-It is also possible to fit models with random slopes by specifying a model such as
-\deqn{y~a+b+(1+b|c)}
+It is also possible to fit models with random slopes by specifying a model such as 
+\deqn{y~a+b+(1+b|c)} 
 where the effect of \code{b} can vary randomly between groups defined by \code{c}.
 Implicit nesting can be specified with formulae such as \eqn{y~a+b+(1|c/d)}
-or \eqn{y~a+b+(1|c)+(1|c:d)}.
+or \eqn{y~a+b+(1|c)+(1|c:d)}. 
 
 The \code{dataName} argument avoids you having to specify the name of the
-data frame in front of each covariate in the formula.
-For example, if the data frame is called \code{DataFrame} you avoid having to write:
+data frame in front of each covariate in the formula. 
+For example, if the data frame is called \code{DataFrame} you avoid having to write: 
 \eqn{DataFrame$y~DataFrame$a+DataFrame$b+(1|DataFrame$c)}.
 
-The \code{checks} argument verifies that the variables in the model are all defined (exist)
+The \code{checks} argument verifies that the variables in the model are all defined (exist) 
 on the server-site at every study
-and that they have the correct characteristics required to fit the model.
+and that they have the correct characteristics required to fit the model. 
 It is suggested to make \code{checks} argument TRUE if an unexplained
 problem in the model fit is encountered because the running process takes several minutes.
 
@@ -193,12 +193,12 @@ problem in the model fit is encountered because the running process takes severa
 bias associated with the fixed-effects. See help on the \code{lmer()} function for more details.
 
 In \code{control_type} at present only one such parameter can be modified,
-namely the tolerance of the convergence criterion to the gradient of the log-likelihood
+namely the tolerance of the convergence criterion to the gradient of the log-likelihood 
 at the maximum likelihood achieved. We have enabled this because our practical experience
 suggests that in situations where the model looks to have converged with sensible parameter
 values but formal convergence is not being declared if we allow the model to be more
 tolerant to a non-zero gradient the same parameter values are obtained but formal
-convergence is declared. The default value for the \code{check.conv.grad} is \code{0.002}.
+convergence is declared. The default value for the \code{check.conv.grad} is \code{0.002}. 
 
 \code{control_value} At present (see \code{control_type})
 the only parameter this can be is the convergence tolerance \code{check.conv.grad}. In
@@ -210,7 +210,7 @@ This will not generally be a problem if the likelihood surface is well behaved b
 you have a problem with convergence you might usefully compare all the parameter
 estimates and standard errors obtained using the default tolerance (\code{0.002}) even though
 that has not formally converged with those obtained after convergence using the higher
-tolerance.
+tolerance. 
 
 The \code{optimizer} argument is built in but it won't do anything because there is only one
 standard optimizer available for lmer - this is the \code{nloptwrap} optimizer. If users
@@ -252,7 +252,7 @@ Server function called: \code{lmerSLMADS2}
  
   # Fit the lmer
   
-  ds.lmerSLMA(formula = "BMI ~ incid_rate + diabetes + (1 | Male)",
+  ds.lmerSLMA(formula = "BMI ~  incid_rate + diabetes + (1 | Male)",
                dataName = "D.comp",
                datasources = connections)
   

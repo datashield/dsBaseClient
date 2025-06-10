@@ -1,20 +1,20 @@
 #'
 #' @title Computes the absolute values of a variable
 #' @description Computes the absolute values for a specified numeric or integer vector. 
-#' This function is similar to R function `abs`.
-#' @details The function calls the server-side function `absDS` that computes the 
+#' This function is similar to R function \code{abs}.
+#' @details The function calls the server-side function \code{absDS} that computes the 
 #' absolute values of the elements of a numeric or integer vector and assigns a new vector 
 #' with those absolute values on the server-side. The name of the new generated vector is 
-#' specified by the user through the argument `newobj`, otherwise is named by default to
-#' `abs.newobj`.
+#' specified by the user through the argument \code{newobj}, otherwise is named by default to
+#' \code{abs.newobj}.
 #' @param x a character string providing the name of a numeric or an integer vector.
 #' @param newobj a character string that provides the name for the output variable
-#' that is stored on the data servers. Default name is set to `abs.newobj`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified the default set of connections will be
-#' used: see [datashield.connections_default()].
-#' @return `ds.abs` assigns a vector for each study that includes the absolute values of
-#' the input numeric or integer vector specified in the argument `x`. The created vectors
+#' that is stored on the data servers. Default name is set to \code{abs.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified the default set of connections will be
+#' used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.abs} assigns a vector for each study that includes the absolute values of
+#' the input numeric or integer vector specified in the argument \code{x}. The created vectors
 #' are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
@@ -86,15 +86,26 @@ ds.abs <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   if(!('numeric' %in% typ) && !('integer' %in% typ)){
-    stop("Only objects of type 'numeric' or 'integer' are allowed.", call.=FALSE)
+      stop("Only objects of type 'numeric' or 'integer' are allowed.", call.=FALSE)
   }
 
   # create a name by default if the user did not provide a name for the new variable

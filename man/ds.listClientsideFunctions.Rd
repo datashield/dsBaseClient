@@ -7,7 +7,7 @@
 ds.listClientsideFunctions()
 }
 \value{
-\code{ds.listClientsideFunctions} returns a list containing
+\code{ds.listClientsideFunctions} returns a list containing 
 all  server-side functions.
 }
 \description{
@@ -16,7 +16,7 @@ Lists all current client-side functions
 \details{
 This function operates by directly interrogating
 the R objects stored in the input client packages and objects of name
-starting with \code{ds.} character in \code{.GlobalEnv}.
+starting with \code{ds.} character in \code{.GlobalEnv}. 
 
 This function does not call any server-side function.
 }

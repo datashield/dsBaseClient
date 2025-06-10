@@ -1,45 +1,45 @@
 #'
 #' @title Converts a server-side R object into Boolean indicators
 #' @description It compares R objects using the standard set of 
-#' Boolean operators (`==, !=, >, >=, <, <=`) to create a
-#' vector with Boolean indicators that can be of class logical (`TRUE/FALSE`) 
-#' or numeric (`1/0`). 
+#' Boolean operators (\code{==, !=, >, >=, <, <=}) to create a
+#' vector with Boolean indicators that can be of class logical (\code{TRUE/FALSE}) 
+#' or numeric (\code{1/0}). 
 #' 
-#' @details A combination of different Boolean operators using `AND` operator
+#' @details A combination of different Boolean operators using \code{AND} operator
 #' can be obtained by multiplying two or more
 #' binary/Boolean vectors together. In this way, observations taking the value 1 in every vector
 #' will then take the value 1 in the final vector (after multiplication)
-#' while all others will take the value 0. Instead the combination using  `OR` operator
+#' while all others will take the value 0. Instead the combination using  \code{OR} operator
 #' can be obtained by the sum of two or more vectors and applying   
-#' `ds.Boole` using the operator `>= 1`. 
+#' \code{ds.Boole} using the operator \code{>= 1}. 
 #' 
-#' In `na.assign` if `'NA'` is specified, the missing values 
-#' remain as `NA`s in the output vector. If `'1'` or `'0'` is specified the 
-#' missing values are converted to 1 or 0 respectively or `TRUE`
-#' or `FALSE` depending on the argument `numeric.output`.
+#' In \code{na.assign} if \code{'NA'} is specified, the missing values 
+#' remain as \code{NA}s in the output vector. If \code{'1'} or \code{'0'} is specified the 
+#' missing values are converted to 1 or 0 respectively or \code{TRUE}
+#' or \code{FALSE} depending on the argument \code{numeric.output}.
 #' 
 #' 
 #' 
-#' Server function called: `BooleDS`
+#' Server function called: \code{BooleDS}
 #' 
 #' @param V1 A character string specifying the name of the vector to which the Boolean operator
 #' is to be applied. 
-#' @param V2 A character string specifying the name of the vector to compare with `V1`. 
+#' @param V2 A character string specifying the name of the vector  to compare with \code{V1}. 
 #' @param Boolean.operator A character string specifying one of six possible Boolean operators:
-#' `'==', '!=', '>', '>=', '<'` and `'<='`. 
-#' @param numeric.output logical. If TRUE the output variable should be of class numeric (`1/0`).
-#' If FALSE the output variable should be of class logical (`TRUE/FALSE`). 
+#' \code{'==', '!=', '>', '>=', '<'} and \code{'<='}. 
+#' @param numeric.output logical. If TRUE the output variable should be of class numeric (\code{1/0}).
+#' If FALSE the output variable should be of class logical (\code{TRUE/FALSE}). 
 #' Default TRUE. 
-#' @param na.assign A character string taking values `'NA'`,`'1'` or `'0'`.
-#' Default `'NA'`. For more information see details. 
+#' @param na.assign A character string taking values \code{'NA'},\code{'1'} or \code{'0'}.
+#' Default \code{'NA'}. For more information see details. 
 #' @param newobj 	a character string that provides the name for the output 
-#' object that is stored on the data servers. Default `boole.newobj`. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.Boole` returns the object specified by the `newobj` argument 
+#' object that is stored on the data servers. Default \code{boole.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.Boole} returns the object specified by the \code{newobj} argument 
 #' which is written to the server-side. Also, two validity messages are returned
-#' to the client-side indicating the name of the `newobj` which 
+#' to the client-side indicating the name of the \code{newobj} which 
 #' has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 
@@ -177,7 +177,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
     newobj <- paste0(V1,"_Boole")
   }
 
-  # CALL THE MAIN SERVER SIDE FUNCTION
+# CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("BooleDS", V1, V2, BO.n, na.assign,numeric.output)
   DSI::datashield.assign(datasources, newobj, calltext)
 
@@ -209,7 +209,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

@@ -23,9 +23,9 @@
   skewness.server.2 <- round(as.numeric(skewness.server[[1]][2]), digits = 8)
   skewness.server.3 <- round(as.numeric(skewness.server[[1]][3]), digits = 8)
   
-  expect_equal(skewness.server.1, skewness.local.1, tolerance = ds.test_env$low_tolerance)
-  expect_equal(skewness.server.2, skewness.local.2, tolerance = ds.test_env$low_tolerance)
-  expect_equal(skewness.server.3, skewness.local.3, tolerance = ds.test_env$low_tolerance)
+  expect_equal(skewness.server.1, skewness.local.1, tolerance = ds.test_env$tolerance)
+  expect_equal(skewness.server.2, skewness.local.2, tolerance = ds.test_env$tolerance)
+  expect_equal(skewness.server.3, skewness.local.3, tolerance = ds.test_env$tolerance)
 }
 
 .test.skewness.mean.median.mode<-function(variable.name,method)

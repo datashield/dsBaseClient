@@ -11,20 +11,20 @@
 #' 
 #' Server-side functions from which error messages are to be made
 #' available are designed to be able to write the designated error message to
-#' the `$serversideMessage` object into the list that is saved on the server-side
+#' the \code{$serversideMessage} object into the list that is saved on the server-side
 #' as the primary output of that function. So only valid server-side functions of
-#' DataSHIELD can write a `$studysideMessage`. The error message is a string that 
-#' cannot exceed a length of `nfilter.string` a default of 80 characters.
+#' DataSHIELD can write a \code{$studysideMessage}. The error message is a string that 
+#' cannot exceed a length of \code{nfilter.string} a default of 80 characters.
 #' 
-#' Server function called: `messageDS`
+#' Server function called: \code{messageDS}
 #' @param message.obj.name is a character string specifying  the name of the list that 
 #' contains the message. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.message` returns a list object from each study, 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.message} returns a list object from each study, 
 #' containing the message that has been written by
-#' DataSHIELD into `$studysideMessage`.
+#' DataSHIELD into \code{$studysideMessage}.
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{

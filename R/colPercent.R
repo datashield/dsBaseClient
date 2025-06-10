@@ -1,7 +1,7 @@
 #'
 #' @title Produces column percentages
 #' @description this is an INTERNAL function.
-#' @details The function is required required by the client function `ds.table2D`. 
+#' @details The function is required required by the client function \code{ds.table2D}. 
 #' @param dataframe a data frame
 #' @keywords internal
 #' @return a data frame

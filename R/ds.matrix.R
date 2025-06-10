@@ -1,54 +1,54 @@
 #' @title Creates a matrix on the server-side
 #' @description Creates a matrix on the server-side 
-#' with dimensions specified by `nrows.scalar` 
-#' and `ncols.scalar` arguments and assigns the 
-#' values of all its elements based on the `mdata` argument. 
-#' @details This function is similar to the R native function `matrix()`. 
+#' with dimensions specified by \code{nrows.scalar} 
+#' and \code{ncols.scalar} arguments and assigns the 
+#' values of all its elements based on the \code{mdata} argument. 
+#' @details This function is similar to the R native function \code{matrix()}. 
 #' 
-#' If in the `mdata` argument a vector is specified this should have 
+#' If in the \code{mdata} argument a vector is specified this should have 
 #' the same length as the total number of elements
-#' in the matrix. If this is not TRUE  the values in `mdata`
+#' in the matrix. If this is not TRUE  the values in \code{mdata}
 #' will be used repeatedly until all elements in the matrix are full.
-#' If `mdata` argument is a scalar, all elements in the matrix will take that value.
+#' If \code{mdata} argument is a scalar, all elements in the matrix will take that value.
 #' 
 #' 
-#' In the `nrows.scalar` argument can be a character string specifying 
+#' In the \code{nrows.scalar} argument can be a character string specifying 
 #' the name of a server-side scalar. For example,  
-#' if a server-side scalar named `ss.scalar` exists and holds the value 23,
-#' then by specifying `nrows.scalar = "ss.scalar"`, the matrix created will
+#' if a server-side scalar named \code{ss.scalar} exists and holds the value 23,
+#' then by specifying \code{nrows.scalar = "ss.scalar"}, the matrix created will
 #' have 23 rows. Also this argument can be 
 #' a numeric value from the
-#' client-side. The same rules are applied to `ncols.scalar` argument but in this 
+#' client-side. The same rules are applied to \code{ncols.scalar} argument but in this 
 #' case the column numbers are specified. 
 #' In both arguments a zero, negative, NULL or missing value is not permitted. 
 #'
 #' 
-#' Server function called: `matrixDS`
+#' Server function called: \code{matrixDS}
 #' 
 #' @param mdata a character string specifying
 #' the name of a server-side scalar or vector. Also, a numeric value representing a
 #' scalar specified from the client-side can be speficied. 
 #' Zeros, negative values and NAs are all allowed.
-#' For more information see **Details**. 
-#' @param from a character string specifying the source and nature of `mdata`.
-#' This can be set as `"serverside.vector"`, `"serverside.scalar"`
-#' or `"clientside.scalar"`. Default `"clientside.scalar"`. 
+#' For more information see \strong{Details}. 
+#' @param from a character string specifying the source and nature of \code{mdata}.
+#' This can be set as \code{"serverside.vector"}, \code{"serverside.scalar"}
+#' or \code{"clientside.scalar"}. Default \code{"clientside.scalar"}. 
 #' @param nrows.scalar an integer or a character string that specifies the number 
 #' of rows in the matrix to be created.
-#' For more information see **Details**. 
+#' For more information see \strong{Details}. 
 #' @param ncols.scalar an integer or a character string that specifies 
 #' the number of columns in the matrix to be created.
-#' @param byrow logical. If TRUE and `mdata` is a vector the matrix
+#' @param byrow logical. If TRUE and \code{mdata} is a vector the matrix
 #' created should be filled row by row. If FALSE the matrix created should 
 #' be filled column by column. Default = FALSE.
 #' @param dimnames a list of length 2 giving
 #' the row and column names respectively.
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default `matrix.newobj`. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.matrix` returns the created matrix which is written on the server-side. 
+#' variable that is stored on the data servers. Default \code{matrix.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrix} returns the created matrix which is written on the server-side. 
 #' In addition, two validity messages are returned
 #' indicating whether the new matrix has been created in each data source and if so whether
 #' it is in a valid form.
@@ -143,9 +143,9 @@
 #' }
 #'
 #' @export
-#' 
-ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
-                     dimnames = NULL, newobj=NULL, datasources=NULL){
+ds.matrix<-function(mdata = NA, from="clientside.scalar",nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
+                   dimnames = NULL, newobj=NULL, datasources=NULL){
+
 
   # look for DS connections
   if(is.null(datasources)){
@@ -163,7 +163,8 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj)){
+  if(is.null(newobj))
+  {
     newobj <- "matrix.newobj"
   }
 
@@ -176,12 +177,15 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   return('Please respecify')
   }
 
-  if(from=="serverside.vector"||from=="serverside.scalar"){
-    mdata.transmit <- mdata
+  if(from=="serverside.vector"||from=="serverside.scalar")
+  {
+  mdata.transmit<-mdata
   }
 
-  if(from=="clientside.scalar"){
-    mdata.transmit <- paste0(as.character(mdata), collapse=",")
+
+  if(from=="clientside.scalar")
+  {
+  mdata.transmit<-paste0(as.character(mdata),collapse=",")
   }
 
   #process <nrows> and <ncols> to make transmittable depending on specified from
@@ -236,7 +240,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

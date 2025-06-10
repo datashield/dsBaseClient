@@ -12,16 +12,16 @@ ds.cor(x = NULL, y = NULL, type = "split", datasources = NULL)
 \item{y}{a character string providing the name of the input vector, data frame or matrix.
 Default NULL.}
 
-\item{type}{a character string that represents the type of analysis to carry out.
+\item{type}{a character string that represents the type of analysis to carry out. 
 This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.cor} returns a list containing the number of missing values in each variable,
-the number of missing variables casewise, the correlation matrix,
+the number of missing variables casewise, the correlation matrix, 
 the number of used complete cases. The function applies two disclosure controls. The first disclosure
 control checks that the number of variables is not bigger than a percentage of the individual-level records (the allowed
 percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
@@ -37,8 +37,8 @@ number of complete cases and a table outlining the number of missing values to a
 user to decide the 'relevance' of the correlation based on the number of complete
 cases included in the correlation calculations.
 
-If the argument \code{y} is not NULL, the dimensions of the object have to be
-compatible with the argument \code{x}.
+If the argument \code{y} is not NULL, the dimensions of the object have to be 
+compatible with the argument \code{x}. 
 
 The function calculates the pairwise correlations based on casewise complete cases which means that
 it omits all the rows in the input data frame that include at least one cell with a missing value,
@@ -49,7 +49,7 @@ variance-correlation matrix of an input data frame and the number of complete ca
 values are returned for every single study. If type is set to \code{'combine'}, the pooled
 correlation, the total number of complete cases and the total number of missing values aggregated
 from all the involved studies, are returned.
-
+ 
 Server function called: \code{corDS}
 }
 \examples{

@@ -4,14 +4,14 @@
 #' specified set of data servers. 
 #' @details Close copies of the code in this function
 #' are embedded into other functions that create an object and you then wish to test whether it has successfully
-#' been created e.g. `ds.make` or `ds.asFactor`. 
+#' been created e.g. \code{ds.make} or \code{ds.asFactor}. 
 #' 
-#' Server function called: `testObjExistsDS`
+#' Server function called: \code{testObjExistsDS}
 #' @param test.obj.name a character string specifying the name of the object to search. 
-#' @param datasources  a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.testObjExists` returns a list of messages specifying that the object exists
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.testObjExists} returns a list of messages specifying that the object exists
 #' on the server-side.
 #' If the specified object does not exist in at least one 
 #' of the specified data sources or it exists but is of
@@ -96,7 +96,7 @@ for(j in 1:num.datasources){																			 #
 	if(!object.info[[j]]$test.obj.exists){																 #
 		obj.name.exists.in.all.sources<-FALSE															 #
 		}																								 #
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 #
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 #
 		obj.non.null.in.all.sources<-FALSE																 #
 		}																								 #
 	}																									 #
@@ -137,7 +137,7 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 #
     if(!object.info[[j]]$test.obj.exists){
       obj.name.exists.in.all.sources <- FALSE
     }
-    if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){
+    if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){
       obj.non.null.in.all.sources <- FALSE
     }
   }

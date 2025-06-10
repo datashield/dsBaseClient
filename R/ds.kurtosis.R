@@ -2,24 +2,24 @@
 #' @title Calculates the kurtosis of a numeric variable
 #' @description This function calculates the kurtosis of a numeric variable.
 #' @details The function calculates the kurtosis of an input variable x with three different methods. 
-#' The method is specified by the argument `method`. If x contains any missings, the function removes those before
-#' the calculation of the kurtosis. If `method` is set to 1 the following formula is used
+#' The method is specified by the argument \code{method}. If x contains any missings, the function removes those before
+#' the calculation of the kurtosis. If \code{method} is set to 1 the following formula is used
 #' \eqn{ kurtosis= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) } - 3},
-#' where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations. If `method` is set to 2
+#' where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations. If \code{method} is set to 2
 #' the following formula is used \eqn{ kurtosis= ((N+1)*(\frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) } - 3) + 6)*((N-1)/((N-2)*(N-3)))}.
-#' If `method` is set to 3 the following formula is used \eqn{ kurtosis= (\frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) })*(1-1/N)^2 - 3}.
-#' This function is similar to the function `kurtosis` in R package `e1071`.
+#' If \code{method} is set to 3 the following formula is used \eqn{ kurtosis= (\frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) })*(1-1/N)^2 - 3}.
+#' This function is similar to the function \code{kurtosis} in R package \code{e1071}.
 #' @param x a string character, the name of a numeric variable.
 #' @param method an integer between 1 and 3 selecting one of the algorithms for computing kurtosis
 #' detailed below. The default value is set to 1.
 #' @param type a character which represents the type of analysis to carry out. 
-#' If `type` is set to 'combine', 'combined', 'combines' or 'c', the global kurtosis is returned 
-#' if `type` is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
-#' if `type` is set to 'both' or 'b', both sets of outputs are produced.
+#' If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global kurtosis is returned 
+#' if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
+#' if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 #' The default value is set to 'both'.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified 
-#' the default set of connections will be used: see [datashield.connections_default()].
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @return a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
 #' the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
@@ -49,12 +49,22 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
-  if(type != 'combine' & type != 'split' & type != 'both'){
+  if(type != 'combine' & type != 'split' & type != 'both')
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
-  }
   
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

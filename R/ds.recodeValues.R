@@ -3,25 +3,25 @@
 #' them to a matched set of alternative specified values.
 #' @details This function recodes individual values with new individual values. This can
 #' apply to numeric and character values, factor levels and NAs. One particular use of
-#' `ds.recodeValues` is to convert NAs to an explicit value. This value is specified
-#' in the argument `missing`. If tthe user want to recode only missing values, then it
-#' should also specify an identical vector of values in both arguments `values2replace.vector`
-#' and `new.values.vector` (see Example 2 below).
-#' Server function called: `recodeValuesDS`
+#' \code{ds.recodeValues} is to convert NAs to an explicit value. This value is specified
+#' in the argument \code{missing}. If tthe user want to recode only missing values, then it
+#' should also specify an identical vector of values in both arguments \code{values2replace.vector}
+#' and \code{new.values.vector} (see Example 2 below).
+#' Server function called: \code{recodeValuesDS}
 #' @param var.name a character string providing the name of the variable to be recoded. 
 #' @param values2replace.vector a numeric or character vector specifying the values
-#' in the variable `var.name` to be replaced. 
+#' in the variable \code{var.name} to be replaced. 
 #' @param new.values.vector a numeric or character vector specifying the new values.
 #' @param missing If supplied, any missing values in var.name will be replaced by this value. 
 #' Must be of length 1. If the analyst want to recode only missing values then it should also 
-#' specify an identical vector of values in both arguments `values2replace.vector` and 
-#' `new.values.vector`. Otherwise please look the `ds.replaceNA` function.
+#' specify an identical vector of values in both arguments \code{values2replace.vector} and 
+#' \code{new.values.vector}. Otherwise please look the \code{ds.replaceNA} function.
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers.
-#' Default `recodevalues.newobj`. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
+#' Default \code{recodevalues.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param notify.of.progress logical. If TRUE console output should be produced to indicate
 #' progress. Default FALSE.
 #' @return Assigns to each server a new variable with the recoded values. 
@@ -78,8 +78,7 @@
 #' }   
 #' @export
 #'
-ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, 
-                            missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -95,9 +94,6 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(is.null(var.name)){
     stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, var.name)
   
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
@@ -124,18 +120,28 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   if(any(is.na(values2replace.vector))){
     stop("To recode NAs you need to use the 'missing' argument", call.=FALSE)
   }
+
+#   # DETERMINE WHETHER new.values.vector CONTAINS NON-NUMERIC ELEMENTS (IF SO CAN ONLY GET NUMERIC OUTPUT
+#   # BY force.output.format="numeric" AND NON-NUMERICS WILL THEN BE SET AS NaN)
+# 
+# 	# is new.values.vector all NA?
+# 	nvv.all.NA <- (sum(is.na(new.values.vector))==length(new.values.vector))
+# 	nvv.numeric <- is.numeric(new.values.vector)
+# 
+#   numeric.output.format.possible <- (nvv.all.NA||nvv.numeric)
+# 
+#   # is values2replace.vector numeric?
+#   v2r.numeric <- is.numeric(values2replace.vector)
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){
     values2replace.transmit <- paste0(as.character(values2replace.vector), collapse=",")
-    new.values.transmit <- paste0(as.character(new.values.vector), collapse=",")
+    new.values.transmit <- paste0(as.character(new.values.vector),collapse=",")
   }else{
     values2replace.transmit <- NULL
     new.values.transmit <- NULL
   }
     
-  if(is.null(newobj)){
-    newobj <- paste0(var.name, "_recoded")
-  }
+  if(is.null(newobj)){newobj <- paste0(var.name, "_recoded")}
 
   calltext <- call("recodeValuesDS", var.name, values2replace.transmit, new.values.transmit, missing)
   DSI::datashield.assign(datasources, newobj, calltext)
@@ -164,7 +170,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

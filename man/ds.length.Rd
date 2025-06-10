@@ -11,28 +11,28 @@ ds.length(x = NULL, type = "both", checks = "FALSE", datasources = NULL)
 
 \item{type}{a character that represents the type of analysis to carry out.
 If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
-a global length is returned
-if \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
+ a global length is returned
+if \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
 the length is returned separately for each study.
-if \code{type} is set to \code{'both'} or \code{'b'},
-both sets of outputs are produced.
+if \code{type} is set to \code{'both'} or \code{'b'}, 
+both sets of outputs are produced. 
 Default \code{'both'}.}
 
-\item{checks}{logical. If TRUE the model components are checked.
+\item{checks}{logical. If TRUE the model components are checked. 
 Default FALSE to save time. It is suggested that checks
 should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.length} returns to the client-side the pooled length of a vector or a list,
+\code{ds.length} returns to the client-side the pooled length of a vector or a list, 
 or the length of a vector or a list for each study separately.
 }
 \description{
 This function gets the length of a vector
-or list that is stored on the server-side.
+or list that is stored on the server-side. 
 This function is similar to the R function \code{length}.
 }
 \details{

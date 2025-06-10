@@ -5,24 +5,24 @@
 #' @details This function does not return the minimum and maximum values
 #' because they are potentially disclosive.
 #' 
-#' Depending on the argument `type` can be carried out two types of analysis: \cr
-#' (1) `type = 'combine'` pooled values are displayed \cr
-#' (2) `type = 'split'` summaries are
+#' Depending on the argument \code{type} can be carried out two types of analysis: \cr
+#' (1) \code{type = 'combine'} pooled values are displayed \cr
+#' (2) \code{type = 'split'} summaries are
 #' returned for each study. 
 #' 
-#' Server functions called: `quantileMeanDS`, `length` and `numNaDS`
+#' Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
 #' @param x a character string specifying the name of the numeric vector. 
 #' @param type a character that represents the type of graph to display.
-#' This can be set as `'combine'` or `'split'`.
-#' For more information see **Details**. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.quantileMean` returns to the client-side the quantiles and statistical mean
+#' This can be set as \code{'combine'} or \code{'split'}.
+#' For more information see \strong{Details}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
 #' of a server-side numeric vector. 
 #' @author DataSHIELD Development Team
-#' @seealso [ds.mean()] to compute the statistical mean.
-#' @seealso [ds.summary()] to generate the summary of a variable.
+#' @seealso \code{\link{ds.mean}} to compute the statistical mean.
+#' @seealso \code{\link{ds.summary}} to generate the summary of a variable.
 #' @export
 #' @examples
 #' \dontrun{
@@ -81,12 +81,19 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  if (! all(type %in% c("combine", "split"))) {
-    stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
-  }
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -105,7 +112,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   cally2 <- call('lengthDS', x)
   lengths <- DSI::datashield.aggregate(datasources, cally2)
   cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
+  numNAs <- DSI::datashield.aggregate(datasources, cally3)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
@@ -126,7 +133,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     if(type=="split"){
       return(quants)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+      stop('Function argument "type" has to be either "combine" or "split"')
     }
   }
 }

@@ -8,7 +8,7 @@
 #' of the  data frames or matrices must be the same.  The output 
 #' data frame will have the same number of rows. 
 #' 
-#' Server functions called: `classDS`, `colnamesDS`, `dataFrameDS`
+#' Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
 #' 
 #' @param x a character string that provides the name of the objects
 #' to be combined.
@@ -31,15 +31,15 @@
 #' 4. the number of rows of the  data frames or matrices and the length of all component variables
 #' are the same
 #' @param newobj a character string that provides the name for the output data frame  
-#' that is stored on the data servers. Default `dataframe.newobj`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified 
-#' the default set of connections will be used: see [datashield.connections_default()]. 
+#' that is stored on the data servers. Default \code{dataframe.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}. 
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default is FALSE.
-#' @return `ds.dataFrame` returns the object specified by the `newobj` argument
+#' @return \code{ds.dataFrame} returns the object specified by the \code{newobj} argument
 #' which is written to the serverside. Also, two validity messages are returned to the
-#' client-side indicating the name of the `newobj` that has been created in each data source
+#' client-side indicating the name of the \code{newobj} that has been created in each data source
 #' and if it is in a valid form.
 #' @examples 
 #' 
@@ -110,11 +110,24 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   if(is.null(newobj)){
     newobj <- "dataframe.newobj"
   }
+  
+  # the input variable might be given as column table (i.e. D$vector)
+  # or just as a vector not attached to a table (i.e. vector)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
 
   if(DataSHIELD.checks){
     
     # check if the input object(s) is(are) defined in all the studies
-    lapply(x, function(k){isDefined(datasources, obj=k)})
+    for(i in 1:length(varnames)){
+      if(is.na(obj2lookfor[i])){
+        defined <- isDefined(datasources, varnames[i])
+      }else{
+        defined <- isDefined(datasources, obj2lookfor[i])
+      }
+    }
     
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     for(i in 1:length(x)){
@@ -257,7 +270,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

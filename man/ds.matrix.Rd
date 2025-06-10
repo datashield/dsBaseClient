@@ -18,7 +18,7 @@ ds.matrix(
 \arguments{
 \item{mdata}{a character string specifying
 the name of a server-side scalar or vector. Also, a numeric value representing a
-scalar specified from the client-side can be speficied.
+scalar specified from the client-side can be speficied. 
 Zeros, negative values and NAs are all allowed.
 For more information see \strong{Details}.}
 
@@ -26,57 +26,59 @@ For more information see \strong{Details}.}
 This can be set as \code{"serverside.vector"}, \code{"serverside.scalar"}
 or \code{"clientside.scalar"}. Default \code{"clientside.scalar"}.}
 
-\item{nrows.scalar}{an integer or a character string that specifies the number
+\item{nrows.scalar}{an integer or a character string that specifies the number 
 of rows in the matrix to be created.
 For more information see \strong{Details}.}
 
-\item{ncols.scalar}{an integer or a character string that specifies
+\item{ncols.scalar}{an integer or a character string that specifies 
 the number of columns in the matrix to be created.}
 
 \item{byrow}{logical. If TRUE and \code{mdata} is a vector the matrix
-created should be filled row by row. If FALSE the matrix created should
+created should be filled row by row. If FALSE the matrix created should 
 be filled column by column. Default = FALSE.}
 
 \item{dimnames}{a list of length 2 giving
 the row and column names respectively.}
 
-\item{newobj}{a character string that provides the name for the output
+\item{newobj}{a character string that provides the name for the output 
 variable that is stored on the data servers. Default \code{matrix.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.matrix} returns the created matrix which is written on the server-side.
+\code{ds.matrix} returns the created matrix which is written on the server-side. 
 In addition, two validity messages are returned
 indicating whether the new matrix has been created in each data source and if so whether
 it is in a valid form.
 }
 \description{
-Creates a matrix on the server-side
-with dimensions specified by \code{nrows.scalar}
-and \code{ncols.scalar} arguments and assigns the
+Creates a matrix on the server-side 
+with dimensions specified by \code{nrows.scalar} 
+and \code{ncols.scalar} arguments and assigns the 
 values of all its elements based on the \code{mdata} argument.
 }
 \details{
-This function is similar to the R native function \code{matrix()}.
+This function is similar to the R native function \code{matrix()}. 
 
-If in the \code{mdata} argument a vector is specified this should have
+If in the \code{mdata} argument a vector is specified this should have 
 the same length as the total number of elements
 in the matrix. If this is not TRUE  the values in \code{mdata}
 will be used repeatedly until all elements in the matrix are full.
 If \code{mdata} argument is a scalar, all elements in the matrix will take that value.
 
-In the \code{nrows.scalar} argument can be a character string specifying
-the name of a server-side scalar. For example,
+
+In the \code{nrows.scalar} argument can be a character string specifying 
+the name of a server-side scalar. For example,  
 if a server-side scalar named \code{ss.scalar} exists and holds the value 23,
 then by specifying \code{nrows.scalar = "ss.scalar"}, the matrix created will
-have 23 rows. Also this argument can be
+have 23 rows. Also this argument can be 
 a numeric value from the
-client-side. The same rules are applied to \code{ncols.scalar} argument but in this
-case the column numbers are specified.
-In both arguments a zero, negative, NULL or missing value is not permitted.
+client-side. The same rules are applied to \code{ncols.scalar} argument but in this 
+case the column numbers are specified. 
+In both arguments a zero, negative, NULL or missing value is not permitted. 
+
 
 Server function called: \code{matrixDS}
 }

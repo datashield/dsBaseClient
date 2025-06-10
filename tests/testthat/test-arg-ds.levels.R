@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 context("ds.levels::arg")
 test_that("simple levels", {
     expect_error(ds.levels(), "Please provide the name of the input vector!", fixed=TRUE)
-    expect_error(ds.levels("LAB_TSC"), "The input object LAB_TSC is not defined in sim1, sim2, sim3!", fixed=TRUE)
+    expect_error(ds.levels("LAB_TSC"), "The input object(s) LAB_TSC is(are) not defined on one or more of the studies!", fixed=TRUE)
 })
 
 #

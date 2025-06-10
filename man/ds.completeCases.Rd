@@ -11,13 +11,13 @@ ds.completeCases(x1 = NULL, newobj = NULL, datasources = NULL)
 matrix or vector.}
 
 \item{newobj}{a character string that provides the name for the complete-cases object
-that is stored on the data servers. If the user does not specify a name, then the function
-generates a name for the generated object that is the name of the input object with the
+that is stored on the data servers. If the user does not specify a name, then the function 
+generates a name for the generated object that is the name of the input object with the 
 suffix "_complete.cases"}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified, the default set of connections will be
-used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.completeCases} generates a modified data frame, matrix or vector from which
@@ -30,9 +30,9 @@ Selects complete cases of a data frame,
 matrix or vector that contain missing values.
 }
 \details{
-In the case of a data frame or matrix, \code{ds.completeCases} deletes
-all rows containing one or more missing values. However \code{ds.completeCases}
-in vectors only deletes the observation recorded as NA.
+In the case of a data frame or matrix, \code{ds.completeCases} deletes 
+all rows containing one or more missing values. However \code{ds.completeCases} 
+in vectors only deletes the observation recorded as NA.  
 
 Server function called: \code{completeCasesDS}
 }

@@ -4,8 +4,8 @@
 #' on the serverside
 #' or - as a special case - randomly permutes a vector, dataframe or matrix.
 #' @details Clientside function ds.sample calls serverside
-#' assign function sampleDS. Based on the native R function `sample()` but deals
-#' slightly differently with data.frames and matrices. Specifically the `sample()`
+#' assign function sampleDS. Based on the native R function {sample()} but deals
+#' slightly differently with data.frames and matrices. Specifically the {sample()}
 #' function in R identifies the length of an object and then samples n components
 #' of that length. But length(data.frame) in native R returns the number of columns
 #' not the number of rows. So if you have a data.frame with 71 rows and 10 columns,
@@ -63,11 +63,11 @@
 #' that is a randomly permuted sample of the vector 1:923, or (if [replace]
 #' = FALSE, a full random permutation of that same vector. For further details
 #' of using ds.sample with x set as an integer/numeric please see help for
-#' the `sample` function in native R. But if x is set as a character string
+#' the {sample} function in native R. But if x is set as a character string
 #' denoting a vector, matrix or data.frame on the serverside, please note
-#' that although `ds.sample` effectively calls `sample` on the serverside
-#' it behaves somewhat differently to `sample` - for the reasons identified
-#' at the top of 'details' and so help for `sample` should be used as a guide
+#' that although {ds.sample} effectively calls {sample} on the serverside
+#' it behaves somewhat differently to {sample} - for the reasons identified
+#' at the top of 'details' and so help for {sample} should be used as a guide
 #' only.
 #' @param size a numeric/integer scalar indicating the size of the sample to
 #' be drawn. If the [x] argument is a vector, matrix or data.frame on the
@@ -102,18 +102,18 @@
 #' @param replace a Boolean indicator (TRUE or FALSE) specifying whether the
 #' sample should be drawn with or without replacement. Default is FALSE so
 #' the sample is drawn without replacement. For further details see
-#' help for `sample` in native R.
+#' help for {sample} in native R.
 #' @param prob a character string containing the name of a numeric vector
 #' of probability weights on the serverside that is associated with each of the
 #' elements of the vector to be sampled enabling the drawing of a sample
 #' with some elements given higher probability of being drawn than others.
-#' For further details see help for `sample` in native R.
+#' For further details see help for {sample} in native R.
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to 'newobj.sample' if no name is specified.
 #' @param datasources specifies the particular opal object(s) to use. If the <datasources>
 #' argument is not specified the default set of opals will be used. The default opals
 #' are called default.opals and the default can be set using the function
-#' `ds.setDefaultOpals`. If the <datasources> is to be specified, it should be set without
+#' {ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
 #' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
 #' apply the function solely to e.g. the second opal server in a set of three,
 #' the argument can be specified as: e.g. datasources=opals.em[2].
@@ -261,7 +261,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

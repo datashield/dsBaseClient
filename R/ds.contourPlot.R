@@ -2,7 +2,7 @@
 #' @title Generates a contour plot 
 #' @description  It generates a contour plot of the pooled data
 #' or one plot for each dataset on the client-side. 
-#' @details The `ds.contourPlot` function first generates 
+#' @details The \code{ds.contourPlot} function first generates 
 #' a density grid and uses it to plot the graph.
 #' The cells of the grid density matrix that hold a count of less than the filter set by
 #' DataSHIELD (usually 5) are considered invalid and turned into 0 to avoid potential
@@ -12,48 +12,48 @@
 #' are not the exact minimum and maximum values but rather close approximates of the real
 #' minimum and maximum value. This was done to reduce the risk of potential disclosure.
 #' 
-#' In the `k` parameter the user can choose any value for `k` equal to or greater 
+#' In the \code{k} parameter the user can choose any value for \code{k} equal to or greater 
 #' than the pre-specified threshold used as a disclosure control for this method 
 #' and lower than the number of observations minus the value of this threshold. 
-#' `k` default value is  3 (we suggest k to be equal to, or bigger than, 3). 
+#' \code{k} default value is  3 (we suggest k to be equal to, or bigger than, 3). 
 #' Note that the function fails if the user
 #' uses the default value but the study has set a bigger threshold. 
-#' The value of `k` is used only if the argument `method` is set to `'deterministic'`. 
+#' The value of \code{k} is used only if the argument \code{method} is set to \code{'deterministic'}. 
 #' Any value of k is ignored if the
-#' argument `method` is set to `'probabilistic'` or `'smallCellsRule'`.
+#' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
 #' 
-#' In `noise` any value of noise is ignored if
-#' the argument `method` is set to `'deterministic'` or `'smallCellsRule'`. The user can choose
-#' any value for noise equal to or greater than the pre-specified threshold `'nfilter.noise'`.
+#' In \code{noise} any value of noise is ignored if
+#' the argument \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. The user can choose
+#' any value for noise equal to or greater than the pre-specified threshold \code{'nfilter.noise'}.
 #' Default noise value is  0.25. 
 #' The added noise follows a normal distribution with zero mean and variance equal to a percentage of
 #' the initial variance of each input variable.
 #' 
-#' Server functions called: `heatmapPlotDS`, `rangeDS` and `densityGridDS`
+#' Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityGridDS}
 #' 
 #' @param x a character string providing the name of a numerical vector.
 #' @param y a character string providing the name of a numerical vector.
 #' @param type a character string that represents the type of graph to display.
-#' If `type` is set to `'combine'`, a combined contour plot displayed and
-#' if `type` is set to `'split'`, each contour is plotted separately.
+#' If \code{type} is set to \code{'combine'}, a combined contour plot displayed and
+#' if \code{type} is set to \code{'split'}, each contour is plotted separately.
 #' @param show a character that represents where the plot should focus.
-#' If `show` is set to `'all'`, the ranges of the variables are used as plot limits.
-#' If `show` is set to `'zoomed'`, the plot is zoomed to the region where the actual data are.
+#' If \code{show} is set to \code{'all'}, the ranges of the variables are used as plot limits.
+#' If \code{show} is set to \code{'zoomed'}, the plot is zoomed to the region where the actual data are.
 #' @param numints number of intervals for a density grid object.
-#' @param method a character that defines which contour will be created. If `method`
-#' is set to `'smallCellsRule'` (default), the contour plot of the actual variables is
-#' created but grids with low counts are replaced with grids with zero counts. If `method` is
-#' set to `'deterministic'` the contour of the scaled centroids of each k nearest neighbour of the
-#' original variables is created, where the value of `k` is set by the user. If the
-#' `method` is set to `'probabilistic'`, then the contour of 'noisy' variables is generated. 
+#' @param method a character that defines which contour will be created. If \code{method}
+#' is set to \code{'smallCellsRule'} (default), the contour plot of the actual variables is
+#' created but grids with low counts are replaced with grids with zero counts. If \code{method} is
+#' set to \code{'deterministic'} the contour of the scaled centroids of each k nearest neighbour of the
+#' original variables is created, where the value of \code{k} is set by the user. If the
+#' \code{method} is set to \code{'probabilistic'}, then the contour of \code{'noisy'} variables is generated. 
 #' @param k the number of the nearest neighbours for which their centroid is calculated. For more information
 #' see details. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument `method` is set to `'probabilistic'`. For more information see details. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.contourPlot` returns a contour plot to the client-side. 
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.contourPlot} returns a contour plot to the client-side. 
 #' @author DataSHIELD Development Team
 #' @examples
 #' \dontrun{
@@ -100,7 +100,6 @@
 #'
 #' }
 #' @export
-#' 
 ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
 
   # look for DS connections
@@ -119,10 +118,28 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   if(is.null(y)){
     stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
-  
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
+
+  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
+  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
+    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+  }
+
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  objects <- c(x, y)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -137,13 +154,10 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     message(paste0(y, " is of type ", typ.y, "!"))
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
-  
-  # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
-  if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
-  }
 
-  # extract the variable names to be used as labels in the plot
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

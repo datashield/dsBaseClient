@@ -13,29 +13,25 @@ filled with extra columns of missing values.}
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default value is "dataframefill.newobj".}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
-If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified 
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which
+\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
 is written to the server-side. Also, two validity messages are returned to the
 client-side indicating the name of the \code{newobj} that has been created in each data source
 and if it is in a valid form.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-
-This function added extra columns with missing values in a data frame on the
-server-side. It was deprecated in favour of \code{ds.standardiseDf} which is much quicker and
-offers additional functionality such as setting the levels of class of data.
+Adds extra columns with missing values in a data frame on the server-side.
 }
 \details{
 This function checks if the input data frames have the same variables (i.e. the same
 column names) in all of the used studies. When a study does not have some of the variables, the
 function generates those variables as vectors of missing values and combines them as columns to
-the input data frame. If any of the generated variables are of class factor, the function
-assigns to those the corresponding levels of the factors given from the studies where such
+the input data frame. If any of the generated variables are of class factor, the function 
+assigns to those the corresponding levels of the factors given from the studies where such 
 factors exist.
 
 Server function called: \code{dataFrameFillDS}
@@ -43,7 +39,7 @@ Server function called: \code{dataFrameFillDS}
 \examples{
 \dontrun{
 
-  ## Version 6, for version 5 see the Wiki
+  ## Version 6, for version 5 see the Wiki 
   # Connecting to the Opal servers
 
   require('DSI')
@@ -51,47 +47,46 @@ Server function called: \code{dataFrameFillDS}
   require('dsBaseClient')
 
   builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1",
-                 url = "http://192.168.56.100:8080/",
-                 user = "administrator", password = "datashield_test&",
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-  builder$append(server = "study2",
-                 url = "http://192.168.56.100:8080/",
-                 user = "administrator", password = "datashield_test&",
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
   builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/",
-                 user = "administrator", password = "datashield_test&",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
-
+                 
   logindata <- builder$build()
-
+  
   # Log onto the remote Opal training servers
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
-
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
   # Create two data frames with one different column
-
+  
   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
                      "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
                newobj = "df1",
                datasources = connections[1])
-
+               
   ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL","D$LAB_GLUC_ADJUSTED"),
                newobj = "df1",
                datasources = connections[2])
-
+  
   # Fill the data frame with NA columns
-
+  
   ds.dataFrameFill(df.name = "df1",
                    newobj = "D.Fill",
                    datasources = connections[c(1,2)]) # Two servers are used
 
 
   # Clear the Datashield R sessions and logout
-  datashield.logout(connections)
+  datashield.logout(connections) 
 }
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
 }
-\keyword{internal}

@@ -2,21 +2,21 @@
 #' @title Return the names of a list object
 #' @description Returns the names of a designated server-side list
 #' @details ds.names calls aggregate function namesDS. This function is similar to
-#' the native R function `names` but it does not subsume all functionality,
+#' the native R function \code{names} but it does not subsume all functionality,
 #' for example, it only works to extract names that already exist,
 #' not to create new names for objects. The function is restricted to objects of
 #' type list, but this includes objects that have a primary class other than list but which
-#' return TRUE to the native R function `is.list`. As an example this includes
+#' return TRUE to the native R function {is.list}. As an example this includes
 #' the multi-component object created by fitting a generalized linear model
 #' using ds.glmSLMA. The resultant object saved on each server separately
 #' is formally of class "glm" and "ls" but responds TRUE to is.list(),
 #' @param xname a character string specifying the name of the list.
-#' @param datasources  a list of [DSConnection-class()]
+#' @param datasources  a list of \code{\link{DSConnection-class}}
 #' objects obtained after login that represent the particular data sources
-#' (studies) to be addressed by the function call. If the `datasources`
+#' (studies) to be addressed by the function call. If the \code{datasources}
 #' argument is not specified the default set of connections will be used:
-#' see [datashield.connections_default()].
-#' @return `ds.names` returns to the client-side the names
+#' see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.names} returns to the client-side the names
 #' of a list object stored on the server-side.
 #' @author Amadou Gaye, updated by Paul Burton for DataSHIELD development
 #' team 25/06/2020
@@ -81,12 +81,10 @@ ds.names <- function(xname=NULL, datasources=NULL){
   if(is.null(xname)){
     stop("Please provide the name of the input list!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, xname)
 
-  calltext <- call("namesDS", xname)
-  output <- datashield.aggregate(datasources, calltext)
+  calltext<-call("namesDS", xname)
+  output<-datashield.aggregate(datasources,calltext)
   return(output)
 }
+
 #ds.names

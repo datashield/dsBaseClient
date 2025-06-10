@@ -1,25 +1,25 @@
 #' @title Sub-sets data frames in the server-side
 #' @description Subsets a data frame by rows and/or by columns.
 #' @details Subset a pre-existing data frame using the standard 
-#' set of Boolean operators (`==, !=, >, >=, <, <=`). 
+#' set of Boolean operators (\code{==, !=, >, >=, <, <=}). 
 #' The  subsetting is made by rows, but it is also possible to select
 #' columns to keep or remove. Instead, if you
 #' wish to keep all rows in the subset (e.g. if the primary plan is to subset by columns
-#' and not by rows) the `V1.name` and `V2.name` parameters can be used 
+#' and not by rows) the \code{V1.name} and \code{V2.name} parameters can be used 
 #' to specify a vector of the same length
 #' as the data frame to be subsetted in each study in which every element is 1 and 
 #' there are no missing values. For more information see the example 2 below. 
 #' 
-#' Server functions called: `dataFrameSubsetDS1` and `dataFrameSubsetDS2`
+#' Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 #' 
 #' @param df.name a character string providing the name of the data frame to be subseted. 
 #' @param V1.name  A character string specifying the name of the vector 
 #' to which the Boolean operator is to be applied to define the subset.
 #' For more information see details. 
 #' @param V2.name A character string specifying the name of the vector to compare 
-#' with `V1.name`.
+#' with \code{V1.name}.
 #' @param Boolean.operator A character string specifying one of six possible Boolean operators:
-#' `'==', '!=', '>', '>=', '<'` and `'<='`. 
+#' \code{'==', '!=', '>', '>=', '<'} and \code{'<='}. 
 #' @param keep.cols a numeric vector specifying the numbers of the columns to be kept in the
 #' final subset.
 #' @param rm.cols a numeric vector specifying the numbers of the columns to be removed from 
@@ -27,17 +27,17 @@
 #' @param keep.NAs logical, if TRUE the missing values are included in the subset. 
 #' If FALSE or NULL all rows with at least one missing values are removed from the subset. 
 #' @param newobj a character string that provides the name for the output 
-#' object that is stored on the data servers. Default `dataframesubset.newobj`.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login.
-#' If the `datasources`
-#' the default set of connections will be used: see [datashield.connections_default()].
+#' object that is stored on the data servers. Default \code{dataframesubset.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login.
+#' If the \code{datasources}
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return `ds.dataFrameSubset` returns
-#' the object specified by the `newobj` argument
+#' @return \code{ds.dataFrameSubset} returns
+#' the object specified by the \code{newobj} argument
 #' which is written to the server-side. 
 #' Also, two validity messages are returned to the client-side indicating
-#' the name of the `newobj` which has been created in each data source
+#' the name of the \code{newobj} which has been created in each data source
 #'  and if it is in a valid form.
 #' @examples 
 #' \dontrun{
@@ -266,7 +266,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

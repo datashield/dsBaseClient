@@ -1,88 +1,88 @@
 #'
 #' @title Generates a histogram plot
-#' @description `ds.histogram` function plots a non-disclosive histogram in the client-side. 
-#' @details `ds.histogram` function allows the user to plot
+#' @description \code{ds.histogram} function plots a non-disclosive histogram in the client-side. 
+#' @details \code{ds.histogram} function allows the user to plot
 #' distinct histograms (one for each study) or a combined histogram that merges
 #' the single plots.
 #' 
-#' In the argument `type` can be specified two types of graphics to display:
-#'  \describe{
-#'    \item{`'combine'`}{: a histogram that merges the single plot is displayed.} 
-#'    \item{`'split'`}{: each histogram is plotted separately.}
+#' In the argument \code{type} can be specified two types of graphics to display:
+#'  \itemize{
+#'    \item{\code{'combine'}}{: a histogram that merges the single plot is displayed.} 
+#'    \item{\code{'split'}}{: each histogram is plotted separately.}
 #'     }
 #'     
-#' In the argument `method` can be specified 3 different histograms to be created:
-#'  \describe{
-#'    \item{`'smallCellsRule'`}{: the histogram of the actual variable is
+#' In the argument \code{method} can be specified 3 different histograms to be created:
+#'  \itemize{
+#'    \item{\code{'smallCellsRule'}}{: the histogram of the actual variable is
 #'           created but bins with low counts are removed.} 
-#'    \item{`'deterministic'`}{: the histogram of the scaled centroids of each 
-#'          `k` nearest neighbours of the original variable
-#'          where the value of `k` is set by the user.} 
-#'    \item{`'probabilistic'`}{: the histogram shows the original distribution disturbed 
+#'    \item{\code{'deterministic'}}{: the histogram of the scaled centroids of each 
+#'          \code{k} nearest neighbours of the original variable
+#'          where the value of \code{k} is set by the user.} 
+#'    \item{\code{'probabilistic'}}{: the histogram shows the original distribution disturbed 
 #'          by the addition of random stochastic noise.
 #'          The added noise follows a normal distribution with zero mean and
 #'          variance equal to a percentage of the initial variance of the input variable. 
-#'          This percentage is specified by the user in the argument `noise`.} 
+#'          This percentage is specified by the user in the argument \code{noise}.} 
 #'  
 #'     }
 #' 
 #' 
-#' In the `k` argument the user can choose any value for `k` equal 
+#' In the \code{k} argument the user can choose any value for \code{k} equal 
 #' to or greater than the pre-specified threshold
 #' used as a disclosure control for this method and lower than the number of observations
-#' minus the value of this threshold. By default the value of `k` is set to be equal to 3
+#' minus the value of this threshold. By default the value of \code{k} is set to be equal to 3
 #' (we suggest k to be equal to, or bigger than, 3). Note that the function fails if the user
 #' uses the default value but the study has set a bigger threshold. 
-#' The value of `k` is used only if the argument 
-#' `method` is set to `'deterministic'`. 
+#' The value of \code{k} is used only if the argument 
+#' \code{method} is set to \code{'deterministic'}. 
 #' Any value of k is ignored if the
-#' argument `method` is set to `'probabilistic'` or `'smallCellsRule'`.
+#' argument \code{method} is set to \code{'probabilistic'} or \code{'smallCellsRule'}.
 #' 
-#' In the `noise` argument the percentage of the initial variance 
+#' In the \code{noise} argument the percentage of the initial variance 
 #' that is used as the variance of the embedded
-#' noise if the argument `method` is set to `'probabilistic'`. 
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. 
 #' Any value of noise is ignored if the argument 
-#' `method` is set to `'deterministic'` or `'smallCellsRule'`. 
+#' \code{method} is set to \code{'deterministic'} or \code{'smallCellsRule'}. 
 #' The user can choose any value for noise equal to or greater 
-#' than the pre-specified threshold `'nfilter.noise'`.
+#' than the pre-specified threshold \code{'nfilter.noise'}.
 #' By default the value of noise is set to be equal to 0.25.
 #' 
-#' In the argument  `vertical.axis` can be specified two types of histograms:
-#' \describe{
-#'    \item{`'Frequency'`}{: the histogram of the frequencies
+#' In the argument  \code{vertical.axis} can be specified two types of histograms:
+#' \itemize{
+#'    \item{\code{'Frequency'}}{: the histogram of the frequencies
 #'     is returned.} 
-#'    \item{`'Density'`}{: the histogram of the densities
+#'    \item{\code{'Density'}}{: the histogram of the densities
 #'     is returned.}
 #'     }
 #' 
-#' Server function called: `histogramDS2`
+#' Server function called: \code{histogramDS2}
 #' @param x a character string specifying the name of a numerical vector.
 #' @param type a character string that represents the type of graph to display.
-#' The `type` argument can be set as `'combine'` or `'split'`. 
-#' Default `'split'`.
-#' For more information see **Details**.
+#' The \code{type} argument can be set as \code{'combine'} or \code{'split'}. 
+#' Default \code{'split'}.
+#' For more information see \strong{Details}.
 #' @param num.breaks a numeric specifying the number of breaks of the histogram. Default value
-#' is `10`.
+#' is \code{10}.
 #' @param method a character string that defines which histogram will be created.
-#' The `method` argument can be set as `'smallCellsRule'`, 
-#' `'deterministic'` or `'probabilistic'`. 
-#' Default `'smallCellsRule'`.  
-#' For more information see **Details**.
+#' The \code{method} argument can be set as \code{'smallCellsRule'}, 
+#' \code{'deterministic'} or \code{'probabilistic'}. 
+#' Default \code{'smallCellsRule'}.  
+#' For more information see \strong{Details}.
 #' @param k the number of the nearest neighbours for which their centroid is calculated. 
-#' Default `k` value is `3`.
-#' For more information see **Details**. 
+#' Default \code{k} value is \code{3}.
+#' For more information see \strong{Details}. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument `method` is set to `'probabilistic'`. 
-#' Default `noise` value is  `0.25`.
-#' For more information see **Details**.
+#' noise if the argument \code{method} is set to \code{'probabilistic'}. 
+#' Default \code{noise} value is  \code{0.25}.
+#' For more information see \strong{Details}.
 #' @param vertical.axis, a character string that defines what is shown in the vertical axis of the
-#' plot. The `vertical.axis` argument can be set as `'Frequency'` or `'Density'`.
-#' Default `'Frequency'`. 
-#' For more information see **Details**.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return one or more histogram objects and plots depending on the argument `type`
+#' plot. The \code{vertical.axis} argument can be set as \code{'Frequency'} or \code{'Density'}.
+#' Default \code{'Frequency'}. 
+#' For more information see \strong{Details}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -167,8 +167,19 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -204,13 +215,9 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   ranges <- unique(unlist(DSI::datashield.aggregate(datasources, as.symbol(cally1))))
 
   # produce the 'global' range
-  range.arg <- c(min(ranges, na.rm=TRUE), max(ranges, na.rm=TRUE))
+  range.arg <- c(min(ranges,na.rm=TRUE), max(ranges, na.rm=TRUE))
   min <- range.arg[1]
   max <- range.arg[2]
-  
-  # get the axis label
-  xnames <- extract(x)
-  varname <- xnames$elements
 
   # call the server-side function that generates the histogram object to plot
   call <- paste0("histogramDS2(", x, ",", num.breaks, ",", min, ",", max, ",", method.indicator, ",", k, ",", noise, ")")

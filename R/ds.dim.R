@@ -1,39 +1,39 @@
 #'
 #' @title Retrieves the dimension of a server-side R object
 #' @description Gives the dimensions of an R object on the server-side. 
-#' This function is similar to R function `dim`. 
+#' This function is similar to R function \code{dim}. 
 #' @details The function returns the dimension of the server-side 
 #' input object (e.g. array, matrix or data frame)
 #' from every single study and the pooled dimension of the object by summing up the individual 
 #' dimensions returned from each study.
 #' 
-#' In `checks` parameter is suggested that checks should only be undertaken once the 
+#' In \code{checks} parameter is suggested that checks should only be undertaken once the 
 #' function call has failed.
 #' 
-#' Server function called: `dimDS`
+#' Server function called: \code{dimDS}
 #' 
 #' @param x a character string providing the name of the input object. 
 #' @param type a character string that represents the type of analysis to carry out. 
-#' If `type` is set to `'combine'`, `'combined'`, `'combines'` or `'c'`,
+#' If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
 #'  the global dimension is returned. 
-#' If `type` is set to `'split'`, `'splits'` or `'s'`, 
+#' If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
 #' the dimension is returned separately for each study.
-#' If `type` is set to `'both'` or `'b'`, both sets of outputs are produced.
-#' Default `'both'`. 
+#' If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
+#' Default \code{'both'}. 
 #' @param checks logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
 #' Default FALSE.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.dim` retrieves to the client-side the dimension of the object 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.dim} retrieves to the client-side the dimension of the object 
 #' in the form of a vector where the first
 #' element indicates the number of rows and the second element indicates the number of columns.
 #' @author DataSHIELD Development Team
-#' @seealso [ds.dataFrame()] to generate a table of the type data frame.
-#' @seealso [ds.changeRefGroup()] to change the reference level of a factor.
-#' @seealso [ds.colnames()] to obtain the column names of a matrix or a data frame
-#' @seealso [ds.asMatrix()] to coerce an object into a matrix type.
-#' @seealso [ds.length()] to obtain the size of a vector.
+#' @seealso \code{\link{ds.dataFrame}} to generate a table of the type data frame.
+#' @seealso \code{\link{ds.changeRefGroup}} to change the reference level of a factor.
+#' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
+#' @seealso \code{\link{ds.asMatrix}} to coerce an object into a matrix type.
+#' @seealso \code{\link{ds.length}} to obtain the size of a vector.
 #' @export
 #' @examples
 #' \dontrun{
@@ -107,7 +107,11 @@ ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
   if(checks){                                                                                            #
     message(" -- Verifying the variables in the model")                                                  #
     # check if the input object(s) is(are) defined in all the studies                                    #
-    defined <- isDefined(datasources, x)                                                                 #                                                                                                #
+    defined <- isDefined(datasources, x)                                                                 #
+    # throw a message and stop if input is not table structure                                           #
+    if(! defined){                                                                                       #
+      stop("The input object is not defined in all studies!", call.=FALSE)                               #
+    }                                                                                                    #
     # call the internal function that checks the input object is suitable in all studies                 #
     typ <- checkClass(datasources, x)                                                                    #
     # throw a message and stop if input is not table structure                                           #

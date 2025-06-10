@@ -24,25 +24,25 @@ that is stored on the server-side. Default \code{changerefgroup.newobj}.}
 should be ordered by the reference group (i.e. putting the reference group first).
 The default is to not re-order (see the reasons in the details).}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.changeRefGroup} returns a new vector  with the specified level as a reference
 which is written to the server-side.
 }
 \description{
-Change the reference level of a factor, by putting
-the reference group first.
+Change the reference level of a factor, by putting 
+the reference group first.  
 
 This function is similar to R function \code{relevel}.
 }
 \details{
 This function
 allows the user to re-order the vector, putting the reference
-group first. It should be mentioned that by default the reference is
-the first level in the vector of levels.
+group first. It should be mentioned that by default the reference is 
+the first level in the vector of levels.  
 If the user chooses the re-order a warning is issued
 as this can introduce a mismatch of values if the vector is put back
 into a table that is not reordered in the same way. Such mismatch
@@ -124,15 +124,15 @@ Server function called: \code{changeRefGroupDS}
 }
 }
 \seealso{
-\code{\link[=ds.cbind]{ds.cbind()}} Combines objects column-wise.
+\code{\link{ds.cbind}} Combines objects column-wise.
 
-\code{\link[=ds.levels]{ds.levels()}} to obtain the levels (categories) of a vector of type factor.
+\code{\link{ds.levels}} to obtain the levels (categories) of a vector of type factor.
 
-\code{\link[=ds.colnames]{ds.colnames()}} to obtain the column names of a matrix or a data frame
+\code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
 
-\code{\link[=ds.asMatrix]{ds.asMatrix()}} to coerce an object into a matrix type.
+\code{\link{ds.asMatrix}} to coerce an object into a matrix type.
 
-\code{\link[=ds.dim]{ds.dim()}} to obtain the dimensions of a matrix or a data frame.
+\code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 }
 \author{
 DataSHIELD Development Team

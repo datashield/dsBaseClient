@@ -1,20 +1,20 @@
 #' @title Specifies the dimnames of the server-side matrix
 #' @description Adds the row names, the column names or both to
 #' a matrix on the server-side.
-#' @details This function is similar to the native R `dimnames` function.
+#' @details This function is similar to the native R \code{dimnames} function.
 #' 
-#' Server function called: `matrixDimnamesDS`
+#' Server function called: \code{matrixDimnamesDS}
 #' @param M1 a character string specifying
 #' the name of a server-side matrix.
 #' @param dimnames a list of length 2 giving
 #' the row and column names respectively. 
 #' An empty list is treated as NULL. 
 #' @param newobj a character string that provides the name for the output 
-#' variable that is stored on the data servers. Default `matrixdimnames.newobj`.
-#' @param datasources  a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.matrixDimnames` returns to the server-side
+#' variable that is stored on the data servers. Default \code{matrixdimnames.newobj}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrixDimnames} returns to the server-side
 #' the matrix with specified row and column names. 
 #' Also, two validity messages are returned to the client-side 
 #' indicating the new object that has been created in each data source and if so whether
@@ -138,7 +138,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

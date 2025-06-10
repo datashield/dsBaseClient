@@ -4,15 +4,15 @@
 #' @details A sequence of vector, matrix or data-frame arguments
 #' is combined  by rows to produce a matrix on the server-side.
 #' 
-#' In `DataSHIELD.checks` the checks are relatively slow. 
-#' Default `DataSHIELD.checks` value is FALSE. 
+#' In \code{DataSHIELD.checks} the checks are relatively slow. 
+#' Default \code{DataSHIELD.checks} value is FALSE. 
 #' 
-#' If `force.colnames` is NULL column names are inferred from the names or column names
-#' of the first object specified in the `x` argument.
+#' If \code{force.colnames} is NULL column names are inferred from the names or column names
+#' of the first object specified in the \code{x} argument.
 #' The vector of column names must have the same number of elements as 
 #' the columns in the output object.
 #' 
-#' Server functions called: `rbindDS`. 
+#' Server functions called: \code{rbindDS}. 
 #' 
 #' 
 #' @param x a character vector with the  name of the objects to be combined.  
@@ -21,17 +21,17 @@
 #' @param force.colnames can be NULL or a vector of characters that 
 #' specifies column names of the output object. 
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Defaults `rbind.newobj`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
+#' that is stored on the data servers. Defaults \code{rbind.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return `ds.rbind` returns a matrix combining the rows of the 
+#' @return \code{ds.rbind} returns a matrix combining the rows of the 
 #' R objects specified in the function
 #' which is written to the server-side. 
-#' It also returns two messages to the client-side with the name of `newobj`
-#' that has been created in each data source and `DataSHIELD.checks` result. 
+#' It also returns two messages to the client-side with the name of \code{newobj}
+#' that has been created in each data source and \code{DataSHIELD.checks} result. 
 #' @examples 
 #' 
 #' \dontrun{
@@ -79,9 +79,7 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @export
-#' 
-ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, 
-                   datasources=NULL, notify.of.progress=FALSE){
+ds.rbind<-function(x=NULL,DataSHIELD.checks=FALSE,force.colnames=NULL,newobj=NULL,datasources=NULL,notify.of.progress=FALSE){
 
   # look for DS connections
   if(is.null(datasources)){
@@ -97,25 +95,37 @@ ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=
     stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
   }
 
+  # the input variable might be given as column table (i.e. D$vector)
+  # or just as a vector not attached to a table (i.e. vector)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
 
-  if(DataSHIELD.checks){
-    
-    # check if the input object(s) is(are) defined in all the studies
-    lapply(x, function(k){isDefined(datasources, obj=k)})
-
-    # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-        stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-      }
+if(DataSHIELD.checks)
+{
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
     }
   }
-  
+
+  # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
+  for(i in 1:length(x)){
+    typ <- checkClass(datasources, x[i])
+    if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
+      stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
+    }
+  }
+ }
   # check newobj not actively declared as null
   if(is.null(newobj)){
     newobj <- "rbind.newobj"
-  }
+}
+
 
 #CREATE THE VECTOR OF COLUMN NAMES
 if(!is.null(force.colnames)){
@@ -178,21 +188,31 @@ for(j in length(colname.vector):2)
 }
 }
 }
-    num.duplicates.c <- as.character(num.duplicates)
+num.duplicates.c<-as.character(num.duplicates)
 
-    for(m in 1:length(colname.vector)){
-      if(num.duplicates[m]!="0"){
-        colname.vector[m] <- paste0(colname.vector[m],".",num.duplicates.c[m])
-  	  }
-    }
-  }
 
-  # prepare name vectors for transmission
-  x.names.transmit <- paste(x, collapse=",")
-  colnames.transmit <- paste(colname.vector, collapse=",")
 
-  # call the server side function
-	calltext <- call("rbindDS", x.names.transmit, colnames.transmit)
+
+for(m in 1:length(colname.vector))
+{
+if(num.duplicates[m]!="0")
+	{
+
+	colname.vector[m]<-paste0(colname.vector[m],".",num.duplicates.c[m])
+	}
+}
+}
+
+#prepare name vectors for transmission
+ x.names.transmit<-paste(x,collapse=",")
+ colnames.transmit<-paste(colname.vector,collapse=",")
+
+ ###############################
+ # call the server side function
+
+	calltext <- call("rbindDS", x.names.transmit,colnames.transmit)
+
+
 	DSI::datashield.assign(datasources, newobj, calltext)
 
 
@@ -222,7 +242,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

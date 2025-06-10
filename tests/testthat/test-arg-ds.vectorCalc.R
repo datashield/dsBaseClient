@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -21,7 +21,7 @@ connect.studies.dataset.survival(list("survtime"))
 context("ds.vectorCalc::arg::test errors")
 
 test_that("ds.vectorCalc erros", {
-    expect_error(expect_warning(ds.vectorCalc(), "'ds.vectorCalc' is deprecated.\nUse 'ds.make' instead.", fixed = TRUE), "x=NULL. Please provide the names of the objects to combine!", fixed=TRUE)
+    expect_error(ds.vectorCalc(), "x=NULL. Please provide the names of the objects to combine!", fixed=TRUE)
 })
 
 #

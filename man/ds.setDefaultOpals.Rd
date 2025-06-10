@@ -21,8 +21,8 @@ a particular subset of those Opals should be used instead. The correct identific
 single set of opals is based on the datashield.connections_find() function which is an internal DataSHIELD
 function that is run at the start of nearly every client side function.
 To illustrate, if the single set of Opals is called 'study.opals' and consists of
-six opals numbered study.opals\link{1} to study.opals\link{6} then all client-side functions will
-use data from all six of these 'study.opals' unless, say, datasources=study.opals\link{c(2,5)} is
+six opals numbered study.opals[1] to study.opals[6] then all client-side functions will
+use data from all six of these 'study.opals' unless, say, datasources=study.opals[c(2,5)] is
 declared and only data from the second and fifth studies will then be used.
 On the other hand, if there is more than one set of Opals in the analytic environment client-side functions will
 be unable to determine which set to use. The function datashield.connections_find() has therefore been

@@ -10,12 +10,12 @@ ds.look(toAggregate = NULL, checks = FALSE, datasources = NULL)
 \item{toAggregate}{a character string specifying the function call to be made.
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE the optional checks are undertaken.
+\item{checks}{logical. If TRUE the optional checks are undertaken. 
 Default FALSE to save time.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 the output from the specified server-side aggregate function to the client-side.
@@ -32,7 +32,7 @@ client-side pair. For example: \code{ds.look("table1DDS(female)")} works. But, i
 this as \code{ds.look("table1DDS('female')")} it won't work because although when
 you call this same function using its client-side function you write \code{ds.table1D('female')}
 the inverted commas are stripped off during processing by the client-side function so the
-call to the server-side does not contain inverted commas.
+call to the server-side does not contain inverted commas. 
 
 Apart from during development
 work (e.g. before a client-side function has been written) it is almost always easier

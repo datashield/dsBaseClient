@@ -18,7 +18,7 @@ ds.getWGSR(
 \arguments{
 \item{sex}{the name of the binary variable that indicates the sex of the subject. This must
 be coded as 1 = male and 2 = female. If in your project the variable sex has different
-levels, you should recode the levels to 1 for males and 2 for females using the
+levels, you should recode the levels to 1 for males and 2 for females using the 
 \code{ds.recodeValues} DataSHIELD function before the use of the \code{ds.getWGSR}.}
 
 \item{firstPart}{Name of variable specifying:\cr
@@ -54,7 +54,7 @@ Give a quoted index name as in (e.g.) "wfh".}
 
 \item{standing}{Variable specifying how stature was measured. If NA (default) then age (for "hfa"
 or "lfa") or height rules (for "wfh" or "wfl") will be applied. This must be coded as
-1 = Standing; 2 = Supine; 3 = Unknown. Missing values will be recoded to 3 = Unknown.
+1 = Standing; 2 = Supine; 3 = Unknown. Missing values will be recoded to 3 = Unknown. 
 Give a single value (e.g."1"). If no value is specified then height and age rules will be applied.}
 
 \item{thirdPart}{Name of variable specifying age (in days) for BMI/A. Give a quoted variable
@@ -63,12 +63,12 @@ you should convert it in age in days using the \code{ds.make} DataSHIELD functio
 of the \code{ds.getWGSR}. For example if age is given in months then the transformation is given
 by the formula $age_days=age_months*(365.25/12)$.}
 
-\item{newobj}{a character string that provides the name for the output variable
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{getWGSR.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.getWGSR} assigns a vector for each study that includes the z-scores for the
@@ -79,12 +79,12 @@ Calculate WHO Growth Reference z-score for a given anthropometric measurement
 This function is similar to R function \code{getWGSR} from the \code{zscorer} package.
 }
 \details{
-The function calls the server-side function \code{getWGSRDS} that computes the WHO
+The function calls the server-side function \code{getWGSRDS} that computes the WHO 
 Growth Reference z-scores of anthropometric data for weight, height or length, MUAC (middle
 upper arm circumference), head circumference, sub-scapular skinfold and triceps skinfold.
 Note that the function might fail or return NAs when the variables are outside the ranges
 given in the WGS (WHO Child Growth Standards) reference (i.e. 45 to 120 cm for height and
-0 to 60 months for age). It is up to the user to check the ranges and the units of their
+0 to 60 months for age). It is up to the user to check the ranges and the units of their 
 data.
 }
 \examples{

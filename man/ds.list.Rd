@@ -9,12 +9,12 @@ ds.list(x = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the names of the objects to coerce into a list.}
 
-\item{newobj}{a character string that provides the name for the output variable
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{list.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.list} returns a list of objects for each study that is stored on the server-side.

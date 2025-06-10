@@ -27,7 +27,7 @@ variables in 'long' format.}
 in the 'wide' format.}
 
 \item{timevar.name}{the variable in 'long' format that differentiates multiple
-records from the same group or individual.
+records from the same group or individual. 
 If more than one record matches, the first will be taken.}
 
 \item{idvar.name}{names of one or more variables in 'long' format that identify multiple
@@ -46,16 +46,16 @@ when reshaping
 to 'wide' format.}
 
 \item{newobj}{a character string that provides the name for the output object
-that is stored on the data servers.
+that is stored on the data servers. 
 Default \code{reshape.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.reShape} returns to the server-side  a reshaped data frame
-converted from 'long' to 'wide' format or from 'wide' to long' format.
+\code{ds.reShape} returns to the server-side  a reshaped data frame 
+converted from 'long' to 'wide' format or from 'wide' to long' format. 
 Also, two validity messages are returned to the client-side
 indicating whether the new object  has been created in each data source and if so whether
 it is in a valid form.
@@ -69,7 +69,7 @@ This function is based on the native R function \code{reshape}.
 It reshapes a data frame containing longitudinal or otherwise grouped data
 between 'wide' format with repeated
 measurements in separate columns of the same record and 'long' format with the repeated
-measurements in separate records. The reshaping can be in either direction.
+measurements in separate records. The reshaping can be in either direction. 
 Server function called: \code{reShapeDS}
 }
 \examples{

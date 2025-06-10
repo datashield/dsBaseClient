@@ -16,20 +16,20 @@ ds.matrixDimnames(
 the name of a server-side matrix.}
 
 \item{dimnames}{a list of length 2 giving
-the row and column names respectively.
+the row and column names respectively. 
 An empty list is treated as NULL.}
 
-\item{newobj}{a character string that provides the name for the output
+\item{newobj}{a character string that provides the name for the output 
 variable that is stored on the data servers. Default \code{matrixdimnames.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.matrixDimnames} returns to the server-side
-the matrix with specified row and column names.
-Also, two validity messages are returned to the client-side
+the matrix with specified row and column names. 
+Also, two validity messages are returned to the client-side 
 indicating the new object that has been created in each data source and if so whether
 it is in a valid form.
 }

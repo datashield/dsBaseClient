@@ -12,15 +12,15 @@ ds.kurtosis(x = NULL, method = 1, type = "both", datasources = NULL)
 \item{method}{an integer between 1 and 3 selecting one of the algorithms for computing kurtosis
 detailed below. The default value is set to 1.}
 
-\item{type}{a character which represents the type of analysis to carry out.
-If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global kurtosis is returned
+\item{type}{a character which represents the type of analysis to carry out. 
+If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global kurtosis is returned 
 if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 The default value is set to 'both'.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
-If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+If the \code{datasources} argument is not specified 
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
@@ -30,7 +30,7 @@ the validity message.
 This function calculates the kurtosis of a numeric variable.
 }
 \details{
-The function calculates the kurtosis of an input variable x with three different methods.
+The function calculates the kurtosis of an input variable x with three different methods. 
 The method is specified by the argument \code{method}. If x contains any missings, the function removes those before
 the calculation of the kurtosis. If \code{method} is set to 1 the following formula is used
 \eqn{ kurtosis= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) } - 3},

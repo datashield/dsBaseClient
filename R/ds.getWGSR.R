@@ -1,8 +1,8 @@
 #'
 #' @title Computes the WHO Growth Reference z-scores of anthropometric data 
 #' @description Calculate WHO Growth Reference z-score for a given anthropometric measurement
-#' This function is similar to R function `getWGSR` from the `zscorer` package.
-#' @details The function calls the server-side function `getWGSRDS` that computes the WHO 
+#' This function is similar to R function \code{getWGSR} from the \code{zscorer} package.
+#' @details The function calls the server-side function \code{getWGSRDS} that computes the WHO 
 #' Growth Reference z-scores of anthropometric data for weight, height or length, MUAC (middle
 #' upper arm circumference), head circumference, sub-scapular skinfold and triceps skinfold.
 #' Note that the function might fail or return NAs when the variables are outside the ranges
@@ -12,7 +12,7 @@
 #' @param sex the name of the binary variable that indicates the sex of the subject. This must
 #' be coded as 1 = male and 2 = female. If in your project the variable sex has different
 #' levels, you should recode the levels to 1 for males and 2 for females using the 
-#' `ds.recodeValues` DataSHIELD function before the use of the `ds.getWGSR`.
+#' \code{ds.recodeValues} DataSHIELD function before the use of the \code{ds.getWGSR}.
 #' @param firstPart Name of variable specifying:\cr
 #' Weight (kg) for BMI/A, W/A, W/H, or W/L\cr
 #' Head circumference (cm) for HC/A\cr
@@ -47,15 +47,15 @@
 #' Give a single value (e.g."1"). If no value is specified then height and age rules will be applied.
 #' @param thirdPart Name of variable specifying age (in days) for BMI/A. Give a quoted variable
 #' name as in (e.g.) "age". Be careful with units (age in days). If age is given in different units
-#' you should convert it in age in days using the `ds.make` DataSHIELD function before the use
-#' of the `ds.getWGSR`. For example if age is given in months then the transformation is given
+#' you should convert it in age in days using the \code{ds.make} DataSHIELD function before the use
+#' of the \code{ds.getWGSR}. For example if age is given in months then the transformation is given
 #' by the formula $age_days=age_months*(365.25/12)$. 
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Defaults `getWGSR.newobj`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified the default set of connections will be
-#' used: see [datashield.connections_default()].
-#' @return `ds.getWGSR` assigns a vector for each study that includes the z-scores for the
+#' that is stored on the data servers. Defaults \code{getWGSR.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified the default set of connections will be
+#' used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.getWGSR} assigns a vector for each study that includes the z-scores for the
 #' specified index. The created vectors are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export
@@ -124,11 +124,6 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     stop("Please provide the column name of the 'secondPart' variable!", call.=FALSE)
   }
   
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, sex)
-  isDefined(datasources, firstPart)
-  isDefined(datasources, secondPart)
-  
   # if 'firstPart' or 'secondPart' are not numeric return an error message
   typ.firstPart <- checkClass(datasources, firstPart)
   typ.secondPart <- checkClass(datasources, secondPart)
@@ -190,7 +185,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     if(!object.info[[j]]$test.obj.exists){
       obj.name.exists.in.all.sources <- FALSE
     }
-    if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){
+    if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){
       obj.non.null.in.all.sources <- FALSE
     }
   }

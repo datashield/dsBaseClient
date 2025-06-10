@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2019-2021 University of Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -29,8 +29,17 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1))
     expect_length(res, 8)
 
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1,1,1)), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+    errs <- datashield.errors()
+    expect_length(errs, 3)
+    expect_length(errs$sim1, 0)
+    expect_length(errs$sim2, 0)
+    expect_length(errs$sim3, 0)
+
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_fixef = c(1,1,1), start_theta = c(1))
     expect_length(res, 8)
+
 })
 
 test_that("test offsets and weights", {
@@ -63,13 +72,6 @@ test_that("simple glmerSLMA", {
     expect_length(res, 8)
 })
 
-
-test_that("simple glmerSLMA with assign=TRUE", {
-    res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", assign=TRUE, newobj="glmerSLMA.assigned", dataName = "D")
-
-    expect_length(res, 8)
-})
-
 #
 # Shutdown phase 1
 #
@@ -78,7 +80,7 @@ context("ds.glmerSLMA::smk::shutdown - phase 1")
 
 test_that("setup", {
   #note the offset and weights objects below are artefacts 
-    ds_expect_variables(c("D", "D2", "offset", "some.offsets", "some.weights", "weights", "glmerSLMA.assigned"))
+    ds_expect_variables(c("D", "D2", "offset", "some.offsets", "some.weights", "weights"))
 })
 
 disconnect.studies.dataset.cluster.int()
@@ -110,7 +112,7 @@ test_that("check slope formulae - 1", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$betamatrix.all), 1)
         expect_true("matrix" %in% class(res$betamatrix.all))
@@ -122,7 +124,7 @@ test_that("check slope formulae - 1", {
         expect_true("array" %in% class(res$betamatrix.all))
     }
     expect_length(res$sematrix.all, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$sematrix.all), 1)
         expect_true("matrix" %in% class(res$sematrix.all))
@@ -134,7 +136,7 @@ test_that("check slope formulae - 1", {
         expect_true("array" %in% class(res$sematrix.all))
     }
     expect_length(res$betamatrix.valid, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$betamatrix.valid), 1)
         expect_true("matrix" %in% class(res$betamatrix.valid))
@@ -146,7 +148,7 @@ test_that("check slope formulae - 1", {
         expect_true("array" %in% class(res$betamatrix.valid))
     }
     expect_length(res$sematrix.valid, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$sematrix.valid), 1)
         expect_true("matrix" %in% class(res$sematrix.valid))
@@ -158,7 +160,7 @@ test_that("check slope formulae - 1", {
         expect_true("array" %in% class(res$sematrix.valid))
     }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$SLMA.pooled.ests.matrix), 1)
         expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))
@@ -182,7 +184,7 @@ test_that("check slope formulae - 2", {
     expect_length(res$num.valid.studies, 1)
     expect_equal(class(res$num.valid.studies), "numeric")
     expect_length(res$betamatrix.all, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$betamatrix.all), 1)
         expect_true("matrix" %in% class(res$betamatrix.all))
@@ -194,7 +196,7 @@ test_that("check slope formulae - 2", {
         expect_true("array" %in% class(res$betamatrix.all))
     }
     expect_length(res$sematrix.all, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$sematrix.all), 1)
         expect_true("matrix" %in% class(res$sematrix.all))
@@ -206,7 +208,7 @@ test_that("check slope formulae - 2", {
         expect_true("array" %in% class(res$sematrix.all))
     }
     expect_length(res$betamatrix.valid, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$betamatrix.valid), 1)
         expect_true("matrix" %in% class(res$betamatrix.valid))
@@ -218,7 +220,7 @@ test_that("check slope formulae - 2", {
         expect_true("array" %in% class(res$betamatrix.valid))
     }
     expect_length(res$sematrix.valid, 9)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$sematrix.valid), 1)
         expect_true("matrix" %in% class(res$sematrix.valid))
@@ -230,7 +232,7 @@ test_that("check slope formulae - 2", {
         expect_true("array" %in% class(res$sematrix.valid))
     }
     expect_length(res$SLMA.pooled.ests.matrix, 18)
-    if (base::getRversion() < '4.0.0')
+    if (base::getRversion() < 4.0)
     {
         expect_length(class(res$SLMA.pooled.ests.matrix), 1)
         expect_true("matrix" %in% class(res$SLMA.pooled.ests.matrix))

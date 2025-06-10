@@ -8,25 +8,25 @@
 #' In DataSHIELD the user does not have access to the micro-data so and extreme values
 #' such as the maximum and the minimum are potentially non-disclosive so this function does not allow
 #' for the user to set the limits of the density grid and 
-#' the minimum and maximum values of the `x`
-#' and `y` vectors. These elements are set by the server-side function 
-#' `densityGridDS` to 'valid' values 
+#' the minimum and maximum values of the \code{x}
+#' and \code{y} vectors. These elements are set by the server-side function 
+#' \code{densityGridDS} to 'valid' values 
 #' (i.e. values that do not lead to leakage of micro-data to the user).
 #' 
-#' Server function called: `densityGridDS`
+#' Server function called: \code{densityGridDS}
 #' @param x a character string providing the name of the input numerical  vector.
 #' @param y a character string providing the name of the input numerical  vector.
 #' @param numints an integer, the number of intervals for the grid density object. 
 #' The default value is 20.
 #' @param type a character string that represents the type of graph to display. 
-#' If `type` is set to
-#' `'combine'`, a pooled grid density matrix is generated, 
-#' instead if `type` is set to `'split'`
-#' one grid density matrix is generated. Default `'combine'`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.densityGrid` returns a grid density matrix.  
+#' If \code{type} is set to
+#' \code{'combine'}, a pooled grid density matrix is generated, 
+#' instead if \code{type} is set to \code{'split'}
+#' one grid density matrix is generated. Default \code{'combine'}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.densityGrid} returns a grid density matrix.  
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -102,14 +102,28 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     stop("Please provide the name of the numeric vector 'y'!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  objects <- c(x, y)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
 
-  # call the internal function that checks the input objects are of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  typ <- checkClass(datasources, y)
-  
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
+
+  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
+  for(i in 1:length(objects)){
+    typ <- checkClass(datasources, objects[i])
+  }
+
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
 

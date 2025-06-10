@@ -5,9 +5,9 @@
 #' @details As the generation of a scatter plot from original data is disclosive and is not
 #' permitted in DataSHIELD, this function allows the user to plot non-disclosive scatter plots.
 #' 
-#' If the argument `method` is set to `'deterministic'`, the server-side function searches
-#' for the `k-1` nearest neighbors of each single data point and calculates the centroid 
-#' of such `k` points. 
+#' If the argument \code{method} is set to \code{'deterministic'}, the server-side function searches
+#' for the \code{k-1} nearest neighbors of each single data point and calculates the centroid 
+#' of such \code{k} points. 
 #' The proximity is defined by the minimum Euclidean distances of z-score transformed data.
 #' 
 #' When the coordinates of all centroids are estimated the function applies scaling to expand the
@@ -16,59 +16,59 @@
 #' the original variable and the standard deviation of the calculated centroids. The coordinates of
 #' the scaled centroids are then returned to the client-side.
 #' 
-#' The value of `k` is specified by the user. 
+#' The value of \code{k} is specified by the user. 
 #' The suggested and default value is equal to 3 which is also
 #' the suggested minimum threshold that is used to prevent disclosure which is specified in the
-#' protection filter `nfilter.kNN`. When the value of `k` increases, 
+#' protection filter \code{nfilter.kNN}. When the value of \code{k} increases, 
 #' the disclosure risk decreases but the utility loss increases.
-#' The value of `k` is used only
-#' if the argument `method` is set to `'deterministic'`. 
-#' Any value of `k` is ignored if the
-#' argument `method` is set to `'probabilistic'`.
+#' The value of \code{k} is used only
+#' if the argument \code{method} is set to \code{'deterministic'}. 
+#' Any value of \code{k} is ignored if the
+#' argument \code{method} is set to \code{'probabilistic'}.
 #' 
-#' If the argument `method` is set to `'probabilistic'`, 
+#' If the argument \code{method} is set to \code{'probabilistic'}, 
 #' the server-side function generates a random normal noise of zero mean
-#' and variance equal to 10\% of the variance of each `x` and `y` variable.
-#' The noise is added to each `x` and `y` variable and the disturbed by the addition of
-#' `noise` data are returned to the client-side. Note that the seed random number generator is fixed to a
+#' and variance equal to 10\% of the variance of each \code{x} and \code{y} variable.
+#' The noise is added to each \code{x} and \code{y} variable and the disturbed by the addition of
+#' \code{noise} data are returned to the client-side. Note that the seed random number generator is fixed to a
 #' specific number generated from the data and therefore the user gets the same figure every time
 #' that chooses the probabilistic method in a given set of variables.
-#' The value of `noise` is used only if the argument `method` is set to `'probabilistic'`.
-#' Any value of `noise` is ignored if
-#' the argument `method` is set to `'deterministic'`. 
+#' The value of \code{noise} is used only if the argument \code{method} is set to \code{'probabilistic'}.
+#' Any value of \code{noise} is ignored if
+#' the argument \code{method} is set to \code{'deterministic'}. 
 #' 
-#' In `type` argument can be set two graphics to display:\cr
-#' (1) If `type = 'combine'`  a scatter plot for
+#' In \code{type} argument can be set two graphics to display:\cr
+#' (1) If \code{type = 'combine'}  a scatter plot for
 #' combined data is generated.\cr
-#' (2) If `type = 'split'`  one scatter plot for each
+#' (2) If \code{type = 'split'}  one scatter plot for each
 #' study is generated. 
 #' 
-#' Server function called: `scatterPlotDS`
+#' Server function called: \code{scatterPlotDS}
 #' @param x a character string specifying the name of the explanatory variable, a numeric vector. 
 #' @param y a character string specifying the name of the response variable,  a numeric vector.
 #' @param method a character string that specifies the 
 #' method that is used to generated non-disclosive
 #' coordinates to be displayed in a scatter plot. 
-#' This argument can be set as `'deteministic'` or `'probabilistic'`.
-#' Default `'deteministic'`. 
-#' For more information see **Details**. 
+#' This argument can be set as \code{'deteministic'} or \code{'probabilistic'}.
+#' Default \code{'deteministic'}. 
+#' For more information see \strong{Details}. 
 #' @param k the number of the nearest neighbors  for which their centroid is calculated.
 #' Default 3. 
-#' For more information see **Details**. 
+#' For more information see \strong{Details}. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
-#' noise if the argument `method` is set to `'probabilistic'`.
-#' For more information see **Details**. 
+#' noise if the argument \code{method} is set to \code{'probabilistic'}.
+#' For more information see \strong{Details}. 
 #' @param type a character that represents the type of graph to display.
-#' This can be set as `'combine'` or `'split'`. 
-#' Default `'split'`. 
-#' For more information see **Details**.
+#' This can be set as \code{'combine'} or \code{'split'}. 
+#' Default \code{'split'}. 
+#' For more information see \strong{Details}.
 #' @param return.coords a logical. If TRUE the coordinates of the anonymised data points are return 
 #' to the Console. Default value is FALSE.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.scatterPlot` returns to the client-side one or more scatter 
-#' plots depending on the argument `type`. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
+#' plots depending on the argument \code{type}. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -127,7 +127,7 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
+ds.scatterPlot <- function (x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
 
   if(is.null(x)){
     stop("Please provide the name of the x-variable", call.=FALSE)
@@ -147,9 +147,22 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  objects <- c(x, y)
+  xnames <- extract(objects)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   typ.x <- checkClass(datasources, x)
@@ -165,7 +178,9 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
     stop("The input objects must be integer or numeric vectors.", call.=FALSE)
   }
 
-  # get the axes labels
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
   xnames <- extract(x)
   x.lab <- xnames[[length(xnames)]]
   ynames <- extract(y)

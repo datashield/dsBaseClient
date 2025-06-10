@@ -17,31 +17,29 @@ ds.cbind(
 \item{x}{a character vector with the  name of the objects to be combined.}
 
 \item{DataSHIELD.checks}{logical. if TRUE does four checks:\cr
-\enumerate{
-\item the input object(s) is(are) defined in all the studies.\cr
-\item the input object(s) is(are) of the same legal class in all the studies.\cr
-\item if there are any duplicated column names in the input objects in each study.\cr
-\item the number of rows is the same in all components to be cbind.\cr
-Default FALSE.
-}}
+1. the input object(s) is(are) defined in all the studies.\cr
+2. the input object(s) is(are) of the same legal class in all the studies.\cr
+3. if there are any duplicated column names in the input objects in each study.\cr
+4. the number of rows is the same in all components to be cbind.\cr
+Default FALSE.}
 
-\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies
-column names of the output object. If it is not NULL the user should take some caution.
+\item{force.colnames}{can be NULL (recommended) or a vector of characters that specifies 
+column names of the output object. If it is not NULL the user should take some caution. 
 For more information see \strong{Details}.}
 
-\item{newobj}{a character string that provides the name for the output variable
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{cbind.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
 }
 \value{
-\code{ds.cbind} returns a data frame combining the columns of the R
-objects specified in the function which is written to the server-side.
+\code{ds.cbind} returns a data frame combining the columns of the R 
+objects specified in the function which is written to the server-side. 
 It also returns to the client-side two messages with the name of \code{newobj}
 that has been created in each data source and \code{DataSHIELD.checks} result.
 }
@@ -51,11 +49,11 @@ and combines them by column to produce a data-frame.
 }
 \details{
 A sequence of vector, matrix or data-frame arguments
-is combined column by column to produce a data-frame that is written to the server-side.
+is combined column by column to produce a data-frame that is written to the server-side. 
 
 This function is similar to the native R function \code{cbind}.
 
-In \code{DataSHIELD.checks} the checks are relatively slow.
+In \code{DataSHIELD.checks} the checks are relatively slow. 
 Default \code{DataSHIELD.checks} value is FALSE.
 
 If \code{force.colnames} is NULL (which is recommended), the column names are inferred
@@ -65,7 +63,7 @@ same order as the characters specified by the user in this argument. Therefore, 
 vector of \code{force.colnames} must have the same number of elements as the columns in
 the output object. In a multi-site DataSHIELD setting to use this argument, the user should
 make sure that each study has the same number of names and column names of the input elements
-specified in the \code{x} argument and in the same order in all the studies.
+specified in the \code{x} argument and in the same order in all the studies. 
 
 Server function called: \code{cbindDS}
 }

@@ -9,16 +9,16 @@ ds.unList(x.name = NULL, newobj = NULL, datasources = NULL)
 \arguments{
 \item{x.name}{a character string specifying the name of the input object to be unlisted.}
 
-\item{newobj}{a character string that provides the name for the output variable
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{unlist.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.unList} returns to the server-side the unlist object.
-Also, two validity messages are returned to the client-side
+\code{ds.unList} returns to the server-side the unlist object. 
+Also, two validity messages are returned to the client-side 
 indicating whether the new object has been created in each data source and if so whether
 it is in a valid form.
 }
@@ -38,7 +38,7 @@ class than data frame e.g. numeric (basically a numeric vector
 containing all of the original data in all variables in the data frame
 but with no structure). If you wish to reconstruct the original
 data frame you, therefore, need to specify this structure again e.g.
-the column names, etc.
+the column names, etc. 
 
 Server function called: \code{unListDS}
 }

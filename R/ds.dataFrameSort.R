@@ -20,7 +20,7 @@
 #'
 #' alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA)\cr
 #' 
-#' Server function called: `dataFrameSortDS`. 
+#' Server function called: \code{dataFrameSortDS}. 
 #' 
 #' @param df.name a character string providing the name of the data frame
 #' to be sorted.
@@ -29,16 +29,16 @@
 #' by the sort key in descending order. Default = FALSE (sort order ascending).
 #' @param sort.method a character string that specifies the method to be used 
 #' to sort the data frame. This can be set as 
-#' `"alphabetic"`,`"a"` or `"numeric"`, `"n"`. 
+#' \code{"alphabetic"},\code{"a"} or \code{"numeric"}, \code{"n"}. 
 #' @param newobj a character string that provides the name for the output data frame 
-#' that is stored on the data servers. Default `dataframesort.newobj`.   
-#' where `df.name` is the first argument of `ds.dataFrameSort()`.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.dataFrameSort` returns the sorted data frame is written to the server-side. 
+#' that is stored on the data servers. Default \code{dataframesort.newobj}.   
+#' where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
 #' Also, two validity messages are returned to the client-side
-#' indicating the name of the `newobj` which 
+#' indicating the name of the \code{newobj} which 
 #' has been created in each data source and if 
 #' it is in a valid form.
 #' @examples 
@@ -82,7 +82,6 @@
 #' }   
 #' @author DataSHIELD Development Team
 #' @export
-#' 
 ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE,
                            sort.method="default", newobj=NULL, datasources=NULL){
   
@@ -96,31 +95,37 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-  if(is.null(sort.method)){
-    sort.method <- "default"
+  if(is.null(sort.method))
+  {
+    sort.method<-"default"
   }
   
-  if(sort.method!="numeric"&&sort.method!="n"&&sort.method!="alphabetic"&&sort.method!="a"){
-    sort.method <- "default"
+  if(sort.method!="numeric"&&sort.method!="n"&&sort.method!="alphabetic"&&sort.method!="a")
+  {
+    sort.method<-"default"
   }
   
-  if(sort.method=="n"){
-    sort.method <- "numeric"
+  if(sort.method=="n")
+  {
+    sort.method<-"numeric"
   }
   
-  if(sort.method=="a"){
-    sort.method <- "alphabetic"
+  if(sort.method=="a")
+  {
+    sort.method<-"alphabetic"
   }
   
-  if(is.null(sort.descending)){
-    sort.descending <- FALSE
+  if(is.null(sort.descending))
+  {
+    sort.descending<-FALSE
   }
   
   if(is.null(newobj)){
-    newobj <- "dataframesort.newobj"
+    newobj<-"dataframesort.newobj"
   }
   
-  # Call to assign function
+  
+  #Call to assign function
   calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.method)
   datashield.assign(datasources, newobj, calltext)
   
@@ -149,7 +154,7 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     if(!object.info[[j]]$test.obj.exists){																 	#
       obj.name.exists.in.all.sources<-FALSE															 		#
     }																								 		#
-    if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){				#														 	#
+    if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){				#														 	#
       obj.non.null.in.all.sources<-FALSE																 	#
     }																								 		#
   }																									 		#

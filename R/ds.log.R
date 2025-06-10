@@ -1,18 +1,18 @@
 #'
 #' @title Computes logarithms in the server-side 
 #' @description Computes the logarithms for a specified numeric vector. 
-#' This function is similar to the R `log` function. by default natural logarithms. 
-#' @details Server function called: `log`
+#' This function is similar to the R \code{log} function. by default natural logarithms. 
+#' @details Server function called: \code{log}
 #' @param x  a character string providing the name of a numerical vector.
 #' @param base a positive number, the base for which logarithms are computed.
-#' Default `exp(1)`.
+#' Default \code{exp(1)}.
 #' @param newobj a character string that provides the name for the output variable
-#'  that is stored on the server-side. Default `log.newobj`.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.log` returns a vector for each study of the transformed values for the numeric vector 
-#' specified in the argument `x`. The created vectors are stored in the server-side. 
+#'  that is stored on the server-side. Default \code{log.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.log} returns a vector for each study of the transformed values for the numeric vector 
+#' specified in the argument \code{x}. The created vectors are stored in the server-side. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -71,8 +71,19 @@ ds.log <- function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

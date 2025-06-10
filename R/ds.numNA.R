@@ -5,12 +5,12 @@
 #'
 #' @details The number of missing entries are counted and the total for each study is returned.
 #' 
-#' Server function called: `numNaDS`
+#' Server function called: \code{numNaDS}
 #' @param x a character string specifying the name of the vector. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.numNA` returns to the client-side the number of missing values
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.numNA} returns to the client-side the number of missing values
 #' on a server-side vector. 
 #' @author DataSHIELD Development Team
 #' @export
@@ -52,7 +52,7 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, datasources=NULL){
+ds.numNA <- function(x=NULL, datasources=NULL) {
 
   # look for DS connections
   if(is.null(datasources)){
@@ -68,11 +68,13 @@ ds.numNA <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of a vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
+  # check if the input object(s) is(are) defined in all the studies
+  inputElts <- extract(x)
+  if(is.na(inputElts[[1]])){
+    defined <- isDefined(datasources, inputElts[[2]])
+  }else{
+    defined <- isDefined(datasources, inputElts[[1]])
+  }
 
   # call the server side function
   cally <- paste0("numNaDS(", x, ")")

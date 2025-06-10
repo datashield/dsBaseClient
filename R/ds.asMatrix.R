@@ -1,23 +1,24 @@
 #' @title  Converts a server-side  R object into a matrix 
 #' @description Coerces an R object into a matrix. 
 #' This converts all columns into character class. 
-#' @details This function is based on the native R function `as.matrix`. 
-#' If this function is applied to a data frame, all columns are converted into a character class.
-#' If you wish to convert a data frame to a matrix but maintain all data columns in their
-#' original class you should use the function `ds.asDataMatrix`. 
+#' @details This function is based on the native R function \code{as.matrix}. 
+#' If this function is applied to a data frame,  all columns are converted into a character class.
+#'  If you wish to convert a data frame to a matrix but maintain all data columns in their
+#' original class you should use the function \code{ds.asDataMatrix}. 
 #' 
-#' Server function called: `asMatrixDS`
+#' Server function called: \code{asMatrixDS}
 #' @param x.name a character string providing the name of the input object to be coerced to 
 #' a matrix. 
 #' @param newobj a character string that provides the name for the output object
-#'  that is stored on the data servers. Default `asmatrix.newobj`.
-#' @param datasources  a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.asMatrix` returns the object converted into a matrix 
+#'  that is stored on the data servers. Default \code{asmatrix.newobj}.
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.asMatrix} returns the object converted into a matrix 
 #' that is written to the server-side. Also, two validity messages are returned
-#' to the client-side indicating the name of the `newobj` which 
-#' has been created in each data source and if it is in a valid form.
+#' to the client-side indicating the name of the \code{newobj} which 
+#' has been created in each data source and if 
+#' it is in a valid form.
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
@@ -56,7 +57,6 @@
 #' } 
 #' @author DataSHIELD Development Team  
 #' @export
-#' 
 ds.asMatrix <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -72,17 +72,17 @@ ds.asMatrix <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   if(is.null(x.name)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x.name)
+
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "asmatrix.newobj"
   }
 
-  # call the server side function that does the job
+    # call the server side function that does the job
+
 	calltext <- call("asMatrixDS", x.name)
+
 	DSI::datashield.assign(datasources, newobj, calltext)
 
 
@@ -110,7 +110,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

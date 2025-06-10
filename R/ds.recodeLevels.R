@@ -1,22 +1,22 @@
 #'
 #' @title Recodes the levels of a server-side factor vector 
 #' @description The function replaces the levels of a factor by the specified new ones.
-#' @details This function is similar to native R function `levels()`. 
+#' @details This function is similar to native R function \code{levels()}. 
 #' 
 #' It can for example be used to merge two classes into one, to add a level(s) to a vector
 #' or to rename (i.e. re-label) the levels of a vector.
 #' 
-#' Server function called: `levels()`
+#' Server function called: \code{levels()}
 
 #' @param x  a character string specifying  the name of a factor variable.
 #' @param newCategories a character vector specifying the new levels. Its length must  be equal or greater
 #' to the current number of levels.
 #' @param newobj a character string that provides the name for the output object
-#' that is stored on the data servers. Default `recodelevels.newobj`.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.recodeLevels` returns to the server-side a variable of type factor
+#' that is stored on the data servers. Default \code{recodelevels.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.recodeLevels} returns to the server-side a variable of type factor
 #' with the replaces levels. 
 #' @author DataSHIELD Development Team
 #' @export
@@ -125,7 +125,7 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   numstudies <- length(stdnames)
 
   # do the business
-  cally <- paste0("recodeLevelsDS(", x, ", vectorDS(","'",paste(newCategories,collapse="','"),"')",")")
+  cally <- paste0("recodeLevelsDS(", x, ", c(","'",paste(newCategories,collapse="','"),"')",")")
   DSI::datashield.assign(datasources, newobj, as.symbol(cally))
 
   # check that the new object has been created and display a message accordingly

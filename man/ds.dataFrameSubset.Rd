@@ -20,31 +20,31 @@ ds.dataFrameSubset(
 \arguments{
 \item{df.name}{a character string providing the name of the data frame to be subseted.}
 
-\item{V1.name}{A character string specifying the name of the vector
+\item{V1.name}{A character string specifying the name of the vector 
 to which the Boolean operator is to be applied to define the subset.
 For more information see details.}
 
-\item{V2.name}{A character string specifying the name of the vector to compare
+\item{V2.name}{A character string specifying the name of the vector to compare 
 with \code{V1.name}.}
 
 \item{Boolean.operator}{A character string specifying one of six possible Boolean operators:
-\verb{'==', '!=', '>', '>=', '<'} and \code{'<='}.}
+\code{'==', '!=', '>', '>=', '<'} and \code{'<='}.}
 
 \item{keep.cols}{a numeric vector specifying the numbers of the columns to be kept in the
 final subset.}
 
-\item{rm.cols}{a numeric vector specifying the numbers of the columns to be removed from
+\item{rm.cols}{a numeric vector specifying the numbers of the columns to be removed from 
 the final subset.}
 
-\item{keep.NAs}{logical, if TRUE the missing values are included in the subset.
+\item{keep.NAs}{logical, if TRUE the missing values are included in the subset. 
 If FALSE or NULL all rows with at least one missing values are removed from the subset.}
 
-\item{newobj}{a character string that provides the name for the output
+\item{newobj}{a character string that provides the name for the output 
 object that is stored on the data servers. Default \code{dataframesubset.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login.
 If the \code{datasources}
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
@@ -52,24 +52,24 @@ progress. Default FALSE.}
 \value{
 \code{ds.dataFrameSubset} returns
 the object specified by the \code{newobj} argument
-which is written to the server-side.
+which is written to the server-side. 
 Also, two validity messages are returned to the client-side indicating
 the name of the \code{newobj} which has been created in each data source
-and if it is in a valid form.
+ and if it is in a valid form.
 }
 \description{
 Subsets a data frame by rows and/or by columns.
 }
 \details{
-Subset a pre-existing data frame using the standard
-set of Boolean operators (\verb{==, !=, >, >=, <, <=}).
+Subset a pre-existing data frame using the standard 
+set of Boolean operators (\code{==, !=, >, >=, <, <=}). 
 The  subsetting is made by rows, but it is also possible to select
 columns to keep or remove. Instead, if you
 wish to keep all rows in the subset (e.g. if the primary plan is to subset by columns
-and not by rows) the \code{V1.name} and \code{V2.name} parameters can be used
+and not by rows) the \code{V1.name} and \code{V2.name} parameters can be used 
 to specify a vector of the same length
-as the data frame to be subsetted in each study in which every element is 1 and
-there are no missing values. For more information see the example 2 below.
+as the data frame to be subsetted in each study in which every element is 1 and 
+there are no missing values. For more information see the example 2 below. 
 
 Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 }

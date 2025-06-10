@@ -8,12 +8,12 @@
 #' its levels (categories) have a count equal or greater than the set threshold. A data frame or a matrix
 #' is valid if the number of rows is equal or greater than the set threshold.
 #' 
-#' Server function called: `isValidDS`
+#' Server function called: \code{isValidDS}
 #' @param x a character string specifying the name of a vector, dataframe or matrix.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.isValid` returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.isValid} returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -53,6 +53,8 @@
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #'
+#'
+#'
 #' }
 #'
 ds.isValid <- function(x=NULL, datasources=NULL){
@@ -71,8 +73,19 @@ ds.isValid <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -85,6 +98,5 @@ ds.isValid <- function(x=NULL, datasources=NULL){
   # call the server side function that does the job and return its output
   cally <- paste0('isValidDS(', x, ')')
   output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
-  
   return(output)
 }

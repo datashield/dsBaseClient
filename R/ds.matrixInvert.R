@@ -4,15 +4,15 @@
 #' possible if the number of columns and rows of  the matrix are the same and it
 #' is non-singular-positive definite (e.g. there is no row or column that is all zeros). 
 #' 
-#' Server function called: `matrixInvertDS`
+#' Server function called: \code{matrixInvertDS}
 #' @param M1  A character string specifying the name of the matrix to be inverted.
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers.
-#' Default `matrixinvert.newobj`. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.matrixInvert` returns to the server-side the inverts square matrix. 
+#' Default \code{matrixinvert.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.matrixInvert} returns to the server-side the inverts square matrix. 
 #' Also, two validity messages are returned to the client-side 
 #' indicating whether the new object has been created in each data source and if so whether
 #' it is in a valid form. 
@@ -133,7 +133,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

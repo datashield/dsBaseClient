@@ -9,12 +9,12 @@ ds.isNA(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the name of the vector to check.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.isNA} returns a boolean. If it is TRUE the vector is empty
+\code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
 (all values are NA), FALSE otherwise.
 }
 \description{
@@ -67,7 +67,6 @@ Server function called: \code{isNaDS}
   datashield.logout(connections)
 
 }
-
 }
 \author{
 DataSHIELD Development Team

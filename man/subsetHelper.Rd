@@ -7,9 +7,9 @@
 subsetHelper(dts, data, rs = NULL, cs = NULL)
 }
 \arguments{
-\item{dts}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{dts}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 
 \item{data}{a character string specifying the name of the data frame or
 the factor vector and the range of the subset.}
@@ -19,7 +19,7 @@ the factor vector and the range of the subset.}
 \item{cs}{a vector of two integers or one or more characters.}
 }
 \value{
-\code{subsetHelper} returns a message or the class of the object if the
+\code{subsetHelper} returns a message or the class of the object if the 
 object has the same class in all studies.
 }
 \description{

@@ -22,23 +22,23 @@ to be sorted.}
 \item{sort.descending}{logical, if TRUE the data frame will be sorted.
 by the sort key in descending order. Default = FALSE (sort order ascending).}
 
-\item{sort.method}{a character string that specifies the method to be used
-to sort the data frame. This can be set as
+\item{sort.method}{a character string that specifies the method to be used 
+to sort the data frame. This can be set as 
 \code{"alphabetic"},\code{"a"} or \code{"numeric"}, \code{"n"}.}
 
-\item{newobj}{a character string that provides the name for the output data frame
-that is stored on the data servers. Default \code{dataframesort.newobj}.
+\item{newobj}{a character string that provides the name for the output data frame 
+that is stored on the data servers. Default \code{dataframesort.newobj}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
-\code{ds.dataFrameSort} returns the sorted data frame is written to the server-side.
+\code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
 Also, two validity messages are returned to the client-side
-indicating the name of the \code{newobj} which
-has been created in each data source and if
+indicating the name of the \code{newobj} which 
+has been created in each data source and if 
 it is in a valid form.
 }
 \description{
@@ -47,20 +47,20 @@ Sorts a data frame using a specified sort key.
 \details{
 It sorts a specified
 data.frame on the serverside using a sort key also on the server-side. The
-sort key can either sit in the data.frame or outside it.
-The sort key can be forced to be interpreted as alphabetic or numeric.
+sort key can either sit in the data.frame or outside it. 
+The sort key can be forced to be interpreted as alphabetic or numeric. 
 
-When a numeric vector is sorted alphabetically, the order can look confusing.
-For example, if we have a numeric vector to sort:\cr
+When a numeric vector is sorted alphabetically, the order can look confusing. 
+For example, if we have a numeric vector to sort:\cr 
 vector.2.sort = c(-192, 76, 841, NA, 1670, 163, 147, 101, -112, -231, -9, 119, 112, NA)\cr
 
 When sorting numbers in an ascending (default) manner,
-the largest negative numbers get ordered first
+the largest negative numbers get ordered first 
 leading up to the largest positive numbers
 and finally (by default in R) NAs being positioned at the end of the vector:\cr
 numeric.sort = c(-231, -192, -112, -9, 76, 101, 112, 119, 147, 163, 841, 1670, NA, NA)\cr
 
-Instead, if the same vector is sorted alphabetically the the resultant vector is:
+Instead, if the same vector is sorted alphabetically the the resultant vector is: 
 
 alphabetic.sort = (-112, -192, -231, -9, 101, 112, 119, 147, 163, 1670, 76, 841, NA, NA)\cr
 

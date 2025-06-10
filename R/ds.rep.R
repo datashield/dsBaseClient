@@ -3,10 +3,10 @@
 #' @description Creates a repetitive sequence by repeating
 #' the specified scalar number, vector or list in each data source.
 #' @details  All arguments that can denote in a clientside  or
-#' a serverside (i.e. `x1`, `times`, `length.out`
-#' or `each`). 
+#' a serverside (i.e. \code{x1}, \code{times}, \code{length.out}
+#' or \code{each}). 
 #' 
-#' Server function called: `repDS`. 
+#' Server function called: \code{repDS}. 
 #' 
 #' @param x1 an scalar number, vector or list. 
 #' @param times an integer from clientside or a serverside integer
@@ -14,21 +14,21 @@
 #' @param length.out a clientside integer or a serverside integer
 #' or vector. 
 #' @param each a clientside or serverside integer. 
-#' @param source.x1 the source `x1` argument. It can be "clientside" or "c" 
+#' @param source.x1 the source \code{x1} argument. It can be "clientside" or "c" 
 #' and serverside or "s".
-#' @param source.times see `source.x1`
-#' @param source.length.out see `source.x1`
-#' @param source.each see `source.x1`
+#' @param source.times see \code{source.x1}
+#' @param source.length.out see \code{source.x1}
+#' @param source.each see \code{source.x1}
 #' @param x1.includes.characters Boolean parameter which specifies if 
-#' the `x1` is a character. 
+#' the \code{x1} is a character. 
 #' @param newobj a character string that provides the name for the output object
-#' that is stored on the data servers. Default `seq.vect`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.rep` returns in the server-side a vector with the specified repetitive sequence.  
+#' that is stored on the data servers. Default \code{seq.vect}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.rep} returns in the server-side a vector with the specified repetitive sequence.  
 #' Also, two validity messages are returned to the client-side
-#'  the name of `newobj` that has been created 
+#'  the name of \code{newobj} that has been created 
 #' in each data source and if it is in a valid form.
 #' @examples 
 #' \dontrun{
@@ -310,7 +310,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

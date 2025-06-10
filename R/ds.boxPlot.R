@@ -3,18 +3,18 @@
 #' @description Draw boxplot with data on the study servers (data frames or numeric vectors) with the option
 #' of grouping using categorical variables on the dataset (only for data frames)
 #'
-#' @param x `character` Name of the data frame (or numeric vector) on the server side that
+#' @param x \code{character} Name of the data frame (or numeric vector) on the server side that
 #'  holds the information to be plotted
-#' @param variables `character vector` Name of the column(s) of the data frame to include on the boxplot
-#' @param group `character` (default `NULL`) Name of the first grouping variable. 
-#' @param group2 `character` (default `NULL`) Name of the second grouping variable. 
-#' @param xlabel `caracter` (default `"x axis"`) Label to put on the x axis of the plot
-#' @param ylabel `caracter` (default `"y axis"`) Label to put on the y axis of the plot
-#' @param type `character` Return a pooled plot (`"pooled"`) or a split plot (one for each study server
-#' `"split"`)
-#' @param datasources a list of [DSConnection-class()] (default `NULL`) objects obtained after login
+#' @param variables \code{character vector} Name of the column(s) of the data frame to include on the boxplot
+#' @param group \code{character} (default \code{NULL}) Name of the first grouping variable. 
+#' @param group2 \code{character} (default \code{NULL}) Name of the second grouping variable. 
+#' @param xlabel \code{caracter} (default \code{"x axis"}) Label to put on the x axis of the plot
+#' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
+#' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
+#' \code{"split"})
+#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
-#' @return `ggplot` object
+#' @return \code{ggplot} object
 #' @export
 #' @examples 
 #' \dontrun{
@@ -94,52 +94,16 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
   if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
-  
-  # Ensure type is 'pooled' or 'split'
-  if((length(type) == 1) && (! any(type %in% c("pooled", "split")))){
-    stop("[type] can only be set to 'pooled' or 'split'")
-  }
-  
-  # Check if x is defined and that it is of class "numeric" or "data.frame"
+
   isDefined(datasources, x)
   cls <- checkClass(datasources, x)
-  if(!any(c("numeric", "data.frame") %in% cls)){
-    stop("The selected object is not a data frame nor a numerical vector")
-  }
   
-  # If x is a "data.frame" check that the variables exist, and if they are "numeric"
-  # also check if the grouping variables [group, group2] exist and are of class factor
-  if("data.frame" %in% cls){
-    # Check that all variables exist
-    lapply(variables, function(i){
-      isDefined(datasources, paste0(x, "$", i))
-    })
-    # Check all variables are of class "numeric"
-    variable_classes <- unlist(lapply(variables, function(i){
-      checkClass(datasources, paste0(x, "$", i))
-    }))
-    if(!all(variable_classes == "numeric")){
-      stop("[", paste(variables[variable_classes != "numeric"], collapse = ", "), "] variable(s) are not of class 'numeric'")
-    }
-    # Check if grouping variables exist
-    if(!is.null(group)){isDefined(datasources, paste0(x, "$", group))}
-    if(!is.null(group2)){isDefined(datasources, paste0(x, "$", group2))}
-    # Check if groupings are of class "factor"
-    if(!is.null(group)){
-      group_class <- checkClass(datasources, paste0(x, "$", group))
-      if(group_class != "factor"){stop("[", group, "] is not of class 'factor'")}
-    }
-    if(!is.null(group2)){
-      group_class2 <- checkClass(datasources, paste0(x, "$", group2))
-      if(group_class2 != "factor"){stop("[", group2, "] is not of class 'factor'")}
-    }
-  }
-  
-  # Once all checks are passed, call the appropiate server functions
-  if("data.frame" %in% cls){
+  if(any(cls %in% c("data.frame"))){
     ds.boxPlotGG_table(x, variables, group, group2, xlabel, ylabel, type, datasources)
   }
-  else if("numeric" %in% cls){
+  else if(any(cls %in% c("numeric"))){
     ds.boxPlotGG_numeric(x, xlabel, ylabel, type, datasources)
   }
+  else(stop("The selected object is not a data frame nor a numerical vector"))
+  
 }

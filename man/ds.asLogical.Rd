@@ -7,21 +7,21 @@
 ds.asLogical(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{a character string providing the name of the
+\item{x.name}{a character string providing the name of the 
 input object to be coerced to a logical.}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{aslogical.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.asLogical} returns the R object converted into a logical
 that is written to the server-side. Also, two validity messages are returned
-to the client-side indicating the name of the \code{newobj} which
-has been created in each data source and if
+to the client-side indicating the name of the \code{newobj} which 
+has been created in each data source and if 
 it is in a valid form.
 }
 \description{

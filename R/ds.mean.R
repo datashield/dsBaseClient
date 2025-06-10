@@ -3,33 +3,33 @@
 #' @description This function computes the statistical mean
 #'  of a given server-side vector. 
 #'
-#' @details  This function is similar to the R function `mean`.
+#' @details  This function is similar to the R function \code{mean}.
 #' 
 #' The function can carry out 3 types of analysis depending on
-#' the argument `type`:\cr
-#' (1) If `type` is set to `'combine'`, `'combined'`, 
-#' `'combines'` or `'c'`, a global mean is calculated.\cr
-#' (2) If `type` is set to `'split'`, `'splits'` or `'s'`,
+#' the argument \code{type}:\cr
+#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, 
+#' \code{'combines'} or \code{'c'}, a global mean is calculated.\cr
+#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
 #'  the mean is calculated separately for each study. \cr
-#' (3) If `type` is set to `'both'` or `'b'`, 
+#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, 
 #' both sets of outputs are produced.
 #' 
-#' If the argument `save.mean.Nvalid` is set to TRUE 
-#'  study-specific means and `Nvalids`
+#' If the argument \code{save.mean.Nvalid} is set to TRUE 
+#'  study-specific means and \code{Nvalids}
 #' as well as the global equivalents across all studies combined 
 #' are saved in the server-side. 
-#' Once the estimated means and `Nvalids`
+#' Once the estimated means and \code{Nvalids}
 #' are written into the server-side R environments, they can be used directly to centralize
 #' the variable of interest around its global mean or its study-specific means. Finally,
-#' the `isDefined` internal function checks whether the key variables have been created.
+#' the \code{isDefined} internal function checks whether the key variables have been created.
 #' 
-#' Server function called: `meanDS`
+#' Server function called: \code{meanDS}
 #' @param x a character specifying the name of a numerical vector.
 #' @param type a character string that represents the type of analysis to carry out.
-#' This can be set as `'combine'`, `'combined'`, `'combines'`,
-#' `'split'`, `'splits'`, `'s'`,
-#' `'both'` or `'b'`. 
-#' For more information see **Details**. 
+#' This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
+#' \code{'split'}, \code{'splits'}, \code{'s'},
+#' \code{'both'} or \code{'b'}. 
+#' For more information see \strong{Details}. 
 #' @param checks logical. If TRUE  optional checks of model
 #' components will be undertaken. Default is FALSE to save time. 
 #' It is suggested that checks
@@ -37,28 +37,28 @@
 #' @param save.mean.Nvalid logical. If TRUE generated values of the mean and 
 #' the number of valid (non-missing) observations will be saved  on the data servers. 
 #' Default FALSE. 
-#' For more information see **Details**. 
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.mean` returns to the client-side a list including: \cr
+#' For more information see \strong{Details}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.mean} returns to the client-side a list including: \cr
 #' 
-#' `Mean.by.Study`:  estimated mean, `Nmissing`
-#' (number of missing observations), `Nvalid` (number of valid observations) and
-#' `Ntotal` (sum of missing and valid observations) 
-#' separately for each study (if `type = split` or `type = both`). \cr
-#' `Global.Mean`: estimated mean, `Nmissing`, `Nvalid` and `Ntotal` 
-#' across all studies combined (if `type = combine` or `type = both`). \cr
-#' `Nstudies`: number of studies being analysed. \cr
-#' `ValidityMessage`: indicates if the analysis was possible. \cr
+#' \code{Mean.by.Study}:  estimated mean, \code{Nmissing}
+#' (number of missing observations), \code{Nvalid} (number of valid observations) and
+#' \code{Ntotal} (sum of missing and valid observations) 
+#' separately for each study (if \code{type = split} or \code{type = both}). \cr
+#' \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
+#' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
+#' \code{Nstudies}: number of studies being analysed. \cr
+#' \code{ValidityMessage}: indicates if the analysis was possible. \cr
 #' 
-#' If `save.mean.Nvalid` is set as TRUE, the objects 
-#' `Nvalid.all.studies`, `Nvalid.study.specific`,
-#' `mean.all.studies` and `mean.study.specific` are written to the server-side. 
+#' If \code{save.mean.Nvalid} is set as TRUE, the objects 
+#' \code{Nvalid.all.studies}, \code{Nvalid.study.specific},
+#' \code{mean.all.studies} and \code{mean.study.specific} are written to the server-side. 
 #' 
 #' @author DataSHIELD Development Team
-#' @seealso `ds.quantileMean` to compute quantiles.
-#' @seealso `ds.summary` to generate the summary of a variable.
+#' @seealso \code{ds.quantileMean} to compute quantiles.
+#' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
 #' @examples
 #' \dontrun{
@@ -102,43 +102,68 @@
 #'
 ds.mean <- function(x=NULL, type='split', checks=FALSE, save.mean.Nvalid=FALSE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-  
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+###################################################################################################################
+#MODULE 1: IDENTIFY DEFAULT DS CONNECTIONS                                                                        #
+  # look for DS connections                                                                                       #
+  if(is.null(datasources)){                                                                                       #
+    datasources <- datashield.connections_find()                                                                  #
+  }                                                                                                               #
+                                                                                                                  #
+  # ensure datasources is a list of DSConnection-class                                                            #
+  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){   #
+    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)               #
+  }                                                                                                               #
+###################################################################################################################
 
-  # beginning of optional checks - the process stops and reports as soon as one check fails                                                                                          #
-  if(checks){
-    
-    # check if the input object is defined in all the studies
-    isDefined(datasources, x)
+#####################################################################################
+#MODULE 2: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
+  if(is.null(x)){                                                                   #
+    stop("Please provide the name of the input vector!", call.=FALSE)               #
+  }                                                                                 #
+  # the input variable might be given as a variable in a data frame (i.e. D$x)      #
+  # or just as a vector not attached to a table (i.e. x)                            #
+  # we have to make sure the function deals with each case                          #
+  xnames <- extract(x)                                                              #
+  varname <- xnames$elements                                                        #
+  obj2lookfor <- xnames$holders                                                     #
+#####################################################################################
 
-    # call the internal function that checks the input object is of the same class in all studies.
-    typ <- checkClass(datasources, x)
-   
-    # the input object must be a numeric or an integer vector
-    if(!('integer' %in% typ) & !('numeric' %in% typ)){
-      stop("The input object must be an integer or a numeric vector.", call.=FALSE)
-    } 
-}
+###############################################################################################
+#MODULE 3: GENERIC OPTIONAL CHECKS TO ENSURE CONSISTENT STRUCTURE OF KEY VARIABLES            #
+#IN DIFFERENT SOURCES                                                                         #
+  # beginning of optional checks - the process stops and reports as soon as one               #
+  #check fails                                                                                #
+                                                                                              #
+  if(checks){                                                                                 #
+    message(" -- Verifying the variables in the model")                                       #
+                                                                                              #
+  # check if the input object(s) is(are) defined in all the studies                           #
+  if(is.na(obj2lookfor)){                                                                     #
+    defined <- isDefined(datasources, varname)                                                #
+  }else{                                                                                      #
+    defined <- isDefined(datasources, obj2lookfor)                                            #
+  }                                                                                           #
+                                                                                              #
+  # call the internal function that checks the input object is suitable in all studies        #
+  varClass <- checkClass(datasources, x)                                                      #
+  # the input object must be a numeric or an integer vector                                   #
+  if(!('integer' %in% varClass) & !('numeric' %in% varClass)){                                          #
+    stop("The input object must be an integer or a numeric vector.", call.=FALSE)             #
+  }                                                                                           #
+}                                                                                             #
+###############################################################################################
 
 ###################################################################################################
-#MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
+#MODULE 4: EXTEND "type" argument to include "both" and enable valid alisases                     #
 if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
 if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
 if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
-if(type != 'combine' & type != 'split' & type != 'both'){                                        #
+if(type != 'combine' & type != 'split' & type != 'both')                                          #
   stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
-}  
+                                                                                                  #
+#MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
+###################################################################################################
+
 
   cally <- paste0("meanDS(", x, ")")
   ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))

@@ -1,19 +1,19 @@
 #'
 #' @title Computes the exponentials in the server-side
 #' @description Computes the exponential values for a specified numeric vector. 
-#' This function is similar to R function `exp`.
+#' This function is similar to R function \code{exp}.
 #' @details 
 #' 
-#' Server function called: `exp`. 
+#' Server function called: \code{exp}. 
 #' 
 #' @param x a character string providing the name of a numerical vector.
 #' @param newobj a character string that provides the name for the output variable
-#' that is stored on the data servers. Default `exp.newobj`. 
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. 
-#' If the `datasources` argument is not specified 
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.exp` returns a vector for each study of the exponential values for the numeric vector 
-#' specified in the argument `x`. The created vectors are stored in the server-side. 
+#' that is stored on the data servers. Default \code{exp.newobj}. 
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' If the \code{datasources} argument is not specified 
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.exp} returns a vector for each study of the exponential values for the numeric vector 
+#' specified in the argument \code{x}. The created vectors are stored in the server-side. 
 #' @author DataSHIELD Development Team
 #' @export
 #' @examples
@@ -71,15 +71,26 @@ ds.exp <- function(x=NULL, newobj=NULL, datasources=NULL){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   if(!('numeric' %in% typ) && !('integer' %in% typ)){
-    stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
+      stop(" Only objects of type 'numeric' and 'integer' are allowed.", call.=FALSE)
   }
 
   # create a name by default if user did not provide a name for the new variable

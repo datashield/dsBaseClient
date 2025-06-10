@@ -11,7 +11,7 @@ ds.table(
   stvar = NULL,
   report.chisq.tests = FALSE,
   exclude = NULL,
-  useNA = "always",
+  useNA = c("ifany"),
   suppress.chisq.warnings = FALSE,
   table.assign = FALSE,
   newobj = NULL,
@@ -20,61 +20,61 @@ ds.table(
 )
 }
 \arguments{
-\item{rvar}{is a character string (in inverted commas) specifying the
+\item{rvar}{is a character string (in inverted commas) specifiying the
 name of the variable defining the rows in all of the 2 dimensional
 tables that form the output. Please see 'details' above for more
 information about one-dimensional tables when a variable name is provided
-by \if{html}{\out{<rvar>}} but \if{html}{\out{<cvar>}} and \if{html}{\out{<stvar>}} are both NULL}
+by <rvar> but <cvar> and <stvar> are both NULL}
 
-\item{cvar}{is a character string specifying the
+\item{cvar}{is a character string specifiying the
 name of the variable defining the columns in all of the 2 dimensional
 tables that form the output.}
 
-\item{stvar}{is a character string specifying the
+\item{stvar}{is a character string specifiying the
 name of the variable that indexes the separate two dimensional
 tables in the output if the call specifies a 3 dimensional table.}
 
-\item{report.chisq.tests}{if TRUE, chi-squared tests
+\item{report.chisq.tests}{if TRUE, chisquared tests
 are applied to every 2 dimensional table in the output and reported
 as "chisq.test_table.name". Default = FALSE.}
 
-\item{exclude}{this argument is passed through to the \code{table} function in
-native R which is called by \code{tableDS}. The help for \code{table} in native R
+\item{exclude}{this argument is passed through to the {table} function in
+native R which is called by {tableDS}. The help for {table} in native R
 indicates that 'exclude' specifies any levels that should be deleted for
-all factors in rvar, cvar or stvar. If the \if{html}{\out{<exclude>}} argument
-does not include NA and if the \if{html}{\out{<useNA>}} argument is not specified,
-it implies \if{html}{\out{<useNA>}} = "always" in DataSHIELD. If you read the help for \code{table} in native R
+all factors in rvar, cvar or stvar. If the <exclude> argument
+does not include NA and if the <useNA> argument is not specified,
+it implies <useNA> = "ifany". If you read the help for {table} in native R
 including the 'details' and the 'examples' (particularly 'd.patho') you
-will see that the response of \code{table} to different combinations of the
-\if{html}{\out{<exclude>}} and \if{html}{\out{<useNA>}} arguments can be non-intuitive. This is particularly
-so if there is more than one type of missing (e.g. missing by observation
+will see that the response of {table} to different combinations of the
+<exclude> and <useNA> arguments can be non-intuitive. This is particularly
+so if there is more than one type of missing (eg. missing by observation
 as well as missing because of an NaN response to a mathematical
 function - such as log(-3.0)). In DataSHIELD, if you are in one
 of these complex settings (which should not be very common) and
 you cannot interpret the output that has been approached
 you might try: (1) making sure that the variable producing the strange results
 is of class factor rather than integer or numeric - although integers and
-numerics are coerced to factors by \code{ds.table} they can occasionally behave less
-well when the NA setting is complex; (2) specify both an \if{html}{\out{<exclude>}} argument
-e.g. exclude = c("NaN","3") and a \if{html}{\out{<useNA>}} argument e.g. useNA= "no";
+numerics are coerced to factors by {ds.table} they can occasionally behave less
+well when the NA setting is complex; (2) specify both an <exclude> argument
+e.g. exclude =c("NaN","3") and a <useNA> argument e.g. useNA= "no";
 (3) if you are excluding multiple levels e.g exclude = c("NA","3")
-then you can reduce this to one e.g. exclude = c("NA") and then remove
+then you can reduce this to one e.g. exclude= c("NA") and then remove
 the 3s by deleting rows of data, or converting the 3s to a different value.}
 
-\item{useNA}{this argument is passed through to the \code{table} function in
-native R which is called by \code{tableDS}. In DataSHIELD, this argument can take
-two values: "no" or "always" which indicate whether to include NA values in the table.
-For further information, please see the help for the \if{html}{\out{<exclude>}} argument (above)
-and/or the help for the \code{table} function in native R. Default value is set to "always".}
+\item{useNA}{this argument is passed through to the {table} function in
+native R which is called by {tableDS}. The help for {table} in native R
+indicates that it specifies whether to include NA values in the table.
+For further information, please see the help for the <exclude> argument (above)
+and/or the help for the {table} function in native R.}
 
 \item{suppress.chisq.warnings}{if set to TRUE, the default warnings are
-suppressed that would otherwise be produced by the \code{table} function in
+suppressed that would otherwise be produced by the {table} function in
 native R whenever an expected cell count in one or more cells is less than 5.
 Default is FALSE. Further details can be found under 'details' and the
 help provided for the <report.chisq.tests> argument (above).}
 
 \item{table.assign}{is a Boolean argument set by default to FALSE. If it is
-FALSE the \code{ds.table} function acts as a standard aggregate function -
+FALSE the {ds.table} function acts as a standard aggregate function -
 it returns the table that is specified in its call to the clientside
 where it can be visualised and worked with by the analyst. But if
 <table.assign> is TRUE, the same table object is also written to
@@ -90,20 +90,20 @@ If no explicit name for the table object is specified, but <table.assign>
 is nevertheless TRUE, the name for the serverside table object defaults
 to \code{table.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login. If the \if{html}{\out{<datasources>}}
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link{datashield.connections_default}.
-If the \if{html}{\out{<datasources>}} is to be specified, it should be set without
+If the <datasources> is to be specified, it should be set without
 inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
 apply the function solely to e.g. the second connection server in a set of three,
-the argument can be specified as: e.g. datasources=connections.em\link{2}.
+the argument can be specified as: e.g. datasources=connections.em[2].
 If you wish to specify the first and third connection servers in a set you specify:
-e.g. datasources=connections.em\link{c(1,3)}.}
+e.g. datasources=connections.em[c(1,3)].}
 
 \item{force.nfilter}{if <force.nfilter> is non-NULL it must be specified as
 a positive integer represented as a character string: e.g. "173". This
 the has the effect of the standard value of 'nfilter.tab' (often 1, 3, 5 or 10
 depending what value the data custodian has selected for this particular
-data set), to this new value (here, 173). CRUCIALLY, the \code{ds.table} function
+data set), to this new value (here, 173). CRUCIALLY, the {ds.table} function
 only allows the standard value to be INCREASED. So if the standard value has
 been set as 5 (as one of the R options set in the serverside connection), "6" and
 "4981" would be allowable values for the <force.nfilter> argument but "4" or
@@ -115,26 +115,26 @@ see what then happens and check that it is behaving as anticipated/hoped.}
 Having created the requested table based on serverside data
 it is returned to the clientside for the analyst to visualise (unless
 it is blocked because it fails the disclosure control criteria or
-there is an error for some other reason).
+there is an error for some other reason). 
 
 The clientside output from
-\code{ds.table} includes error messages that identify when the creation of a
+{ds.table} includes error messages that identify when the creation of a
 table from a particular study has failed and why. If table.assign=TRUE,
-\code{ds.table} also writes the requested table as an object named by
-the \if{html}{\out{<newobj>}} argument or set to 'newObj' by default.
+{ds.table} also writes the requested table as an object named by
+the <newobj> argument or set to 'newObj' by default. 
 
 Further information
 about the visible material passed to the clientside, and the optional
 table object written to the serverside can be seen under 'details' (above).
 }
 \description{
-Creates 1-dimensional, 2-dimensional and 3-dimensional
-tables using the \code{table} function in native R.
+creates 1-dimensional, 2-dimensional and 3-dimensional
+tables using the {table} function in native R.
 }
 \details{
-The \code{ds.table} function selects numeric, integer or factor
+the {ds.table} function selects numeric, integer or factor
 variables on the serverside which define a contingency table with up to
-three dimensions. The native R \code{table} function basically operates on
+three dimensions. The native R {table} function basically operates on
 factors and if variables are specified that are integers or numerics
 they are first coerced to factors. If the 1-dimensional, 2-dimensional or
 3-dimensional table generated from a given study satisfies appropriate
@@ -158,57 +158,57 @@ that table object.
 The true counts in the studyside vector
 are replaced by a sequential set of cell-IDs running from 1:n
 (where n is the total number of cells in the table) in the empty
-representation of the structure of the potentially disclosive table
+representation of the structure of the potentially disclosive table 
 that is returned to the clientside. These cell-IDs reflect
 the order of the counts in the true counts vector on the serverside.
 In consequence, if the number 13 appears in a cell of the empty
 table returned to the clientside, it means that the true count
 in that same cell is held as the 13th element of the true count
 vector saved on the serverside. This means that a data analyst
-can still make use of the counts from a call to the \code{ds.table}
+can still make use of the counts from a call to the {ds.table}
 function to drive their ongoing analysis even when one or
 more non-zero cell counts fall below the specified threshold
-for potential disclosure risk.
+for potential disclosure risk. 
 
 Because the table object on the
 serverside cannot be visualised or transferred to the clientside,
 DataSHIELD ensures that although it can, in this way, be used
 to advance analysis, it does not create a direct risk of disclosure.
 
-The \if{html}{\out{<rvar>}} argument identifies the variable defining the rows
-in each of the 2-dimensional tables produced in the output.
+The <rvar> argument identifies the variable defining the rows
+in each of the 2 dimensional tables produced in the output.  
 
-The \if{html}{\out{<cvar>}}
-argument identifies the variable defining the columns in the 2-dimensional
-tables produced in the output.
+The <cvar>
+argument identifies the variable defining the columns in the 2 dimensional
+tables produced in the output. 
 
 In creating a 3-dimensional table the
-\if{html}{\out{<stvar>}} ('separate tables') argument identifies the variable that
-indexes the set of two dimensional tables in the output \code{ds.table}.
+<stvar> ('separate tables') argument identifies the variable that
+indexes the set of two dimensional tables in the output {ds.table}.
 
 As a minor technicality, it should be noted that
 if a 1-dimensional table is required, one only need specify a value
-for the \if{html}{\out{<rvar>}} argument and any one dimensional table in the output
-is presented as a row vectors and so technically the \if{html}{\out{<rvar>}} variable
+for the <rvar> argument and any one dimensional table in the output
+is presented as a row vectors and so technically the <rvar> variable
 defines the columns in that 1 x n vector. However, the ds.table
 function deals with 1-dimensional tables differently to 2 and 3
 dimensional tables and key components  of the output
 for one dimensional tables are actually two dimensional: with
-rows defined by \if{html}{\out{<rvar>}} and with one column for each of the studies.
+rows defined by <rvar> and with one column for each of the studies.
 
-The output list generated by \code{ds.table} contains tables based on counts
+The output list generated by {ds.table} contains tables based on counts
 named "table.name_counts" and other tables reporting corresponding
 column proportions ("table.name_col.props") or row proportions
 ("table.name_row.props"). In one dimensional tables in the output the
 output tables include _counts and _proportions. The latter are not
 called _col.props or _row.props because, for the reasons noted
 above, they are technically column proportions but are based on the
-distribution of the \if{html}{\out{<rvar>}} variable.
+distribution of the <rvar> variable.
 
 If the <report.chisq.tests> argument is set to TRUE, chisq tests
-are applied to every 2-dimensional table in the output and reported
+are applied to every 2 dimensional table in the output and reported
 as "chisq.test_table.name". The <report.chisq.tests> argument
-defaults to FALSE.
+defaults to FALSE. 
 
 If there is at least one expected cell
 counts < 5 in an output table, the native R <chisq.test> function

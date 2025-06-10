@@ -19,12 +19,12 @@
 #' operator. This parameter is ignored if the input data is not a vector.
 #' @param threshold a numeric, the threshold to use in conjunction with the logical parameter. This parameter is ignored
 #' if the input data is not a vector.
-#' @param datasources a list of [DSConnection-class()] objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see [datashield.connections_default].
+#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @return no data are return to the user, the generated subset dataframe is stored on the server side.
 #' @author Gaye, A.
-#' @seealso [ds.subsetByClass] to subset by the classes of factor vector(s).
-#' @seealso [ds.meanByClass] to compute mean and standard deviation across categories of a factor vectors.
+#' @seealso \link{ds.subsetByClass} to subset by the classes of factor vector(s).
+#' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @export
 #' @examples
 #' \dontrun{

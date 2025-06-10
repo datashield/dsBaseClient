@@ -1,17 +1,17 @@
 #'
 #' @title Checks if a server-side vector is empty
-#' @description this function is similar to R function `is.na` but instead of a vector
+#' @description this function is similar to R function \code{is.na} but instead of a vector
 #' of booleans it returns just one boolean to tell if all the elements are missing values.
 #' @details In certain analyses such as GLM none of the variables should be missing at complete
 #' (i.e. missing value for each observation). Since in DataSHIELD it is not possible to see the data
 #' it is important to know whether or not a vector is empty to proceed accordingly.
 #' 
-#' Server function called: `isNaDS`
+#' Server function called: \code{isNaDS}
 #' @param x a character string specifying the name of the vector to check.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.isNA` returns a boolean. If it is TRUE the vector is empty 
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
 #' (all values are NA), FALSE otherwise.
 #' @author DataSHIELD Development Team
 #' @export
@@ -54,7 +54,6 @@
 #'   datashield.logout(connections)
 #'
 #' }
-#' 
 ds.isNA <- function(x=NULL, datasources=NULL){
 
   # look for DS connections
@@ -71,8 +70,19 @@ ds.isNA <- function(x=NULL, datasources=NULL){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
 
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)
@@ -84,18 +94,14 @@ ds.isNA <- function(x=NULL, datasources=NULL){
 
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
-  
-  # name of the variable
-  xnames <- extract(x)
-  varname <- xnames$elements
 
   # keep of the results of the checks for each study
   track <- list()
 
-  # call server side function 'isNaDS' to check, in each study, if the vector is empty
+  # call server side function 'isNA.ds' to check, in each study, if the vector is empty
   for(i in 1: length(datasources)){
-    cally <- call("isNaDS", x)
-    out <- DSI::datashield.aggregate(datasources[i], cally)
+    cally <- paste0("isNaDS(", x, ")")
+    out <- DSI::datashield.aggregate(datasources[i], as.symbol(cally))
     if(out[[1]]){
       track[[i]] <- TRUE
       message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")

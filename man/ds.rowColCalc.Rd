@@ -12,18 +12,18 @@ ds.rowColCalc(x = NULL, operation = NULL, newobj = NULL, datasources = NULL)
 \item{operation}{a character string that indicates the operation to carry out:
 \code{"rowSums"}, \code{"colSums"}, \code{"rowMeans"} or \code{"colMeans"}.}
 
-\item{newobj}{a character string that provides the name for the output variable
+\item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{rowcolcalc.newobj}.}
 
-\item{datasources}{a list of \code{\link[=DSConnection-class]{DSConnection-class()}} objects obtained after login.
+\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[=datashield.connections_default]{datashield.connections_default()}}.}
+the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
 }
 \value{
 \code{ds.rowColCalc} returns to the server-side  rows and columns sums and means.
 }
 \description{
-Computes sums and means of rows or columns
+Computes sums and means of rows or columns 
 of a numeric matrix or data frame on the server-side.
 }
 \details{

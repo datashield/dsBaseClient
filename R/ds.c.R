@@ -6,14 +6,14 @@
 #' and the server-side function loops through that list to 
 #' concatenate the list's elements into a vector.
 #' 
-#' Server function called: `cDS`
+#' Server function called: \code{cDS}
 #' @param x  a vector of character string providing the names of the objects to be combined.
 #' @param newobj a character string that provides the name for the output object 
-#' that is stored on the data servers. Default `c.newobj`.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return  `ds.c` returns the vector of concatenating R
+#' that is stored on the data servers. Default \code{c.newobj}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return  \code{ds.c} returns the vector of concatenating R
 #'  objects which are written to the server-side.
 #' @examples 
 #' \dontrun{
@@ -54,7 +54,6 @@
 #' }    
 #' @author DataSHIELD Development Team
 #' @export
-#' 
 ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   # look for DS connections
@@ -76,8 +75,21 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     newobj <- "c.newobj"
   }
 
+  # the input variable might be given as column table (i.e. D$object)
+  # or just as a vector not attached to a table (i.e. object)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varnames <- xnames$elements
+  obj2lookfor <- xnames$holders
+
   # check if the input object(s) is(are) defined in all the studies
-  lapply(x, function(k){isDefined(datasources, obj=k)})
+  for(i in 1:length(varnames)){
+    if(is.na(obj2lookfor[i])){
+      defined <- isDefined(datasources, varnames[i])
+    }else{
+      defined <- isDefined(datasources, obj2lookfor[i])
+    }
+  }
 
   # call the internal function that checks the input object(s) is(are) of the same class in all studies.
   for(i in 1:length(x)){

@@ -1,27 +1,27 @@
 #' @title Flattens Server-Side Lists
 #' @description Coerces an object of list class back to the class it was when
 #' it was coerced into a list. 
-#' @details This function is similar to the native R function `unlist`.
+#' @details This function is similar to the native R function \code{unlist}.
 #' 
 #' When an object is coerced to a list, depending
 #' on the class of the original object some information may be lost. Thus,
 #' for example, when a data frame is coerced to list the information that
 #' underpins the structure of the data frame is lost and when it is
-#' subject to the function `ds.unList` it is returned to a simpler
+#' subject to the function \code{ds.unList} it is returned to a simpler
 #' class than data frame e.g. numeric (basically a numeric vector
 #' containing all of the original data in all variables in the data frame
 #' but with no structure). If you wish to reconstruct the original
 #' data frame you, therefore, need to specify this structure again e.g.
 #' the column names, etc. 
 #' 
-#' Server function called: `unListDS`
+#' Server function called: \code{unListDS}
 #' @param x.name a character string specifying the name of the input object to be unlisted.
 #' @param newobj a character string that provides the name for the output variable 
-#' that is stored on the data servers. Default `unlist.newobj`. 
-#' @param datasources  a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.unList` returns to the server-side the unlist object. 
+#' that is stored on the data servers. Default \code{unlist.newobj}. 
+#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.unList} returns to the server-side the unlist object. 
 #' Also, two validity messages are returned to the client-side 
 #' indicating whether the new object has been created in each data source and if so whether
 #' it is in a valid form. 
@@ -120,7 +120,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#

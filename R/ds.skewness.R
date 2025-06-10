@@ -2,39 +2,39 @@
 #' @title Calculates the skewness of a server-side numeric variable 
 #' @description This function calculates the skewness of a numeric variable 
 #' that is stored on the server-side (Opal server). 
-#' @details This function is similar to the function `skewness` in R package `e1071`.
+#' @details This function is similar to the function \code{skewness} in R package \code{e1071}.
 #' 
-#' The function calculates the skewness of an input variable `x` 
+#' The function calculates the skewness of an input variable \code{x} 
 #' with three different methods: \cr
-#' (1)  If `method` is set to 1 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
+#' (1)  If \code{method} is set to 1 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) }},
 #' where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations.\cr
-#' (2) If `method` is set to 2
+#' (2) If \code{method} is set to 2
 #' the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * \frac{\sqrt(N(N-1)}{n-2}}.\cr
-#' (3) If `method` is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
+#' (3) If \code{method} is set to 3 the following formula is used \eqn{ skewness= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^3 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(3/2) } * (\frac{N-1}{N})^(3/2)}.
 #' 
-#' The `type` argument can be set as follows:\cr
-#' (1) If `type` is set to `'combine'`, `'combined'`, `'combines'` or `'c'`, 
+#' The \code{type} argument can be set as follows:\cr
+#' (1) If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'}, 
 #' the global skewness is returned.\cr
-#' (2) If `type` is set to `'split'`, `'splits'` or `'s'`, 
+#' (2) If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
 #' the skewness is returned separately for each study.\cr
-#' (3) If `type` is set to `'both'` or `'b'`, both sets of outputs are produced.\cr
+#' (3) If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.\cr
 #' 
-#' If `x` contains any missing value, the function removes those before
+#' If \code{x} contains any missing value, the function removes those before
 #' the calculation of the skewness. 
 #' 
-#' Server functions called: `skewnessDS1` and `skewnessDS2`
+#' Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
 #' 
 #' @param x a character string specifying the name of a numeric variable.
 #' @param method an integer value between 1 and 3 selecting one of the algorithms for computing skewness. 
-#' For more information see **Details**. The default value is set to 1.
+#' For more information see \strong{Details}. The default value is set to 1.
 #' @param type a character string which represents the type of analysis to carry out. 
-#' `type` can be set as: `'combine'`, `'split'` or `'both'`. For more information
-#' see **Details**. 
-#' The default value is set to `'both'`.
-#' @param datasources a list of [DSConnection-class()] 
-#' objects obtained after login. If the `datasources` argument is not specified
-#' the default set of connections will be used: see [datashield.connections_default()].
-#' @return `ds.skewness` returns a matrix showing the skewness of the input numeric variable,
+#' \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
+#' see \strong{Details}. 
+#' The default value is set to \code{'both'}.
+#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' objects obtained after login. If the \code{datasources} argument is not specified
+#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
 #' the number of valid observations and the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
 #' @examples 
@@ -104,8 +104,19 @@ ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL){
   if(type != 'combine' & type != 'split' & type != 'both')
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # the input variable might be given as column table (i.e. D$x)
+  # or just as a vector not attached to a table (i.e. x)
+  # we have to make sure the function deals with each case
+  xnames <- extract(x)
+  varname <- xnames$elements
+  obj2lookfor <- xnames$holders
+  
+  # check if the input object(s) is(are) defined in all the studies
+  if(is.na(obj2lookfor)){
+    defined <- isDefined(datasources, varname)
+  }else{
+    defined <- isDefined(datasources, obj2lookfor)
+  }
   
   # call the internal function that checks the input object is of the same class in all studies.
   typ <- checkClass(datasources, x)

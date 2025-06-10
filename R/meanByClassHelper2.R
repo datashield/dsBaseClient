@@ -3,8 +3,8 @@
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to produce the final table
 #' if the user sets the parmater 'type' to combine (the default behaviour of 'ds.meanByClass').
-#' @param dtsources a list of [DSConnection-class()] objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see [datashield.connections_default].
+#' @param dtsources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link{datashield.connections_default}.
 #' @param tablenames a character vector, the name of the subset tables
 #' @param variables a character vector, the names of the continuous variables to computes a mean for.
 #' @param invalidrecorder a list, holds informations about invalid subsets in each study.

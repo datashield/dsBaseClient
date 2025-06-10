@@ -1,6 +1,6 @@
-#'
-#' @title Summarize a glm object on the serverside
-#' @description Summarize a glm object on the serverside to create a 
+#ds.glmSummary
+#' @title summarize a glm object on the serverside
+#' @description summarize a glm object on the serverside to create a 
 #' summary_glm object. Also identify and return components of 
 #' both the glm object and the summary_glm object
 #' that can safely be sent to the clientside without a risk of disclosure 
@@ -58,7 +58,7 @@
 #' On the other hand, if you wish to specify solely the first and third sources, the
 #' appropriate call will be datasources=connections.xyz[c(1,3)]
 #' @return ds.glmSummary writes a new object to the serverside with name given by
-#' the newobj argument or if that argument is missing or null it is called "summary_glm.newobj".
+#' the newobj argument or if that argument is missing or null it is called "summary_glm".
 #' In addition, ds.glmSummary returns an object containing two lists to the clientside
 #' the two lists are named "glm.obj" and "glm.summary.obj" which contain all of the
 #' elements of the original glm object and the summary_glm object on the serverside
@@ -75,10 +75,10 @@
 #' and for ds.glmSLMA in DataSHIELD.    
 #' @author Paul Burton, for DataSHIELD Development Team 17/07/20
 #' @export
-#'
-ds.glmSummary <- function(x.name, newobj=NULL, datasources=NULL) {
 
-  # if no connections are specified look for connection objects in the environment
+ds.glmSummary<-function(x.name, newobj=NULL, datasources=NULL) {
+
+# if no connections are specified look for connection objects in the environment
   if(is.null(datasources)){
     datasources <- datashield.connections_find()
   }
@@ -88,26 +88,29 @@ ds.glmSummary <- function(x.name, newobj=NULL, datasources=NULL) {
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
 
-  # check if a value has been provided for x
+# check if a value has been provided for x
   if(is.null(x.name)||!is.character(x.name)){
-    stop("Error: x.name must denote a character string naming the glm object on the serverside to be summarised", call.=FALSE)
+    return("Error: x.name must denote a character string naming the glm object on the
+	serverside to be summarised")
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x.name)
 
-  # create a name by default if the user did not provide a name for the new object
+# PREPARE AND CALL THE ASSIGN FUNCTION TO PREPARE THE summary_glm OBJECT ON THE SERVERSIDE
+
+#FORCE newobj TO BE CORRECT IN CASE USER TRIES TO SPECIFY A VALUE FOR IT 
+#NAME OF ALL THREE newobj OBJECTS IS DEFINED FULLY BY x.name
+	
   if (is.null(newobj)) {
-	  newobj <- "summary_glm.newobj"
+	newobj<- "summary_glm.newobj"
   }
-  
-  # PREPARE AND CALL THE ASSIGN FUNCTION TO PREPARE THE summary_glm OBJECT ON THE SERVERSIDE
+
 	calltext1 <- call("glmSummaryDS.as", x.name)
+  
 	DSI::datashield.assign(datasources,newobj,calltext1)
 
-  # LOOK BELOW CLIENTSIDE MODULE FOR NEXT BLOCK OF CODE
-  # PREPARE AND CALL THE SECOND ASSIGN FUNCTION TO PREPARE AN ABBREVIATED 
-  # summary_glm OBJECT ON THE SERVERSIDE THAT CAN SAFELY BE RETURNED TO CLIENT
+# LOOK BELOW CLIENTSIDE MODULE FOR NEXT BLOCK OF CODE
+# PREPARE AND CALL THE SECOND ASSIGN FUNCTION TO PREPARE AN ABBREVIATED 
+# summary_glm OBJECT ON THE SERVERSIDE THAT CAN SAFELY BE RETURNED TO CLIENT
+
 
 #############################################################################################################
 #DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
@@ -133,7 +136,7 @@ for(j in 1:num.datasources){																			 	#
 	if(!object.info[[j]]$test.obj.exists){																 	#
 		obj.name.exists.in.all.sources<-FALSE															 	#
 		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
+	if(is.null(object.info[[j]]$test.obj.class) || object.info[[j]]$test.obj.class=="ABSENT"){														 	#
 		obj.non.null.in.all.sources<-FALSE																 	#
 		}																								 	#
 	}																									 	#
@@ -199,3 +202,4 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 return(output.list)
 }
 #ds.glmSummary
+
