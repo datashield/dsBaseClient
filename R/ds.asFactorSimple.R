@@ -14,9 +14,9 @@
 #' the name of the variable to be converted to a factor. 
 #' @param newobj.name a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{asfactor.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return an output vector of class factor to the serverside. In addition, returns a validity 
 #' message with the name of the created object on the client-side and if creation fails an
 #' error message which can be viewed using datashield.errors().  

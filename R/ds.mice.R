@@ -38,9 +38,9 @@
 #' that are stored on the data servers. Default \code{imputationSet}. For example, if m=5, and 
 #' newobj_df="imputationSet", then five imputed dataframes are saved on the servers with names
 #' imputationSet.1, imputationSet.2, imputationSet.3, imputationSet.4, imputationSet.5.
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return a list with three elements: the method, the predictorMatrix and the post.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @export

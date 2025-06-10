@@ -9,9 +9,9 @@
 #'  
 #' server functions called: \code{isValidDS}, \code{dimDS} and \code{colnamesDS}
 #' @param x a character string specifying the name of a numeric or factor variable.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.summary} returns to the client-side the class and 
 #' size of the server-side object. 
 #' Also other information is returned depending on the class of the object.

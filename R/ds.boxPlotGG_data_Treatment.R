@@ -6,7 +6,7 @@
 #' @param variables \code{character vector} Name of the column(s) of the data frame to include on the boxplot
 #' @param group \code{character} (default \code{NULL}) Name of the first grouping variable. 
 #' @param group2 \code{character} (default \code{NULL}) Name of the second grouping variable. 
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return Does not return nothing, it creates the table \code{"boxPlotRawData"} on the server arranged to be passed to the
 #' ggplot boxplot function. Structure of the created table: \cr

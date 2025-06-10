@@ -58,9 +58,9 @@ For more information see \strong{Details}.}
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 The serverside aggregate functions \code{glmSLMADS1} and \code{glmSLMADS2} return

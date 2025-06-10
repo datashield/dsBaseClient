@@ -79,9 +79,9 @@
 #' plot. The \code{vertical.axis} argument can be set as \code{'Frequency'} or \code{'Density'}.
 #' Default \code{'Frequency'}. 
 #' For more information see \strong{Details}.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author DataSHIELD Development Team
 #' @export
