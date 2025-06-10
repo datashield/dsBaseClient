@@ -1,6 +1,6 @@
 #' @title Lists server-side functions
 #' @description Lists all current server-side functions
-#' @details Uses \code{\link{datashield.methods}} function from \code{DSI} package to list all
+#' @details Uses \code{\link[DSI]{datashield.methods}} function from \code{DSI} package to list all
 #' assign and aggregate functions on the available data repository servers.
 #' The only choice of arguments is in \code{datasources}; i.e. which studies to interrogate. 
 #' Once the studies have

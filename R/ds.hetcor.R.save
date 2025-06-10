@@ -1,3 +1,7 @@
+
+c
+
+
 #' 
 #' @title Heterogeneous Correlation Matrix
 #' @description This function is based on the hetcor function from the R package \code{polycor}.

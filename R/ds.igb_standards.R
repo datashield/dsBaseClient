@@ -17,7 +17,7 @@
 #' that is stored on the data servers. Default name is set to \code{igb.newobj}. 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @note For gestational ages between 24 and 33 weeks, the INTERGROWTH very early preterm 
 #' standard is used.
 #' @references International standards for newborn weight, length, and head circumference by 

@@ -19,7 +19,7 @@
 #' The default value is set to 'both'.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
 #' the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
