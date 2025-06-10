@@ -7,8 +7,8 @@
 getPooledVar(dtsources, x)
 }
 \arguments{
-\item{dtsources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{dtsources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{x}{a character, the name of a numeric vector}
 }

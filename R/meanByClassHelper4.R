@@ -3,8 +3,8 @@
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to obtain 'loose'
 #' subset tables because the 'subsetByClass' function does not handle a table within a list.
-#' @param dtsource a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param dtsource a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @param alist the name of the list that holds the final subset tables
 #' @param initialtable a character the name of the table that the subset were generated from
 #' @param variable a character, the variable to subset on

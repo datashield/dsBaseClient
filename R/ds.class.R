@@ -6,9 +6,9 @@
 #' 
 #' Server function called: \code{classDS}
 #' @param x a character string providing the name of the input R object.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.class} returns the type of the R object. 
 #' @author DataSHIELD Development Team
 #' @seealso \code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.

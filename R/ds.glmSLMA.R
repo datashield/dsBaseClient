@@ -181,9 +181,9 @@
 #' For more information see \strong{Details}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return The serverside aggregate functions \code{glmSLMADS1} and \code{glmSLMADS2} return
 #' output to the clientside, while the assign function \code{glmSLMADS.assign} simply writes
 #' the glm object to the serverside
