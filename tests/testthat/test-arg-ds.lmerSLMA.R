@@ -53,7 +53,7 @@ test_that("simple lmerSLMA tesing (mis)use of arguments", {
 context("ds.lmerSLMA::arg::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "offset", "weights"))
+    ds_expect_variables(c("D", "offset.to.use", "weights.to.use"))
 })
 
 disconnect.studies.dataset.cluster.int()
