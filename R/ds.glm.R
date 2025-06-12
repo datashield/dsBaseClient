@@ -17,7 +17,7 @@
 #' 
 #' Many GLMs can be fitted very simply using a formula such as:
 #' 
-#' \deqn{y~a+b+c+d} 
+#' \eqn{y~a+b+c+d}
 #' 
 #' which simply means fit a GLM with \code{y} as the outcome variable and 
 #' \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
@@ -26,7 +26,7 @@
 #' Instead, if you need to fit a more complex
 #' model, for example:
 #' 
-#'  \deqn{EVENT~1+TID+SEXF*AGE.60}
+#'  \eqn{EVENT~1+TID+SEXF*AGE.60}
 #'
 #' In the above model the outcome variable is \code{EVENT} 
 #' and the  covariates 
@@ -164,9 +164,9 @@
 #' of parameter estimates is returned. Default FALSE. 
 #' @param viewCor logical. If TRUE the correlation matrix of
 #' parameter estimates is returned. Default FALSE.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return Many of the elements of the output list returned by \code{ds.glm} are 
 #' equivalent to those returned by the \code{glm()} function in native R. However,
 #' potentially disclosive elements

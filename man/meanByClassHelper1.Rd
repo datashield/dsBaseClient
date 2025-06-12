@@ -7,8 +7,8 @@
 meanByClassHelper1(dtsource, tables, variable, categories)
 }
 \arguments{
-\item{dtsource}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{dtsource}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{tables}{a character vector, the tables to breakdown}
 

@@ -11,9 +11,9 @@
 #' An empty list is treated as NULL. 
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. Default \code{matrixdimnames.newobj}.
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.matrixDimnames} returns to the server-side
 #' the matrix with specified row and column names. 
 #' Also, two validity messages are returned to the client-side 

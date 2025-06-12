@@ -35,9 +35,9 @@
 #' \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details.
 #' @param type a character string that represents the type of analysis to carry out. 
 #' This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.cov} returns a list containing the number of missing values in each variable, the number of missing values
 #' casewise or pairwise depending on the argument \code{naAction}, the covariance matrix, the number of used complete cases
 #' and an error message which indicates whether or not the input variables pass the disclosure controls. The first disclosure

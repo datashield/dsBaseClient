@@ -11,11 +11,11 @@
 #' using ds.glmSLMA. The resultant object saved on each server separately
 #' is formally of class "glm" and "ls" but responds TRUE to is.list(),
 #' @param xname a character string specifying the name of the list.
-#' @param datasources  a list of \code{\link{DSConnection-class}}
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}}
 #' objects obtained after login that represent the particular data sources
 #' (studies) to be addressed by the function call. If the \code{datasources}
 #' argument is not specified the default set of connections will be used:
-#' see \code{\link{datashield.connections_default}}.
+#' see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.names} returns to the client-side the names
 #' of a list object stored on the server-side.
 #' @author Amadou Gaye, updated by Paul Burton for DataSHIELD development

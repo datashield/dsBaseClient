@@ -30,9 +30,9 @@ to sort the data frame. This can be set as
 that is stored on the data servers. Default \code{dataframesort.newobj}.   
 where \code{df.name} is the first argument of \code{ds.dataFrameSort()}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 

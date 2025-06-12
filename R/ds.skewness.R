@@ -31,9 +31,9 @@
 #' \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
 #' see \strong{Details}. 
 #' The default value is set to \code{'both'}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
 #' the number of valid observations and the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
