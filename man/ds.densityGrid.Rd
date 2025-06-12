@@ -26,9 +26,9 @@ If \code{type} is set to
 instead if \code{type} is set to \code{'split'}
 one grid density matrix is generated. Default \code{'combine'}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.densityGrid} returns a grid density matrix.

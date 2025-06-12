@@ -50,9 +50,9 @@
 #' see details. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
 #' noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.contourPlot} returns a contour plot to the client-side. 
 #' @author DataSHIELD Development Team
 #' @examples

@@ -64,9 +64,9 @@
 #' For more information see \strong{Details}.
 #' @param return.coords a logical. If TRUE the coordinates of the anonymised data points are return 
 #' to the Console. Default value is FALSE.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
 #' plots depending on the argument \code{type}. 
 #' @author DataSHIELD Development Team

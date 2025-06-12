@@ -52,9 +52,9 @@
 #' by the formula $age_days=age_months*(365.25/12)$. 
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Defaults \code{getWGSR.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.getWGSR} assigns a vector for each study that includes the z-scores for the
 #' specified index. The created vectors are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
