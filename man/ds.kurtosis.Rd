@@ -33,10 +33,18 @@ This function calculates the kurtosis of a numeric variable.
 The function calculates the kurtosis of an input variable x with three different methods. 
 The method is specified by the argument \code{method}. If x contains any missings, the function removes those before
 the calculation of the kurtosis. If \code{method} is set to 1 the following formula is used
-\eqn{ kurtosis= \frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) } - 3},
+
+\eqn{ kurtosis= \frac{\sum_{i=1}^{N} (x_i - \bar{x})^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar{x})^2) /N)^2 } - 3},
+
 where \eqn{ \bar{x} } is the mean of x and \eqn{N} is the number of observations. If \code{method} is set to 2
-the following formula is used \eqn{ kurtosis= ((N+1)*(\frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) } - 3) + 6)*((N-1)/((N-2)*(N-3)))}.
-If \code{method} is set to 3 the following formula is used \eqn{ kurtosis= (\frac{\sum_{i=1}^{N} (x_i - \bar(x))^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar(x))^2) /N)^(2) })*(1-1/N)^2 - 3}.
+the following formula is used 
+
+\eqn{ kurtosis= ((N+1)*(\frac{\sum_{i=1}^{N} (x_i - \bar{x})^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar{x})^2) /N)^2 } - 3) + 6)*((N-1)/((N-2)*(N-3)))}.
+
+If \code{method} is set to 3 the following formula is used 
+
+\eqn{ kurtosis= (\frac{\sum_{i=1}^{N} (x_i - \bar{x})^4 /N}{(\sum_{i=1}^{N} ((x_i - \bar{x})^2) /N)^2 })*(1-1/N)^2 - 3}.
+
 This function is similar to the function \code{kurtosis} in R package \code{e1071}.
 }
 \author{

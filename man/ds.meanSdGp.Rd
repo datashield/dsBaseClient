@@ -145,12 +145,6 @@ Server function called: \code{meanSdGpDS}
 }
 
 }
-\seealso{
-\code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-
-\code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
-columns and rows.
-}
 \author{
 DataSHIELD Development Team
 }

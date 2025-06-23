@@ -291,9 +291,9 @@ Server function called: \code{glmerSLMADS2}
                 
      # Fit a Logistic regression model
   
-  ds.glmerSLMA(formula = "Male ~  incid_rate +diabetes + (1 | age)",
+  ds.glmerSLMA(formula = "Male ~ incid_rate +diabetes + (1 | age)",
                dataName = "D",
-               datasources = connections[2],#only the second server is used (study2)
+               datasources = connections[2], # only the second server is used (study2)
                family = "binomial")
   
   

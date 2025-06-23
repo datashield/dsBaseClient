@@ -32,7 +32,6 @@ Server function called: \code{asCharacterDS}
 }
 \examples{
 \dontrun{
-  ## Version 6, for version 5 see the Wiki
   
   # connecting to the Opal servers
 
