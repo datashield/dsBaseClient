@@ -12,9 +12,9 @@ ds.auc(pred = NULL, y = NULL, datasources = NULL)
 \item{y}{the name of the outcome variable. Note that this variable should include 
 the complete cases that are used in the regression model.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 returns the AUC and its standard error

@@ -64,9 +64,9 @@
 #' only.
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. Default \code{gamlss_res}. 
-#' @param datasources  a list of \code{\link{DSConnection-class}} 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return a gamlss object with all components as in the native R gamlss function. 
 #' Individual-level information like the components y (the response response) and 
 #' residuals (the normalised quantile residuals of the model) are not disclosed to 

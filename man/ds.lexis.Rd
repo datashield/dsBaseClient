@@ -41,9 +41,9 @@ variables to include in the final expanded table. For more information see \stro
 \item{expandDF}{a character string denoting the name of the new data frame containing the
 expanded data set. Default \code{lexis.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.lexis} returns to the server-side a data frame for each study with 

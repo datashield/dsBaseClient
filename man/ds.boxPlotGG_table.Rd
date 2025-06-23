@@ -31,7 +31,7 @@ ds.boxPlotGG_table(
 \item{type}{\code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 \code{"split"})}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 \code{ggplot} object

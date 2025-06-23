@@ -21,7 +21,7 @@ ds.boxPlotGG_data_Treatment(
 
 \item{group2}{\code{character} (default \code{NULL}) Name of the second grouping variable.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 Does not return nothing, it creates the table \code{"boxPlotRawData"} on the server arranged to be passed to the

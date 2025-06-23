@@ -7,8 +7,8 @@
 checkClass(datasources = NULL, obj = NULL)
 }
 \arguments{
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{obj}{a string character, the name of the object to check for.}
 }

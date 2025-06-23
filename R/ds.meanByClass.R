@@ -22,9 +22,9 @@
 #' \code{type} can be set as: \code{'combine'} or \code{'split'}. 
 #' Default \code{'combine'}. 
 #' For more information see \strong{Details}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.meanByClass} returns to the client-side a table or a list of tables that 
 #' hold the length of the numeric variable(s) and their mean
 #' and standard deviation in each subgroup (subset).

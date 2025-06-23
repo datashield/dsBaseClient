@@ -8,9 +8,9 @@
 #' 
 #' Server function called: \code{isNaDS}
 #' @param x a character string specifying the name of the vector to check.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
 #' (all values are NA), FALSE otherwise.
 #' @author DataSHIELD Development Team

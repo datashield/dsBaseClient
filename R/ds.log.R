@@ -8,9 +8,9 @@
 #' Default \code{exp(1)}.
 #' @param newobj a character string that provides the name for the output variable
 #'  that is stored on the server-side. Default \code{log.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.log} returns a vector for each study of the transformed values for the numeric vector 
 #' specified in the argument \code{x}. The created vectors are stored in the server-side. 
 #' @author DataSHIELD Development Team

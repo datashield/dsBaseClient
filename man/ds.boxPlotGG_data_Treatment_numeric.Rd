@@ -9,7 +9,7 @@ ds.boxPlotGG_data_Treatment_numeric(vector, datasources = NULL)
 \arguments{
 \item{vector}{\code{character} Name of the table on the server side that holds the information to be plotted later}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 Does not return nothing, it creates the table \code{"boxPlotRawDataNumeric"} on the server arranged to be passed to the

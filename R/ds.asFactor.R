@@ -130,9 +130,9 @@
 #' to be used in the creation of the matrix with dummy variables. 
 #' If the \code{fixed.dummy.vars} is set to FALSE then any value of the baseline level is not taken
 #' into account.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.asFactor} returns the unique levels of the converted 
 #' variable in ascending order and a validity 
 #' message with the name of the created object on the client-side and 

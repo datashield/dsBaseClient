@@ -17,9 +17,9 @@
 #' nearPD directly.
 #' @param use if "complete.obs", remove observations with any missing data; if "pairwise.complete.obs",
 #' compute each correlation using all observations with valid data for that pair of variables.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return Returns an object of class "hetcor" from each study, with the following components: the
 #' correlation matrix; the type of each correlation: "Pearson", "Polychoric", or "Polyserial"; the
 #' standard errors of the correlations, if requested; the number (or numbers) of observations on which

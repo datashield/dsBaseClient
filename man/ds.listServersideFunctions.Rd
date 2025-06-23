@@ -7,9 +7,9 @@
 ds.listServersideFunctions(datasources = NULL)
 }
 \arguments{
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.listServersideFunctions} returns to the client-side 
@@ -20,7 +20,7 @@ Firstly lists assign and then aggregate functions.
 Lists all current server-side functions
 }
 \details{
-Uses \code{\link{datashield.methods}} function from \code{DSI} package to list all
+Uses \code{\link[DSI]{datashield.methods}} function from \code{DSI} package to list all
 assign and aggregate functions on the available data repository servers.
 The only choice of arguments is in \code{datasources}; i.e. which studies to interrogate. 
 Once the studies have

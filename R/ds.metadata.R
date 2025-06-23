@@ -6,9 +6,9 @@
 #' Server function \code{metadataDS} is called examines the attributes associated with the variable
 #' which are non-disclosive.
 #' @param x a character string specifying the name of the object.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.metadata} returns to the client-side the metadata of associated to an object
 #' held at the server.
 #' @author Stuart Wheater, DataSHIELD Development Team

@@ -15,9 +15,9 @@ The length of the list or vector must be equal to the number of servers (studies
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{replacena.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.replaceNA} returns to the server-side a new vector or table structure 

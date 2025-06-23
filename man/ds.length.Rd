@@ -22,9 +22,9 @@ Default \code{'both'}.}
 Default FALSE to save time. It is suggested that checks
 should only be undertaken once the function call has failed.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.length} returns to the client-side the pooled length of a vector or a list, 

@@ -66,9 +66,9 @@ by the formula $age_days=age_months*(365.25/12)$.}
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Defaults \code{getWGSR.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified the default set of connections will be
-used: see \code{\link{datashield.connections_default}}.}
+used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.getWGSR} assigns a vector for each study that includes the z-scores for the

@@ -44,9 +44,9 @@ see details.}
 \item{noise}{the percentage of the initial variance that is used as the variance of the embedded
 noise if the argument \code{method} is set to \code{'probabilistic'}. For more information see details.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.contourPlot} returns a contour plot to the client-side.

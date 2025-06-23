@@ -61,9 +61,9 @@
 #' are undertaken to ensure that the input objects are defined in all studies and that the
 #' variables are of equivalent class in each study. 
 #' Default is FALSE to save time.  
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.meanSdGp} returns to the client-side the mean, SD, Nvalid and SEM combined
 #' across studies and/or separately for each study, depending on the argument \code{type}. 
 #' 

@@ -90,8 +90,8 @@ If no explicit name for the table object is specified, but <table.assign>
 is nevertheless TRUE, the name for the serverside table object defaults
 to \code{table.newobj}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 If the <datasources> is to be specified, it should be set without
 inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
 apply the function solely to e.g. the second connection server in a set of three,

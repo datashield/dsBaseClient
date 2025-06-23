@@ -31,9 +31,9 @@
 #' Server function called: \code{setSeedDS}
 #' @param seed.as.integer a numeric value or a NULL that primes the random seed
 #' in each data source. 
-#' @param datasources  a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return Sets the values of the vector of integers of length 626 known as
 #' \code{.Random.seed} on each data source that is the true current state of the
 #' random seed in each source. It also returns the value of the trigger

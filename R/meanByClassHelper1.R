@@ -3,8 +3,8 @@
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to break down
 #' the initial table by the specified categorical variables.
-#' @param dtsource a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param dtsource a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @param tables a character vector, the tables to breakdown
 #' @param variable a character, the variable to subset on
 #' @param categories a character vector, the classes in the variables to subset on

@@ -22,8 +22,8 @@ is set to 'split' a 1-dimensional table is returned for each data source.}
 messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 which are stored in the output object 'validity' - see the list of output objects.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-the default set of connections will be used: see \link{datashield.connections_default}.}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 }
 \value{
 A list object containing the following items:

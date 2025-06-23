@@ -17,8 +17,8 @@
 #' @param warningMessage a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
 #' messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 #' which are stored in the output object 'validity' - see the list of output objects.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. If the <datasources>
-#' the default set of connections will be used: see \link{datashield.connections_default}.
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
+#' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @return A list object containing the following items:
 #' \item{colPercent}{table(s) that hold column percentages for each level/category. Inner cells are reported as
 #' missing if one or more cells are 'invalid'.}

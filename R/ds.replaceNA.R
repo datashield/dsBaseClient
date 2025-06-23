@@ -19,9 +19,9 @@
 #' The length of the list or vector must be equal to the number of servers (studies). 
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. Default \code{replacena.newobj}. 
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.replaceNA} returns to the server-side a new vector or table structure 
 #' with the missing values replaced by the specified values.
 #'  The class of the vector is the same as the initial vector. 
