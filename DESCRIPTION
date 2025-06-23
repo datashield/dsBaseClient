@@ -49,7 +49,6 @@ Imports:
     ggplot2,
     gridExtra,
     data.table,
-    panelaggregation,
     methods,
     dplyr
 Suggests:
