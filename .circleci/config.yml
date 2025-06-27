@@ -47,7 +47,6 @@ jobs:
               sudo Rscript -e "install.packages('ggplot2', dependencies=TRUE)"
               sudo Rscript -e "install.packages('gridExtra', dependencies=TRUE)"
               sudo Rscript -e "install.packages('data.table', dependencies=TRUE)"
-              sudo Rscript -e "install.packages('panelaggregation', dependencies=TRUE)"
               sudo Rscript -e "install.packages('methods', dependencies=TRUE)"
               sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
 
