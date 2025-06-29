@@ -54,7 +54,7 @@
 #'   ds.boxPlot("D", "LAB_HDL", type= "split", datasources = connections) 
 #'   
 #'   ## Create a boxplot of two variables variable
-#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="combine", 
+#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="pooled", 
 #'   datasources = connections)  
 #'   # only one plot is created (of the aggregated results of all servers)
 #'   
