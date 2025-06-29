@@ -13,5 +13,9 @@
 #
 
 ds_expect_variables <- function(expected.variables) {
-    return (TRUE)
+    studies.current.varables <- ds.ls()
+
+    for (study.current.varables in studies.current.varables) {
+        expect_setequal(study.current.varables$objects.found, expected.variables)
+    }
 }
