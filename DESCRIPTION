@@ -37,7 +37,11 @@ Authors@R: c(person(given = "Paul",
                     role = c("aut", "cre"),
                     email = "stuart.wheater@arjuna.com",
                     comment = c(ORCID = "0009-0003-2419-1964")))
-Description: DataSHIELD client functions for the client side.
+Description: DataSHIELD functions for the client side. DataSHIELD is a software package which allows
+    you to do non-disclosive federated analysis on sensitive data. DataSHIELD analytic functions have
+    been designed to only share non disclosive summary statistics, with built in automated output
+    checking based on statistical disclosure control. With data sites setting the threshold values for
+    the automated output checks.
 License: GPL-3
 Depends:
     R (>= 4.0.0),
