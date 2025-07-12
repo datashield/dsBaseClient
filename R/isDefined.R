@@ -3,9 +3,9 @@
 #' @description This is an internal function.
 #' @details In DataSHIELD an object included in analysis must be defined (i.e. exists)
 #' in all the studies. If not the process should halt.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified, the default set of connections will be
-#' used: see \code{\link{datashield.connections_default}}.
+#' used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param obj a character vector, the name of the object(s) to look for.
 #' @param error.message a Boolean which specifies if the function should stop and return
 #' an error message when the input object is not defined in one or more studies or to

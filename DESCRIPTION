@@ -1,9 +1,47 @@
 Package: dsBaseClient
 Title: DataSHIELD Client Functions
 Version: 6.4.0.9000
-Author: DataSHIELD Developers <datashield@liverpool.ac.uk>
-Maintainer: DataSHIELD Developers <datashield@liverpool.ac.uk>
-Description: DataSHIELD client functions for the client side.
+Description: Base DataSHIELD functions for the client side. DataSHIELD is a software package which allows
+    you to do non-disclosive federated analysis on sensitive data. DataSHIELD analytic functions have
+    been designed to only share non disclosive summary statistics, with built in automated output
+    checking based on statistical disclosure control. With data sites setting the threshold values for
+    the automated output checks.
+Authors@R: c(person(given = "Paul",
+                    family = "Burton",
+                    role = c("aut")),
+             person(given = "Rebecca",
+                    family = "Wilson",
+                    role = c("aut")),
+             person(given = "Olly",
+                    family = "Butters",
+                    role = c("aut")),
+             person(given = "Patricia",
+                    family = "Ryser-Welch",
+                    role = c("aut")),
+             person(given = "Alex",
+                    family = "Westerberg",
+                    role = c("aut")),
+             person(given = "Leire",
+                    family = "Abarrategui",
+                    role = c("aut")),
+             person(given = "Roberto",
+                    family = "Villegas-Diaz",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-5036-8661")),
+             person(given = "Demetris",
+                    family = "Avraam",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-8908-2441")),
+             person(given = "Yannick",
+                    family = "Marcon",
+                    role = c("aut"),
+                    email = "yannick.marcon@obiba.org",
+                    comment = c(ORCID = "0000-0003-0138-2023")),
+             person(given = "Stuart",
+                    family = "Wheater",
+                    role = c("aut", "cre"),
+                    email = "stuart.wheater@arjuna.com",
+                    comment = c(ORCID = "0009-0003-2419-1964")))
 License: GPL-3
 Depends:
     R (>= 4.0.0),
@@ -15,7 +53,6 @@ Imports:
     ggplot2,
     gridExtra,
     data.table,
-    panelaggregation,
     methods,
     dplyr
 Suggests:

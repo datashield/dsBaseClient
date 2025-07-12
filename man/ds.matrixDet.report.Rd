@@ -12,9 +12,9 @@ ds.matrixDet.report(M1 = NULL, logarithm = FALSE, datasources = NULL)
 \item{logarithm}{logical. If TRUE the logarithm of the modulus of the determinant
 is calculated. Default FALSE.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
 \code{ds.matrixDet.report} returns to the client-side

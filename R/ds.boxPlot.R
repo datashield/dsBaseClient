@@ -12,7 +12,7 @@
 #' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
 #' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 #' \code{"split"})
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
 #' @export
@@ -54,7 +54,7 @@
 #'   ds.boxPlot("D", "LAB_HDL", type= "split", datasources = connections) 
 #'   
 #'   ## Create a boxplot of two variables variable
-#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="combine", 
+#'   ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="pooled", 
 #'   datasources = connections)  
 #'   # only one plot is created (of the aggregated results of all servers)
 #'   

@@ -32,7 +32,7 @@ holds the information to be plotted}
 \item{type}{\code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 \code{"split"})}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login}
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login}
 }
 \value{
 \code{ggplot} object
@@ -79,7 +79,7 @@ of grouping using categorical variables on the dataset (only for data frames)
   ds.boxPlot("D", "LAB_HDL", type= "split", datasources = connections) 
   
   ## Create a boxplot of two variables variable
-  ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="combine", 
+  ds.boxPlot("D", c("LAB_HDL", "LAB_TRIG", type="pooled", 
   datasources = connections)  
   # only one plot is created (of the aggregated results of all servers)
   

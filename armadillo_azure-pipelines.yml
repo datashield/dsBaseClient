@@ -58,10 +58,17 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
+<<<<<<< HEAD
     displayName: Nightly build - v6.4.0-dev
     branches:
       include:
       - v6.4.0-dev
+=======
+    displayName: Nightly build - v6.3.2-dev
+    branches:
+      include:
+      - v6.3.2-dev
+>>>>>>> origin/v6.3.3-dev
     always: true
 
 #########################################################################################
@@ -134,7 +141,7 @@ jobs:
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table','panelaggregation'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -235,7 +242,11 @@ jobs:
 
       curl -u admin:admin -X GET http://localhost:8080/packages
 
+<<<<<<< HEAD
       curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.4.0.9000-permissive.tar.gz" -X POST http://localhost:8080/install-package
+=======
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.2-permissive.tar.gz" -X POST http://localhost:8080/install-package
+>>>>>>> origin/v6.3.3-dev
       sleep 60
 
       docker container restart dsbaseclient_armadillo_1
@@ -364,7 +375,11 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
+<<<<<<< HEAD
       curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.4.0.9000.tar.gz" -X POST http://localhost:8080/install-package
+=======
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.3.2.tar.gz" -X POST http://localhost:8080/install-package
+>>>>>>> origin/v6.3.3-dev
 
       docker container restart dsbaseclient_armadillo_1
       sleep 60

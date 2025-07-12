@@ -44,9 +44,9 @@ For more information see \strong{Details}.}
 \item{checks}{logical. If TRUE \code{ds.lmerSLMA} checks the structural integrity 
 of the model. Default FALSE. For more information see \strong{Details}.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 
 \item{REML}{logical. If TRUE the REstricted Maximum Likelihood (REML)
 is used for parameter optimization. 
@@ -168,12 +168,12 @@ obtained using R help for \code{lmer} and the \code{lme4} package.
 
 In \code{formula} most shortcut notation allowed by  \code{lmer()} function is
 also allowed by \code{ds.lmerSLMA}. Many LMEs can be fitted very simply using a formula like:
-\deqn{y ~ a + b + (1 | c)}
+\eqn{y ~ a + b + (1 | c)}
 which simply means fit an LME with \code{y} as the outcome variable with \code{a} and \code{b}
 as fixed effects, and \code{c} as a random effect or grouping factor.
 
 It is also possible to fit models with random slopes by specifying a model such as 
-\deqn{y ~ a + b + (1 + b | c)}
+\eqn{y ~ a + b + (1 + b | c)}
 where the effect of \code{b} can vary randomly between groups defined by \code{c}.
 Implicit nesting can be specified with formulae such as \eqn{y ~ a + b + (1 | c / d)}
 or \eqn{y ~ a + b + (1 | c) + (1 | c : d)}.
