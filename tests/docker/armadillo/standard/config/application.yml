@@ -14,11 +14,17 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-knot-devel-permissive:latest
+      image: datashield/rock-lemon-donkey-permissive:latest
       port: 8085
       host: default
-      package-whitelist:
+      package-whitelist: # Packages for 'donkey'
         - dsBase
+        - dsMediation
+        - dsMTLBase
+        - dsSurvival
+        - dsTidyverse
+        - dsExposome
+        - dsOmics
         - resourcer
       function-blacklist: [ ]
       options:
