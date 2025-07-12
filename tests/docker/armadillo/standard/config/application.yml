@@ -14,7 +14,7 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-lemon-donkey-permissive:latest
+      image: datashield/rock-margin-gypsum-permissive:latest
       port: 8085
       host: default
       package-whitelist: # Packages for 'donkey'

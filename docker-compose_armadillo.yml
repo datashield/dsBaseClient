@@ -16,6 +16,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-margin-idiom-permissive:latest
+        image: datashield/rock-margin-devel-permissive:latest
         environment:
             DEBUG: "FALSE"
