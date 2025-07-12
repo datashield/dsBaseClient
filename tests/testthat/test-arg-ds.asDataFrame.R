@@ -18,9 +18,9 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.make::arg::test errors")
-test_that("make_errors", {
-    expect_error(ds.make(), "Please give the name of object to assign or an expression to evaluate and assign.!\n", fixed=TRUE)
+context("ds.asDataFrame::arg::test errors")
+test_that("asDataFrame_errors", {
+  expect_error(ds.asDataMatrix(), "Please provide the name of the input vector!", fixed=TRUE)
 })
 
 #

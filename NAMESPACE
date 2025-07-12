@@ -3,6 +3,7 @@
 export(ds.Boole)
 export(ds.abs)
 export(ds.asCharacter)
+export(ds.asDataFrame)
 export(ds.asDataMatrix)
 export(ds.asFactor)
 export(ds.asFactorSimple)

@@ -241,7 +241,7 @@ function is also allowed by \code{ds.glmSLMA}.
 
 Many glms can be fitted very simply using a formula such as:
 
-\deqn{y~a+b+c+d} 
+\code{y~a+b+c+d} 
 
 which simply means fit a glm with \code{y} as the outcome variable and 
 \code{a}, \code{b}, \code{c} and \code{d} as covariates. 
@@ -250,7 +250,7 @@ By default all such models also include an intercept (regression constant) term.
 Instead, if you need to fit a more complex
 model, for example:
 
- \deqn{EVENT~1+TID+SEXF*AGE.60}
+ \code{EVENT~1+TID+SEXF*AGE.60}
 
 In the above model the outcome variable is \code{EVENT} 
 and the  covariates 
@@ -300,7 +300,7 @@ The extended range includes:
    \item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
     is the expected proportion of successes, and N is the number of "trials" (always
     1 if analysing binary data which are formally described as having a Bernoulli
-    distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
+    distribution (binomial distribution with N=1) the variance function is \code{N*(P)*(1-P)}.
     But the residual variance which is fixed to be 1.00 in
     a binomial model can take any value. This is achieved by a dispersion parameter
     which is estimated during the model fit (see quasipoisson information above).}}
