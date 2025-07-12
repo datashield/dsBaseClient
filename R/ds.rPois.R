@@ -38,9 +38,9 @@
 #' random number seed in each data source (a numeric vector of length 626). If
 #' FALSE it will only return the trigger seed value you have provided. 
 #' Default is FALSE.
-#' @param datasources a list of \code{\link{DSConnection-class}} objects obtained after login. 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.rPois} returns random number vectors with a Poisson distribution for each study, 
 #' taking into  account the values specified in each parameter of the function. 
 #' The created vectors are stored in the server-side.  

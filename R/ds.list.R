@@ -8,9 +8,9 @@
 #' @param x a character string specifying the names of the objects to coerce into a list.
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{list.newobj}.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.list} returns a list of objects for each study that is stored on the server-side.  
 #' @author DataSHIELD Development Team
 #' @export

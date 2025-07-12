@@ -17,7 +17,7 @@
 #' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
 #' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 #' \code{"split"})
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
 
@@ -46,19 +46,19 @@ ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylab
     }
     pt_merged <- data.table::data.table(pt_merged)
     if(!is.null(group) & is.null(group2)){
-      pt_merged <- panelaggregation::computeWeightedMeans(pt_merged, 
+      pt_merged <- computeWeightedMeans(pt_merged, 
                         variables = c("ymin", "lower", "middle", "upper", "ymax"), 
                         weight = "n", 
                         by = c("group", "x"))
     }
     else if(!is.null(group) & !is.null(group2)){
-      pt_merged <- panelaggregation::computeWeightedMeans(pt_merged, 
+      pt_merged <- computeWeightedMeans(pt_merged, 
                         variables = c("ymin", "lower", "middle", "upper", "ymax"), 
                         weight = "n", 
                         by = c("group", "group2", "x"))
     }
     else{
-      pt_merged <- panelaggregation::computeWeightedMeans(pt_merged, 
+      pt_merged <- computeWeightedMeans(pt_merged, 
                         variables = c("ymin", "lower", "middle", "upper", "ymax"), 
                         weight = "n", 
                         by = c("x"))

@@ -5,7 +5,7 @@
 #' @param ylabel \code{caracter} (default \code{"y axis"}) Label to put on the y axis of the plot
 #' @param type \code{character} Return a pooled plot (\code{"pooled"}) or a split plot (one for each study server
 #' \code{"split"})
-#' @param datasources a list of \code{\link{DSConnection-class}} (default \code{NULL}) objects obtained after login
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
 
