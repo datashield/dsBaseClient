@@ -1,12 +1,15 @@
 suppressWarnings(library(DSLite))
 library(purrr)
 library(dplyr)
+# devtools::install_github("datashield/dsBase", ref = "v6.4.0-dev")
 library(dsBase)
 library(dsBaseClient)
 library(purrr)
 library(dsTidyverse)
+source("~/Library/Mobile Documents/com~apple~CloudDocs/work/repos/dsBaseClient/tests/testthat/helpers.R")
 # devtools::load_all("~/Library/Mobile Documents/com~apple~CloudDocs/work/repos/dsTidyverse")
 options("datashield.return_errors" = TRUE)
+testthat::local_edition(3)
 
 df <- create_mixed_dataframe(n_rows = 100, n_factor_cols = 10, n_other_cols = 10)
 
