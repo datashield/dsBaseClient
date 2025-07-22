@@ -67,7 +67,6 @@ Suggests:
     DescTools,
     DSOpal,
     DSMolgenisArmadillo,
-    DSLite,
-    assertthat
+    DSLite
 RoxygenNote: 7.3.2
 Encoding: UTF-8
