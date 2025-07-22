@@ -57,13 +57,12 @@ Imports:
     dplyr,
     cli,
     purrr,
-    stringr, 
     assertthat
 Suggests:
     lme4,
     httr,
     tibble,
-    testthat,
+    testthat (>= 3.0.0),
     e1071,
     DescTools,
     DSOpal,

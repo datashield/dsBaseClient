@@ -565,12 +565,11 @@ ask_question_wait_response_levels <- function(level_conflicts, newobj, datasourc
 #'   If any warnings indicate that `NA` values were introduced, a danger alert will be displayed.
 #' @return NULL. This function is used for its side effects of printing alerts.
 #' @importFrom cli cli_alert_danger
-#' @importFrom stringr str_detect
 #' @noRd
 .handle_warnings <- function(fill_warnings) {
-  if(length(fill_warnings) > 0) {
-    for(i in 1:length(fill_warnings)) {
-      if(str_detect(fill_warnings[[i]], "NAs introduced by coercion")){
+  if (length(fill_warnings) > 0) {
+    for (i in seq_along(fill_warnings)) {
+      if (grepl("NAs introduced by coercion", fill_warnings[[i]])) {
         cli_alert_danger("Class conversion resulted in the creation of NA values.")
       } else {
         cli_alert_danger(fill_warnings[[i]])
