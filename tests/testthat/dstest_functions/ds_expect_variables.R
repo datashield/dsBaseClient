@@ -12,8 +12,7 @@
 # Tests
 #
 
-ds_expect_variables <- function(expected.variables)
-{
+ds_expect_variables <- function(expected.variables) {
     studies.current.varables <- ds.ls()
 
     for (study.current.varables in studies.current.varables) {
