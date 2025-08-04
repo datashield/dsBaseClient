@@ -14,10 +14,10 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rserver-neutron-gypsum-permissive:latest
-      port: 6311
+      image: datashield/rock-omicron-karma:latest
+      port: 8080
       host: default
-      package-whitelist: # Packages for 'gypsum-permissive'
+      package-whitelist: # Packages for 'permissive'
         - dsBase
         - dsMediation
         - dsMTLBase

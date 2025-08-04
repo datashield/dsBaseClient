@@ -3,7 +3,7 @@ services:
         hostname: armadillo
         ports:
             - 8080:8080
-        image: datashield/armadillo_citest:5.1.4
+        image: datashield/armadillo_citest:latest
         environment:
             LOGGING_CONFIG: 'classpath:logback-file.xml'
             AUDIT_LOG_PATH: '/app/logs/audit.log'
@@ -16,7 +16,6 @@ services:
 
     default:
         hostname: default
-#        image: datashield/rock-margin-joule-permissive:latest
-        image: datashield/rserver-neutron-gypsum-permissive:latest
+        image: datashield/rock-omicron-karma-permissive:latest
         environment:
-            DEBUG: "TRUE"
+            DEBUG: "FALSE"
