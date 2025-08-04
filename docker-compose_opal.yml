@@ -1,8 +1,8 @@
 services:
     opal:
-        image: obiba/opal:5.1.4
+        image: datashield/opal_citest:latest
         ports:
-            - "8443:8443"
+            - 8443:8443
         links:
             - mongo
             - rock
@@ -21,3 +21,5 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
         image: datashield/rock-omicron-karma-permissive:latest
+        environment:
+            DEBUG: "FALSE"
