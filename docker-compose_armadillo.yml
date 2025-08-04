@@ -16,7 +16,6 @@ services:
 
     default:
         hostname: default
-#        image: datashield/rock-margin-joule-permissive:latest
-        image: datashield/rserver-neutron-gypsum-permissive:latest
+        image: datashield/rock-omicron-karma-permissive:latest
         environment:
-            DEBUG: "TRUE"
+            DEBUG: "FALSE"
