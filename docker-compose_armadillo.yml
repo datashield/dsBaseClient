@@ -16,6 +16,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-omicron-karma-permissive:latest
+        image: datashield/rock-omacron-karma-permissive:devel
         environment:
             DEBUG: "FALSE"

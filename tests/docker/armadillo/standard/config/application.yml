@@ -14,7 +14,7 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-omicron-karma:latest
+      image: datashield/rock-omacron-karma:devel
       port: 8080
       host: default
       package-whitelist: # Packages for 'permissive'
