@@ -20,6 +20,6 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: datashield/rock-omicron-karma-permissive:latest
+        image: datashield/rock-omicron-karma-permissive:devel
         environment:
             DEBUG: "FALSE"
