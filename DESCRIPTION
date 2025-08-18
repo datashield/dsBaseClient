@@ -54,16 +54,20 @@ Imports:
     gridExtra,
     data.table,
     methods,
-    dplyr
+    dplyr,
+    cli,
+    purrr,
+    assertthat
 Suggests:
     lme4,
     httr,
     tibble,
-    testthat,
+    testthat (>= 3.0.0),
     e1071,
     DescTools,
     DSOpal,
     DSMolgenisArmadillo,
-    DSLite
+    DSLite,
+    assertthat
 RoxygenNote: 7.3.2
 Encoding: UTF-8
