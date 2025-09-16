@@ -44,7 +44,19 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-
+          
+      - name: Checkout dsBase
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/dsBase
+          ref: ${{ github.ref_name }}
+          path: dsBase
+          
+      - name: Install dsBase
+        run: |
+          Rscript -e 'install.packages(c("RANN", "stringr", "lme4", "dplyr", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "usethis", "devtools"), dependencies = TRUE)'
+          R CMD INSTALL ./dsBase
+          
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
