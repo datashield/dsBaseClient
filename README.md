@@ -81,4 +81,4 @@ The code here is organised as:
 >
 > The above should result in a value of zero.
 >
-> _Also see:_ For some details https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f and the bug report: https://bugs.r-project.org/show_bug.cgi?id=18941
+> _Also See:_ For more details see https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f and the bug report: https://bugs.r-project.org/show_bug.cgi?id=18941
