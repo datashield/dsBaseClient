@@ -54,11 +54,13 @@ jobs:
           path: dsBase
           
       - name: Install dsBase
+        shell: bash
         run: |
           Rscript -e 'install.packages(c("RANN", "stringr", "lme4", "dplyr", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "usethis", "devtools"), dependencies = TRUE)'
           R CMD INSTALL ./dsBase
       
       - name: Remove dsBase source code
+        shell: bash
         run: |
           Rscript -e "'dsBase' %in% rownames(installed.packages())" | grep -q TRUE && rm -rf ./dsBase
           
