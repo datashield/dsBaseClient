@@ -23,7 +23,7 @@ intervals along x or a vector of numbers in (0; 1) specifying the quantiles expl
 \item{na.rm}{logical, whether NA should be removed when calculating quantiles, passed
 to na.rm of quantile. Default set to TRUE}
 
-\item{marginal}{logical, how to parametrize the spline, see Details}
+\item{marginal}{logical, how to parametrise the spline, see Details}
 
 \item{names}{character, vector of names for constructed variables}
 

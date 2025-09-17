@@ -16,7 +16,7 @@ an integer
 This is an internal function.
 }
 \details{
-This function is called to turn a logical oprator given as a 
+This function is called to turn a logical operator given as a 
 character into an integer: '>' is turned into 1, '>=' into 2, '<' into 3, 
 '<=' into 4, '==' into 5 and '!=' into 6.
 }

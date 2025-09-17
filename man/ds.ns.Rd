@@ -55,7 +55,7 @@ a basis matrix for representing the family of piecewise-cubic splines with the s
 sequence of interior knots, and the natural boundary conditions. These enforce the constraint
 that the function is linear beyond the boundary knots, which can either be supplied or default
 to the extremes of the data.
-A primary use is in modeling formula to directly specify a natural spline term in a model.
+A primary use is in modelling formula to directly specify a natural spline term in a model.
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team

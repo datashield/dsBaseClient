@@ -52,7 +52,7 @@ them to a matched set of alternative specified values.
 This function recodes individual values with new individual values. This can
 apply to numeric and character values, factor levels and NAs. One particular use of
 \code{ds.recodeValues} is to convert NAs to an explicit value. This value is specified
-in the argument \code{missing}. If tthe user want to recode only missing values, then it
+in the argument \code{missing}. If the user want to recode only missing values, then it
 should also specify an identical vector of values in both arguments \code{values2replace.vector}
 and \code{new.values.vector} (see Example 2 below).
 Server function called: \code{recodeValuesDS}

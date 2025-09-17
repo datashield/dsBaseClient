@@ -14,7 +14,7 @@ the default set of connections will be used: see \link[DSI]{datashield.connectio
 
 \item{variables}{a character vector, the names of the continuous variables to computes a mean for.}
 
-\item{invalidrecorder}{a list, holds informations about invalid subsets in each study}
+\item{invalidrecorder}{a list, holds information about invalid subsets in each study}
 }
 \value{
 a list which one results table for each study.
@@ -24,7 +24,7 @@ This is an internal function.
 }
 \details{
 This function is called by the function 'ds.meanByClass' to produce the final tables
-if the user sets the parmater 'type' to 'split'.
+if the user sets the parameter 'type' to 'split'.
 }
 \author{
 Gaye, A.
