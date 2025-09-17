@@ -73,3 +73,12 @@ The code here is organised as:
   mitigating disclosure risk in a multi-site federated analysis platform.” _Bioinformatics
   Advances_, *5*(1), 1-21. <https://doi.org/10.1093/bioadv/vbaf046>.
 
+> **_Note:_** Apple Mx architecture users, please be aware that there are some numerical limitations on this platform, which leads to unexpected results when using base R packages, like stats​.
+>
+> x <- c(0, 3, 7)
+>
+> 1 - cor(x, x)​
+>
+> The above should result in a value of zero.
+>
+> _Also See:_ For more details see https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f and the bug report: https://bugs.r-project.org/show_bug.cgi?id=18941
