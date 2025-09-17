@@ -88,20 +88,20 @@
 <col width="70%">
 <col width="30%">
 </colgroup>
-<thead><tr>
+<thead><tr class="header">
 <th>Location</th>
 <th>What is it?</th>
 </tr></thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>obiba CRAN</td>
 <td>Where you probably should install DataSHIELD from.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>releases</td>
 <td>Stable releases.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>master branch</td>
 <td>Mostly in sync with the latest release, changes rarely.</td>
 </tr>
@@ -115,6 +115,13 @@
 <p>[2] Gaye A, Marcon Y, Isaeva J, LaFlamme P, Turner A, Jones E, Minion J, Boyd A, Newby C, Nuotio M, Wilson R, Butters O, Murtagh B, Demir I, Doiron D, Giepmans L, Wallace S, Budin-Ljøsne I, Oliver Schmidt C, Boffetta P, Boniol M, Bota M, Carter K, deKlerk N, Dibben C, Francis R, Hiekkalinna T, Hveem K, Kvaløy K, Millar S, Perry I, Peters A, Phillips C, Popham F, Raab G, Reischl E, Sheehan N, Waldenberger M, Perola M, van den Heuvel E, Macleod J, Knoppers B, Stolk R, Fortier I, Harris J, Woffenbuttel B, Murtagh M, Ferretti V, Burton P (2014). “DataSHIELD: taking the analysis to the data, not the data to the analysis.” <em>International Journal of Epidemiology</em>, <em>43</em>(6), 1929-1944. <a href="https://doi.org/10.1093/ije/dyu188" class="external-link uri">https://doi.org/10.1093/ije/dyu188</a>.</p>
 <p>[3] Wilson R, W. Butters O, Avraam D, Baker J, Tedds J, Turner A, Murtagh M, R. Burton P (2017). “DataSHIELD – New Directions and Dimensions.” <em>Data Science Journal</em>, <em>16</em>(21), 1-21. <a href="https://doi.org/10.5334/dsj-2017-021" class="external-link uri">https://doi.org/10.5334/dsj-2017-021</a>.</p>
 <p>[4] Avraam D, Wilson R, Aguirre Chan N, Banerjee S, Bishop T, Butters O, Cadman T, Cederkvist L, Duijts L, Escribà Montagut X, Garner H, Gonçalves G, González J, Haakma S, Hartlev M, Hasenauer J, Huth M, Hyde E, Jaddoe V, Marcon Y, Mayrhofer M, Molnar-Gabor F, Morgan A, Murtagh M, Nestor M, Nybo Andersen A, Parker S, Pinot de Moira A, Schwarz F, Strandberg-Larsen K, Swertz M, Welten M, Wheater S, Burton P (2024). “DataSHIELD: mitigating disclosure risk in a multi-site federated analysis platform.” <em>Bioinformatics Advances</em>, <em>5</em>(1), 1-21. <a href="https://doi.org/10.1093/bioadv/vbaf046" class="external-link uri">https://doi.org/10.1093/bioadv/vbaf046</a>.</p>
+<blockquote>
+<p><strong><em>Note:</em></strong> Apple Mx architecture users, please be aware that there are some numerical limitations on this platform, which leads to unexpected results when using base R packages, like stats​.</p>
+<p>x &lt;- c(0, 3, 7)</p>
+<p>1 - cor(x, x)​</p>
+<p>The above should result in a value of zero.</p>
+<p><em>Also See:</em> For more details see <a href="https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f" class="external-link uri">https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f</a> and the bug report: <a href="https://bugs.r-project.org/show_bug.cgi?id=18941" class="external-link uri">https://bugs.r-project.org/show_bug.cgi?id=18941</a></p>
+</blockquote>
 </div>
 
   </div>
