@@ -1,11 +1,11 @@
 Package: dsBaseClient
-Title: DataSHIELD Client Functions
+Title: 'DataSHIELD' Client Side Base Functions
 Version: 6.3.4
-Description: Base DataSHIELD functions for the client side. DataSHIELD is a software package which allows
-    you to do non-disclosive federated analysis on sensitive data. DataSHIELD analytic functions have
+Description: Base 'DataSHIELD' functions for the client side. 'DataSHIELD' is a software package which allows
+    you to do non-disclosive federated analysis on sensitive data. 'DataSHIELD' analytic functions have
     been designed to only share non disclosive summary statistics, with built in automated output
     checking based on statistical disclosure control. With data sites setting the threshold values for
-    the automated output checks.
+    the automated output checks. For more details, see 'citation("dsBaseClient")'.
 Authors@R: c(person(given = "Paul",
                     family = "Burton",
                     role = c("aut"),
@@ -77,6 +77,7 @@ Imports:
 Suggests:
     lme4,
     httr,
+    spelling,
     tibble,
     testthat,
     e1071,
@@ -86,3 +87,4 @@ Suggests:
     DSLite
 RoxygenNote: 7.3.3
 Encoding: UTF-8
+Language: en-GB

@@ -24,7 +24,7 @@ used for the test. One of "pearson", "kendall", or "spearman", can be abbreviate
 Default is set to "pearson".}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed. Used for
-Kendall's tau and Spearman's rho. See ‘Details’ of R stats function \code{cor.test} for
+Kendall's tau and Spearman's rho. See \emph{Details} of R stats function \code{cor.test} for
 the meaning of NULL (the default).}
 
 \item{conf.level}{confidence level for the returned confidence interval. Currently

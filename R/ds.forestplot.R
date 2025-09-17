@@ -1,10 +1,10 @@
 #' @title Forestplot for SLMA models
-#' @description Draws a foresplot of the coefficients for Study-Level Meta-Analysis performed with
+#' @description Draws a forestplot of the coefficients for Study-Level Meta-Analysis performed with
 #' DataSHIELD
 #'
-#' @param mod \code{list} List outputed by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
+#' @param mod \code{list} List outputted by any of the SLMA models of DataSHIELD (\code{ds.glmerSLMA}, 
 #' \code{ds.glmSLMA}, \code{ds.lmerSLMA})
-#' @param variable \code{character} (default \code{NULL}) Variable to meta-analyze and visualize, by setting this 
+#' @param variable \code{character} (default \code{NULL}) Variable to meta-analyse and visualise, by setting this 
 #' argument to \code{NULL} (default) the first independent variable will be used.
 #' @param method \code{character} (Default \code{"ML"}) Method to estimate the between study variance. 
 #' See details from \code{?meta::metagen} for the different options.

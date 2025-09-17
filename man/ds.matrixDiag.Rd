@@ -15,7 +15,7 @@ ds.matrixDiag(
 \arguments{
 \item{x1}{a character string specifying
 the name of a server-side scalar or vector. Also, a numeric value or vector
-specified from the client-side can be speficied. This argument depends 
+specified from the client-side can be specified. This argument depends 
 on the value specified in \code{aim}.
 For more information see \strong{Details}.}
 

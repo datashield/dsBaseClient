@@ -18,7 +18,7 @@ ds.lspline(
 
 \item{knots}{numeric vector of knot positions}
 
-\item{marginal}{logical, how to parametrize the spline, see Details}
+\item{marginal}{logical, how to parametrise the spline, see Details}
 
 \item{names}{character, vector of names for constructed variables}
 

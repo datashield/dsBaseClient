@@ -18,7 +18,7 @@ ds.dataFrameSubset(
 )
 }
 \arguments{
-\item{df.name}{a character string providing the name of the data frame to be subseted.}
+\item{df.name}{a character string providing the name of the data frame to be subset.}
 
 \item{V1.name}{A character string specifying the name of the vector 
 to which the Boolean operator is to be applied to define the subset.

@@ -4,7 +4,7 @@ source("connection_to_datasets/init_local_settings.R")
 
 init.ip.address()
 
-# create blank enviroment of test data
+# create blank environment of test data
 ds.test_env <- new.env()
 
 # this option helps DSI to find the connection objects by looking in the right environment

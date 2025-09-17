@@ -26,7 +26,7 @@ test_that("setup", {
 
 context("ds.ls::arg")
 test_that("containing escape sequence", {
-    res1 <- ds.ls(search.filter="_:A:_Enviroment")
+    res1 <- ds.ls(search.filter="_:A:_Environment")
 
     expect_length(res1, 1)
     expect_equal(res1, "Warning: Code replacing wildcard (i.e. '*') is '_:A:_' but this appears in your original search filter string - please respecify")
@@ -36,7 +36,7 @@ test_that("containing escape sequence", {
     expect_length(res2, 1)
     expect_equal(res2, "Warning: Code replacing wildcard (i.e. '*') is '_:A:_' but this appears in your original search filter string - please respecify")
 
-    res3 <- ds.ls(search.filter="Enviroment_:A:_")
+    res3 <- ds.ls(search.filter="Environment_:A:_")
 
     expect_length(res3, 1)
     expect_equal(res3, "Warning: Code replacing wildcard (i.e. '*') is '_:A:_' but this appears in your original search filter string - please respecify")
