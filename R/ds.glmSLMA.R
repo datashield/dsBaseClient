@@ -263,7 +263,7 @@
 #' them into their meta-analysis package of choice.
 #' @return \code{is.object.created} and \code{validity.check} are standard
 #' items returned by an assign function when the designated newobj appears to have
-#' been successfuly created on the serverside at each study. This output is
+#' been successfully created on the serverside at each study. This output is
 #' produced specifically by the assign function \code{glmSLMADS.assign} that writes
 #' out the glm object on the serverside 
 #' @author Paul Burton, for DataSHIELD Development Team 07/07/20

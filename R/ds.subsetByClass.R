@@ -107,7 +107,7 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
   }
 
   # call the server side function that does the job
-  # get the indices of the columns refered to by their names in the arguments
+  # get the indices of the columns referred to by their names in the arguments
   if(is.null(variables)){
     cally <- paste0("subsetByClassDS('", x, "')")
   }else{

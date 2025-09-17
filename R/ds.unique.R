@@ -4,7 +4,7 @@
 #' @details Will create a vector or list which has no duplicate values.
 #' 
 #' Server function called: \code{uniqueDS}
-#' @param x.name a character string providing the name of the varable, in the server, to perform \code{unique} upon
+#' @param x.name a character string providing the name of the variable, in the server, to perform \code{unique} upon
 #' @param newobj a character string that provides the name for the output object
 #' that is stored on the data servers. Default \code{unique.newobj}.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 

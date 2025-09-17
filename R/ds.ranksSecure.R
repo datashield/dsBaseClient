@@ -1,7 +1,7 @@
 # ds.ranksSecure
 #' @title Secure ranking of a vector across all sources
 #' @description Securely generate the ranks of a numeric vector and estimate
-#' true qlobal quantiles across all data sources simultaneously 
+#' true global quantiles across all data sources simultaneously 
 #' @details ds.ranksSecure is a clientside function which calls a series of
 #' other clientside and serverside functions to securely generate the global
 #' ranks of a numeric vector "V2BR" (vector to be ranked)
@@ -43,7 +43,7 @@
 #' of the clusters of values that are being ranked such that some values are
 #' treated as being missing and the processing stops, then setting
 #' generate.quantiles to FALSE allows the generation of ranks to complete so
-#' they can then be used for non-parameteric analysis, even if the key values
+#' they can then be used for non-parametric analysis, even if the key values
 #' cannot be estimated. A real example of an unusual configuration was in a
 #' reasonably large dataset of survival times, where a substantial proportion
 #' of survival profiles were censored at precisely 10 years. This meant that

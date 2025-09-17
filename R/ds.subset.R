@@ -1,10 +1,10 @@
 #'
 #' @title Generates a valid subset of a table or a vector
 #' @description The function uses the R classical subsetting with squared brackets '[]' and allows also to
-#' subset using a logical oprator and a threshold. The object to subset from must be a vector (factor, numeric
-#' or charcater) or a table (data.frame or matrix).
+#' subset using a logical operator and a threshold. The object to subset from must be a vector (factor, numeric
+#' or character) or a table (data.frame or matrix).
 #' @details (1) If the input data is a table the user specifies the rows and/or columns to include in the subset; the columns can be
-#' refered to by their names. Table subsetting can also be done using the name of a variable and a threshold (see example 3).
+#' referred to by their names. Table subsetting can also be done using the name of a variable and a threshold (see example 3).
 #' (2) If the input data is a vector and the parameters 'rows', 'logical' and 'threshold' are all provided the last two are ignored
 #' (i.e. 'rows' has precedence over the other two parameters then).
 #' IMPORTANT NOTE: If the requested subset is not valid (i.e. contains less than the allowed number of observations) all the values are
