@@ -76,7 +76,9 @@ The code here is organised as:
 > **_Note:_** Apple Mx architecture users, please be aware that there are some numerical limitations on this platform, which leads to unexpected results when using base R packages, like stats​.
 >
 > x <- c(0, 3, 7)
+>
 > 1 - cor(x, x)​
 >
 > The above should result in a value of zero.
-> _Also see:_ https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f and this was the bug report that I had opened: https://bugs.r-project.org/show_bug.cgi?id=18941
+>
+> _Also see:_ For some details https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f and the bug report: https://bugs.r-project.org/show_bug.cgi?id=18941
