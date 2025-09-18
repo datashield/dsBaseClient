@@ -1,13 +1,13 @@
 ################################################################################
 # DataSHIELD GHA test suite - dsBaseClient
-# Adapted from `azure-pipelines.yml` by Roberto Villegas-Diaz
+# Adapted from `armadillo_azure-pipelines.yml` by Roberto Villegas-Diaz
 #
 # Inside the root directory $(Pipeline.Workspace) will be a file tree like:
 # /dsBaseClient               <- Checked out version of datashield/dsBaseClient
 # /dsBaseClient/logs          <- Where results of tests and logs are collated
-# /testStatus           <- Checked out version of datashield/testStatus
+# /testStatus                 <- Checked out version of datashield/testStatus
 #
-# As of Jul 2025 this takes ~ 9 mins to run.
+# As of Sept. 2025 this takes ~ 95 mins to run.
 ################################################################################
 name: dsBaseClient tests' suite
 
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
-      contents: write
+      contents: read
     
     # These should all be constant, except TEST_FILTER. This can be used to test 
     # subsets of test files in the testthat directory. Options are like:
@@ -72,12 +72,6 @@ jobs:
           r-version: release
           http-user-agent: release
           use-public-rspm: true
-          
-      # - name: Install dsBaseClient dependencies
-      #   run: |
-      #     sudo Rscript -e "install.packages(c('devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), repos='https://cloud.r-project.org')"
-      #     sudo Rscript -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
-      #     # R CMD INSTALL ./dsBaseClient
 
       - name: Install R and dependencies
         run: |
@@ -201,43 +195,33 @@ jobs:
         run: |
           Rscript --verbose --vanilla ../testStatus/source/parse_test_report.R logs/
         working-directory: dsBaseClient
-
-      - name: Commit results to testStatus
+        
+      - name: Render report
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
           cd testStatus
           
-          # Reconfigure remote to use GitHub token for authentication
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.REPO_OWNER }}/testStatus.git
-          git checkout master
-          git pull origin master
-
-          mkdir -p logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
-          # clear the latest directory 
-          rm -rf docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/*
+          mkdir -p new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
           
           # Copy logs to new logs directory location
-          cp -rv ../dsBaseClient/logs/* logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBase/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBase/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
           
-          # Create symbolic links
-          ln -sf ${{ env.WORKFLOW_ID }}/ logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/.LATEST
-          
-          R -e 'input_dir <- file.path("../logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
-          mv source/test_report.html docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
-          cp -r docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
-
-          git add .
-          git commit -m "Auto test for ${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }} @ ${{ env.WORKFLOW_ID }}" || echo "No changes to commit"
-          git push origin master
+          R -e 'input_dir <- file.path("../new/logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
+          mv source/test_report.html new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
+          cp -r new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
           
         env:
           PROJECT_NAME: ${{ env.PROJECT_NAME }}
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
           WORKFLOW_ID: ${{ env.WORKFLOW_ID }}
+        
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsbaseclient-logs
+          path: dsBaseClient/logs/new
 
       - name: Dump environment info
         run: |
@@ -258,5 +242,4 @@ jobs:
           R -e 'sessionInfo()'
           sudo apt install tree -y
           tree .
-        
         
