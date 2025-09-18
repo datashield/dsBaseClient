@@ -221,7 +221,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dsbaseclient-logs
-          path: dsBaseClient/logs/new
+          path: testStatus/new
 
       - name: Dump environment info
         run: |
