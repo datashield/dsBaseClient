@@ -205,8 +205,8 @@ jobs:
           mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
           
           # Copy logs to new logs directory location
-          cp -rv ../dsBase/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          cp -rv ../dsBase/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBaseClient/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
           
           R -e 'input_dir <- file.path("../new/logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
           mv source/test_report.html new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
