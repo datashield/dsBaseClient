@@ -1,0 +1,64 @@
+################################################################################
+# DataSHIELD GHA test suite - dsBaseClient
+# Adapted from `azure-pipelines.yml` by Roberto Villegas-Diaz
+#
+# Inside the root directory $(Pipeline.Workspace) will be a file tree like:
+# /dsBaseClient               <- Checked out version of datashield/dsBaseClient
+# /dsBaseClient/logs          <- Where results of tests and logs are collated
+# /testStatus           <- Checked out version of datashield/testStatus
+#
+# As of Jul 2025 this takes ~ 9 mins to run.
+################################################################################
+name: dsBaseClient tests' suite
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * 0'   # Weekly
+    - cron: '0 1 * * *'   # Nightly
+
+jobs:
+  dsBaseClient_test_suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+    
+    # These should all be constant, except TEST_FILTER. This can be used to test 
+    # subsets of test files in the testthat directory. Options are like:
+    # '*'               <- Run all tests.
+    # 'asNumericDS*'    <- Run all asNumericDS tests, i.e. all the arg, etc. tests.
+    # '*_smk_*'         <- Run all the smoke tests for all functions.
+    env:
+      TEST_FILTER: '*'
+      _r_check_system_clock_: 0
+      WORKFLOW_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      PROJECT_NAME: dsBase
+      BRANCH_NAME: ${{ github.ref_name }}
+      REPO_OWNER: ${{ github.repository_owner }}
+      R_KEEP_PKG_SOURCE: yes
+      GITHUB_TOKEN: ${{ github.token || 'placeholder-token' }}
+
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v4
+        with:
+          path: dsBaseClient
+
+      - name: Checkout testStatus
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.REPO_OWNER }}/testStatus
+          ref: master
+          path: testStatus
+          persist-credentials: false
+          token: ${{ env.GITHUB_TOKEN }}
+# env:
+#   projectName: dsBaseClientClient
+#   test_filter: '*'
+#   _r_check_system_clock_: 0
+# 
+# jobs:
+#   build_and_run_tests:
+#     runs-on: ubuntu-24.04
+#     timeout-minutes: 360
