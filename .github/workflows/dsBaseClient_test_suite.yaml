@@ -34,11 +34,10 @@ jobs:
       _r_check_system_clock_: 0
       WORKFLOW_ID: ${{ github.run_id }}-${{ github.run_attempt }}
       PROJECT_NAME: dsBase
-      BRANCH_NAME: ${{ github.ref_name }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
       REPO_OWNER: ${{ github.repository_owner }}
       R_KEEP_PKG_SOURCE: yes
       GITHUB_TOKEN: ${{ github.token || 'placeholder-token' }}
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
 
     steps:
       - name: Checkout dsBaseClient
