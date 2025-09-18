@@ -30,10 +30,10 @@ jobs:
     # 'asNumericDS*'    <- Run all asNumericDS tests, i.e. all the arg, etc. tests.
     # '*_smk_*'         <- Run all the smoke tests for all functions.
     env:
-      TEST_FILTER: '*'
+      TEST_FILTER: '_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-'
       _r_check_system_clock_: 0
       WORKFLOW_ID: ${{ github.run_id }}-${{ github.run_attempt }}
-      PROJECT_NAME: dsBase
+      PROJECT_NAME: dsBaseClient
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
       REPO_OWNER: ${{ github.repository_owner }}
       R_KEEP_PKG_SOURCE: yes
@@ -129,3 +129,111 @@ jobs:
           sleep 30
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
         working-directory: dsBaseClient
+      
+      - name: Run tests with coverage & JUnit report
+        run: |
+          mkdir -p logs
+          R -q -e "devtools::reload();"
+          R -q -e '
+            write.csv(
+              covr::coverage_to_list(
+                covr::package_coverage(
+                  type = c("none"),
+                  code = c('"'"'
+                    output_file <- file("test_console_output.txt");
+                    sink(output_file);
+                    sink(output_file, type = "message");
+                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results.xml"));
+                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                    options("datashield.return_errors" = FALSE, "default_driver" = "ArmadilloDriver");
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                  )
+                )
+              ),
+              "coveragelist.csv"
+            )'
+          
+          mv coveragelist.csv logs/
+          mv test_* logs/
+        working-directory: dsBaseClient
+      
+      - name: Check for JUnit errors
+        run: |
+          issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep -c errors= || true)
+          echo "Number of testsuites with issues: $issue_count"
+          sed 's/failures="0" errors="0"//' test_results.xml | grep errors= > issues.log || true
+          cat issues.log || true
+          exit $issue_count
+        working-directory: dsBaseClient/logs
+
+      - name: Write versions to file
+        run: |
+          echo "branch:${{ env.BRANCH_NAME }}" > ${{ env.WORKFLOW_ID }}.txt
+          echo "os:$(lsb_release -ds)" >> ${{ env.WORKFLOW_ID }}.txt
+          echo "R:$(R --version | head -n1)" >> ${{ env.WORKFLOW_ID }}.txt
+        working-directory: dsBaseClient/logs
+        
+      - name: Parse results from testthat and covr
+        run: |
+          Rscript --verbose --vanilla ../testStatus/source/parse_test_report.R logs/
+        working-directory: dsBaseClient
+
+      - name: Commit results to testStatus
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          cd testStatus
+          
+          # Reconfigure remote to use GitHub token for authentication
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.REPO_OWNER }}/testStatus.git
+          git checkout master
+          git pull origin master
+
+          mkdir -p logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
+          # clear the latest directory 
+          rm -rf docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/*
+          
+          # Copy logs to new logs directory location
+          cp -rv ../dsBaseClient/logs/* logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          
+          # Create symbolic links
+          ln -sf ${{ env.WORKFLOW_ID }}/ logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/.LATEST
+          
+          R -e 'input_dir <- file.path("../logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
+          mv source/test_report.html docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
+          cp -r docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
+
+          git add .
+          git commit -m "Auto test for ${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }} @ ${{ env.WORKFLOW_ID }}" || echo "No changes to commit"
+          git push origin master
+          
+        env:
+          PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          WORKFLOW_ID: ${{ env.WORKFLOW_ID }}
+
+      - name: Dump environment info
+        run: |
+          echo -e "\n#############################"
+          echo -e "ls /: ######################"
+          ls -al .
+          echo -e "\n#############################"
+          echo -e "lscpu: ######################"
+          lscpu
+          echo -e "\n#############################"
+          echo -e "memory: #####################"
+          free -m
+          echo -e "\n#############################"
+          echo -e "env: ########################"
+          env
+          echo -e "\n#############################"
+          echo -e "R sessionInfo(): ############"
+          R -e 'sessionInfo()'
+          sudo apt install tree -y
+          tree .
+        
+        
