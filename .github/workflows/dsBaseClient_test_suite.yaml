@@ -90,7 +90,29 @@ jobs:
           sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev xml-twig-tools -y
           sudo R -q -e "install.packages(c('devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), repos='https://cloud.r-project.org')"
           sudo R -q -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
-
+      
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Imports")'
+          extra-packages: | 
+            any::rcmdcheck 
+            cran::devtools 
+            cran::git2r 
+            cran::RCurl 
+            cran::readr 
+            cran::magrittr 
+            cran::xml2 
+            cran::purrr 
+            cran::dplyr 
+            cran::stringr 
+            cran::tidyr 
+            cran::quarto 
+            cran::knitr 
+            cran::kableExtra 
+            cran::rmarkdown 
+            cran::downlit 
+          needs: check
+          
       - name: Check manual updated
         run: |
           orig_sum=$(find man -type f | sort -u | xargs cat | md5sum)
