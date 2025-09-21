@@ -1,0 +1,245 @@
+################################################################################
+# DataSHIELD GHA test suite - dsBaseClient
+# Adapted from `armadillo_azure-pipelines.yml` by Roberto Villegas-Diaz
+#
+# Inside the root directory $(Pipeline.Workspace) will be a file tree like:
+# /dsBaseClient               <- Checked out version of datashield/dsBaseClient
+# /dsBaseClient/logs          <- Where results of tests and logs are collated
+# /testStatus                 <- Checked out version of datashield/testStatus
+#
+# As of Sept. 2025 this takes ~ 95 mins to run.
+################################################################################
+name: dsBaseClient tests' suite
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * 0'   # Weekly
+    - cron: '0 1 * * *'   # Nightly
+
+jobs:
+  dsBaseClient_test_suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    
+    # These should all be constant, except TEST_FILTER. This can be used to test 
+    # subsets of test files in the testthat directory. Options are like:
+    # '*'               <- Run all tests.
+    # 'asNumericDS*'    <- Run all asNumericDS tests, i.e. all the arg, etc. tests.
+    # '*_smk_*'         <- Run all the smoke tests for all functions.
+    env:
+      TEST_FILTER: '_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-'
+      _r_check_system_clock_: 0
+      WORKFLOW_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      PROJECT_NAME: dsBaseClient
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+      REPO_OWNER: ${{ github.repository_owner }}
+      R_KEEP_PKG_SOURCE: yes
+      GITHUB_TOKEN: ${{ github.token || 'placeholder-token' }}
+
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v4
+        with:
+          path: dsBaseClient
+
+      - name: Checkout testStatus
+        if: ${{ github.actor != 'nektos/act' }} # for local deployment only
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.REPO_OWNER }}/testStatus
+          ref: master
+          path: testStatus
+          persist-credentials: false
+          token: ${{ env.GITHUB_TOKEN }}
+          
+      - name: Uninstall default MySQL
+        run: |
+          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+          sudo service mysql stop || true
+          sudo apt-get update
+          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
+          sudo apt-get autoremove -y
+          sudo apt-get autoclean -y
+          sudo rm -rf /var/lib/mysql/
+          
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          http-user-agent: release
+          use-public-rspm: true
+
+      - name: Install R and dependencies
+        run: |
+          sudo apt-get install --no-install-recommends software-properties-common dirmngr -y
+          wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+          sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+          sudo apt-get update -qq
+          sudo apt-get upgrade -y
+          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
+          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev xml-twig-tools -y
+          sudo R -q -e "install.packages(c('devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), repos='https://cloud.r-project.org')"
+          sudo R -q -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
+      
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Imports")'
+          extra-packages: | 
+            any::rcmdcheck 
+            cran::devtools 
+            cran::git2r 
+            cran::RCurl 
+            cran::readr 
+            cran::magrittr 
+            cran::xml2 
+            cran::purrr 
+            cran::dplyr 
+            cran::stringr 
+            cran::tidyr 
+            cran::quarto 
+            cran::knitr 
+            cran::kableExtra 
+            cran::rmarkdown 
+            cran::downlit 
+          needs: check
+          
+      - name: Check manual updated
+        run: |
+          orig_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          R -q -e "devtools::document()"
+          new_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          if [ "$orig_sum" != "$new_sum" ]; then
+            echo "Your committed man/*.Rd files are out of sync with the R headers."
+            exit 1
+          fi
+        working-directory: dsBaseClient
+        continue-on-error: true
+
+      - name: Devtools checks
+        run: |
+          R -q -e "devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
+          grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
+        working-directory: dsBaseClient
+        continue-on-error: true
+        
+      - name: Start Armadillo docker-compose
+        run: docker compose -f docker-compose_armadillo.yml up -d --build
+        working-directory: dsBaseClient
+
+      - name: Install test datasets
+        run: |
+          sleep 60
+          R -q -f "molgenis_armadillo-upload_testing_datasets.R"
+        working-directory: dsBaseClient/tests/testthat/data_files
+
+      - name: Install dsBase to Armadillo
+        run: |
+          curl -u admin:admin -X GET http://localhost:8080/packages
+          curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.4-permissive.tar.gz" -X POST http://localhost:8080/install-package
+          sleep 60
+          docker restart dsbaseclient-armadillo-1
+          sleep 30
+          curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+        working-directory: dsBaseClient
+      
+      - name: Run tests with coverage & JUnit report
+        run: |
+          mkdir -p logs
+          R -q -e "devtools::reload();"
+          R -q -e '
+            write.csv(
+              covr::coverage_to_list(
+                covr::package_coverage(
+                  type = c("none"),
+                  code = c('"'"'
+                    output_file <- file("test_console_output.txt");
+                    sink(output_file);
+                    sink(output_file, type = "message");
+                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results.xml"));
+                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                    options("datashield.return_errors" = FALSE, "default_driver" = "ArmadilloDriver");
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                  )
+                )
+              ),
+              "coveragelist.csv"
+            )'
+          
+          mv coveragelist.csv logs/
+          mv test_* logs/
+        working-directory: dsBaseClient
+      
+      - name: Check for JUnit errors
+        run: |
+          issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep -c errors= || true)
+          echo "Number of testsuites with issues: $issue_count"
+          sed 's/failures="0" errors="0"//' test_results.xml | grep errors= > issues.log || true
+          cat issues.log || true
+          # continue with workflow even when some tests fail
+          exit 0
+        working-directory: dsBaseClient/logs
+
+      - name: Write versions to file
+        run: |
+          echo "branch:${{ env.BRANCH_NAME }}" > ${{ env.WORKFLOW_ID }}.txt
+          echo "os:$(lsb_release -ds)" >> ${{ env.WORKFLOW_ID }}.txt
+          echo "R:$(R --version | head -n1)" >> ${{ env.WORKFLOW_ID }}.txt
+        working-directory: dsBaseClient/logs
+        
+      - name: Parse results from testthat and covr
+        run: |
+          Rscript --verbose --vanilla ../testStatus/source/parse_test_report.R logs/
+        working-directory: dsBaseClient
+        
+      - name: Render report
+        run: |
+          cd testStatus
+          
+          mkdir -p new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
+          
+          # Copy logs to new logs directory location
+          cp -rv ../dsBaseClient/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
+          
+          R -e 'input_dir <- file.path("../new/logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
+          mv source/test_report.html new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
+          cp -r new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
+          
+        env:
+          PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          WORKFLOW_ID: ${{ env.WORKFLOW_ID }}
+        
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsbaseclient-logs
+          path: testStatus/new
+
+      - name: Dump environment info
+        run: |
+          echo -e "\n#############################"
+          echo -e "ls /: ######################"
+          ls -al .
+          echo -e "\n#############################"
+          echo -e "lscpu: ######################"
+          lscpu
+          echo -e "\n#############################"
+          echo -e "memory: #####################"
+          free -m
+          echo -e "\n#############################"
+          echo -e "env: ########################"
+          env
+          echo -e "\n#############################"
+          echo -e "R sessionInfo(): ############"
+          R -e 'sessionInfo()'
+          sudo apt install tree -y
+          tree .
+        
