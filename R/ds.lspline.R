@@ -10,7 +10,7 @@
 #' in slope as compared to the previous segment.
 #' @param x the name of the input numeric variable
 #' @param knots numeric vector of knot positions
-#' @param marginal logical, how to parametrize the spline, see Details
+#' @param marginal logical, how to parametrise the spline, see Details
 #' @param names character, vector of names for constructed variables
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. Default \code{lspline.newobj}. 

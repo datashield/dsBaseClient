@@ -14,7 +14,7 @@ the default set of connections will be used: see \link[DSI]{datashield.connectio
 
 \item{variables}{a character vector, the names of the continuous variables to computes a mean for.}
 
-\item{invalidrecorder}{a list, holds informations about invalid subsets in each study.}
+\item{invalidrecorder}{a list, holds information about invalid subsets in each study.}
 }
 \value{
 a matrix, a table which contains the length, mean and standard deviation of each of the
@@ -25,7 +25,7 @@ This is an internal function.
 }
 \details{
 This function is called by the function 'ds.meanByClass' to produce the final table
-if the user sets the parmater 'type' to combine (the default behaviour of 'ds.meanByClass').
+if the user sets the parameter 'type' to combine (the default behaviour of 'ds.meanByClass').
 }
 \author{
 Gaye, A.

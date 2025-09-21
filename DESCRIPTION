@@ -1,23 +1,27 @@
 Package: dsBaseClient
-Title: DataSHIELD Client Functions
-Version: 6.3.3
-Description: Base DataSHIELD functions for the client side. DataSHIELD is a software package which allows
-    you to do non-disclosive federated analysis on sensitive data. DataSHIELD analytic functions have
+Title: 'DataSHIELD' Client Side Base Functions
+Version: 6.3.4
+Description: Base 'DataSHIELD' functions for the client side. 'DataSHIELD' is a software package which allows
+    you to do non-disclosive federated analysis on sensitive data. 'DataSHIELD' analytic functions have
     been designed to only share non disclosive summary statistics, with built in automated output
     checking based on statistical disclosure control. With data sites setting the threshold values for
-    the automated output checks.
+    the automated output checks. For more details, see 'citation("dsBaseClient")'.
 Authors@R: c(person(given = "Paul",
                     family = "Burton",
-                    role = c("aut")),
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-5799-9634")),
              person(given = "Rebecca",
                     family = "Wilson",
-                    role = c("aut")),
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0003-2294-593X")),
              person(given = "Olly",
                     family = "Butters",
-                    role = c("aut")),
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0003-0354-8461")),
              person(given = "Patricia",
                     family = "Ryser-Welch",
-                    role = c("aut")),
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0002-0070-0264")),
              person(given = "Alex",
                     family = "Westerberg",
                     role = c("aut")),
@@ -32,11 +36,26 @@ Authors@R: c(person(given = "Paul",
                     family = "Avraam",
                     role = c("aut"),
                     comment = c(ORCID = "0000-0001-8908-2441")),
+             person(given = "Demetris",
+                    family = "Avraam",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0001-8908-2441")),
              person(given = "Yannick",
                     family = "Marcon",
                     role = c("aut"),
                     email = "yannick.marcon@obiba.org",
                     comment = c(ORCID = "0000-0003-0138-2023")),
+             person(given = "Tom",
+                    family = "Bishop",
+                    role = c("aut")),
+             person(given = "Amadou",
+                    family = "Gaye",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0002-1180-2792")),
+             person(given = "Xavier",
+                    family = "Escribà-Montagut",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0003-2888-8948")),
              person(given = "Stuart",
                     family = "Wheater",
                     role = c("aut", "cre"),
@@ -58,6 +77,7 @@ Imports:
 Suggests:
     lme4,
     httr,
+    spelling,
     tibble,
     testthat,
     e1071,
@@ -65,5 +85,6 @@ Suggests:
     DSOpal,
     DSMolgenisArmadillo,
     DSLite
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
+Language: en-GB

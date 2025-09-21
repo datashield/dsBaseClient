@@ -12,7 +12,7 @@
 #' 
 #' Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 #' 
-#' @param df.name a character string providing the name of the data frame to be subseted. 
+#' @param df.name a character string providing the name of the data frame to be subset. 
 #' @param V1.name  A character string specifying the name of the vector 
 #' to which the Boolean operator is to be applied to define the subset.
 #' For more information see details. 

@@ -59,7 +59,7 @@
 #'   # and get their square roots
 #'   ds.make(toAssign='rep((1:10)^2, times=10)', newobj='squares.vector', datasources=connections)
 #'   ds.sqrt(x='squares.vector', newobj='sqrt.vector', datasources=connections)
-#'   # check the behavior of that operation by comparing the tables of squares.vector and sqrt.vector
+  # check the behaviour of that operation by comparing the tables of squares.vector and sqrt.vector
 #'   ds.table(rvar='squares.vector')$output.list$TABLE_rvar.by.study_counts
 #'   ds.table(rvar='sqrt.vector')$output.list$TABLE_rvar.by.study_counts
 #'

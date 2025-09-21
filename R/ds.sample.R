@@ -45,7 +45,7 @@
 #' case with the default name 'newobj.sample) using ds.dataFrameSort with the
 #' 'sampling.order' vector as the sort key, the output object is rendered
 #' equivalent to PRWa but with the rows randomly permuted (so the column reflecting
-#' the vector 'sample.order' now runs from 1:length of obejct, while the
+#' the vector 'sample.order' now runs from 1:length of object, while the
 #' column reflecting 'ID.seq' denoting the original order is now randomly ordered.
 #' If you need to return to the original order you can simply us ds.dataFrameSort
 #' again using the column reflecting 'ID.seq' as the sort key:

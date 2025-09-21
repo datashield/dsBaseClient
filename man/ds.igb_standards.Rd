@@ -54,11 +54,19 @@ For gestational ages between 24 and 33 weeks, the INTERGROWTH very early preterm
 standard is used.
 }
 \references{
-International standards for newborn weight, length, and head circumference by 
-gestational age and sex: the Newborn Cross-Sectional Study of the INTERGROWTH-21st Project
-Villar, José et al. The Lancet, Volume 384, Issue 9946, 857-868
-INTERGROWTH-21st very preterm size at birth reference charts. Lancet 2016 
-doi.org/10.1016/S0140-6736(16) 00384-6. Villar, José et al.
+\itemize{
+ \item Villar, J., Ismail, L.C., Victora, C.G., Ohuma, E.O., Bertino, E., 
+ Altman, D.G., Lambert, A., Papageorghiou, A.T., Carvalho, M., Jaffer, Y.A., 
+ Gravett, M.G., Purwar, M., Frederick, I.O., Noble, A.J., Pang, R., Barros, 
+ F.C., Chumlea, C., Bhutta, Z.A., Kennedy, S.H., 2014. International 
+ standards for newborn weight, length, and head circumference by gestational 
+ age and sex: the Newborn Cross-Sectional Study of the INTERGROWTH-21st 
+ Project. The Lancet 384, 857--868. https://doi.org/10.1016/S0140-6736(14)60932-6
+ \item Villar, J., Giuliani, F., Fenton, T.R., Ohuma, E.O., Ismail, L.C., 
+ Kennedy, S.H., 2016. INTERGROWTH-21st very preterm size at birth reference 
+ charts. The Lancet 387, 844--845. https://doi.org/10.1016/S0140-6736(16)00384-6
+ 
+}
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team

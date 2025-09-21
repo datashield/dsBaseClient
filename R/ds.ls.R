@@ -41,7 +41,7 @@
 #' Server function called: \code{lsDS}. 
 #' 
 #' @param search.filter character string (potentially including \code{*} symbol) specifying the filter 
-#' for the object name that you want to find in the enviroment. For more information see \strong{Details}. 
+#' for the object name that you want to find in the environment. For more information see \strong{Details}. 
 #' @param env.to.search an integer (e.g. in \code{2} or \code{2L} format) specifying the position
 #' in the search path of the environment to be explored. \code{1L} is the current active analytic
 #' environment on the server-side and is the default value of \code{env.to.search}.

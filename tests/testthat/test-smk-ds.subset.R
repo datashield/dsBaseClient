@@ -34,7 +34,7 @@ test_that("subD_exists", {
     expect_true(res$sim3)
 })
 
-context("ds.subset::smk::generate a subset of the assigned table (by default the table is named 'D') with the first 50 observations and the two first columns refered to by their names")
+context("ds.subset::smk::generate a subset of the assigned table (by default the table is named 'D') with the first 50 observations and the two first columns referred to by their names")
 ds.subset(subset='subD2', x='D', rows=c(1:50), cols = c('DIS_DIAB','PM_BMI_CONTINUOUS'))
 res <- ds.exists('subD2')
 test_that("subD2_exists", {

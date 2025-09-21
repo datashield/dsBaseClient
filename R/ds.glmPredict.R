@@ -91,7 +91,7 @@
 #' wish to change the connections you wish to use by default the call
 #' datashield.connections_default('opals.a') will set 'default.connections'
 #' to be 'opals.a' and so in the absence of specific instructions to the contrary
-#' (e.g. by specifiying a particular dataset to be used via the <datasources>
+#' (e.g. by specifying a particular dataset to be used via the <datasources>
 #' argument) all subsequent function calls will be to the datasets held in opals.a.
 #' If the <datasources> argument is specified, it should be set without
 #' inverted commas: e.g. datasources=opals.a or datasources=default.connections.
@@ -116,7 +116,7 @@
 #' the name - if one was specified - of the dataframe being used as the basis for predictions,
 #' the output.type specified ('link', 'response' or 'terms'), the value of the
 #' dispersion parameter if one had been specified and the residual scale parameter (which is
-#' multipled by sqrt(dispersion parameter) if one has been set). If output.type = 'terms',
+#' multiplied by sqrt(dispersion parameter) if one has been set). If output.type = 'terms',
 #' the summary statistics for the fit and se.fit vectors are replaced by equivalent
 #' summary statistics for each column in fit and se.fit matrices which each have k columns
 #' if k terms are being summarised.

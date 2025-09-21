@@ -32,7 +32,7 @@ This function is based on the native R function \code{as.numeric}.
 This function is based on the native R function \code{as.numeric}.
 However, it behaves differently with some specific classes of variables. For example, if the input 
 object is of class factor, it first converts its values into characters and then convert those to
-numerics. This behavior is important for the case where the input object is of class factor having
+numerics. This behaviour is important for the case where the input object is of class factor having
 numbers as levels. In that case, the native R 
 \code{as.numeric} function returns the underlying level codes and not the values as numbers. 
 For example \code{as.numeric} in R converts the factor vector: \cr
