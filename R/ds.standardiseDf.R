@@ -62,7 +62,7 @@ ds.standardiseDf <- function(df.name = NULL, newobj = NULL, fix_class = "ask", f
 
   new_classes <- .get_var_classes(newobj, datasources)
   factor_vars <- .identify_factor_vars(new_classes)
-  factor_levels <- .get_factor_levels(factor_vars, newobj, datasources)
+  factor_levels <- .get_factor_levels(newobj, factor_vars, datasources)
   level_conflicts <- .identify_level_conflicts(factor_levels)
 
   if (length(level_conflicts) > 0 & fix_levels == "no") {
@@ -344,8 +344,9 @@ ask_question_class <- function(var) {
 #' @param datasources Data sources from which to aggregate data.
 #' @return A list of factor levels.
 #' @noRd
-.get_factor_levels <- function(factor_vars, df, datasources) {
-  cally <- call("getAllLevelsDS", df, names(factor_vars))
+.get_factor_levels <- function(df, factor_vars, datasources) {
+  factor_vars <- paste(names(factor_vars), collapse = ",")
+  cally <- call("getAllLevelsDS", df, factor_vars)
   return(datashield.aggregate(datasources, cally))
 }
 
