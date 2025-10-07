@@ -1,85 +1,85 @@
 init.studies.dataset.cnsim <- function(variables)
 {
-    if (ds.test_env$secure_login_details)
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
     {
-      if (ds.test_env$driver == "OpalDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CNSIM.CNSIM1", options=ds.test_env$options_1)
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CNSIM.CNSIM2", options=ds.test_env$options_2)
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CNSIM.CNSIM3", options=ds.test_env$options_3)
-        ds.test_env$login.data <- builder$build()
-      }
-      else if (ds.test_env$driver == "ArmadilloDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/cnsim/CNSIM1", driver = ds.test_env$driver)
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/cnsim/CNSIM2", driver = ds.test_env$driver)
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/cnsim/CNSIM3", driver = ds.test_env$driver)
-        ds.test_env$login.data <- builder$build()
-      }
-      else 
-      {
-         ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
-      }
-      ds.test_env$stats.var <- variables
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "CNSIM.CNSIM1", options=ds.test_env$options_1)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "CNSIM.CNSIM2", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "CNSIM.CNSIM3", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/cnsim/CNSIM1", driver = ds.test_env$driver)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/cnsim/CNSIM2", driver = ds.test_env$driver)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/cnsim/CNSIM3", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
 }
 
 init.studies.dataset.dasim <- function(variables)
 {
-    if (ds.test_env$secure_login_details)
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
     {
-      if (ds.test_env$driver == "OpalDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DASIM.DASIM1", options=ds.test_env$options_1)
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DASIM.DASIM2", options=ds.test_env$options_2)
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DASIM.DASIM3", options=ds.test_env$options_3)
-        ds.test_env$login.data <- builder$build()
-      }
-      else if (ds.test_env$driver == "ArmadilloDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/dasim/DASIM1", driver = ds.test_env$driver)
-        builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/dasim/DASIM2", driver = ds.test_env$driver)
-        builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/dasim/DASIM3", driver = ds.test_env$driver)
-        ds.test_env$login.data <- builder$build()
-      }
-      else 
-      {
-        ds.test_env$login.data <- DSLite::setupDASIMTest("dsBase", env = ds.test_env)
-      }
-      ds.test_env$stats.var <- variables
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "DASIM.DASIM1", options=ds.test_env$options_1)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "DASIM.DASIM2", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "DASIM.DASIM3", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/dasim/DASIM1", driver = ds.test_env$driver)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/dasim/DASIM2", driver = ds.test_env$driver)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/dasim/DASIM3", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupDASIMTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
 }
 
 init.studies.dataset.survival <- function(variables)
 {
-    if (ds.test_env$secure_login_details)
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
     {
-      if (ds.test_env$driver == "OpalDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "SURVIVAL.EXPAND_WITH_MISSING1", options=ds.test_env$options_1)
-        builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "SURVIVAL.EXPAND_WITH_MISSING2", options=ds.test_env$options_2)
-        builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "SURVIVAL.EXPAND_WITH_MISSING3", options=ds.test_env$options_3)
-        ds.test_env$login.data <- builder$build()
-      }
-      else if (ds.test_env$driver == "ArmadilloDriver")
-      {
-        builder <- DSI::newDSLoginBuilder(.silent = TRUE)
-        builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/survival/EXPAND_WITH_MISSING1", driver = ds.test_env$driver)
-        builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/survival/EXPAND_WITH_MISSING2", driver = ds.test_env$driver)
-        builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/survival/EXPAND_WITH_MISSING3", driver = ds.test_env$driver)
-        ds.test_env$login.data <- builder$build()
-      }
-      else 
-      {
-        ds.test_env$login.data <- DSLite::setupSURVIVALTest("dsBase", env = ds.test_env)
-      }
-      ds.test_env$stats.var <- variables
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "SURVIVAL.EXPAND_WITH_MISSING1", options=ds.test_env$options_1)
+      builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "SURVIVAL.EXPAND_WITH_MISSING2", options=ds.test_env$options_2)
+      builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "SURVIVAL.EXPAND_WITH_MISSING3", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
     }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "survival1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/survival/EXPAND_WITH_MISSING1", driver = ds.test_env$driver)
+      builder$append(server = "survival2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/survival/EXPAND_WITH_MISSING2", driver = ds.test_env$driver)
+      builder$append(server = "survival3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/survival/EXPAND_WITH_MISSING3", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupSURVIVALTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
 }
 
 init.studies.dataset.cluster.int <- function(variables)
@@ -107,7 +107,7 @@ init.studies.dataset.cluster.int <- function(variables)
       builder$append(server = "cluster.int3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/cluster/CLUSTER_INT3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
     }
-    else 
+    else
     {
       #to do
       #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
@@ -141,7 +141,7 @@ init.studies.dataset.cluster.slo <- function(variables)
       builder$append(server = "cluster.slo3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/cluster/CLUSTER_SLO3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
     }
-    else 
+    else
     {
       #to do
       #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
@@ -176,7 +176,7 @@ init.studies.dataset.anthro <- function(variables)
       builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/anthro/anthro3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
     }
-    else 
+    else
     {
       #to do
       #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
@@ -211,39 +211,67 @@ init.studies.dataset.gamlss <- function(variables)
       builder$append(server = "study3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/gamlss/gamlss3", driver = ds.test_env$driver)
       ds.test_env$login.data <- builder$build()
     }
-    else 
+    else
     {
       #to do
       #ds.test_env$login.data <- DSLite::setupCLUSTERTest("dsBase", env = ds.test_env)
     }
     ds.test_env$stats.var <- variables
-    
+
+  }
+}
+
+init.studies.dataset.stand <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "STANDARDISE.std_1", options=ds.test_env$options_1)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_1", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_1", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
+    }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/standardise/std_1", driver = ds.test_env$driver)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/standardise/std_2", driver = ds.test_env$driver)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/standardise/std_3", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
   }
 }
 
 
 connect.studies.dataset.cnsim <- function(variables)
 {
-    log.out.data.server()
-    source("connection_to_datasets/login_details.R")
-    init.studies.dataset.cnsim(variables)
-    log.in.data.server()
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.cnsim(variables)
+  log.in.data.server()
 }
 
 connect.studies.dataset.dasim <- function(variables)
 {
-    log.out.data.server()
-    source("connection_to_datasets/login_details.R")
-    init.studies.dataset.dasim(variables)
-    log.in.data.server()
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.dasim(variables)
+  log.in.data.server()
 }
 
 connect.studies.dataset.survival <- function(variables)
 {
-    log.out.data.server()
-    source("connection_to_datasets/login_details.R")
-    init.studies.dataset.survival(variables)
-    log.in.data.server()
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.survival(variables)
+  log.in.data.server()
 }
 
 connect.studies.dataset.cluster.int <- function(variables)
@@ -278,19 +306,27 @@ connect.studies.dataset.gamlss <- function(variables)
   log.in.data.server()
 }
 
+connect.studies.dataset.stand <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.stand(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
-    log.out.data.server()
+  log.out.data.server()
 }
 
 disconnect.studies.dataset.dasim <- function()
 {
-    log.out.data.server()
+  log.out.data.server()
 }
 
 disconnect.studies.dataset.survival <- function()
 {
-    log.out.data.server()
+  log.out.data.server()
 }
 
 disconnect.studies.dataset.cluster.int <- function()
@@ -309,6 +345,11 @@ disconnect.studies.dataset.anthro <- function()
 }
 
 disconnect.studies.dataset.gamlss <- function()
+{
+  log.out.data.server()
+}
+
+disconnect.studies.dataset.stand <- function()
 {
   log.out.data.server()
 }
