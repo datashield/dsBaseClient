@@ -24,6 +24,7 @@ library(DescTools)
 library(DSOpal)
 library(DSMolgenisArmadillo)
 library(DSLite)
+library(dsBase)
 
 source("dstest_functions/ds_expect_variables.R")
 source("perf_tests/perf_rate.R")
