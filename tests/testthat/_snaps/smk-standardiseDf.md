@@ -38,9 +38,9 @@
       .print_var_recode_message(added_cols, "test_df")
     Message
       v The following variables have been added to test_df:
-      i server_1 --> col11
-      i server_2 --> col11
-      i server_3 --> col12
+      i sim1 --> col11
+      i sim2 --> col11
+      i sim3 --> col12
       
 
 # .print_class_recode_message prints the correct message
@@ -70,9 +70,9 @@
         level_conflicts, "1", "test_df")
     Message
       v The following variables have been added to test_df:
-      i server_1 --> col11
-      i server_2 --> col11
-      i server_3 --> col12
+      i sim1 --> col11
+      i sim2 --> col11
+      i sim3 --> col12
       
       v The following classes have been set for all datasources in test_df: 
       i fac_col4 --> factor
