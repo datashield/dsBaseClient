@@ -686,11 +686,27 @@ test_that("ds.standardiseDf doesn't run if levels are not identical and fix_clas
   )
 })
 
+test_that("ds.standardiseDf doesn't run if a factor variable has too many levels", {
+  connect.studies.dataset.stand_disclosure(
+    c(
+      "fac_col1", "fac_col2", "fac_col3", "fac_col4", "fac_col5", "fac_col6", "fac_col7", "fac_col9",
+      "fac_col10", "col11", "col12", "col13", "col14", "col15", "col16", "col17", "col18", "col19",
+      "col20")
+  )
 
-## Add disclosure check levels
-## Push change to dsBase
+  expect_error(
+    with_mocked_bindings(
+      ds.standardiseDf(
+        df = "D",
+        newobj = "test_fill"
+        ),
+      prompt_user_class_decision_all_vars = function(var, server, classes, newobj, datasources) "1",
+      ask_question_wait_response_levels = function(levels_conflict, newobj, datasources) "2"
+      )
+  )
 
+})
 
+disconnect.studies.dataset.stand()
 
-
-
+context("ds.standardiseDf::smk::done")
