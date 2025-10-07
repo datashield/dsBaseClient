@@ -1,4 +1,4 @@
-# 
+#
 # Molgenis' Armadillo - Upload Testing Datasets
 #
 
@@ -15,7 +15,7 @@ upload_testing_dataset_table <- function(project_name, folder_name, table_name, 
 MolgenisArmadillo::armadillo.login_basic(armadillo = 'http://127.0.0.1:8080', username = "admin", password = "admin")
 
 if (! 'datashield' %in% MolgenisArmadillo::armadillo.list_projects())
-    MolgenisArmadillo::armadillo.create_project('datashield')
+    MolgenisArmadillo::armadillo.create_project('datashield', overwrite_existing = "no")
 
 upload_testing_dataset_table('datashield', 'anthro', 'anthro1', 'ANTHRO/anthro1.rda')
 upload_testing_dataset_table('datashield', 'anthro', 'anthro2', 'ANTHRO/anthro2.rda')
@@ -68,5 +68,13 @@ upload_testing_dataset_table('datashield', 'survival', 'EXPAND_NO_MISSING3', 'SU
 upload_testing_dataset_table('datashield', 'testing', 'DATASET1', 'TESTING/DATASET1.rda')
 upload_testing_dataset_table('datashield', 'testing', 'DATASET2', 'TESTING/DATASET2.rda')
 upload_testing_dataset_table('datashield', 'testing', 'DATASET3', 'TESTING/DATASET3.rda')
+
+upload_testing_dataset_table('datashield', 'standardise', 'std_1', 'STANDARDISE/std_1.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_2', 'STANDARDISE/std_2.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_3', 'STANDARDISE/std_3.rda')
+
+upload_testing_dataset_table('datashield', 'standardise', 'std_1_d', 'STANDARDISE/std_1.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_2_d', 'STANDARDISE/std_2.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_3_d', 'STANDARDISE/std_3.rda')
 
 print(MolgenisArmadillo::armadillo.list_tables('datashield'))
