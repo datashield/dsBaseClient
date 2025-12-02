@@ -6,6 +6,7 @@
 <url><loc>/reference/checkClass.html</loc></url>
 <url><loc>/reference/colPercent.html</loc></url>
 <url><loc>/reference/computeWeightedMeans.html</loc></url>
+<url><loc>/reference/dot-pool_md_patterns.html</loc></url>
 <url><loc>/reference/ds.Boole.html</loc></url>
 <url><loc>/reference/ds.abs.html</loc></url>
 <url><loc>/reference/ds.asCharacter.html</loc></url>
@@ -84,6 +85,7 @@
 <url><loc>/reference/ds.matrixInvert.html</loc></url>
 <url><loc>/reference/ds.matrixMult.html</loc></url>
 <url><loc>/reference/ds.matrixTranspose.html</loc></url>
+<url><loc>/reference/ds.mdPattern.html</loc></url>
 <url><loc>/reference/ds.mean.html</loc></url>
 <url><loc>/reference/ds.meanByClass.html</loc></url>
 <url><loc>/reference/ds.meanSdGp.html</loc></url>
