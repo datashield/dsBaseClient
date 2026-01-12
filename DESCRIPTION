@@ -1,6 +1,6 @@
 Package: dsBaseClient
 Title: 'DataSHIELD' Client Side Base Functions
-Version: 6.3.5
+Version: 6.3.6.9000
 Description: Base 'DataSHIELD' functions for the client side. 'DataSHIELD' is a software package which allows
     you to do non-disclosive federated analysis on sensitive data. 'DataSHIELD' analytic functions have
     been designed to only share non disclosive summary statistics, with built in automated output

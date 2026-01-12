@@ -3,7 +3,7 @@ services:
         hostname: armadillo
         ports:
             - 8080:8080
-        image: datashield/armadillo_citest:5.11.0
+        image: datashield/armadillo_citest:5.12.2
         environment:
             LOGGING_CONFIG: 'classpath:logback-file.xml'
             AUDIT_LOG_PATH: '/app/logs/audit.log'
@@ -16,7 +16,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/rock-quebrada-lamda:latest
-#        image: datashield/rserver-panda-lamda:devel
+        image: datashield/rock-quebrada-lamda-permissive:latest
         environment:
             DEBUG: "FALSE"
