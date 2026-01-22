@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Image tag (e.g., v7.0.0-dev)'
+        required: true
+      danger_version:
+        description: 'dsDangerClient version/branch'
+        required: true
+        default: 'v7.0.0-dev'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            DANGER_VERSION=${{ github.event.inputs.danger_version }}
+          tags: ghcr.io/${{ github.repository_owner }}/ds-base-env:${{ github.event.inputs.release_tag }}

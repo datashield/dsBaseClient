@@ -20,11 +20,18 @@ on:
 jobs:
   dsBaseClient_test_suite:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-    permissions:
-      contents: read
 
-    # These should all be constant, except TEST_FILTER. This can be used to test 
+    # This logic automatically selects the image tag
+    container:
+      image: >-
+        ghcr.io/${{ github.repository_owner }}/ds-base-env:${{
+          startsWith(github.ref_name, 'dev-') &&
+          replace(github.ref_name, 'dev-', 'v') ||
+          'latest'
+        }}-dev
+      options: --user root -v /var/run/docker.sock:/var/run/docker.sock
+
+    # These should all be constant, except TEST_FILTER. This can be used to test
     # subsets of test files in the testthat directory. Options are like:
     # '*'               <- Run all tests.
     # 'asNumericDS*'    <- Run all asNumericDS tests, i.e. all the arg, etc. tests.
@@ -54,58 +61,6 @@ jobs:
           path: testStatus
           persist-credentials: false
           token: ${{ env.GITHUB_TOKEN }}
-
-      - name: Uninstall default MySQL
-        run: |
-          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
-          sudo service mysql stop || true
-          sudo apt-get update
-          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
-          sudo apt-get autoremove -y
-          sudo apt-get autoclean -y
-          sudo rm -rf /var/lib/mysql/
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: release
-          http-user-agent: release
-          use-public-rspm: true
-
-      - name: Install R and dependencies
-        run: |
-          sudo apt-get install --no-install-recommends software-properties-common dirmngr -y
-          wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-          sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-          sudo apt-get update -qq
-          sudo apt-get upgrade -y
-          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
-          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev xml-twig-tools -y
-          sudo R -q -e "install.packages(c('devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), repos='https://cloud.r-project.org')"
-          sudo R -q -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: 'c("Imports")'
-          extra-packages: |
-            any::rcmdcheck
-            cran::devtools
-            cran::git2r
-            cran::RCurl
-            cran::readr
-            cran::magrittr
-            cran::xml2
-            cran::purrr
-            cran::dplyr
-            cran::stringr
-            cran::tidyr
-            cran::quarto
-            cran::knitr
-            cran::kableExtra
-            cran::rmarkdown
-            cran::downlit
-          needs: check
 
       - name: Check manual updated
         run: |
