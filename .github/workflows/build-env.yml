@@ -1,11 +1,17 @@
+name: Build Golden Base Image
+
 on:
+  push:
+    branches:
+      - 'chore/improve-ci'
   workflow_dispatch:
     inputs:
       release_tag:
         description: 'Image tag (e.g., v7.0.0-dev)'
         required: true
+        default: 'v7.0.0-dev'
       danger_version:
-        description: 'dsDangerClient version/branch'
+        description: 'dsDangerClient branch/tag'
         required: true
         default: 'v7.0.0-dev'
 
@@ -13,9 +19,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       packages: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -29,5 +39,6 @@ jobs:
           context: .
           push: true
           build-args: |
-            DANGER_VERSION=${{ github.event.inputs.danger_version }}
-          tags: ghcr.io/${{ github.repository_owner }}/ds-base-env:${{ github.event.inputs.release_tag }}
+            DANGER_VERSION=${{ github.event.inputs.danger_version || 'v7.0.0-dev' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ds-base-env:${{ github.event.inputs.release_tag || 'v7.0.0-dev' }}
