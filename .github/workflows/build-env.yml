@@ -39,6 +39,6 @@ jobs:
           context: .
           push: true
           build-args: |
-            DANGER_VERSION=${{ github.event.inputs.danger_version || 'v7.0.0-dev' }}
+            DANGER_VERSION=${{ github.event.inputs.danger_version || 'v6.3.4-dev' }}
           tags: |
             ghcr.io/${{ github.repository_owner }}/ds-base-env:${{ github.event.inputs.release_tag || 'v7.0.0-dev' }}
