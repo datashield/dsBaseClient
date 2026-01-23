@@ -38,6 +38,8 @@ jobs:
         with:
           context: .
           push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/ds-base-env:build-cache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/ds-base-env:build-cache,mode=max
           build-args: |
             DANGER_VERSION=${{ github.event.inputs.danger_version || 'v6.3.4-dev' }}
           tags: |
