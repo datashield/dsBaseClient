@@ -34,6 +34,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  R_LIBS_USER: $(Pipeline.Workspace)/R/library
 
 
 #########################################################################################
@@ -124,6 +125,16 @@ jobs:
     #####################################################################################
     # Install R and all the dependencies dsBaseClient requires.
     # If previous steps have failed then don't run.
+  - task: Cache@2
+    inputs:
+      key: 'r-pkgs | "$(Agent.OS)" | $(Build.SourceBranchName) | v1'
+      restoreKeys: |
+        r-pkgs | "$(Agent.OS)" | $(Build.SourceBranchName)
+        r-pkgs | "$(Agent.OS)"
+      path: $(R_LIBS_USER)
+    displayName: 'Cache R packages'
+    condition: succeeded()
+
   - bash: |
       sudo apt-get install --no-install-recommends software-properties-common dirmngr
       wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
@@ -133,14 +144,10 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev -y
-      sudo R -q -e "install.packages(c('curl','httr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      mkdir -p "$R_LIBS_USER"
+      R -q -e "pkgs <- c('curl','httr','devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'); inst <- rownames(installed.packages()); to_install <- setdiff(pkgs, inst); if (length(to_install)) install.packages(to_install, dependencies=TRUE, repos='https://cloud.r-project.org')"
 
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.4', dependencies = TRUE)"
+      R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.4', dependencies=TRUE, upgrade='never')"
 
       # XML grep for coverage report merging
       sudo apt-get install -qq xml-twig-tools -y
