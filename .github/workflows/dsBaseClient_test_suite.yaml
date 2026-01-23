@@ -27,11 +27,7 @@ jobs:
     # This logic automatically selects the image tag
     container:
       image: >-
-        ghcr.io/${{ github.repository_owner }}/ds-base-env:${{
-          startsWith(github.ref_name, 'dev-') &&
-          replace(github.ref_name, 'dev-', 'v') ||
-          'latest'
-        }}-dev
+        ghcr.io/${{ github.repository_owner }}/ds-base-env:${{ env.IMAGE_TAG }}
       options: --user root -v /var/run/docker.sock:/var/run/docker.sock
 
     env:
@@ -41,6 +37,7 @@ jobs:
       PROJECT_NAME: dsBaseClient
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       REPO_OWNER: ${{ github.repository_owner }}
+      IMAGE_TAG: ${{ github.event.pull_request.base.ref || github.ref_name }}
       R_KEEP_PKG_SOURCE: yes
       GITHUB_TOKEN: ${{ github.token || 'placeholder-token' }}
 
