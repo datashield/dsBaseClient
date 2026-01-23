@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 2. R Packages (Stable dependencies)
 RUN R -e "options(repos = c(RSPM = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest', CRAN = 'https://cloud.r-project.org')); \
     install.packages(c('devtools','remotes','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071', \
-    'rcmdcheck','git2r','RCurl','readr','magrittr','xml2','purrr','dplyr','stringr','tidyr','knitr','kableExtra','rmarkdown','downlit'))"
+    'rcmdcheck','git2r','RCurl','readr','magrittr','xml2','purrr','dplyr','stringr','tidyr','knitr','kableExtra','rmarkdown','downlit','lme4','httr','spelling','tibble','testthat'))"
 
 # 3. dsDangerClient (Pass the version as a build argument)
 ARG DANGER_VERSION=master
