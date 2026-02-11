@@ -56,7 +56,7 @@
 #'   # Example 2: generate a two dimensional table, outputting study specific contingency tables
 #'   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
 #'   # display the 5 results items, one at a time to avoid having too much information displayed
-#'   at the same time
+#'   # at the same time
 #'   output$counts
 #'   output$rowPercent
 #'   output$colPercent
@@ -111,6 +111,13 @@ ds.table2D <- function(x=NULL, y=NULL, type='both', warningMessage=TRUE, datasou
   if(!(type=="combine" || type=="split" || type=="both")){
     stop("Function argument 'type' has to be either 'combine', 'split' or 'both'")
   }
+
+  #################################################
+  # Setup on.exit() to restore options 'warn' value
+  #################################################
+
+  old_warn_option <- base::getOption("warn")
+  on.exit(base::options(warn = old_warn_option), add = TRUE)
 
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)

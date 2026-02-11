@@ -52,6 +52,14 @@ glmChecks <- function(formula, data, offset, weights, datasources){
     varIdentifier <- append(varIdentifier, "weights")
   }
 
+  #################################################
+  # Setup on.exit() to restore options 'warn' value
+  #################################################
+
+  old_warn_option <- base::getOption("warn")
+  on.exit(base::options(warn = old_warn_option), add = TRUE)
+
+
   # check that each variable is defined and not empty and each study. Stop the process if any check fails
   stdnames <- names(datasources)
   for(i in 1:length(elts)){

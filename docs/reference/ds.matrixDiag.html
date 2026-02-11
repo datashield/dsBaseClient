@@ -145,7 +145,118 @@ repeatedly to fill up the diagonal. For example, the vector is of length
 
     <div id="ref-examples">
     <h2>Examples</h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co">## Version 6, for version 5 see the Wiki</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># connecting to the Opal servers</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSI/" class="external-link">'DSI'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/datashield/DSOpal/" class="external-link">'DSOpal'</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">'dsBaseClient'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/newDSLoginBuilder.html" class="external-link">newDSLoginBuilder</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study1"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM1"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study2"</span>, </span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM2"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">builder</span><span class="op">$</span><span class="fu">append</span><span class="op">(</span>server <span class="op">=</span> <span class="st">"study3"</span>,</span></span>
+<span class="r-in"><span>                 url <span class="op">=</span> <span class="st">"http://192.168.56.100:8080/"</span>, </span></span>
+<span class="r-in"><span>                 user <span class="op">=</span> <span class="st">"administrator"</span>, password <span class="op">=</span> <span class="st">"datashield_test&amp;"</span>, </span></span>
+<span class="r-in"><span>                 table <span class="op">=</span> <span class="st">"CNSIM.CNSIM3"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">logindata</span> <span class="op">&lt;-</span> <span class="va">builder</span><span class="op">$</span><span class="fu">build</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="va">connections</span> <span class="op">&lt;-</span> <span class="fu">DSI</span><span class="fu">::</span><span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.login.html" class="external-link">datashield.login</a></span><span class="op">(</span>logins <span class="op">=</span> <span class="va">logindata</span>, assign <span class="op">=</span> <span class="cn">TRUE</span>, symbol <span class="op">=</span> <span class="st">"D"</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co">#Example 1: Create a square matrix with the server-side vector as its diagonal</span></span></span>
+<span class="r-in"><span>  <span class="co">#and all the other values = 0</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># Create a vector in the server-side </span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.rUnif.html">ds.rUnif</a></span><span class="op">(</span>samp.size <span class="op">=</span> <span class="fl">9</span>,</span></span>
+<span class="r-in"><span>           min <span class="op">=</span> <span class="op">-</span><span class="fl">10.5</span>,</span></span>
+<span class="r-in"><span>           max <span class="op">=</span> <span class="fl">10.5</span>,</span></span>
+<span class="r-in"><span>           newobj <span class="op">=</span> <span class="st">"ss.vector.9"</span>,</span></span>
+<span class="r-in"><span>           seed.as.integer <span class="op">=</span> <span class="fl">5575</span>,</span></span>
+<span class="r-in"><span>           force.output.to.k.decimal.places <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span>            </span></span>
+<span class="r-in"><span>  <span class="co">#Calculate the diagonal of the matrix</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">ds.matrixDiag</span><span class="op">(</span>x1 <span class="op">=</span> <span class="st">"ss.vector.9"</span>,</span></span>
+<span class="r-in"><span>                aim <span class="op">=</span> <span class="st">"serverside.vector.2.matrix"</span>,</span></span>
+<span class="r-in"><span>                nrows.scalar <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>                newobj <span class="op">=</span> <span class="st">"matrix.diag1"</span>,</span></span>
+<span class="r-in"><span>                datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                </span></span>
+<span class="r-in"><span>  <span class="co">#Example 2: Create a square matrix with the server-side scalar as all diagonal values </span></span></span>
+<span class="r-in"><span>  <span class="co">#and all the other values = 0</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co">#Create a scalar in the server-side</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="ds.rUnif.html">ds.rUnif</a></span><span class="op">(</span>samp.size <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>           min <span class="op">=</span> <span class="op">-</span><span class="fl">10.5</span>,</span></span>
+<span class="r-in"><span>           max <span class="op">=</span> <span class="fl">10.5</span>,</span></span>
+<span class="r-in"><span>           newobj <span class="op">=</span> <span class="st">"ss.scalar"</span>,</span></span>
+<span class="r-in"><span>           seed.as.integer <span class="op">=</span> <span class="fl">5575</span>,</span></span>
+<span class="r-in"><span>           force.output.to.k.decimal.places <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span>  <span class="co">#Calculate the diagonal of the matrix</span></span></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span> <span class="fu">ds.matrixDiag</span><span class="op">(</span>x1 <span class="op">=</span> <span class="st">"ss.scalar"</span>,</span></span>
+<span class="r-in"><span>               aim <span class="op">=</span> <span class="st">"serverside.scalar.2.matrix"</span>,</span></span>
+<span class="r-in"><span>               nrows.scalar <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"matrix.diag2"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span> <span class="co">#Example 3: Create a vector that contains the server-side matrix diagonal values</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span> <span class="co">#Create a matrix in the server-side</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span> <span class="fu"><a href="ds.matrix.html">ds.matrix</a></span><span class="op">(</span>mdata <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>           from <span class="op">=</span> <span class="st">"clientside.scalar"</span>,</span></span>
+<span class="r-in"><span>           nrows.scalar <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>           ncols.scalar <span class="op">=</span> <span class="fl">8</span>,</span></span>
+<span class="r-in"><span>           newobj <span class="op">=</span> <span class="st">"ss.matrix"</span>,</span></span>
+<span class="r-in"><span>           datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           </span></span>
+<span class="r-in"><span> <span class="co">#Extract the diagonal of the matrix</span></span></span>
+<span class="r-in"><span>     </span></span>
+<span class="r-in"><span> <span class="fu">ds.matrixDiag</span><span class="op">(</span>x1 <span class="op">=</span> <span class="st">"ss.matrix"</span>,</span></span>
+<span class="r-in"><span>               aim <span class="op">=</span> <span class="st">"serverside.matrix.2.vector"</span>,</span></span>
+<span class="r-in"><span>               nrows.scalar <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"vector.diag3"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                   </span></span>
+<span class="r-in"><span> <span class="co">#Example 4: Create a square matrix with the client-side vector as a diagonal</span></span></span>
+<span class="r-in"><span> <span class="co">#and all the other values = 0</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span> <span class="fu">ds.matrixDiag</span><span class="op">(</span>x1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               aim <span class="op">=</span> <span class="st">"clientside.vector.2.matrix"</span>,</span></span>
+<span class="r-in"><span>               nrows.scalar <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"matrix.diag4"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span> <span class="co">#Example 5: Create a square matrix with the client-side scalar as all diagonal values </span></span></span>
+<span class="r-in"><span> <span class="co">#and all the other values = 0</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span> <span class="fu">ds.matrixDiag</span><span class="op">(</span>x1 <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>               aim <span class="op">=</span> <span class="st">"clientside.scalar.2.matrix"</span>,</span></span>
+<span class="r-in"><span>               nrows.scalar <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>               newobj <span class="op">=</span> <span class="st">"matrix.diag5"</span>,</span></span>
+<span class="r-in"><span>               datasources <span class="op">=</span> <span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># clear the Datashield R sessions and logout</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://datashield.github.io/DSI/reference/datashield.logout.html" class="external-link">datashield.logout</a></span><span class="op">(</span><span class="va">connections</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

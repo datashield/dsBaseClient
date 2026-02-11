@@ -112,7 +112,7 @@
 #'                 datasources = connections)
 #'                 
 #'   #Example 2: Create a square matrix with the server-side scalar as all diagonal values 
-#'   and all the other values = 0
+#'   #and all the other values = 0
 #'   
 #'   #Create a scalar in the server-side
 #'   
@@ -152,7 +152,7 @@
 #'                datasources = connections)
 #'                    
 #'  #Example 4: Create a square matrix with the client-side vector as a diagonal
-#'  and all the other values = 0
+#'  #and all the other values = 0
 #'  
 #'  ds.matrixDiag(x1 = c(2,6,9,10),
 #'                aim = "clientside.vector.2.matrix",
@@ -161,7 +161,7 @@
 #'                datasources = connections)
 #'                
 #'  #Example 5: Create a square matrix with the client-side scalar as all diagonal values 
-#'  and all the other values = 0
+#'  #and all the other values = 0
 #'  
 #'  ds.matrixDiag(x1 = 4,
 #'                aim = "clientside.scalar.2.matrix",

@@ -34,6 +34,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  PERF_PROFILE: 'azure-pipeline'
 
 
 #########################################################################################
@@ -274,6 +275,7 @@ jobs:
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+
       sudo R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(

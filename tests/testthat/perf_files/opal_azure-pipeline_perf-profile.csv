@@ -6,7 +6,7 @@
 "ds.asNumeric::perf:0","2.185","0.5","2"
 "ds.assign::perf::0","5.490","0.5","2"
 "ds.class::perf::combine:0","4.760","0.5","2"
-"ds.colnames::perf:0","4.159","0.5","2"
+"ds.colnames::perf:0","9.079","0.5","2"
 "ds.exists::perf::combine:0","11.09","0.5","2"
 "ds.length::perf::combine:0","9.479","0.5","2"
 "ds.mean::perf::combine:0","9.650","0.5","2"

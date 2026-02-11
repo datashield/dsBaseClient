@@ -17,6 +17,7 @@
 #' @keywords internal
 #' @return \code{subsetHelper} returns a message or the class of the object if the 
 #' object has the same class in all studies.
+#' @export
 #' @examples
 #' \dontrun{
 #'

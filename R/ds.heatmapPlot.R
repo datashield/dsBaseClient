@@ -133,7 +133,7 @@
 #'                  datasources = connections[1]) #only the first server is used (study1)
 #'                  
 #'   # Example 3: Plot a combined heat map plot using the method 'deterministic' centroids of each 
-#'   k = 7 nearest neighbours for numints = 40
+#'   # k = 7 nearest neighbours for numints = 40
 #'   ds.heatmapPlot(x = 'D$LAB_TSC',
 #'                  y = 'D$LAB_HDL', 
 #'                  numints = 40, 

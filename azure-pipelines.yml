@@ -32,6 +32,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  PERF_PROFILE: 'azure-pipeline'
 
 
 #########################################################################################
@@ -214,7 +215,7 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
-      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.5-dev'); opal.logout(opal)"
 
@@ -253,6 +254,7 @@ jobs:
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
+
       sudo R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
@@ -342,7 +344,7 @@ jobs:
     # If previous steps have failed then don't run
   - bash: |
 
-      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '6.3.4'); opal.logout(opal)"
 

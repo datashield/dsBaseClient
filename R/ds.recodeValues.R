@@ -69,7 +69,7 @@
 #'                   values2replace.vector = c(1,2), 
 #'                   new.values.vector = c(1,2),
 #'                   missing = 99, 
-#'                   newobj = 'bmi_recoded'
+#'                   newobj = 'bmi_recoded',
 #'                   datasources = connections)
 #'                  
 #'   # Clear the Datashield R sessions and logout                 

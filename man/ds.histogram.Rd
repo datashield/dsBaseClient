@@ -148,7 +148,7 @@ Server function called: \code{histogramDS2}
               datasources = connections) #all studies are used
 
   # Example 2: generate a combined histogram with the default small cells counts
-               suppression rule
+  #             suppression rule
   ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
                method = 'smallCellsRule',
                type = 'combine',

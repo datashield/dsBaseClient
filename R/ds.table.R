@@ -1539,6 +1539,12 @@ if(num.table.dims==1)
 
 }#END second dim=1 loop
 
+#################################################
+# Setup on.exit() to restore options 'warn' value
+#################################################
+
+old_warn_option <- base::getOption("warn")
+on.exit(base::options(warn = old_warn_option), add = TRUE)
 
 ################################
 #NOW UNDERTAKE CHISQUARED TESTS#

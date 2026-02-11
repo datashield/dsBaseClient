@@ -77,7 +77,7 @@ identify the cell(s) that had the small counts which render the table invalid.
   # Example 2: generate a two dimensional table, outputting study specific contingency tables
   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
   # display the 5 results items, one at a time to avoid having too much information displayed
-  at the same time
+  # at the same time
   output$counts
   output$rowPercent
   output$colPercent
