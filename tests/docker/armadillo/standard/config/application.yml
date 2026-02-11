@@ -14,7 +14,7 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-citest-permissive:latest
+      image: datashield/rock_citest-permissive:latest
       port: 8085
       host: default
       package-whitelist: # Packages for 'permissive'
