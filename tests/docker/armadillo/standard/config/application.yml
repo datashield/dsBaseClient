@@ -14,11 +14,12 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-quebrada-lamda-permissive:latest
+      image: datashield/rock-citest-permissive:latest
       port: 8085
       host: default
       package-whitelist: # Packages for 'permissive'
         - dsBase
+        - dsTidyverse
         - resourcer
       function-blacklist: [ ]
       options:

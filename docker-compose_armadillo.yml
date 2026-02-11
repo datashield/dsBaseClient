@@ -4,7 +4,6 @@ services:
         ports:
             - 8080:8080
         image: datashield/armadillo_citest:latest
-#        image: datashield/armadillo_devel:latest
         environment:
             LOGGING_CONFIG: 'classpath:logback-file.xml'
             AUDIT_LOG_PATH: '/app/logs/audit.log'
@@ -18,8 +17,6 @@ services:
 
     default:
         hostname: default
-        image: datashield/molgenis-rock-base-permissive:2.0.0
-#        image: datashield/rserver-citest:latest
-#        image: datashield/rserver-devel:latest
+        image: datashield/rock-citest-permissive:latest
         environment:
             DEBUG: "FALSE"
