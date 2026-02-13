@@ -26,10 +26,11 @@ test_that("setup", {
 #
 
 # context("ds.meanByClass::smk::LAB_TSC across PM_BMI_CATEGORICAL categories where both vectors are 'loose'")
-ds.assign("D$LAB_TSC", "ldl")
-ds.assign("D$PM_BMI_CATEGORICAL", "pm_bmi")
 test_that("LAB_TSC_across_", {
-    res <- ds.meanByClass(x='ldl~pm_bmi')
+    ds.assign("D$LAB_TSC", "ldl")
+    ds.assign("D$PM_BMI_CATEGORICAL", "pm_bmi")
+
+    res <- expect_warning(ds.meanByClass(x='ldl~pm_bmi'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 6)
     expect_equal(res[[1]], '2753')
@@ -41,8 +42,8 @@ test_that("LAB_TSC_across_", {
 })
 
 # context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories")
-res <- ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL')
 test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 6)
     expect_equal(res[[1]], '2753')
@@ -55,8 +56,8 @@ test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
 
 
 # context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL & LAB_TSC across bmi categories")
-res <- ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('PM_BMI_CATEGORICAL'))
 test_that("LAB_HDL-LAB_TSC_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('PM_BMI_CATEGORICAL')), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 12)
     expect_equal(res[[1]], '2753')
@@ -77,10 +78,9 @@ test_that("LAB_HDL-LAB_TSC_across_PM_BMI_CATEGORICAL", {
 # context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories")
 # res <- ds.meanByClass(datasources=ds.test_env$connection.opal, x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 
-
 # context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories, split")
-res <- ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL', type='split')
 test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL', type='split'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 3)
     expect_length(res$sim1, 6)
