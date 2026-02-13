@@ -28,7 +28,7 @@ test_that("setup", {
 
 # context("ds.message::smk")
 test_that("not exists - request message", {
-    message.res <- expect_warning(ds.message('Test'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
+    message.res <- expect_warning(ds.message('Test'), "'ds.message' is deprecated.", fixed = TRUE)
 
     expect_length(message.res, 3)
     expect_equal(message.res$sim1, "Error: the object <message.object.name> does not exist in this datasource", fixed=TRUE)
@@ -39,7 +39,7 @@ test_that("not exists - request message", {
 test_that("exists - request message", {
     ds.list("D$LAB_TSC", "Test")
 
-    message.res <- expect_warning(ds.message('Test'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
+    message.res <- expect_warning(ds.message('Test'), "'ds.message' is deprecated.", fixed = TRUE)
 
     expect_length(message.res, 3)
     expect_equal(message.res$sim1, "ALL OK: there are no studysideMessage(s) on this datasource", fixed=TRUE)
@@ -52,7 +52,7 @@ test_that("partial - request message - conn 1", {
 
     ds.list("D$LAB_TSC", newobj="TestP", datasources=ds.test_env$connections[1])
 
-    message.res <- expect_warning(ds.message('TestP'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
+    message.res <- expect_warning(ds.message('TestP'), "'ds.message' is deprecated.", fixed = TRUE)
 
     expect_length(message.res, 3)
     expect_equal(message.res$sim1, "ALL OK: there are no studysideMessage(s) on this datasource", fixed=TRUE)
@@ -67,7 +67,7 @@ test_that("partial - request message - conn 2", {
 
     ds.list("D$LAB_TSC", newobj="TestP", datasources=ds.test_env$connections[2])
 
-    message.res <- expect_warning(ds.message('TestP'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
+    message.res <- expect_warning(ds.message('TestP'), "'ds.message' is deprecated.", fixed = TRUE)
 
     expect_length(message.res, 3)
     expect_equal(message.res$sim1, "Error: the object <message.object.name> does not exist in this datasource", fixed=TRUE)
@@ -82,7 +82,7 @@ test_that("partial - request message - conn 3", {
 
     ds.list("D$LAB_TSC", newobj="TestP", datasources=ds.test_env$connections[3])
 
-    message.res <- expect_warning(ds.message('TestP'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
+    message.res <- expect_warning(ds.message('TestP'), "'ds.message' is deprecated.", fixed = TRUE)
 
     expect_length(message.res, 3)
     expect_equal(message.res$sim1, "Error: the object <message.object.name> does not exist in this datasource", fixed=TRUE)

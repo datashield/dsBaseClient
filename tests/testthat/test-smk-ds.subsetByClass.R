@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.subsetByClass::smk")
 test_that("gender implicit", {
-    res <- expect_warning(ds.subsetByClass(x='D', subsets='subclasses1'), "'ds.dataFrameSubset' is deprecated.", fixed = TRUE)
+    res <- expect_warning(ds.subsetByClass(x='D', subsets='subclasses1'), "'ds.subsetByClass' is deprecated.", fixed = TRUE)
 
     expect_true(is.null(res))
 
@@ -46,7 +46,7 @@ test_that("gender implicit", {
 })
 
 test_that("gender explicit", {
-    res <- expect_warning(ds.subsetByClass(x='D', subsets='subclasses2', variables='GENDER'), "'ds.dataFrameSubset' is deprecated.", fixed = TRUE)
+    res <- expect_warning(ds.subsetByClass(x='D', subsets='subclasses2', variables='GENDER'), "'ds.subsetByClass' is deprecated.", fixed = TRUE)
 
     expect_true(is.null(res))
 

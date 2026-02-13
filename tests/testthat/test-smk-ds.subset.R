@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.subset::smk::generate a subset of the assigned table (by default the table is named 'D') with the first 50 observations and the two first columns")
 test_that("subD_exists", {
-    expect_warning(ds.subset(datasources=ds.test_env$connections, subset='subD', x='D', rows=c(1:50), cols=c(1,2)), "'ds.dataFrameSubset' is deprecated.", fixed = TRUE)
+    expect_warning(ds.subset(datasources=ds.test_env$connections, subset='subD', x='D', rows=c(1:50), cols=c(1,2)), "'ds.subset' is deprecated.", fixed = TRUE)
 
     res <- ds.exists('subD')
 
@@ -39,7 +39,7 @@ test_that("subD_exists", {
 
 # context("ds.subset::smk::generate a subset of the assigned table (by default the table is named 'D') with the first 50 observations and the two first columns referred to by their names")
 test_that("subD2_exists", {
-    expect_warning(ds.subset(subset='subD2', x='D', rows=c(1:50), cols = c('DIS_DIAB','PM_BMI_CONTINUOUS')), "'ds.dataFrameSubset' is deprecated.", fixed = TRUE)
+    expect_warning(ds.subset(subset='subD2', x='D', rows=c(1:50), cols = c('DIS_DIAB','PM_BMI_CONTINUOUS')), "'ds.subset' is deprecated.", fixed = TRUE)
 
     res <- ds.exists('subD2')
 
@@ -51,7 +51,7 @@ test_that("subD2_exists", {
 
 # context("ds.subset::smk::generate a subset of the table D with bmi values greater than or equal to 25.")
 test_that("subD3_exists", {
-    expect_warning(ds.subset(datasources=ds.test_env$connections, subset='subD3', x='D', logical='PM_BMI_CONTINUOUS>=', threshold=25), "'ds.dataFrameSubset' is deprecated.", fixed = TRUE)
+    expect_warning(ds.subset(datasources=ds.test_env$connections, subset='subD3', x='D', logical='PM_BMI_CONTINUOUS>=', threshold=25), "'ds.subset' is deprecated.", fixed = TRUE)
 
     res <- ds.exists('subD3')
 
