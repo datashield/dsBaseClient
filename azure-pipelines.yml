@@ -32,7 +32,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
-  PERF_PROFILE: 'azure-pipeline'
+  perf.profile: 'azure-pipeline'
 
 
 #########################################################################################
