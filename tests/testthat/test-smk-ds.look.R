@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.look::smk")
 test_that("simple look", {
-    res <- ds.look("lengthDS('D$LAB_TSC')")
+    res <- expect_warning(ds.look("lengthDS('D$LAB_TSC')"), "'ds.look' is deprecated.", fixed = TRUE)
 
     expect_length(res, 1)
     expect_length(res$output, 3)
