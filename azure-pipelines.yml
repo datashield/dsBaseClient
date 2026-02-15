@@ -255,7 +255,7 @@ jobs:
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
 
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
             type = c("none"),
@@ -370,7 +370,7 @@ jobs:
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsdanger.res <- covr::package_coverage(
             type = c("none"),
