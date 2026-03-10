@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.mean::perf::combine:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- as.numeric(Sys.getenv("PERF_DURATION_SEC", unset = "30"))
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -52,7 +52,7 @@ test_that("combine - performance", {
 
 # context("ds.mean::perf::split:0")
 test_that("split - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- as.numeric(Sys.getenv("PERF_DURATION_SEC", unset = "30"))
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

@@ -40,6 +40,22 @@ test_that("with no force.factor.levels", {
     expect_equal("All tables are valid!", res2$validity)
 })
 
+test_that("fails if the object does not exist", {
+  expect_error(
+    ds.asFactorSimple("non_existing_obj", "bad_obj"),
+    regexp = "There are some DataSHIELD errors, list them with datashield.errors()",
+    ignore.case = TRUE
+  )
+})
+
+test_that("fails if the object is not numeric or character", {
+  expect_error(
+    ds.asFactorSimple("D", "bad_obj"),
+    regexp = "There are some DataSHIELD errors, list them with datashield.errors()",
+    ignore.case = TRUE
+  )
+})
+
 #
 # Done
 #
