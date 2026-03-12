@@ -27,11 +27,7 @@ test_that("setup", {
 
 # context("ds.asDataMatrix::smk::simple test")
 test_that("simple test", {
-    res <- ds.asDataMatrix(x.name="D$GENDER")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <asdatamatrix.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<asdatamatrix.newobj> appears valid in all sources")
+    ds.asDataMatrix(x.name="D$GENDER")
 
     res.class <- ds.class("asdatamatrix.newobj")
     expect_length(res.class, 3)

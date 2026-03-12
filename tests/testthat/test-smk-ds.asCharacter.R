@@ -27,11 +27,12 @@ test_that("setup", {
 
 # context("ds.asCharacter::smk::simple test")
 test_that("simple test", {
-    res <- ds.asCharacter("D$LAB_TSC")
+    ds.asCharacter("D$LAB_TSC")
 
-    expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <ascharacter.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<ascharacter.newobj> appears valid in all sources")
+    res.class <- ds.class("ascharacter.newobj")
+    expect_equal(res.class$sim1, "character")
+    expect_equal(res.class$sim2, "character")
+    expect_equal(res.class$sim3, "character")
 })
 
 #
