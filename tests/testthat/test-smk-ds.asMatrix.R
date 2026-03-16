@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asMatrix::smk::simple test")
 test_that("simple test", {
-    ds.asMatrix(x.name="D$GENDER")
+    expect_silent(ds.asMatrix(x.name="D$GENDER"))
 
     res.class <- ds.class("asmatrix.newobj")
     expect_true("matrix" %in% res.class$sim1)

@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asLogical::smk::simple test")
 test_that("simple test", {
-    ds.asLogical("D$LAB_TSC")
+    expect_silent(ds.asLogical("D$LAB_TSC"))
 
     res.class <- ds.class("aslogical.newobj")
     expect_equal(res.class$sim1, "logical")

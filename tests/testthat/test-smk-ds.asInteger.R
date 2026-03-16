@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asInteger::smk::simple test")
 test_that("simple test", {
-    ds.asInteger("D$GENDER")
+    expect_silent(ds.asInteger("D$GENDER"))
 
     res.class <- ds.class("asinteger.newobj")
     expect_equal(res.class$sim1, "integer")
