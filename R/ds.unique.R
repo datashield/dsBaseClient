@@ -46,29 +46,18 @@
 #' @export
 #'
 ds.unique <- function(x.name = NULL, newobj = NULL, datasources = NULL) {
-    # look for DS connections
-    if (is.null(datasources)) {
-        datasources <- datashield.connections_find()
-    }
 
-    # ensure datasources is a list of DSConnection-class
-    if (!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))) {
-        stop("The 'datasources' were expected to be a list of DSConnection-class objects", call. = FALSE)
-    }
+    datasources <- .set_datasources(datasources)
 
     if (is.null(x.name)) {
         stop("x.name=NULL. Please provide the names of the objects to de-duplicated!", call. = FALSE)
     }
 
-    # create a name by default if user did not provide a name for the new variable
     if (is.null(newobj)) {
         newobj <- "unique.newobj"
     }
 
-    # call the server side function that does the job
     cally <- call('uniqueDS', x.name)
     DSI::datashield.assign(datasources, newobj, cally)
 
-    # check that the new object has been created and display a message accordingly
-    finalcheck <- isAssigned(datasources, newobj)
 }

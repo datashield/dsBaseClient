@@ -68,25 +68,14 @@
 #'
 ds.names <- function(xname=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(xname)){
     stop("Please provide the name of the input list!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, xname)
 
   calltext <- call("namesDS", xname)
-  output <- datashield.aggregate(datasources, calltext)
+  output <- DSI::datashield.aggregate(datasources, calltext)
   return(output)
 }
 #ds.names
