@@ -4,7 +4,7 @@
 \alias{ds.dim}
 \title{Retrieves the dimension of a server-side R object}
 \usage{
-ds.dim(x = NULL, type = "both", checks = FALSE, datasources = NULL)
+ds.dim(x = NULL, type = "both", datasources = NULL)
 }
 \arguments{
 \item{x}{a character string providing the name of the input object.}
@@ -17,12 +17,12 @@ the dimension is returned separately for each study.
 If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
 Default \code{'both'}.}
 
-\item{checks}{logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
-Default FALSE.}
-
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{checks}{logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
+Default FALSE.}
 }
 \value{
 \code{ds.dim} retrieves to the client-side the dimension of the object 

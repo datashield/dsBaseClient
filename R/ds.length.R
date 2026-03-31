@@ -74,50 +74,35 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length <- function(x=NULL, type='both', checks='FALSE', datasources=NULL){
+ds.length <- function(x=NULL, type='both', datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-  
+  datasources <- .set_datasources(datasources)
+
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
-  }                                                                               
-
-  # beginning of optional checks - the process stops and reports as soon as one check fails
-  if(checks){  
-    
-    # check if the input object is defined in all the studies
-    isDefined(datasources, x)
-    
-    # call the internal function that checks the input object is suitable in all studies 
-    typ <- checkClass(datasources, x)
-    
-    # the input object must be a vector or a list
-    if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('list' %in% typ)){
-      stop("The input object must be a character, factor, integer, logical or numeric vector or a list.", call.=FALSE)
-    }
-    
-  } 
+  }
 
   ###################################################################################################
-  # MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
+  # MODULE: EXTEND "type" argument to include "both" and enable valid aliases                      #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
   if(type != 'combine' & type != 'split' & type != 'both'){                                         #
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
   }
-  
+
   # call the server-side function
   cally <- call("lengthDS", x)
-  lengths <- DSI::datashield.aggregate(datasources, cally)
+  results <- DSI::datashield.aggregate(datasources, cally)
+
+  # check class consistency across studies
+  classes <- lapply(results, function(r) r$class)
+  if(length(unique(lapply(classes, sort))) > 1){
+    stop("The input object is not of the same class in all studies!", call.=FALSE)
+  }
+
+  # extract lengths from results
+  lengths <- lapply(results, function(r) r$length)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
