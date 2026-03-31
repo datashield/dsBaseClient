@@ -57,46 +57,23 @@
 #' 
 ds.isNA <- function(x=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a vector
-  if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('data.frame' %in% typ) & !('matrix' %in% typ)){
-    stop("The input object must be a character, factor, integer, logical or numeric vector.", call.=FALSE)
-  }
-
-  # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
-  
-  # name of the variable
   xnames <- extract(x)
   varname <- xnames$elements
 
-  # keep of the results of the checks for each study
-  track <- list()
+  cally <- call("isNaDS", x)
+  results <- DSI::datashield.aggregate(datasources, cally)
 
-  # call server side function 'isNaDS' to check, in each study, if the vector is empty
-  for(i in 1: length(datasources)){
-    cally <- call("isNaDS", x)
-    out <- DSI::datashield.aggregate(datasources[i], cally)
-    if(out[[1]]){
+  # report per-study if all NA
+  track <- list()
+  for(i in 1:length(results)){
+    if(results[[i]]){
       track[[i]] <- TRUE
       message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")
     }else{
