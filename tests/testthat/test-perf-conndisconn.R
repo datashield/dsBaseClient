@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -22,7 +22,7 @@ disconnect.studies.dataset.cnsim()
 
 # context("conndisconn::perf::simple0")
 test_that("simple connect - disconnect performance", {
-    .durationSec  <- 120 # seconds
+    .durationSec  <- base::as.integer(base::Sys.getenv("PERF_DURATION_SEC", unset = "120")) # defaults to 120 seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
