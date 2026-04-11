@@ -96,11 +96,7 @@ ds.length <- function(x=NULL, type='both', datasources=NULL){
   cally <- call("lengthDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
-  # check class consistency across studies
-  classes <- lapply(results, function(r) r$class)
-  if(length(unique(lapply(classes, sort))) > 1){
-    stop("The input object is not of the same class in all studies!", call.=FALSE)
-  }
+  .checkClassConsistency(results)
 
   # extract lengths from results
   lengths <- lapply(results, function(r) r$length)
