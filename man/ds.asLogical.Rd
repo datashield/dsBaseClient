@@ -68,4 +68,6 @@ Server function called: \code{asLogicalDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

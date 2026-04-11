@@ -68,4 +68,6 @@ Server function called: \code{asListDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -17,6 +17,7 @@
 #' the input numeric or integer vector specified in the argument \code{x}. The created vectors
 #' are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

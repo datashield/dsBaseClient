@@ -51,6 +51,7 @@
 #'   
 #' }   
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.asLogical <- function(x.name=NULL, newobj=NULL, datasources=NULL){

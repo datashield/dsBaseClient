@@ -69,4 +69,6 @@ Server function called: \code{asDataMatrixDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

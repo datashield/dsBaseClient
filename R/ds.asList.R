@@ -52,6 +52,7 @@
 #'   
 #' }   
 #' @author  DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.asList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
