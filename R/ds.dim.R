@@ -29,6 +29,7 @@
 #' in the form of a vector where the first
 #' element indicates the number of rows and the second element indicates the number of columns.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.dataFrame}} to generate a table of the type data frame.
 #' @seealso \code{\link{ds.changeRefGroup}} to change the reference level of a factor.
 #' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame

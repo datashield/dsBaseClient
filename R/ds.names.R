@@ -20,6 +20,7 @@
 #' of a list object stored on the server-side.
 #' @author Amadou Gaye, updated by Paul Burton for DataSHIELD development
 #' team 25/06/2020
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

@@ -68,6 +68,7 @@
 #'   }
 #'   
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){

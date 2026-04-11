@@ -12,6 +12,7 @@
 #' @return \code{ds.levels} returns to the client-side the levels of a factor 
 #' class variable stored in the server-side. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

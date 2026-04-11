@@ -14,6 +14,7 @@
 #' @return \code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
 #' (all values are NA), FALSE otherwise.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

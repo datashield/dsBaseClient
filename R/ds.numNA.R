@@ -13,6 +13,7 @@
 #' @return \code{ds.numNA} returns to the client-side the number of missing values
 #' on a server-side vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

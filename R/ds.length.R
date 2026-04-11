@@ -23,6 +23,7 @@
 #' @return \code{ds.length} returns to the client-side the pooled length of a vector or a list, 
 #' or the length of a vector or a list for each study separately.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

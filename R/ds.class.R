@@ -11,6 +11,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.class} returns the type of the R object. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.
 #' @examples 
 #' \dontrun{

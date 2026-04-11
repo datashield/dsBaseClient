@@ -91,4 +91,6 @@ Server function called: \code{lengthDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

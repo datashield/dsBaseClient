@@ -43,6 +43,7 @@
 #'   datashield.logout(connections)
 #' }
 #' @author Stuart Wheater, DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.unique <- function(x.name = NULL, newobj = NULL, datasources = NULL) {

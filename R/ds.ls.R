@@ -61,6 +61,7 @@
 #' specified R server-side environment;\cr
 #' (3) the nature of the search filter string as it was applied. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'
