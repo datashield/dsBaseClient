@@ -26,17 +26,22 @@ The refactored `ds.colnames` branch (`v7.0-dev-colnames`) also introduces shared
 
 3. **Remove `checkClass()` calls and subsequent type guards** — server handles via `.checkClass()`
 
-4. **Preserve cross-study class consistency checking** — The old client-side `checkClass()` function did two things: (a) validated the object's class was permitted, and (b) checked the class was **identical across all studies**. The server-side `.checkClass()` only handles (a), since each server runs independently. For functions where `checkClass()` was always called (not gated behind `checks=FALSE`), the cross-study consistency check must be preserved. This can be done by having the server return class info alongside results, then checking consistency client-side via `.checkClassConsistency()`. After checking, **strip the `class` field from results before returning to the user** — the class field is internal and must not change the user-facing return value. Functions where `checkClass()` was gated behind a `checks` parameter that defaulted to FALSE (e.g. `ds.dim`, `ds.length`) do not need this.
+4. **Add `classConsistencyCheck` parameter** — For any function where the input accepts more than one permitted class, add a `classConsistencyCheck` parameter. The server function returns `class = class(obj)` in its result list; the client checks consistency via `.checkClassConsistency()` when the parameter is TRUE, then strips the `class` field before returning to the user. Rules for the default value:
+   - **TRUE** when permitted classes include genuinely different types (e.g. data.frame + matrix, factor + character + integer)
+   - **FALSE** when permitted classes are only `numeric` and `integer` (these are effectively interchangeable)
+   - **No parameter** when only one class is permitted (e.g. `ds.levels` only permits factor — consistency is guaranteed by `.checkClass()`)
 
-5. **Remove `isAssigned()` calls** — no longer verify object creation client-side
+5. **Remove `ValidityMessage`** — Server functions that returned `ValidityMessage = "VALID ANALYSIS"` should remove it. Failures should call `stop()` instead of returning a failure message. Remove `ValidityMessage` from client returns too. This is a major release so API changes are acceptable.
 
-5. **Remove MODULE 5 boilerplate** — the ~40-80 line "CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED" block
+6. **Remove `isAssigned()` calls** — no longer verify object creation client-side
 
-6. **Remove `checks` parameter** — functions like `ds.dim` and `ds.length` have a `checks` parameter that gates `isDefined()`/`checkClass()` calls. Once those calls are removed, the parameter serves no purpose. Remove it from the function signature and delete the associated conditional block.
+7. **Remove MODULE 5 boilerplate** — the ~40-80 line "CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED" block
 
-7. **Replace per-study loops with single aggregate calls** — some functions (e.g. `ds.isNA`) loop over datasources one at a time (`datashield.aggregate(datasources[i], ...)`). Since `datashield.aggregate` already supports multiple datasources and returns a named list, replace these loops with a single call and process results client-side. This collapses N sequential round trips into 1 parallel call.
+8. **Remove `checks` parameter** — functions like `ds.dim` and `ds.length` have a `checks` parameter that gates `isDefined()`/`checkClass()` calls. Once those calls are removed, the parameter serves no purpose. Remove it from the function signature and delete the associated conditional block.
 
-8. **Keep**: null-input checks (or replace with `.check_df_name_provided()`), default `newobj` naming, the actual server call dispatch, any pure client-side logic
+9. **Replace per-study loops with single aggregate calls** — some functions (e.g. `ds.isNA`) loop over datasources one at a time (`datashield.aggregate(datasources[i], ...)`). Since `datashield.aggregate` already supports multiple datasources and returns a named list, replace these loops with a single call and process results client-side. This collapses N sequential round trips into 1 parallel call.
+
+10. **Keep**: null-input checks (or replace with `.check_df_name_provided()`), default `newobj` naming, the actual server call dispatch, any pure client-side logic
 
 ### Server-side (dsBase)
 
