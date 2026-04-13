@@ -4,7 +4,7 @@
 \alias{ds.numNA}
 \title{Gets the number of missing values in a server-side vector}
 \usage{
-ds.numNA(x = NULL, datasources = NULL)
+ds.numNA(x = NULL, classConsistencyCheck = TRUE, datasources = NULL)
 }
 \arguments{
 \item{x}{a character string specifying the name of the vector.}

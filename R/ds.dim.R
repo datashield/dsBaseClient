@@ -7,21 +7,18 @@
 #' from every single study and the pooled dimension of the object by summing up the individual 
 #' dimensions returned from each study.
 #' 
-#' In \code{checks} parameter is suggested that checks should only be undertaken once the 
-#' function call has failed.
-#' 
 #' Server function called: \code{dimDS}
-#' 
-#' @param x a character string providing the name of the input object. 
-#' @param type a character string that represents the type of analysis to carry out. 
+#'
+#' @param x a character string providing the name of the input object.
+#' @param type a character string that represents the type of analysis to carry out.
 #' If \code{type} is set to \code{'combine'}, \code{'combined'}, \code{'combines'} or \code{'c'},
-#'  the global dimension is returned. 
-#' If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'}, 
+#'  the global dimension is returned.
+#' If \code{type} is set to \code{'split'}, \code{'splits'} or \code{'s'},
 #' the dimension is returned separately for each study.
 #' If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
-#' Default \code{'both'}. 
-#' @param checks logical. If TRUE undertakes all DataSHIELD checks (time-consuming).
-#' Default FALSE.
+#' Default \code{'both'}.
+#' @param classConsistencyCheck logical. If TRUE, checks that the input object has the same
+#' class across all studies. Default TRUE.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -68,17 +65,14 @@
 #'   # Calculate the dimension
 #'   ds.dim(x="D", 
 #'          type="combine", #global dimension
-#'          checks = FALSE,
-#'          datasources = connections)#all opal servers are used
+#'#'          datasources = connections)#all opal servers are used
 #'   ds.dim(x="D",
 #'          type = "both",#separate dimension for each study
 #'                        #and the pooled dimension (default) 
-#'          checks = FALSE,
-#'          datasources = connections)#all opal servers are used
+#'#'          datasources = connections)#all opal servers are used
 #'   ds.dim(x="D", 
 #'          type="split", #separate dimension for each study
-#'          checks = FALSE,
-#'          datasources = connections[1])#only the first opal server is used ("study1")
+#'#'          datasources = connections[1])#only the first opal server is used ("study1")
 #'
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
