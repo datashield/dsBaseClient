@@ -34,17 +34,13 @@ test_that("mean values [combine]", {
 
     stat.mean <- ds.mean(x='D$LAB_TSC',type='combine')
 
-    expect_length(stat.mean, 3)
+    expect_length(stat.mean, 2)
     expect_length(stat.mean$Global.Mean, 4)
     expect_equal(as.numeric(stat.mean$Global.Mean[1]), 5.85192485623003, tolerance = .000000000000001)
     expect_equal(as.integer(stat.mean$Global.Mean[2]), 1554)
     expect_equal(as.integer(stat.mean$Global.Mean[3]), 7825)
     expect_equal(as.integer(stat.mean$Global.Mean[4]), 9379)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1$objects.found)
@@ -70,7 +66,7 @@ test_that("mean values [split]", {
 
     stat.mean <- ds.mean(x='D$LAB_TSC', type='split')
 
-    expect_length(stat.mean, 3)
+    expect_length(stat.mean, 2)
     expect_length(stat.mean$Mean.by.Study, 12)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[1]), 5.87211344770338, tolerance = .000000000000001)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[2]), 5.84526388341867, tolerance = .000000000000001)
@@ -85,10 +81,6 @@ test_that("mean values [split]", {
     expect_equal(as.integer(stat.mean$Mean.by.Study[11]), 3088)
     expect_equal(as.integer(stat.mean$Mean.by.Study[12]), 4128)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1$objects.found)
@@ -114,7 +106,7 @@ test_that("mean values [both]", {
 
     stat.mean <- ds.mean(x='D$LAB_TSC', type='both')
 
-    expect_length(stat.mean, 4)
+    expect_length(stat.mean, 3)
     expect_length(stat.mean$Mean.by.Study, 12)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[1]), 5.87211344770338, tolerance = .000000000000001)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[2]), 5.84526388341867, tolerance = .000000000000001)
@@ -134,10 +126,6 @@ test_that("mean values [both]", {
     expect_equal(as.integer(stat.mean$Global.Mean[3]), 7825)
     expect_equal(as.integer(stat.mean$Global.Mean[4]), 9379)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_false("mean.all.studies" %in% ls.res$sim1$objects.found)
@@ -163,17 +151,13 @@ test_that("mean values [combine]", {
 
     stat.mean <- ds.mean(x='D$LAB_TSC', type='combine', save.mean.Nvalid=TRUE)
 
-    expect_length(stat.mean, 3)
+    expect_length(stat.mean, 2)
     expect_length(stat.mean$Global.Mean, 4)
     expect_equal(as.numeric(stat.mean$Global.Mean[1]), 5.85192485623003, tolerance = .000000000000001)
     expect_equal(as.integer(stat.mean$Global.Mean[2]), 1554)
     expect_equal(as.integer(stat.mean$Global.Mean[3]), 7825)
     expect_equal(as.integer(stat.mean$Global.Mean[4]), 9379)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1$objects.found)
@@ -199,7 +183,7 @@ test_that("mean values [split]", {
 
     stat.mean <- ds.mean(x='D$LAB_TSC', type='split', save.mean.Nvalid=TRUE)
 
-    expect_length(stat.mean, 3)
+    expect_length(stat.mean, 2)
     expect_length(stat.mean$Mean.by.Study, 12)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[1]), 5.87211344770338, tolerance = .000000000000001)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[2]), 5.84526388341867, tolerance = .000000000000001)
@@ -214,10 +198,6 @@ test_that("mean values [split]", {
     expect_equal(as.integer(stat.mean$Mean.by.Study[11]), 3088)
     expect_equal(as.integer(stat.mean$Mean.by.Study[12]), 4128)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1$objects.found)
@@ -238,7 +218,7 @@ test_that("mean values [split]", {
 test_that("mean values [both]", {
     stat.mean <- ds.mean(x='D$LAB_TSC', type='both', save.mean.Nvalid=TRUE)
 
-    expect_length(stat.mean, 4)
+    expect_length(stat.mean, 3)
     expect_length(stat.mean$Mean.by.Study, 12)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[1]), 5.87211344770338, tolerance = .000000000000001)
     expect_equal(as.numeric(stat.mean$Mean.by.Study[2]), 5.84526388341867, tolerance = .000000000000001)
@@ -258,10 +238,6 @@ test_that("mean values [both]", {
     expect_equal(as.integer(stat.mean$Global.Mean[3]), 7825)
     expect_equal(as.integer(stat.mean$Global.Mean[4]), 9379)
     expect_equal(stat.mean$Nstudies, 3)
-    expect_length(stat.mean$ValidityMessage, 3)
-    expect_equal(stat.mean$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(stat.mean$ValidityMessage[3], "VALID ANALYSIS")
 
     ls.res <- ds.ls()
     expect_true("mean.all.studies" %in% ls.res$sim1$objects.found)
