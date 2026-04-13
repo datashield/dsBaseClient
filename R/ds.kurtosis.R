@@ -26,45 +26,25 @@
 #' @export
 #' 
 ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
 
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
   }
-  
-  # enable valid aliases for "type" argument                  
+
+  # enable valid aliases for "type" argument
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
   if(type != 'combine' & type != 'split' & type != 'both'){
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  
-  # the input object must be a numeric or an integer vector
-  if(typ != 'integer' & typ != 'numeric'){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integer or numeric vector.", call.=FALSE)
-  }
-  
+
   if (type=='split' | type=='both'){
     calltext.split <- call("kurtosisDS1", x, method)
     output.split <- DSI::datashield.aggregate(datasources, calltext.split) 

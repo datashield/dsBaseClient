@@ -57,11 +57,7 @@
 #' This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}. 
 #' Default \code{"both"}. 
 #' For more information see \strong{Details}.  
-#' @param do.checks logical. If TRUE the administrative checks
-#' are undertaken to ensure that the input objects are defined in all studies and that the
-#' variables are of equivalent class in each study. 
-#' Default is FALSE to save time.  
-#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}}
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.meanSdGp} returns to the client-side the mean, SD, Nvalid and SEM combined
@@ -108,7 +104,6 @@
 #'   ds.meanSdGp(x = "D$age.60",
 #'               y = "D$time.id",
 #'               type = "combine",
-#'               do.checks = FALSE,
 #'               datasources = connections)
 #'               
 #'   #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable age.60 (age in
@@ -119,24 +114,15 @@
 #'   ds.meanSdGp(x = "D$age.60",
 #'               y = "D$time.id",
 #'               type = "both",
-#'               do.checks = FALSE,
-#'               datasources = connections)  
+#'               datasources = connections)
 #'              
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #' }
 #'
-ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasources=NULL){
+ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -146,20 +132,9 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  if(do.checks){
-
-    # check if the input objects are defined in all the studies
-    isDefined(datasources, x)
-    isDefined(datasources, y)
-    
-    # call the internal function that checks the input object is of the same class in all studies.
-    typ1 <- checkClass(datasources, x)
-    typ2 <- checkClass(datasources, y)
-  }
-
   # names of the studies
   stdnames <- names(datasources)
-  
+
   # variable names
   xnames <- extract(x)
   ynames <- extract(y)
@@ -168,8 +143,8 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', do.checks=FALSE, datasource
 
   # call the server side function that calculates mean and standard deviation
   # by group in each study
-  calltext <- paste0("meanSdGpDS(", x, ",", y, ")")
-  output <- DSI::datashield.aggregate(datasources, as.symbol(calltext))
+  cally <- call("meanSdGpDS", x, y)
+  output <- DSI::datashield.aggregate(datasources, cally)
 
   numsources <- length(output)
 

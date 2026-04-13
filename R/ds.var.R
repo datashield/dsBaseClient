@@ -19,11 +19,7 @@
 #' \code{'split'}, \code{'splits'}, \code{'s'},
 #' \code{'both'} or \code{'b'}. 
 #' For more information see \strong{Details}.
-#' @param checks logical. If TRUE  optional checks of model
-#' components will be undertaken. Default is FALSE to save time. 
-#' It is suggested that checks
-#' should only be undertaken once the function call has failed.
-#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}}
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.var} returns to the client-side a list including:\cr
@@ -70,49 +66,19 @@
 #'   
 #'   ds.var(x = "D$LAB_TSC",
 #'           type = "split",
-#'           checks = FALSE,
 #'           datasources = connections)
 #'              
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)
 #' }
 #'
-ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
+ds.var <- function(x=NULL, type='split', datasources=NULL){
 
-  #################################################################################################################
-  #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                                                         #
-  # look for DS connections                                                                                       #
-  if(is.null(datasources)){								                          #
-    datasources <- datashield.connections_find()                                                                  #
-  }                                                                                                               #
-                                                                                                                  #
-  # ensure datasources is a list of DSConnection-class							          #
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){   #
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)               #
-  }                                                                                                               #
-  #################################################################################################################
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # beginning of optional checks - the process stops and reports as soon as one check fails
-  if(checks){
-
-    # check if the input object is defined in all the studies
-    isDefined(datasources, x)
-    
-    # call the internal function that checks the input object is suitable in all studies        #
-    varClass <- checkClass(datasources, x)                                                      #
-    # the input object must be a numeric or an integer vector                                   #
-    if(!('integer' %in% varClass) & !('numeric' %in% varClass)){                                #
-      stop("The input object must be an integer or a numeric vector.", call.=FALSE)             #
-    }                                                                                           #
-  }                                                                                             #
-  ###############################################################################################
 
   ###################################################################################################
   #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                       #
@@ -123,8 +89,8 @@ ds.var <- function(x=NULL, type='split', checks=FALSE, datasources=NULL){
   #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
-  cally <- paste0("varDS(", x, ")")
-  ss.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("varDS", x)
+  ss.obj <- DSI::datashield.aggregate(datasources, cally)
 
   Nstudies <- length(datasources)
   EstimatedVar <- c()

@@ -65,15 +65,7 @@
 #'
 ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
@@ -85,14 +77,6 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=
   if(!(method %in% c("pearson", "kendall", "spearman"))){
     stop('Function argument "method" has to be either "pearson", "kendall" or "spearman"', call.=FALSE)
   }
-  
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
-
-  # call the internal function that checks the input objects are of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  typ <- checkClass(datasources, y)
 
   # call the server side function
   cally <- call("corTestDS", x, y, method, exact, conf.level)

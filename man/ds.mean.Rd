@@ -4,13 +4,7 @@
 \alias{ds.mean}
 \title{Computes server-side vector statistical mean}
 \usage{
-ds.mean(
-  x = NULL,
-  type = "split",
-  checks = FALSE,
-  save.mean.Nvalid = FALSE,
-  datasources = NULL
-)
+ds.mean(x = NULL, type = "split", save.mean.Nvalid = FALSE, datasources = NULL)
 }
 \arguments{
 \item{x}{a character specifying the name of a numerical vector.}
@@ -21,12 +15,7 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE  optional checks of model
-components will be undertaken. Default is FALSE to save time. 
-It is suggested that checks
-should only be undertaken once the function call has failed.}
-
-\item{save.mean.Nvalid}{logical. If TRUE generated values of the mean and 
+\item{save.mean.Nvalid}{logical. If TRUE generated values of the mean and
 the number of valid (non-missing) observations will be saved  on the data servers. 
 Default FALSE. 
 For more information see \strong{Details}.}
@@ -110,7 +99,6 @@ Server function called: \code{meanDS}
   
   ds.mean(x = "D$LAB_TSC",
           type = "split",
-          checks = FALSE,
           save.mean.Nvalid = FALSE,
           datasources = connections)
              

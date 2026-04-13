@@ -81,53 +81,20 @@
 #' 
 ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
-  }else{
-    isDefined(datasources, x)
-  }
-
-  # check the type of the input objects
-  typ <- checkClass(datasources, x)
-  
-  if(('numeric' %in% typ) | ('integer' %in% typ) | ('factor' %in% typ)){
-    if(is.null(y)){
-      stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
-    }else{
-      isDefined(datasources, y)
-      typ2 <- checkClass(datasources, y)
-    }
-  }
-  
-  if(('matrix' %in% typ) | ('data.frame' %in% typ) & !(is.null(y))){
-    y <- NULL
-    warning("x is a matrix or a dataframe; y will be ignored and a correlation matrix computed for x!")
   }
 
   # name of the studies to be used in the output
   stdnames <- names(datasources)
 
   # call the server side function
-  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
-    calltext <- call("corDS", x, NULL)
-  }else{
-    if(!(is.null(y))){
-      calltext <- call("corDS", x, y)
-    }else{
-      calltext <- call("corDS", x, NULL)
-    }
-  }
+  calltext <- call("corDS", x, y)
   output <- DSI::datashield.aggregate(datasources, calltext)
+
+  .checkClassConsistency(output)
   
   if (type=="split"){
     covariance <- list()

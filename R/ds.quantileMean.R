@@ -67,15 +67,7 @@
 #'
 ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -85,21 +77,9 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a numeric or an integer vector
-  if(!('integer' %in% typ) & !('numeric' %in% typ)){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integer or numeric vector.", call.=FALSE)
-  }
-
   # get the server function that produces the quantiles
-  cally1 <- paste0('quantileMeanDS(', x, ')')
-  quants <- DSI::datashield.aggregate(datasources, as.symbol(cally1))
+  cally1 <- call("quantileMeanDS", x)
+  quants <- DSI::datashield.aggregate(datasources, cally1)
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
