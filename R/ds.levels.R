@@ -70,7 +70,7 @@ ds.levels <- function(x=NULL, datasources=NULL){
 
   .checkClassConsistency(results)
 
-  output <- lapply(results, function(r) list(Levels = r$Levels, ValidityMessage = r$ValidityMessage))
+  output <- lapply(results, function(r) list(Levels = r$Levels))
   return(output)
 
 }
