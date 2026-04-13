@@ -29,6 +29,7 @@
 #' in the form of a vector where the first
 #' element indicates the number of rows and the second element indicates the number of columns.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.dataFrame}} to generate a table of the type data frame.
 #' @seealso \code{\link{ds.changeRefGroup}} to change the reference level of a factor.
 #' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
@@ -84,51 +85,28 @@
 #'
 #' }
 #'
-ds.dim <- function(x=NULL, type='both', checks=FALSE, datasources=NULL) {
+ds.dim <- function(x=NULL, type='both', datasources=NULL) {
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }
-
-  ########################################################################################################
-  # MODULE: GENERIC OPTIONAL CHECKS TO ENSURE CONSISTENT STRUCTURE OF KEY VARIABLES IN DIFFERENT SOURCES #
-  # beginning of optional checks - the process stops and reports as soon as one check fails              #
-  #                                                                                                      #
-  if(checks){                                                                                            #
-    message(" -- Verifying the variables in the model")                                                  #
-    # check if the input object(s) is(are) defined in all the studies                                    #
-    defined <- isDefined(datasources, x)                                                                 #                                                                                                #
-    # call the internal function that checks the input object is suitable in all studies                 #
-    typ <- checkClass(datasources, x)                                                                    #
-    # throw a message and stop if input is not table structure                                           #
-    if(!('data.frame' %in% typ) & !('matrix' %in% typ)){                                                 #
-      stop("The input object must be a table structure!", call.=FALSE)                                   #
-    }                                                                                                    #
-  }                                                                                                      #
-  ########################################################################################################
-
 
   ###################################################################################################
   #MODULE: EXTEND "type" argument to include "both" and enable valid aliases                        #
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'   #
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
-  #
-  #MODIFY FUNCTION CODE TO DEAL WITH ALL THREE TYPES                                                #
   ###################################################################################################
 
   cally <- call("dimDS", x)
-  dimensions <- DSI::datashield.aggregate(datasources, cally)
+  results <- DSI::datashield.aggregate(datasources, cally)
+
+  .checkClassConsistency(results)
+
+  # extract dimensions from results
+  dimensions <- lapply(results, function(r) r$dim)
 
   # names of the studies to be used in the output
   stdnames <- names(datasources)
