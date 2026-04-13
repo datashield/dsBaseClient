@@ -25,7 +25,11 @@ test_that("mean_erros", {
 
     expect_error(ds.mean(), "Please provide the name of the input object!", fixed=TRUE)
     expect_error(ds.mean(x='D$LAB_TSC', type='datashield'), 'Function argument "type" has to be either "both", "combine" or "split"', fixed=TRUE)
-    expect_error(ds.mean(x='not_a_numeric', checks=TRUE), "The input object must be an integer or a numeric vector.", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+    expect_error(ds.mean(x='not_a_numeric'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type numeric or integer")
 })
 
 #context("ds.mean::arg::discordant errors")
