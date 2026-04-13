@@ -56,7 +56,7 @@
 #'
 #' }
 #' 
-ds.isNA <- function(x=NULL, datasources=NULL){
+ds.isNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -71,7 +71,9 @@ ds.isNA <- function(x=NULL, datasources=NULL){
   cally <- call("isNaDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
-  .checkClassConsistency(results)
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
   # report per-study if all NA
   track <- list()

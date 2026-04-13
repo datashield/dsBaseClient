@@ -53,7 +53,7 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, datasources=NULL){
+ds.numNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -64,7 +64,9 @@ ds.numNA <- function(x=NULL, datasources=NULL){
   cally <- call("numNaDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
-  .checkClassConsistency(results)
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
   numNAs <- lapply(results, function(r) r$numNA)
   return(numNAs)

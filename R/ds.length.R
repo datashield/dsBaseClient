@@ -75,7 +75,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length <- function(x=NULL, type='both', datasources=NULL){
+ds.length <- function(x=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -95,6 +95,10 @@ ds.length <- function(x=NULL, type='both', datasources=NULL){
   # call the server-side function
   cally <- call("lengthDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
+
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
   # extract lengths from results
   lengths <- lapply(results, function(r) r$length)

@@ -85,7 +85,7 @@
 #'
 #' }
 #'
-ds.dim <- function(x=NULL, type='both', datasources=NULL) {
+ds.dim <- function(x=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL) {
 
   datasources <- .set_datasources(datasources)
 
@@ -102,6 +102,10 @@ ds.dim <- function(x=NULL, type='both', datasources=NULL) {
 
   cally <- call("dimDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
+
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
   # extract dimensions from results
   dimensions <- lapply(results, function(r) r$dim)
