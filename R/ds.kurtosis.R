@@ -23,6 +23,7 @@
 #' @return a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
 #' the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.kurtosis <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){

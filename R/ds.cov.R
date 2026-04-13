@@ -47,6 +47,7 @@
 #' the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
 #' the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'

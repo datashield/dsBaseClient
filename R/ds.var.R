@@ -33,6 +33,7 @@
 #' \code{Nstudies}: number of studies being analysed. \cr
 #' \code{ValidityMessage}: indicates if the analysis was possible. \cr
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

@@ -37,6 +37,7 @@
 #' percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
 #' with a level having fewer counts than the pre-specified 'nfilter.tab' threshold.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'

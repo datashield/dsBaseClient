@@ -64,6 +64,7 @@
 #' across studies and/or separately for each study, depending on the argument \code{type}. 
 #' 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
 #' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
 #' columns and rows.

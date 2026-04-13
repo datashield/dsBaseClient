@@ -21,6 +21,7 @@
 #' @return \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
 #' of a server-side numeric vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.mean}} to compute the statistical mean.
 #' @seealso \code{\link{ds.summary}} to generate the summary of a variable.
 #' @export

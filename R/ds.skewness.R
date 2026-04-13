@@ -37,6 +37,7 @@
 #' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
 #' the number of valid observations and the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki

@@ -54,6 +54,7 @@
 #' \code{mean.all.studies} and \code{mean.study.specific} are written to the server-side. 
 #' 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{ds.quantileMean} to compute quantiles.
 #' @seealso \code{ds.summary} to generate the summary of a variable.
 #' @export
