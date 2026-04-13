@@ -4,7 +4,13 @@
 \alias{ds.meanSdGp}
 \title{Computes the mean and standard deviation across groups defined by one factor}
 \usage{
-ds.meanSdGp(x = NULL, y = NULL, type = "both", datasources = NULL)
+ds.meanSdGp(
+  x = NULL,
+  y = NULL,
+  type = "both",
+  classConsistencyCheck = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of a numeric continuous
@@ -140,4 +146,6 @@ columns and rows.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -4,7 +4,13 @@
 \alias{ds.mean}
 \title{Computes server-side vector statistical mean}
 \usage{
-ds.mean(x = NULL, type = "split", save.mean.Nvalid = FALSE, datasources = NULL)
+ds.mean(
+  x = NULL,
+  type = "split",
+  save.mean.Nvalid = FALSE,
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character specifying the name of a numerical vector.}
@@ -114,4 +120,6 @@ Server function called: \code{meanDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

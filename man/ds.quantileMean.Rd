@@ -4,7 +4,12 @@
 \alias{ds.quantileMean}
 \title{Computes the quantiles of a server-side variable}
 \usage{
-ds.quantileMean(x = NULL, type = "combine", datasources = NULL)
+ds.quantileMean(
+  x = NULL,
+  type = "combine",
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of the numeric vector.}
@@ -85,4 +90,6 @@ Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

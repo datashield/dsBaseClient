@@ -9,6 +9,7 @@ ds.cov(
   y = NULL,
   naAction = "pairwise.complete",
   type = "split",
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -118,4 +119,6 @@ and the total number of missing values aggregated from all the involved studies,
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

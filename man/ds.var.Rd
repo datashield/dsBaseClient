@@ -4,7 +4,12 @@
 \alias{ds.var}
 \title{Computes server-side vector variance}
 \usage{
-ds.var(x = NULL, type = "split", datasources = NULL)
+ds.var(
+  x = NULL,
+  type = "split",
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character specifying the name of a numerical vector.}
@@ -89,4 +94,6 @@ Server function called: \code{varDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
