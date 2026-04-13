@@ -79,13 +79,19 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
 
   # get the server function that produces the quantiles
   cally1 <- call("quantileMeanDS", x)
-  quants <- DSI::datashield.aggregate(datasources, cally1)
+  results <- DSI::datashield.aggregate(datasources, cally1)
+
+  .checkClassConsistency(results)
+
+  quants <- lapply(results, function(r) r$quantiles)
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
-  lengths <- DSI::datashield.aggregate(datasources, cally2)
-  cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
+  length.results <- DSI::datashield.aggregate(datasources, cally2)
+  lengths <- lapply(length.results, function(r) r$length)
+  cally3 <- call("numNaDS", x)
+  numNA.results <- DSI::datashield.aggregate(datasources, cally3)
+  numNAs <- lapply(numNA.results, function(r) r$numNA)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){

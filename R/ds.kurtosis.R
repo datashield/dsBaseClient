@@ -47,12 +47,13 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
 
   if (type=='split' | type=='both'){
     calltext.split <- call("kurtosisDS1", x, method)
-    output.split <- DSI::datashield.aggregate(datasources, calltext.split) 
-    mat.split <- matrix(as.numeric(matrix(unlist(output.split), nrow=length(datasources), byrow=TRUE)[,1:2]),nrow=length(datasources))
-    validity <- matrix(unlist(output.split), nrow=length(datasources), byrow=TRUE)[,3]
-    mat.split <- data.frame(cbind(mat.split, validity))
+    output.split <- DSI::datashield.aggregate(datasources, calltext.split)
+    .checkClassConsistency(output.split)
+    mat.split <- data.frame(
+      Kurtosis = sapply(output.split, function(r) r$Kurtosis),
+      Nvalid = sapply(output.split, function(r) r$Nvalid)
+    )
     rownames(mat.split) <- names(output.split)
-    colnames(mat.split) <- c('Kurtosis', 'Nvalid', 'ValidityMessage')
   }
   
   if (type=='combine' | type=='both'){
@@ -63,8 +64,9 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
       stop("FAILED: The number of valid observations in one or more studies is less than nfilter.tab. \n Check that by using the argument type=='split'", call.=FALSE)
     }else{
       calltext.combined <- call("kurtosisDS2", x, global.mean)
-      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined) 
-      
+      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined)
+      .checkClassConsistency(output.combined)
+
       Global.sum.quartics <- 0
       Global.sum.squares <- 0
       Global.Nvalid <- 0
@@ -78,19 +80,15 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
       
       if(method==1){
         Global.kurtosis <- g2.global
-        combinedMessage <- "VALID ANALYSIS"
-      }  
+      }
       if(method==2){
         Global.kurtosis <- ((Global.Nvalid + 1) * g2.global + 6) * (Global.Nvalid - 1)/((Global.Nvalid - 2) * (Global.Nvalid - 3))
-        combinedMessage <- "VALID ANALYSIS"
-      }  
+      }
       if(method==3){
         Global.kurtosis <- (g2.global + 3) * (1 - 1/Global.Nvalid)^2 - 3
-        combinedMessage <- "VALID ANALYSIS"
       } 
-      mat.combined <- data.frame(cbind(Global.kurtosis, Global.Nvalid, combinedMessage))
+      mat.combined <- data.frame(Kurtosis = Global.kurtosis, Nvalid = Global.Nvalid)
       rownames(mat.combined) <- 'studiesCombined'
-      colnames(mat.combined) <- c('Kurtosis', 'Nvalid', 'ValidityMessage')
       
     }
   }
