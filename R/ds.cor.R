@@ -79,7 +79,7 @@
 #' }
 #' @export
 #' 
-ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
+ds.cor <- function(x=NULL, y=NULL, type="split", classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -94,8 +94,10 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
   calltext <- call("corDS", x, y)
   output <- DSI::datashield.aggregate(datasources, calltext)
 
-  .checkClassConsistency(output)
-  
+  if(classConsistencyCheck){
+    .checkClassConsistency(output)
+  }
+
   if (type=="split"){
     covariance <- list()
     sqrt.diag <- list()

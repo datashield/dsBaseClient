@@ -120,7 +120,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL){
+ds.meanSdGp <- function(x=NULL, y=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -145,6 +145,12 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL){
   # by group in each study
   cally <- call("meanSdGpDS", x, y)
   output <- DSI::datashield.aggregate(datasources, cally)
+
+  if(classConsistencyCheck){
+    # check consistency of index variable class across studies
+    index.classes <- lapply(output, function(r) list(class = r$class.index))
+    .checkClassConsistency(index.classes)
+  }
 
   numsources <- length(output)
 

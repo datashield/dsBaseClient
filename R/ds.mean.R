@@ -96,7 +96,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, datasources=NULL){
+ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -116,12 +116,18 @@ if(type != 'combine' & type != 'split' & type != 'both'){                       
   cally <- call("meanDS", x)
   ss.obj <- DSI::datashield.aggregate(datasources, cally)
 
-  Nstudies <- length(datasources)
-  ss.mat <- matrix(as.numeric(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,1:4]),nrow=Nstudies)
-  dimnames(ss.mat) <- c(list(names(ss.obj),names(ss.obj[[1]])[1:4]))
+  if(classConsistencyCheck){
+    .checkClassConsistency(ss.obj)
+  }
 
-  ValidityMessage.mat <- matrix(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,5],nrow=Nstudies)
-  dimnames(ValidityMessage.mat) <- c(list(names(ss.obj),names(ss.obj[[1]])[5]))
+  Nstudies <- length(datasources)
+  ss.mat <- matrix(c(
+    sapply(ss.obj, function(r) r$EstimatedMean),
+    sapply(ss.obj, function(r) r$Nmissing),
+    sapply(ss.obj, function(r) r$Nvalid),
+    sapply(ss.obj, function(r) r$Ntotal)
+  ), nrow=Nstudies)
+  dimnames(ss.mat) <- list(names(ss.obj), c("EstimatedMean", "Nmissing", "Nvalid", "Ntotal"))
 
   ss.mat.combined <- t(matrix(ss.mat[1,]))
 
@@ -154,15 +160,15 @@ if(type != 'combine' & type != 'split' & type != 'both'){                       
 #PRIMARY FUNCTION OUTPUT SUMMARISE RESULTS FROM
 #AGGREGATE FUNCTION AND RETURN TO CLIENT-SIDE
   if (type=='split'){
-    return(list(Mean.by.Study=ss.mat,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Mean.by.Study=ss.mat,Nstudies=Nstudies))
   }
 
   if (type=="combine") {
-    return(list(Global.Mean=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Global.Mean=ss.mat.combined,Nstudies=Nstudies))
   }
 
   if (type=="both") {
-    return(list(Mean.by.Study=ss.mat,Global.Mean=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Mean.by.Study=ss.mat,Global.Mean=ss.mat.combined,Nstudies=Nstudies))
   }
 
 }

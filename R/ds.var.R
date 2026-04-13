@@ -72,7 +72,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.var <- function(x=NULL, type='split', datasources=NULL){
+ds.var <- function(x=NULL, type='split', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -92,22 +92,23 @@ ds.var <- function(x=NULL, type='split', datasources=NULL){
   cally <- call("varDS", x)
   ss.obj <- DSI::datashield.aggregate(datasources, cally)
 
+  if(classConsistencyCheck){
+    .checkClassConsistency(ss.obj)
+  }
+
   Nstudies <- length(datasources)
   EstimatedVar <- c()
   Nvalid <- c()
   Nmissing <- c()
   Ntotal <- c()
   for (i in 1:Nstudies){
-    EstimatedVar[i] <- ss.obj[[i]][[2]]/(ss.obj[[i]][[4]]-1) - (ss.obj[[i]][[1]])^2/(ss.obj[[i]][[4]]*(ss.obj[[i]][[4]]-1))
-    Nvalid[i] <- as.numeric(ss.obj[[i]][[4]])
-    Nmissing[i] <- as.numeric(ss.obj[[i]][[3]])
-    Ntotal[i] <- as.numeric(ss.obj[[i]][[5]])
+    EstimatedVar[i] <- ss.obj[[i]]$SumOfSquares/(ss.obj[[i]]$Nvalid-1) - (ss.obj[[i]]$Sum)^2/(ss.obj[[i]]$Nvalid*(ss.obj[[i]]$Nvalid-1))
+    Nvalid[i] <- ss.obj[[i]]$Nvalid
+    Nmissing[i] <- ss.obj[[i]]$Nmissing
+    Ntotal[i] <- ss.obj[[i]]$Ntotal
   }
   ss.mat <- matrix(c(EstimatedVar,Nmissing,Nvalid,Ntotal),nrow=Nstudies)
   dimnames(ss.mat) <- c(list(names(ss.obj),c('EstimatedVar','Nmissing','Nvalid','Ntotal')))
-
-  ValidityMessage.mat <- matrix(matrix(unlist(ss.obj),nrow=Nstudies,byrow=TRUE)[,6],nrow=Nstudies)
-  dimnames(ValidityMessage.mat) <- c(list(names(ss.obj),names(ss.obj[[1]])[6]))
 
   ss.mat.combined <- t(matrix(ss.mat[1,]))
 
@@ -115,9 +116,9 @@ ds.var <- function(x=NULL, type='split', datasources=NULL){
   GlobalSumSquares.new <- 0
   GlobalNvalid.new <- 0
   for (i in 1:Nstudies){
-    GlobalSum <- GlobalSum.new +  ss.obj[[i]][[1]]
-    GlobalSumSquares <- GlobalSumSquares.new +  ss.obj[[i]][[2]]
-    GlobalNvalid <- GlobalNvalid.new +  ss.obj[[i]][[4]]
+    GlobalSum <- GlobalSum.new +  ss.obj[[i]]$Sum
+    GlobalSumSquares <- GlobalSumSquares.new +  ss.obj[[i]]$SumOfSquares
+    GlobalNvalid <- GlobalNvalid.new +  ss.obj[[i]]$Nvalid
     GlobalSum.new <- GlobalSum
     GlobalSumSquares.new <- GlobalSumSquares
     GlobalNvalid.new <- GlobalNvalid
@@ -137,15 +138,15 @@ ds.var <- function(x=NULL, type='split', datasources=NULL){
   #PRIMARY FUNCTION OUTPUT SUMMARISE RESULTS FROM
   #AGGREGATE FUNCTION AND RETURN TO CLIENT-SIDE
   if (type=='split'){
-    return(list(Variance.by.Study=ss.mat,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Variance.by.Study=ss.mat,Nstudies=Nstudies))
   }
 
   if (type=="combine"){
-    return(list(Global.Variance=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Global.Variance=ss.mat.combined,Nstudies=Nstudies))
   }
 
   if (type=="both"){
-    return(list(Variance.by.Study=ss.mat,Global.Variance=ss.mat.combined,Nstudies=Nstudies,ValidityMessage=ValidityMessage.mat))
+    return(list(Variance.by.Study=ss.mat,Global.Variance=ss.mat.combined,Nstudies=Nstudies))
   }
 
 }

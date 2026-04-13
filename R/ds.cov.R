@@ -96,7 +96,7 @@
 #' }
 #' @export
 #'
-ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL){
+ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -111,8 +111,10 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   calltext <- call("covDS", x, y, naAction)
   output <- DSI::datashield.aggregate(datasources, calltext)
 
-  .checkClassConsistency(output)
-  
+  if(classConsistencyCheck){
+    .checkClassConsistency(output)
+  }
+
   if (type=="split"){
     covariance <- list()
     results <- list()

@@ -65,7 +65,7 @@
 #'
 #' }
 #'
-ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
+ds.quantileMean <- function(x=NULL, type='combine', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -81,7 +81,9 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
   cally1 <- call("quantileMeanDS", x)
   results <- DSI::datashield.aggregate(datasources, cally1)
 
-  .checkClassConsistency(results)
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
   quants <- lapply(results, function(r) r$quantiles)
 

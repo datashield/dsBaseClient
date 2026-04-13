@@ -77,7 +77,7 @@
 #' } 
 #' @export
 #' 
-ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL){
+ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -99,7 +99,9 @@ ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL){
   if (type=='split' | type=='both'){
     calltext.split <- call("skewnessDS1", x, method)
     output.split <- DSI::datashield.aggregate(datasources, calltext.split)
-    .checkClassConsistency(output.split)
+    if(classConsistencyCheck){
+      .checkClassConsistency(output.split)
+    }
     mat.split <- data.frame(
       Skewness = sapply(output.split, function(r) r$Skewness),
       Nvalid = sapply(output.split, function(r) r$Nvalid)
@@ -116,7 +118,9 @@ ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL){
     }else{
       calltext.combined <- call("skewnessDS2", x, global.mean)
       output.combined <- DSI::datashield.aggregate(datasources, calltext.combined)
-      .checkClassConsistency(output.combined)
+      if(classConsistencyCheck){
+        .checkClassConsistency(output.combined)
+      }
 
       Global.sum.cubes <- 0
       Global.sum.squares <- 0

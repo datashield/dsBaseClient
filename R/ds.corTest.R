@@ -63,7 +63,7 @@
 #'   
 #' }   
 #'
-ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', datasources=NULL){
+ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
@@ -82,7 +82,9 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=
   cally <- call("corTestDS", x, y, method, exact, conf.level)
   out <- DSI::datashield.aggregate(datasources, cally)
 
-  .checkClassConsistency(out)
+  if(classConsistencyCheck){
+    .checkClassConsistency(out)
+  }
 
   # strip class field from results before returning
   out <- lapply(out, function(r) { r$class <- NULL; r })
