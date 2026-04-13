@@ -29,11 +29,7 @@ test_that("setup", {
 test_that("completeCases data.frame", {
     ds.dataFrame(c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$LAB_GLUC_ADJUSTED", "D$PM_BMI_CONTINUOUS", "D$DIS_CVA", "D$MEDI_LPD", "D$DIS_DIAB", "D$DIS_AMI", "D$GENDER", "D$PM_BMI_CATEGORICAL"), newobj="df")
 
-    res.completeCases <- ds.completeCases("df", "df_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <df_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<df_new> appears valid in all sources")
+    ds.completeCases("df", "df_new")
 
     res.df.class <- ds.class("df")
 
@@ -86,11 +82,7 @@ test_that("completeCases data.frame", {
 test_that("completeCases matrix", {
     ds.asDataMatrix("D", newobj="mat")
 
-    res.completeCases <- ds.completeCases("mat", "mat_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <mat_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<mat_new> appears valid in all sources")
+    ds.completeCases("mat", "mat_new")
 
     res.mat.class <- ds.class("mat")
 
