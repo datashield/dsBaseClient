@@ -26,26 +26,20 @@ test_that("setup", {
 #
 # context("ds.levels::disc")
 test_that("simple levels", {
-#    res <- ds.levels("D$GENDER")
-    
-#    expect_length(res, 3)
-#    expect_length(res$sim1, 2)
-#    expect_length(res$sim1$ValidityMessage, 1)
-#    expect_equal(res$sim1$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim1$Levels, 2)
-#    expect_equal(res$sim1$Levels, NA)
-    
-#    expect_length(res$sim2, 2)
-#    expect_length(res$sim2$ValidityMessage, 1)
-#    expect_equal(res$sim2$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim2$Levels, 2)
-#    expect_equal(res$sim2$Levels, NA)
-    
-#    expect_length(res$sim3, 2)
-#    expect_length(res$sim3$ValidityMessage, 1)
-#    expect_equal(res$sim3$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim3$Levels, 2)
-#    expect_equal(res$sim3$Levels, NA)
+    res <- ds.levels("D$GENDER")
+
+    expect_length(res, 3)
+    expect_length(res$sim1, 1)
+    expect_length(res$sim1$Levels, 2)
+    expect_equal(res$sim1$Levels, NA)
+
+    expect_length(res$sim2, 1)
+    expect_length(res$sim2$Levels, 2)
+    expect_equal(res$sim2$Levels, NA)
+
+    expect_length(res$sim3, 1)
+    expect_length(res$sim3$Levels, 2)
+    expect_equal(res$sim3$Levels, NA)
 })
 
 #
