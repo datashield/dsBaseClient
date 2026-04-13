@@ -136,7 +136,9 @@ Skip files that have no existing `@author` line (e.g. `R/utils.R`). Do this as a
 ### Batch 1 — Simple Type Coercions (11 pairs)
 Single input → single output, straightforward `eval(parse())` replacement.
 
-**TODO:** `ds.abs`, `ds.exp`, `ds.log`, `ds.sqrt` previously had always-on `checkClass()` which checked cross-study class consistency. This was lost in the batch 1 refactoring. Need to add consistency checking back — have server functions return class info and check client-side via `.checkClassConsistency()`.
+**TODO:** Add `classConsistencyCheck` parameter to batch-1 functions with >1 permitted class. For numeric/integer-only functions (ds.abs, ds.exp, ds.log, ds.sqrt) default to FALSE; for others (ds.asDataMatrix: data.frame/matrix, ds.asLogical: numeric/integer/character/matrix) default to TRUE. Server functions need to return class in results to support this. dsBase batch-1 is already merged — server changes need a new branch or inclusion in a later batch.
+
+**TODO:** `test-smk-asLogicalDS.R` in dsBase is missing a wrong-type test case (e.g. passing a list). Other `.checkClass()` functions (absDS, expDS, logDS, sqrtDS) have this test. dsBase batch-1 is merged — fix in a follow-up.
 
 | Client | Server | Permitted classes | Notes |
 |--------|--------|-------------------|-------|
