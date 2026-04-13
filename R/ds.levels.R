@@ -66,8 +66,11 @@ ds.levels <- function(x=NULL, datasources=NULL){
   }
 
   cally <- call("levelsDS", x)
-  output <- DSI::datashield.aggregate(datasources, cally)
+  results <- DSI::datashield.aggregate(datasources, cally)
 
+  .checkClassConsistency(results)
+
+  output <- lapply(results, function(r) list(Levels = r$Levels, ValidityMessage = r$ValidityMessage))
   return(output)
 
 }

@@ -71,10 +71,12 @@ ds.isNA <- function(x=NULL, datasources=NULL){
   cally <- call("isNaDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
+  .checkClassConsistency(results)
+
   # report per-study if all NA
   track <- list()
   for(i in 1:length(results)){
-    if(results[[i]]){
+    if(results[[i]]$is.na){
       track[[i]] <- TRUE
       message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")
     }else{

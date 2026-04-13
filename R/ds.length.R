@@ -96,8 +96,6 @@ ds.length <- function(x=NULL, type='both', datasources=NULL){
   cally <- call("lengthDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
-  .checkClassConsistency(results)
-
   # extract lengths from results
   lengths <- lapply(results, function(r) r$length)
 
