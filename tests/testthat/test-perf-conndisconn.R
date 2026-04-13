@@ -22,7 +22,7 @@ disconnect.studies.dataset.cnsim()
 
 # context("conndisconn::perf::simple0")
 test_that("simple connect - disconnect performance", {
-    .durationSec  <- base::as.integer(base::Sys.getenv("PERF_DURATION_SEC", unset = "120")) # defaults to 120 seconds
+    .durationSec  <- perf.testduration(120)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

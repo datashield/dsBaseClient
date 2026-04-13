@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.abs::perf:0")
 test_that("combine - performance", {
-    .durationSec  <- base::as.integer(base::Sys.getenv("PERF_DURATION_SEC", unset = "30")) # defaults to 30 seconds
+    .durationSec  <- perf.testduration(30)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

@@ -20,7 +20,7 @@
 
 # context("void::perf::void::0")
 test_that("simple void performance", {
-    .durationSec  <- base::as.integer(base::Sys.getenv("PERF_DURATION_SEC", unset = "60")) # defaults to 60 seconds
+    .durationSec  <- perf.testduration(60)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
