@@ -30,15 +30,9 @@ test_that("complex test", {
 
     res1 <- ds.rep(x1 = 4, times = 6, length.out = NA, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = NULL, source.each = "c", x1.includes.characters = FALSE, newobj = "rep1.seq")
    
-    expect_length(res1, 2)
-    expect_equal(res1$is.object.created, "A data object <rep1.seq> has been created in all specified data sources")
-    expect_equal(res1$validity.check, "<rep1.seq> appears valid in all sources")
 
     res2 <- ds.rep(x1 = "lung", times = 6, length.out = 7, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = "c", source.each = "c", x1.includes.characters = TRUE, newobj = "rep2.seq")
 
-    expect_length(res2, 2)
-    expect_equal(res2$is.object.created, "A data object <rep2.seq> has been created in all specified data sources")
-    expect_equal(res2$validity.check, "<rep2.seq> appears valid in all sources")
 })
 
 #

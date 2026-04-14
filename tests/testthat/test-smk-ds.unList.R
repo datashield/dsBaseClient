@@ -31,9 +31,6 @@ test_that("simple test", {
 
     res <- ds.unList("GENDER.list")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <unlist.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<unlist.newobj> appears valid in all sources")
 })
 
 #

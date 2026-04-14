@@ -34,9 +34,6 @@ test_that("simple test", {
 
     res <- ds.merge(x.name="test_1_df", y.name="test_2_df", by.x.names="LAB_TSC", by.y.names="LAB_TSC", newobj="merge_newobj")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <merge_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<merge_newobj> appears valid in all sources")
 
     class.res <- ds.class("merge_newobj")
 

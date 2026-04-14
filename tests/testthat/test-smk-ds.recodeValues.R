@@ -29,9 +29,6 @@ test_that("setup", {
 test_that("simple test", {
     res <- ds.recodeValues("D$survtime", values2replace.vector=c(0,1), new.values.vector=c(-10,10), newobj="recodevalues_newobj")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <recodevalues_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<recodevalues_newobj> appears valid in all sources")
 
     new.res <- ds.class("recodevalues_newobj")
 

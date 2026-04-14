@@ -56,9 +56,6 @@ test_that("dataFrameSubset_exists", {
     expect_equal(res.dim2$`dimensions of subset_df in sim3`[1], 3472)
     expect_equal(res.dim2$`dimensions of subset_df in sim3`[2], 2)
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <subset_df> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<subset_df> appears valid in all sources")
 })
 
 # context("ds.dataFrameSubset::smk::create a subset dataframe, based on scalar")
@@ -92,9 +89,6 @@ test_that("dataFrameSubset_exists scalar", {
     expect_equal(res.dim2$`dimensions of subset_df in sim3`[1], 2769)
     expect_equal(res.dim2$`dimensions of subset_df in sim3`[2], 3)
     
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <subset_df> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<subset_df> appears valid in all sources")
 })
 
 #

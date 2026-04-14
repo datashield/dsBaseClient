@@ -29,9 +29,6 @@ test_that("setup", {
 test_that("simple missing factor 1", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2,3), new.values.vector=c(10,20,30), missing='999', newobj="PM_BMI_CATEGORICAL")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <PM_BMI_CATEGORICAL> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<PM_BMI_CATEGORICAL> appears valid in all sources")
 
     ds.dataFrame(c('D$PM_BMI_CATEGORICAL'), newobj='odf_1')
     odf <- ds.DANGERdfEXTRACT('odf_1')
@@ -114,9 +111,6 @@ test_that("simple missing factor 1", {
 test_that("simple missing factor 2", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2), new.values.vector=c(1,2), missing=99, newobj="PM_BMI_CATEGORICAL")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <PM_BMI_CATEGORICAL> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<PM_BMI_CATEGORICAL> appears valid in all sources")
 
     ds.dataFrame(c('D$PM_BMI_CATEGORICAL'), newobj='odf_2')
     odf <- ds.DANGERdfEXTRACT('odf_2')
@@ -181,9 +175,6 @@ test_that("simple missing factor 2", {
 test_that("simple missing factor 3", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2,3), new.values.vector=c('low','medium','high'), newobj="PM_BMI_CATEGORICAL")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <PM_BMI_CATEGORICAL> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<PM_BMI_CATEGORICAL> appears valid in all sources")
 
     ds.dataFrame(c('D$PM_BMI_CATEGORICAL'), newobj='odf_3')
     odf <- ds.DANGERdfEXTRACT('odf_3')

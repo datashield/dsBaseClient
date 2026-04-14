@@ -53,19 +53,12 @@
 #'   
 #' }    
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
-#' 
-ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
+#'
+ds.c <- function(x=NULL, newobj=NULL, classConsistencyCheck=TRUE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
@@ -76,19 +69,14 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL){
     newobj <- "c.newobj"
   }
 
-  # check if the input object(s) is(are) defined in all the studies
-  lapply(x, function(k){isDefined(datasources, obj=k)})
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(x)){
-    typ <- checkClass(datasources, x[i])
+  if(classConsistencyCheck){
+    for(i in seq_along(x)){
+      checkClass(datasources, x[i])
+    }
   }
 
   # call the server side function that does the job
-  cally <-  paste0("cDS(list(",paste(x,collapse=","),"))")
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
+  cally <- call("cDS", x)
+  DSI::datashield.assign(datasources, newobj, cally)
 
 }
