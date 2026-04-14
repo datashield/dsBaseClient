@@ -115,7 +115,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
-ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, classConsistencyCheck=TRUE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

@@ -27,8 +27,9 @@ test_that("setup", {
 
 # context("ds.rep::smk")
 test_that("simple test", {
-    res <- ds.rep("D$survtime")
+    ds.rep("D$survtime")
 
+    ds_expect_variables(c("D", "seq.vect"))
 })
 
 #

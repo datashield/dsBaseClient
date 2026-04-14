@@ -8,10 +8,10 @@ ds.rbind(
   x = NULL,
   DataSHIELD.checks = FALSE,
   force.colnames = NULL,
-  classConsistencyCheck = TRUE,
   newobj = NULL,
   datasources = NULL,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -23,8 +23,6 @@ input objects exist and are of an appropriate class.}
 \item{force.colnames}{can be NULL or a vector of characters that 
 specifies column names of the output object.}
 
-\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
-
 \item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Defaults \code{rbind.newobj}.}
 
@@ -34,6 +32,8 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.rbind} returns a matrix combining the rows of the

@@ -90,7 +90,7 @@
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
-ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=TRUE, stringsAsFactors=TRUE, completeCases=FALSE, DataSHIELD.checks=FALSE, classConsistencyCheck=TRUE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
+ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=TRUE, stringsAsFactors=TRUE, completeCases=FALSE, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

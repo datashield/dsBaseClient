@@ -58,7 +58,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
-ds.c <- function(x=NULL, newobj=NULL, classConsistencyCheck=TRUE, datasources=NULL){
+ds.c <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

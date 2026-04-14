@@ -28,10 +28,14 @@ test_that("setup", {
 # context("ds.seq::smk")
 test_that("simplest ds.seq", {
     ds.seq(FROM.value.char="1", BY.value.char="1", LENGTH.OUT.value.char="10", ALONG.WITH.name=NULL, newobj="obj1")
+
+    ds_expect_variables(c("D", "obj1"))
 })
 
 test_that("simplest ds.seq", {
     ds.seq(FROM.value.char="1", BY.value.char="1", LENGTH.OUT.value.char=NULL, ALONG.WITH.name="D$LAB_TSC", newobj="obj2")
+
+    ds_expect_variables(c("D", "obj1", "obj2"))
 })
 
 #

@@ -29,8 +29,9 @@ test_that("setup", {
 test_that("simple test", {
     ds.asList(x.name="D$GENDER", newobj="GENDER.list")
 
-    res <- ds.unList("GENDER.list")
+    ds.unList("GENDER.list")
 
+    ds_expect_variables(c("D", "GENDER.list", "unlist.newobj"))
 })
 
 #

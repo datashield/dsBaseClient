@@ -30,8 +30,9 @@ test_that("dataFrameSort_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors, newobj="unsorted_df")
 
-    res <- ds.dataFrameSort(df.name="unsorted_df", sort.key.name="D$LAB_TSC", newobj="sorted_df")
+    ds.dataFrameSort(df.name="unsorted_df", sort.key.name="D$LAB_TSC", newobj="sorted_df")
 
+    ds_expect_variables(c("D", "unsorted_df", "sorted_df"))
 })
 
 #

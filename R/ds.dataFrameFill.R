@@ -76,7 +76,7 @@
 #' }
 #' @export
 #'
-ds.dataFrameFill <- function(df.name=NULL, classConsistencyCheck=TRUE, newobj=NULL, datasources=NULL){
+ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

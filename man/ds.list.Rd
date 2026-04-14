@@ -7,8 +7,8 @@
 ds.list(
   x = NULL,
   newobj = NULL,
-  classConsistencyCheck = TRUE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -17,12 +17,12 @@ ds.list(
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{list.newobj}.}
 
-\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has
-the same class across all studies before coercion. Default TRUE.}
-
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has
+the same class across all studies before coercion. Default TRUE.}
 }
 \value{
 \code{ds.list} returns a list of objects for each study that is stored on the server-side.

@@ -54,7 +54,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.list <- function(x=NULL, newobj=NULL, classConsistencyCheck=TRUE, datasources=NULL){
+ds.list <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

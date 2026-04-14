@@ -28,11 +28,13 @@ test_that("setup", {
 # context("ds.rep::smk::complex")
 test_that("complex test", {
 
-    res1 <- ds.rep(x1 = 4, times = 6, length.out = NA, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = NULL, source.each = "c", x1.includes.characters = FALSE, newobj = "rep1.seq")
-   
+    ds.rep(x1 = 4, times = 6, length.out = NA, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = NULL, source.each = "c", x1.includes.characters = FALSE, newobj = "rep1.seq")
 
-    res2 <- ds.rep(x1 = "lung", times = 6, length.out = 7, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = "c", source.each = "c", x1.includes.characters = TRUE, newobj = "rep2.seq")
+    ds_expect_variables(c("D", "rep1.seq"))
 
+    ds.rep(x1 = "lung", times = 6, length.out = 7, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = "c", source.each = "c", x1.includes.characters = TRUE, newobj = "rep2.seq")
+
+    ds_expect_variables(c("D", "rep1.seq", "rep2.seq"))
 })
 
 #

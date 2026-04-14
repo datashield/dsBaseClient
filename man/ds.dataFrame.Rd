@@ -12,10 +12,10 @@ ds.dataFrame(
   stringsAsFactors = TRUE,
   completeCases = FALSE,
   DataSHIELD.checks = FALSE,
-  classConsistencyCheck = TRUE,
   newobj = NULL,
   datasources = NULL,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -46,8 +46,6 @@ Default is FALSE.}
 4. the number of rows of the  data frames or matrices and the length of all component variables
 are the same}
 
-\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
-
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default \code{dataframe.newobj}.}
 
@@ -57,6 +55,8 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default is FALSE.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.dataFrame} returns the object specified by the \code{newobj} argument

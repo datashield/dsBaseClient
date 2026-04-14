@@ -27,8 +27,9 @@ test_that("setup", {
 
 # context("ds.recodeValues::smk")
 test_that("simple test", {
-    res <- ds.recodeValues("D$survtime", values2replace.vector=c(0,1), new.values.vector=c(-10,10), newobj="recodevalues_newobj")
+    ds.recodeValues("D$survtime", values2replace.vector=c(0,1), new.values.vector=c(-10,10), newobj="recodevalues_newobj")
 
+    ds_expect_variables(c("D", "recodevalues_newobj"))
 
     new.res <- ds.class("recodevalues_newobj")
 
