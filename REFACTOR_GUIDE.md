@@ -369,3 +369,15 @@ For each batch:
 3. Run `devtools::check(args = '--no-tests')` on both packages
 4. Run full test suite: `devtools::test(filter = "smk-|disc|arg")` to check no regressions
 5. Run perf tests: `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` to verify no performance regression
+
+## Follow-up: refactor client-side `checkClass`
+
+The client-side helper `checkClass()` currently does two jobs in one: (a) fetches the class of a server-side object and (b) checks the class is consistent across studies. After this refactor, the first job is redundant (the server returns `class` in aggregate results), but the second is still needed by composite dispatchers (`ds.summary` and similar).
+
+Planned cleanup (defer to a dedicated branch):
+
+- Rename `checkClass` → `.checkClass` to mark it internal (matches `.checkClassConsistency`, `.set_datasources`).
+- Split its responsibilities: one helper that fetches class for pre-call routing, one that checks cross-study consistency on a set of classes.
+- Update the remaining callers (`ds.summary` and any others still holding a client-side class pre-fetch).
+
+Not done as part of any single batch because the rename touches callers outside that batch's function set and would break functions not yet refactored. Schedule once all batches are merged — the rename then becomes one small, isolated commit.
