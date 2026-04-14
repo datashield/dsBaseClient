@@ -31,6 +31,8 @@ The refactored `ds.colnames` branch (`v7.0-dev-colnames`) also introduces shared
    - **FALSE** when permitted classes are only `numeric` and `integer` (these are effectively interchangeable)
    - **No parameter** when only one class is permitted (e.g. `ds.levels` only permits factor — consistency is guaranteed by `.checkClass()`)
 
+   **Verification:** after refactoring, inspect every `return()` in the client function — `class` (or `class.x` / `class.index` for multi-input functions) must not appear as a named element of the returned list. Stripping can be explicit (`r$class <- NULL`) or implicit (building the return from a specific subset of fields), but the absence of `class` in the final returned value must be visible at the `return()` site.
+
 5. **Remove `ValidityMessage`** — Server functions that returned `ValidityMessage = "VALID ANALYSIS"` should remove it. Failures should call `stop()` instead of returning a failure message. Remove `ValidityMessage` from client returns too. This is a major release so API changes are acceptable.
 
 6. **Remove `isAssigned()` calls** — no longer verify object creation client-side

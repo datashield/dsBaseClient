@@ -24,7 +24,7 @@ ds.asCharacter(x='D$LAB_HDL', newobj="not_a_numeric")
 test_that("quantileMean_erros", {
     expect_error(ds.quantileMean(), "Please provide the name of the input vector!", fixed=TRUE)
     expect_error(ds.quantileMean(x='D$LAB_HDL', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
-    expect_error(ds.quantileMean(x='not_a_numeric'), "The input object must be an integer or numeric vector.", fixed=TRUE)
+    expect_error(ds.quantileMean(x='not_a_numeric'), "DataSHIELD errors")
 })
 
 #
