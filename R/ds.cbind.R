@@ -38,10 +38,8 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return \code{ds.cbind} returns a data frame combining the columns of the R 
-#' objects specified in the function which is written to the server-side. 
-#' It also returns to the client-side two messages with the name of \code{newobj}
-#' that has been created in each data source and \code{DataSHIELD.checks} result. 
+#' @return \code{ds.cbind} returns a data frame combining the columns of the R
+#' objects specified in the function which is written to the server-side.
 #' @examples 
 #' 
 #' \dontrun{

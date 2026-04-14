@@ -152,4 +152,6 @@ Server function called: \code{mergeDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -4,7 +4,7 @@
 \alias{ds.c}
 \title{Combines values into a vector or list in the server-side}
 \usage{
-ds.c(x = NULL, newobj = NULL, datasources = NULL)
+ds.c(x = NULL, newobj = NULL, classConsistencyCheck = TRUE, datasources = NULL)
 }
 \arguments{
 \item{x}{a vector of character string providing the names of the objects to be combined.}
@@ -12,7 +12,10 @@ ds.c(x = NULL, newobj = NULL, datasources = NULL)
 \item{newobj}{a character string that provides the name for the output object 
 that is stored on the data servers. Default \code{c.newobj}.}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has
+the same class across all studies before concatenation. Default TRUE.}
+
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}}
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
@@ -71,4 +74,6 @@ Server function called: \code{cDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -4,13 +4,21 @@
 \alias{ds.list}
 \title{Constructs a list of objects in the server-side}
 \usage{
-ds.list(x = NULL, newobj = NULL, datasources = NULL)
+ds.list(
+  x = NULL,
+  newobj = NULL,
+  classConsistencyCheck = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string specifying the names of the objects to coerce into a list.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{list.newobj}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has
+the same class across all studies before coercion. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
@@ -68,4 +76,6 @@ Server function called: \code{listDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

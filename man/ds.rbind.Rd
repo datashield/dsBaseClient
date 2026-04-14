@@ -8,6 +8,7 @@ ds.rbind(
   x = NULL,
   DataSHIELD.checks = FALSE,
   force.colnames = NULL,
+  classConsistencyCheck = TRUE,
   newobj = NULL,
   datasources = NULL,
   notify.of.progress = FALSE
@@ -22,7 +23,9 @@ input objects exist and are of an appropriate class.}
 \item{force.colnames}{can be NULL or a vector of characters that 
 specifies column names of the output object.}
 
-\item{newobj}{a character string that provides the name for the output variable 
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
+
+\item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Defaults \code{rbind.newobj}.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
@@ -33,11 +36,9 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 progress. Default FALSE.}
 }
 \value{
-\code{ds.rbind} returns a matrix combining the rows of the 
+\code{ds.rbind} returns a matrix combining the rows of the
 R objects specified in the function
-which is written to the server-side. 
-It also returns two messages to the client-side with the name of \code{newobj}
-that has been created in each data source and \code{DataSHIELD.checks} result.
+which is written to the server-side.
 }
 \description{
 It takes a sequence of vector, matrix or data-frame arguments
@@ -105,4 +106,6 @@ Server functions called: \code{rbindDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

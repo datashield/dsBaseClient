@@ -88,4 +88,6 @@ Server function called: \code{unListDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -28,11 +28,9 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return \code{ds.rbind} returns a matrix combining the rows of the 
+#' @return \code{ds.rbind} returns a matrix combining the rows of the
 #' R objects specified in the function
-#' which is written to the server-side. 
-#' It also returns two messages to the client-side with the name of \code{newobj}
-#' that has been created in each data source and \code{DataSHIELD.checks} result. 
+#' which is written to the server-side.
 #' @examples 
 #' 
 #' \dontrun{
