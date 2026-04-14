@@ -57,6 +57,11 @@ perf.reference.save <- function(perf.ref.name, rate, tolerance.lower, tolerance.
     .perf.reference <<- .perf.reference
 }
 
+# Obtain performance test duration from PERF_DURATION_SEC environment variable, otherwise default.duration argument, otherwise "30".
+perf.testduration <- function(default.duration = 30) {
+    base::as.integer(base::Sys.getenv("PERF_DURATION_SEC", unset = base::as.character(default.duration)))
+}
+
 perf.reference.rate <- function(perf.ref.name) {
     if (is.null(.perf.reference))
         .load.pref()
