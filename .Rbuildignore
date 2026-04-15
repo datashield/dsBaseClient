@@ -23,3 +23,4 @@
 ^\.circleci$
 ^\.circleci/config\.yml$
 ^\.github$
+^REFACTOR_GUIDE\.md$
