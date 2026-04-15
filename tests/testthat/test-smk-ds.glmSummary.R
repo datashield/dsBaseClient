@@ -31,8 +31,6 @@ test_that("simple glmSummary, gaussian, without newobj", {
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmSummary("gaussian.glmslma.obj")
 
@@ -55,6 +53,8 @@ test_that("simple glmSummary, gaussian, without newobj", {
     expect_true('lm' %in% class(res$sim3$glm.obj))
     expect_length(res$sim3$glm.summary.obj, 18)
     expect_equal(class(res$sim3$glm.summary.obj), 'summary.glm')
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "summary_glm.newobj"))
 })
 
 test_that("simple glmSummary, gaussian", {
@@ -62,8 +62,6 @@ test_that("simple glmSummary, gaussian", {
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmSummary("gaussian.glmslma.obj", newobj="gaussian.glmsummary.obj")
 
@@ -86,6 +84,8 @@ test_that("simple glmSummary, gaussian", {
     expect_true('lm' %in% class(res$sim3$glm.obj))
     expect_length(res$sim3$glm.summary.obj, 18)
     expect_equal(class(res$sim3$glm.summary.obj), 'summary.glm')
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "summary_glm.newobj", "gaussian.glmsummary.obj"))
 })
 
 # context("ds.glmSummary::smk::poisson")
@@ -94,8 +94,6 @@ test_that("simple glmSummary, poisson, without newobj", {
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmSummary("poisson.glmslma.obj")
 
@@ -118,6 +116,8 @@ test_that("simple glmSummary, poisson, without newobj", {
     expect_true('lm' %in% class(res$sim3$glm.obj))
     expect_length(res$sim3$glm.summary.obj, 18)
     expect_equal(class(res$sim3$glm.summary.obj), 'summary.glm')
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glmsummary.obj", "poisson.glmslma.obj", "summary_glm.newobj"))
 })
 
 test_that("simple glmSummary, poisson", {
@@ -125,8 +125,6 @@ test_that("simple glmSummary, poisson", {
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmSummary("poisson.glmslma.obj", newobj="poisson.glmsummary.obj")
 
@@ -149,6 +147,8 @@ test_that("simple glmSummary, poisson", {
     expect_true('lm' %in% class(res$sim3$glm.obj))
     expect_length(res$sim3$glm.summary.obj, 18)
     expect_equal(class(res$sim3$glm.summary.obj), 'summary.glm')
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glmsummary.obj", "poisson.glmslma.obj", "poisson.glmsummary.obj", "summary_glm.newobj"))
 })
 
 #

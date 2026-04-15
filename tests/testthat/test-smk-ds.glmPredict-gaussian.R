@@ -30,8 +30,6 @@ test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
     
@@ -103,6 +101,8 @@ test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
     expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.928798, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.004785, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = ds.test_env$tolerance)
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "predict_glm"))
 })
 
 # context("ds.glmPredict::smk::gaussian::with_newobj")
@@ -111,8 +111,6 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
 
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
 
     res <- ds.glmPredict("gaussian.glmslma.obj", output.type = "response", se.fit = FALSE, newobj="gaussian.glm.predict.obj")
     
@@ -184,17 +182,17 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.928798, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.004785, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.054574, tolerance = ds.test_env$tolerance)
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "predict_glm", "gaussian.glm.predict.obj"))
 })
 
 # context("ds.glmPredict::smk::gaussian::sefit_true")
 test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
-    
+
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
-    
+
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")
    
     expect_length(res, 3)
@@ -311,6 +309,8 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     expect_equal(res$sim3$safe.list$se.fit.quantiles[[6]], 0.03463314, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$se.fit.quantiles[[7]], 0.03887559, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$residual.scale, 1.0587356, tolerance = ds.test_env$tolerance)
+
+    ds_expect_variables(c("D", "gaussian.glmslma.obj", "predict_glm", "gaussian.glm.predict.obj", "gaussian.glm.predict.sefit.obj"))
 })
 
 #

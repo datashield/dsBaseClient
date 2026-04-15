@@ -43,29 +43,19 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return a list with three elements: the method, the predictorMatrix and the post.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.mice <- function(data=NULL, m=5, maxit=5, method=NULL, predictorMatrix=NULL, post=NULL, 
                     seed=NA, newobj_mids=NULL, newobj_df=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- DSI::datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-  
+  datasources <- .set_datasources(datasources)
+
   # verify that 'data' was set
   if(is.null(data)){
     stop("Please provide the name of the dataframe or matrix that contains the incomplete data!", call.=FALSE)
   }
-  
-  # check if the 'data' are defined in all the studies
-  defined.data <- isDefined(datasources, data)
-  
+
   if(!is.null(method)){
     method <- paste0(as.character(method), collapse=",")
   }
