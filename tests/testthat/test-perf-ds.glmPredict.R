@@ -12,6 +12,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.glmPredict::perf::0")
 test_that("performance", {
+    ds.glm(formula=D$LAB_TSC~D$LAB_TRIG, data="D", family="gaussian")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
