@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.histogram(x="D\$LAB_TSC", type="split")
+        ds.histogram(x="D$LAB_TSC", type="split")
 
         .count <- .count + 1
         .current.time <- Sys.time()

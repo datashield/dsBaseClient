@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.scatterPlot(x="D\$LAB_TSC", y="D\$LAB_TRIG", type="split")
+        ds.scatterPlot(x="D$LAB_TSC", y="D$LAB_TRIG", type="split")
 
         .count <- .count + 1
         .current.time <- Sys.time()
