@@ -12,13 +12,14 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.changeRefGroup::perf::0")
 test_that("performance", {
+    ds.asFactorSimple("D$LAB_TSC", newobj.name="factor.perf")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.changeRefGroup(x="factor.newobj", ref=levels(1), reorderByRef=FALSE, newobj="refgroup.newobj")
+        ds.changeRefGroup(x="factor.perf", ref="2", reorderByRef=FALSE, newobj="refgroup.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
