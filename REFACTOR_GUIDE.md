@@ -308,6 +308,8 @@ Most complex. Multiple server calls, complex validation logic.
 | ds.boxPlot | (check server) |
 | ds.boxPlotGG | boxPlotGGDS |
 
+**Batch 9 note:** `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` call `rangeDS` which has **not** been refactored. These calls still use `as.symbol(paste0("rangeDS(", x, ")"))`. Once `rangeDS` is refactored (batch 10 or later), go back and update these three client functions to use `call("rangeDS", x=x)`.
+
 ### Batch 10 — Splines, Tables, Misc (14 pairs)
 
 | Client | Server |

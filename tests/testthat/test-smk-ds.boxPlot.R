@@ -33,7 +33,7 @@ test_that("boxPlot with nonexistent object fails", {
 # context("ds.boxPlot::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "boxPlotRawData"))
 })
 
 disconnect.studies.dataset.cnsim()

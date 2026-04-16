@@ -102,9 +102,9 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
   if(type=="combine"){
     # get the range from each study and produce the 'global' range
-    x.ranges <- DSI::datashield.aggregate(datasources, call("rangeDS", x))
+    x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
 
-    y.ranges <- DSI::datashield.aggregate(datasources, call("rangeDS", y))
+    y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
 
     x.minrs <- c()
     x.maxrs <- c()
