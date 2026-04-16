@@ -131,6 +131,7 @@
 #' the full output object. We are currently working to extend the information that can
 #' be returned to the clientside when an error occurs.
 #' @author Paul Burton, for DataSHIELD Development Team, 15/4/2020
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, prob = NULL, newobj=NULL,datasources=NULL, notify.of.progress=FALSE){
  

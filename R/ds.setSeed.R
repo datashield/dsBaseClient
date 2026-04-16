@@ -41,6 +41,7 @@
 #' each source and also the integer vector of 626 elements
 #' that is \code{.Random.seed itself}.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki 

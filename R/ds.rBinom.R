@@ -103,6 +103,7 @@
 #'   datashield.logout(connections) 
 #' }
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj=NULL, seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 

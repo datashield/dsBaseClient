@@ -122,6 +122,7 @@
 #' }
 #'  
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.rUnif<-function(samp.size=1,min=0,max=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){
