@@ -128,6 +128,7 @@ When adding a parameter to an already-released function (e.g. `classConsistencyC
 **Client-side performance tests** (new `test-perf-ds.functionName.R` in dsBaseClient):
 - Add a performance test for each refactored client function. Follow the pattern in `test-perf-ds.class.R`: call the function in a timed loop, compare against a reference rate from the perf profile CSV.
 - Run with `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` during development; the default 30-second duration is for CI.
+- **Do not** include Arjuna Technologies copyright headers in new test files. The existing headers in pre-refactor files should be left as-is, but new files we create should not carry third-party copyright.
 
 **Design decisions:**
 - Functions accepting any class: use `.loadServersideObject()` only, no `.checkClass()`
