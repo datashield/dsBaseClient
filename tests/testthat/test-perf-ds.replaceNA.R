@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.replaceNA(x="D$LAB_TSC", forNA=0, newobj="replace.newobj")
+        ds.replaceNA(x="D$LAB_TSC", forNA=c(999, 999, 999), newobj="replace.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

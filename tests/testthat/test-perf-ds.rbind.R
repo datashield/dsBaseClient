@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.rbind(x="D", y="D", newobj="rbind.newobj")
+        ds.rbind(x=c("D", "D"), newobj="rbind.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

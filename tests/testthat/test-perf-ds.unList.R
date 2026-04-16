@@ -12,6 +12,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.unList::perf::0")
 test_that("performance", {
+    ds.asList("D$LAB_TSC", newobj="list.newobj")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
