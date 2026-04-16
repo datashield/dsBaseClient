@@ -121,6 +121,15 @@ When adding a parameter to an already-released function (e.g. `classConsistencyC
 - Update any tests that expected client-side error messages to expect server-originated errors
 - **When MODULE 5 assertions are removed, add comparable replacements.** The old MODULE 5 block returned `$is.object.created` and `$validity.check` messages asserting that `newobj` existed on every server. When those assertions are stripped, add equivalent checks inside the same `test_that` block that verify the object was created on all sources — e.g. `ds_expect_variables(c("<expected list>"))` or `expect_no_error(ds.class("<newobj>"))`. Relying on the shutdown-block `ds_expect_variables()` alone is not sufficient because it can't pinpoint which test created the missing object.
 
+**Client-side smoke tests** (new `test-smk-ds.functionName.R` if none exists):
+- If no smoke test file exists for a refactored client function, create one. Every refactored function must have at least a basic happy-path smoke test that exercises the server call and verifies the result.
+- Follow the existing test pattern: `connect.studies.dataset.cnsim(...)`, `test_that("setup", ...)`, main test block, `test_that("shutdown", ...)`, `disconnect.studies.dataset.cnsim()`.
+
+**Client-side performance tests** (new `test-perf-ds.functionName.R` in dsBaseClient):
+- Add a performance test for each refactored client function. Follow the pattern in `test-perf-ds.class.R`: call the function in a timed loop, compare against a reference rate from the perf profile CSV.
+- Run with `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` during development; the default 30-second duration is for CI.
+- **Do not** include Arjuna Technologies copyright headers in new test files. The existing headers in pre-refactor files should be left as-is, but new files we create should not carry third-party copyright.
+
 **Design decisions:**
 - Functions accepting any class: use `.loadServersideObject()` only, no `.checkClass()`
 - Client tests must include unhappy paths testing server error propagation
@@ -136,6 +145,8 @@ After the refactor commits for a batch have landed, add `Tim Cadman, Genomics Co
 ```
 
 Skip files that have no existing `@author` line (e.g. `R/utils.R`). Do this as a separate trailing commit per repo with message `docs: updated authorship`, not bundled with the refactor commits.
+
+**Only add the tag to files you actually refactored** (replaced `eval(parse())`, added `.loadServersideObject` / `.checkClass`, replaced MODULE 5, converted dispatch to `call()`, etc.). If a file in a batch's function list turns out not to need any substantive change — for example a server function whose inputs are client-transmitted literal data rather than object names (`dmtC2SDS` is one such case) — leave its author line as-is. Adding `@author Tim Cadman` to an untouched file is incorrect authorship attribution.
 
 ## Excluded Functions
 
@@ -297,6 +308,8 @@ Most complex. Multiple server calls, complex validation logic.
 | ds.boxPlot | (check server) |
 | ds.boxPlotGG | boxPlotGGDS |
 
+**Batch 9 note:** `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` call `rangeDS` which has **not** been refactored. These calls still use `as.symbol(paste0("rangeDS(", x, ")"))`. Once `rangeDS` is refactored (batch 10 or later), go back and update these three client functions to use `call("rangeDS", x=x)`.
+
 ### Batch 10 — Splines, Tables, Misc (14 pairs)
 
 | Client | Server |
@@ -317,6 +330,18 @@ Most complex. Multiple server calls, complex validation logic.
 | ds.hetcor | hetcorDS |
 
 **Batch 10 dependency:** `rowColCalcDS` calls `isValidDS(result)` internally as a disclosure check. When refactoring `rowColCalcDS`, replace this with direct disclosure logic or `.loadServersideObject()` + `.checkClass()`. Once done, also refactor `ds.isValid` / `isValidDS` (deferred from Batch 2). Similarly, `replaceNaDS` (Batch 4) and `quantileMeanDS` (Batch 3) call `isValidDS()` internally — refactor those callers first before changing `isValidDS`'s signature.
+
+## Known Issues
+
+**Batch 4:** `ds.dataFrameFill` perf test cannot run — function requires columns to differ across studies, which is hard to set up in a perf loop.
+
+**Batch 6:** `ds.asFactor` and `ds.changeRefGroup` perf tests fail with server-side errors. The `asFactorDS1` aggregate call errors out. `ds.changeRefGroup` may have a known pre-existing issue. Both need investigation of the batch-6 server refactoring.
+
+**Batch 7:** `ds.gamlss` perf test fails with server-side error. May be a batch-7 refactoring issue in `gamlssDS` or a dataset availability issue (gamlss dataset may not be configured on all Armadillo instances).
+
+**Batch 8:** `ds.sample` smoke test fails at the `ds.length("newobj.sample")` call — this is because the batch-2 client PR has not been merged to v7.0-dev yet, so the old `ds.length` client code cannot handle the new `list(length=..., class=...)` return from the refactored `lengthDS`.
+
+**Batch 9:** `rangeDS` has not been refactored, so `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` still use `as.symbol(paste0("rangeDS(", x, ")"))` for `rangeDS` calls. Once `rangeDS` is refactored, update these to use `call("rangeDS", x=x)`.
 
 ## Per-Batch Workflow
 
