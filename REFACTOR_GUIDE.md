@@ -331,6 +331,18 @@ Most complex. Multiple server calls, complex validation logic.
 
 **Batch 10 dependency:** `rowColCalcDS` calls `isValidDS(result)` internally as a disclosure check. When refactoring `rowColCalcDS`, replace this with direct disclosure logic or `.loadServersideObject()` + `.checkClass()`. Once done, also refactor `ds.isValid` / `isValidDS` (deferred from Batch 2). Similarly, `replaceNaDS` (Batch 4) and `quantileMeanDS` (Batch 3) call `isValidDS()` internally — refactor those callers first before changing `isValidDS`'s signature.
 
+## Known Issues
+
+**Batch 4:** `ds.dataFrameFill` perf test cannot run — function requires columns to differ across studies, which is hard to set up in a perf loop.
+
+**Batch 6:** `ds.asFactor` and `ds.changeRefGroup` perf tests fail with server-side errors. The `asFactorDS1` aggregate call errors out. `ds.changeRefGroup` may have a known pre-existing issue. Both need investigation of the batch-6 server refactoring.
+
+**Batch 7:** `ds.gamlss` perf test fails with server-side error. May be a batch-7 refactoring issue in `gamlssDS` or a dataset availability issue (gamlss dataset may not be configured on all Armadillo instances).
+
+**Batch 8:** `ds.sample` smoke test fails at the `ds.length("newobj.sample")` call — this is because the batch-2 client PR has not been merged to v7.0-dev yet, so the old `ds.length` client code cannot handle the new `list(length=..., class=...)` return from the refactored `lengthDS`.
+
+**Batch 9:** `rangeDS` has not been refactored, so `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` still use `as.symbol(paste0("rangeDS(", x, ")"))` for `rangeDS` calls. Once `rangeDS` is refactored, update these to use `call("rangeDS", x=x)`.
+
 ## Per-Batch Workflow
 
 **Important:** dsBase and dsBaseClient are separate git repos. Changes must be committed and tested in the correct order since the client depends on the server package being installed.
