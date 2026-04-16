@@ -88,6 +88,7 @@
 #' @return \code{ds.heatmapPlot} returns to the client-side a heat map plot and a message specifying 
 #' the number of invalid cells in each study. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

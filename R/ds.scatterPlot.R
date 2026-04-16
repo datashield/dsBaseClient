@@ -70,6 +70,7 @@
 #' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
 #' plots depending on the argument \code{type}. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
