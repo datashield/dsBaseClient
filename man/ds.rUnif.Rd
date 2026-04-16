@@ -152,4 +152,6 @@ Server functions called: \code{rUnifDS} and \code{setSeedDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

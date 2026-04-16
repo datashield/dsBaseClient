@@ -162,4 +162,6 @@ why line 2 is inserted to create a copy with a shorter name.
 }
 \author{
 Paul Burton, for DataSHIELD Development Team, 15/4/2020
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
