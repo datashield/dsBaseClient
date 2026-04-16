@@ -102,15 +102,7 @@
 #'
 ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, standing=NA, thirdPart=NA, newobj=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(sex)){
     stop("Please provide the column name of the 'sex' variable!", call.=FALSE)
@@ -124,21 +116,6 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
     stop("Please provide the column name of the 'secondPart' variable!", call.=FALSE)
   }
   
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, sex)
-  isDefined(datasources, firstPart)
-  isDefined(datasources, secondPart)
-  
-  # if 'firstPart' or 'secondPart' are not numeric return an error message
-  typ.firstPart <- checkClass(datasources, firstPart)
-  typ.secondPart <- checkClass(datasources, secondPart)
-  if(!('numeric' %in% typ.firstPart)){
-    stop("The 'firstPart' variable must be a 'numeric' variable!", call.=FALSE)
-  }
-  if(!('numeric' %in% typ.secondPart)){
-    stop("The 'secondPart' variable must be a 'numeric' variable!", call.=FALSE)
-  }
-  
   if(!any(index %in% c("bfa", "hca", "hfa", "lfa", "mfa", "ssa", "tsa", "wfa", "wfh", "wfl"))){
     stop("Please provide a correct abbreviation for the index!", call.=FALSE)
   }
@@ -146,14 +123,6 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   # If 'thirdPart' (age) is missing for BMI-for-age return an error message
   if(index == "bfa" & is.na(thirdPart)) {
     stop("'thirdPart' variable should not be missing for index 'bfa'", call.=FALSE)
-  }
-  
-  # If 'thirdPart' (age) is not numeric for BMI-for-age return an error message
-  if(index == "bfa"){
-    typ.thirdPart <- checkClass(datasources, thirdPart)
-    if(!('numeric' %in% typ.firstPart)){
-      stop("The 'thirdPart' variable must be a 'numeric' variable!", call.=FALSE)
-    }  
   }
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message

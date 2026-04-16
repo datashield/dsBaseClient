@@ -124,15 +124,7 @@
 ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=NULL){
 
   ###datasources
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   ###X.name
   # check if user has provided the name of the column that holds X.name
@@ -140,9 +132,6 @@ ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=
     return("Error: Please provide the name of the variable to be summarized, as a character string")
   }
   
-  # check if the X object is defined in all the studies
-  isDefined(datasources, X.name)
-
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names
   if(is.null(INDEX.names)){
@@ -157,11 +146,6 @@ ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=
     stop("The 'INDEX.names' can include the names of up to two factors", call.=FALSE)
   }
   
-  # check if the INDEX objects are defined in all the studies
-  for(i in 1:length(INDEX.names)){
-    isDefined(datasources, INDEX.names[i])
-  }
-
   # make INDEX.names transmitable
   if(!is.null(INDEX.names)){
     INDEX.names.transmit <- paste(INDEX.names, collapse=",")

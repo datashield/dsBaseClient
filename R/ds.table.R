@@ -190,40 +190,21 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
 				          	table.assign=FALSE,	newobj=NULL, datasources=NULL, 
 				          	force.nfilter=NULL){
   
-  # if no connection login details are provided look for 'connection' objects in the environment
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # check if a value has been provided for rvar
   if(is.null(rvar)){
     return("Error: rvar must have a value which is a character string naming the row variable for the table")
   }
   
-  # check if the input object is defined in all the studies
-  isDefined(datasources, rvar)
-
   if(!is.null(cvar)&&!is.character(cvar)){
      return("Error: if cvar is not null, it must have a value which is a character string naming the column variable for the table")
   }
   
-  if(!is.null(cvar)){
-    isDefined(datasources, cvar)
-  }
-
   if(!is.null(stvar)&&!is.character(stvar)){
      return("Error: if stvar is not null, it must have a value which is a character string naming the variable coding separate tables for the table")
   }
   
-  if(!is.null(stvar)){
-    isDefined(datasources, stvar)
-  }
-
   if(useNA!="no" && useNA!="always"){
      stop("useNA must be either 'no' or 'always'.")
 	 }

@@ -56,15 +56,7 @@
 #'
 ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
@@ -77,8 +69,5 @@ ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
   # now do the business
   DSI::datashield.assign(datasources, newobj, as.symbol(toAssign))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
 
 }
