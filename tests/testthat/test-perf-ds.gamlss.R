@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.gamlss(formula="D\$LAB_TSC~D\$LAB_TRIG", family="NO", newobj="gamlss.newobj")
+        ds.gamlss(formula="D$LAB_TSC~D$LAB_TRIG", family="NO", newobj="gamlss.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
