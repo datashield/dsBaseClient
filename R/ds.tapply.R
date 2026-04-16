@@ -120,6 +120,7 @@
 #'   
 #' } 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=NULL){
 

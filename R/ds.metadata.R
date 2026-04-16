@@ -12,6 +12,7 @@
 #' @return \code{ds.metadata} returns to the client-side the metadata of associated to an object
 #' held at the server.
 #' @author Stuart Wheater, DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

@@ -77,6 +77,7 @@
 #' The array is written to the server-side. It has the same number of
 #' dimensions as INDEX.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki

@@ -16,6 +16,7 @@
 #' @return \code{ds.assign} returns the R object assigned to a name 
 #' that is written to the server-side.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples 
 #' \dontrun{

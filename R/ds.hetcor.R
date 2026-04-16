@@ -27,6 +27,7 @@
 #' the method by which any missing data were handled: "complete.obs" or "pairwise.complete.obs"; TRUE 
 #' for ML estimates, FALSE for two-step estimates.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.hetcor <- function(data=NULL, ML=TRUE, std.err=TRUE, bins=4, pd=TRUE, use="complete.obs", datasources=NULL){

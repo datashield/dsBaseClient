@@ -58,6 +58,7 @@
 #' @return \code{ds.getWGSR} assigns a vector for each study that includes the z-scores for the
 #' specified index. The created vectors are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

@@ -134,6 +134,7 @@
 #' the expanded version of the input table.
 #' 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.glm}} for generalized linear models. 
 #' @export
 #' @examples

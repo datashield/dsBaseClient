@@ -71,6 +71,7 @@
 #' server-side. Also a validity message is returned to the client-side indicating whether the new object has been correctly
 #' created at each source.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
