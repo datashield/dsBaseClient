@@ -12,14 +12,14 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.glmPredict::perf::0")
 test_that("performance", {
-    ds.glm(formula=D$LAB_TSC~D$LAB_TRIG, data="D", family="gaussian")
+    ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.glmPredict(glmname="glm.newobj", newdataname=NULL, output.type="response", newobj="predict.newobj")
+        ds.glmPredict("gaussian.glmslma.obj", output.type="response", newobj="predict.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
