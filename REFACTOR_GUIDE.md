@@ -101,6 +101,12 @@ Refactors should change as little as possible. Do not rename variables, restyle 
 
 The refactor must not alter which input types a function accepts or what it returns (beyond adding `class` to the return list). If the original function accepted data.frames, the refactored version must too. Check previous behaviour before setting permitted classes in `.checkClass()`.
 
+This extends to **test coverage**. If a refactor removes output fields that tests asserted on, the refactor is not done until equivalent coverage is added. Do not merely delete assertions to make tests pass — that silently reduces what the suite verifies. The change is reviewable by diffing `test-smk-*.R` against the base branch: every removed `expect_*` must be either (a) redundant because the same behaviour is covered elsewhere in the same file, or (b) replaced with an assertion covering the same server-side behaviour.
+
+### Adding new parameters to existing exported functions
+
+When adding a parameter to an already-released function (e.g. `classConsistencyCheck`, a new behaviour flag), **place it after all existing named parameters** — never in the middle of the signature. Inserting a parameter mid-signature silently breaks every caller that used positional argument order for anything to its right. Append it to the end (after `datasources=NULL` is acceptable even though `datasources` is conventionally last), and document the default value in `@param`.
+
 ### Tests
 
 **Server-side unit tests** (new `test-smk-functionNameDS.R` in dsBase):
@@ -113,6 +119,16 @@ The refactor must not alter which input types a function accepts or what it retu
 - Unhappy: nonexistent object → `expect_error(..., "DataSHIELD errors")`
 - Unhappy: wrong type → `expect_error(..., "DataSHIELD errors")` (where type was previously checked client-side)
 - Update any tests that expected client-side error messages to expect server-originated errors
+- **When MODULE 5 assertions are removed, add comparable replacements.** The old MODULE 5 block returned `$is.object.created` and `$validity.check` messages asserting that `newobj` existed on every server. When those assertions are stripped, add equivalent checks inside the same `test_that` block that verify the object was created on all sources — e.g. `ds_expect_variables(c("<expected list>"))` or `expect_no_error(ds.class("<newobj>"))`. Relying on the shutdown-block `ds_expect_variables()` alone is not sufficient because it can't pinpoint which test created the missing object.
+
+**Client-side smoke tests** (new `test-smk-ds.functionName.R` if none exists):
+- If no smoke test file exists for a refactored client function, create one. Every refactored function must have at least a basic happy-path smoke test that exercises the server call and verifies the result.
+- Follow the existing test pattern: `connect.studies.dataset.cnsim(...)`, `test_that("setup", ...)`, main test block, `test_that("shutdown", ...)`, `disconnect.studies.dataset.cnsim()`.
+
+**Client-side performance tests** (new `test-perf-ds.functionName.R` in dsBaseClient):
+- Add a performance test for each refactored client function. Follow the pattern in `test-perf-ds.class.R`: call the function in a timed loop, compare against a reference rate from the perf profile CSV.
+- Run with `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` during development; the default 30-second duration is for CI.
+- **Do not** include Arjuna Technologies copyright headers in new test files. The existing headers in pre-refactor files should be left as-is, but new files we create should not carry third-party copyright.
 
 **Design decisions:**
 - Functions accepting any class: use `.loadServersideObject()` only, no `.checkClass()`
@@ -129,6 +145,8 @@ After the refactor commits for a batch have landed, add `Tim Cadman, Genomics Co
 ```
 
 Skip files that have no existing `@author` line (e.g. `R/utils.R`). Do this as a separate trailing commit per repo with message `docs: updated authorship`, not bundled with the refactor commits.
+
+**Only add the tag to files you actually refactored** (replaced `eval(parse())`, added `.loadServersideObject` / `.checkClass`, replaced MODULE 5, converted dispatch to `call()`, etc.). If a file in a batch's function list turns out not to need any substantive change — for example a server function whose inputs are client-transmitted literal data rather than object names (`dmtC2SDS` is one such case) — leave its author line as-is. Adding `@author Tim Cadman` to an untouched file is incorrect authorship attribution.
 
 ## Excluded Functions
 
@@ -290,6 +308,8 @@ Most complex. Multiple server calls, complex validation logic.
 | ds.boxPlot | (check server) |
 | ds.boxPlotGG | boxPlotGGDS |
 
+**Batch 9 note:** `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` call `rangeDS` which has **not** been refactored. These calls still use `as.symbol(paste0("rangeDS(", x, ")"))`. Once `rangeDS` is refactored (batch 10 or later), go back and update these three client functions to use `call("rangeDS", x=x)`.
+
 ### Batch 10 — Splines, Tables, Misc (14 pairs)
 
 | Client | Server |
@@ -311,9 +331,31 @@ Most complex. Multiple server calls, complex validation logic.
 
 **Batch 10 dependency:** `rowColCalcDS` calls `isValidDS(result)` internally as a disclosure check. When refactoring `rowColCalcDS`, replace this with direct disclosure logic or `.loadServersideObject()` + `.checkClass()`. Once done, also refactor `ds.isValid` / `isValidDS` (deferred from Batch 2). Similarly, `replaceNaDS` (Batch 4) and `quantileMeanDS` (Batch 3) call `isValidDS()` internally — refactor those callers first before changing `isValidDS`'s signature.
 
+## Known Issues
+
+**Batch 4:** `ds.dataFrameFill` perf test cannot run — function requires columns to differ across studies, which is hard to set up in a perf loop.
+
+**Batch 6:** `ds.asFactor` and `ds.changeRefGroup` perf tests fail with server-side errors. The `asFactorDS1` aggregate call errors out. `ds.changeRefGroup` may have a known pre-existing issue. Both need investigation of the batch-6 server refactoring.
+
+**Batch 7:** `ds.gamlss` perf test fails with server-side error. May be a batch-7 refactoring issue in `gamlssDS` or a dataset availability issue (gamlss dataset may not be configured on all Armadillo instances).
+
+**Batch 8:** `ds.sample` smoke test fails at the `ds.length("newobj.sample")` call — this is because the batch-2 client PR has not been merged to v7.0-dev yet, so the old `ds.length` client code cannot handle the new `list(length=..., class=...)` return from the refactored `lengthDS`.
+
+**Batch 9:** `rangeDS` has not been refactored, so `ds.heatmapPlot`, `ds.contourPlot`, and `ds.densityGrid` still use `as.symbol(paste0("rangeDS(", x, ")"))` for `rangeDS` calls. Once `rangeDS` is refactored, update these to use `call("rangeDS", x=x)`.
+
 ## Per-Batch Workflow
 
 **Important:** dsBase and dsBaseClient are separate git repos. Changes must be committed and tested in the correct order since the client depends on the server package being installed.
+
+### Step 0 — Branch bootstrap
+
+When creating a new batch branch (in either repo) from `origin/v7.0-dev`:
+
+1. **dsBaseClient:** copy `R/utils.R` from the most recently refactored client branch (e.g. `origin/refactor/perf-batch-4`). `origin/v7.0-dev` on the client does not yet contain it — it only enters `v7.0-dev` once the batch-1 or batch-2 client PR merges.
+2. **dsBaseClient:** copy `REFACTOR_GUIDE.md` from the same branch, and add `^REFACTOR_GUIDE\.md$` to `.Rbuildignore` if not already there. This keeps the guide alongside the code being refactored so rules added in later batches are visible to everyone.
+3. **dsBase:** no bootstrap copy needed — `R/utils.R` with `.loadServersideObject` / `.checkClass` is already in `origin/v7.0-dev` (merged with batch-1).
+
+Commit the bootstrap separately (message: `chore: bootstrap batch-N from batch-M`) before starting the refactor work.
 
 ### Step 1 — Server-side (dsBase repo)
 1. Create feature branch from `v7.0-dev` in dsBase
@@ -346,6 +388,24 @@ Most complex. Multiple server calls, complex validation logic.
 13. Run full test suite to check no regressions
 14. Run perf tests at 30 seconds (default): `devtools::test(filter = "perf-")`
 15. Compare perf results against the v7.0-dev branch baseline to detect any regressions from the refactoring
+
+### Step 5 — Pre-merge audit (mandatory)
+
+Before marking a batch complete:
+
+1. **Diff every touched `test-smk-*.R` / `test-arg-*.R` / `test-disc-*.R` against the branch base.** For each removed `expect_*` assertion, confirm it falls into one of:
+   - (a) redundant — the same behaviour is covered by another assertion still present in the same file;
+   - (b) replaced — a new assertion was added that covers the same server-side behaviour (e.g. `ds_expect_variables` replacing `$is.object.created`, or `ds.summary`/`ds.class` on the newobj).
+
+   Any removed assertion that doesn't fall into (a) or (b) is a coverage loss that must be restored before merge.
+
+2. **Inspect every `test_that(…)` block touched by the refactor.** Each block must still contain at least one `expect_*` assertion after the refactor. Blocks stripped to just the function call are not acceptable — add `ds_expect_variables`, `expect_no_error`, or a downstream property check.
+
+3. **Diff every signature of every exported function touched.** Confirm no parameter was added in the middle of the signature; new parameters must be at the end (see "Adding new parameters to existing exported functions" above).
+
+4. **Confirm docs match signature.** `@param` blocks present for every parameter, no stale `@param` for removed arguments, `@return` not promising MODULE 5 output fields.
+
+5. **Grep for residual patterns that should have been removed:** `isDefined(`, `isAssigned(`, `CLIENTSIDE MODULE`, `testObjExistsDS`, `is.object.created`, `validity.check`, `studyside.messages` in source files (acceptable in test files only if the MODULE 5 pattern is being deliberately preserved with a replacement).
 
 ## Key Files
 
