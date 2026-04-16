@@ -121,6 +121,14 @@ When adding a parameter to an already-released function (e.g. `classConsistencyC
 - Update any tests that expected client-side error messages to expect server-originated errors
 - **When MODULE 5 assertions are removed, add comparable replacements.** The old MODULE 5 block returned `$is.object.created` and `$validity.check` messages asserting that `newobj` existed on every server. When those assertions are stripped, add equivalent checks inside the same `test_that` block that verify the object was created on all sources — e.g. `ds_expect_variables(c("<expected list>"))` or `expect_no_error(ds.class("<newobj>"))`. Relying on the shutdown-block `ds_expect_variables()` alone is not sufficient because it can't pinpoint which test created the missing object.
 
+**Client-side smoke tests** (new `test-smk-ds.functionName.R` if none exists):
+- If no smoke test file exists for a refactored client function, create one. Every refactored function must have at least a basic happy-path smoke test that exercises the server call and verifies the result.
+- Follow the existing test pattern: `connect.studies.dataset.cnsim(...)`, `test_that("setup", ...)`, main test block, `test_that("shutdown", ...)`, `disconnect.studies.dataset.cnsim()`.
+
+**Client-side performance tests** (new `test-perf-ds.functionName.R` in dsBaseClient):
+- Add a performance test for each refactored client function. Follow the pattern in `test-perf-ds.class.R`: call the function in a timed loop, compare against a reference rate from the perf profile CSV.
+- Run with `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` during development; the default 30-second duration is for CI.
+
 **Design decisions:**
 - Functions accepting any class: use `.loadServersideObject()` only, no `.checkClass()`
 - Client tests must include unhappy paths testing server error propagation
