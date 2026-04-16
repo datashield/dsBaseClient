@@ -4,7 +4,7 @@
 #
 
 # context("ds.getWGSR::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.anthro(list("age", "sex", "weight", "height", "muac"))
 
 #
 # Tests
@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.getWGSR(sex="D$sex", firstPart="D$age", secondPart="D$weight", index="wfa", newobj="wgsr.newobj")
+        ds.getWGSR('D$sex', 'D$weight', 'D$height', 'wfh', newobj='wgsr.newobj')
 
         .count <- .count + 1
         .current.time <- Sys.time()
@@ -46,5 +46,5 @@ test_that("performance", {
 #
 
 # context("ds.getWGSR::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.anthro()
 # context("ds.getWGSR::perf::done")

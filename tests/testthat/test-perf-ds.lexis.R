@@ -4,7 +4,7 @@
 #
 
 # context("ds.lexis::perf::setup")
-connect.studies.dataset.survival(list("survtime", "time.id", "female", "starttime", "endtime", "cens"))
+connect.studies.dataset.survival(list("id", "starttime", "endtime", "cens", "age.60"))
 
 #
 # Tests
@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.lexis(data="D", intervalWidth=2, idCol="D$time.id", entryCol="D$starttime", exitCol="D$endtime", statusCol="D$cens", newobj="lexis.newobj")
+        ds.lexis(data='D', intervalWidth=c(1.0, 1.5, 2.5), idCol='D$id', entryCol='D$starttime', exitCol='D$endtime', statusCol='D$cens', variables=c('D$age.60'), expandDF='EM.new')
 
         .count <- .count + 1
         .current.time <- Sys.time()

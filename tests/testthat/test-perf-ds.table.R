@@ -4,7 +4,7 @@
 #
 
 # context("ds.table::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 
 #
 # Tests
@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.table(rvar="D$LAB_TSC")
+        ds.table(rvar="D$GENDER")
 
         .count <- .count + 1
         .current.time <- Sys.time()
