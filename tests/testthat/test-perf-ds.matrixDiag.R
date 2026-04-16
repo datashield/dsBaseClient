@@ -12,13 +12,14 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.matrixDiag::perf::0")
 test_that("performance", {
+    ds.matrix(mdata=0, nrows.scalar=3, ncols.scalar=3, newobj="matrix.newobj")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.matrixDiag(x1="matrix.newobj", newobj="diag.newobj")
+        ds.matrixDiag(x1="matrix.newobj", aim="serverside.matrix.2.vector", newobj="diag.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
