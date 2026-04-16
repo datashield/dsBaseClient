@@ -147,4 +147,6 @@ ds.make(toAssign = "exp(output.test.1)",
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
