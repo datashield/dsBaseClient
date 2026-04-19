@@ -4,7 +4,13 @@
 \alias{ds.skewness}
 \title{Calculates the skewness of a server-side numeric variable}
 \usage{
-ds.skewness(x = NULL, method = 1, type = "both", datasources = NULL)
+ds.skewness(
+  x = NULL,
+  method = 1,
+  type = "both",
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of a numeric variable.}
@@ -93,4 +99,6 @@ Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
 }
 \author{
 Demetris Avraam, for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

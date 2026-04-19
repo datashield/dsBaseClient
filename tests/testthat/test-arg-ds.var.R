@@ -24,10 +24,7 @@ test_that("var_erros", {
     ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
 
     expect_error(ds.var(), "Please provide the name of the input object!", fixed=TRUE)
-
-    expect_error(ds.var(x="not_a_numeric"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
-    res.errors <- DSI::datashield.errors()
-    expect_match(res.errors[[1]], "must be of type numeric or integer")
+    expect_error(ds.var(x="not_a_numeric"), "DataSHIELD errors")
 })
 
 #

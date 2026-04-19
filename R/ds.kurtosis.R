@@ -23,56 +23,40 @@
 #' @return a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
 #' the validity message.
 #' @author Demetris Avraam, for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
-ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
-  
-  # if no opal login details are provided look for 'opal' objects in the environment
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
+ds.kurtosis <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){
 
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-  
+
   if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
   }
-  
-  # enable valid aliases for "type" argument                  
+
+  # enable valid aliases for "type" argument
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
   if(type != 'combine' & type != 'split' & type != 'both'){
     stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  
-  # the input object must be a numeric or an integer vector
-  if(typ != 'integer' & typ != 'numeric'){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integer or numeric vector.", call.=FALSE)
-  }
-  
+
   if (type=='split' | type=='both'){
     calltext.split <- call("kurtosisDS1", x, method)
-    output.split <- DSI::datashield.aggregate(datasources, calltext.split) 
-    mat.split <- matrix(as.numeric(matrix(unlist(output.split), nrow=length(datasources), byrow=TRUE)[,1:2]),nrow=length(datasources))
-    validity <- matrix(unlist(output.split), nrow=length(datasources), byrow=TRUE)[,3]
-    mat.split <- data.frame(cbind(mat.split, validity))
+    output.split <- DSI::datashield.aggregate(datasources, calltext.split)
+    if(classConsistencyCheck){
+      .checkClassConsistency(output.split)
+    }
+    mat.split <- data.frame(
+      Kurtosis = sapply(output.split, function(r) r$Kurtosis),
+      Nvalid = sapply(output.split, function(r) r$Nvalid)
+    )
     rownames(mat.split) <- names(output.split)
-    colnames(mat.split) <- c('Kurtosis', 'Nvalid', 'ValidityMessage')
   }
   
   if (type=='combine' | type=='both'){
@@ -83,8 +67,11 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
       stop("FAILED: The number of valid observations in one or more studies is less than nfilter.tab. \n Check that by using the argument type=='split'", call.=FALSE)
     }else{
       calltext.combined <- call("kurtosisDS2", x, global.mean)
-      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined) 
-      
+      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined)
+      if(classConsistencyCheck){
+        .checkClassConsistency(output.combined)
+      }
+
       Global.sum.quartics <- 0
       Global.sum.squares <- 0
       Global.Nvalid <- 0
@@ -98,19 +85,15 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL){
       
       if(method==1){
         Global.kurtosis <- g2.global
-        combinedMessage <- "VALID ANALYSIS"
-      }  
+      }
       if(method==2){
         Global.kurtosis <- ((Global.Nvalid + 1) * g2.global + 6) * (Global.Nvalid - 1)/((Global.Nvalid - 2) * (Global.Nvalid - 3))
-        combinedMessage <- "VALID ANALYSIS"
-      }  
+      }
       if(method==3){
         Global.kurtosis <- (g2.global + 3) * (1 - 1/Global.Nvalid)^2 - 3
-        combinedMessage <- "VALID ANALYSIS"
       } 
-      mat.combined <- data.frame(cbind(Global.kurtosis, Global.Nvalid, combinedMessage))
+      mat.combined <- data.frame(Kurtosis = Global.kurtosis, Nvalid = Global.Nvalid)
       rownames(mat.combined) <- 'studiesCombined'
-      colnames(mat.combined) <- c('Kurtosis', 'Nvalid', 'ValidityMessage')
       
     }
   }

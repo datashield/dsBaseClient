@@ -11,6 +11,7 @@ ds.corTest(
   exact = NULL,
   conf.level = 0.95,
   type = "split",
+  classConsistencyCheck = FALSE,
   datasources = NULL
 )
 }
@@ -92,4 +93,6 @@ Server function called: \code{corTestDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

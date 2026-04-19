@@ -4,7 +4,13 @@
 \alias{ds.kurtosis}
 \title{Calculates the kurtosis of a numeric variable}
 \usage{
-ds.kurtosis(x = NULL, method = 1, type = "both", datasources = NULL)
+ds.kurtosis(
+  x = NULL,
+  method = 1,
+  type = "both",
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a string character, the name of a numeric variable.}
@@ -41,4 +47,6 @@ This function is similar to the function \code{kurtosis} in R package \code{e107
 }
 \author{
 Demetris Avraam, for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

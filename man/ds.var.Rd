@@ -4,7 +4,12 @@
 \alias{ds.var}
 \title{Computes server-side vector variance}
 \usage{
-ds.var(x = NULL, type = "split", checks = FALSE, datasources = NULL)
+ds.var(
+  x = NULL,
+  type = "split",
+  classConsistencyCheck = FALSE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character specifying the name of a numerical vector.}
@@ -15,12 +20,7 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE  optional checks of model
-components will be undertaken. Default is FALSE to save time. 
-It is suggested that checks
-should only be undertaken once the function call has failed.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}}
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
@@ -85,7 +85,6 @@ Server function called: \code{varDS}
   
   ds.var(x = "D$LAB_TSC",
           type = "split",
-          checks = FALSE,
           datasources = connections)
              
   # clear the Datashield R sessions and logout
@@ -95,4 +94,6 @@ Server function called: \code{varDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

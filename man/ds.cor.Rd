@@ -4,7 +4,13 @@
 \alias{ds.cor}
 \title{Calculates the correlation of R objects in the server-side}
 \usage{
-ds.cor(x = NULL, y = NULL, type = "split", datasources = NULL)
+ds.cor(
+  x = NULL,
+  y = NULL,
+  type = "split",
+  classConsistencyCheck = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string providing the name of the input vector, data frame or matrix.}
@@ -95,4 +101,6 @@ Server function called: \code{corDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

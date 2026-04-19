@@ -8,7 +8,7 @@ ds.meanSdGp(
   x = NULL,
   y = NULL,
   type = "both",
-  do.checks = FALSE,
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -24,12 +24,7 @@ This can be set as: \code{"combine"}, \code{"split"} or \code{"both"}.
 Default \code{"both"}. 
 For more information see \strong{Details}.}
 
-\item{do.checks}{logical. If TRUE the administrative checks
-are undertaken to ensure that the input objects are defined in all studies and that the
-variables are of equivalent class in each study. 
-Default is FALSE to save time.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}}
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
@@ -126,7 +121,6 @@ Server function called: \code{meanSdGpDS}
   ds.meanSdGp(x = "D$age.60",
               y = "D$time.id",
               type = "combine",
-              do.checks = FALSE,
               datasources = connections)
               
   #Example 2: Calculate the mean, SD, Nvalid and SEM of the continuous variable age.60 (age in
@@ -137,8 +131,7 @@ Server function called: \code{meanSdGpDS}
   ds.meanSdGp(x = "D$age.60",
               y = "D$time.id",
               type = "both",
-              do.checks = FALSE,
-              datasources = connections)  
+              datasources = connections)
              
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
@@ -153,4 +146,6 @@ columns and rows.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

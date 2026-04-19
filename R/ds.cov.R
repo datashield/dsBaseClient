@@ -47,6 +47,7 @@
 #' the disclosure controls then all the output values are replaced with NAs. If all the variables are valid and pass
 #' the controls, then the output matrices are returned and also an error message is returned but it is replaced by NA.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'
@@ -96,56 +97,25 @@
 #' }
 #' @export
 #'
-ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL){
+ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", classConsistencyCheck=TRUE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
-  }else{
-    isDefined(datasources, x)
-  }
-
-  # check the type of the input objects
-  typ <- checkClass(datasources, x)
-  
-  if(('numeric' %in% typ) | ('integer' %in% typ) | ('factor' %in% typ)){
-    if(is.null(y)){
-      stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
-    }else{
-      isDefined(datasources, y)
-      typ2 <- checkClass(datasources, y)
-    }
-  }
-  
-  if(('matrix' %in% typ) | ('data.frame' %in% typ) & !(is.null(y))){
-    y <- NULL
-    warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
   }
 
   # name of the studies to be used in the output
   stdnames <- names(datasources)
 
   # call the server side function
-  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
-    calltext <- call("covDS", x, NULL, naAction)
-  }else{
-    if(!(is.null(y))){
-      calltext <- call("covDS", x, y, naAction)
-    }else{
-      calltext <- call("covDS", x, NULL, naAction)
-    }
-  }
+  calltext <- call("covDS", x, y, naAction)
   output <- DSI::datashield.aggregate(datasources, calltext)
-  
+
+  if(classConsistencyCheck){
+    .checkClassConsistency(output)
+  }
+
   if (type=="split"){
     covariance <- list()
     results <- list()
