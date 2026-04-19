@@ -23,20 +23,9 @@
 
 ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
   x_var <- lower <- upper <- ymin <- ymax <- middle <- fill <- NULL
-  if (is.null(datasources)) {
-    datasources <- DSI::datashield.connections_find()
-  }
+  datasources <- .set_datasources(datasources)
 
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-
-  cally <- paste0("boxPlotGGDS(", x, ", ", 
-                  if(is.null(group)){paste0("NULL")}else{paste0("'",group,"'")}, ", ", 
-                  if(is.null(group2)){paste0("NULL")}else{paste0("'",group2,"'")}, ")")
-  
-  pt <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  pt <- DSI::datashield.aggregate(datasources, call("boxPlotGGDS", data_table.name=x, group=group, group2=group2))
 
   if(type == "pooled"){
     num_servers <- length(names(datasources))

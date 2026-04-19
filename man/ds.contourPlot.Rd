@@ -132,4 +132,6 @@ Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityG
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

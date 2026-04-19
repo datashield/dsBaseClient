@@ -181,4 +181,6 @@ Server function called: \code{heatmapPlotDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

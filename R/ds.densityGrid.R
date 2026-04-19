@@ -28,6 +28,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.densityGrid} returns a grid density matrix.  
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -84,15 +85,7 @@
 #'
 ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the numeric vector 'x'!", call.=FALSE)
@@ -101,14 +94,6 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
   if(is.null(y)){
     stop("Please provide the name of the numeric vector 'y'!", call.=FALSE)
   }
-
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
-
-  # call the internal function that checks the input objects are of the same class in all studies.
-  typ <- checkClass(datasources, x)
-  typ <- checkClass(datasources, y)
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -118,11 +103,9 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
   if(type=="combine"){
     # get the range from each study and produce the 'global' range
-    cally <- paste0('rangeDS(', x, ')')
-    x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
 
-    cally <- paste0('rangeDS(', y, ')')
-    y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
 
     x.minrs <- c()
     x.maxrs <- c()
@@ -143,9 +126,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     y.global.max <- y.range.arg[2]
 
     # generate the grid density object to plot
-    cally <- paste0("densityGridDS(", x, ",", y, ",", limits=T, ",", x.global.min, ",",
-                    x.global.max, ",", y.global.min, ",", y.global.max, ",", numints, ")")
-    grid.density.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
     numcol <- dim(grid.density.obj[[1]])[2]
 
     # print the number of invalid cells in each participating study
@@ -164,10 +145,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
   }else{
     if(type=="split"){
       # generate the grid density object
-      num_intervals <- numints
-      cally <- paste0("densityGridDS(", x, ",", y, ",", 'limits=FALSE', ",", 'x.min=NULL', ",",
-                      'x.max=NULL', ",", 'y.min=NULL', ",", 'y.max=NULL', ",", numints=num_intervals, ")")
-      grid.density.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+      grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
       numcol <- dim(grid.density.obj[[1]])[2]
 
       # print the number of invalid cells in each participating study

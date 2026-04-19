@@ -182,4 +182,6 @@ Server function called: \code{histogramDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

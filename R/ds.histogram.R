@@ -84,6 +84,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -153,15 +154,7 @@
 #'
 ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -170,18 +163,6 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
   on.exit(graphics::par(old_par), add = TRUE)
-
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a numeric or an integer vector
-  if(!('integer' %in% typ) & !('numeric' %in% typ)){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integer or numeric vector.", call.=FALSE)
-  }
 
   # the argument vertical.axis must be "Frequency" or "Density"
   if(vertical.axis != 'Frequency' & vertical.axis != 'Density'){
@@ -204,8 +185,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   if(method=='probabilistic'){ method.indicator <- 3 }
 
   # call the server-side function that returns the range of the vector from each study
-  cally1 <- paste0("histogramDS1(", x, ",", method.indicator, ",", k, ",", noise, ")")
-  ranges <- unique(unlist(DSI::datashield.aggregate(datasources, as.symbol(cally1))))
+  ranges <- unique(unlist(DSI::datashield.aggregate(datasources, call("histogramDS1", x=x, method.indicator=method.indicator, k=k, noise=noise))))
 
   # produce the 'global' range
   range.arg <- c(min(ranges, na.rm=TRUE), max(ranges, na.rm=TRUE))
@@ -217,8 +197,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   varname <- xnames$elements
 
   # call the server-side function that generates the histogram object to plot
-  call <- paste0("histogramDS2(", x, ",", num.breaks, ",", min, ",", max, ",", method.indicator, ",", k, ",", noise, ")")
-  outputs <- DSI::datashield.aggregate(datasources, call)
+  outputs <- DSI::datashield.aggregate(datasources, call("histogramDS2", x=x, num.breaks=num.breaks, min=min, max=max, method.indicator=method.indicator, k=k, noise=noise))
 
   hist.objs <- vector("list", length(datasources))
   invalidcells <- vector("list", length(datasources))
