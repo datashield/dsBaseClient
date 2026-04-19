@@ -1,0 +1,51 @@
+
+#
+# Set up
+#
+
+# context("ds.changeRefGroup::perf::setup")
+connect.studies.dataset.cnsim(list('PM_BMI_CATEGORICAL'))
+
+#
+# Tests
+#
+
+# context("ds.changeRefGroup::perf::0")
+test_that("performance", {
+    ds.asFactorSimple("D$PM_BMI_CATEGORICAL", newobj.name="bmi_new")
+    .durationSec  <- 30 # seconds
+    .count        <- 0
+    .start.time   <- Sys.time()
+    .current.time <- .start.time
+
+    while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
+        ds.changeRefGroup(x="bmi_new", ref="obesity", reorderByRef=FALSE, newobj="bmi_ob")
+
+        .count <- .count + 1
+        .current.time <- Sys.time()
+    }
+
+    .current.rate   <- .count / (difftime(.current.time, .start.time, units = "secs")[[1]])
+    .reference.rate <- perf.reference.rate("ds.changeRefGroup::perf::0")
+    if (any(length(.reference.rate) == 0) || any(is.null(.reference.rate))) {
+        print(paste("ds.changeRefGroup::perf::0 ", .current.rate, 0.5, 2.0))
+        perf.reference.save("ds.changeRefGroup::perf::0", .current.rate, 0.5, 2.0)
+    } else {
+        print(paste("ds.changeRefGroup::perf::0 ", format(.current.rate, digits = 8), ", ", format(100.0 * .current.rate / .reference.rate, digits = 4), "%", sep = ''))
+    }
+
+    .reference.rate            <- perf.reference.rate("ds.changeRefGroup::perf::0")
+    .reference.tolerance.lower <- perf.reference.tolerance.lower("ds.changeRefGroup::perf::0")
+    .reference.tolerance.upper <- perf.reference.tolerance.upper("ds.changeRefGroup::perf::0")
+
+    expect_gt(.current.rate, .reference.rate * .reference.tolerance.lower, label = "Observed rate", expected.label = "lower threshold on rate")
+    expect_lt(.current.rate, .reference.rate * .reference.tolerance.upper, label = "Observed rate", expected.label = "upper threshold on rate")
+})
+
+#
+# Done
+#
+
+# context("ds.changeRefGroup::perf::shutdown")
+disconnect.studies.dataset.cnsim()
+# context("ds.changeRefGroup::perf::done")
