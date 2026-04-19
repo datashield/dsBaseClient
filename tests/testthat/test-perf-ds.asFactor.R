@@ -4,7 +4,7 @@
 #
 
 # context("ds.asFactor::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.asFactor("D$LAB_TSC", newobj.name="factor.newobj", forced.factor.levels=c(1,2,3,4,5))
+        ds.asFactor("D$time.id", newobj.name="factor.newobj", forced.factor.levels=1:6)
 
         .count <- .count + 1
         .current.time <- Sys.time()
@@ -46,5 +46,5 @@ test_that("performance", {
 #
 
 # context("ds.asFactor::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.survival()
 # context("ds.asFactor::perf::done")

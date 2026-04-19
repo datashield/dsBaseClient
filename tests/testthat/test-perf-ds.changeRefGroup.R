@@ -4,7 +4,7 @@
 #
 
 # context("ds.changeRefGroup::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
 
 #
 # Tests
@@ -12,14 +12,14 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.changeRefGroup::perf::0")
 test_that("performance", {
-    ds.asFactorSimple("D$LAB_TSC", newobj.name="factor.perf")
+    ds.asFactorSimple("D$PM_BMI_CATEGORICAL", newobj.name="bmi_new")
     .durationSec  <- 30 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.changeRefGroup(x="factor.perf", ref="2", reorderByRef=FALSE, newobj="refgroup.newobj")
+        ds.changeRefGroup(x="bmi_new", ref="obesity", reorderByRef=FALSE, newobj="bmi_ob")
 
         .count <- .count + 1
         .current.time <- Sys.time()
