@@ -4,7 +4,7 @@
 #
 
 # context("ds.table::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
+
 
 #
 # Tests
