@@ -38,10 +38,8 @@ If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.asFactor} returns the unique levels of the converted 
-variable in ascending order and a validity 
-message with the name of the created object on the client-side and 
-the output matrix or vector in the server-side.
+\code{ds.asFactor} returns the unique levels of the converted
+variable in ascending order. The output matrix or vector is written to the server-side.
 }
 \description{
 This function assigns a server-side numeric vector into a factor class.
@@ -213,4 +211,6 @@ Server functions called: \code{asFactorDS1} and \code{asFactorDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
