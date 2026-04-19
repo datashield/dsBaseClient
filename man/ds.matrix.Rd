@@ -48,10 +48,7 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.matrix} returns the created matrix which is written on the server-side. 
-In addition, two validity messages are returned
-indicating whether the new matrix has been created in each data source and if so whether
-it is in a valid form.
+\code{ds.matrix} returns the created matrix which is written on the server-side.
 }
 \description{
 Creates a matrix on the server-side 
@@ -174,4 +171,6 @@ Server function called: \code{matrixDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
