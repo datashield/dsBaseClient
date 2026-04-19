@@ -13,7 +13,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 # context("ds.glmPredict::perf::0")
 test_that("performance", {
     ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

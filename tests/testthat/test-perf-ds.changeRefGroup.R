@@ -13,7 +13,7 @@ connect.studies.dataset.cnsim(list('PM_BMI_CATEGORICAL'))
 # context("ds.changeRefGroup::perf::0")
 test_that("performance", {
     ds.asFactorSimple("D$PM_BMI_CATEGORICAL", newobj.name="bmi_new")
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

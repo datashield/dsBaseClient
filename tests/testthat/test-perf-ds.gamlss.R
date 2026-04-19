@@ -12,7 +12,7 @@ connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None", "hs_zbmi_who", "hs_c
 
 # context("ds.gamlss::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

@@ -12,7 +12,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL", "PM_BMI_CATEGORICAL"))
 
 # context("ds.dataFrameSubset::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

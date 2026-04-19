@@ -20,7 +20,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.log::perf:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
