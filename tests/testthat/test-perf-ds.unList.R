@@ -4,7 +4,7 @@
 #
 
 # context("ds.unList::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("GENDER"))
 
 #
 # Tests

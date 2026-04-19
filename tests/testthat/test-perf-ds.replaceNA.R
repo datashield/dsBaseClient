@@ -4,7 +4,7 @@
 #
 
 # context("ds.replaceNA::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_HDL", "LAB_TRIG", "DIS_CVA"))
 
 #
 # Tests
