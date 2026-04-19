@@ -4,7 +4,7 @@
 #
 
 # context("ds.gamlss::perf::setup")
-connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None"))
+connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None", "hs_zbmi_who", "hs_child_age_None",
 
 #
 # Tests

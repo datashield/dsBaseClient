@@ -4,7 +4,7 @@
 #
 
 # context("ds.glmSummary::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
 
 #
 # Tests
