@@ -4,7 +4,7 @@
 #
 
 # context("ds.changeRefGroup::perf::setup")
-connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
+connect.studies.dataset.cnsim(list('PM_BMI_CATEGORICAL'))
 
 #
 # Tests

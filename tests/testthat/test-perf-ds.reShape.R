@@ -4,7 +4,7 @@
 #
 
 # context("ds.reShape::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.survival(list("id", "study.id", "time.id", "cens", "age.60", "female"))
 
 #
 # Tests
@@ -46,5 +46,5 @@ test_that("performance", {
 #
 
 # context("ds.reShape::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.survival()
 # context("ds.reShape::perf::done")

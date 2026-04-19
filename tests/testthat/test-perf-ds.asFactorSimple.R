@@ -4,7 +4,7 @@
 #
 
 # context("ds.asFactorSimple::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
 #
 # Tests
@@ -46,5 +46,5 @@ test_that("performance", {
 #
 
 # context("ds.asFactorSimple::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.survival()
 # context("ds.asFactorSimple::perf::done")

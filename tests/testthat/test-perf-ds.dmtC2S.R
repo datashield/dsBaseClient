@@ -4,7 +4,7 @@
 #
 
 # context("ds.dmtC2S::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 #
 # Tests
