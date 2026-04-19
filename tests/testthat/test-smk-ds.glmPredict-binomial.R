@@ -31,9 +31,7 @@ test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   
   expect_length(glmSLMA.res, 9)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<binomial.glmslma.obj> appears valid in all sources")
-  
+
   res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
 
   expect_length(res, 3)
@@ -104,18 +102,17 @@ test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 0.019366204, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 0.024738972, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 0.029020811, tolerance = ds.test_env$tolerance)
-  
+
+  ds_expect_variables(c("D", "binomial.glmslma.obj", "predict_glm"))
 })
 
 # context("ds.glmPredict::smk::binomial::with_newobj")
 test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
-    
+
     expect_length(glmSLMA.res, 9)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<binomial.glmslma.obj> appears valid in all sources")
-    
+
     res <- ds.glmPredict("binomial.glmslma.obj", output.type = "response", se.fit = FALSE, newobj="binomial.glm.predict.obj")
     
     expect_length(res, 3)
@@ -186,17 +183,17 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 0.019366204, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 0.024738972, tolerance = ds.test_env$tolerance)
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 0.029020811, tolerance = ds.test_env$tolerance)
+
+    ds_expect_variables(c("D", "binomial.glmslma.obj", "predict_glm", "binomial.glm.predict.obj"))
 })
 
 # context("ds.glmPredict::smk::binomial::sefit_true")
 test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
-  
+
   expect_length(glmSLMA.res, 9)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<binomial.glmslma.obj> appears valid in all sources")
-  
+
   res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="binomial.glm.predict.sefit.obj")
   
   expect_length(res, 3)
@@ -312,8 +309,9 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
   expect_equal(res$sim3$safe.list$se.fit.quantiles[[6]], 0.004153282, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$se.fit.quantiles[[7]], 0.005834279, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$residual.scale, 1, tolerance = ds.test_env$tolerance)
-  
-})  
+
+  ds_expect_variables(c("D", "binomial.glmslma.obj", "predict_glm", "binomial.glm.predict.obj", "binomial.glm.predict.sefit.obj"))
+})
 
 #
 # Shutdown

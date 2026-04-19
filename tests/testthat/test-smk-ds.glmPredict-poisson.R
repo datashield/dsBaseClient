@@ -31,9 +31,7 @@ test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   
   expect_length(glmSLMA.res, 9)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
-  
+
   res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
   
   expect_length(res, 3)
@@ -104,17 +102,17 @@ test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.927911, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.005366, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = ds.test_env$tolerance)
+
+  ds_expect_variables(c("D", "poisson.glmslma.obj", "predict_glm"))
 })
 
 # context("ds.glmPredict::smk::poisson::with_newobj")
 test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
-  
+
   expect_length(glmSLMA.res, 9)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
-  
+
   res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass", newobj="poisson.glm.predict.obj")
   
   expect_length(res, 3)
@@ -185,17 +183,17 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[5]], 5.927911, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[6]], 6.005366, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = ds.test_env$tolerance)
+
+  ds_expect_variables(c("D", "poisson.glmslma.obj", "predict_glm", "poisson.glm.predict.obj"))
 })
 
 # context("ds.glmPredict::smk::poisson::sefit_true")
 test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
-  
+
   expect_length(glmSLMA.res, 9)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<poisson.glmslma.obj> appears valid in all sources")
-  
+
   res <- ds.glmPredict("poisson.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="poisson.glm.predict.sefit.obj")
   
   expect_length(res, 3)
@@ -311,6 +309,8 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
   expect_equal(res$sim3$safe.list$se.fit.quantiles[[6]], 0.07939059, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim3$safe.list$se.fit.quantiles[[7]], 0.08947167, tolerance = ds.test_env$tolerance)
   expect_equal(res$sim1$safe.list$residual.scale, 1, tolerance = ds.test_env$tolerance)
+
+  ds_expect_variables(c("D", "poisson.glmslma.obj", "predict_glm", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj"))
 })
 
 #
