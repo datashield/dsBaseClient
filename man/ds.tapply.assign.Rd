@@ -152,4 +152,6 @@ Server function called: \code{ds.tapply.assign}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -220,4 +220,6 @@ can be set to TRUE to block the warnings. However, it is defaulted to FALSE.
 }
 \author{
 Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

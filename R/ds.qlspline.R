@@ -28,26 +28,16 @@
 #' @return an object of class "lspline" and "matrix", which its name is specified by the
 #' \code{newobj} argument (or its default name "qlspline.newobj"), is assigned on the serverside.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.qlspline <- function(x, q, na.rm = TRUE, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
   
   if(is.null(x)){
     stop("Please provide the name of the input variable x!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  defined <- isDefined(datasources, x)
   
   if(is.null(q)){
     stop("Argument 'q' is missing, with no default!", call.=FALSE)

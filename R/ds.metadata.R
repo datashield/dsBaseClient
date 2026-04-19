@@ -12,6 +12,7 @@
 #' @return \code{ds.metadata} returns to the client-side the metadata of associated to an object
 #' held at the server.
 #' @author Stuart Wheater, DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -49,21 +50,7 @@
 ds.metadata = function(x=NULL, datasources=NULL)
 {
 
-    #####################################################################################
-    #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                             #
-    # look for DS connections                                                           #
-    if (is.null(datasources)){                                                          #
-        datasources <- datashield.connections_find()                                    #
-    }                                                                                   #
-    #####################################################################################
-
-    ###############################################################################################################
-    #MODULE 2: ENSURE CORRECT DATASOURCES                                                                         #
-    # ensure datasources is a list of DSConnection-class                                                          #
-    if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){ #
-      stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)             #
-    }                                                                                                             #
-    ###############################################################################################################
+    datasources <- .set_datasources(datasources)
 
     #####################################################################################
     #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #

@@ -231,4 +231,6 @@ Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -19,6 +19,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.rowColCalc} returns to the server-side  rows and columns sums and means. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #' 
@@ -67,29 +68,10 @@
 #' 
 ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
-
-  # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # if the input object is not a matrix or a dataframe stop
-  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
-    stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
   }
 
   # number of studies and their names
@@ -139,10 +121,6 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
   }
 
   # call the server side function that does the job
-  cally <-  paste0("rowColCalcDS(", x, ",", indx, ")")
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
+  DSI::datashield.assign(datasources, newobj, call("rowColCalcDS", dataset.name=x, operation=indx))
 
 }

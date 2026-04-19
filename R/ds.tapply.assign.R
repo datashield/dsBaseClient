@@ -77,6 +77,7 @@
 #' The array is written to the server-side. It has the same number of
 #' dimensions as INDEX.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
@@ -129,24 +130,13 @@
 ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   ###X.name
   # check if user has provided the name of the column that holds X.name
   if(is.null(X.name)){
     return("Error: Please provide the name of the variable to be summarized, as a character string")
   }
-  
-  # check if the X object is defined in all the studies
-  isDefined(datasources, X.name)
   
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names
@@ -160,11 +150,6 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
   # check if the vector or list of INDEX.names includes up to two names
   if(length(INDEX.names) > 2){
     stop("The 'INDEX.names' can include the names of up to two factors", call.=FALSE)
-  }
-  
-  # check if the INDEX objects are defined in all the studies
-  for(i in 1:length(INDEX.names)){
-    isDefined(datasources, INDEX.names[i])
   }
   
   # make INDEX.names transmitable
