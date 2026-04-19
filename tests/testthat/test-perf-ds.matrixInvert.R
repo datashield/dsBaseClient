@@ -13,7 +13,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # context("ds.matrixInvert::perf::0")
 test_that("performance", {
     ds.matrix(mdata=c(1,0,0,0,1,0,0,0,1), nrows.scalar=3, ncols.scalar=3, newobj="matrix.newobj")
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

@@ -12,7 +12,7 @@ connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60")
 
 # context("ds.asFactor::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

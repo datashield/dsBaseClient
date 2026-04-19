@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("GENDER"))
 
 # context("ds.asNumeric::perf:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

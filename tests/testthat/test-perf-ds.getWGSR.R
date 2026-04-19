@@ -12,7 +12,7 @@ connect.studies.dataset.anthro(list("age", "sex", "weight", "height", "muac"))
 
 # context("ds.getWGSR::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- 60 # seconds
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
