@@ -141,4 +141,6 @@ Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

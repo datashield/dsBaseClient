@@ -146,4 +146,6 @@ Server function called: \code{seqDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

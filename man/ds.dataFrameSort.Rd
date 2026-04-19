@@ -108,4 +108,6 @@ Server function called: \code{dataFrameSortDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
