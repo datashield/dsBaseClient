@@ -36,6 +36,24 @@
   return(datasources)
 }
 
+#' Check cross-study class consistency from a list of server aggregate results
+#'
+#' Batch-refactored server functions return a list per study that includes a
+#' `class` field. This helper verifies that the class field is identical across
+#' all studies and aborts if not.
+#'
+#' @param results A named list of server-side aggregate results, one per study,
+#'   each containing a `class` element.
+#' @importFrom cli cli_abort
+#' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @noRd
+.checkClassConsistency <- function(results) {
+  classes <- lapply(results, function(r) r$class)
+  if (length(unique(lapply(classes, sort))) > 1) {
+    cli_abort("The input object is not of the same class in all studies!")
+  }
+}
+
 #' Check That a Data Frame Name Is Provided
 #'
 #' Internal helper that checks whether a data frame or matrix object

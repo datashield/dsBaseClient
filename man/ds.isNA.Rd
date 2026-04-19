@@ -4,7 +4,7 @@
 \alias{ds.isNA}
 \title{Checks if a server-side vector is empty}
 \usage{
-ds.isNA(x = NULL, datasources = NULL)
+ds.isNA(x = NULL, classConsistencyCheck = TRUE, datasources = NULL)
 }
 \arguments{
 \item{x}{a character string specifying the name of the vector to check.}
@@ -71,4 +71,6 @@ Server function called: \code{isNaDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
