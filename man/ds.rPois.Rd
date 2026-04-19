@@ -122,4 +122,6 @@ Server functions called: \code{rPoisDS} and \code{setSeedDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

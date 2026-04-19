@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple test", {
     res <- ds.rPois(samp.size = 50, lambda = 1, newobj = "pois_dist", seed.as.integer = 27)
 
-    expect_length(res, 4)
+    expect_length(res, 2)
     expect_length(res$integer.seed.as.set.by.source, 3)
     expect_equal(res$integer.seed.as.set.by.source[1], 27)
     expect_equal(res$integer.seed.as.set.by.source[2], 54)
@@ -38,8 +38,7 @@ test_that("simple test", {
     expect_equal(res$random.vector.length.by.source[1], 50)
     expect_equal(res$random.vector.length.by.source[2], 50)
     expect_equal(res$random.vector.length.by.source[3], 50)
-    expect_equal(res$is.object.created, "A data object <pois_dist> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<pois_dist> appears valid in all sources")
+    ds_expect_variables(c("D", "pois_dist"))
 })
 
 #

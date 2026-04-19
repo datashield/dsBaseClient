@@ -114,20 +114,12 @@
 #'   datashield.logout(connections) 
 #' }
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.rNorm<-function(samp.size=1,mean=0,sd=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){
 
-##################################################################################
-# look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -220,8 +212,7 @@ if(seed.as.text=="NULL"){
 message("NO SEED SET IN STUDY",study.id,"\n\n")
 
 }
-  calltext <- paste0("setSeedDS(", seed.as.text, ")")
-  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], as.symbol(calltext))
+  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 }
 message("\n\n")
 
@@ -237,104 +228,15 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
+  DSI::datashield.assign(datasources[k], newobj, call("rNormDS", samp.size[k], mean=mean, sd=sd, force.output.to.k.decimal.places=force.output.to.k.decimal.places))
+}
 
-toAssign<-paste0("rNormDS(",samp.size[k],",",mean, ",", sd, ",", force.output.to.k.decimal.places,")")
+if(return.full.seed.as.set){
+return(list(full.seed.as.set=ssDS.obj,
+			integer.seed.as.set.by.source=single.integer.seed,random.vector.length.by.source=samp.size))
+}
 
-
-  if(is.null(toAssign)){
-    stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
-  }
-
-  # now do the business
-
-  DSI::datashield.assign(datasources[k], newobj, as.symbol(toAssign))
- }
-
-#############################################################################################################
-#DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
-																											#
-#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
-test.obj.name<-newobj																					 	#
-																											#																											#
-																											#
-# CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS", test.obj.name)													 	#
-																											#
-object.info<-DSI::datashield.aggregate(datasources, calltext)												 	#
-																											#
-# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
-# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
-num.datasources<-length(object.info)																	 	#
-																											#
-																											#
-obj.name.exists.in.all.sources<-TRUE																	 	#
-obj.non.null.in.all.sources<-TRUE																		 	#
-																											#
-for(j in 1:num.datasources){																			 	#
-	if(!object.info[[j]]$test.obj.exists){																 	#
-		obj.name.exists.in.all.sources<-FALSE															 	#
-		}																								 	#
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 	#
-		obj.non.null.in.all.sources<-FALSE																 	#
-		}																								 	#
-	}																									 	#
-																											#
-if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
-																											#
-	return.message<-																					 	#
-    paste0("A data object <", test.obj.name, "> has been created in all specified data sources")		 	#
-																											#
-																											#
-	}else{																								 	#
-																											#
-    return.message.1<-																					 	#
-	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")	#
-																											#
-	return.message.2<-																					 	#
-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 	#
-																											#
-	return.message.3<-																					 	#
-	paste0("Please use ds.ls() to identify where missing")												 	#
-																											#
-																											#
-	return.message<-list(return.message.1,return.message.2,return.message.3)							 	#
-																											#
-	}																										#
-																											#
-	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-DSI::datashield.aggregate(datasources, calltext)											#
-																											#
-	no.errors<-TRUE																							#
-	for(nd in 1:num.datasources){																			#
-		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
-		no.errors<-FALSE																					#
-		}																									#
-	}																										#
-																											#
-																											#
-	if(no.errors && !return.full.seed.as.set){																#
-	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	return(list(integer.seed.as.set.by.source=single.integer.seed,random.vector.length.by.source=samp.size, #
-	            is.object.created=return.message,validity.check=validity.check))							#
-	}																										#
-																											#
-	if(no.errors && return.full.seed.as.set){																#
-	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	return(list(full.seed.as.set=ssDS.obj,																	#
-				integer.seed.as.set.by.source=single.integer.seed,random.vector.length.by.source=samp.size, #
-	            is.object.created=return.message,validity.check=validity.check))							#
-	}																										#
-																											#
-if(!no.errors){																								#
-	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
-	return(list(is.object.created=return.message,validity.check=validity.check,					    		#
-	            studyside.messages=studyside.message))			                                            #
-	}																										#
-																											#
-#END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
-#############################################################################################################
-
-
+return(list(integer.seed.as.set.by.source=single.integer.seed,random.vector.length.by.source=samp.size))
 
 }
 

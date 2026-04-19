@@ -41,6 +41,7 @@
 #' each source and also the integer vector of 626 elements
 #' that is \code{.Random.seed itself}.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki 
@@ -86,16 +87,7 @@
 #' @export
 ds.setSeed<-function(seed.as.integer=NULL,datasources=NULL){
 
-##################################################################################
-# look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
 
 seed.valid<-0
@@ -116,8 +108,7 @@ mess1<-("ERROR terminated: seed.as.integer must be set as an integer [numeric] o
 return(mess1)
 }
 
-  calltext <- paste0("setSeedDS(", seed.as.text, ")")
-  ssDS.obj <- DSI::datashield.aggregate(datasources, as.symbol(calltext))
+  ssDS.obj <- DSI::datashield.aggregate(datasources, call("setSeedDS", seedtext=seed.as.text))
 
   return.message<-paste0("Trigger integer to prime random seed = ",seed.as.text)
 

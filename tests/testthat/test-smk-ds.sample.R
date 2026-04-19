@@ -27,11 +27,8 @@ test_that("setup", {
 
 # context("ds.sample::smk::test")
 test_that("simple test", {
-    res1 <- ds.sample(x="D", size=30)
-
-    expect_length(res1, 2)
-    expect_equal(res1$is.object.created, "A data object <newobj.sample> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(res1$validity.check, "<newobj.sample> appears valid in all sources", fixed=TRUE)
+    ds.sample(x="D", size=30)
+    ds_expect_variables(c("D", "newobj.sample"))
 
     res1_length <- ds.length('newobj.sample')
 
@@ -74,11 +71,8 @@ test_that("simple test", {
     expect_equal(res1_survtime_length$`length of newobj.sample$survtime in survival3`, 30)
     expect_equal(res1_survtime_length$`total length of newobj.sample$survtime in all studies combined`, 90)
 
-    res2 <- ds.sample(x="D$survtime", size=42, newobj="test.obj")
-
-    expect_length(res2, 2)
-    expect_equal(res2$is.object.created, "A data object <test.obj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(res2$validity.check, "<test.obj> appears valid in all sources", fixed=TRUE)
+    ds.sample(x="D$survtime", size=42, newobj="test.obj")
+    ds_expect_variables(c("D", "newobj.sample", "test.obj"))
 
     res2_length <- ds.length('test.obj')
 
