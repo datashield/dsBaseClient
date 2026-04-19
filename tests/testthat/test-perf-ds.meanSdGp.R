@@ -13,7 +13,7 @@
 #
 
 # context("ds.meanSdGp::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "PM_BMI_CATEGORICAL"))
+connect.studies.dataset.survival(list("age.60", "female"))
 
 #
 # Tests
@@ -55,5 +55,5 @@ test_that("combine - performance", {
 #
 
 # context("ds.meanSdGp::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.studies.dataset.survival()
 # context("ds.meanSdGp::perf::done")

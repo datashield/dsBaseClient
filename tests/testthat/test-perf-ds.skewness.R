@@ -13,7 +13,7 @@
 #
 
 # context("ds.skewness::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "LAB_GLUC_ADJUSTED", "PM_BMI_CONTINUOUS"))
 
 #
 # Tests

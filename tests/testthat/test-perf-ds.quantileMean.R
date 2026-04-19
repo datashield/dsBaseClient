@@ -13,7 +13,7 @@
 #
 
 # context("ds.quantileMean::perf::setup")
-connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
+connect.studies.dataset.cnsim(list('LAB_HDL'))
 
 #
 # Tests
