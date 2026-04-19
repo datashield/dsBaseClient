@@ -129,9 +129,12 @@ When adding a parameter to an already-released function (e.g. `classConsistencyC
 - Add a performance test for each refactored client function. Follow the pattern in `test-perf-ds.class.R`: call the function in a timed loop, compare against a reference rate from the perf profile CSV.
 - Run with `PERF_DURATION_SEC=2 devtools::test(filter = "perf-")` during development; the default 30-second duration is for CI.
 - **Do not** include Arjuna Technologies copyright headers in new test files. The existing headers in pre-refactor files should be left as-is, but new files we create should not carry third-party copyright.
-- **Align perf test calls with smoke tests.** Before writing a perf test, check the corresponding `test-smk-ds.functionName.R` for the correct dataset (`connect.studies.dataset.*`), column names, and parameter values. Do not use generic placeholder calls. A perf test that calls the function with the wrong dataset or column names will fail even though the refactoring is correct.
-
-**Pre-merge review of perf tests (all batches):** The perf tests for batches 3-10 were generated from a template and some used incorrect datasets or parameters. Before merging any batch, verify that each perf test's function call matches the smoke test pattern (correct dataset, columns, and parameter names).
+- **The perf test must replicate the smoke test.** Before writing a perf test, read the corresponding `test-smk-ds.functionName.R` and copy:
+  1. The `connect.studies.dataset.*()` line (same dataset, same columns)
+  2. The `disconnect.studies.dataset.*()` line
+  3. The function call (same parameters, same column names, same argument names)
+  
+  The perf test should exercise the same code path as the smoke test's happy-path call. Do not use generic placeholder calls or different datasets.
 
 **Design decisions:**
 - Functions accepting any class: use `.loadServersideObject()` only, no `.checkClass()`
