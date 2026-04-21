@@ -69,7 +69,9 @@ Imports:
     gridExtra,
     data.table,
     methods,
-    dplyr
+    dplyr,
+    assertthat,
+    cli
 Suggests:
     lme4,
     httr,
