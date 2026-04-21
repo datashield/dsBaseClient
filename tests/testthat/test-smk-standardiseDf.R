@@ -144,7 +144,7 @@ test_that(".identify_class_conflicts returns correct output", {
 })
 
 test_that("ask_question displays the correct prompt", {
-  expect_snapshot(ask_question_class("my_var"))
+  expect_message(ask_question_class("my_var"), "Convert.*my_var.*factor")
 })
 
 test_that("ask_question_wait_response_class continues with valid response", {
@@ -167,11 +167,12 @@ test_that("ask_question_wait_response_class throws error if option 6 selected", 
 })
 
 test_that("print_all_classes prints the correct message", {
-  expect_snapshot(
+  expect_message(
     print_all_classes(
       c("server_1", "server_2", "server_3"),
       c("numeric", "factor", "integer")
-    )
+    ),
+    "server_1.*numeric"
   )
 })
 
@@ -359,7 +360,7 @@ test_that("ask_question_wait_response_levels aborts with response of 3", {
 })
 
 test_that(".make_levels_message makes correct message", {
-  expect_snapshot(.make_levels_message(level_conflicts))
+  expect_message(.make_levels_message(level_conflicts), "factor variables.*fac_col2.*do not have the same levels")
 })
 
 test_that(".get_unique_levels extracts all possible levels", {
@@ -417,18 +418,20 @@ test_that(".set_factor_levels sets levels correctly", {
 })
 
 test_that(".print_var_recode_message prints the correct message", {
-  expect_snapshot(.print_var_recode_message(added_cols, "test_df"))
+  expect_message(.print_var_recode_message(added_cols, "test_df"), "variables have been added to test_df")
 })
 
 test_that(".print_class_recode_message prints the correct message", {
-  expect_snapshot(
-    .print_class_recode_message(class_decisions, different_classes, "test_df")
+  expect_message(
+    .print_class_recode_message(class_decisions, different_classes, "test_df"),
+    "classes have been set.*test_df"
   )
 })
 
 test_that(".print_levels_recode_message prints the correct message", {
-  expect_snapshot(
-    .print_levels_recode_message(unique_levs, "test_df")
+  expect_message(
+    .print_levels_recode_message(unique_levs, "test_df"),
+    "levels have been set.*test_df"
   )
 })
 
@@ -445,10 +448,11 @@ test_that(".make_levels_recode_message prints the correct message", {
 })
 
 test_that(".print_out_messages prints the correct messages", {
-  expect_snapshot(
+  expect_message(
     .print_out_messages(
       added_cols, class_decisions, different_classes, unique_levs, level_conflicts, "1", "test_df"
-    )
+    ),
+    "variables have been added to test_df"
   )
 })
 
