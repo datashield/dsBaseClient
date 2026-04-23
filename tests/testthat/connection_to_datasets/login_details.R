@@ -22,12 +22,18 @@ if (! is.null(getOption("default_driver"))) {
 }
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
-    ds.test_env$ping_address <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
+    if (ds.test_env$server_ip_address == "localhost") {
+        opal.url <- "https://localhost:8443"
+    } else {
+        opal.url <- ds.test_env$server_ip_address
+    }
+
+    ds.test_env$ping_address <- opal.url
     ds.test_env$ping_config  <- config(timeout=5, ssl_verifyhost=0, ssl_verifypeer=0)
 
-    ds.test_env$ip_address_1 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
-    ds.test_env$ip_address_2 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
-    ds.test_env$ip_address_3 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
+    ds.test_env$ip_address_1 <- opal.url
+    ds.test_env$ip_address_2 <- opal.url
+    ds.test_env$ip_address_3 <- opal.url
 
     ds.test_env$user_1 <- getOption("opal.user", "administrator")
     ds.test_env$user_2 <- getOption("opal.user", "administrator")
