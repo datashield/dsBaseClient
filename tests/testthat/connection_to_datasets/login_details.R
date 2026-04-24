@@ -10,7 +10,7 @@ ds.test_env <- new.env()
 # this option helps DSI to find the connection objects by looking in the right environment
 options(datashield.env=ds.test_env)
 
-ds.test_env$server_server_url <- init.server.url()
+ds.test_env$server_url <- init.server.url()
 
 if (! is.null(getOption("default_driver"))) {
     ds.test_env$driver <- getOption("default_driver")
