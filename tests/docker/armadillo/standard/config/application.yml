@@ -67,8 +67,13 @@ stdout.log.path: '/logs/armadillo.log'
 
 logging:
   level:
-    root: INFO
+    root: "warn"
     ## change to DEBUG to have more details, typically when developing
-    org.molgenis: INFO
+    org.molgenis: "warn"
     ## Don't log upload data
-    org.apache.coyote.http11.Http11InputBuffer: INFO
+    org.apache.coyote.http11.Http11InputBuffer: "warn"
+    ## SpringFramework
+    org.springframework.boot: "warn"
+    org.springframework.web: "warn"
+    org.springframework.core: "warn"
+    org.springframework.codex: "warn"
