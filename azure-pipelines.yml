@@ -32,6 +32,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  perf.profile: 'azure-pipeline'
 
 
 #########################################################################################
@@ -214,13 +215,13 @@ jobs:
     # Install dsBase.
     # If previous steps have failed then don't run.
   - bash: |
-      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v7.0-dev'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v7.0-dev'); opal.logout(opal)"
 
       sleep 60
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files
     displayName: 'Install dsBase to Opal, as set disclosure test options'
@@ -253,7 +254,7 @@ jobs:
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
             type = c("none"),
@@ -342,9 +343,9 @@ jobs:
     # If previous steps have failed then don't run
   - bash: |
 
-      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'https://localhost:8443', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(o)"
+      R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0)); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '6.3.4'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '6.3.4'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient
     displayName: 'Install dsDanger package on Opal server'
@@ -368,7 +369,7 @@ jobs:
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsdanger.res <- covr::package_coverage(
             type = c("none"),
