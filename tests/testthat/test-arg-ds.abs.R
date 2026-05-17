@@ -13,38 +13,19 @@
 # Set up
 #
 
-# context("ds.asCharacter::smk::setup")
-
 connect.studies.dataset.cnsim(list("LAB_TSC"))
-
-test_that("setup", {
-    ds_expect_variables(c("D"))
-})
 
 #
 # Tests
 #
 
-# context("ds.asCharacter::smk::simple test")
-test_that("simple test", {
-    expect_silent(ds.asCharacter("D$LAB_TSC"))
-
-    res.class <- ds.class("ascharacter.newobj")
-    expect_equal(res.class$sim1, "character")
-    expect_equal(res.class$sim2, "character")
-    expect_equal(res.class$sim3, "character")
+# context("ds.abs::arg::test errors")
+test_that("abs_errors", {
+    expect_error(ds.abs(), "Please provide the name of the input object!", fixed=TRUE)
 })
 
 #
 # Done
 #
 
-# context("ds.asCharacter::smk::stutdown")
-
-test_that("setup", {
-    ds_expect_variables(c("D", "ascharacter.newobj"))
-})
-
 disconnect.studies.dataset.cnsim()
-
-# context("ds.asCharacter::smk::done")
