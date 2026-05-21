@@ -22,12 +22,12 @@ if (! is.null(getOption("default_driver"))) {
 }
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
-    ds.test_env$ping_address <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
-    ds.test_env$ping_config  <- config(timeout=5)
+    ds.test_env$ping_address <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
+    ds.test_env$ping_config  <- config(timeout=5, ssl_verifyhost=0, ssl_verifypeer=0)
 
-    ds.test_env$ip_address_1 <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
-    ds.test_env$ip_address_2 <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
-    ds.test_env$ip_address_3 <- paste("http://", ds.test_env$server_ip_address, ":8080", sep="")
+    ds.test_env$ip_address_1 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
+    ds.test_env$ip_address_2 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
+    ds.test_env$ip_address_3 <- paste("https://", ds.test_env$server_ip_address, ":8443", sep="")
 
     ds.test_env$user_1 <- getOption("opal.user", "administrator")
     ds.test_env$user_2 <- getOption("opal.user", "administrator")
@@ -37,9 +37,9 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     ds.test_env$password_2 <- getOption("opal.password", "datashield_test&")
     ds.test_env$password_3 <- getOption("opal.password", "datashield_test&")
 
-    ds.test_env$options_1 <- "list()"
-    ds.test_env$options_2 <- "list()"
-    ds.test_env$options_3 <- "list()"
+    ds.test_env$options_1 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
+    ds.test_env$options_2 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
+    ds.test_env$options_3 <- "list(ssl_verifyhost=0, ssl_verifypeer=0)"
 
     ds.test_env$secure_login_details <- TRUE
 } else if (ds.test_env$driver == "ArmadilloDriver") {
