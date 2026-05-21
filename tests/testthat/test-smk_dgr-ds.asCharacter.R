@@ -30,10 +30,13 @@ test_that("setup", {
 # context("ds.asCharacter::smk_dgr::simple test")
 test_that("simple test", {
     res <- ds.asCharacter("D$LAB_TSC")
+    expect_equal(length(res), 0)
 
-    expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <ascharacter.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<ascharacter.newobj> appears valid in all sources")
+    newobj <- ds.DANGERvarsEXTRACT('ascharacter.newobj')
+
+    expect_equal(length(newobj), 2)
+    expect_true(all(c("list") %in% class(newobj[[1]])))
+    expect_true(all(c("data.frame") %in% class(newobj[[2]])))
 })
 
 #
