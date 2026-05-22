@@ -9,5 +9,8 @@
 library(testthat)
 library(dsBaseClient)
 
-if (identical(Sys.getenv("NOT_CRAN"), "true"))
+if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+    ufq_opt <- base::options(useFancyQuotes = FALSE)
     test_check("dsBaseClient")
+    base::options(useFancyQuotes = ufq_opt)
+}
