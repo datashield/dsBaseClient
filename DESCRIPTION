@@ -59,7 +59,7 @@ Authors@R: c(person(given = "Paul",
                     comment = c(ORCID = "0009-0003-2419-1964")))
 License: GPL-3
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.1.0),
     DSI (>= 1.7.1)
 Imports:
     fields,
@@ -70,6 +70,7 @@ Imports:
     data.table,
     methods,
     dplyr,
+    purrr,
     assertthat,
     cli
 Suggests:
