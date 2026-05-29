@@ -221,6 +221,62 @@ init.studies.dataset.gamlss <- function(variables)
   }
 }
 
+init.studies.dataset.stand <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "STANDARDISE.std_1", options=ds.test_env$options_1)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_1", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_1", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
+    }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/standardise/std_1", driver = ds.test_env$driver)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/standardise/std_2", driver = ds.test_env$driver)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/standardise/std_3", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
+}
+
+init.studies.dataset.stand_disclosure <- function(variables)
+{
+  if (ds.test_env$secure_login_details)
+  {
+    if (ds.test_env$driver == "OpalDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "STANDARDISE.std_1_d", options=ds.test_env$options_1)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_2_d", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_3_d", options=ds.test_env$options_3)
+      ds.test_env$login.data <- builder$build()
+    }
+    else if (ds.test_env$driver == "ArmadilloDriver")
+    {
+      builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+      builder$append(server = "sim1", url = ds.test_env$ip_address_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "datashield/standardise/std_1_d", driver = ds.test_env$driver)
+      builder$append(server = "sim2", url = ds.test_env$ip_address_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "datashield/standardise/std_2_d", driver = ds.test_env$driver)
+      builder$append(server = "sim3", url = ds.test_env$ip_address_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "datashield/standardise/std_3_d", driver = ds.test_env$driver)
+      ds.test_env$login.data <- builder$build()
+    }
+    else
+    {
+      ds.test_env$login.data <- DSLite::setupCNSIMTest("dsBase", env = ds.test_env)
+    }
+    ds.test_env$stats.var <- variables
+  }
+}
+
 
 connect.studies.dataset.cnsim <- function(variables)
 {
@@ -278,6 +334,22 @@ connect.studies.dataset.gamlss <- function(variables)
   log.in.data.server()
 }
 
+connect.studies.dataset.stand <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.stand(variables)
+  log.in.data.server()
+}
+
+connect.studies.dataset.stand_disclosure <- function(variables)
+{
+  log.out.data.server()
+  source("connection_to_datasets/login_details.R")
+  init.studies.dataset.stand_disclosure(variables)
+  log.in.data.server()
+}
+
 disconnect.studies.dataset.cnsim <- function()
 {
     log.out.data.server()
@@ -309,6 +381,16 @@ disconnect.studies.dataset.anthro <- function()
 }
 
 disconnect.studies.dataset.gamlss <- function()
+{
+  log.out.data.server()
+}
+
+disconnect.studies.dataset.stand <- function()
+{
+  log.out.data.server()
+}
+
+disconnect.studies.dataset.stand_disclosure <- function()
 {
   log.out.data.server()
 }

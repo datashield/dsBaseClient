@@ -72,4 +72,12 @@ upload_testing_dataset_table(opal, 'TESTING', 'DATASET1', 'TESTING/DATASET1.rda'
 upload_testing_dataset_table(opal, 'TESTING', 'DATASET2', 'TESTING/DATASET2.rda')
 upload_testing_dataset_table(opal, 'TESTING', 'DATASET3', 'TESTING/DATASET3.rda')
 
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_1', 'STANDARDISE/std_1.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_2', 'STANDARDISE/std_2.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_3', 'STANDARDISE/std_3.rda')
+
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_1_d', 'STANDARDISE/std_1_d.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_2_d', 'STANDARDISE/std_2_d.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_3_d', 'STANDARDISE/std_3_d.rda')
+
 opal.logout(opal)
