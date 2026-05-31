@@ -14,6 +14,7 @@
 #' @return \code{ds.log} returns a vector for each study of the transformed values for the numeric vector 
 #' specified in the argument \code{x}. The created vectors are stored in the server-side. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

@@ -83,4 +83,6 @@ Server function called: \code{asIntegerDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

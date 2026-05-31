@@ -67,4 +67,6 @@ Server function called: \code{asCharacterDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
