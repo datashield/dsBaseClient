@@ -22,11 +22,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 # context("ds.cor::arg::test errors")
 test_that("cor_erros", {
     expect_error(ds.cor(), 'x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!', fixed=TRUE)
-
-    expect_error(ds.cor(x='D$LAB_TSC'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
-    res.errors <- DSI::datashield.errors()
-    expect_match(res.errors[[1]], "If x is a numeric vector, y must be a numeric vector!")
-
+    expect_error(ds.cor(x='D$LAB_TSC'), 'If x is a numeric vector, y must be a numeric vector!', fixed=TRUE)
     expect_error(ds.cor(x='D$LAB_TSC', y='D$LAB_TRIG', type='datashield'), 'Function argument "type" has to be either "combine" or "split"', fixed=TRUE)
 })
 
