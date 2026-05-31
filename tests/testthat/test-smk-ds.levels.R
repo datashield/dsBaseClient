@@ -82,6 +82,12 @@ test_that("simple levels", {
     expect_equal(res$sim3$Levels[3], "3")
 })
 
+test_that("levels, wrong input class returns a server error", {
+    expect_error(ds.levels("D$GENDER"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type factor")
+})
+
 #
 # Done
 #
