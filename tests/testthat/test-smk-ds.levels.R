@@ -15,7 +15,7 @@
 
 # context("ds.levels::smk::setup")
 
-connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
+connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER", "PM_BMI_CATEGORICAL"))
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -71,7 +71,7 @@ test_that("simple levels", {
 })
 
 test_that("levels, wrong input class returns a server error", {
-    expect_error(ds.levels("D$GENDER"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    expect_error(ds.levels("D$LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
     res.errors <- DSI::datashield.errors()
     expect_match(res.errors[[1]], "must be of type factor")
 })
