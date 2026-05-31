@@ -137,6 +137,16 @@ test_that("completeCases matrix", {
     expect_equal(res.mat_new.dim$`dimensions of mat_new in combined studies`[2], 11)
 })
 
+test_that("completeCases, wrong input class returns a server error", {
+    ds.asList("D$LAB_TSC", newobj="not_a_df")
+
+    expect_error(ds.completeCases("not_a_df", "cc_new"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "is x1 of wrong class")
+
+    ds.rm("not_a_df")
+})
+
 #
 # Done
 #
