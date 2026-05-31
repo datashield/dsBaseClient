@@ -78,6 +78,16 @@ test_that("basic length, combine", {
     expect_equal(res.length$`total length of D$LAB_TSC in all studies combined`, 9379)
 })
 
+test_that("length, wrong input class returns a server error", {
+    ds.asMatrix(x='D$LAB_TSC', newobj="not_a_numeric")
+
+    expect_error(ds.length("not_a_numeric"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type character, factor, integer, logical, numeric, list or data.frame")
+
+    ds.rm("not_a_numeric")
+})
+
 #
 # Done
 #
