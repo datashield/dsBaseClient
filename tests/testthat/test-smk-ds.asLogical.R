@@ -27,11 +27,12 @@ test_that("setup", {
 
 # context("ds.asLogical::smk::simple test")
 test_that("simple test", {
-    res <- ds.asLogical("D$LAB_TSC")
+    expect_silent(ds.asLogical("D$LAB_TSC"))
 
-    expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <aslogical.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<aslogical.newobj> appears valid in all sources")
+    res.class <- ds.class("aslogical.newobj")
+    expect_equal(res.class$sim1, "logical")
+    expect_equal(res.class$sim2, "logical")
+    expect_equal(res.class$sim3, "logical")
 })
 
 #

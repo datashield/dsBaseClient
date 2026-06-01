@@ -62,6 +62,7 @@ Depends:
     R (>= 4.0.0),
     DSI (>= 1.7.1)
 Imports:
+    cli,
     fields,
     metafor,
     meta,
