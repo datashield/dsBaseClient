@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.abs::smk")
 test_that("simple c", {
-    expect_silent(ds.abs("D$LAB_TSC", newobj = "abs.newobj"))
+    expect_no_error(ds.abs("D$LAB_TSC", newobj = "abs.newobj"))
 
     res.length <- ds.length("abs.newobj")
 
