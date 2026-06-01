@@ -28,6 +28,7 @@ test_that("setup", {
 # context("ds.exp::smk")
 test_that("simple exp", {
     expect_no_error(ds.exp("D$LAB_TSC", newobj="exp1_obj"))
+    print(DSI::datashield.errors())
 
     res1_class <- ds.class("exp1_obj")
 

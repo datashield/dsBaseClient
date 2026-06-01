@@ -28,6 +28,7 @@ test_that("setup", {
 # context("ds.log::smk")
 test_that("simple log", {
     expect_no_error(ds.log("D$LAB_TSC", newobj="log1_obj"))
+    print(DSI::datashield.errors())
 
     res1_class <- ds.class("log1_obj")
 
