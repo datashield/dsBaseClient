@@ -17,8 +17,7 @@
 #' the dimension is returned separately for each study.
 #' If \code{type} is set to \code{'both'} or \code{'b'}, both sets of outputs are produced.
 #' Default \code{'both'}.
-#' @param classConsistencyCheck logical. If TRUE, checks that the input object has the same
-#' class across all studies. Default TRUE.
+#' @template classConsistencyCheck
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.

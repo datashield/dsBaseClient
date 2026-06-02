@@ -9,12 +9,15 @@ ds.isNA(x = NULL, classConsistencyCheck = TRUE, datasources = NULL)
 \arguments{
 \item{x}{a character string specifying the name of the vector to check.}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
+
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}}
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.isNA} returns a boolean. If it is TRUE the vector is empty 
+\code{ds.isNA} returns a boolean. If it is TRUE the vector is empty
 (all values are NA), FALSE otherwise.
 }
 \description{
@@ -32,7 +35,7 @@ Server function called: \code{isNaDS}
 \dontrun{
 
   ## Version 6, for version 5 see the Wiki
-  
+
   # connecting to the Opal servers
 
   require('DSI')
@@ -40,28 +43,28 @@ Server function called: \code{isNaDS}
   require('dsBaseClient')
 
   builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study1",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-  builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study2",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
   builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
+
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
+
   # check if all the observation of the variable 'LAB_HDL' are missing (NA)
   ds.isNA(x = 'D$LAB_HDL',
           datasources = connections) #all servers are used
   ds.isNA(x = 'D$LAB_HDL',
-          datasources = connections[1]) #only the first server is used (study1) 
- 
+          datasources = connections[1]) #only the first server is used (study1)
+
 
   # clear the Datashield R sessions and logout
   datashield.logout(connections)
