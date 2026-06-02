@@ -27,11 +27,12 @@ test_that("setup", {
 
 # context("ds.asNumeric::smk::simple test")
 test_that("simple test", {
-    res <- ds.asNumeric("D$GENDER")
+    expect_no_error(ds.asNumeric("D$GENDER"))
 
-    expect_equal(length(res), 2)
-    expect_equal(res$is.object.created, "A data object <asnumeric.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<asnumeric.newobj> appears valid in all sources")
+    res.class <- ds.class("asnumeric.newobj")
+    expect_equal(res.class$sim1, "numeric")
+    expect_equal(res.class$sim2, "numeric")
+    expect_equal(res.class$sim3, "numeric")
 })
 
 #

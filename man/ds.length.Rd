@@ -4,7 +4,12 @@
 \alias{ds.length}
 \title{Gets the length of an object in the server-side}
 \usage{
-ds.length(x = NULL, type = "both", checks = "FALSE", datasources = NULL)
+ds.length(
+  x = NULL,
+  type = "both",
+  classConsistencyCheck = TRUE,
+  datasources = NULL
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of a vector or list.}
@@ -18,9 +23,8 @@ if \code{type} is set to \code{'both'} or \code{'b'},
 both sets of outputs are produced. 
 Default \code{'both'}.}
 
-\item{checks}{logical. If TRUE the model components are checked. 
-Default FALSE to save time. It is suggested that checks
-should only be undertaken once the function call has failed.}
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
@@ -91,4 +95,6 @@ Server function called: \code{lengthDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

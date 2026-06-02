@@ -13,6 +13,7 @@
 #' @return \code{ds.numNA} returns to the client-side the number of missing values
 #' on a server-side vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -52,31 +53,21 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, datasources=NULL){
+ds.numNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-  
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
+  cally <- call("numNaDS", x)
+  results <- DSI::datashield.aggregate(datasources, cally)
 
-  # call the server side function
-  cally <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
 
+  numNAs <- lapply(results, function(r) r$numNA)
   return(numNAs)
 }

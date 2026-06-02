@@ -25,27 +25,9 @@ test_that("setup", {
 # Tests
 #
 # context("ds.levels::disc")
+# Density disclosure check is tested in dsBase server-side unit tests.
+# Cannot easily trigger with CNSIM data (too few levels relative to rows).
 test_that("simple levels", {
-#    res <- ds.levels("D$GENDER")
-    
-#    expect_length(res, 3)
-#    expect_length(res$sim1, 2)
-#    expect_length(res$sim1$ValidityMessage, 1)
-#    expect_equal(res$sim1$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim1$Levels, 2)
-#    expect_equal(res$sim1$Levels, NA)
-    
-#    expect_length(res$sim2, 2)
-#    expect_length(res$sim2$ValidityMessage, 1)
-#    expect_equal(res$sim2$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim2$Levels, 2)
-#    expect_equal(res$sim2$Levels, NA)
-    
-#    expect_length(res$sim3, 2)
-#    expect_length(res$sim3$ValidityMessage, 1)
-#    expect_equal(res$sim3$ValidityMessage, "VALID ANALYSIS")
-#    expect_length(res$sim3$Levels, 2)
-#    expect_equal(res$sim3$Levels, NA)
 })
 
 #

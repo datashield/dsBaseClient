@@ -123,7 +123,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     # number of missing values stop the process and tell the analyst
     cally <- call("numNaDS", x)
     numNAs <- DSI::datashield.aggregate(datasources[i], cally)
-    if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]){
+    if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]$numNA){
       message("The number of replacement values must be of length 1 or of the same length as the number of missing values.")
       stop(paste0("This is not the case in ", names(datasources)[i]), call.=FALSE)
     }

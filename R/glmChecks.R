@@ -71,7 +71,7 @@ glmChecks <- function(formula, data, offset, weights, datasources){
             if(!(myterms[2] %in% clnames)){
               stop(paste0("'", myterms[2], "' is not defined in ", stdnames[j], "!"), call.=FALSE)
             }else{
-              call0 <- paste0("isNaDS(", elts[i], ")")
+              call0 <- call("isNaDS", elts[i])
               if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }
@@ -82,24 +82,24 @@ glmChecks <- function(formula, data, offset, weights, datasources){
             clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(elts[i] %in% clnames)){
               dd <- isDefined(datasources, elts[i])
-              call0 <- paste0("isNaDS(", elts[i], ")")
+              call0 <- call("isNaDS", elts[i])
               if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }else{
-              call0 <- paste0("isNaDS(", paste0(data, "$", elts[i]), ")")
+              call0 <- call("isNaDS", paste0(data, "$", elts[i]))
               if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, paste0(data, "$", elts[i])) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", paste0(data, "$", elts[i]), ")") }
             }
           }else{
             defined <- isDefined(datasources, elts[i])
-            call0 <- paste0("isNaDS(", elts[i], ")")
+            call0 <- call("isNaDS", elts[i])
             if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
             if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
           }
         }
         # check if variable is not missing at complete
-        out1 <- DSI::datashield.aggregate(datasources[j], as.symbol(call0))
-        if(out1[[1]]){
+        out1 <- DSI::datashield.aggregate(datasources[j], call0)
+        if(out1[[1]]$is.na){
           stop("The variable ", elts[i], " in ", stdnames[j], " is missing at complete (all values are 'NA').", call.=FALSE)
         }
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value

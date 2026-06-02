@@ -12,6 +12,7 @@
 #' @return \code{ds.levels} returns to the client-side the levels of a factor 
 #' class variable stored in the server-side. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -58,35 +59,16 @@
 #'
 ds.levels <- function(x=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  cally <- call("levelsDS", x)
+  results <- DSI::datashield.aggregate(datasources, cally)
 
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a factor
-  if(!('factor' %in% typ)){
-    stop("The input object must be a factor.", call.=FALSE)
-  }
-
-  # call the server-side function
-  cally <- paste0("levelsDS(", x, ")")
-  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
-
+  output <- lapply(results, function(r) list(Levels = r$Levels))
   return(output)
-  
+
 }
