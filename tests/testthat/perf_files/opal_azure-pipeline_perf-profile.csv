@@ -1,7 +1,7 @@
 "refer_name","rate","lower_tolerance","upper_tolerance"
 "conndisconn::perf::simple0","0.1654","0.5","2"
 "ds.abs::perf::0","17.30","0.5","2"
-"ds.asCharacter::perf:0","16.75","0.5","2"
+"ds.asCharacter::perf::0","16.75","0.5","2"
 "ds.asDataMatrix::perf:0","17.34","0.5","2"
 "ds.asInteger::perf:0","17.30","0.5","2"
 "ds.asList::perf:0","16.63","0.5","2"
