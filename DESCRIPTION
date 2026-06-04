@@ -70,8 +70,7 @@ Imports:
     gridExtra,
     data.table,
     methods,
-    dplyr, 
-    cli
+    dplyr
 Suggests:
     lme4,
     httr,

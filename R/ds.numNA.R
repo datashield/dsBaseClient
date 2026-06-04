@@ -6,7 +6,8 @@
 #' @details The number of missing entries are counted and the total for each study is returned.
 #' 
 #' Server function called: \code{numNaDS}
-#' @param x a character string specifying the name of the vector. 
+#' @param x a character string specifying the name of the vector.
+#' @template classConsistencyCheck
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
