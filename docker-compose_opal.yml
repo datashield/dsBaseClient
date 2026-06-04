@@ -2,6 +2,7 @@ services:
     opal:
         image: datashield/opal_citest:latest
         ports:
+            - 8080:8080
             - 8443:8443
         links:
             - mongo
