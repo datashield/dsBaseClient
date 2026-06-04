@@ -217,7 +217,7 @@ jobs:
   - bash: |
       R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.6-dev'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.4.0-dev'); opal.logout(opal)"
 
       sleep 60
 
