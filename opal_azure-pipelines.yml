@@ -45,10 +45,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.3.6-dev
+    displayName: Nightly build - v6.4.0-dev
     branches:
       include:
-      - v6.3.6-dev
+      - v6.4.0-dev
     always: true
 
 #########################################################################################
@@ -217,7 +217,7 @@ jobs:
   - bash: |
       R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
 
-      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.3.6-dev'); opal.logout(opal)"
+      R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = 'v6.4.0-dev'); opal.logout(opal)"
 
       sleep 60
 

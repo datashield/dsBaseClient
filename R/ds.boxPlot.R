@@ -135,7 +135,7 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
     }
   }
   
-  # Once all checks are passed, call the appropiate server functions
+  # Once all checks are passed, call the appropriate server functions
   if("data.frame" %in% cls){
     ds.boxPlotGG_table(x, variables, group, group2, xlabel, ylabel, type, datasources)
   }

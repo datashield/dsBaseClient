@@ -49,7 +49,6 @@ jobs:
               sudo Rscript -e "install.packages('data.table', dependencies=TRUE)"
               sudo Rscript -e "install.packages('methods', dependencies=TRUE)"
               sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
-
               sudo Rscript -e "install.packages('DSI', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DSOpal', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DSLite', dependencies=TRUE)"
@@ -58,9 +57,22 @@ jobs:
               sudo Rscript -e "install.packages('DSMolgenisArmadillo', dependencies=TRUE)"
               sudo Rscript -e "install.packages('DescTools', dependencies=TRUE)"
               sudo Rscript -e "install.packages('e1071', dependencies=TRUE)"
+
+              sudo Rscript -e "install.packages('RANN', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('stringr', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('lme4', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('dplyr', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('reshape2', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('polycor', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('splines', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('gamlss', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('gamlss.dist', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('mice', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('childsds', dependencies=TRUE)"
+              sudo Rscript -e "install.packages('xml2', dependencies=TRUE)"
       - run:
           command: |
-              sudo Rscript -e 'library(covr); covr::codecov(token = "'$CODECOV_TOKEN'", quiet=FALSE)'
+              sudo Rscript -e 'library(covr); options("default_driver"="DSLiteDriver"); covr::codecov(token="'$CODECOV_TOKEN'", quiet=FALSE)'
 workflows:
   build:
     jobs:

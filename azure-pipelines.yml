@@ -45,10 +45,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.3.6-dev
+    displayName: Nightly build - v6.4.0-dev
     branches:
       include:
-      - v6.3.6-dev
+      - v6.4.0-dev
     always: true
 
 #########################################################################################

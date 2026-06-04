@@ -172,13 +172,13 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
     stop(paste0("An unrecognized Boolean operator, ", Boolean.operator, ", has provide"), call.=FALSE)
   }
 
-  # if no value spcified for output object, then specify a default
+  # if no value specified for output object, then specify a default
   if(is.null(newobj)){
     newobj <- paste0(V1,"_Boole")
   }
 
   # CALL THE MAIN SERVER SIDE FUNCTION
-  calltext <- call("BooleDS", V1, V2, BO.n, na.assign,numeric.output)
+  calltext <- call("BooleDS", V1, V2, BO.n, na.assign, numeric.output)
   DSI::datashield.assign(datasources, newobj, calltext)
 
 #############################################################################################################

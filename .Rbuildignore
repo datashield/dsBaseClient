@@ -17,8 +17,8 @@
 ^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$
-^dsBase_6.3.6.tar.gz$
-^dsBase_6.3.6-permissive.tar.gz$
+^dsBase_6.4.0.tar.gz$
+^dsBase_6.4.0-permissive.tar.gz$
 ^dsDanger_6.3.4.tar.gz$
 ^\.circleci$
 ^\.circleci/config\.yml$

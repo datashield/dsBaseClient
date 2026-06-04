@@ -121,7 +121,7 @@
 #'    \item{\code{"quasibinomial"}}{: a model with a binomial variance function - if P
 #'     is the expected proportion of successes, and N is the number of "trials" (always
 #'     1 if analysing binary data which are formally described as having a Bernoulli
-#'     distribution (binomial distribution with N=1) the variance function is N*(P)*(1-P).
+#'     distribution (binomial distribution with N=1) the variance function is \code{N*(P)*(1-P)}.
 #'     But the residual variance which is fixed to be 1.00 in
 #'     a binomial model can take any value. This is achieved by a dispersion parameter
 #'     which is estimated during the model fit (see quasipoisson information above).}}
