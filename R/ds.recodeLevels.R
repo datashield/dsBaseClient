@@ -19,6 +19,7 @@
 #' @return \code{ds.recodeLevels} returns to the server-side a variable of type factor
 #' with the replaces levels. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

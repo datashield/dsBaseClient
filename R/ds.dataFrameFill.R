@@ -21,7 +21,8 @@
 #' client-side indicating the name of the \code{newobj} that has been created in each data source
 #' and if it is in a valid form.
 #' @author Demetris Avraam for DataSHIELD Development Team
-#' 
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#'
 #' @examples 
 #' \dontrun{
 #' 

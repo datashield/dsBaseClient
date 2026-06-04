@@ -17,6 +17,7 @@
 #' @keywords internal
 #' @return an integer 0 if check was passed and 1 if failed
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 glmChecks <- function(formula, data, offset, weights, datasources){
 

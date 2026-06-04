@@ -4,6 +4,7 @@
 #' to find available data sources.
 #' @importFrom DSI datashield.connections_find
 #' @return A list of data sources.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .get_datasources <- function(datasources) {
   if (is.null(datasources)) {
@@ -16,6 +17,7 @@
 #'
 #' @param datasources A list of data sources.
 #' @importFrom cli cli_abort
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .verify_datasources <- function(datasources) {
   is_connection_class <- sapply(datasources, function(x) inherits(unlist(x), "DSConnection"))
@@ -29,6 +31,7 @@
 #' @param datasources An optional list of data sources. If not provided, the function will attempt
 #' to find available data sources.
 #' @return A list of verified data sources.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .set_datasources <- function(datasources) {
   datasources <- .get_datasources(datasources)
@@ -46,6 +49,7 @@
 #'   each containing a `class` element.
 #' @importFrom cli cli_abort
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .checkClassConsistency <- function(results) {
   classes <- lapply(results, function(r) r$class)
@@ -61,6 +65,7 @@
 #'
 #' @param df A data.frame or matrix.
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .check_df_name_provided <- function(df) {
   if(is.null(df)){

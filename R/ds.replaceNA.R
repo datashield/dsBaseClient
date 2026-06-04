@@ -26,6 +26,7 @@
 #' with the missing values replaced by the specified values.
 #'  The class of the vector is the same as the initial vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
