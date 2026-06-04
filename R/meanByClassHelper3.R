@@ -11,6 +11,7 @@
 #' @keywords internal
 #' @return a list which one results table for each study.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])

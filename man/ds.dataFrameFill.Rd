@@ -89,4 +89,6 @@ Server function called: \code{dataFrameFillDS}
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

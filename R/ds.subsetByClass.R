@@ -15,6 +15,7 @@
 #' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @return a no data are return to the user but messages are printed out.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @export

@@ -19,6 +19,7 @@
 #' such as the minimum and maximum values of numeric vectors are not returned. 
 #' The summary is given for each study separately.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{

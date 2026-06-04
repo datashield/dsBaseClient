@@ -12,6 +12,7 @@
 #' @return a matrix, a table which contains the length, mean and standard deviation of each of the
 #' specified 'variables' in each subset table.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])

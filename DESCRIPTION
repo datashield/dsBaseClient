@@ -56,7 +56,12 @@ Authors@R: c(person(given = "Paul",
                     family = "Wheater",
                     role = c("aut", "cre"),
                     email = "stuart.wheater@arjuna.com",
-                    comment = c(ORCID = "0009-0003-2419-1964")))
+                    comment = c(ORCID = "0009-0003-2419-1964")),
+             person(given = "Tim",
+                    family = "Cadman",
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0002-7682-5645",
+                                affiliation = "Genomics Coordination Centre, UMCG, Netherlands")))
 License: GPL-3
 Depends:
     R (>= 4.0.0),

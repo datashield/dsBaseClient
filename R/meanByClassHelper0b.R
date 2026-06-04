@@ -15,6 +15,7 @@
 #' and standard deviation in each subgroup (subset).
 #' @keywords internal
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper0b <- function(x, outvar, covar, type, datasources){
   if(is.null(outvar)){
