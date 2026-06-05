@@ -35,15 +35,12 @@ test_that("simple test", {
 
     res.class <- ds.class("asdatamatrix.newobj")
     expect_length(res.class, 3)
-    expect_length(res.class$sim1, 2)
-    expect_true("array" %in% res.class$sim1)
-    expect_true("matrix" %in% res.class$sim1)
-    expect_length(res.class$sim2, 2)
-    expect_true("array" %in% res.class$sim2)
-    expect_true("matrix" %in% res.class$sim2)
-    expect_length(res.class$sim3, 2)
-    expect_true("array" %in% res.class$sim3)
-    expect_true("matrix" %in% res.class$sim3)
+    expect_length(res.class$sim1, 1)
+    expect_true("data.frame" %in% res.class$sim1)
+    expect_length(res.class$sim2, 1)
+    expect_true("data.frame" %in% res.class$sim2)
+    expect_length(res.class$sim3, 1)
+    expect_true("data.frame" %in% res.class$sim3)
 })
 
 #
