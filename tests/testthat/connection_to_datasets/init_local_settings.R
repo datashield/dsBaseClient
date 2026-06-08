@@ -1,28 +1,33 @@
-#this file stores some settings for the continuous integration and local testing.
+#
+# The file "connection_to_datasets/local_settings.csv" (within the directory "tests/testthat") contains, if present,
+# values which can be used to affect the behavious of the continuous integration.
+#
+# The server URL is in a CVS file, being the value of the first column, first row.
+#
 
-init.ip.address <- function()
+init.server.url <- function()
 {
    file.name <- init.local.settings()
    if (file.exists(file.name))
    {
-      content <- read.csv(file.name, header = FALSE)
-      ip.address <- as.character(content[[1]][1])
+      content    <- read.csv(file.name, header = FALSE)
+      server.url <- as.character(content[[1]][1])
    }
    else
    {
-      # ip.address <- "127.0.0.1"
-      ip.address <- "localhost"
+      # server.url <- "http://127.0.0.1:8080/"
+      server.url <- "http://localhost:8080/"
    }
-   return (ip.address)
+   return (server.url)
 }
 
 
 
 init.local.settings <- function()
 {
-  path <- getwd()
+  path            <- getwd()
   sub.folder.name <- "/connection_to_datasets/"
-  file.name <- "local_settings.csv"
-  return(paste(path, sub.folder.name,file.name, sep=""))
-  
+  file.name       <- "local_settings.csv"
+
+  return(paste(path, sub.folder.name, file.name, sep=""))
 }
