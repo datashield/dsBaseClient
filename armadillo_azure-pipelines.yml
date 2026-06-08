@@ -59,10 +59,10 @@ schedules:
       - master
     always: true
   - cron: "0 2 * * *"
-    displayName: Nightly build - v6.3.5-dev
+    displayName: Nightly build - v6.3.6-dev
     branches:
       include:
-      - v6.3.5-dev
+      - v6.3.6-dev
     always: true
 
 #########################################################################################
@@ -133,7 +133,7 @@ jobs:
       sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
-      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev -y
+      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
@@ -236,7 +236,7 @@ jobs:
 
       curl -u admin:admin -X GET http://localhost:8080/packages
 
-      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.5-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.3.6-permissive.tar.gz" -X POST http://localhost:8080/install-package
       sleep 60
 
       docker container restart dsbaseclient_armadillo_1
