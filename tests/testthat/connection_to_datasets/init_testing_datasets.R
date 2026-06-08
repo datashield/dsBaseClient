@@ -214,18 +214,113 @@ init.testing.dataset.factor_levels.1 <- function()
 log.in.data.server <- function()
 {
   # ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
+
+  if (isTRUE(ds.test_env$stay_logged_in) && !is.null(ds.test_env$connections))
+  {
+    # Try to reuse the existing login when the new test file targets the same
+    # servers. clear.data.server() doubles as a liveness probe: if the cached
+    # connection is stale (e.g. logged out, or restored dead from a saved
+    # workspace) the ds.ls() inside it errors, and we drop through to a fresh
+    # login. A successful clear means the connection is good, so we re-assign the
+    # data table without re-authenticating. The assign itself is NOT guarded, so a
+    # genuine assignment error still surfaces.
+    same.servers <- setequal(names(ds.test_env$connections), as.character(ds.test_env$login.data$server))
+    cleared <- same.servers && tryCatch({ clear.data.server(); TRUE }, error = function(e) FALSE)
+    if (cleared)
+    {
+      assign.current.dataset()
+      return(invisible(NULL))
+    }
+    # Different servers, or a stale connection: close it (best effort) and log in afresh.
+    try(datashield.logout(ds.test_env$connections), silent = TRUE)
+    ds.test_env$connections <- NULL
+  }
+
   ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts"))
+
+  if (isTRUE(ds.test_env$stay_logged_in))
+  {
+    # Arrange for a single logout once the whole test run has finished.
+    register.teardown.logout()
+  }
 }
 
 
 log.out.data.server <- function()
 {
+  if (isTRUE(ds.test_env$stay_logged_in))
+  {
+    # Stay connected for the next test file. Clearing the server-side environment
+    # happens in the reuse path of log.in.data.server() (where the connection has
+    # just been confirmed live); the real logout happens once at end of the run.
+    return(invisible(NULL))
+  }
+
   if (!is.null(ds.test_env) && !is.null(ds.test_env$connections))
   {
     datashield.logout(ds.test_env$connections)
+    # Reflect that the handle is now dead, so a later run cannot inherit and try
+    # to reuse it (which would fail with an authorization error).
+    ds.test_env$connections <- NULL
   }
   rm(list = ls())
   gc()
+}
+
+
+# Remove every object from the server-side environment(s) on the current login.
+# ds.ls() returns a per-server list whose $objects.found holds the object names;
+# ds.rm() takes a vector of names in one (aggregate) call and ignores ones that
+# are already absent, so this is safe across servers that hold different objects.
+clear.data.server <- function()
+{
+  object.names <- unique(unlist(lapply(ds.ls(), function(x) x$objects.found)))
+  if (length(object.names) > 0)
+  {
+    ds.rm(object.names)
+  }
+}
+
+
+# (Re)assign the data table 'D' for the current dataset onto the existing
+# connection, without re-authenticating. Mirrors datashield.login(assign=TRUE),
+# using the table/variables prepared by the init.* function for this test file.
+assign.current.dataset <- function()
+{
+  tables <- stats::setNames(as.character(ds.test_env$login.data$table), as.character(ds.test_env$login.data$server))
+  DSI::datashield.assign.table(ds.test_env$connections, "D", tables, variables = ds.test_env$stats.var)
+}
+
+
+# Register a one-off logout to run after all test files complete. Uses the
+# testthat teardown environment, so it fires once at the end of the run - and at
+# the end of a single-file run too. If we are not inside a testthat run the
+# registration is skipped (the session is closed when R exits).
+register.teardown.logout <- function()
+{
+  if (isTRUE(ds.test_env$logout_registered))
+  {
+    return(invisible(NULL))
+  }
+  ds.test_env$logout_registered <- tryCatch(
+    {
+      withr::defer(final.logout.data.server(), testthat::teardown_env())
+      TRUE
+    },
+    error = function(e) FALSE
+  )
+}
+
+
+# Unconditional logout, used by the deferred teardown above.
+final.logout.data.server <- function()
+{
+  if (!is.null(ds.test_env) && !is.null(ds.test_env$connections))
+  {
+    datashield.logout(ds.test_env$connections)
+    ds.test_env$connections <- NULL
+  }
+  ds.test_env$logout_registered <- NULL
 }
 
 connect.all.datasets <- function()

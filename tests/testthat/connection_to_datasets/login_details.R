@@ -4,8 +4,12 @@ source("connection_to_datasets/init_local_settings.R")
 
 init.ip.address()
 
-# create blank environment of test data
-ds.test_env <- new.env()
+# create blank environment of test data.
+# When staying logged in across test files, keep the existing environment (and the
+# live connection it holds) rather than rebuilding it on every connect.
+if (! (isTRUE(getOption("stay_logged_in", TRUE)) && exists("ds.test_env", inherits = TRUE) && is.environment(ds.test_env))) {
+    ds.test_env <- new.env()
+}
 
 # this option helps DSI to find the connection objects by looking in the right environment
 options(datashield.env=ds.test_env)
@@ -66,6 +70,10 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
 } else {
     stop("**** Unknown Driver ****", call. = FALSE)
 }
+
+# Keep a single login across test files (only for real servers - DSLite login is
+# in-process and cheap). Read by log.in.data.server() / log.out.data.server().
+ds.test_env$stay_logged_in <- isTRUE(getOption("stay_logged_in", TRUE)) && ds.test_env$driver %in% c("OpalDriver", "ArmadilloDriver")
 
 ds.test_env$high_tolerance     <- 10^-7
 ds.test_env$medium_tolerance   <- 10^-6
