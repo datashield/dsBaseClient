@@ -17,6 +17,9 @@
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
+# DIAGNOSTIC (temporary): which ASSIGN methods does the server actually expose?
+print(DSI::datashield.methods(ds.test_env$connections, type = "assign"))
+
 test_that("setup", {
     ds_expect_variables(c("D"))
 })
