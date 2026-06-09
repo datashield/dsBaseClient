@@ -5,7 +5,7 @@ Description: Base 'DataSHIELD' functions for the client side. 'DataSHIELD' is a 
     you to do non-disclosive federated analysis on sensitive data. 'DataSHIELD' analytic functions have
     been designed to only share non disclosive summary statistics, with built in automated output
     checking based on statistical disclosure control. With data sites setting the threshold values for
-    the automated output checks. For more details, see citation("dsBaseClient").
+    the automated output checks. For more details, see citation('dsBaseClient').
 Authors@R: c(person(given = "Paul",
                     family = "Burton",
                     role = c("aut"),
