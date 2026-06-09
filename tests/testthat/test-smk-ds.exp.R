@@ -17,9 +17,6 @@
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
-# DIAGNOSTIC (temporary): which ASSIGN methods does the server actually expose?
-print(DSI::datashield.methods(ds.test_env$connections, type = "assign"))
-
 test_that("setup", {
     ds_expect_variables(c("D"))
 })
@@ -31,7 +28,6 @@ test_that("setup", {
 # context("ds.exp::smk")
 test_that("simple exp", {
     expect_no_error(ds.exp("D$LAB_TSC", newobj="exp1_obj"))
-    print(DSI::datashield.errors())
 
     res1_class <- ds.class("exp1_obj")
 
