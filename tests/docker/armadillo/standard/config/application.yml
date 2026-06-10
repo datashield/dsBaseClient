@@ -14,22 +14,12 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-<<<<<<< HEAD
-      image: datashield/rock-margin-gypsum-permissive:latest
+      image: datashield/rock_citest-permissive:latest
       port: 8085
-=======
-      image: datashield/rserver-neutron-gypsum-permissive:latest
-      port: 6311
->>>>>>> origin/v6.3.3-dev
       host: default
-      package-whitelist: # Packages for 'gypsum-permissive'
+      package-whitelist: # Packages for 'permissive'
         - dsBase
-        - dsMediation
-        - dsMTLBase
-        - dsSurvival
         - dsTidyverse
-        - dsExposome
-        - dsOmics
         - resourcer
       function-blacklist: [ ]
       options:
@@ -77,8 +67,13 @@ stdout.log.path: '/logs/armadillo.log'
 
 logging:
   level:
-    root: INFO
+    root: "warn"
     ## change to DEBUG to have more details, typically when developing
-    org.molgenis: INFO
+    org.molgenis: "warn"
     ## Don't log upload data
-    org.apache.coyote.http11.Http11InputBuffer: INFO
+    org.apache.coyote.http11.Http11InputBuffer: "warn"
+    ## SpringFramework
+    org.springframework.boot: "warn"
+    org.springframework.web: "warn"
+    org.springframework.core: "warn"
+    org.springframework.codex: "warn"
