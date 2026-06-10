@@ -69,4 +69,12 @@ upload_testing_dataset_table('datashield', 'testing', 'DATASET1', 'TESTING/DATAS
 upload_testing_dataset_table('datashield', 'testing', 'DATASET2', 'TESTING/DATASET2.rda')
 upload_testing_dataset_table('datashield', 'testing', 'DATASET3', 'TESTING/DATASET3.rda')
 
+upload_testing_dataset_table('datashield', 'standardise', 'std_1', 'STANDARDISE/std_1.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_2', 'STANDARDISE/std_2.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_3', 'STANDARDISE/std_3.rda')
+
+upload_testing_dataset_table('datashield', 'standardise', 'std_1_d', 'STANDARDISE/std_1_d.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_2_d', 'STANDARDISE/std_2_d.rda')
+upload_testing_dataset_table('datashield', 'standardise', 'std_3_d', 'STANDARDISE/std_3_d.rda')
+
 print(MolgenisArmadillo::armadillo.list_tables('datashield'))

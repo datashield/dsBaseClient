@@ -81,6 +81,6 @@ Suggests:
     DSOpal,
     DSMolgenisArmadillo,
     DSLite
-RoxygenNote: 7.3.3
 Encoding: UTF-8
 Language: en-GB
+Config/roxygen2/version: 8.0.0

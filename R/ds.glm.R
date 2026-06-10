@@ -565,7 +565,8 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
       # Sum participants only during first iteration.
       nsubs.total<-Reduce(f="+", .select(study.summary, 'numsubs'))
       # Save family
-      f <- study.summary[[1]]$family
+      family.value <- study.summary[[1]]$family
+      f <- if (is.list(family.value) && "family" %in% names(family.value)) family.value$family else family.value
     }
 
     #Create variance covariance matrix as inverse of information matrix
@@ -640,7 +641,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
     beta.vect.final<-beta.vect.next
 
     scale.par <- 1
-    if(f$family== 'gaussian') {
+    if(f == 'gaussian') {
       scale.par <- dev.total / (nsubs.total-length(beta.vect.next))
     }
 

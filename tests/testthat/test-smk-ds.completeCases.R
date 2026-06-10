@@ -95,22 +95,19 @@ test_that("completeCases matrix", {
     res.mat.class <- ds.class("mat")
 
     expect_length(res.mat.class, 3)
-    expect_true("matrix" %in% res.mat.class$sim1)
-    expect_true("matrix" %in% res.mat.class$sim2)
-    expect_true("matrix" %in% res.mat.class$sim3)
+    expect_true("data.frame" %in% res.mat.class$sim1)
+    expect_true("data.frame" %in% res.mat.class$sim2)
+    expect_true("data.frame" %in% res.mat.class$sim3)
 
     res.mat_new.class <- ds.class("mat_new")
 
     expect_length(res.mat_new.class, 3)
-    expect_length(res.mat_new.class$sim1, 2)
-    expect_true("array" %in% res.mat_new.class$sim1)
-    expect_true("matrix" %in% res.mat_new.class$sim1)
-    expect_length(res.mat_new.class$sim2, 2)
-    expect_true("array" %in% res.mat_new.class$sim2)
-    expect_true("matrix" %in% res.mat_new.class$sim2)
-    expect_length(res.mat_new.class$sim3, 2)
-    expect_true("array" %in% res.mat_new.class$sim3)
-    expect_true("matrix" %in% res.mat_new.class$sim3)
+    expect_length(res.mat_new.class$sim1, 1)
+    expect_true("data.frame" %in% res.mat_new.class$sim1)
+    expect_length(res.mat_new.class$sim2, 1)
+    expect_true("data.frame" %in% res.mat_new.class$sim2)
+    expect_length(res.mat_new.class$sim3, 1)
+    expect_true("data.frame" %in% res.mat_new.class$sim3)
 
     res.mat.dim <- ds.dim("mat")
 

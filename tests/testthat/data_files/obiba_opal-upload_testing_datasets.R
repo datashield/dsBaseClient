@@ -17,8 +17,8 @@ upload_testing_dataset_table <- function(opal, project_name, table_name, local_f
     opal.table_save(opal, data, project_name, table_name, id.name = "_row_id_", force = TRUE)
 }
 
-# opal <- opal.login('administrator','datashield_test&', url='https://192.168.56.100:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
-opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
+# opal <- opal.login('administrator','datashield_test&', url='https://localhost:8443/', opts = list(ssl_verifyhost=0, ssl_verifypeer=0))
+opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/')
 
 upload_testing_dataset_table(opal, 'ANTHRO', 'anthro1', 'ANTHRO/anthro1.rda')
 upload_testing_dataset_table(opal, 'ANTHRO', 'anthro2', 'ANTHRO/anthro2.rda')
@@ -71,5 +71,13 @@ upload_testing_dataset_table(opal, 'SURVIVAL', 'EXPAND_NO_MISSING3', 'SURVIVAL/E
 upload_testing_dataset_table(opal, 'TESTING', 'DATASET1', 'TESTING/DATASET1.rda')
 upload_testing_dataset_table(opal, 'TESTING', 'DATASET2', 'TESTING/DATASET2.rda')
 upload_testing_dataset_table(opal, 'TESTING', 'DATASET3', 'TESTING/DATASET3.rda')
+
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_1', 'STANDARDISE/std_1.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_2', 'STANDARDISE/std_2.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_3', 'STANDARDISE/std_3.rda')
+
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_1_d', 'STANDARDISE/std_1_d.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_2_d', 'STANDARDISE/std_2_d.rda')
+upload_testing_dataset_table(opal, 'STANDARDISE', 'std_3_d', 'STANDARDISE/std_3_d.rda')
 
 opal.logout(opal)
