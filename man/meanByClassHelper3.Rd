@@ -28,5 +28,7 @@ if the user sets the parameter 'type' to 'split'.
 }
 \author{
 Gaye, A.
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
 \keyword{internal}

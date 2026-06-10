@@ -21,6 +21,7 @@
 #' @return \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
 #' of a server-side numeric vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.mean}} to compute the statistical mean.
 #' @seealso \code{\link{ds.summary}} to generate the summary of a variable.
 #' @export
@@ -103,9 +104,11 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
-  lengths <- DSI::datashield.aggregate(datasources, cally2)
-  cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
+  lengths.raw <- DSI::datashield.aggregate(datasources, cally2)
+  lengths <- lapply(lengths.raw, function(r) r$length)
+  cally3 <- call("numNaDS", x)
+  numNAs.raw <- DSI::datashield.aggregate(datasources, cally3)
+  numNAs <- lapply(numNAs.raw, function(r) r$numNA)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){
