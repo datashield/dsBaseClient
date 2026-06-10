@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.qlspline::arg::setup")
+# context("ds.qlspline::arg::setup")
 
 connect.studies.dataset.cnsim(list("PM_BMI_CONTINUOUS"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.qlspline::arg::test errors")
+# context("ds.qlspline::arg::test errors")
 test_that("qlspline_errors", {
     expect_error(ds.qlspline(), "argument \"x\" is missing, with no default", fixed=TRUE)
     expect_error(ds.qlspline(x=NULL), "Please provide the name of the input variable x!", fixed=TRUE)
@@ -36,7 +37,7 @@ test_that("qlspline_errors", {
 # Done
 #
 
-context("ds.qlspline::arg::shutdown")
+# context("ds.qlspline::arg::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -44,4 +45,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.qlspline::arg::done")
+# context("ds.qlspline::arg::done")

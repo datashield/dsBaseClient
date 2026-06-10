@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -8,10 +9,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-context("ds.table::expt::setup")
+# context("ds.table::expt::setup")
 connect.testing.group.dataset.1()
 
-context("ds.table::expt::single")
+# context("ds.table::expt::single")
 test_that("combined data set",
 {
   #PRW AND ALEX WILL WRITE SOME CONNECT AND DISCONNECT FUNCTIONS ONCE WE KNOW THE DATA ARE SUITABLE   - TO DO IMPORTANT !!!!!!!! COMPLETELY INEFFICIENT AT THE MOMENT 17/2/2020

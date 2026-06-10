@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.seq::discctrl::setup")
+# context("ds.seq::discctrl::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.seq::discctrl")
+# context("ds.seq::discctrl")
 test_that("simple rep", {
     expect_error(ds.seq(FROM.value.char="1", BY.value.char="1", LENGTH.OUT.value.char="10", ALONG.WITH.name=NULL, newobj="obj1"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
@@ -42,7 +43,7 @@ test_that("simple rep", {
 # Done
 #
 
-context("ds.seq::discctrl::shutdown")
+# context("ds.seq::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.seq::discctrl::done")
+# context("ds.seq::discctrl::done")

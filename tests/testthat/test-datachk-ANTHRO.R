@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ANTHRO::datachk::setup")
+# context("ANTHRO::datachk::setup")
 
 connect.studies.dataset.anthro(list('age', 'sex', 'weight', 'height', 'muac'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ANTHRO::datachk")
+# context("ANTHRO::datachk")
 test_that("Check ANTHRO dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -159,7 +160,7 @@ test_that("Check ANTHRO dataset", {
 # Tear down
 #
 
-context("ANTHRO::datachk::shutdown")
+# context("ANTHRO::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -171,4 +172,4 @@ disconnect.studies.dataset.anthro()
 # Done
 #
 
-context("ANTHRO::datachk::done")
+# context("ANTHRO::datachk::done")

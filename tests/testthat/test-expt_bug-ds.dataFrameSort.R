@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -8,12 +9,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-context('ds.dataFrameSort::expt::setup')
+# context('ds.dataFrameSort::expt::setup')
 
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
 
-context("ds.dataFrameSort::expt::multiple::correct_parameter_class")
+# context("ds.dataFrameSort::expt::multiple::correct_parameter_class")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -31,7 +32,7 @@ test_that('all datasets',
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic","server.data")
             .test.function.parameters("D","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::single::correct_parameter_class")
+# context("ds.dataFrameSort::expt::single::correct_parameter_class")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -49,7 +50,7 @@ test_that('dataset 2',
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic","server.data")
             .test.function.parameters("D","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::multiple::incorrect_parameter_class")
+# context("ds.dataFrameSort::expt::multiple::incorrect_parameter_class")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -65,7 +66,7 @@ test_that('all datasets',
             .test.function.parameters("D","D$NUMERIC_ONE_CHANGE",TRUE,"alphabetic",23)
             .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::single::incorrect_parameter_class")
+# context("ds.dataFrameSort::expt::single::incorrect_parameter_class")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -82,7 +83,7 @@ test_that('dataset 2',
             .test.function.parameters("dataframe","D$INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
 
-context("ds.dataFrameSort::expt::multiple::df::creation")
+# context("ds.dataFrameSort::expt::multiple::df::creation")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -98,7 +99,7 @@ test_that('all datasets',
             .test.data.frame.creation("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
             .test.data.frame.creation("D","INTEGER_ONE_CHANGE",TRUE,"numeric","server.data")
           })
-context("ds.dataFrameSort::expt::single::df::creation")
+# context("ds.dataFrameSort::expt::single::df::creation")
 test_that('dataset 3',
           {  
             connect.dataset.3()
@@ -114,7 +115,7 @@ test_that('dataset 3',
             .test.data.frame.creation("D","NUMERIC_ONE_CHANGE",TRUE,"numeric","server.data")
             .test.data.frame.creation("D","INTEGER_ONE_CHANGE",FALSE,"alphabetic","server.data")
           })
-context("ds.dataFrameSort::expt::multiple::numeric::ascending")
+# context("ds.dataFrameSort::expt::multiple::numeric::ascending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -140,7 +141,7 @@ test_that('all datasets',
             
             
           })
-context("ds.dataFrameSort::expt::single::numeric::ascending")
+# context("ds.dataFrameSort::expt::single::numeric::ascending")
 test_that('dataset 1',
           {  
             connect.dataset.1()
@@ -166,7 +167,7 @@ test_that('dataset 1',
             
             
           })
-context("ds.dataFrameSort::expt::multiple::numeric::descending")
+# context("ds.dataFrameSort::expt::multiple::numeric::descending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -192,7 +193,7 @@ test_that('all datasets',
             
             
           })
-context("ds.dataFrameSort::expt::single::numeric::descending")
+# context("ds.dataFrameSort::expt::single::numeric::descending")
 test_that('dataset 1',
           {  
             connect.dataset.1()
@@ -220,7 +221,7 @@ test_that('dataset 1',
           })
 
 
-context("ds.dataFrameSort::expt::multiple::alphabetic::ascending")
+# context("ds.dataFrameSort::expt::multiple::alphabetic::ascending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -246,7 +247,7 @@ test_that('all datasets',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"alphabetic","server.data",local.df.list) 
             .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::single::alphabetic::ascending")
+# context("ds.dataFrameSort::expt::single::alphabetic::ascending")
 test_that('dataset 2',
           {  
             connect.dataset.2()
@@ -272,7 +273,7 @@ test_that('dataset 2',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",FALSE,"alphabetic","server.data",local.df.list) 
             .test.data.frame.sorting("D","CHARACTER",FALSE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::multiple::alphabetic::descending")
+# context("ds.dataFrameSort::expt::multiple::alphabetic::descending")
 test_that('all datasets',
           {  
             connect.all.datasets()
@@ -296,7 +297,7 @@ test_that('all datasets',
             #.test.data.frame.sorting("D","FACTOR_CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
             .test.data.frame.sorting("D","CHARACTER",TRUE,"alphabetic","server.data",local.df.list)
           })
-context("ds.dataFrameSort::expt::single::alphabetic::descending")
+# context("ds.dataFrameSort::expt::single::alphabetic::descending")
 test_that('dataset 3',
           {  
             connect.dataset.3()
@@ -322,7 +323,7 @@ test_that('dataset 3',
           })
 
 
-context('ds.dataFrameSort::expt::shutdown')
+# context('ds.dataFrameSort::expt::shutdown')
 
 
-context('ds.dataFrameSort::expt::done')
+# context('ds.dataFrameSort::expt::done')

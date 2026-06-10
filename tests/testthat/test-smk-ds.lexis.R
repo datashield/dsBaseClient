@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.lexis::smk::setup")
+# context("ds.lexis::smk::setup")
 
 connect.studies.dataset.survival(list("id", "starttime", "endtime", "cens", "age.60"))
 
@@ -25,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lexis::smk")
+# context("ds.lexis::smk")
 test_that("simple lexis", {
     res <- ds.lexis(data='D', intervalWidth = c(1.0, 1.5, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new')
 
@@ -55,7 +55,7 @@ test_that("simple lexis", {
 # Done
 #
 
-context("ds.lexis::smk::shutdown")
+# context("ds.lexis::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "EM.new", "messageobj"))
@@ -63,4 +63,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.lexis::smk::done")
+# context("ds.lexis::smk::done")

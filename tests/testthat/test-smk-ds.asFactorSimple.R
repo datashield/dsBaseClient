@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.asFactorSimple::smk::setup")
+# context("ds.asFactorSimple::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -26,7 +27,7 @@ test_that("setup", {
 
 ds.asNumeric("D$time.id","TID")
 
-context("ds.asFactorSimple::smk::force.factor.levels")
+# context("ds.asFactorSimple::smk::force.factor.levels")
 test_that("with no force.factor.levels", {
     ds.asFactorSimple("TID", "TID.f1")
 
@@ -43,7 +44,7 @@ test_that("with no force.factor.levels", {
 # Done
 #
 
-context("ds.asFactorSimple::smk::shutdown")
+# context("ds.asFactorSimple::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "TID", "TID.f1"))
@@ -51,4 +52,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.asFactorSimple::smk::done")
+# context("ds.asFactorSimple::smk::done")

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,16 +12,16 @@
 # Set up
 #
 
-context("ds.asInteger::perf::setup")
+# context("ds.asInteger::perf::setup")
 connect.studies.dataset.cnsim(list("GENDER"))
 
 #
 # Tests
 #
 
-context("ds.asInteger::perf:0")
+# context("ds.asInteger::perf:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration(30)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -54,6 +54,6 @@ test_that("combine - performance", {
 # Done
 #
 
-context("ds.asInteger::perf::shutdown")
+# context("ds.asInteger::perf::shutdown")
 disconnect.studies.dataset.cnsim()
-context("ds.asInteger::perf::done")
+# context("ds.asInteger::perf::done")

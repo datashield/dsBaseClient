@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rep::smk::setup")
+# context("ds.rep::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.rep::smk")
+# context("ds.rep::smk")
 test_that("simple test", {
     res <- ds.rep("D$survtime")
 
@@ -37,7 +38,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.rep::smk::shutdown")
+# context("ds.rep::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "seq.vect"))
@@ -45,4 +46,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.rep::smk::done")
+# context("ds.rep::smk::done")

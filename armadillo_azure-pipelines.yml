@@ -34,6 +34,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  perf.profile: 'azure-pipeline'
 
 
 #########################################################################################
@@ -132,14 +133,14 @@ jobs:
       sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
-      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev -y
+      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
       sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
       sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
-      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.1', dependencies = TRUE)"
+      sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.4', dependencies = TRUE)"
 
       # XML grep for coverage report merging
       sudo apt-get install -qq xml-twig-tools -y
@@ -235,7 +236,7 @@ jobs:
 
       curl -u admin:admin -X GET http://localhost:8080/packages
 
-      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.4.0.9000-permissive.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin --max-time 300 -v -H 'Content-Type: multipart/form-data' -F "file=@dsBase_6.4.0-permissive.tar.gz" -X POST http://localhost:8080/install-package
       sleep 60
 
       docker container restart dsbaseclient_armadillo_1
@@ -274,7 +275,8 @@ jobs:
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
-      sudo R -q -e '
+
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
             type = c("none"),
@@ -364,7 +366,7 @@ jobs:
   - bash: |
       curl -u admin:admin http://localhost:8080/whitelist
 
-      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.4.0.9000.tar.gz" -X POST http://localhost:8080/install-package
+      curl -u admin:admin -v -H 'Content-Type: multipart/form-data' -F "file=@dsDanger_6.4.0.tar.gz" -X POST http://localhost:8080/install-package
 
       docker container restart dsbaseclient_armadillo_1
       sleep 60
@@ -396,7 +398,7 @@ jobs:
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsdanger.res <- covr::package_coverage(
             type = c("none"),

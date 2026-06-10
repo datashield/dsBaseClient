@@ -9,4 +9,5 @@
 library(testthat)
 library(dsBaseClient)
 
-test_check("dsBaseClient")
+if (identical(Sys.getenv("NOT_CRAN"), "true"))
+    test_check("dsBaseClient")

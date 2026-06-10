@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("vm-test::_::setup")
+# context("vm-test::_::setup")
 
 init.testing.datasets()
 
@@ -21,11 +22,11 @@ init.testing.datasets()
 #
 
 #connect to a server
-context("vm-test::_::tests::vm")
+# context("vm-test::_::tests::vm")
 
 test_that("The virtual machine is loaded. ",
 {
-    response <- httr::HEAD(url=ds.test_env$ping_address, config=ds.test_env$ping_config)
+    response <- httr::HEAD(url=ds.test_env$ping_url, config=ds.test_env$ping_config)
     expect_true(http_status(response)$reason %in% c("OK", "Unauthorized"))
 })
 
@@ -33,11 +34,11 @@ test_that("The virtual machine is loaded. ",
 # Shutdown
 #
 
-context("vm-test::_::shutdown")
+# context("vm-test::_::shutdown")
 
 #
 # Done
 #
 
-context("vm-test::_::done")
+# context("vm-test::_::done")
 

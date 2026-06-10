@@ -18,7 +18,7 @@ ds.matrix(
 \arguments{
 \item{mdata}{a character string specifying
 the name of a server-side scalar or vector. Also, a numeric value representing a
-scalar specified from the client-side can be speficied. 
+scalar specified from the client-side can be specified 
 Zeros, negative values and NAs are all allowed.
 For more information see \strong{Details}.}
 

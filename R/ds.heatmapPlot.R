@@ -133,7 +133,7 @@
 #'                  datasources = connections[1]) #only the first server is used (study1)
 #'                  
 #'   # Example 3: Plot a combined heat map plot using the method 'deterministic' centroids of each 
-#'   k = 7 nearest neighbours for numints = 40
+#'   # k = 7 nearest neighbours for numints = 40
 #'   ds.heatmapPlot(x = 'D$LAB_TSC',
 #'                  y = 'D$LAB_HDL', 
 #'                  numints = 40, 
@@ -168,6 +168,10 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
   if(is.null(y)){
     stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
   }
+
+  # Save par and setup reseting of par values
+  old_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old_par), add = TRUE)
 
   # check if the input objects are defined in all the studies
   isDefined(datasources, x)

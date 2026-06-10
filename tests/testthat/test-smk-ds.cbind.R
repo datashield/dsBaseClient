@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.cbind::smk::setup")
+# context("ds.cbind::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.cbind::smk::from dataframe variables")
+# context("ds.cbind::smk::from dataframe variables")
 test_that("simple test, from dataframe variables", {
     res <- ds.cbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="cbind1_newobj")
 
@@ -72,7 +73,7 @@ test_that("simple test, from dataframe variables", {
     ds.rm("cbind1_newobj")
 })
 
-context("ds.cbind::smk::from root variables")
+# context("ds.cbind::smk::from root variables")
 test_that("simple test, from root variables", {
     ds.assign('D$survtime', 'survtime')
     ds.assign('D$time.id', 'time.id')
@@ -130,7 +131,7 @@ test_that("simple test, from root variables", {
     ds.rm("cbind2_newobj")
 })
 
-context("ds.cbind::smk::from dataframe variables, DataSHIELD.check=TRUE")
+# context("ds.cbind::smk::from dataframe variables, DataSHIELD.check=TRUE")
 test_that("simple test, from dataframe variables, DataSHIELD.check=TRUE", {
     res <- ds.cbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), DataSHIELD.check=TRUE, newobj="cbind3_newobj")
 
@@ -178,7 +179,7 @@ test_that("simple test, from dataframe variables, DataSHIELD.check=TRUE", {
     ds.rm("cbind3_newobj")
 })
 
-context("ds.cbind::smk::from root variables, DataSHIELD.check=TRUE")
+# context("ds.cbind::smk::from root variables, DataSHIELD.check=TRUE")
 test_that("simple test, from root variables, DataSHIELD.check=TRUE", {
     ds.assign('D$survtime', 'survtime')
     ds.assign('D$time.id', 'time.id')
@@ -240,7 +241,7 @@ test_that("simple test, from root variables, DataSHIELD.check=TRUE", {
 # Done
 #
 
-context("ds.cbind::smk::shutdown")
+# context("ds.cbind::smk::shutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D"))
@@ -248,4 +249,4 @@ test_that("setup", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.cbind::smk::done")
+# context("ds.cbind::smk::done")

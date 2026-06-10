@@ -37,7 +37,7 @@
 #' Server function called: \code{matrixDiagDS}
 #' @param x1 a character string specifying
 #' the name of a server-side scalar or vector. Also, a numeric value or vector
-#' specified from the client-side can be speficied. This argument depends 
+#' specified from the client-side can be specified. This argument depends 
 #' on the value specified in \code{aim}.
 #' For more information see \strong{Details}. 
 #' @param aim a character string specifying the behaviour of the function.
@@ -112,7 +112,7 @@
 #'                 datasources = connections)
 #'                 
 #'   #Example 2: Create a square matrix with the server-side scalar as all diagonal values 
-#'   and all the other values = 0
+#'   #and all the other values = 0
 #'   
 #'   #Create a scalar in the server-side
 #'   
@@ -152,7 +152,7 @@
 #'                datasources = connections)
 #'                    
 #'  #Example 4: Create a square matrix with the client-side vector as a diagonal
-#'  and all the other values = 0
+#'  #and all the other values = 0
 #'  
 #'  ds.matrixDiag(x1 = c(2,6,9,10),
 #'                aim = "clientside.vector.2.matrix",
@@ -161,7 +161,7 @@
 #'                datasources = connections)
 #'                
 #'  #Example 5: Create a square matrix with the client-side scalar as all diagonal values 
-#'  and all the other values = 0
+#'  #and all the other values = 0
 #'  
 #'  ds.matrixDiag(x1 = 4,
 #'                aim = "clientside.scalar.2.matrix",
@@ -203,7 +203,7 @@ ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datas
   if(aim!="serverside.vector.2.matrix"&&aim!="serverside.scalar.2.matrix"&&aim!="serverside.matrix.2.vector"&&
       aim!="clientside.vector.2.matrix"&&aim!="clientside.scalar.2.matrix")
   {
-  cat("            FAILED: aim must be specified as one of the following - 'serverside.vector.2.matrix',
+  message("            FAILED: aim must be specified as one of the following - 'serverside.vector.2.matrix',
         'serverside.scalar.2.matrix', 'serverside.matrix.2.vector',
         'clientside.vector.2.matrix', 'clientside.scalar.2.matrix'\n\n")
   return('Please respecify')

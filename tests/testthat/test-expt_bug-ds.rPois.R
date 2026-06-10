@@ -1,8 +1,19 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.rPois.R")
 
 
-context("ds.rPois::expt::no seeds::single")
+# context("ds.rPois::expt::no seeds::single")
 test_that("Poisson without seeds",
 {
   connect.dataset.1()
@@ -15,7 +26,7 @@ test_that("Poisson without seeds",
 })
 
 
-context("ds.rPois::expt::no seeds::multiple")
+# context("ds.rPois::expt::no seeds::multiple")
 test_that("Poisson without seeds",
 {
   connect.all.datasets()
@@ -29,7 +40,7 @@ test_that("Poisson without seeds",
 
 
 
-context("ds.rPois::expt::with seeds::single")
+# context("ds.rPois::expt::with seeds::single")
 test_that("Poisson with seeds",
 {
   
@@ -44,7 +55,7 @@ test_that("Poisson with seeds",
   .test.basic.expectation.with.seeds(2^31,'poisson_dist_7')
 })
 
-context("ds.rPois::expt::with seeds::multiple")
+# context("ds.rPois::expt::with seeds::multiple")
 test_that("Poisson with seeds",
 {
   connect.all.datasets()

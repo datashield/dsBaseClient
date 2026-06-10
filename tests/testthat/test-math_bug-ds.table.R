@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -9,7 +10,7 @@
 #-------------------------------------------------------------------------------
 
 
-context("ds.table::math::row and col proportions::multiple")
+# context("ds.table::math::row and col proportions::multiple")
 
 test_that("row and col proportions sum to 1", 
           {

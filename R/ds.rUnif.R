@@ -232,7 +232,7 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-cat("NO SEED SET IN STUDY",study.id,"\n")
+message("NO SEED SET IN STUDY",study.id,"\n")
 
 } else {
   calltext <- paste0("setSeedDS(", seed.as.text, ")")

@@ -343,10 +343,10 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
   # to provide name of offset or weights variable
   if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
      sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0){
-       cat("\n\n WARNING: you may have specified an offset or regression weights")
-       cat("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-       cat("\n you must specify an offset or weights separately from the formula")
-       cat("\n using the offset or weights argument.\n\n")
+       message("\n\n WARNING: you may have specified an offset or regression weights")
+       message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
+       message("\n you must specify an offset or weights separately from the formula")
+       message("\n using the offset or weights argument.\n\n")
 	}
 
   formula <- stats::as.formula(formula)
@@ -451,12 +451,12 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
             "Any values of 1 in the following tables denote potential disclosure risks\n",
 		        "please use the argument <datasources> to include only valid studies.\n",
 		        "Errors by study are as follows:\n")
-		print(as.matrix(y.invalid))
-		print(as.matrix(Xpar.invalid))
-		print(as.matrix(w.invalid))
-		print(as.matrix(o.invalid))
-		print(as.matrix(glm.saturation.invalid))
-		print(as.matrix(errorMessage))
+		message(as.matrix(y.invalid))
+		message(as.matrix(Xpar.invalid))
+		message(as.matrix(w.invalid))
+		message(as.matrix(o.invalid))
+		message(as.matrix(glm.saturation.invalid))
+		message(as.matrix(errorMessage))
 
 	  return(list(
       		    output.blocked.information.1,
@@ -565,7 +565,8 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
       # Sum participants only during first iteration.
       nsubs.total<-Reduce(f="+", .select(study.summary, 'numsubs'))
       # Save family
-      f <- study.summary[[1]]$family
+      family.value <- study.summary[[1]]$family
+      f <- if (is.list(family.value) && "family" %in% names(family.value)) family.value$family else family.value
     }
 
     #Create variance covariance matrix as inverse of information matrix
@@ -640,7 +641,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
     beta.vect.final<-beta.vect.next
 
     scale.par <- 1
-    if(f$family== 'gaussian') {
+    if(f == 'gaussian') {
       scale.par <- dev.total / (nsubs.total-length(beta.vect.next))
     }
 

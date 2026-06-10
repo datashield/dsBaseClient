@@ -15,6 +15,9 @@ computeWeightedMeans(data_table, variables, weight, by)
 
 \item{by}{character vector of the columns to group by}
 }
+\value{
+Returns a data table object with computed weighted means.
+}
 \description{
 This function is originally from the panelaggregation package.
 It has been ported here in order to bypass the package being
@@ -23,3 +26,4 @@ kicked off CRAN.
 \author{
 Matthias Bannert, Gabriel Bucur
 }
+\keyword{internal}

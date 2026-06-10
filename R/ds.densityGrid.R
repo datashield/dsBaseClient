@@ -66,11 +66,11 @@
 #'   # Example2: generate a grid density object for each study separately
 #'   ds.densityGrid(x="D$LAB_TSC",
 #'                  y="D$LAB_HDL",
-#'                  type="split"
+#'                  type="split",
 #'                  datasources = connections[1])#only the first Opal server is used ("study1")
 #'
 #'   # Example3: generate a grid density object where the number of intervals is set to 15, for
-#'               each study separately
+#'   #           each study separately
 #'   ds.densityGrid(x="D$LAB_TSC",
 #'                  y="D$LAB_HDL",
 #'                  type="split",

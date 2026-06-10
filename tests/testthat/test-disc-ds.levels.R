@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.levels::disc::setup")
+# context("ds.levels::disc::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.levels::disc")
+# context("ds.levels::disc")
 test_that("simple levels", {
 #    res <- ds.levels("D$GENDER")
     
@@ -51,7 +52,7 @@ test_that("simple levels", {
 # Done
 #
 
-context("ds.levels::disc::shutdown")
+# context("ds.levels::disc::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -59,4 +60,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.levels::disc::done")
+# context("ds.levels::disc::done")

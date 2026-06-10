@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.ranksSecure::smk_expt::setup")
+# context("ds.ranksSecure::smk_expt::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TRIG", "LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.ranksSecure::smk_expt::continous, without NAs, all positive")
+# context("ds.ranksSecure::smk_expt::continous, without NAs, all positive")
 test_that("continous, without NAs, all positive", {
     res.cc <- ds.completeCases("D$LAB_TSC", newobj="CC_LAB_TSC")
     expect_equal(res.cc$validity.check, "<CC_LAB_TSC> appears valid in all sources")
@@ -40,7 +41,7 @@ test_that("continous, without NAs, all positive", {
     expect_equal_to_reference(res, 'smk_expt-results/ds.ranksSecure-cont.rds')
 })
 
-context("ds.ranksSecure::smk_expt::continous, without NAs, with negative")
+# context("ds.ranksSecure::smk_expt::continous, without NAs, with negative")
 test_that("continous, without NAs, with negative", {
     res.cc <- ds.completeCases("D$LAB_TRIG", newobj="CC_LAB_TRIG")
     expect_equal(res.cc$validity.check, "<CC_LAB_TRIG> appears valid in all sources")
@@ -56,14 +57,14 @@ test_that("continous, without NAs, with negative", {
     expect_equal_to_reference(res, 'smk_expt-results/ds.ranksSecure-cont_neg.rds')
 })
 
-context("ds.ranksSecure::smk_expt::continous, with NAs, all positive")
+# context("ds.ranksSecure::smk_expt::continous, with NAs, all positive")
 test_that("continous, with NAs, all positive", {
     res <- ds.ranksSecure("D$LAB_TSC")
 
     expect_equal_to_reference(res, 'smk_expt-results/ds.ranksSecure-cont_nas.rds')
 })
 
-context("ds.ranksSecure::smk_expt::continous, with NAs, with negative")
+# context("ds.ranksSecure::smk_expt::continous, with NAs, with negative")
 test_that("continous, with NAs, with negative", {
     res <- ds.ranksSecure("D$LAB_TRIG")
 
@@ -74,7 +75,7 @@ test_that("continous, with NAs, with negative", {
 # Done
 #
 
-context("ds.ranksSecure::smk_expt::shutdown")
+# context("ds.ranksSecure::smk_expt::shutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D", "CC_LAB_TSC", "CC_LAB_TRIG", "final.quantile.df", "summary.ranks.df", "testvar.ranks"))
@@ -82,4 +83,4 @@ test_that("setup", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.ranksSecure::smk_expt::done")
+# context("ds.ranksSecure::smk_expt::done")

@@ -48,7 +48,7 @@
 #' wish to change the connections you wish to use by default the call
 #' datashield.connections_default('opals.a') will set 'default.connections'
 #' to be 'opals.a' and so in the absence of specific instructions to the contrary
-#' (e.g. by specifiying a particular dataset to be used via the <datasources>
+#' (e.g. by specifying a particular dataset to be used via the <datasources>
 #' argument) all subsequent function calls will be to the datasets held in opals.a.
 #' If the <datasources> argument is specified, it should be set without
 #' inverted commas: e.g. datasources=opals.a or datasources=default.connections.
@@ -172,17 +172,17 @@ if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 	#
 																											#
 																											#
 #	if(no.errors){																							#
-#	cat("\n\nCREATE ASSIGN OBJECT\n")																		#
+#	message("\n\nCREATE ASSIGN OBJECT\n")																		#
 #																											#
 #	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
 #	print(list(is.object.created=return.message,validity.check=validity.check))						    	#
 #	}																										#
 																											#
   if(!no.errors){																								#
- 	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
- 	print(list(is.object.created=return.message,validity.check=validity.check,					    		#
- 	            studyside.messages=studyside.message))			                                            #
- 	}																										#
+	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
+	message(list(is.object.created=return.message,validity.check=validity.check,						#
+	            studyside.messages=studyside.message))			                                            #
+	}																										#
 																											#
 #END OF CHECK OBJECT CREATED CORECTLY MODULE															 	#
 #############################################################################################################

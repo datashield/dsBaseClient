@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rUnif::smk::setup")
+# context("ds.rUnif::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.rUnif::smk::simple test")
+# context("ds.rUnif::smk::simple test")
 test_that("simple test", {
     res <- ds.rUnif(samp.size = 50, min = 0, max = 1, newobj = "unif_dist", seed.as.integer = 27, force.output.to.k.decimal.places = 4)
 
@@ -45,7 +46,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.rUnif::smk::shutdown")
+# context("ds.rUnif::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "unif_dist"))
@@ -53,4 +54,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.rUnif::smk::done")
+# context("ds.rUnif::smk::done")

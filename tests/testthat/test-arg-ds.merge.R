@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.merge::arg::test errors")
+# context("ds.merge::arg::test errors")
 test_that("merge_erros", {
     expect_error(ds.merge(), "Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", fixed=TRUE)
     expect_error(ds.merge(x.name="A"), "Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", fixed=TRUE)

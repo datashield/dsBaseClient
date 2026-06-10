@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.sample::smk::setup")
+# context("ds.sample::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.sample::smk::test")
+# context("ds.sample::smk::test")
 test_that("simple test", {
     res1 <- ds.sample(x="D", size=30)
 
@@ -115,7 +116,7 @@ test_that("simple test", {
     expect_equal(res2_survtime_length$`total length of test.obj$in.sample in all studies combined`, 126)
 })
 
-context("ds.sample::smk::test error")
+# context("ds.sample::smk::test error")
 test_that("simple test, error", {
     expect_error(ds.sample(x="D$survtime", size="30", newobj="no.obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
@@ -131,7 +132,7 @@ test_that("simple test, error", {
 # Done
 #
 
-context("ds.sample::smk::shutdown")
+# context("ds.sample::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "newobj.sample", "test.obj"))
@@ -139,4 +140,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.sample::smk::done")
+# context("ds.sample::smk::done")

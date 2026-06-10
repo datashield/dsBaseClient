@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.meanSdGp::smk::setup")
+# context("ds.meanSdGp::smk::setup")
 
 connect.studies.dataset.survival(list("age.60", "female"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.meanSdGp::smk::type=split")
+# context("ds.meanSdGp::smk::type=split")
 test_that("meanSdGp values [split]", {
     stat.meanSdGp <- ds.meanSdGp(x='D$age.60', y='D$female', type='split')
 
@@ -38,7 +39,7 @@ test_that("meanSdGp values [split]", {
     expect_true("numeric" %in% class(stat.meanSdGp$Total_Ntotal))
 })
 
-context("ds.meanSdGp::smk::type=combine")
+# context("ds.meanSdGp::smk::type=combine")
 test_that("meanSdGp values [combine]", {
     stat.meanSdGp <- ds.meanSdGp(x='D$age.60', y='D$female', type='combine')
 
@@ -52,7 +53,7 @@ test_that("meanSdGp values [combine]", {
     expect_true("numeric" %in% class(stat.meanSdGp$Total_Ntotal))
 })
 
-context("ds.meanSdGp::smk::type=both")
+# context("ds.meanSdGp::smk::type=both")
 test_that("meanSdGp values [both]", {
     stat.meanSdGp <- ds.meanSdGp(x='D$age.60', y='D$female', type='both')
 
@@ -70,7 +71,7 @@ test_that("meanSdGp values [both]", {
 # Done
 #
 
-context("ds.meanSdGp::smk::shutdown")
+# context("ds.meanSdGp::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -78,4 +79,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.meanSdGp::smk::done")
+# context("ds.meanSdGp::smk::done")

@@ -8,7 +8,7 @@
 #' sequence of interior knots, and the natural boundary conditions. These enforce the constraint
 #' that the function is linear beyond the boundary knots, which can either be supplied or default
 #' to the extremes of the data.
-#' A primary use is in modeling formula to directly specify a natural spline term in a model.
+#' A primary use is in modelling formula to directly specify a natural spline term in a model.
 #' @param x the predictor variable. Missing values are allowed.
 #' @param df degrees of freedom. One can supply df rather than knots; ns() then chooses 
 #' df - 1 - intercept knots at suitably chosen quantiles of x (which will ignore missing values).

@@ -10,11 +10,11 @@
 #' identify the cell(s) that had the small counts which render the table invalid.
 #' @param x a character, the name of a numerical vector with discrete values - usually a factor.
 #' @param y a character, the name of a numerical vector with discrete values - usually a factor.
-#' @param type a character which represent the type of table to ouput: pooled table or one table for each
+#' @param type a character which represent the type of table to output: pooled table or one table for each
 #' data source or both. If \code{type} is set to 'combine', a pooled 2-dimensional table is returned; If \code{type}
 #' is set to 'split' a 2-dimensional table is returned for each data source. If \code{type} is set to 'both' (default)
 #' a pooled 2-dimensional table plus a 2-dimensional table for each data source are returned.
-#' @param warningMessage a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
+#' @param warningMessage a boolean, if set to TRUE (default) a warning is displayed if any returned table is invalid. Warning
 #' messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 #' which are stored in the output object 'validity' - see the list of output objects.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
@@ -56,7 +56,7 @@
 #'   # Example 2: generate a two dimensional table, outputting study specific contingency tables
 #'   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
 #'   # display the 5 results items, one at a time to avoid having too much information displayed
-#'   at the same time
+#'   # at the same time
 #'   output$counts
 #'   output$rowPercent
 #'   output$colPercent
@@ -111,6 +111,13 @@ ds.table2D <- function(x=NULL, y=NULL, type='both', warningMessage=TRUE, datasou
   if(!(type=="combine" || type=="split" || type=="both")){
     stop("Function argument 'type' has to be either 'combine', 'split' or 'both'")
   }
+
+  #################################################
+  # Setup on.exit() to restore options 'warn' value
+  #################################################
+
+  old_warn_option <- base::getOption("warn")
+  on.exit(base::options(warn = old_warn_option), add = TRUE)
 
   # the input variable might be given as column table (i.e. D$x)
   # or just as a vector not attached to a table (i.e. x)

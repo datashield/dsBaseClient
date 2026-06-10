@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glmSLMA::smk::setup")
+# context("ds.glmSLMA::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "MEDI_LPD", "DIS_AMI", "DIS_DIAB", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmSLMA::smk::gaussian")
+# context("ds.glmSLMA::smk::gaussian")
 test_that("simple glmSLMA, gaussian", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
 
@@ -77,7 +78,7 @@ test_that("simple glmSLMA, gaussian", {
     expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
 })
 
-context("ds.glmSLMA::smk::gaussian-assigned")
+# context("ds.glmSLMA::smk::gaussian-assigned")
 test_that("simple glmSLMA, gaussian-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="glmSLMA_1.newobj")
     
@@ -130,7 +131,7 @@ test_that("simple glmSLMA, gaussian-assigned", {
     expect_equal(glmSLMA.res$validity.check, "<glmSLMA_1.newobj> appears valid in all sources")
 })
 
-context("ds.glmSLMA::smk::binomial")
+# context("ds.glmSLMA::smk::binomial")
 test_that("simple glmSLMA, binomial", {
     ds.asCharacter('D$MEDI_LPD', 'str.medi.lpd')
     ds.asNumeric('str.medi.lpd', 'num.medi.lpd')
@@ -190,7 +191,7 @@ test_that("simple glmSLMA, binomial", {
     expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
 })
 
-context("ds.glmSLMA::smk::binomial-assigned")
+# context("ds.glmSLMA::smk::binomial-assigned")
 test_that("simple glmSLMA, binomial-assigned", {
     ds.asCharacter('D$MEDI_LPD', 'str.medi.lpd')
     ds.asNumeric('str.medi.lpd', 'num.medi.lpd')
@@ -250,7 +251,7 @@ test_that("simple glmSLMA, binomial-assigned", {
     expect_equal(glmSLMA.res$validity.check, "<glmSLMA_2.newobj> appears valid in all sources")
 })
 
-context("ds.glmSLMA::smk::poisson")
+# context("ds.glmSLMA::smk::poisson")
 test_that("simple glmSLMA, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson")
 
@@ -303,7 +304,7 @@ test_that("simple glmSLMA, poisson", {
     expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
 })
 
-context("ds.glmSLMA::smk::poisson-assigned")
+# context("ds.glmSLMA::smk::poisson-assigned")
 test_that("simple glmSLMA, poisson-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="glmSLMA_3.newobj")
 
@@ -360,7 +361,7 @@ test_that("simple glmSLMA, poisson-assigned", {
 # Done
 #
 
-context("ds.glmSLMA::smk::shutdown")
+# context("ds.glmSLMA::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "glmSLMA_2.newobj", "glmSLMA_3.newobj", "num.medi.lpd", "num.dis.diab", "num.gender", "str.medi.lpd", "str.dis.diab", "str.gender"))
@@ -369,4 +370,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.glmSLMA::smk::done")
+# context("ds.glmSLMA::smk::done")

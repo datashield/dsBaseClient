@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rep::smk::complex setup")
+# context("ds.rep::smk::complex setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.rep::smk::complex")
+# context("ds.rep::smk::complex")
 test_that("complex test", {
 
     res1 <- ds.rep(x1 = 4, times = 6, length.out = NA, each = 1, source.x1 = "clientside", source.times = "c", source.length.out = NULL, source.each = "c", x1.includes.characters = FALSE, newobj = "rep1.seq")
@@ -44,7 +45,7 @@ test_that("complex test", {
 # Done
 #
 
-context("ds.rep::smk::complex shutdown")
+# context("ds.rep::smk::complex shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "rep1.seq", "rep2.seq"))
@@ -52,4 +53,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.rep::smk::complex done")
+# context("ds.rep::smk::complex done")

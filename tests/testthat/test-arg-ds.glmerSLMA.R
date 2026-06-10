@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glmerSLMA::arg::setup")
+# context("ds.glmerSLMA::arg::setup")
 
 connect.studies.dataset.cluster.int(list("incid_rate", "trtGrp", "Male", "idDoctor", "idSurgery"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Test
 #
 
-context("ds.glmerSLMA::arg::testing")
+# context("ds.glmerSLMA::arg::testing")
 test_that("simple glmerSLMA tesing (mis)use of arguments", {
     expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), " Please provide a valid 'family' argument!", fixed=TRUE)
 
@@ -53,7 +54,7 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
 # Shutdown
 #
 
-context("ds.glmerSLMA::arg::shutdown")
+# context("ds.glmerSLMA::arg::shutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D", "offset", "weights"))
@@ -65,4 +66,4 @@ disconnect.studies.dataset.cluster.int()
 # Done
 #
 
-context("ds.glmerSLMA::arg::done")
+# context("ds.glmerSLMA::arg::done")

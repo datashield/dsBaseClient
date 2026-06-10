@@ -10,7 +10,7 @@
 #' used for the test. One of "pearson", "kendall", or "spearman", can be abbreviated. 
 #' Default is set to "pearson".
 #' @param exact a logical indicating whether an exact p-value should be computed. Used for
-#' Kendall's tau and Spearman's rho. See ‘Details’ of R stats function \code{cor.test} for
+#' Kendall's tau and Spearman's rho. See \emph{Details} of R stats function \code{cor.test} for
 #' the meaning of NULL (the default).
 #' @param conf.level confidence level for the returned confidence interval. Currently
 #' only used for the Pearson product moment correlation coefficient if there are at least

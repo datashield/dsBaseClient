@@ -19,7 +19,7 @@ ds.elspline(
 \item{n}{integer greater than 2, knots are computed such that they cut n equally-spaced
 intervals along the range of x}
 
-\item{marginal}{logical, how to parametrize the spline, see Details}
+\item{marginal}{logical, how to parametrise the spline, see Details}
 
 \item{names}{character, vector of names for constructed variables}
 

@@ -13,7 +13,7 @@
 #' @param x the name of the input numeric variable
 #' @param n integer greater than 2, knots are computed such that they cut n equally-spaced
 #' intervals along the range of x
-#' @param marginal logical, how to parametrize the spline, see Details
+#' @param marginal logical, how to parametrise the spline, see Details
 #' @param names character, vector of names for constructed variables
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. Default \code{elspline.newobj}. 

@@ -9,20 +9,20 @@ ds.colnames(x = NULL, datasources = NULL)
 \arguments{
 \item{x}{a character string providing the name of the input data frame or matrix.}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.colnames} returns the column names of 
+\code{ds.colnames} returns the column names of
 the specified server-side data frame or matrix.
 }
 \description{
-Retrieves column names of an R object on the server-side.  
+Retrieves column names of an R object on the server-side.
 This function is similar to R function \code{colnames}.
 }
 \details{
-The input is restricted to the object of type \code{data.frame} or \code{matrix}. 
+The input is restricted to the object of type \code{data.frame} or \code{matrix}.
 
 Server function called: \code{colnamesDS}
 }
@@ -37,28 +37,28 @@ Server function called: \code{colnamesDS}
   require('dsBaseClient')
 
   builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study1",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
-  builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+  builder$append(server = "study2",
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
   builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
+                 url = "http://192.168.56.100:8080/",
+                 user = "administrator", password = "datashield_test&",
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  
+
   # Log onto the remote Opal training servers
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
 
   # Getting column names of the R objects stored in the server-side
   ds.colnames(x = "D",
               datasources = connections[1]) #only the first server ("study1") is used
   # Clear the Datashield R sessions and logout
-  datashield.logout(connections) 
+  datashield.logout(connections)
 }
 }
 \seealso{

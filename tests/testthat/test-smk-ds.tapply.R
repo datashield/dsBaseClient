@@ -1,6 +1,7 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2014 OBiBa,
 #               2019-2022 University of Newcastle upon Tyne. All rights reserved.
+#               2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +14,7 @@
 # Set up
 #
 
-context("ds.tapply::smk::setup")
+# context("ds.tapply::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 
@@ -28,7 +29,7 @@ test_that("setup", {
 ds.assign('D$LAB_TSC', 'LAB_TSC')
 ds.assign('D$GENDER', 'GENDER')
 
-context("ds.tapply::smk::fun=mean")
+# context("ds.tapply::smk::fun=mean")
 test_that("simplest 'ds.tapply', fun=mean", {
     list <- ds.tapply('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='mean')
 
@@ -56,7 +57,7 @@ test_that("simplest 'ds.tapply', fun=mean", {
     expect_equal(list$sim3$N[[2]], 1700)
 })
 
-context("ds.tapply::smk::fun=sd")
+# context("ds.tapply::smk::fun=sd")
 test_that("simplest 'ds.tapply', fun=sd", {
     list <- ds.tapply('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sd')
 
@@ -84,7 +85,7 @@ test_that("simplest 'ds.tapply', fun=sd", {
     expect_equal(list$sim3$N[[2]], 1700)
 })
 
-context("ds.tapply::smk::fun=sum")
+# context("ds.tapply::smk::fun=sum")
 test_that("simplest 'ds.tapply', fun=sum", {
     list <- ds.tapply('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sum')
 
@@ -112,7 +113,7 @@ test_that("simplest 'ds.tapply', fun=sum", {
     expect_equal(list$sim3$N[[2]], 1700)
 })
 
-context("ds.tapply::smk::fun=quantile")
+# context("ds.tapply::smk::fun=quantile")
 test_that("simplest 'ds.tapply', fun=quantile", {
     list <- ds.tapply('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='quantile')
 
@@ -132,7 +133,7 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 # Tear down
 #
 
-context("ds.tapply::smk::shutdown")
+# context("ds.tapply::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "GENDER", "LAB_TSC"))
@@ -140,4 +141,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.tapply::smk::done")
+# context("ds.tapply::smk::done")

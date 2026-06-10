@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.levels::smk::setup")
+# context("ds.levels::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.levels::smk")
+# context("ds.levels::smk")
 test_that("simple levels", {
     ds.asFactor("D$GENDER", newobj.name = "gender")
 
@@ -51,7 +52,7 @@ test_that("simple levels", {
     expect_equal(res$sim3$Levels[2], "1")
 })
 
-context("ds.levels::smk")
+# context("ds.levels::smk")
 test_that("simple levels", {
     ds.asFactor("D$PM_BMI_CATEGORICAL", newobj.name = "pm_bmi_categorical")
 
@@ -85,7 +86,7 @@ test_that("simple levels", {
 # Done
 #
 
-context("ds.levels::smk::shutdown")
+# context("ds.levels::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "gender", "pm_bmi_categorical"))
@@ -93,5 +94,5 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.levels::smk::done")
+# context("ds.levels::smk::done")
 

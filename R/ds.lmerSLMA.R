@@ -225,10 +225,10 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
      sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0)
   {
-    cat("\n\n WARNING: you may have specified an offset or regression weights")
-    cat("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-    cat("\n you must specify an offset or weights separately from the formula")
-    cat("\n using the offset or weights argument.\n\n")
+    message("\n\n WARNING: you may have specified an offset or regression weights")
+    message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
+    message("\n you must specify an offset or weights separately from the formula")
+    message("\n using the offset or weights argument.\n\n")
   }
   
   formula <- stats::as.formula(formula)
@@ -286,7 +286,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
  if(!is.null(optimizer)&&optimizer!="nloptwrap")
         {
 	errorMessage.opt<-"ERROR: the only optimizer currently available for lmer is 'nloptwrap', please respecify"
-	cat("\n",errorMessage.opt,"\n")
+	message("\n",errorMessage.opt,"\n")
 	return(list(errorMessage=errorMessage.opt))
 	}
 
@@ -303,7 +303,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
     }
     
     if (notify.of.progress) {
-        cat("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
+        message("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")
     }
     
     calltext.2 <- call('lmerSLMADS.assign', formula, offset, weights, dataName, REML,
@@ -343,17 +343,17 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
     {
       for(sse in study.with.errors)
       {
-        cat("\n","Error report from second serverside function for study",sse,"\n")
-        cat("############################################################","\n")
-        cat(unlist(study.summary[[sse]][[1]]),"\n")
-        cat(unlist(study.summary[[sse]][[2]]),"\n\n")
+        message("\n","Error report from second serverside function for study",sse,"\n")
+        message("############################################################","\n")
+        message(unlist(study.summary[[sse]][[1]]),"\n")
+        message(unlist(study.summary[[sse]][[2]]),"\n\n")
 
         num.messages<-length(study.summary[[sse]])-2
         for(m in 1:num.messages)
         {
           if(!is.null(unlist(study.summary[[sse]][[2+m]])))
           {
-            cat(unlist(study.summary[[sse]][[2+m]]),"\n\n")
+            message(unlist(study.summary[[sse]][[2+m]]),"\n\n")
           }
         }
       }
@@ -361,8 +361,8 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
 
     if(all.studies.valid)
     {
-      cat("\nAll studies passed disclosure tests\n")
-      cat("Please check for convergence warnings in the study summaries\n\n\n")
+      message("\nAll studies passed disclosure tests\n")
+      message("Please check for convergence warnings in the study summaries\n\n\n")
     }
   }
 
@@ -488,8 +488,8 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   
   
   if(!coefficient.vectors.match){
-    cat("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
-    cat("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
+    message("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
+    message("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
     return(list(output.summary=output.summary))
   }
   
@@ -552,10 +552,10 @@ for(q in 1:numstudies)
 
   if (notify.of.progress)
   {
-    cat("Convergence information\n")
+    message("Convergence information\n")
     for(r in 1:numstudies)
     {
-      cat(full.error.message[r],"\n")
+      message(full.error.message[r],"\n")
     }
   }
 

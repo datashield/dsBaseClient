@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,15 +12,15 @@
 # Set up
 #
 
-context("void::perf::void::setup")
+# context("void::perf::void::setup")
 
 #
 # Tests
 #
 
-context("void::perf::void::0")
+# context("void::perf::void::0")
 test_that("simple void performance", {
-    .durationSec  <- 60 # seconds
+    .durationSec  <- perf.testduration(60)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -51,6 +51,6 @@ test_that("simple void performance", {
 # Done
 #
 
-context("void::perf::void::shutdown")
+# context("void::perf::void::shutdown")
 
-context("void::perf::void::done")
+# context("void::perf::void::done")

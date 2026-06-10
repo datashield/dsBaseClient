@@ -6,7 +6,7 @@
 #' permitted in DataSHIELD, this function allows the user to plot non-disclosive scatter plots.
 #' 
 #' If the argument \code{method} is set to \code{'deterministic'}, the server-side function searches
-#' for the \code{k-1} nearest neighbors of each single data point and calculates the centroid 
+#' for the \code{k-1} nearest neighbours of each single data point and calculates the centroid 
 #' of such \code{k} points. 
 #' The proximity is defined by the minimum Euclidean distances of z-score transformed data.
 #' 
@@ -52,7 +52,7 @@
 #' This argument can be set as \code{'deteministic'} or \code{'probabilistic'}.
 #' Default \code{'deteministic'}. 
 #' For more information see \strong{Details}. 
-#' @param k the number of the nearest neighbors  for which their centroid is calculated.
+#' @param k the number of the nearest neighbours  for which their centroid is calculated.
 #' Default 3. 
 #' For more information see \strong{Details}. 
 #' @param noise the percentage of the initial variance that is used as the variance of the embedded
@@ -146,6 +146,10 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
   if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
     stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
   }
+
+  # Save par and setup reseting of par values
+  old_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old_par), add = TRUE)
 
   # check if the input objects are defined in all the studies
   isDefined(datasources, x)

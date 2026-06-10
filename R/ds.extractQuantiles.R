@@ -224,7 +224,7 @@ datasources.in.current.function<-datasources
   #CALL CLIENTSIDE FUNCTION ds.dmtC2S TO RETURN final.quantile.df TO SERVERSIDE
   dsBaseClient::ds.dmtC2S(dfdata=final.quantile.df,newobj="final.quantile.df",datasources = datasources.in.current.function)
 
-  cat("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
+  message("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
   PRIMARY RANKING OUTPUT IS IN DATA FRAME",extract.summary.output.ranks.df,
 "
   WHICH IS SORTED BY",extract.ranks.sort.by," AND HAS BEEN

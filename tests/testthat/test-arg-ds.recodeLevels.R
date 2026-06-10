@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL", "LAB_TSC"))
 # Tests
 #
 
-context("ds.recodeLevels::arg::test errors")
+# context("ds.recodeLevels::arg::test errors")
 test_that("recodeLevels_erros", {
     expect_error(expect_warning(ds.recodeLevels(), "'ds.recodeLevels' is deprecated.", fixed = TRUE), " End of process!", fixed=TRUE)
     expect_error(expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL'), "'ds.recodeLevels' is deprecated.", fixed = TRUE), " End of process!", fixed=TRUE)

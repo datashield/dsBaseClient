@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.asMatrix::smk::setup")
+# context("ds.asMatrix::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.asMatrix::smk::simple test")
+# context("ds.asMatrix::smk::simple test")
 test_that("simple test", {
     res <- ds.asMatrix(x.name="D$GENDER")
 
@@ -37,7 +38,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.asMatrix::smk::shutdown")
+# context("ds.asMatrix::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "asmatrix.newobj"))
@@ -45,4 +46,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.asMatrix::smk::done")
+# context("ds.asMatrix::smk::done")

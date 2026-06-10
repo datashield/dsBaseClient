@@ -2,12 +2,12 @@
 #' @title Generates results tables for each study separately
 #' @description This is an internal function.
 #' @details This function is called by the function 'ds.meanByClass' to produce the final tables
-#' if the user sets the parmater 'type' to 'split'.
+#' if the user sets the parameter 'type' to 'split'.
 #' @param dtsources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @param tablenames a character vector, the name of the subset tables
 #' @param variables a character vector, the names of the continuous variables to computes a mean for.
-#' @param invalidrecorder a list, holds informations about invalid subsets in each study
+#' @param invalidrecorder a list, holds information about invalid subsets in each study
 #' @keywords internal
 #' @return a list which one results table for each study.
 #' @author Gaye, A.
@@ -19,7 +19,7 @@ meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder
   finalist <- vector('list', length(dtsources))
   for(s in 1:length(dtsources)){
 
-    # now get the mean and SD for the continuous variables in each of tthe subset tables
+    # now get the mean and SD for the continuous variables in each of the subset tables
     finaltable <- matrix(numeric(0), ncol=numtables)
     finalrows <- c()
     for(z in 1:length(variables)){

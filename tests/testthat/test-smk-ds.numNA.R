@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.numNA::smk::setup")
+# context("ds.numNA::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_HDL", "LAB_TRIG", "DIS_CVA"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.numNA::smk")
+# context("ds.numNA::smk")
 test_that("simple numNA", {
     res1 <- ds.numNA(x='D$LAB_HDL')
 
@@ -52,7 +53,7 @@ test_that("simple numNA", {
 # Done
 #
 
-context("ds.numNA::smk::shutdown")
+# context("ds.numNA::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -60,4 +61,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.numNA::smk::done")
+# context("ds.numNA::smk::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.recodeValues::smk_dgr::factor_missing::setup")
+# context("ds.recodeValues::smk_dgr::factor_missing::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 1")
+# context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 1")
 test_that("simple missing factor 1", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2,3), new.values.vector=c(10,20,30), missing='999', newobj="PM_BMI_CATEGORICAL")
 
@@ -109,7 +110,7 @@ test_that("simple missing factor 1", {
     expect_length((subset(ndf.sim3, PM_BMI_CATEGORICAL == 999))$PM_BMI_CATEGORICAL, 205)
 })
 
-context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 2")
+# context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 2")
 test_that("simple missing factor 2", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2), new.values.vector=c(1,2), missing=99, newobj="PM_BMI_CATEGORICAL")
 
@@ -176,7 +177,7 @@ test_that("simple missing factor 2", {
     expect_length((subset(ndf.sim3, PM_BMI_CATEGORICAL == 99))$PM_BMI_CATEGORICAL, 205)
 })
 
-context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 3")
+# context("ds.recodeValues::smk_dgr::factor_missing::simple missing factor 3")
 test_that("simple missing factor 3", {
     res <- ds.recodeValues("D$PM_BMI_CATEGORICAL", values2replace.vector=c(1,2,3), new.values.vector=c('low','medium','high'), newobj="PM_BMI_CATEGORICAL")
 
@@ -252,7 +253,7 @@ test_that("simple missing factor 3", {
 #
 # Done
 #
-context("ds.recodeValues::smk_dgr::factor_missing::shutdown")
+# context("ds.recodeValues::smk_dgr::factor_missing::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "PM_BMI_CATEGORICAL", "odf_1", "ndf_1", "odf_2", "ndf_2", "odf_3", "ndf_3"))
@@ -260,4 +261,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.recodeValues::smk_dgr::factor_missing::done")
+# context("ds.recodeValues::smk_dgr::factor_missing::done")

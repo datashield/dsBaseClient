@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.look::smk::setup")
+# context("ds.look::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
 
@@ -24,9 +25,9 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.look::smk")
+# context("ds.look::smk")
 test_that("simple look", {
-    res <- ds.look("lengthDS('D$LAB_TSC')")
+    res <- expect_warning(ds.look("lengthDS('D$LAB_TSC')"), "'ds.look' is deprecated.", fixed = TRUE)
 
     expect_length(res, 1)
     expect_length(res$output, 3)
@@ -39,7 +40,7 @@ test_that("simple look", {
 # Done
 #
 
-context("ds.look::smk::shutdown")
+# context("ds.look::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -47,4 +48,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.look::smk::done")
+# context("ds.look::smk::done")

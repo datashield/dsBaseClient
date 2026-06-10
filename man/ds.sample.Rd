@@ -75,9 +75,9 @@ For further details see help for \code{sample} in native R.}
 \item{newobj}{This a character string providing a name for the output
 data.frame which defaults to 'newobj.sample' if no name is specified.}
 
-\item{datasources}{a list of \code{\link{DSConnection-class}} 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link{datashield.connections_default}}.}
+the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produce to indicate
 progress. The default value for notify.of.progress is FALSE.}
@@ -141,7 +141,7 @@ but they join the sample in random order. By sorting the output object (in this
 case with the default name 'newobj.sample) using ds.dataFrameSort with the
 'sampling.order' vector as the sort key, the output object is rendered
 equivalent to PRWa but with the rows randomly permuted (so the column reflecting
-the vector 'sample.order' now runs from 1:length of obejct, while the
+the vector 'sample.order' now runs from 1:length of object, while the
 column reflecting 'ID.seq' denoting the original order is now randomly ordered.
 If you need to return to the original order you can simply us ds.dataFrameSort
 again using the column reflecting 'ID.seq' as the sort key:

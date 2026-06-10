@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rbind::discctrl::setup")
+# context("ds.rbind::discctrl::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.rbind::discctrl")
+# context("ds.rbind::discctrl")
 test_that("simple c", {
     expect_error(ds.rbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="rbind_newobj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
@@ -42,7 +43,7 @@ test_that("simple c", {
 # Done
 #
 
-context("ds.rbind::discctrl::shutdown")
+# context("ds.rbind::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.rbind::discctrl::done")
+# context("ds.rbind::discctrl::done")

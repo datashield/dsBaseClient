@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("SURVIVAL_EXPAND_WITH_MISSING::datachk::setup")
+# context("SURVIVAL_EXPAND_WITH_MISSING::datachk::setup")
 
 connect.studies.dataset.survival(list('id', 'study.id', 'time.id', 'starttime', 'endtime', 'survtime', 'cens', 'age.60', 'female', 'noise.56', 'pm10.16', 'bmi.26'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("SURVIVAL_EXPAND_WITH_MISSING::datachk")
+# context("SURVIVAL_EXPAND_WITH_MISSING::datachk")
 test_that("Check SURVIVAL_EXPAND_WITH_MISSING dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -279,7 +280,7 @@ test_that("Check SURVIVAL_EXPAND_WITH_MISSING dataset", {
 # Tear down
 #
 
-context("SURVIVAL_EXPAND_WITH_MISSING::datachk::shutdown")
+# context("SURVIVAL_EXPAND_WITH_MISSING::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -291,4 +292,4 @@ disconnect.studies.dataset.survival()
 # Done
 #
 
-context("SURVIVAL_EXPAND_WITH_MISSING::datachk::done")
+# context("SURVIVAL_EXPAND_WITH_MISSING::datachk::done")

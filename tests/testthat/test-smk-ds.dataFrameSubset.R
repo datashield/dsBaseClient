@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.dataFrameSubset::smk::setup")
+# context("ds.dataFrameSubset::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL", "PM_BMI_CATEGORICAL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.dataFrameSubset::smk::create a subset dataframe")
+# context("ds.dataFrameSubset::smk::create a subset dataframe")
 test_that("dataFrameSubset_exists", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     ds.dataFrame(x=myvectors, newobj="unsubset_df")
@@ -60,7 +61,7 @@ test_that("dataFrameSubset_exists", {
     expect_equal(res$validity.check, "<subset_df> appears valid in all sources")
 })
 
-context("ds.dataFrameSubset::smk::create a subset dataframe, based on scalar")
+# context("ds.dataFrameSubset::smk::create a subset dataframe, based on scalar")
 test_that("dataFrameSubset_exists scalar", {
     myvectors <- c('D$LAB_TSC', 'D$LAB_HDL', 'D$PM_BMI_CATEGORICAL')
     ds.dataFrame(x=myvectors, newobj="unsubset_df")
@@ -100,7 +101,7 @@ test_that("dataFrameSubset_exists scalar", {
 # Done
 #
 
-context("ds.dataFrameSubset::smk::shutdown")
+# context("ds.dataFrameSubset::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "unsubset_df", "subset_df"))
@@ -108,4 +109,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.dataFrameSubset::smk::down")
+# context("ds.dataFrameSubset::smk::down")

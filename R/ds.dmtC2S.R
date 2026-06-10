@@ -29,7 +29,7 @@
 #' wish to change the connections you wish to use by default the call
 #' datashield.connections_default('opals.a') will set 'default.connections'
 #' to be 'opals.a' and so in the absence of specific instructions to the contrary
-#' (e.g. by specifiying a particular dataset to be used via the <datasources>
+#' (e.g. by specifying a particular dataset to be used via the <datasources>
 #' argument) all subsequent function calls will be to the datasets held in opals.a.
 #' If the <datasources> argument is specified, it should be set without
 #' inverted commas: e.g. datasources=opals.a or datasources=default.connections.
@@ -93,7 +93,7 @@ if(dplyr::is.tbl(dfdata))
 		
   if(!is.matrix(dfdata) && !is.data.frame(dfdata) && !dplyr::is.tbl(dfdata))
 	{
-	   cat("\n            FAILED: <dfdata> must either be a data.frame, matrix or tibble")	
+	   message("\n            FAILED: <dfdata> must either be a data.frame, matrix or tibble")	
        return('Please respecify')
 	}
 

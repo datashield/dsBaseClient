@@ -9,9 +9,11 @@
 #' @param variables character name of the variable(s) to focus on. The variables must be in the data.table
 #' @param weight character name of the data.table column that contains a weight. 
 #' @param by character vector of the columns to group by
+#' @return Returns a data table object with computed weighted means.
+#'
 #' @import data.table
 #' @importFrom stats as.formula na.omit ts weighted.mean
-#' @export
+#' @keywords internal
 computeWeightedMeans <- function(data_table, variables, weight, by) {
   
   if (is.null(weight)) {

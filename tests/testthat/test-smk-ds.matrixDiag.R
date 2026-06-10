@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.matrixDiag::smk::setup")
+# context("ds.matrixDiag::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.matrixDiag::smk")
+# context("ds.matrixDiag::smk")
 test_that("simplest ds.matrixDiag", {
     matrix <- c(0, 1, 2, 3, 4, 5)
 
@@ -42,7 +43,7 @@ test_that("simplest ds.matrixDiag", {
     expect_true("matrix" %in% check.class$sim3)
 })
 
-context("ds.matrixDiag::smk")
+# context("ds.matrixDiag::smk")
 test_that("simplest ds.matrixDiag", {
     matrix <- c(0, 1, 2, 3, 4, 5)
 
@@ -64,7 +65,7 @@ test_that("simplest ds.matrixDiag", {
 # Tear down
 #
 
-context("ds.matrixDiag::smk::shutdown")
+# context("ds.matrixDiag::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "matrix_diag", "matrixdiag.newobj"))
@@ -72,4 +73,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.matrixDiag::smk::done")
+# context("ds.matrixDiag::smk::done")

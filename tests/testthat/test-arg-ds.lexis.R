@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -19,12 +19,12 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.lexis::arg::test errors")
+# context("ds.lexis::arg::test errors")
 test_that("lexis_erros", {
     expect_error(ds.lexis(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
 })
 
-context("ds.lexis::arg::test intervalWidth")
+# context("ds.lexis::arg::test intervalWidth")
 test_that("simple lexis", {
     expect_error(ds.lexis(data='D', intervalWidth = NA, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
     expect_error(ds.lexis(data='D', intervalWidth = NULL, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)

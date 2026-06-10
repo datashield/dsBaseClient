@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.matrixTranspose::smk::setup")
+# context("ds.matrixTranspose::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.matrixTranspose::smk")
+# context("ds.matrixTranspose::smk")
 test_that("simplest ds.matrixTranspose", {
     matrix <- c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
 
@@ -47,7 +48,7 @@ test_that("simplest ds.matrixTranspose", {
 # Tear down
 #
 
-context("ds.matrixTranspose::smk::shutdown")
+# context("ds.matrixTranspose::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "matrix.newobj", "matrixtranspose.newobj"))
@@ -55,4 +56,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.matrixTranspose::smk::done")
+# context("ds.matrixTranspose::smk::done")

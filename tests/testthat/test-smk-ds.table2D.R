@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.table2D::smk::setup")
+# context("ds.table2D::smk::setup")
 
 connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.table2D::smk")
+# context("ds.table2D::smk")
 test_that("simple table2D", {
     table2D.res <- expect_warning(ds.table2D(x='D$DIS_DIAB', y='D$GENDER'), "'ds.table2D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
 
@@ -56,7 +57,7 @@ test_that("simple table2D", {
 # Done
 #
 
-context("ds.table2D::smk::shutdown")
+# context("ds.table2D::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -64,4 +65,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.table2D::smk::done")
+# context("ds.table2D::smk::done")

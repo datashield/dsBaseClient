@@ -7,7 +7,7 @@
 ds.unique(x.name = NULL, newobj = NULL, datasources = NULL)
 }
 \arguments{
-\item{x.name}{a character string providing the name of the varable, in the server, to perform \code{unique} upon}
+\item{x.name}{a character string providing the name of the variable, in the server, to perform \code{unique} upon}
 
 \item{newobj}{a character string that provides the name for the output object
 that is stored on the data servers. Default \code{unique.newobj}.}

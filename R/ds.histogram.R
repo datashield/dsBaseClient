@@ -120,7 +120,7 @@
 #'               datasources = connections) #all studies are used
 #'
 #'   # Example 2: generate a combined histogram with the default small cells counts
-#'                suppression rule
+#'   #             suppression rule
 #'   ds.histogram(x = 'D$PM_BMI_CONTINUOUS',
 #'                method = 'smallCellsRule',
 #'                type = 'combine',
@@ -166,6 +166,10 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
+
+  # Save par and setup reseting of par values
+  old_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old_par), add = TRUE)
 
   # check if the input object is defined in all the studies
   isDefined(datasources, x)

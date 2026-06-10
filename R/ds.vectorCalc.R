@@ -3,10 +3,10 @@
 #' @description Carries out a row-wise operation on two or more vector. The function calls no
 #' server side function; it uses the R operation symbols built in DataSHIELD.
 #' @details In DataSHIELD it is possible to perform an operation on vectors by just using the relevant
-#' R symbols (e.g. '+' for addtion, '*' for multiplication, '-' for substraction and '/' for division).
+#' R symbols (e.g. '+' for addition, '*' for multiplication, '-' for subtraction and '/' for division).
 #' This might however be inconvenient if the number of vectors to include in the operation is large.
 #' This function takes the names of two or more vectors and performs the desired operation which could be
-#' an addition, a multiplication, a substraction or a division. If one or more vectors have a missing value
+#' an addition, a multiplication, a subtraction or a division. If one or more vectors have a missing value
 #' at any one entry (i.e. observation), the operation returns a missing value ('NA') for that entry; the output
 #' vectors has, hence the same length as the input vectors.
 #' @param x a vector of characters, the names of the vectors to include in the operation.

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("FACTOR_LEVELS::datachk::setup")
+# context("FACTOR_LEVELS::datachk::setup")
 
 connect.testing.dataset.factor_levels()
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("FACTOR_LEVELS::datachk")
+# context("FACTOR_LEVELS::datachk")
 test_that("Check FACTOR_LEVELS dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -259,7 +260,7 @@ test_that("Check FACTOR_LEVELS dataset", {
 # Tear down
 #
 
-context("FACTOR_LEVELS::datachk::shutdown")
+# context("FACTOR_LEVELS::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -267,4 +268,4 @@ test_that("shutdown", {
 
 disconnect.testing.dataset.factor_levels()
 
-context("FACTOR_LEVELS::datachk::done")
+# context("FACTOR_LEVELS::datachk::done")

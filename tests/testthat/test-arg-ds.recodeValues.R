@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # Tests
 #
 
-context("ds.recodeValues::arg::test errors")
+# context("ds.recodeValues::arg::test errors")
 test_that("recodeValues_erros", {
     expect_error(ds.recodeValues(), "Please provide the name of the variable to be recoded: eg 'xxx'", fixed=TRUE)
     expect_error(ds.recodeValues('D$LAB_TSC'), "Please provide a vector in the 'values2replace.vector' argument specifying\n         the values to be replaced eg c(1,7)", fixed=TRUE)

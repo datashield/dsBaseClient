@@ -45,7 +45,7 @@
 #' case with the default name 'newobj.sample) using ds.dataFrameSort with the
 #' 'sampling.order' vector as the sort key, the output object is rendered
 #' equivalent to PRWa but with the rows randomly permuted (so the column reflecting
-#' the vector 'sample.order' now runs from 1:length of obejct, while the
+#' the vector 'sample.order' now runs from 1:length of object, while the
 #' column reflecting 'ID.seq' denoting the original order is now randomly ordered.
 #' If you need to return to the original order you can simply us ds.dataFrameSort
 #' again using the column reflecting 'ID.seq' as the sort key:
@@ -110,9 +110,9 @@
 #' For further details see help for \code{sample} in native R.
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to 'newobj.sample' if no name is specified.
-#' @param datasources a list of \code{\link{DSConnection-class}} 
+#' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
-#' the default set of connections will be used: see \code{\link{datashield.connections_default}}.
+#' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name
@@ -201,18 +201,18 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 if(seed.as.text=="NULL"){
     if (notify.of.progress)
-        cat("NO SEED SET IN STUDY",study.id,"\n\n")
+        message("NO SEED SET IN STUDY",study.id,"\n\n")
 
 }
   calltext <- paste0("setSeedDS(", seed.as.text, ")")
   
     if (notify.of.progress)
-      print(calltext)
+      message(calltext)
   
   ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], as.symbol(calltext))
 } 
 if (notify.of.progress)
-    cat("\n\n")
+    message("\n\n")
 
 
 

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.meanByClass::smk::setup")
+# context("ds.meanByClass::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC","LAB_HDL","PM_BMI_CATEGORICAL"))
 
@@ -24,11 +25,12 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.meanByClass::smk::LAB_TSC across PM_BMI_CATEGORICAL categories where both vectors are 'loose'")
-ds.assign("D$LAB_TSC", "ldl")
-ds.assign("D$PM_BMI_CATEGORICAL", "pm_bmi")
+# context("ds.meanByClass::smk::LAB_TSC across PM_BMI_CATEGORICAL categories where both vectors are 'loose'")
 test_that("LAB_TSC_across_", {
-    res <- ds.meanByClass(x='ldl~pm_bmi')
+    ds.assign("D$LAB_TSC", "ldl")
+    ds.assign("D$PM_BMI_CATEGORICAL", "pm_bmi")
+
+    res <- expect_warning(ds.meanByClass(x='ldl~pm_bmi'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 6)
     expect_equal(res[[1]], '2753')
@@ -39,9 +41,9 @@ test_that("LAB_TSC_across_", {
     expect_equal(res[[6]], '5.89(1.15)')
 })
 
-context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories")
-res <- ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL')
+# context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories")
 test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 6)
     expect_equal(res[[1]], '2753')
@@ -53,9 +55,9 @@ test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
 })
 
 
-context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL & LAB_TSC across bmi categories")
-res <- ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('PM_BMI_CATEGORICAL'))
+# context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL & LAB_TSC across bmi categories")
 test_that("LAB_HDL-LAB_TSC_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('PM_BMI_CATEGORICAL')), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 12)
     expect_equal(res[[1]], '2753')
@@ -76,10 +78,9 @@ test_that("LAB_HDL-LAB_TSC_across_PM_BMI_CATEGORICAL", {
 # context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across gender bmi and diabetes status categories")
 # res <- ds.meanByClass(datasources=ds.test_env$connection.opal, x='D', outvar=c('LAB_HDL','LAB_TSC'), covar=c('GENDER','PM_BMI_CATEGORICAL','DIS_DIAB'))
 
-
-context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories, split")
-res <- ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL', type='split')
+# context("ds.meanByClass::smk::calculate the mean proportion for LAB_HDL across PM_BMI_CATEGORICAL categories, split")
 test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
+    res <- expect_warning(ds.meanByClass(x='D', outvar='LAB_HDL', covar='PM_BMI_CATEGORICAL', type='split'), "'ds.meanByClass' is deprecated.", fixed = TRUE)
 
     expect_length(res, 3)
     expect_length(res$sim1, 6)
@@ -110,7 +111,7 @@ test_that("LAB_HDL_across_PM_BMI_CATEGORICAL", {
 # Tear down
 #
 
-context("ds.meanByClass::smk::shutdown")
+# context("ds.meanByClass::smk::shutdown")
 
 test_that("shutdown", {
      ds_expect_variables(c("D", "D.PM_BMI_CATEGORICAL1", "D.PM_BMI_CATEGORICAL2", "D.PM_BMI_CATEGORICAL3",
@@ -119,4 +120,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.meanByClass::smk::done")
+# context("ds.meanByClass::smk::done")

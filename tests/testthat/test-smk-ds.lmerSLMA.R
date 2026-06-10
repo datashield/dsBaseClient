@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up phase 1
 #
 
-context("ds.lmerSLMA::smk::setup phase 1")
+# context("ds.lmerSLMA::smk::setup phase 1")
 
 connect.studies.dataset.cluster.int(list("incid_rate", "trtGrp", "Male", "idDoctor", "BMI", "idSurgery"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA::smk::phase 1")
+# context("ds.lmerSLMA::smk::phase 1")
 test_that("simple lmerSLMA", {
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = "D")
 
@@ -75,7 +76,7 @@ test_that("test offsets and weights", {
 # Shutdown
 #
 
-context("ds.lmerSLMA::smk::shutdown phase 1")
+# context("ds.lmerSLMA::smk::shutdown phase 1")
 
 test_that("shutdown", {
     #note the offset and weights objects below are artefacts 
@@ -89,7 +90,7 @@ disconnect.studies.dataset.cluster.int()
 # Set up
 #
 
-context("ds.lmerSLMA::smk::setup phase 2")
+# context("ds.lmerSLMA::smk::setup phase 2")
 
 connect.studies.dataset.cluster.slo(list("incid_rate", "trtGrp", "Male", "idDoctor", "BMI", "idSurgery"))
 
@@ -101,7 +102,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA::smk::test phase 2")
+# context("ds.lmerSLMA::smk::test phase 2")
 
 test_that("check slope formulae", {
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
@@ -251,7 +252,7 @@ test_that("check slope formulae", {
 # Shutdown
 #
 
-context("ds.lmerSLMA::smk::shutdown phase 2")
+# context("ds.lmerSLMA::smk::shutdown phase 2")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "offset", "weights"))
@@ -263,4 +264,4 @@ disconnect.studies.dataset.cluster.slo()
 # Done
 #
 
-context("ds.lmerSLMA::smk::done")
+# context("ds.lmerSLMA::smk::done")

@@ -1,7 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
 source("connection_to_datasets/init_testing_datasets.R")
 source("definition_tests/def-ds.var.R")
 
-context("ds.var::math::positive_result::multiple")
+# context("ds.var::math::positive_result::multiple")
 test_that("variance >=0",
 {
   connect.all.datasets()
@@ -25,7 +36,7 @@ test_that("variance >=0",
 })
 
 
-context("ds.var::math::positive_result::single")
+# context("ds.var::math::positive_result::single")
 test_that("variance >=0",
 {
   connect.dataset.1()
@@ -49,7 +60,7 @@ test_that("variance >=0",
 })
 
 
-context("ds.var::math::square_root_std::single")
+# context("ds.var::math::square_root_std::single")
 test_that("variance is to the power of 2 of the standard deviation",
 {
   connect.dataset.1()
@@ -65,7 +76,7 @@ test_that("variance is to the power of 2 of the standard deviation",
 })
 
 
-context("ds.var::math::square_root_std::multiple")
+# context("ds.var::math::square_root_std::multiple")
 test_that("variance is to the power of 2 of the standard deviation",
  {
    connect.all.datasets()
@@ -88,7 +99,7 @@ test_that("variance is to the power of 2 of the standard deviation",
    .test.standard.dev.split('D$NEGATIVE_NUMERIC',ds.test_env$local.values.1[,'NEGATIVE_NUMERIC'],ds.test_env$local.values.2[,'NEGATIVE_NUMERIC'],ds.test_env$local.values.3[,'NEGATIVE_NUMERIC'])
  })
 
-context("ds.var::math::location::parameter::single")
+# context("ds.var::math::location::parameter::single")
 test_that("var (X+a) = Var(X)",
 {
   connect.dataset.1()
@@ -102,7 +113,7 @@ test_that("var (X+a) = Var(X)",
   .test.location.parameter('D$NEGATIVE_NUMERIC')
 })
 
-context("ds.var::math::location::parameter::multiple")
+# context("ds.var::math::location::parameter::multiple")
 test_that("var (X+a) = Var(X)",
 {
   connect.all.datasets()
@@ -116,7 +127,7 @@ test_that("var (X+a) = Var(X)",
   .test.location.parameter('D$NEGATIVE_NUMERIC')
 })
 
-context("ds.var::math::scale::single")
+# context("ds.var::math::scale::single")
 test_that("var (aX) = a^2Var(X)",
 {
   connect.dataset.1()
@@ -130,7 +141,7 @@ test_that("var (aX) = a^2Var(X)",
   .test.scale('D$NEGATIVE_NUMERIC')
 })
 
-context("ds.var::math::scale::multiple")
+# context("ds.var::math::scale::multiple")
 test_that("var (aX) = a^2Var(X)",
 {
   connect.all.datasets()
@@ -143,5 +154,3 @@ test_that("var (aX) = a^2Var(X)",
   .test.scale('D$POSITIVE_NUMERIC')
   .test.scale('D$NEGATIVE_NUMERIC')
 })
-
-

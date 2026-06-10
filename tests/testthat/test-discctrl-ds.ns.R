@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.ns::discctrl::setup")
+# context("ds.ns::discctrl::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TRIG", "PM_BMI_CONTINUOUS"))
 
@@ -24,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.ns::discctrl")
+# context("ds.ns::discctrl")
 test_that("ns", {
     expect_error(ds.ns(x="D$PM_BMI_CONTINUOUS", knots=c(8,9,10,12,25,35), newobj="nsDS", datasources=ds.test_env$connections), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
@@ -43,7 +43,7 @@ test_that("ns", {
 # Done
 #
 
-context("ds.ns::discctrl::shutdown")
+# context("ds.ns::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -51,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.ns::discctrl::done")
+# context("ds.ns::discctrl::done")

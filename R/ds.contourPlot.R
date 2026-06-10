@@ -120,6 +120,10 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
   }
   
+  # Save par and setup reseting of par values
+  old_par <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(old_par), add = TRUE)
+
   # check if the input objects are defined in all the studies
   isDefined(datasources, x)
   isDefined(datasources, y)

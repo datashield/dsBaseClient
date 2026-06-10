@@ -1,9 +1,20 @@
-context('ds.dataFrame::expt::setup')
+#-------------------------------------------------------------------------------
+# Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
+# context('ds.dataFrame::expt::setup')
 
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.data.frame.R')
 
-context('ds.dataFrame::expt::one_column::single')
+# context('ds.dataFrame::expt::one_column::single')
 test_that('numeric data',
 {
   connect.dataset.2()
@@ -17,7 +28,7 @@ test_that('numeric data',
   .test.data.frame.creation(c('D$NEGATIVE_INTEGER'),'integer_7_df')
 })
 
-context('ds.dataFrame::expt::several_columns::single')
+# context('ds.dataFrame::expt::several_columns::single')
 test_that('numeric data',
 {
   connect.dataset.2()
@@ -25,7 +36,7 @@ test_that('numeric data',
   .test.data.frame.creation(c('D$INTEGER','D$NON_NEGATIVE_INTEGER','D$POSITIVE_INTEGER','D$NEGATIVE_INTEGER'),'integer_9_df')
 })
 
-context('ds.dataFrame::expt::one_column::multiple')
+# context('ds.dataFrame::expt::one_column::multiple')
 test_that('numeric data',
 {
   connect.all.datasets()
@@ -39,7 +50,7 @@ test_that('numeric data',
   .test.data.frame.creation(c('D$NEGATIVE_INTEGER'),'integer_16_df')
 })
 
-context('ds.dataFrame::expt::several_columns::single')
+# context('ds.dataFrame::expt::several_columns::single')
 test_that('numeric data',
 {
   connect.all.datasets()
@@ -47,7 +58,7 @@ test_that('numeric data',
   .test.data.frame.creation(c('D$INTEGER','D$NON_NEGATIVE_INTEGER','D$POSITIVE_INTEGER','D$NEGATIVE_INTEGER'),'integer_17_df')
 })
 
-context('ds.dataFrame::expt::one_column_from_objects::single')
+# context('ds.dataFrame::expt::one_column_from_objects::single')
 test_that('numeric data',
 {
   connect.dataset.2()
@@ -61,7 +72,7 @@ test_that('numeric data',
   .test.data.frame.from.objects('D$NEGATIVE_INTEGER','numeric_created','numeric_27_df')
 })
 
-context('ds.dataFrame::expt::object::multiple')
+# context('ds.dataFrame::expt::object::multiple')
 test_that('numeric data',
 {
   connect.all.datasets()
@@ -75,14 +86,14 @@ test_that('numeric data',
   .test.data.frame.from.objects('D$NEGATIVE_INTEGER','numeric_created','numeric_35_df')
 })
 
-context('ds.dataFrame::expt::several_objects::multiple')
+# context('ds.dataFrame::expt::several_objects::multiple')
 test_that('several objects',
 {
   connect.all.datasets()
   .test.data.frame.from.different.objects('multiple_df')
 })
 
-context('ds.dataFrame::expt::non_numeric::multiple')
+# context('ds.dataFrame::expt::non_numeric::multiple')
 test_that("non_numeric",
 {
   connect.all.datasets()
@@ -93,7 +104,7 @@ test_that("non_numeric",
   .test.data.frame.from.objects('D$LOGICAL','boolean_created' ,'boolean_df')
 })
 
-context('ds.dataFrame::expt::non_numeric::multiple')
+# context('ds.dataFrame::expt::non_numeric::multiple')
 {
   connect.dataset.2()
   .test.data.frame.creation(c('D$CHARACTER'),'character_df')
@@ -103,6 +114,6 @@ context('ds.dataFrame::expt::non_numeric::multiple')
   .test.data.frame.from.objects('D$LOGICAL','boolean_created' ,'boolean_df')
 }
 
-context('ds.dataFrame::expt::shutdown')
+# context('ds.dataFrame::expt::shutdown')
 
-context('ds.dataFrame::expt::done')
+# context('ds.dataFrame::expt::done')

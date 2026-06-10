@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("DISCORDANT::datachk::setup")
+# context("DISCORDANT::datachk::setup")
 
 connect.discordant.dataset.simple(list('A', 'B', 'C'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("DISCORDANT::datachk")
+# context("DISCORDANT::datachk")
 test_that("Check DISCORDANT dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -123,7 +124,7 @@ test_that("Check DISCORDANT dataset", {
 # Tear down
 #
 
-context("DISCORDANT::datachk::shutdown")
+# context("DISCORDANT::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -135,4 +136,4 @@ disconnect.discordant.dataset.simple()
 # Done
 #
 
-context("DISCORDANT::datachk::done")
+# context("DISCORDANT::datachk::done")

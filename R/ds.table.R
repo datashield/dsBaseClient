@@ -424,10 +424,10 @@ if(num.valid.studies==0)
 	if ((! table.assign) || report.chisq.tests)
 	{
 	    validity.message<-"All studies failed for reasons identified below"
-	    cat("\n",validity.message,"\n\n")
+	    message("\n",validity.message,"\n\n")
 	    for(ns in 1:numsources.orig)
 	    {
-	        cat("\nStudy",ns,": ",error.messages[[ns]],"\n")
+	        message("\nStudy",ns,": ",error.messages[[ns]],"\n")
 	    }
 
 	    return(list(validity.message=validity.message,error.messages=error.messages))
@@ -476,12 +476,12 @@ for(ns in 1:numsources.orig)
 	validity.message<-c(validity.message,message.add)
 	}
 
-#	cat("\n",validity.message,"\n")
+#	message("\n",validity.message,"\n")
 #	for(ns in 1:numsources.orig)
 #		{
-#		cat("\nStudy",ns,": ",error.messages[[ns]])
+#		message("\nStudy",ns,": ",error.messages[[ns]])
 #		}
-#		cat("\n\n")
+#		message("\n\n")
 
 #table.out<-table.out.valid
 #numsources<-length(table.out)
@@ -492,12 +492,12 @@ if(num.valid.studies==numsources.orig)
     validity.message<-"Data in all studies were valid"
     if (! table.assign)
     {
-	    cat("\n",validity.message,"\n")
+	    message("\n",validity.message,"\n")
 	    for(ns in 1:numsources.orig)
 		{
-		    cat("\nStudy",ns,": ",error.messages[[ns]])
+		    message("\nStudy",ns,": ",error.messages[[ns]])
 		}
-		cat("\n\n")
+		message("\n\n")
     }
 }
 
@@ -520,7 +520,6 @@ if(numsources>1)
       {
       all.dims.same<-FALSE
       return.message<-"Warning: tables in different sources have different numbers of dimensions. Please analyse and combine yourself from study.specific tables above" 
-      print(return.message)
       return(return.message)   
       }
     }
@@ -649,7 +648,7 @@ cells.so.far<-0
 
 table.current.study<-cbind(rvar.mark,cvar.mark,stvar.mark,count.in.cell)
 table.current.study[is.na(table.current.study)]<-"NA"
-#cat("current study =",ns)
+#message("current study =",ns)
 #print(table.current.study)
 
 
@@ -738,7 +737,7 @@ for(oo in 1:length(table.current.study[,1]))
   if(d1.a!=d1||d2.a!=d2||d3.a!=d3)
   {
   return.message=  "Dimensions of tables not behaving sensibly across studies.Please check the data in each study and calculate counts and percentages, yourself, using the counts from the individual studies"
-  cat(return.message)
+  message(return.message)
   return(return.message) 
   }
   
@@ -875,7 +874,7 @@ cells.so.far<-0
 
 table.current.study<-cbind(rvar.mark,cvar.mark,count.in.cell)
 table.current.study[is.na(table.current.study)]<-"NA"
-#cat("current study =",ns)
+#message("current study =",ns)
 #print(table.current.study)
 
 
@@ -959,7 +958,7 @@ for(oo in 1:length(table.current.study[,1]))
   if(d1.a!=d1||d2.a!=d2)
   {
   return.message=  "Dimensions of tables not behaving sensibly across studies.Please check the data in each study and calculate counts and percentages, yourself, using the counts from the individual studies"
-  cat(return.message)
+  message(return.message)
   return(return.message) 
   }
   
@@ -1082,7 +1081,7 @@ cells.so.far<-0
 
 table.current.study<-cbind(rvar.mark,count.in.cell)
 table.current.study[is.na(table.current.study)]<-"NA"
-#cat("current study =",ns)
+#message("current study =",ns)
 #print(table.current.study)
 
 
@@ -1153,7 +1152,7 @@ for(oo in 1:length(table.current.study[,1]))
   if(d1.a!=d1)
   {
   return.message=  "Dimensions of tables not behaving sensibly across studies.Please check the data in each study and calculate counts and percentages, yourself, using the counts from the individual studies"
-  cat(return.message)
+  message(return.message)
   return(return.message) 
   }
   
@@ -1540,6 +1539,12 @@ if(num.table.dims==1)
 
 }#END second dim=1 loop
 
+#################################################
+# Setup on.exit() to restore options 'warn' value
+#################################################
+
+old_warn_option <- base::getOption("warn")
+on.exit(base::options(warn = old_warn_option), add = TRUE)
 
 ################################
 #NOW UNDERTAKE CHISQUARED TESTS#

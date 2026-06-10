@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.discordant.dataset.simple(list("A", "B", "C"))
 # Tests
 #
 
-context("ds.asCharacter::arg::test errors")
+# context("ds.asCharacter::arg::test errors")
 test_that("asCharacter_erros", {
     expect_error(ds.asCharacter(), "Please provide the name of the input vector!", fixed=TRUE)
 })

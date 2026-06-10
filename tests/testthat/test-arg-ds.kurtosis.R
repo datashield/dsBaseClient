@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.kurtosis::arg::setup")
+# context("ds.kurtosis::arg::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.kurtosis::arg::test errors")
+# context("ds.kurtosis::arg::test errors")
 test_that("kurtosis_erros", {
     expect_error(ds.kurtosis(), "Please provide the name of the input vector!", fixed=TRUE)
     expect_error(ds.kurtosis(x='D$LAB_TSC', type='datashield'), "Function argument \"type\" has to be either \"both\", \"combine\" or \"split\"", fixed=TRUE)
@@ -36,7 +37,7 @@ test_that("kurtosis_erros", {
 # Done
 #
 
-context("ds.kurtosis::arg::shutdown")
+# context("ds.kurtosis::arg::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -44,4 +45,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.kurtosis::arg::done")
+# context("ds.kurtosis::arg::done")

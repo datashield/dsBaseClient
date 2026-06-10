@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.reShape::discctrl::setup")
+# context("ds.reShape::discctrl::setup")
 
 connect.studies.dataset.survival(list("id", "study.id", "time.id", "cens", "age.60", "female"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.reShape::discctrl")
+# context("ds.reShape::discctrl")
 test_that("simple reShape", {
     expect_error(ds.reShape(data.name="D", v.names="age.60", timevar.name="time.id", idvar.name="id", direction="wide", newobj="reshape1_obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
@@ -42,7 +43,7 @@ test_that("simple reShape", {
 # Done
 #
 
-context("ds.reShape::discctrl::shutdown")
+# context("ds.reShape::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.reShape::discctrl::done")
+# context("ds.reShape::discctrl::done")

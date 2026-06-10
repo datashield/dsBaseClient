@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.dataFrameFill::smk::donothing setup")
+# context("ds.dataFrameFill::smk::donothing setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
 
@@ -25,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.dataFrameFill::smk::donothing dataframes")
+# context("ds.dataFrameFill::smk::donothing dataframes")
 test_that("dataFrameFill_donothing", {
     colnamesD <- ds.colnames('D')
 
@@ -50,7 +50,7 @@ test_that("dataFrameFill_donothing", {
 # Done
 #
 
-context("ds.dataFrameFill::smk::donothing shutdown")
+# context("ds.dataFrameFill::smk::donothing shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -58,4 +58,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.dataFrameFill::smk::donothing done")
+# context("ds.dataFrameFill::smk::donothing done")

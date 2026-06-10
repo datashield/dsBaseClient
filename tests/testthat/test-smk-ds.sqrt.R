@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.sqrt::smk::setup")
+# context("ds.sqrt::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.sqrt::smk")
+# context("ds.sqrt::smk")
 test_that("simple c", {
     res <- ds.sqrt("D$LAB_TSC", newobj = "sqrt.newobj")
 
@@ -50,7 +51,7 @@ test_that("simple c", {
 # Done
 #
 
-context("ds.sqrt::smk::shutdown")
+# context("ds.sqrt::smk::shutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D", "sqrt.newobj"))
@@ -58,4 +59,4 @@ test_that("setup", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.sqrt::smk::done")
+# context("ds.sqrt::smk::done")

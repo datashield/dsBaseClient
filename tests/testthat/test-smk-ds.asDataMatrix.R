@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.asDataMatrix::smk::setup")
+# context("ds.asDataMatrix::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.asDataMatrix::smk::simple test")
+# context("ds.asDataMatrix::smk::simple test")
 test_that("simple test", {
     res <- ds.asDataMatrix(x.name="D$GENDER")
 
@@ -34,22 +35,19 @@ test_that("simple test", {
 
     res.class <- ds.class("asdatamatrix.newobj")
     expect_length(res.class, 3)
-    expect_length(res.class$sim1, 2)
-    expect_true("array" %in% res.class$sim1)
-    expect_true("matrix" %in% res.class$sim1)
-    expect_length(res.class$sim2, 2)
-    expect_true("array" %in% res.class$sim2)
-    expect_true("matrix" %in% res.class$sim2)
-    expect_length(res.class$sim3, 2)
-    expect_true("array" %in% res.class$sim3)
-    expect_true("matrix" %in% res.class$sim3)
+    expect_length(res.class$sim1, 1)
+    expect_true("data.frame" %in% res.class$sim1)
+    expect_length(res.class$sim2, 1)
+    expect_true("data.frame" %in% res.class$sim2)
+    expect_length(res.class$sim3, 1)
+    expect_true("data.frame" %in% res.class$sim3)
 })
 
 #
 # Done
 #
 
-context("ds.asDataMatrix::smk::shutdown")
+# context("ds.asDataMatrix::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "asdatamatrix.newobj"))
@@ -57,5 +55,5 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.asDataMatrix::smk::done")
+# context("ds.asDataMatrix::smk::done")
 

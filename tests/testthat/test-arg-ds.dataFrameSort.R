@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 # Tests
 #
 
-context("ds.dataFrameSort::arg::no args")
+# context("ds.dataFrameSort::arg::no args")
 test_that("dataFrameSort_noargs", {
     expect_error(ds.dataFrameSort(), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 
@@ -30,7 +31,7 @@ test_that("dataFrameSort_noargs", {
     expect_match(res.errors$sim3, "* Error in strsplit\\(df.name, split = \"\"\\) : non-character argument*")
 })
 
-context("ds.dataFrameSort::arg::sorted dataframe, of factors")
+# context("ds.dataFrameSort::arg::sorted dataframe, of factors")
 test_that("dataFrameSort_factors", {
     myvectors <- c('D$LAB_TSC', 'D$GENDER')
     ds.dataFrame(x=myvectors, newobj="unsorted_df")

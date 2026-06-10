@@ -48,7 +48,7 @@
 #' \code{baseline.level = 1} and \code{forced.factor.levels = c(1,2,3,4,5)}. 
 #' The input vector is converted to the following matrix of dummy variables: 
 #'
-#' \tabular{rrrrr}{
+#' \tabular{rrrr}{
 #'   \strong{DV2} \tab \strong{DV3} \tab \strong{DV4} \tab \strong{DV5} \cr
 #'     0   \tab  0  \tab  0  \tab  0\cr
 #'     1   \tab  0  \tab  0  \tab  0\cr

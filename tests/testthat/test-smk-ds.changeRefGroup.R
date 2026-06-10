@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.changeRefGroup::smk::setup")
+# context("ds.changeRefGroup::smk::setup")
 
 connect.studies.dataset.cnsim(list('PM_BMI_CATEGORICAL'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.changeRefGroup::smk")
+# context("ds.changeRefGroup::smk")
 test_that("simple changeRefGroup", {
     newNames <- c('normal', 'overweight', 'obesity')
     expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=newNames, newobj='bmi_new'), "'ds.recodeLevels' is deprecated.\nUse 'ds.recodeValues' instead.", fixed = TRUE)
@@ -70,7 +71,7 @@ test_that("simple changeRefGroup", {
 # Done
 #
 
-context("ds.changeRefGroup::smk::shutdown")
+# context("ds.changeRefGroup::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "bmi_new", "bmi_ob"))
@@ -78,4 +79,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.changeRefGroup::smk::done")
+# context("ds.changeRefGroup::smk::done")

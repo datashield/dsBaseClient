@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.unique::smk::setup")
+# context("ds.unique::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.unique::smk::simple test")
+# context("ds.unique::smk::simple test")
 test_that("simple test", {
     original.newobj.length <- ds.length("D$GENDER")
 
@@ -51,7 +52,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.unique::smk::shutdown")
+# context("ds.unique::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "unique.newobj"))
@@ -59,4 +60,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.unique::smk::done")
+#context("ds.unique::smk::done")

@@ -137,7 +137,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
         }
         colNames <- unlist(colNames)
         if(anyDuplicated(colNames) != 0){
-          cat("\n Warning: Some column names in study", j, "are duplicated and a suffix '.k' will be added to the kth replicate \n")
+          message("\n Warning: Some column names in study", j, "are duplicated and a suffix '.k' will be added to the kth replicate \n")
         }  
       }  
     } 
@@ -178,7 +178,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       next.class <- DSI::datashield.aggregate(datasources[std], calltext1)
       class.vector <- c(class.vector, next.class[[1]])
       if (notify.of.progress){
-        cat("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
+        message("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
       }  
     }
     for(j in 1:length(x)){
@@ -186,14 +186,14 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
         colname.vector <- c(colname.vector, test.df)
         if (notify.of.progress){
-          cat("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          message("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
         }  
       }else{
         calltext2 <- call('colnamesDS', test.df)
         df.names <- DSI::datashield.aggregate(datasources[std], calltext2)
         colname.vector <- c(colname.vector, df.names[[1]])
         if (notify.of.progress){
-          cat("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          message("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
         }  
       }
     }
@@ -201,7 +201,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   }
   
   if (notify.of.progress){
-    cat("\nBoth steps in all studies completed\n")
+    message("\nBoth steps in all studies completed\n")
   }
   
   # prepare vectors for transmission

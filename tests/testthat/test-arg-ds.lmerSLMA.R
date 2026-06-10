@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.lmerSLMA::arg::setup")
+# context("ds.lmerSLMA::arg::setup")
 
 connect.studies.dataset.cluster.int(list("incid_rate", "trtGrp", "Male", "idDoctor", "BMI", "idSurgery"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA::arg")
+# context("ds.lmerSLMA::arg")
 test_that("simple lmerSLMA tesing (mis)use of arguments", {
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male', dataName = 'D')
     expect_equal(res$study1$errorMessage, "No random effects terms specified in formula", fixed=TRUE)
@@ -50,7 +51,7 @@ test_that("simple lmerSLMA tesing (mis)use of arguments", {
 # Shutdown
 #
 
-context("ds.lmerSLMA::arg::shutdown")
+# context("ds.lmerSLMA::arg::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "offset", "offset.to.use", "weights", "weights.to.use"))
@@ -62,4 +63,4 @@ disconnect.studies.dataset.cluster.int()
 # Done
 #
 
-context("ds.lmerSLMA::arg::done")
+# context("ds.lmerSLMA::arg::done")

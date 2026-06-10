@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.testObjExists::smk::setup")
+# context("ds.testObjExists::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.testObjExists::smk")
+# context("ds.testObjExists::smk")
 test_that("simple testObjExists", {
     res <- ds.testObjExists('D')
 
@@ -92,7 +93,7 @@ test_that("data.frame testObjExists", {
 # Done
 #
 
-context("ds.testObjExists::smk::shutdown")
+# context("ds.testObjExists::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "dataframe.newobj"))
@@ -100,4 +101,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.testObjExists::smk::done")
+# context("ds.testObjExists::smk::done")

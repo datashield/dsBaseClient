@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.foobar::arg::setup")
+# context("ds.foobar::arg::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,14 +25,13 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.foobar::arg::aggregate")
+# context("ds.foobar::arg::aggregate")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
     if (ds.test_env$driver == "ArmadilloDriver") {
-        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
-#        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
-        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else {
         fail(message = "Unknown driver type", info = ds.test_env$driver)
     }
@@ -40,7 +40,7 @@ test_that("NULL connections", {
     expect_length(errs, 0)
 })
 
-context("ds.foobar::arg::aggregate")
+# context("ds.foobar::arg::aggregate")
 test_that("NULL expr", {
     calltext <- call("fooBarDS")
     expect_error(expect_warning(datashield.aggregate(conns=ds.test_env$connections, expr=NULL), "'x' is NULL so the result will be NULL", fixed = TRUE), "replacement has length zero", fixed = TRUE)
@@ -49,7 +49,7 @@ test_that("NULL expr", {
     expect_length(errs, 0)
 })
 
-context("ds.foobar::arg::aggregate")
+# context("ds.foobar::arg::aggregate")
 test_that("non existent aggregate foobarDS", {
     calltext <- call("fooBarDS")
     expect_error(datashield.aggregate(conns=ds.test_env$connections, expr=calltext))
@@ -65,14 +65,13 @@ test_that("non existent aggregate foobarDS", {
     expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
 })
 
-context("ds.foobar::arg::assign")
+# context("ds.foobar::arg::assign")
 test_that("NULL connections", {
     calltext <- call("fooBarDS")
     if (ds.test_env$driver == "ArmadilloDriver") {
-        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
-#        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "trying to get slot \"name\" from an object of a basic class (\"NULL\") with no slots", fixed=TRUE)
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
-        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "no applicable method for `@` applied to an object of class \"NULL\"", fixed=TRUE)
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else {
         fail(message = "Unknown driver type", info = ds.test_env$driver)
     }
@@ -89,7 +88,7 @@ test_that("NULL connections", {
 #    expect_length(res, 0)
 #})
 
-context("ds.foobar::arg::assign")
+# context("ds.foobar::arg::assign")
 test_that("NULL value", {
     calltext <- call("fooBarDS")
     expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=NULL), "Not a valid table name", fixed=TRUE)
@@ -98,7 +97,7 @@ test_that("NULL value", {
     expect_length(errs, 0)
 })
 
-context("ds.foobar::arg::assign")
+# context("ds.foobar::arg::assign")
 test_that("non existent assign foobarDS", {
     calltext <- call("fooBarDS")
     expect_error(datashield.assign(conns=ds.test_env$connections, symbol="new_obj", value=calltext))
@@ -117,7 +116,7 @@ test_that("non existent assign foobarDS", {
 # Tear down
 #
 
-context("ds.foobar::arg::shutdown")
+# context("ds.foobar::arg::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -125,4 +124,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.foobar::arg::done")
+# context("ds.foobar::arg::done")

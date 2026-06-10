@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.getWGSR::smk::setup")
+# context("ds.getWGSR::smk::setup")
 
 connect.studies.dataset.anthro(list("age", "sex", "weight", "height", "muac"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.getWGSR::smk")
+# context("ds.getWGSR::smk")
 test_that("simple getWGSR", {
     res <- ds.getWGSR('D$sex', 'D$weight', 'D$height', 'wfh', newobj='newobj.getwgsr')
 
@@ -61,7 +62,7 @@ test_that("simple getWGSR", {
 # Done
 #
 
-context("ds.getWGSR::smk::shutdown")
+# context("ds.getWGSR::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "newobj.getwgsr"))
@@ -69,4 +70,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.getWGSR::smk::done")
+# context("ds.getWGSR::smk::done")

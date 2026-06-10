@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glmSummary::smk::setup")
+# context("ds.glmSummary::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmSummary::smk::gaussian")
+# context("ds.glmSummary::smk::gaussian")
 test_that("simple glmSummary, gaussian, without newobj", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
@@ -87,7 +88,7 @@ test_that("simple glmSummary, gaussian", {
     expect_equal(class(res$sim3$glm.summary.obj), 'summary.glm')
 })
 
-context("ds.glmSummary::smk::poisson")
+# context("ds.glmSummary::smk::poisson")
 test_that("simple glmSummary, poisson, without newobj", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
 
@@ -154,7 +155,7 @@ test_that("simple glmSummary, poisson", {
 # Shutdown
 #
 
-context("ds.glmSummary::smk::shutdown")
+# context("ds.glmSummary::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glmsummary.obj", "poisson.glmslma.obj", "poisson.glmsummary.obj", "summary_glm.newobj"))
@@ -166,4 +167,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.glmSummary::smk::done")
+# context("ds.glmSummary::smk::done")

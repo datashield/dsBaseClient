@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.asCharacter::smk_dgr::setup")
+# context("ds.asCharacter::smk_dgr::setup")
 
 require(dsDangerClient)
 
@@ -26,7 +27,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.asCharacter::smk_dgr::simple test")
+# context("ds.asCharacter::smk_dgr::simple test")
 test_that("simple test", {
     res <- ds.asCharacter("D$LAB_TSC")
 
@@ -39,7 +40,7 @@ test_that("simple test", {
 # Shutdown
 #
 
-context("ds.asCharacter::smk_dgr::stutdown")
+# context("ds.asCharacter::smk_dgr::stutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D", "ascharacter.newobj"))
@@ -51,4 +52,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.asCharacter::smk_dgr::done")
+# context("ds.asCharacter::smk_dgr::done")

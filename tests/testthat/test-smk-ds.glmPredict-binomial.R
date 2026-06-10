@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glmPredict::smk::binomial::setup")
+# context("ds.glmPredict::smk::binomial::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmPredict::smk::binomial::without_newobj")
+# context("ds.glmPredict::smk::binomial::without_newobj")
 test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   
@@ -106,7 +107,7 @@ test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   
 })
 
-context("ds.glmPredict::smk::binomial::with_newobj")
+# context("ds.glmPredict::smk::binomial::with_newobj")
 test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
     
@@ -187,7 +188,7 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 0.029020811, tolerance = ds.test_env$tolerance)
 })
 
-context("ds.glmPredict::smk::binomial::sefit_true")
+# context("ds.glmPredict::smk::binomial::sefit_true")
 test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   
@@ -318,7 +319,7 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
 # Shutdown
 #
 
-context("ds.glmPredict::smk::binomial::shutdown")
+# context("ds.glmPredict::smk::binomial::shutdown")
 
 test_that("shutdown", {
   ds_expect_variables(c("D", "binomial.glmslma.obj", "binomial.glm.predict.obj", "binomial.glm.predict.sefit.obj", "predict_glm" ))
@@ -330,4 +331,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.glmPredict::smk::binomial::done")
+# context("ds.glmPredict::smk::binomial::done")

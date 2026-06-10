@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +12,7 @@
 # Set up
 #
 
-context("conndisconn::perf::setup")
+# context("conndisconn::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 disconnect.studies.dataset.cnsim()
 
@@ -20,9 +20,9 @@ disconnect.studies.dataset.cnsim()
 # Tests
 #
 
-context("conndisconn::perf::simple0")
+# context("conndisconn::perf::simple0")
 test_that("simple connect - disconnect performance", {
-    .durationSec  <- 120 # seconds
+    .durationSec  <- perf.testduration(120)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -56,6 +56,6 @@ test_that("simple connect - disconnect performance", {
 # Done
 #
 
-context("conndisconn::perf::shutdown")
+# context("conndisconn::perf::shutdown")
 disconnect.studies.dataset.cnsim()
-context("conndisconn::perf::done")
+# context("conndisconn::perf::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.Boole::smk::setup")
+# context("ds.Boole::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.Boole::smk::variable")
+# context("ds.Boole::smk::variable")
 test_that("simple boole, variable", {
     res <- ds.Boole("D$LAB_TSC", "D$LAB_TRIG", "==")
 
@@ -73,7 +74,7 @@ test_that("simple boole, variable", {
     expect_equal(res.boole$sim3$`quantiles & mean`[[8]], 0.0)
 })
 
-context("ds.Boole::smk::small neg constant V2")
+# context("ds.Boole::smk::small neg constant V2")
 test_that("simple boole, small neg constant V2", {
     res <- ds.Boole("D$LAB_TRIG", "-1", "<", numeric.output = TRUE, newobj = "boole01.obj")
 
@@ -121,7 +122,7 @@ test_that("simple boole, small neg constant V2", {
     expect_equal(res.boole$sim3$`quantiles & mean`[[8]], 0.023322781)
 })
 
-context("ds.Boole::smk::big neg constant V2")
+# context("ds.Boole::smk::big neg constant V2")
 test_that("simple boole, big neg constant V2", {
     res <- ds.Boole("D$LAB_TRIG", "-10", "<", numeric.output = TRUE, newobj = "boole02.obj")
   
@@ -173,7 +174,7 @@ test_that("simple boole, big neg constant V2", {
 # Done
 #
 
-context("ds.Boole::smk::shutdown")
+# context("ds.Boole::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "boole.newobj", "boole01.obj", "boole02.obj"))
@@ -181,4 +182,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.Boole::smk::done")
+# context("ds.Boole::smk::done")

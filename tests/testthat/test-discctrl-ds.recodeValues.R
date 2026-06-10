@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rep::discctrl::setup")
+# context("ds.rep::discctrl::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.rep::discctrl")
+# context("ds.rep::discctrl")
 test_that("simple recodeValues", {
     expect_error(ds.recodeValues("D$survtime", values2replace.vector=c(0,1), new.values.vector=c(-10,10), newobj="recodevalues_newobj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
@@ -42,7 +43,7 @@ test_that("simple recodeValues", {
 # Done
 #
 
-context("ds.rep::discctrl::shutdown")
+# context("ds.rep::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.rep::discctrl::done")
+# context("ds.rep::discctrl::done")

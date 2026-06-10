@@ -27,7 +27,7 @@
 #' 
 #' @param mdata a character string specifying
 #' the name of a server-side scalar or vector. Also, a numeric value representing a
-#' scalar specified from the client-side can be speficied. 
+#' scalar specified from the client-side can be specified 
 #' Zeros, negative values and NAs are all allowed.
 #' For more information see \strong{Details}. 
 #' @param from a character string specifying the source and nature of \code{mdata}.
@@ -171,7 +171,7 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   #Check that valid from has been specified
   if(from!="serverside.vector"&&from!="serverside.scalar"&&from!="clientside.scalar")
   {
-  cat("            FAILED: <from> must be specified as one of the following - 'serverside.vector',
+  message("            FAILED: <from> must be specified as one of the following - 'serverside.vector',
         'serverside.scalar', 'clientside.scalar'\n\n")
   return('Please respecify')
   }

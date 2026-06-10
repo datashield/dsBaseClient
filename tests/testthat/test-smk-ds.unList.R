@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.unList::smk::setup")
+# context("ds.unList::smk::setup")
 
 connect.studies.dataset.cnsim(list("GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.unList::smk::simple test")
+# context("ds.unList::smk::simple test")
 test_that("simple test", {
     ds.asList(x.name="D$GENDER", newobj="GENDER.list")
 
@@ -39,7 +40,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.unList::smk::shutdown")
+# context("ds.unList::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "GENDER.list", "unlist.newobj"))
@@ -47,4 +48,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.unList::smk::done")
+# context("ds.unList::smk::done")

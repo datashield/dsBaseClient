@@ -1,3 +1,4 @@
 template:
+  lang: en-GB
   params:
     bootswatch: simplex

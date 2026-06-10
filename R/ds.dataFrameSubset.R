@@ -12,7 +12,7 @@
 #' 
 #' Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 #' 
-#' @param df.name a character string providing the name of the data frame to be subseted. 
+#' @param df.name a character string providing the name of the data frame to be subset. 
 #' @param V1.name  A character string specifying the name of the vector 
 #' to which the Boolean operator is to be applied to define the subset.
 #' For more information see details. 
@@ -231,13 +231,13 @@ if(!is.null(rm.cols)){
         if (notify.of.progress)
 	{
             if(num.messages==1){
-	        cat("\nSource",s,"\n",return.warning.message[[s]][[1]],"\n")
+	        message("\nSource",s,"\n",return.warning.message[[s]][[1]],"\n")
 	    }else{
-	        cat("\nSource",s,"\n")
+	        message("\nSource",s,"\n")
 		for(m in 1:(num.messages-1)){
-		    cat(return.warning.message[[s]][[m]],"\n")
+		    message(return.warning.message[[s]][[m]],"\n")
                 }
-                cat(return.warning.message[[s]][[num.messages]],"\n")
+                message(return.warning.message[[s]][[num.messages]],"\n")
 	    }
         }
     }

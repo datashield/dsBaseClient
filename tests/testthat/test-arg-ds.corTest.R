@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.survival(list("survtime", "time.id"))
 # Tests
 #
 
-context("ds.corTest::arg")
+# context("ds.corTest::arg")
 
 test_that("simple arg test", {
     expect_error(ds.corTest(), "x=NULL. Please provide the names of the 1st numeric vector!", fixed=TRUE)

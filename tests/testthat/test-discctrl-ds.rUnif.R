@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.rUnif::discctrl::setup")
+# context("ds.rUnif::discctrl::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -24,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.rUnif::discctrl")
+# context("ds.rUnif::discctrl")
 test_that("simple c", {
     expect_error(ds.rUnif(samp.size = 50, min = 0, max = 1, newobj = "unif_dist", seed.as.integer = 27), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     
@@ -39,7 +39,7 @@ test_that("simple c", {
 # Done
 #
 
-context("ds.rUnif::discctrl::shutdown")
+# context("ds.rUnif::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -47,4 +47,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.rUnif::discctrl::done")
+# context("ds.rUnif::discctrl::done")

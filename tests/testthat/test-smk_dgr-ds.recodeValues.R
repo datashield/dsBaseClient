@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.recodeValues::smk_dgr::setup")
+# context("ds.recodeValues::smk_dgr::setup")
 
 connect.studies.dataset.survival(list("time.id"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.recodeValues::smk_dgr::simple numeric")
+# context("ds.recodeValues::smk_dgr::simple numeric")
 test_that("simple test", {
     res <- ds.recodeValues("D$time.id", values2replace.vector=c(1,2), new.values.vector=c(10,20), newobj="time.id")
 
@@ -88,7 +89,7 @@ test_that("simple test", {
 #
 # Done
 #
-context("ds.recodeValues::smk_dgr::shutdown")
+# context("ds.recodeValues::smk_dgr::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "time.id", "odf", "ndf"))
@@ -96,4 +97,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.recodeValues::smk_dgr::done")
+# context("ds.recodeValues::smk_dgr::done")

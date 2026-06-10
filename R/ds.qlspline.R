@@ -18,7 +18,7 @@
 #' intervals along x or a vector of numbers in (0; 1) specifying the quantiles explicitly.
 #' @param na.rm logical, whether NA should be removed when calculating quantiles, passed
 #' to na.rm of quantile. Default set to TRUE
-#' @param marginal logical, how to parametrize the spline, see Details
+#' @param marginal logical, how to parametrise the spline, see Details
 #' @param names character, vector of names for constructed variables
 #' @param newobj a character string that provides the name for the output 
 #' variable that is stored on the data servers. Default \code{qlspline.newobj}. 

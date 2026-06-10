@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.gamlss::smk::setup")
+# context("ds.gamlss::smk::setup")
 
 connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None", "hs_zbmi_who", "hs_child_age_None",
                                     "h_mbmi_None", "hs_correct_raven", "hs_wgtgain_None"))
@@ -25,7 +26,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.gamlss::smk::mod1")
+# context("ds.gamlss::smk::mod1")
 test_that("gamlss, birth weight", {
     model_e3_bw.DS <- ds.gamlss(formula = 'e3_bw ~ e3_gac_None',
                               sigma.formula = 'e3_bw ~ e3_gac_None',
@@ -111,7 +112,7 @@ test_that("gamlss, birth weight", {
     expect_equal(as.numeric(model_e3_bw.DS$study1$centiles[9,'per']), 99.3410214, tolerance=1e-7)
 })
 
-context("ds.gamlss::smk::mod2")
+# context("ds.gamlss::smk::mod2")
 test_that("gamlss, Z BMI", {
   model_zbmi_who.DS <- ds.gamlss(formula = 'hs_zbmi_who ~ hs_child_age_None+h_mbmi_None',
                                  sigma.formula = 'hs_zbmi_who ~ hs_child_age_None',
@@ -199,7 +200,7 @@ test_that("gamlss, Z BMI", {
 })
 
 
-context("ds.gamlss::smk::mod3")
+# context("ds.gamlss::smk::mod3")
 test_that("gamlss, RAVEN TEST", {
 
   ds.dataFrameSort(df.name = 'D', sort.key.name = 'D$hs_correct_raven', newobj = 'D2')
@@ -291,7 +292,7 @@ test_that("gamlss, RAVEN TEST", {
   expect_equal(as.numeric(model_correct_raven.DS$study1$centiles[9,'per']), 100.000000, tolerance=1e-7)
 })
 
-context("ds.gamlss::smk::mod4")
+# context("ds.gamlss::smk::mod4")
 test_that("gamlss, WEIGHT GAIN", {
   model_wgtgain.DS <- ds.gamlss(formula = 'hs_wgtgain_None ~ (e3_bw)',
                                 sigma.formula = 'hs_wgtgain_None ~ (e3_bw)',
@@ -381,7 +382,7 @@ test_that("gamlss, WEIGHT GAIN", {
 # Done
 #
 
-context("ds.gamlss::smk::shutdown")
+# context("ds.gamlss::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "D2", "z_scores_e3_bw", "z_scores_hs_correct_raven", "z_scores_hs_wgtgain_None",
@@ -390,4 +391,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.gamlss()
 
-context("ds.gamlss::smk::done")
+# context("ds.gamlss::smk::done")

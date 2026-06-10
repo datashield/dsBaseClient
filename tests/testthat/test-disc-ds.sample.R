@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.sample::disc::setup")
+# context("ds.sample::disc::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
@@ -20,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 # Tests
 #
 
-context("ds.sample::disc::test disclosure")
+# context("ds.sample::disc::test disclosure")
 test_that("cov_erros", {
     expect_error(ds.sample(x="This_line_is_very_very_very_very_very_very_long", size=1234, newobj="obj1"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
     res1.errors <- DSI::datashield.errors()
@@ -64,7 +65,7 @@ test_that("cov_erros", {
 # Shutdown
 #
 
-context("ds.sample::disc::shutdown")
+# context("ds.sample::disc::shutdown")
 
 disconnect.studies.dataset.cnsim()
 
@@ -72,4 +73,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.sample::disc::done")
+# context("ds.sample::disc::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.corTest::smk::setup")
+# context("ds.corTest::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.corTest::smk::pearson")
+# context("ds.corTest::smk::pearson")
 
 test_that("simple test", {
     res <- ds.corTest(x="D$survtime", y="D$time.id", method="pearson", conf.level=0.95)
@@ -56,7 +57,7 @@ test_that("simple test", {
     expect_equal(res$survival3$`Correlation test`[[8]], "x.var and y.var")
 })
 
-context("ds.corTest::smk::kendall")
+# context("ds.corTest::smk::kendall")
 
 test_that("simple test", {
     res <- ds.corTest(x="D$survtime", y="D$time.id", method="kendall", conf.level=0.95)
@@ -88,7 +89,7 @@ test_that("simple test", {
     expect_equal(res$survival3$`Correlation test`[[8]], "x.var and y.var")
 })
 
-context("ds.corTest::smk::spearman")
+# context("ds.corTest::smk::spearman")
 
 test_that("simple test", {
     res <- ds.corTest(x="D$survtime", y="D$time.id", method="spearman", conf.level=0.95)
@@ -124,7 +125,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.corTest::smk::shutdown")
+# context("ds.corTest::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -132,4 +133,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.corTest::smk::done")
+# context("ds.corTest::smk::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -18,7 +19,7 @@ connect.studies.dataset.cnsim(list("DIS_AMI", "LAB_TSC"))
 # Tests
 #
 
-context("ds.changeRefGroup::arg::test errors")
+# context("ds.changeRefGroup::arg::test errors")
 test_that("changeRefGroup_erros", {
     expect_error(ds.changeRefGroup(), "Please provide the name of a vector of type factor!")
     expect_error(ds.changeRefGroup(x="D$DIS_AMI"), " You must indicate a reference level - set the parameter 'ref'.")

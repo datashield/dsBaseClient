@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.var::smk::setup")
+# context("ds.var::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.var::smk::split")
+# context("ds.var::smk::split")
 test_that("simple var, split", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='split')
 
@@ -49,7 +50,7 @@ test_that("simple var, split", {
     expect_equal(var.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
-context("ds.var::smk::combine")
+# context("ds.var::smk::combine")
 test_that("simple var, combine", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='combine')
 
@@ -66,7 +67,7 @@ test_that("simple var, combine", {
     expect_equal(var.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
-context("ds.var::smk::both")
+# context("ds.var::smk::both")
 test_that("simple var, both", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='both')
 
@@ -100,7 +101,7 @@ test_that("simple var, both", {
 # Done
 #
 
-context("ds.var::smk::shutdown")
+# context("ds.var::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -108,4 +109,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.var::smk::done")
+# context("ds.var::smk::done")

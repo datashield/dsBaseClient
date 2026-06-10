@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.lmerSLMA::expt::setup")
+# context("ds.lmerSLMA::expt::setup")
 #source("connection_to_datasets/init_all_datasets.R")
 connect.studies.dataset.cluster.int(list('idChild','idSurgery','trtGrp','s0','nDoctors',
                                          'idDoctor','c0','nPatients','Male','age','BMI',
@@ -27,7 +28,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.lmerSLMA::expt::int::multiple")
+# context("ds.lmerSLMA::expt::int::multiple")
 test_that("linear mixed model with 2 levels of hierarchy",
           {
 
@@ -79,4 +80,4 @@ test_that("linear mixed model with 2 levels of hierarchy",
 
 disconnect.studies.dataset.cluster.int()
 
-context("ds.lmerSLMA::expt::done")
+# context("ds.lmerSLMA::expt::done")

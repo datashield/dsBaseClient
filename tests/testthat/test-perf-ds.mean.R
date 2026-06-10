@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,16 +12,16 @@
 # Set up
 #
 
-context("ds.mean::perf::setup")
+# context("ds.mean::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
 #
 
-context("ds.mean::perf::combine:0")
+# context("ds.mean::perf::combine:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration(30)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -50,9 +50,9 @@ test_that("combine - performance", {
     expect_lt(.current.rate, .reference.rate * .reference.tolerance.upper, label = "Observed rate", expected.label = "upper threshold on rate")
 })
 
-context("ds.mean::perf::split:0")
+# context("ds.mean::perf::split:0")
 test_that("split - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration(30)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -85,6 +85,6 @@ test_that("split - performance", {
 # Done
 #
 
-context("ds.mean::perf::shutdown")
+# context("ds.mean::perf::shutdown")
 disconnect.studies.dataset.cnsim()
-context("ds.mean::perf::done")
+# context("ds.mean::perf::done")

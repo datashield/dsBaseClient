@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.exp::smk::setup")
+# context("ds.exp::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.exp::smk")
+# context("ds.exp::smk")
 test_that("simple exp", {
     res1 <- ds.exp("D$LAB_TSC", newobj="exp1_obj")
 
@@ -81,7 +82,7 @@ test_that("simple exp", {
 # Done
 #
 
-context("ds.exp::smk::shutdown")
+# context("ds.exp::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "exp1_obj", "new_data", "exp2_obj"))
@@ -89,4 +90,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.exp::smk::done")
+# context("ds.exp::smk::done")

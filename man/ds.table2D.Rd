@@ -17,12 +17,12 @@ ds.table2D(
 
 \item{y}{a character, the name of a numerical vector with discrete values - usually a factor.}
 
-\item{type}{a character which represent the type of table to ouput: pooled table or one table for each
+\item{type}{a character which represent the type of table to output: pooled table or one table for each
 data source or both. If \code{type} is set to 'combine', a pooled 2-dimensional table is returned; If \code{type}
 is set to 'split' a 2-dimensional table is returned for each data source. If \code{type} is set to 'both' (default)
 a pooled 2-dimensional table plus a 2-dimensional table for each data source are returned.}
 
-\item{warningMessage}{a boolean, if set to TRUE (deafult) a warning is displayed if any returned table is invalid. Warning
+\item{warningMessage}{a boolean, if set to TRUE (default) a warning is displayed if any returned table is invalid. Warning
 messages are suppressed if this parameter is set to FALSE. However the analyst can still view 'validity' information
 which are stored in the output object 'validity' - see the list of output objects.}
 
@@ -77,7 +77,7 @@ identify the cell(s) that had the small counts which render the table invalid.
   # Example 2: generate a two dimensional table, outputting study specific contingency tables
   ds.table2D(x='D$DIS_DIAB', y='D$GENDER', type='split')
   # display the 5 results items, one at a time to avoid having too much information displayed
-  at the same time
+  # at the same time
   output$counts
   output$rowPercent
   output$colPercent

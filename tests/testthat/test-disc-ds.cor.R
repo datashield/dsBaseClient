@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.cor::disc::setup")
+# context("ds.cor::disc::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "LAB_GLUC_ADJUSTED", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.cor::disc")
+# context("ds.cor::disc")
 test_that("simple D3 setup", {
     ds.dataFrameSubset('D',V1.name = 'D$GENDER', V2.name = '0', Boolean.operator = '==', newobj='D1')
     ds.dataFrameSubset('D1',V1.name = 'D1$LAB_TSC', V2.name = '3.5', Boolean.operator = '<', newobj='D2')
@@ -107,7 +108,7 @@ test_that("simple disc test, naAction='pairwise.complete', type='combine'", {
 # Done
 #
 
-context("ds.cor::disc::shutdown")
+# context("ds.cor::disc::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "D1", "D2", "D3"))
@@ -115,4 +116,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.cor::disc::done")
+# context("ds.cor::disc::done")

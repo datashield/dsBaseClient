@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,13 +13,13 @@
 # Set up
 #
 
-context("ds.auc::arg::setup")
+# context("ds.auc::arg::setup")
 
 #
 # Tests
 #
 
-context("ds.auc::arg::test errors")
+# context("ds.auc::arg::test errors")
 
 test_that("ds.auc errors for null pred or y", {
   
@@ -31,5 +32,5 @@ test_that("ds.auc errors for null pred or y", {
 # Done
 #
 
-context("ds.auc::arg::shutdown")
-context("ds.auc::arg::done")
+# context("ds.auc::arg::shutdown")
+# context("ds.auc::arg::done")

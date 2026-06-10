@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glmPredict::smk::poisson::setup")
+# context("ds.glmPredict::smk::poisson::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB", "GENDER"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glmPredict::smk::poisson::without_newobj")
+# context("ds.glmPredict::smk::poisson::without_newobj")
 test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   
@@ -105,7 +106,7 @@ test_that("simple glmPredict, poisson, without newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = ds.test_env$tolerance)
 })
 
-context("ds.glmPredict::smk::poisson::with_newobj")
+# context("ds.glmPredict::smk::poisson::with_newobj")
 test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   
@@ -186,7 +187,7 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=FALSE", {
   expect_equal(res$sim3$safe.list$fit.quantiles[[7]], 6.056664, tolerance = ds.test_env$tolerance)
 })
 
-context("ds.glmPredict::smk::poisson::sefit_true")
+# context("ds.glmPredict::smk::poisson::sefit_true")
 test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
   
@@ -316,7 +317,7 @@ test_that("simple glmPredict, poisson, with newobj, se.fit=TRUE", {
 # Shutdown
 #
 
-context("ds.glmPredict::smk::poisson::shutdown")
+# context("ds.glmPredict::smk::poisson::shutdown")
 
 test_that("shutdown", {
   ds_expect_variables(c("D", "poisson.glm.predict.obj", "poisson.glm.predict.sefit.obj", "poisson.glmslma.obj", "predict_glm" ))
@@ -328,4 +329,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.glmPredict::smk::poisson::done")
+# context("ds.glmPredict::smk::poisson::done")

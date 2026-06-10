@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("checkClass::smk::discordant::setup")
+# context("checkClass::smk::discordant::setup")
 
 connect.discordant.dataset.simple(list("A", "B", "C"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("checkClass::smk::discordant")
+# context("checkClass::smk::discordant")
 test_that("simple test, discordant dataset A", {
     expect_error(checkClass(ds.test_env$connections, "D$A"), " End of process!", fixed=TRUE)
 })
@@ -41,7 +42,7 @@ test_that("simple test, discordant dataset C", {
 # Done
 #
 
-context("checkClass::smk::discordant::shutdown")
+# context("checkClass::smk::discordant::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -49,4 +50,4 @@ test_that("shutdown", {
 
 disconnect.discordant.dataset.simple()
 
-context("checkClass::smk::discordant::done")
+# context("checkClass::smk::discordant::done")

@@ -57,47 +57,29 @@ for(j in 1:length(search.path))
   }
 
 
-		cat("\n### Full search path \n")
 		print.search.list<-search()
-		print(print.search.list)
 
 
 	if(test.userDefinedClient==TRUE)
 		{
-		cat("\n### userDefinedClient functions \n")
 		print.text<-ls(pos=".GlobalEnv",pattern="ds.*")
 		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
-		print(print.text)
 		print.text.full<-c(print.text.full,print.text)
 		}
 
 	if(test.dsBetaTestClient==TRUE)
 		{
-		cat("\n### dsBetaTestClient functions \n")
 		print.text<-ls(pos="package:dsBetaTestClient")
 		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
-		print(print.text)
 		print.text.full<-c(print.text.full,print.text)
 		}
 
 	if(test.dsBaseClient==TRUE)
 		{
-		cat("\n### dsBaseClient functions \n")
 		print.text<-ls(pos="package:dsBaseClient")
 		if(identical(print.text,character(0)))print.text<-"No clientside functions in this repository"
-		print(print.text)
 		print.text.full<-c(print.text.full,print.text)
 		}
-
-	if(test.no.functions==TRUE)
-		{
-		cat("\n### No standard clientside functions identified \n")
-		}
-
-	cat("\nIf you cannot see one or more of the clientside functions you expected to find",
-	    "please see above for the full search path. If one of the paths is a possible clientside repository",
-	    "issue the R command ls(pos='package:dsPackageName')",
-	    "where 'package:dsPackageName' is the full name stated in the search path\n\n")
 
 	return(print.text.full)
 }

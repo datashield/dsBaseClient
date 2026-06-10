@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rm::smk::setup")
+# context("ds.rm::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.rm::smk")
+# context("ds.rm::smk")
 test_that("simple test", {
     res1 <- ds.rm("nonexistant_object")
 
@@ -67,7 +68,7 @@ test_that("simple test", {
     expect_equal(res2$survival1$problem.objects, "")
 })
 
-context("ds.rm::smk")
+# context("ds.rm::smk")
 test_that("multiple test", {
     res1 <- ds.rm("nonexistant_object1,nonexistant_object2")
 
@@ -136,7 +137,7 @@ test_that("multiple test", {
 # Done
 #
 
-context("ds.rm::smk::shutdown")
+# context("ds.rm::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -144,4 +145,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.rm::smk::done")
+# context("ds.rm::smk::done")

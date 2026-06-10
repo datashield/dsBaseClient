@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.dmtC2S::discctrl::setup")
+# context("ds.dmtC2S::discctrl::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.dmtC2S::discctrl")
+# context("ds.dmtC2S::discctrl")
 test_that("simple dmtC2S", {
     a <- data.frame(c(1, 2))
     b <- data.frame(c(2, 3))
@@ -46,7 +47,7 @@ test_that("simple dmtC2S", {
 # Done
 #
 
-context("ds.dmtC2S::discctrl::shutdown")
+# context("ds.dmtC2S::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -54,4 +55,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.dmtC2S::discctrl::done")
+# context("ds.dmtC2S::discctrl::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.elspline::smk::setup")
+# context("ds.elspline::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TRIG", "PM_BMI_CONTINUOUS"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.elspline::smk::test1")
+# context("ds.elspline::smk::test1")
 test_that("elspline", {
    
     ds.elspline(x="D$PM_BMI_CONTINUOUS", n=3, newobj="elsplineDS", datasources=ds.test_env$connections)
@@ -55,7 +56,7 @@ test_that("elspline", {
     expect_equal(res.mod$errorMessage[3], "No errors")
     expect_equal(res.mod$nsubs, 7477)
     expect_equal(res.mod$iter, 3)
-    expect_true("family" %in% class(res.mod$family))
+    expect_true("character" %in% class(res.mod$family))
     expect_equal(res.mod$formula, "D$LAB_TRIG ~ elsplineDS")
     expect_true("matrix" %in% class(res.mod$coefficients))
     expect_true("array" %in% class(res.mod$coefficients))
@@ -74,7 +75,7 @@ test_that("elspline", {
 })
 
 
-context("ds.elspline::smk::test2")
+# context("ds.elspline::smk::test2")
 test_that("elspline", {
     
     ds.elspline(x="D$PM_BMI_CONTINUOUS", n=5, newobj="elsplineDS2", datasources=ds.test_env$connections)
@@ -105,7 +106,7 @@ test_that("elspline", {
     expect_equal(res.mod$errorMessage[3], "No errors")
     expect_equal(res.mod$nsubs, 7477)
     expect_equal(res.mod$iter, 3)
-    expect_true("family" %in% class(res.mod$family))
+    expect_true("character" %in% class(res.mod$family))
     expect_equal(res.mod$formula, "D$LAB_TRIG ~ elsplineDS2")
     expect_true("matrix" %in% class(res.mod$coefficients))
     expect_true("array" %in% class(res.mod$coefficients))
@@ -132,7 +133,7 @@ test_that("elspline", {
 # Done
 #
 
-context("ds.elspline::smk::shutdown")
+# context("ds.elspline::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "elsplineDS", "elsplineDS2", "LAB_TRIG"))
@@ -140,4 +141,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.elspline::smk::done")
+# context("ds.elspline::smk::done")

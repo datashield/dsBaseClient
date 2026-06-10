@@ -151,7 +151,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.x1!="serverside"&&source.x1!="clientside")
   {
-  cat("            FAILED: if source.x1 is non-null it must be specified as
+  message("            FAILED: if source.x1 is non-null it must be specified as
   one of the following: 'clientside','serverside','c', or 's'\n\n")
   return('Please respecify')
   }
@@ -174,7 +174,7 @@ if(source.each=='s')source.each<-'serverside'
  #Check that source has been specified
   if(source.times!="serverside"&&source.times!="clientside"&&!is.null(source.times))
   {
-  cat("            FAILED: if source.times is non-null it must be specified as
+  message("            FAILED: if source.times is non-null it must be specified as
   one of the following: 'clientside','serverside','c', or 's'\n\n")
   return('Please respecify')
   }
@@ -208,7 +208,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.length.out!="serverside"&&source.length.out!="clientside"&&!is.null(source.length.out))
   {
-  cat("            FAILED: if source.length.out is non-null it must be specified as
+  message("            FAILED: if source.length.out is non-null it must be specified as
   one of the following: 'clientside','serverside','c', or 's'\n\n")
   return('Please respecify')
   }
@@ -243,7 +243,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.each!="serverside"&&source.each!="clientside"&&!is.null(source.each))
   {
-  cat("            FAILED: if source.each is non-null it must be specified as
+  message("            FAILED: if source.each is non-null it must be specified as
   one of the following: 'clientside','serverside','c', or 's'\n\n")
   return('Please respecify')
   }

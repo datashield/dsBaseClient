@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.completeCases::smk::vector::setup")
+# context("ds.completeCases::smk::vector::setup")
 
 connect.studies.dataset.survival(list('id', 'study.id', 'time.id', 'starttime', 'endtime', 'survtime', 'cens', 'age.60', 'female', 'noise.56', 'pm10.16', 'bmi.26'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.completeCases::smk::vector::numeric")
+# context("ds.completeCases::smk::vector::numeric")
 test_that("completeCases vector", {
     ds.c("D$survtime", newobj="vec_n")
 
@@ -79,7 +80,7 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new_numna$survival3, 0)
 })
 
-context("ds.completeCases::smk::vector::integer")
+# context("ds.completeCases::smk::vector::integer")
 test_that("completeCases vector", {
     ds.asInteger("D$age.60", newobj="vec_i")
 
@@ -134,7 +135,7 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new_numna$survival3, 0)
 })
 
-context("ds.completeCases::smk::vector::character")
+# context("ds.completeCases::smk::vector::character")
 test_that("completeCases vector", {
     ds.asCharacter("D$age.60", newobj="vec_c")
 
@@ -189,7 +190,7 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new_numna$survival3, 0)
 })
 
-context("ds.completeCases::smk::vector::logical")
+# context("ds.completeCases::smk::vector::logical")
 test_that("completeCases vector", {
     ds.asLogical("D$age.60", newobj="vec_l")
 
@@ -244,7 +245,7 @@ test_that("completeCases vector", {
     expect_equal(res.vec_new_numna$survival3, 0)
 })
 
-context("ds.completeCases::smk::vector::factor")
+# context("ds.completeCases::smk::vector::factor")
 test_that("completeCases vector", {
     ds.c("D$female", newobj="vec_f")
 
@@ -303,7 +304,7 @@ test_that("completeCases vector", {
 # Done
 #
 
-context("ds.completeCases::smk::vector::shutdown")
+# context("ds.completeCases::smk::vector::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "vec_n", "vec_n_new", "vec_i", "vec_i_new", "vec_c", "vec_c_new", "vec_l", "vec_l_new", "vec_f", "vec_f_new"))
@@ -311,4 +312,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.completeCases::smk::done")
+# context("ds.completeCases::smk::done")

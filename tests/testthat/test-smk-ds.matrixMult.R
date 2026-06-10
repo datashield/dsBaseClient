@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.matrixMult::smk::setup")
+# context("ds.matrixMult::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.matrixMult::smk")
+# context("ds.matrixMult::smk")
 test_that("simplest ds.matrixMult", {
     matrix1 <- c(-2, 1, 3, 0, -1, 1, 1, 2, 0)
     matrix2 <- c(-2, 1, 3, 1, -1, 1, 1, 2, 1)
@@ -49,7 +50,7 @@ test_that("simplest ds.matrixMult", {
 # Tear down
 #
 
-context("ds.matrixMult::smk::shutdown")
+# context("ds.matrixMult::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "mat1", "mat2", "matrixmult.newobj"))
@@ -57,4 +58,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.matrixMult::smk::done")
+# context("ds.matrixMult::smk::done")

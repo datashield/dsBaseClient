@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.recodeLevels::discctrl::setup")
+# context("ds.recodeLevels::discctrl::setup")
 
 connect.studies.dataset.cnsim(list("PM_BMI_CATEGORICAL"))
 
@@ -23,7 +24,7 @@ test_that("setup", {
 #
 # Tests
 #
-context("ds.recodeLevels::discctrl")
+# context("ds.recodeLevels::discctrl")
 test_that("simple recodeLevels", {
     expect_error(expect_warning(ds.recodeLevels(x='D$PM_BMI_CATEGORICAL', newCategories=c('normal', 'overweight', 'obesity'), newobj='bmi_new'), "", fixed = TRUE), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
@@ -42,7 +43,7 @@ test_that("simple recodeLevels", {
 # Done
 #
 
-context("ds.recodeLevels::discctrl::shutdown")
+# context("ds.recodeLevels::discctrl::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.recodeLevels::discctrl::done")
+# context("ds.recodeLevels::discctrl::done")

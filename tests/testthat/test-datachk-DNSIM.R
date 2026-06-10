@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("DASIM::datachk::setup")
+# context("DASIM::datachk::setup")
 
 connect.studies.dataset.dasim(list('LAB_TSC', 'LAB_TRIG', 'LAB_HDL', 'LAB_GLUC_FASTING', 'PM_BMI_CONTINUOUS', 'DIS_CVA', 'DIS_DIAB', 'DIS_AMI', 'GENDER', 'PM_BMI_CATEGORICAL'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("DASIM::datachk")
+# context("DASIM::datachk")
 test_that("Check DASIM dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -259,7 +260,7 @@ test_that("Check DASIM dataset", {
 # Tear down
 #
 
-context("DASIM::datachk::shutdown")
+# context("DASIM::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -267,4 +268,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.dasim()
 
-context("DASIM::datachk::done")
+# context("DASIM::datachk::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.setSeed::smk::setup")
+# context("ds.setSeed::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.setSeed::smk")
+# context("ds.setSeed::smk")
 test_that("basic setSeed", {
     res.setSeed <- ds.setSeed(1234)
 
@@ -43,7 +44,7 @@ test_that("basic setSeed", {
 # Done
 #
 
-context("ds.setSeed::smk::shutdown")
+# context("ds.setSeed::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -51,4 +52,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.setSeed::smk::done")
+# context("ds.setSeed::smk::done")

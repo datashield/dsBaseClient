@@ -1,3 +1,10 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+#
+# This program and the accompanying materials
+# are made available under the terms of the GNU Public License v3.0.
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
@@ -6,7 +13,7 @@
 # Set up
 #
 
-context('ds.dataFrameSubset::expt_dgr::setup')
+# context('ds.dataFrameSubset::expt_dgr::setup')
 
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSubset.R')
@@ -15,7 +22,7 @@ source('definition_tests/def-ds.dataFrameSubset.R')
 # Tests
 #
 
-context("ds.dataFrameSubset::math_dgr::closure::multiple")
+# context("ds.dataFrameSubset::math_dgr::closure::multiple")
 test_that('server set %in% local set',
           {  
             connect.all.datasets()
@@ -33,7 +40,7 @@ test_that('server set %in% local set',
 #            .closure.test("D","POSITIVE_NUMERIC","NON_NEGATIVE_NUMERIC","<=",FALSE,"subset.server",local.df.list)
           })
 
-context("ds.dataFrameSubset::math_dgr::closure::simple")
+# context("ds.dataFrameSubset::math_dgr::closure::simple")
 test_that('server set %in% local set',
           {  
             connect.dataset.2()

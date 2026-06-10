@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("isDefined::smk::setup")
+# context("isDefined::smk::setup")
 
 connect.discordant.dataset.simple(list("A", "B", "C"))
 
@@ -27,7 +27,7 @@ test_that("setup", {
 
 # default
 
-context("isDefined::smk::default")
+# context("isDefined::smk::default")
 test_that("default test, dataframe D", {
     res <- isDefined(ds.test_env$connections, "D")
     
@@ -91,7 +91,7 @@ test_that("default test, dataframe columns D$A,D$B", {
 
 # error.message = FALSE
 
-context("isDefined::smk::error.message=FALSE")
+# context("isDefined::smk::error.message=FALSE")
 test_that("error.message=FALSE test, dataframe D", {
     res <- isDefined(ds.test_env$connections, "D", error.message = FALSE)
     
@@ -197,7 +197,7 @@ test_that("error.message=FALSE test, dataframe columns D$A,D$B", {
 
 # error.message = TRUE
 
-context("isDefined::smk::error.message=TRUE")
+# context("isDefined::smk::error.message=TRUE")
 test_that("error.message=TRUE test, dataframe D", {
     res <- isDefined(ds.test_env$connections, "D", error.message = TRUE)
     
@@ -263,7 +263,7 @@ test_that("error.message=TRUE test, dataframe columns D$A,D$B", {
 # Done
 #
 
-context("isDefined::smk::shutdown")
+# context("isDefined::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -271,4 +271,4 @@ test_that("shutdown", {
 
 disconnect.discordant.dataset.simple()
 
-context("isDefined::smk::done")
+# context("isDefined::smk::done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +14,7 @@
 # Set up - Phase 1
 #
 
-context("ds.table::disc::setup::phase 1")
+# context("ds.table::disc::setup::phase 1")
 
 connect.all.datasets()
 
@@ -25,7 +26,7 @@ test_that("setup", {
 # Tests - Phase 1
 #
 
-context("ds.table::disc::tests::phase 1::table.assign=FALSE")
+# context("ds.table::disc::tests::phase 1::table.assign=FALSE")
 test_that("table disclosure table.assign=FALSE", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
@@ -43,7 +44,7 @@ test_that("table disclosure table.assign=FALSE", {
   expect_equal(table.res$validity.message[4], "Study3: No errors reported from this study", fixed = TRUE)
 })
 
-context("ds.table::disc::tests::phase 1::table.assign=TRUE")
+# context("ds.table::disc::tests::phase 1::table.assign=TRUE")
 test_that("table disclosure table.assign=TRUE", {
   ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
   ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
@@ -55,7 +56,7 @@ test_that("table disclosure table.assign=TRUE", {
   expect_length(table.res, 0)
 })
 
-context("ds.table::disc::test rvar is big numeric")
+# context("ds.table::disc::test rvar is big numeric")
 test_that("table rvar is big numeric", {
     expect_error(ds.table(rvar="D$NUMERIC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
 
@@ -71,7 +72,7 @@ test_that("table rvar is big numeric", {
 # Shutdown - Phase 1
 #
 
-context("ds.table::disc::shutdown::phase 1")
+# context("ds.table::disc::shutdown::phase 1")
 
 test_that("setup", {
   ds_expect_variables(c("D", "factorCharacter", "factorInteger", "tablesource", "new_table2"))
@@ -83,7 +84,7 @@ disconnect.all.datasets()
 # Set up - Phase 2
 #
 
-context("ds.table::disc::setup::phase 2")
+# context("ds.table::disc::setup::phase 2")
 
 connect.studies.dataset.cnsim(list("GENDER", "DIS_AMI"))
 
@@ -95,7 +96,7 @@ test_that("setup", {
 # Tests - Phase 2
 #
 
-context("ds.table::disc::tests::phase 2::table.assign=FALSE")
+# context("ds.table::disc::tests::phase 2::table.assign=FALSE")
 test_that("table disclosure, table.assign=FALSE", {
   table.res <- ds.table(rvar='D$GENDER', cvar="D$DIS_AMI", table.assign=FALSE, newobj="new_table3")
   
@@ -108,7 +109,7 @@ test_that("table disclosure, table.assign=FALSE", {
   expect_equal(table.res$error.message$sim3, "Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3", fixed = TRUE)
 })
 
-context("ds.table::disc::tests::phase 2::table.assign=TRUE")
+# context("ds.table::disc::tests::phase 2::table.assign=TRUE")
 test_that("table disclosure, table.assign=TRUE", {
   table.res <- ds.table(rvar='D$GENDER', cvar="D$DIS_AMI", table.assign=TRUE, newobj="new_table4")
   
@@ -119,7 +120,7 @@ test_that("table disclosure, table.assign=TRUE", {
 # Shutdown - Phase 2
 #
 
-context("ds.table::disc::shutdown::phase 2")
+# context("ds.table::disc::shutdown::phase 2")
 
 test_that("setup", {
   ds_expect_variables(c("D", "new_table4"))
@@ -131,4 +132,4 @@ disconnect.studies.dataset.cnsim()
 # Done
 #
 
-context("ds.table::disc::done")
+# context("ds.table::disc::done")

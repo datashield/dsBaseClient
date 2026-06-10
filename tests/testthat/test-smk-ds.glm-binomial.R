@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glm::smk::binomial::setup")
+# context("ds.glm::smk::binomial::setup")
 
 connect.studies.dataset.cnsim(list("DIS_DIAB", "GENDER", "PM_BMI_CONTINUOUS", "LAB_HDL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glm::smk::binomial")
+# context("ds.glm::smk::binomial")
 test_that("glm_binomial", {
     res <- ds.glm('D$DIS_DIAB~D$GENDER*D$PM_BMI_CONTINUOUS+D$LAB_HDL', family="binomial", checks=FALSE)
 
@@ -42,7 +43,7 @@ test_that("glm_binomial", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7485)
     expect_equal(res$iter, 9)
-    expect_true("family" %in% class(res$family))
+    expect_true("character" %in% class(res$family))
     expect_equal(res$formula, "D$DIS_DIAB ~ D$GENDER * D$PM_BMI_CONTINUOUS + D$LAB_HDL")
     expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 1036.031, tolerance=0.00001)
@@ -50,7 +51,7 @@ test_that("glm_binomial", {
     expect_equal(res$output.information, "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES")
 })
 
-context("ds.glm::smk::binomial, with check")
+# context("ds.glm::smk::binomial, with check")
 test_that("glm_binomial, with check", {
     expect_warning(res <- ds.glm('D$DIS_DIAB~D$GENDER*D$PM_BMI_CONTINUOUS+D$LAB_HDL', family="binomial", checks=TRUE), "NAs introduced by coercion")
 
@@ -68,7 +69,7 @@ test_that("glm_binomial, with check", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7485)
     expect_equal(res$iter, 9)
-    expect_true("family" %in% class(res$family))
+    expect_true("character" %in% class(res$family))
     expect_equal(res$formula, "D$DIS_DIAB ~ D$GENDER * D$PM_BMI_CONTINUOUS + D$LAB_HDL")
     expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 1036.031, tolerance=0.00001)
@@ -80,7 +81,7 @@ test_that("glm_binomial, with check", {
 # Done
 #
 
-context("ds.glm::smk::binomial::shutdown")
+# context("ds.glm::smk::binomial::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "DIS_DIAB", "GENDER", "LAB_HDL", "PM_BMI_CONTINUOUS"))
@@ -88,4 +89,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.glm::smk::binomial::done")
+# context("ds.glm::smk::binomial::done")

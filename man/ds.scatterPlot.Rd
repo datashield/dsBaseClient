@@ -27,7 +27,7 @@ This argument can be set as \code{'deteministic'} or \code{'probabilistic'}.
 Default \code{'deteministic'}. 
 For more information see \strong{Details}.}
 
-\item{k}{the number of the nearest neighbors  for which their centroid is calculated.
+\item{k}{the number of the nearest neighbours  for which their centroid is calculated.
 Default 3. 
 For more information see \strong{Details}.}
 
@@ -60,7 +60,7 @@ As the generation of a scatter plot from original data is disclosive and is not
 permitted in DataSHIELD, this function allows the user to plot non-disclosive scatter plots.
 
 If the argument \code{method} is set to \code{'deterministic'}, the server-side function searches
-for the \code{k-1} nearest neighbors of each single data point and calculates the centroid 
+for the \code{k-1} nearest neighbours of each single data point and calculates the centroid 
 of such \code{k} points. 
 The proximity is defined by the minimum Euclidean distances of z-score transformed data.
 

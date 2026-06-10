@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +14,7 @@ source("definition_tests/def-ds.rUnif.R")
 
 random.number <- as.integer(as.POSIXct(Sys.time(), "GMT"))
 
-context("ds.rUnif::math::mean_variance::single")
+# context("ds.rUnif::math::mean_variance::single")
 test_that("mean_variance", 
 {
   connect.dataset.1()
@@ -23,7 +24,7 @@ test_that("mean_variance",
   .test.range.values(-200,-100,"uniform_3",seed)
 })
 
-context("ds.rUnif::math::distributions comparison::single")
+# context("ds.rUnif::math::distributions comparison::single")
 test_that("changes in distribution",
 {
   connect.dataset.3()
@@ -37,7 +38,7 @@ test_that("changes in distribution",
 })
 
 
-context("ds.rUnif::math::distributions comparison::multiple")
+# context("ds.rUnif::math::distributions comparison::multiple")
 test_that("changes in distribution",
 {
    connect.all.datasets()

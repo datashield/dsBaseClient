@@ -1,7 +1,7 @@
 # ds.ranksSecure
 #' @title Secure ranking of a vector across all sources
 #' @description Securely generate the ranks of a numeric vector and estimate
-#' true qlobal quantiles across all data sources simultaneously 
+#' true global quantiles across all data sources simultaneously 
 #' @details ds.ranksSecure is a clientside function which calls a series of
 #' other clientside and serverside functions to securely generate the global
 #' ranks of a numeric vector "V2BR" (vector to be ranked)
@@ -43,7 +43,7 @@
 #' of the clusters of values that are being ranked such that some values are
 #' treated as being missing and the processing stops, then setting
 #' generate.quantiles to FALSE allows the generation of ranks to complete so
-#' they can then be used for non-parameteric analysis, even if the key values
+#' they can then be used for non-parametric analysis, even if the key values
 #' cannot be estimated. A real example of an unusual configuration was in a
 #' reasonably large dataset of survival times, where a substantial proportion
 #' of survival profiles were censored at precisely 10 years. This meant that
@@ -228,7 +228,7 @@ ds.ranksSecure <- function(input.var.name=NULL, quantiles.for.estimation="0.05-0
   }
 
   if(monitor.progress){
-cat("\n\nStep 1 of 8 complete:
+message("\n\nStep 1 of 8 complete:
   Cleaned up residual output from
   previous runs of ds.ranksSecure
     
@@ -272,7 +272,7 @@ cat("\n\nStep 1 of 8 complete:
     dsBaseClient::ds.dmtC2S(dfdata=input.mean.sd.df,newobj="input.mean.sd.df")
 
 if(monitor.progress){
-cat("\n\nStep 2 of 8 complete:
+message("\n\nStep 2 of 8 complete:
   Estimated mean and sd of
   v2br to standardise initial values
     
@@ -308,16 +308,13 @@ cat("\n\nStep 2 of 8 complete:
 dsBaseClient::ds.dmtC2S(dfdata=min.max.df,newobj="min.max.df")
     
 if(monitor.progress){
-cat("\n\nStep 3 of 8 complete:
+message("\n\nStep 3 of 8 complete:
   Generated ultra max and ultra min values to allocate to
   missing values if <NA.manage> is NA.hi or NA.low
     
     
     ")
 }
-
-print(input.mean.sd.df)
-
 
   #CALL THE FIRST SERVER SIDE FUNCTION (ASSIGN)
   #WRITES ENCRYPTED DATA TO SERVERSIDE OBJECT "blackbox.output.df"
@@ -328,7 +325,7 @@ print(input.mean.sd.df)
   DSI::datashield.assign(datasources, "blackbox.output.df", calltext1)
 
 if(monitor.progress){
-cat("\n\nStep 4 of 8 complete:
+message("\n\nStep 4 of 8 complete:
   Pseudo data synthesised,first set of rank-consistent
   transformations complete and blackbox.output.df created
     
@@ -390,7 +387,7 @@ cat("\n\nStep 4 of 8 complete:
   ds.make("sR5.df$global.rank","testvar.ranks")
   
 if(monitor.progress){
-cat("\n\nStep 5 of 8 complete:
+  message("\n\nStep 5 of 8 complete:
   Global ranks generated and pseudodata stripped out. Now ready
   to proceed to transformation of global ranks
     
@@ -445,7 +442,7 @@ cat("\n\nStep 5 of 8 complete:
     DSI::datashield.assign(datasources, "blackbox.ranks.df", calltext4)
 
 if(monitor.progress){
-cat("\n\nStep 6 of 8 complete:
+  message("\n\nStep 6 of 8 complete:
   Rank-consistent transformations of global ranks complete
   and blackbox.ranks.df created
     
@@ -510,7 +507,7 @@ cat("\n\nStep 6 of 8 complete:
   DSI::datashield.assign(datasources,summary.output.ranks.df, calltext7)
 
   if(monitor.progress){
-cat("\n\nStep 7 of 8 complete:
+  message("\n\nStep 7 of 8 complete:
   Final global ranking of values in v2br complete and
   written to each serverside as appropriate
     
@@ -544,7 +541,7 @@ cat("\n\nStep 7 of 8 complete:
   }
 
 if(monitor.progress && rm.residual.objects){
-cat("\n\nStep 8 of 8 complete:
+  message("\n\nStep 8 of 8 complete:
   Cleaned up residual output from running ds.ranksSecure
     
     
@@ -552,7 +549,7 @@ cat("\n\nStep 8 of 8 complete:
   }
 
   if(monitor.progress && !rm.residual.objects){
-    cat("\n\nStep 8 of 8 complete:
+    message("\n\nStep 8 of 8 complete:
   Residual output from running ds.ranksSecure NOT deleted
         
         
@@ -562,14 +559,14 @@ cat("\n\nStep 8 of 8 complete:
 
 
 if(!generate.quantiles){
-  cat("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
+  message("\n\n\n"," FINAL RANKING PROCEDURES COMPLETE:
   PRIMARY RANKING OUTPUT IS IN DATA FRAME",summary.output.ranks.df,
       "
   WHICH IS SORTED BY",ranks.sort.by," AND HAS BEEN
   WRITTEN TO THE SERVERSIDE\n\n\n\n")
 
     info.message<-"As the argument <generate.quantiles> was set to FALSE no quantiles have been estimated.Please set argument to TRUE if you want to estimate quantiles such as median, quartiles and 90th percentile"
-  cat("\n\n",info.message,"\n\n")
+    message("\n\n",info.message,"\n\n")
     return(info.message)
   }
 

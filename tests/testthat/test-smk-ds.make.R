@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.make::smk::setup")
+# context("ds.make::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.make::smk")
+# context("ds.make::smk")
 test_that("simple make", {
     res <- ds.make("(D$LAB_TSC*D$LAB_TRIG*D$LAB_HDL)", "maded.rand")
 
@@ -33,7 +34,7 @@ test_that("simple make", {
     expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
 })
 
-context("ds.make::smk")
+# context("ds.make::smk")
 test_that("simple make", {
     res <- ds.make("(D$LAB_TSC*10)", "maded.rand")
 
@@ -42,7 +43,7 @@ test_that("simple make", {
     expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
 })
 
-context("ds.make::smk")
+# context("ds.make::smk")
 test_that("simple make", {
     res <- ds.make("(D$LAB_TSC)*10", "maded.rand")
 
@@ -55,7 +56,7 @@ test_that("simple make", {
 # Done
 #
 
-context("ds.make::smk::shutdown")
+# context("ds.make::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "maded.rand"))
@@ -63,4 +64,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.make::smk::done")
+# context("ds.make::smk::done")

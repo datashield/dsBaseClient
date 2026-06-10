@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #  
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.quantileMean::smk::setup")
+# context("ds.quantileMean::smk::setup")
 
 connect.studies.dataset.cnsim(list('LAB_HDL'))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.quantileMean::smk::standard")
+# context("ds.quantileMean::smk::standard")
 test_that("quantileMean", {
     res <- ds.quantileMean(x='D$LAB_HDL')
 
@@ -39,7 +40,7 @@ test_that("quantileMean", {
     expect_equal(res[[8]], 1.5676188, tolerance = .000001)
 })
 
-context("ds.quantileMean::smk::split")
+# context("ds.quantileMean::smk::split")
 test_that("quantileMean_split", {
     ds.assign("D$LAB_HDL", "hdl")
     res <- ds.quantileMean(x='hdl', type='split')
@@ -78,7 +79,7 @@ test_that("quantileMean_split", {
 # Tear down
 #
 
-context("ds.quantileMean::smk::shutdown")
+# context("ds.quantileMean::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "hdl"))
@@ -86,4 +87,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.quantileMean::smk::done")
+# context("ds.quantileMean::smk::done")

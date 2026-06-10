@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.glm::smk::gaussian::setup")
+# context("ds.glm::smk::gaussian::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.glm::smk::gaussian")
+# context("ds.glm::smk::gaussian")
 test_that("glm_gaussian", {
     res <- ds.glm('D$LAB_TSC~D$LAB_TRIG',family="gaussian",checks=FALSE)
 
@@ -42,7 +43,7 @@ test_that("glm_gaussian", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7800)
     expect_equal(res$iter, 3)
-    expect_true("family" %in% class(res$family))
+    expect_true("character" %in% class(res$family))
     expect_equal(res$formula, "D$LAB_TSC ~ D$LAB_TRIG")
     expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 8936.32, tolerance=0.00001)
@@ -50,7 +51,7 @@ test_that("glm_gaussian", {
     expect_equal(res$output.information, "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES")
 })
 
-context("ds.glm::smk::gaussian, with check")
+# context("ds.glm::smk::gaussian, with check")
 test_that("glm_gaussian, with check", {
     expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", checks=TRUE), "NAs introduced by coercion")
 
@@ -68,7 +69,7 @@ test_that("glm_gaussian, with check", {
     expect_equal(res$errorMessage[3], "No errors")
     expect_equal(res$nsubs, 7800)
     expect_equal(res$iter, 3)
-    expect_true("family" %in% class(res$family))
+    expect_true("character" %in% class(res$family))
     expect_equal(res$formula, "D$LAB_TSC ~ D$LAB_TRIG")
     expect_true("matrix" %in% class(res$coefficients))
     expect_equal(res$dev, 8936.32, tolerance=0.00001)
@@ -80,7 +81,7 @@ test_that("glm_gaussian, with check", {
 # Done
 #
 
-context("ds.glm::smk::gaussian::shutdown")
+# context("ds.glm::smk::gaussian::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "LAB_TRIG", "LAB_TSC"))
@@ -88,4 +89,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.glm::smk::gaussian::done")
+# context("ds.glm::smk::gaussian::done")

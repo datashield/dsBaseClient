@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.replaceNA::smk::setup")
+# context("ds.replaceNA::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_HDL", "LAB_TRIG", "DIS_CVA"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.replaceNA::smk")
+# context("ds.replaceNA::smk")
 test_that("simple replaceNA", {
     res1 <- ds.replaceNA(x='D$LAB_HDL', forNA=c(1.0, 2.0, 3.0), newobj="newobj1")
     expect_length(res1, 0)
@@ -40,7 +41,7 @@ test_that("simple replaceNA", {
 # Done
 #
 
-context("ds.replaceNA::smk::shutdown")
+# context("ds.replaceNA::smk::shutdown")
 
 test_that("setup", {
     ds_expect_variables(c("D", "newobj1", "newobj2", "newobj3"))
@@ -48,4 +49,4 @@ test_that("setup", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.replaceNA::smk::done")
+# context("ds.replaceNA::smk::done")

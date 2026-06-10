@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context('ds.dataFrameSort::expt_dgr::setup')
+# context('ds.dataFrameSort::expt_dgr::setup')
 
 source('connection_to_datasets/init_testing_datasets.R')
 source('definition_tests/def-ds.dataFrameSort.R')
@@ -21,7 +22,7 @@ source('definition_tests/def-ds.dataFrameSort.R')
 # Tests
 #
 
-context("ds.dataFrameSort::math_dgr::closure::multiple")
+# context("ds.dataFrameSort::math_dgr::closure::multiple")
 test_that('server set %in% local set',
           {  
             connect.all.datasets()
@@ -43,7 +44,7 @@ test_that('server set %in% local set',
             
           })
 
-context("ds.dataFrameSort::math_dgr::closure::simple")
+# context("ds.dataFrameSort::math_dgr::closure::simple")
 test_that('server set %in% local set',
           {  
             connect.dataset.1()

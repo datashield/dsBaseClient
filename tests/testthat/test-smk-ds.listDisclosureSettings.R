@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.listDisclosureSettings::smk::setup")
+# context("ds.listDisclosureSettings::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.listDisclosureSettings::smk::check results")
+# context("ds.listDisclosureSettings::smk::check results")
 test_that("check results", {
     res <- ds.listDisclosureSettings()
 
@@ -78,7 +79,7 @@ test_that("check results", {
 # Done
 #
 
-context("ds.listDisclosureSettings::smk::shutdown")
+# context("ds.listDisclosureSettings::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -86,4 +87,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.listDisclosureSettings::smk::down")
+# context("ds.listDisclosureSettings::smk::down")

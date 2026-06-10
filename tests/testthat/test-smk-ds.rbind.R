@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.rbind::smk::setup")
+# context("ds.rbind::smk::setup")
 
 connect.studies.dataset.survival(list("survtime", "time.id", "female", "age.60"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.rbind::smk")
+# context("ds.rbind::smk")
 test_that("simple test", {
     res <- ds.rbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="rbind_newobj")
 
@@ -42,7 +43,7 @@ test_that("simple test", {
 # Done
 #
 
-context("ds.rbind::smk::shutdown")
+# context("ds.rbind::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "rbind_newobj"))
@@ -50,4 +51,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.survival()
 
-context("ds.rbind::smk::done")
+# context("ds.rbind::smk::done")

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2024 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2024-2026 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,16 +12,16 @@
 # Set up
 #
 
-context("ds.exists::perf::setup")
+# context("ds.exists::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 #
 # Tests
 #
 
-context("ds.exists::perf::combine:0")
+# context("ds.exists::perf::combine:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration(30)
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time
@@ -54,6 +54,6 @@ test_that("combine - performance", {
 # Done
 #
 
-context("ds.exists::perf::shutdown")
+# context("ds.exists::perf::shutdown")
 disconnect.studies.dataset.cnsim()
-context("ds.exists::perf::done")
+# context("ds.exists::perf::done")

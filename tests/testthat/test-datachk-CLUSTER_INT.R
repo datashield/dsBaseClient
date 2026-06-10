@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("CLUSTER_INT::datachk::setup")
+# context("CLUSTER_INT::datachk::setup")
 
 connect.studies.dataset.cluster.int(list("idSurgery", "trtGrp", "intSurgery", "nDoctors", "idDoctor", "intDoctor", "nPatients", "Male", "age", "BMI", "diabetes", "incid_rate", "private"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("CLUSTER_INT::datachk")
+# context("CLUSTER_INT::datachk")
 test_that("Check CLUSTER INT dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -319,7 +320,7 @@ test_that("Check CLUSTER INT dataset", {
 # Tear down
 #
 
-context("CLUSTER_INT::datachk::shutdown")
+# context("CLUSTER_INT::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -327,4 +328,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cluster.int()
 
-context("CLUSTER_INT::datachk::done")
+# context("CLUSTER_INT::datachk::done")

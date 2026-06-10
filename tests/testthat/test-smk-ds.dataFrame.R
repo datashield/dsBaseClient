@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.dataFrame::smk::setup")
+# context("ds.dataFrame::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 
@@ -25,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.dataFrame::smk::create a dataframe, from root variables")
+# context("ds.dataFrame::smk::create a dataframe, from root variables")
 test_that("dataframe_exists", {
     ds.assign('D$LAB_TSC', 'LAB_TSC')
     ds.assign('D$LAB_HDL', 'LAB_HDL')
@@ -69,7 +69,7 @@ test_that("dataframe_exists", {
     ds.rm("dataframe.newobj")
 })
 
-context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks, from root variables")
+# context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks, from root variables")
 test_that("dataframe_exists, with DataSHIELD.checks", {
     ds.assign('D$LAB_TSC', 'LAB_TSC')
     ds.assign('D$LAB_HDL', 'LAB_HDL')
@@ -108,7 +108,7 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
     ds.rm("dataframe1")
 })
 
-context("ds.dataFrame::smk::create a dataframe, from dataframe variables")
+# context("ds.dataFrame::smk::create a dataframe, from dataframe variables")
 test_that("dataframe_exists, from dataframe variables", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     res <- ds.dataFrame(x=vectors)
@@ -146,7 +146,7 @@ test_that("dataframe_exists, from dataframe variables", {
     ds.rm("dataframe.newobj")
 })
 
-context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks, from dataframe variables")
+# context("ds.dataFrame::smk::create a dataframe, with DataSHIELD.checks, from dataframe variables")
 test_that("dataframe_exists, with DataSHIELD.checks, from dataframe variables", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     res <- ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE, newobj="dataframe1")
@@ -183,7 +183,7 @@ test_that("dataframe_exists, with DataSHIELD.checks, from dataframe variables", 
 # Done
 #
 
-context("ds.dataFrame::smk::shutdown")
+# context("ds.dataFrame::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -191,4 +191,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.dataFrame::smk::done")
+# context("ds.dataFrame::smk::done")

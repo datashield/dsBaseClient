@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.kurtosis::smk::setup")
+# context("ds.kurtosis::smk::setup")
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "LAB_GLUC_ADJUSTED", "PM_BMI_CONTINUOUS"))
 
@@ -27,7 +27,7 @@ test_that("setup", {
 
 # Method 1
 
-context("ds.kurtosis::smk::method 1::split")
+# context("ds.kurtosis::smk::method 1::split")
 test_that("simple kurtosis, method 1, split, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 1, type='split')
 
@@ -128,7 +128,7 @@ test_that("simple kurtosis, method 1, split, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 1::combine")
+# context("ds.kurtosis::smk::method 1::combine")
 test_that("simple kurtosis, combine, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 1, type='combine')
 
@@ -199,7 +199,7 @@ test_that("simple kurtosis, method 1, combine, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[1], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 1::both")
+# context("ds.kurtosis::smk::method 1::both")
 test_that("simple kurtosis, both, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 1, type='both')
 
@@ -342,7 +342,7 @@ test_that("simple kurtosis, method 1, both, on PM_BMI_CONTINUOUS", {
 
 # Method 2
 
-context("ds.kurtosis::smk::method 2::split")
+# context("ds.kurtosis::smk::method 2::split")
 test_that("simple kurtosis, method 2, split, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 2, type='split')
 
@@ -443,7 +443,7 @@ test_that("simple kurtosis, method 2, split, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 2::combine")
+# context("ds.kurtosis::smk::method 2::combine")
 test_that("simple kurtosis, combine, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 2, type='combine')
 
@@ -514,7 +514,7 @@ test_that("simple kurtosis, method 2, combine, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[1], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 2::both")
+# context("ds.kurtosis::smk::method 2::both")
 test_that("simple kurtosis, both, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 2, type='both')
 
@@ -657,7 +657,7 @@ test_that("simple kurtosis, method 2, both, on PM_BMI_CONTINUOUS", {
 
 # Method 3
 
-context("ds.kurtosis::smk::method 3::split")
+# context("ds.kurtosis::smk::method 3::split")
 test_that("simple kurtosis, method 3, split, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 3, type='split')
 
@@ -758,7 +758,7 @@ test_that("simple kurtosis, method 3, split, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 3::combine")
+# context("ds.kurtosis::smk::method 3::combine")
 test_that("simple kurtosis, combine, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 3, type='combine')
 
@@ -829,7 +829,7 @@ test_that("simple kurtosis, method 3, combine, on PM_BMI_CONTINUOUS", {
     expect_equal(kurtosis.res$ValidityMessage[1], "VALID ANALYSIS")
 })
 
-context("ds.kurtosis::smk::method 3::both")
+# context("ds.kurtosis::smk::method 3::both")
 test_that("simple kurtosis, both, on LAB_TSC", {
     kurtosis.res <- ds.kurtosis(x = 'D$LAB_TSC', method = 3, type='both')
 
@@ -974,7 +974,7 @@ test_that("simple kurtosis, method 3, both, on PM_BMI_CONTINUOUS", {
 # Done
 #
 
-context("ds.kurtosis::smk::shutdown")
+# context("ds.kurtosis::smk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -982,4 +982,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.kurtosis::smk::done")
+# context("ds.kurtosis::smk::done")

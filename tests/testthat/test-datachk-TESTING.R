@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("TESTING::datachk::setup")
+# context("TESTING::datachk::setup")
 
 connect.all.datasets()
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("TESTING::datachk")
+# context("TESTING::datachk")
 test_that("Check TESTING dataset", {
     res.class <- ds.class(x='D')
     expect_length(res.class, 3)
@@ -419,7 +420,7 @@ test_that("Check TESTING dataset", {
 # Tear down
 #
 
-context("TESTING::datachk::shutdown")
+# context("TESTING::datachk::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D"))
@@ -427,4 +428,4 @@ test_that("shutdown", {
 
 disconnect.all.datasets()
 
-context("TESTING::datachk::done")
+# context("TESTING::datachk::done")

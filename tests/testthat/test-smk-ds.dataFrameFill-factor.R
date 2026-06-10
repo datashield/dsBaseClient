@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2019-2022 University of Newcastle upon Tyne. All rights reserved.
-# Copyright (c) 2022 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -13,7 +13,7 @@
 # Set up
 #
 
-context("ds.dataFrameFill::smk::factor setup")
+# context("ds.dataFrameFill::smk::factor setup")
 
 connect.studies.dataset.cnsim(list('LAB_TSC', 'DIS_CVA', 'LAB_HDL', 'DIS_DIAB'))
 
@@ -25,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.dataFrameFill::smk::factor setup dataframes")
+# context("ds.dataFrameFill::smk::factor setup dataframes")
 test_that("setup", {
     ds_expect_variables(c("D"))
   
@@ -66,7 +66,7 @@ test_that("setup", {
 })
 
 
-context("ds.dataFrameFill::smk::factor extend unfilled dataframes")
+# context("ds.dataFrameFill::smk::factor extend unfilled dataframes")
 test_that("dataFrameFill_exists", {
     res <- ds.dataFrameFill(df.name="DD", newobj="filled_df")
 
@@ -174,7 +174,7 @@ test_that("dataFrameFill_exists", {
 # Done
 #
 
-context("ds.dataFrameFill::smk::factor shutdown")
+# context("ds.dataFrameFill::smk::factor shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "DD", "filled_df"))
@@ -182,4 +182,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.dataFrameFill::smk::factor done")
+# context("ds.dataFrameFill::smk::factor done")

@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2022 University of Newcastle upon Tyne. All rights reserved.
+# Copyright (c) 2022-2025 Arjuna Technologies, Newcastle upon Tyne. All rights reserved.
 #
 # This program and the accompanying materials
 # are made available under the terms of the GNU Public License v3.0.
@@ -12,7 +13,7 @@
 # Set up
 #
 
-context("ds.recodeValues::smk_dgr::factor::setup")
+# context("ds.recodeValues::smk_dgr::factor::setup")
 
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
@@ -24,7 +25,7 @@ test_that("setup", {
 # Tests
 #
 
-context("ds.recodeValues::smk_dgr::factor::simple factor 1")
+# context("ds.recodeValues::smk_dgr::factor::simple factor 1")
 test_that("simple factor 1", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c('0'), new.values.vector=c('2'), newobj="GENDER")
 
@@ -79,7 +80,7 @@ test_that("simple factor 1", {
     expect_length((subset(ndf.sim3, GENDER == 2))$GENDER, 2091)
 })
 
-context("ds.recodeValues::smk_dgr::factor::simple factor 2")
+# context("ds.recodeValues::smk_dgr::factor::simple factor 2")
 test_that("simple factor 2", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0), new.values.vector=c(2), newobj="GENDER")
 
@@ -134,7 +135,7 @@ test_that("simple factor 2", {
     expect_length((subset(ndf.sim3, GENDER == 2))$GENDER, 2091)
 })
 
-context("ds.recodeValues::smk_dgr::factor::simple factor 3")
+# context("ds.recodeValues::smk_dgr::factor::simple factor 3")
 test_that("simple factor 3", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0), new.values.vector=c(2), missing='3', newobj="GENDER")
 
@@ -195,7 +196,7 @@ test_that("simple factor 3", {
     expect_length((subset(ndf.sim3, GENDER == 3))$GENDER, 0)
 })
 
-context("ds.recodeValues::smk_dgr::factor::simple factor 4")
+# context("ds.recodeValues::smk_dgr::factor::simple factor 4")
 test_that("simple factor 4", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0,1), new.values.vector=c(10,20), newobj="GENDER")
 
@@ -259,7 +260,7 @@ test_that("simple factor 4", {
 #
 # Done
 #
-context("ds.recodeValues::smk_dgr::factor::shutdown")
+# context("ds.recodeValues::smk_dgr::factor::shutdown")
 
 test_that("shutdown", {
     ds_expect_variables(c("D", "GENDER", "odf_1", "ndf_1", "odf_2", "ndf_2", "odf_3", "ndf_3", "odf_4", "ndf_4"))
@@ -267,4 +268,4 @@ test_that("shutdown", {
 
 disconnect.studies.dataset.cnsim()
 
-context("ds.recodeValues::smk_dgr::factor::done")
+# context("ds.recodeValues::smk_dgr::factor::done")
