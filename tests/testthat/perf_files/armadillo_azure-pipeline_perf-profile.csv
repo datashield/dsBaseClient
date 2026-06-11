@@ -1,6 +1,6 @@
 "refer_name","rate","lower_tolerance","upper_tolerance"
 "conndisconn::perf::simple0","0.07683","0.5","2"
-"ds.abs::perf::0","0 1.091","0.5","2"
+"ds.abs::perf::0","1.091","0.5","2"
 "ds.asCharacter::perf::0","1.389","0.5","2"
 "ds.asDataMatrix::perf::0","1.446","0.5","2"
 "ds.asInteger::perf:0","1.148","0.5","2"
