@@ -22,7 +22,11 @@ if (! is.null(getOption("default_driver"))) {
 }
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
-    opal.url <- ds.test_env$server_url
+    if (! is.null(ds.test_env$server_url)) {
+        opal.url <- ds.test_env$server_url
+    } else {
+        opal.url <- "https://localhost:8443/"
+    }
 
     ds.test_env$ping_url     <- opal.url
     ds.test_env$ping_config  <- config(timeout=5)
@@ -45,7 +49,11 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
 
     ds.test_env$secure_login_details <- TRUE
 } else if (ds.test_env$driver == "ArmadilloDriver") {
-    armadillo.url <- ds.test_env$server_url
+    if (! is.null(ds.test_env$server_url)) {
+        armadillo.url <- ds.test_env$server_url
+    } else {
+        armadillo.url <- "http://localhost:8080/"
+    }
 
     ds.test_env$ping_url     <- armadillo.url
     ds.test_env$ping_config  <- config(timeout=5)

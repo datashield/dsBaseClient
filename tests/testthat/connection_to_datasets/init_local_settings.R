@@ -15,9 +15,7 @@ init.server.url <- function()
    }
    else
    {
-      # server.url <- "http://127.0.0.1:8080/"
-      # server.url <- "http://localhost:8080/"
-      server.url <- "https://localhost:8443/"
+      server.url <- NULL
    }
    return (server.url)
 }
