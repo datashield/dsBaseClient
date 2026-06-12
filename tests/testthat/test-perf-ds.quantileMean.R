@@ -27,7 +27,7 @@ test_that("combine - performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.quantileMean("D$LAB_TSC")
+        ds.quantileMean("D$LAB_HDL")
 
         .count <- .count + 1
         .current.time <- Sys.time()

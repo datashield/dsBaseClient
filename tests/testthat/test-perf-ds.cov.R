@@ -27,7 +27,7 @@ test_that("combine - performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.cov("D$LAB_TSC", "D$LAB_TRIG")
+        ds.cov("D$survtime", "D$time.id")
 
         .count <- .count + 1
         .current.time <- Sys.time()

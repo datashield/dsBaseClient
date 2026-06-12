@@ -27,7 +27,7 @@ test_that("combine - performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.meanSdGp("D$LAB_TSC", "D$PM_BMI_CATEGORICAL")
+        ds.meanSdGp("D$age.60", "D$female")
 
         .count <- .count + 1
         .current.time <- Sys.time()
