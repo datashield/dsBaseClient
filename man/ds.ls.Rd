@@ -139,4 +139,6 @@ Server function called: \code{lsDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

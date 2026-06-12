@@ -11,6 +11,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.class} returns the type of the R object. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.exists}} to verify if an object is defined (exists) on the server-side.
 #' @examples 
 #' \dontrun{
@@ -54,22 +55,11 @@
 #'
 ds.class <- function(x=NULL, datasources=NULL) {
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
-
-  # check if the input object is defined in all the studies
-  defined <- isDefined(datasources, x)
 
   cally <- call('classDS', x)
   output <- DSI::datashield.aggregate(datasources, cally)
