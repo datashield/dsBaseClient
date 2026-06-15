@@ -4,10 +4,13 @@
 \alias{ds.numNA}
 \title{Gets the number of missing values in a server-side vector}
 \usage{
-ds.numNA(x = NULL, datasources = NULL)
+ds.numNA(x = NULL, classConsistencyCheck = TRUE, datasources = NULL)
 }
 \arguments{
 \item{x}{a character string specifying the name of the vector.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
@@ -67,4 +70,6 @@ Server function called: \code{numNaDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

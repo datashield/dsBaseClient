@@ -13,7 +13,7 @@
 checkClass <- function(datasources=NULL, obj=NULL){
   # check the class of the input object
   cally <- call("classDS", obj)
-  classesBy <- DSI::datashield.aggregate(datasources, cally, async = FALSE)
+  classesBy <- DSI::datashield.aggregate(datasources, cally)
   classes <- unique(unlist(classesBy))
   for (n in names(classesBy)) {
     if (!all(classes == classesBy[[n]])) {

@@ -85,4 +85,6 @@ Server functions called: \code{quantileMeanDS}, \code{length} and \code{numNaDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

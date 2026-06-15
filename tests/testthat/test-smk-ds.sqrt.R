@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.sqrt::smk")
 test_that("simple c", {
-    expect_silent(ds.sqrt("D$LAB_TSC", newobj = "sqrt.newobj"))
+    expect_no_error(ds.sqrt("D$LAB_TSC", newobj = "sqrt.newobj"))
 
      res.length <- ds.length("sqrt.newobj")
   

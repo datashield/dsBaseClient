@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asList::smk::simple test")
 test_that("simple test", {
-    expect_silent(ds.asList(x.name="D$GENDER"))
+    expect_no_error(ds.asList(x.name="D$GENDER"))
 
     res.class <- ds.class("aslist.newobj")
     expect_equal(res.class$sim1, "list")

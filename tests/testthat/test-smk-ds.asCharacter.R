@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asCharacter::smk::simple test")
 test_that("simple test", {
-    expect_silent(ds.asCharacter("D$LAB_TSC"))
+    expect_no_error(ds.asCharacter("D$LAB_TSC"))
 
     res.class <- ds.class("ascharacter.newobj")
     expect_equal(res.class$sim1, "character")

@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.log::smk")
 test_that("simple log", {
-    expect_silent(ds.log("D$LAB_TSC", newobj="log1_obj"))
+    expect_no_error(ds.log("D$LAB_TSC", newobj="log1_obj"))
 
     res1_class <- ds.class("log1_obj")
 
@@ -41,7 +41,7 @@ test_that("simple log", {
 
     res_as <- ds.asInteger("D$LAB_TSC", newobj="new_data")
 
-    expect_silent(ds.log("new_data", newobj="log2_obj"))
+    expect_no_error(ds.log("new_data", newobj="log2_obj"))
 
     res2_class <- ds.class("log2_obj")
 

@@ -21,7 +21,8 @@
 #' client-side indicating the name of the \code{newobj} that has been created in each data source
 #' and if it is in a valid form.
 #' @author Demetris Avraam for DataSHIELD Development Team
-#' 
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#'
 #' @examples 
 #' \dontrun{
 #' 
@@ -134,9 +135,17 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL){
   defined.vect1 <- lapply(defined.list, function(x){unlist(x)})
   defined.vect2 <- lapply(defined.vect1, function(x){which(x == FALSE)})
   
-  # get the class of each variable in the dataframes
-  class.list <- lapply(allNames, function(x){lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call('classDS', paste0(df.name, '$', x)))})})
-  class.vect1 <- lapply(class.list, function(x){unlist(x)})
+  # get the class of each variable in the dataframes, skipping servers where the column doesn't exist
+  class.list <- lapply(seq_along(allNames), function(idx){
+    sapply(seq_along(datasources), function(ds_idx){
+      if(ds_idx %in% defined.vect2[[idx]]){
+        "NULL"
+      } else {
+        DSI::datashield.aggregate(datasources[ds_idx], call('classDS', paste0(df.name, '$', allNames[idx])))[[1]]
+      }
+    })
+  })
+  class.vect1 <- class.list
   # the loop below is to avoid autocompletion of variable name
   for (i in 1:length(allNames.transmit)){
     if(length(defined.vect2[[i]])>0){class.vect1[[i]][defined.vect2[[i]]]<-'NULL'}

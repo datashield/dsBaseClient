@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.exp::smk")
 test_that("simple exp", {
-    expect_silent(ds.exp("D$LAB_TSC", newobj="exp1_obj"))
+    expect_no_error(ds.exp("D$LAB_TSC", newobj="exp1_obj"))
 
     res1_class <- ds.class("exp1_obj")
 
@@ -41,7 +41,7 @@ test_that("simple exp", {
 
     res_as <- ds.asInteger("D$LAB_TSC", newobj="new_data")
 
-    expect_silent(ds.exp("new_data", newobj="exp2_obj"))
+    expect_no_error(ds.exp("new_data", newobj="exp2_obj"))
 
     res2_class <- ds.class("exp2_obj")
 

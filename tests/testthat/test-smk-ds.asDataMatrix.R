@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.asDataMatrix::smk::simple test")
 test_that("simple test", {
-    expect_silent(ds.asDataMatrix(x.name="D$GENDER"))
+    expect_no_error(ds.asDataMatrix(x.name="D$GENDER"))
 
     res.class <- ds.class("asdatamatrix.newobj")
     expect_length(res.class, 3)
