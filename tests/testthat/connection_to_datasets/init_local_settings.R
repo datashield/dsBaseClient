@@ -10,12 +10,14 @@ init.server.url <- function()
    file.name <- init.local.settings()
    if (file.exists(file.name))
    {
-      content    <- read.csv(file.name, header = FALSE)
-      server.url <- as.character(content[[1]][1])
+      content         <- read.csv(file.name, header = FALSE)
+      server_ping.url <- as.character(content[[1]][1])
+      server_ping.url <- as.character(content[[1]][2])
    }
    else
    {
-      server.url <- NULL
+      server.url      <- NULL
+      server_ping.url <- NULL
    }
    return (server.url)
 }

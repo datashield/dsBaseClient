@@ -23,12 +23,14 @@ if (! is.null(getOption("default_driver"))) {
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
     if (! is.null(ds.test_env$server_url)) {
-        opal.url <- ds.test_env$server_url
+        opal.url      <- ds.test_env$server_url
+        opal_ping.url <- ds.test_env$server_ping_url
     } else {
-        opal.url <- "https://localhost:8443/"
+        opal.url      <- "https://localhost:8443/"
+        opal_ping.url <- "http://localhost:8080/"
     }
 
-    ds.test_env$ping_url     <- opal.url
+    ds.test_env$ping_url     <- opal_ping.url
     ds.test_env$ping_config  <- config(timeout=5)
 
     ds.test_env$server_url_1 <- opal.url
@@ -50,12 +52,14 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     ds.test_env$secure_login_details <- TRUE
 } else if (ds.test_env$driver == "ArmadilloDriver") {
     if (! is.null(ds.test_env$server_url)) {
-        armadillo.url <- ds.test_env$server_url
+        armadillo.url      <- ds.test_env$server_url
+        armadillo_ping.url <- ds.test_env$server_ping_url
     } else {
-        armadillo.url <- "http://localhost:8080/"
+        armadillo.url      <- "http://localhost:8080/"
+        armadillo_ping.url <- "http://localhost:8080/"
     }
 
-    ds.test_env$ping_url     <- armadillo.url
+    ds.test_env$ping_url     <- armadillo_ping.url
     ds.test_env$ping_config  <- config(timeout=5)
 
     ds.test_env$server_url_1 <- armadillo.url
