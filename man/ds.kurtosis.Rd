@@ -8,7 +8,7 @@ ds.kurtosis(
   x = NULL,
   method = 1,
   type = "both",
-  classConsistencyCheck = FALSE,
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -23,6 +23,9 @@ If \code{type} is set to 'combine', 'combined', 'combines' or 'c', the global ku
 if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
 if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 The default value is set to 'both'.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified 

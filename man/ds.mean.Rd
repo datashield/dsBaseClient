@@ -8,7 +8,7 @@ ds.mean(
   x = NULL,
   type = "split",
   save.mean.Nvalid = FALSE,
-  classConsistencyCheck = FALSE,
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -25,6 +25,9 @@ For more information see \strong{Details}.}
 the number of valid (non-missing) observations will be saved  on the data servers. 
 Default FALSE. 
 For more information see \strong{Details}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified

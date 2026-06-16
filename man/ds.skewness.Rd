@@ -8,7 +8,7 @@ ds.skewness(
   x = NULL,
   method = 1,
   type = "both",
-  classConsistencyCheck = FALSE,
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -22,6 +22,9 @@ For more information see \strong{Details}. The default value is set to 1.}
 \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
 see \strong{Details}. 
 The default value is set to \code{'both'}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified

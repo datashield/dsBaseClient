@@ -7,7 +7,7 @@
 ds.var(
   x = NULL,
   type = "split",
-  classConsistencyCheck = FALSE,
+  classConsistencyCheck = TRUE,
   datasources = NULL
 )
 }
@@ -19,6 +19,9 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'split'}, \code{'splits'}, \code{'s'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}}
 objects obtained after login. If the \code{datasources} argument is not specified

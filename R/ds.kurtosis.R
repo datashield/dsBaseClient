@@ -17,6 +17,7 @@
 #' if \code{type} is set to 'split', 'splits' or 's', the kurtosis is returned separately for each study.
 #' if \code{type} is set to 'both' or 'b', both sets of outputs are produced.
 #' The default value is set to 'both'.
+#' @template classConsistencyCheck
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -26,7 +27,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
-ds.kurtosis <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){
+ds.kurtosis <- function(x=NULL, method=1, type='both', classConsistencyCheck=TRUE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
