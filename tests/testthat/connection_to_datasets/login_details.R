@@ -57,7 +57,7 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
         armadillo.url <- "http://localhost:8080/"
     }
 
-    ds.test_env$ping_url      <- armadillo_ping.url
+    ds.test_env$ping_url      <- armadillo.url
     ds.test_env$ping_user     <- getOption("armadillo.user", "admin")
     ds.test_env$ping_password <- getOption("armadillo.password", "admin")
     ds.test_env$ping_options  <- "list(timeout=5)"
