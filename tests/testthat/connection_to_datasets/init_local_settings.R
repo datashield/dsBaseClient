@@ -24,9 +24,9 @@ init.server.url <- function()
 
 init.local.settings <- function()
 {
-  path            <- getwd()
-  sub.folder.name <- "/connection_to_datasets/"
-  file.name       <- "local_settings.csv"
+   path            <- getwd()
+   sub.folder.name <- "/connection_to_datasets/"
+   file.name       <- "local_settings.csv"
 
-  return(paste(path, sub.folder.name, file.name, sep=""))
+   return(paste(path, sub.folder.name, file.name, sep=""))
 }

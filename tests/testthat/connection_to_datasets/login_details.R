@@ -28,8 +28,10 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
         opal.url <- "https://localhost:8443/"
     }
 
-    ds.test_env$ping_url     <- opal.url
-    ds.test_env$ping_config  <- config(timeout=5)
+    ds.test_env$ping_url      <- opal.url
+    ds.test_env$ping_user     <- getOption("opal.user", "administrator")
+    ds.test_env$ping_password <- getOption("opal.password", "datashield_test&")
+    ds.test_env$ping_options  <- config(timeout=5, ssl_verifyhost=0, ssl_verifypeer=0)
 
     ds.test_env$server_url_1 <- opal.url
     ds.test_env$server_url_2 <- opal.url
@@ -55,8 +57,10 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
         armadillo.url <- "http://localhost:8080/"
     }
 
-    ds.test_env$ping_url     <- armadillo.url
-    ds.test_env$ping_config  <- config(timeout=5)
+    ds.test_env$ping_url      <- armadillo_ping.url
+    ds.test_env$ping_user     <- getOption("armadillo.user", "admin")
+    ds.test_env$ping_password <- getOption("armadillo.password", "admin")
+    ds.test_env$ping_options  <- "list(timeout=5)"
 
     ds.test_env$server_url_1 <- armadillo.url
     ds.test_env$server_url_2 <- armadillo.url
