@@ -10,14 +10,12 @@ init.server.url <- function()
    file.name <- init.local.settings()
    if (file.exists(file.name))
    {
-      content         <- read.csv(file.name, header = FALSE)
-      server_ping.url <- as.character(content[[1]][1])
-      server_ping.url <- as.character(content[[1]][2])
+      content    <- read.csv(file.name, header = FALSE)
+      server.url <- as.character(content[[1]][1])
    }
    else
    {
-      server.url      <- NULL
-      server_ping.url <- NULL
+      server.url <- NULL
    }
    return (server.url)
 }
@@ -26,9 +24,9 @@ init.server.url <- function()
 
 init.local.settings <- function()
 {
-  path            <- getwd()
-  sub.folder.name <- "/connection_to_datasets/"
-  file.name       <- "local_settings.csv"
+   path            <- getwd()
+   sub.folder.name <- "/connection_to_datasets/"
+   file.name       <- "local_settings.csv"
 
-  return(paste(path, sub.folder.name, file.name, sep=""))
+   return(paste(path, sub.folder.name, file.name, sep=""))
 }
