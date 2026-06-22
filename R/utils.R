@@ -41,20 +41,24 @@
 
 #' Check cross-study class consistency from a list of server aggregate results
 #'
-#' Batch-refactored server functions return a list per study that includes a
-#' `class` field. This helper verifies that the class field is identical across
-#' all studies and aborts if not.
+#' Batch-refactored server functions return a list per study that includes one
+#' or more class fields. This helper verifies that the chosen field is identical
+#' across all studies and aborts if not.
 #'
 #' @param results A named list of server-side aggregate results, one per study,
-#'   each containing a `class` element.
+#'   each containing the class field named by `field`.
+#' @param field The name of the element holding the class. Default `"class"`.
+#' @param object_name Optional name of the input object, used to make the error
+#'   message specific. If `NULL` a generic message is used.
 #' @importFrom cli cli_abort
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.checkClassConsistency <- function(results) {
-  classes <- lapply(results, function(r) r$class)
+.checkClassConsistency <- function(results, field = "class", object_name = NULL) {
+  classes <- lapply(results, function(r) r[[field]])
   if (length(unique(lapply(classes, sort))) > 1) {
-    cli_abort("The input object is not of the same class in all studies!")
+    subject <- if (is.null(object_name)) "The input object" else paste0("'", object_name, "'")
+    cli_abort("{subject} is not of the same class in all studies!")
   }
 }
 
