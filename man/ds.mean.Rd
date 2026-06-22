@@ -21,7 +21,7 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
 
-\item{save.mean.Nvalid}{logical. If TRUE generated values of the mean and
+\item{save.mean.Nvalid}{logical. If TRUE generated values of the mean and 
 the number of valid (non-missing) observations will be saved  on the data servers. 
 Default FALSE. 
 For more information see \strong{Details}.}
