@@ -8,8 +8,8 @@ ds.cor(
   x = NULL,
   y = NULL,
   type = "split",
-  classConsistencyCheck = TRUE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -24,6 +24,9 @@ This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}.
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.cor} returns a list containing the number of missing values in each variable,

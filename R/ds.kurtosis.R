@@ -27,7 +27,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
-ds.kurtosis <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){
+ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 

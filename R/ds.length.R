@@ -73,7 +73,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length <- function(x=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL){
+ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

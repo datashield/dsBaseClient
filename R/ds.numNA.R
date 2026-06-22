@@ -54,7 +54,7 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
+ds.numNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

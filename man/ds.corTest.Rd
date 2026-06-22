@@ -11,8 +11,8 @@ ds.corTest(
   exact = NULL,
   conf.level = 0.95,
   type = "split",
-  classConsistencyCheck = FALSE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = FALSE
 )
 }
 \arguments{
@@ -40,6 +40,9 @@ Fisher's z transformation.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 \code{ds.corTest} returns to the client-side the results of the correlation test.

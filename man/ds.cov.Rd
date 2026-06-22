@@ -9,8 +9,8 @@ ds.cov(
   y = NULL,
   naAction = "pairwise.complete",
   type = "split",
-  classConsistencyCheck = TRUE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -26,12 +26,12 @@ presence of missing values. This must be set to  \code{'casewise.complete'} or
 \item{type}{a character string that represents the type of analysis to carry out. 
 This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.}
 
-\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
-class across all studies. Default TRUE.}
-
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.cov} returns a list containing the number of missing values in each variable, the number of missing values

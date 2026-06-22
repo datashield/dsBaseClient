@@ -98,7 +98,7 @@
 #' }
 #' @export
 #'
-ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", classConsistencyCheck=TRUE, datasources=NULL){
+ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

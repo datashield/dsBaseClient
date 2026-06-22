@@ -67,7 +67,7 @@
 #'
 #' }
 #'
-ds.quantileMean <- function(x=NULL, type='combine', classConsistencyCheck=FALSE, datasources=NULL){
+ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 

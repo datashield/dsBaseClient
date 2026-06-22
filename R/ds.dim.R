@@ -78,7 +78,7 @@
 #'
 #' }
 #'
-ds.dim <- function(x=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL) {
+ds.dim <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE) {
 
   datasources <- .set_datasources(datasources)
 

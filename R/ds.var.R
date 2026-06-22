@@ -73,7 +73,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.var <- function(x=NULL, type='split', classConsistencyCheck=FALSE, datasources=NULL){
+ds.var <- function(x=NULL, type='split', datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 

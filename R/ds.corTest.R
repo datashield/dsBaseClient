@@ -22,6 +22,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.corTest} returns to the client-side the results of the correlation test. 
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
@@ -64,7 +65,7 @@
 #'   
 #' }   
 #'
-ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', classConsistencyCheck=FALSE, datasources=NULL){
+ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 

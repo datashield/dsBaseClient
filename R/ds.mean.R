@@ -96,7 +96,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, classConsistencyCheck=FALSE, datasources=NULL){
+ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
   
