@@ -31,8 +31,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
-the number of valid observations and the validity message.
+\code{ds.skewness} returns a matrix showing the skewness of the input numeric variable
+and the number of valid observations.
 }
 \description{
 This function calculates the skewness of a numeric variable 

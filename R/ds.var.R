@@ -32,7 +32,6 @@
 #' \code{Global.Variance}: estimated variance, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 #' across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 #' \code{Nstudies}: number of studies being analysed. \cr
-#' \code{ValidityMessage}: indicates if the analysis was possible. \cr
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export

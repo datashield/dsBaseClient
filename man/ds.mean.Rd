@@ -43,7 +43,6 @@ separately for each study (if \code{type = split} or \code{type = both}). \cr
 \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 \code{Nstudies}: number of studies being analysed. \cr
-\code{ValidityMessage}: indicates if the analysis was possible. \cr
 
 If \code{save.mean.Nvalid} is set as TRUE, the objects 
 \code{Nvalid.all.studies}, \code{Nvalid.study.specific},

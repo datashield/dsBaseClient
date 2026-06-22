@@ -32,8 +32,8 @@ If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-a matrix showing the kurtosis of the input numeric variable, the number of valid observations and
-the validity message.
+a matrix showing the kurtosis of the input numeric variable and
+the number of valid observations.
 }
 \description{
 This function calculates the kurtosis of a numeric variable.

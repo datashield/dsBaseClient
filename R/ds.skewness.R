@@ -35,8 +35,8 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
-#' the number of valid observations and the validity message.
+#' @return \code{ds.skewness} returns a matrix showing the skewness of the input numeric variable
+#' and the number of valid observations.
 #' @author Demetris Avraam, for DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 

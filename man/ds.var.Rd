@@ -37,7 +37,6 @@ separately for each study (if \code{type = split} or \code{type = both}).\cr
 \code{Global.Variance}: estimated variance, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 \code{Nstudies}: number of studies being analysed. \cr
-\code{ValidityMessage}: indicates if the analysis was possible. \cr
 }
 \description{
 Computes the variance of a given server-side vector.
