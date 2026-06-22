@@ -21,10 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.var::arg::test errors")
 test_that("var_erros", {
-    ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
-
     expect_error(ds.var(), "Please provide the name of the input object!", fixed=TRUE)
-    expect_error(ds.var(x="not_a_numeric"), "DataSHIELD errors")
 })
 
 #

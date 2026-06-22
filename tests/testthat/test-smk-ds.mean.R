@@ -260,8 +260,15 @@ test_that("mean values [both]", {
 
 # context("ds.mean::smk::shutdown")
 
+test_that("error, input must be numeric or integer", {
+    ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
+    expect_error(ds.mean(x='not_a_numeric'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type numeric or integer")
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D", "mean.all.studies", "mean.study.specific", "Nvalid.all.studies", "Nvalid.study.specific"))
+    ds_expect_variables(c("D", "mean.all.studies", "mean.study.specific", "Nvalid.all.studies", "Nvalid.study.specific", "not_a_numeric"))
 })
 
 disconnect.studies.dataset.cnsim()

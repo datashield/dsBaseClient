@@ -91,8 +91,15 @@ test_that("simple var, both", {
 
 # context("ds.var::smk::shutdown")
 
+test_that("error, input must be numeric or integer", {
+    ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
+    expect_error(ds.var(x='not_a_numeric'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type numeric or integer")
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "not_a_numeric"))
 })
 
 disconnect.studies.dataset.cnsim()
