@@ -149,9 +149,10 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', classConsistencyCheck=TRUE,
   output <- DSI::datashield.aggregate(datasources, cally)
 
   if(classConsistencyCheck){
-    # check consistency of index variable class across studies
-    index.classes <- lapply(output, function(r) list(class = r$class.index))
-    .checkClassConsistency(index.classes)
+    # check the summarised variable (x) and grouping factor (y) each have the
+    # same class in all studies
+    .checkClassConsistency(output, field = "class.x", object_name = x)
+    .checkClassConsistency(output, field = "class.index", object_name = y)
   }
 
   numsources <- length(output)
