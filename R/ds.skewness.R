@@ -86,12 +86,12 @@ ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FAL
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
-
+  
   if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
   }
 
-  # enable valid aliases for "type" argument
+  # enable valid aliases for "type" argument                  
   if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') type <- 'combine'
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
@@ -100,7 +100,7 @@ ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FAL
 
   if (type=='split' | type=='both'){
     calltext.split <- call("skewnessDS1", x, method)
-    output.split <- DSI::datashield.aggregate(datasources, calltext.split)
+    output.split <- DSI::datashield.aggregate(datasources, calltext.split) 
     if(classConsistencyCheck){
       .checkClassConsistency(output.split)
     }
@@ -119,11 +119,11 @@ ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FAL
       stop("FAILED: The number of valid observations in one or more studies is less than nfilter.tab. \n Check that by using the argument type=='split'", call.=FALSE)
     }else{
       calltext.combined <- call("skewnessDS2", x, global.mean)
-      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined)
+      output.combined <- DSI::datashield.aggregate(datasources, calltext.combined) 
       if(classConsistencyCheck){
         .checkClassConsistency(output.combined)
       }
-
+      
       Global.sum.cubes <- 0
       Global.sum.squares <- 0
       Global.Nvalid <- 0
@@ -137,13 +137,13 @@ ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FAL
       
       if(method==1){
         Global.skewness <- g1.global
-      }
+      }  
       if(method==2){
         Global.skewness <- g1.global * sqrt(Global.Nvalid*(Global.Nvalid-1))/(Global.Nvalid-2)
-      }
+      }  
       if(method==3){
         Global.skewness <- g1.global * ((Global.Nvalid-1)/(Global.Nvalid))^(3/2)
-      }
+      } 
       mat.combined <- data.frame(Skewness = Global.skewness, Nvalid = Global.Nvalid)
       rownames(mat.combined) <- 'studiesCombined'
       

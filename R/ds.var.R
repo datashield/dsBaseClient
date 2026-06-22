@@ -20,7 +20,7 @@
 #' \code{'both'} or \code{'b'}. 
 #' For more information see \strong{Details}.
 #' @template classConsistencyCheckFalse
-#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}}
+#' @param datasources  a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.var} returns to the client-side a list including:\cr

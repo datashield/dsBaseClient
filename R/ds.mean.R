@@ -30,8 +30,7 @@
 #' \code{'split'}, \code{'splits'}, \code{'s'},
 #' \code{'both'} or \code{'b'}. 
 #' For more information see \strong{Details}. 
-
-#' @param save.mean.Nvalid logical. If TRUE generated values of the mean and
+#' @param save.mean.Nvalid logical. If TRUE generated values of the mean and 
 #' the number of valid (non-missing) observations will be saved  on the data servers. 
 #' Default FALSE. 
 #' For more information see \strong{Details}. 
@@ -100,7 +99,7 @@
 ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
-
+  
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
