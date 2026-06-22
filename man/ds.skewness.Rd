@@ -8,7 +8,7 @@ ds.skewness(
   x = NULL,
   method = 1,
   type = "both",
-  classConsistencyCheck = TRUE,
+  classConsistencyCheck = FALSE,
   datasources = NULL
 )
 }
@@ -24,7 +24,7 @@ see \strong{Details}.
 The default value is set to \code{'both'}.}
 
 \item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
-class across all studies. Default TRUE.}
+class across all studies. Default FALSE.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified

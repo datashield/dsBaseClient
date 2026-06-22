@@ -35,7 +35,7 @@
 #' \code{'pairwise.complete'}. Default \code{'pairwise.complete'}. For more information see details.
 #' @param type a character string that represents the type of analysis to carry out. 
 #' This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}. For more information see details.
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckTrue
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.

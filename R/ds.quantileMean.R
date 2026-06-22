@@ -15,7 +15,7 @@
 #' @param type a character that represents the type of graph to display.
 #' This can be set as \code{'combine'} or \code{'split'}.
 #' For more information see \strong{Details}. 
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckFalse
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -67,7 +67,7 @@
 #'
 #' }
 #'
-ds.quantileMean <- function(x=NULL, type='combine', classConsistencyCheck=TRUE, datasources=NULL){
+ds.quantileMean <- function(x=NULL, type='combine', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 

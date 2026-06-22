@@ -31,7 +31,7 @@
 #' \code{type} can be set as: \code{'combine'}, \code{'split'} or \code{'both'}. For more information
 #' see \strong{Details}. 
 #' The default value is set to \code{'both'}.
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckFalse
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -79,7 +79,7 @@
 #' } 
 #' @export
 #' 
-ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=TRUE, datasources=NULL){
+ds.skewness <- function(x=NULL, method=1, type='both', classConsistencyCheck=FALSE, datasources=NULL){
 
   datasources <- .set_datasources(datasources)
 
