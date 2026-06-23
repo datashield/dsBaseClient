@@ -16,6 +16,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom DSI datashield.aggregate datashield.assign
 #' @return The filled DataFrame with added columns and adjusted classes or factor levels.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 ds.standardiseDf <- function(df.name = NULL, newobj = NULL, fix_class = "ask", fix_levels = "ask",
                              datasources = NULL) {
