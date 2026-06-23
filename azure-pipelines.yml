@@ -221,6 +221,8 @@ jobs:
 
       sleep 60
 
+      R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
+
       R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
 
     workingDirectory: $(Pipeline.Workspace)/dsBaseClient/tests/testthat/data_files

@@ -26,7 +26,7 @@ init.testing.datasets()
 
 test_that("The virtual machine is loaded. ",
 {
-    response <- httr::HEAD(url=ds.test_env$ping_address, config=ds.test_env$ping_config)
+    response <- httr::HEAD(url=ds.test_env$ping_url, config=ds.test_env$ping_options, authenticate(ds.test_env$ping_user, ds.test_env$ping_password))
     expect_true(http_status(response)$reason %in% c("OK", "Unauthorized"))
 })
 
