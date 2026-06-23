@@ -129,7 +129,7 @@ ds.standardiseDf <- function(df.name = NULL, newobj = NULL, fix_class = "ask", f
 #' @param df.name Name of the input DataFrame.
 #' @param datasources Data sources from which to aggregate data.
 #' @return A DataFrame containing the variable classes from each data source.
-#' @import dplyr
+#' @importFrom dplyr %>% bind_rows row_number where all_of case_when
 #' @noRd
 .get_var_classes <- function(df.name, datasources) {
   cally <- call("getClassAllColsDS", df.name)
@@ -144,7 +144,6 @@ ds.standardiseDf <- function(df.name = NULL, newobj = NULL, fix_class = "ask", f
 #'
 #' @param classes A DataFrame containing variable classes across data sources.
 #' @return A list of variables that have class conflicts.
-#' @import dplyr
 #' @importFrom purrr map
 #' @noRd
 .identify_class_conflicts <- function(classes) {
