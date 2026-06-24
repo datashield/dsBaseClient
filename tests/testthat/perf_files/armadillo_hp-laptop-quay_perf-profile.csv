@@ -11,4 +11,5 @@
 "ds.length::perf::combine:0","7.957","0.5","2"
 "ds.mean::perf::combine:0","9.049","0.5","2"
 "ds.mean::perf::split:0","9.429","0.5","2"
+"ds.standardiseDf:::perf::0","9.50","0.5","2"
 "void::perf::void::0","21400.0","0.5","2"
