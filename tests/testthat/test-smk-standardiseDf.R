@@ -2,7 +2,6 @@
 # Set up
 #
 context("ds.standardiseDf::smk::setup")
-options(datashield.errors.print = TRUE)
 
 connect.studies.dataset.stand(
   c(
