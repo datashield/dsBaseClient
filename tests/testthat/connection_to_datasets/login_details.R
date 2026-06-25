@@ -16,9 +16,9 @@ if (! is.null(getOption("default_driver"))) {
     ds.test_env$driver <- getOption("default_driver")
 } else {
     # switch between "DSLiteDriver" and "OpalDriver", "ArmadilloDriver" to test
-    ds.test_env$driver <- "DSLiteDriver"
+    # ds.test_env$driver <- "DSLiteDriver"
     # ds.test_env$driver <- "OpalDriver"
-    # ds.test_env$driver <- "ArmadilloDriver"
+    ds.test_env$driver <- "ArmadilloDriver"
 }
 
 if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver")) {
@@ -60,7 +60,7 @@ if ((ds.test_env$driver == "DSLiteDriver") || (ds.test_env$driver == "OpalDriver
     ds.test_env$ping_url      <- armadillo.url
     ds.test_env$ping_user     <- getOption("armadillo.user", "admin")
     ds.test_env$ping_password <- getOption("armadillo.password", "admin")
-    ds.test_env$ping_options  <- "list(timeout=60)"
+    ds.test_env$ping_options  <- config(timeout=60)
 
     ds.test_env$server_url_1 <- armadillo.url
     ds.test_env$server_url_2 <- armadillo.url
