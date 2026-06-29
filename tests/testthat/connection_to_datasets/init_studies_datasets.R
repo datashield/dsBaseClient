@@ -229,8 +229,8 @@ init.studies.dataset.stand <- function(variables)
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
       builder$append(server = "sim1", url = ds.test_env$server_url_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "STANDARDISE.std_1", options=ds.test_env$options_1)
-      builder$append(server = "sim2", url = ds.test_env$server_url_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_1", options=ds.test_env$options_2)
-      builder$append(server = "sim3", url = ds.test_env$server_url_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_1", options=ds.test_env$options_3)
+      builder$append(server = "sim2", url = ds.test_env$server_url_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_2", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$server_url_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
@@ -286,8 +286,8 @@ init.studies.dataset.stand <- function(variables)
     {
       builder <- DSI::newDSLoginBuilder(.silent = TRUE)
       builder$append(server = "sim1", url = ds.test_env$server_url_1, user = ds.test_env$user_1, password = ds.test_env$password_1, table = "STANDARDISE.std_1", options=ds.test_env$options_1)
-      builder$append(server = "sim2", url = ds.test_env$server_url_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_1", options=ds.test_env$options_2)
-      builder$append(server = "sim3", url = ds.test_env$server_url_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_1", options=ds.test_env$options_3)
+      builder$append(server = "sim2", url = ds.test_env$server_url_2, user = ds.test_env$user_2, password = ds.test_env$password_2, table = "STANDARDISE.std_2", options=ds.test_env$options_2)
+      builder$append(server = "sim3", url = ds.test_env$server_url_3, user = ds.test_env$user_3, password = ds.test_env$password_3, table = "STANDARDISE.std_3", options=ds.test_env$options_3)
       ds.test_env$login.data <- builder$build()
     }
     else if (ds.test_env$driver == "ArmadilloDriver")
