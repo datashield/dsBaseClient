@@ -104,7 +104,7 @@ test_that(".stop_if_cols_identical doesn't throw error if data frames have diffe
 
 test_that(".get_var_classes returns correct output", {
 
-  expected <- tibble(
+  expected <- data.frame(
     server = c("sim1", "sim2", "sim3"),
     fac_col1 = c("factor", "factor", "factor"),
     fac_col2 = c("factor", "factor", "factor"),
@@ -124,10 +124,11 @@ test_that(".get_var_classes returns correct output", {
     col11 = c(NA, NA, "integer"),
     col14 = c(NA, NA, "logical"),
     col17 = c(NA, NA, "character"),
-    col20 = c(NA, NA, "numeric")
+    col20 = c(NA, NA, "numeric"),
+    stringsAsFactors = FALSE
   )
 
-  expect_equal(var_class, expected)
+  expect_equal(as.data.frame(var_class), expected)
 
 })
 
@@ -207,9 +208,10 @@ test_that("prompt_user_class_decision_all_vars returns correct value", {
       prompt_user_class_decision_all_vars(
         vars = c("test_var_1", "test_var_2"),
         all_servers = c("sim2", "sim2", "sim3"),
-        all_classes = tibble(
+        all_classes = data.frame(
           test_var_1 = c("numeric", "character", "factor"),
-          test_var_2 = c("logical", "integer", "factor")
+          test_var_2 = c("logical", "integer", "factor"),
+          stringsAsFactors = FALSE
         ),
         "test_df",
         conns),
