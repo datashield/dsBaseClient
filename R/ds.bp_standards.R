@@ -26,7 +26,6 @@
 #' blood pressure in children and adolescents:
 #' https://www.nhlbi.nih.gov/sites/default/files/media/docs/hbp_ped.pdf
 #' @author Demetris Avraam for DataSHIELD Development Team
-#' @import data.table
 #' @export
 ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=TRUE, 
                             newobj=NULL, datasources=NULL){
