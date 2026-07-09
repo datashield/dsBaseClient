@@ -11,7 +11,7 @@
 #' @param by character vector of the columns to group by
 #' @return Returns a data table object with computed weighted means.
 #'
-#' @import data.table
+#' @importFrom data.table .SD
 #' @importFrom stats as.formula na.omit ts weighted.mean
 #' @keywords internal
 computeWeightedMeans <- function(data_table, variables, weight, by) {
