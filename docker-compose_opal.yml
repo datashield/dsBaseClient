@@ -1,7 +1,6 @@
 services:
     opal:
-        image: obiba/opal:latest
-#        image: datashield/opal_citest:latest
+        image: datashield/opal_citest:latest
         ports:
             - 8443:8443
             - 8080:8080
