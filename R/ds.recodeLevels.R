@@ -19,6 +19,7 @@
 #' @return \code{ds.recodeLevels} returns to the server-side a variable of type factor
 #' with the replaces levels. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -97,8 +98,8 @@ ds.recodeLevels <- function(x=NULL, newCategories=NULL, newobj=NULL, datasources
   }
 
   # get the current number of levels
-  cally <- paste0("levelsDS(", x, ")")
-  xx <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+  cally <- call("levelsDS", x)
+  xx <- DSI::datashield.aggregate(datasources, cally)
   all.study.levels <- c()
   for (study.levels in xx) {
     if (any(is.na(study.levels$Levels)))

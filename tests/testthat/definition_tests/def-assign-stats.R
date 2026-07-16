@@ -29,7 +29,7 @@ ds.test_env$MAX <- 5
   value <- c(0.0,0.0,0.0)
   
   # compute dispersion and centrality
-  mean.from.servers <- ds.mean(x=name.variable,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  mean.from.servers <- ds.mean(x=name.variable,type='combine',save.mean.Nvalid=FALSE)
   var.from.servers <- ds.var(x=name.variable,type='combine')
   
   # compute range

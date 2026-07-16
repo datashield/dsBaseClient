@@ -4,7 +4,12 @@
 \alias{ds.var}
 \title{Computes server-side vector variance}
 \usage{
-ds.var(x = NULL, type = "split", checks = FALSE, datasources = NULL)
+ds.var(
+  x = NULL,
+  type = "split",
+  datasources = NULL,
+  classConsistencyCheck = FALSE
+)
 }
 \arguments{
 \item{x}{a character specifying the name of a numerical vector.}
@@ -15,14 +20,12 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE  optional checks of model
-components will be undertaken. Default is FALSE to save time. 
-It is suggested that checks
-should only be undertaken once the function call has failed.}
-
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 \code{ds.var} returns to the client-side a list including:\cr
@@ -34,7 +37,6 @@ separately for each study (if \code{type = split} or \code{type = both}).\cr
 \code{Global.Variance}: estimated variance, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 \code{Nstudies}: number of studies being analysed. \cr
-\code{ValidityMessage}: indicates if the analysis was possible. \cr
 }
 \description{
 Computes the variance of a given server-side vector.
@@ -85,7 +87,6 @@ Server function called: \code{varDS}
   
   ds.var(x = "D$LAB_TSC",
           type = "split",
-          checks = FALSE,
           datasources = connections)
              
   # clear the Datashield R sessions and logout
@@ -95,4 +96,6 @@ Server function called: \code{varDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

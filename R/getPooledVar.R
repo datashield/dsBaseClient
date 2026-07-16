@@ -14,8 +14,8 @@ getPooledVar <- function(dtsources, x){
 
   num.sources <- length(dtsources)
 
-  cally <- paste0("varDS(", x, ")")
-  out.var <- DSI::datashield.aggregate(dtsources, as.symbol(cally))
+  cally <- call("varDS", x)
+  out.var <- DSI::datashield.aggregate(dtsources, cally)
 
   length.total <- 0
   sum.weighted <- 0
