@@ -4,7 +4,12 @@
 \alias{ds.quantileMean}
 \title{Computes the quantiles of a server-side variable}
 \usage{
-ds.quantileMean(x = NULL, type = "combine", datasources = NULL)
+ds.quantileMean(
+  x = NULL,
+  type = "combine",
+  datasources = NULL,
+  classConsistencyCheck = FALSE
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of the numeric vector.}
@@ -16,6 +21,9 @@ For more information see \strong{Details}.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean

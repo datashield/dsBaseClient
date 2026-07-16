@@ -8,7 +8,7 @@
 #'
 #' Server function called: \code{isNaDS}
 #' @param x a character string specifying the name of the vector to check.
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckTrue
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}}
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -57,7 +57,7 @@
 #'
 #' }
 #'
-ds.isNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
+ds.isNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

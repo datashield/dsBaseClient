@@ -67,24 +67,13 @@
 #'
 ds.summary <- function(x=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks if the input object is of the same class in all studies.
+  # check the type of x to drive client-side dispatch
   typ <- checkClass(datasources, x)
 
   # the input object must be a numeric or an integer vector
@@ -155,7 +144,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
       validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
-        q <- (DSI::datashield.aggregate(datasources[i], as.symbol(paste0('quantileMeanDS(', x, ')' ))))[[1]]
+        q <- (DSI::datashield.aggregate(datasources[i], call('quantileMeanDS', x)))[[1]]$quantiles
         stdsummary <- list('class'=typ, 'length'=l, 'quantiles & mean'=q)
         finalOutput[[i]] <- stdsummary
       }else{

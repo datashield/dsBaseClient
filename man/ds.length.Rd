@@ -7,8 +7,8 @@
 ds.length(
   x = NULL,
   type = "both",
-  classConsistencyCheck = TRUE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -23,12 +23,12 @@ if \code{type} is set to \code{'both'} or \code{'b'},
 both sets of outputs are produced. 
 Default \code{'both'}.}
 
-\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
-class across all studies. Default TRUE.}
-
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.length} returns to the client-side the pooled length of a vector or a list, 

@@ -14,7 +14,7 @@
 #' if \code{type} is set to \code{'both'} or \code{'b'}, 
 #' both sets of outputs are produced. 
 #' Default \code{'both'}. 
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckTrue
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -73,7 +73,7 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.length <- function(x=NULL, type='both', classConsistencyCheck=TRUE, datasources=NULL){
+ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 
