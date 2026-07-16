@@ -7,7 +7,7 @@
 #' 
 #' Server function called: \code{numNaDS}
 #' @param x a character string specifying the name of the vector.
-#' @template classConsistencyCheck
+#' @template classConsistencyCheckTrue
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -54,7 +54,7 @@
 #'
 #' }
 #'
-ds.numNA <- function(x=NULL, classConsistencyCheck=TRUE, datasources=NULL){
+ds.numNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .set_datasources(datasources)
 

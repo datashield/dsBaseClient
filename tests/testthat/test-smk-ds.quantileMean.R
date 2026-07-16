@@ -81,8 +81,15 @@ test_that("quantileMean_split", {
 
 # context("ds.quantileMean::smk::shutdown")
 
+test_that("error, input must be numeric or integer", {
+    ds.asCharacter(x='D$LAB_HDL', newobj="not_a_numeric")
+    expect_error(ds.quantileMean(x='not_a_numeric'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type numeric or integer")
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D", "hdl"))
+    ds_expect_variables(c("D", "hdl", "not_a_numeric"))
 })
 
 disconnect.studies.dataset.cnsim()

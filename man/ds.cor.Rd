@@ -4,7 +4,13 @@
 \alias{ds.cor}
 \title{Calculates the correlation of R objects in the server-side}
 \usage{
-ds.cor(x = NULL, y = NULL, type = "split", datasources = NULL)
+ds.cor(
+  x = NULL,
+  y = NULL,
+  type = "split",
+  datasources = NULL,
+  classConsistencyCheck = TRUE
+)
 }
 \arguments{
 \item{x}{a character string providing the name of the input vector, data frame or matrix.}
@@ -18,6 +24,9 @@ This must be set to \code{'split'} or \code{'combine'}.  Default \code{'split'}.
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.cor} returns a list containing the number of missing values in each variable,
@@ -95,4 +104,6 @@ Server function called: \code{corDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

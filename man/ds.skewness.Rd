@@ -4,7 +4,13 @@
 \alias{ds.skewness}
 \title{Calculates the skewness of a server-side numeric variable}
 \usage{
-ds.skewness(x = NULL, method = 1, type = "both", datasources = NULL)
+ds.skewness(
+  x = NULL,
+  method = 1,
+  type = "both",
+  datasources = NULL,
+  classConsistencyCheck = FALSE
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of a numeric variable.}
@@ -20,10 +26,13 @@ The default value is set to \code{'both'}.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
-\code{ds.skewness} returns a matrix showing the skewness of the input numeric variable,
-the number of valid observations and the validity message.
+\code{ds.skewness} returns a matrix showing the skewness of the input numeric variable
+and the number of valid observations.
 }
 \description{
 This function calculates the skewness of a numeric variable 
@@ -93,4 +102,6 @@ Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
 }
 \author{
 Demetris Avraam, for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
