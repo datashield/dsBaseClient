@@ -17,10 +17,8 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
 #' If the \code{datasources} argument is not specified 
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
-#' is written to the server-side. Also, two validity messages are returned to the
-#' client-side indicating the name of the \code{newobj} that has been created in each data source
-#' and if it is in a valid form.
+#' @return \code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which
+#' is written to the server-side.
 #' @author Demetris Avraam for DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
@@ -90,12 +88,14 @@ ds.dataFrameFill <- function(df.name=NULL, newobj=NULL, datasources=NULL, classC
     newobj <- "dataframefill.newobj"
   }
 
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, df.name)
+  if(classConsistencyCheck){
+    # call the internal function that checks the input object is of the same class in all studies.
+    typ <- checkClass(datasources, df.name)
 
-  # if the input object is not a matrix or a dataframe stop
-  if(!('data.frame' %in% typ) && !('matrix' %in% typ)){
-    stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
+    # if the input object is not a matrix or a dataframe stop
+    if(!('data.frame' %in% typ) && !('matrix' %in% typ)){
+      stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
+    }
   }
 
   column.names <- lapply(datasources, function(dts){DSI::datashield.aggregate(dts, call("colnamesDS", df.name))})

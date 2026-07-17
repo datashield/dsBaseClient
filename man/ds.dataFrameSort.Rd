@@ -35,11 +35,7 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.dataFrameSort} returns the sorted data frame is written to the server-side. 
-Also, two validity messages are returned to the client-side
-indicating the name of the \code{newobj} which 
-has been created in each data source and if 
-it is in a valid form.
+\code{ds.dataFrameSort} returns the sorted data frame which is written to the server-side.
 }
 \description{
 Sorts a data frame using a specified sort key.

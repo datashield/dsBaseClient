@@ -35,10 +35,7 @@
 #' progress. Default FALSE.
 #' @return \code{ds.dataFrameSubset} returns
 #' the object specified by the \code{newobj} argument
-#' which is written to the server-side. 
-#' Also, two validity messages are returned to the client-side indicating
-#' the name of the \code{newobj} which has been created in each data source
-#'  and if it is in a valid form.
+#' which is written to the server-side.
 #' @examples 
 #' \dontrun{
 #' 

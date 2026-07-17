@@ -25,10 +25,8 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 \item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
-\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
-is written to the server-side. Also, two validity messages are returned to the
-client-side indicating the name of the \code{newobj} that has been created in each data source
-and if it is in a valid form.
+\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which
+is written to the server-side.
 }
 \description{
 Adds extra columns with missing values in a data frame on the server-side.

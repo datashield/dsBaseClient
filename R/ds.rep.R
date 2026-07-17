@@ -26,10 +26,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.rep} returns in the server-side a vector with the specified repetitive sequence.  
-#' Also, two validity messages are returned to the client-side
-#'  the name of \code{newobj} that has been created 
-#' in each data source and if it is in a valid form.
+#' @return \code{ds.rep} returns in the server-side a vector with the specified repetitive sequence.
 #' @examples 
 #' \dontrun{
 #' 

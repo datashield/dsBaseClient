@@ -39,10 +39,7 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 progress. Default FALSE.}
 }
 \value{
-Assigns to each server a new variable with the recoded values. 
-Also, two validity messages are returned to the client-side 
-indicating whether the new object has been created in each data source and if so whether
-it is in a valid form.
+Assigns to each server a new variable with the recoded values.
 }
 \description{
 This function takes specified values of elements in a vector and converts

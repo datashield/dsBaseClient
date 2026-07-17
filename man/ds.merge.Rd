@@ -70,10 +70,7 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.merge} returns the merged data frame that is written on the server-side. 
-Also, two validity messages are returned to the client-side
-indicating whether the new object has been created in each data source and if so whether
-it is in a valid form.
+\code{ds.merge} returns the merged data frame that is written on the server-side.
 }
 \description{
 Merges (links) two data frames together based on common

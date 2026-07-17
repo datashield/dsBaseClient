@@ -24,10 +24,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @param notify.of.progress logical. If TRUE console output should be produced to indicate
 #' progress. Default FALSE.
-#' @return Assigns to each server a new variable with the recoded values. 
-#' Also, two validity messages are returned to the client-side 
-#' indicating whether the new object has been created in each data source and if so whether
-#' it is in a valid form. 
+#' @return Assigns to each server a new variable with the recoded values.
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
