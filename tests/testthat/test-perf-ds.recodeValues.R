@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.recodeValues(var.name="D$LAB_TSC", values2replace.vector=0, new.values.vector=NA, newobj="recode.newobj")
+        ds.recodeValues(var.name="D$survtime", values2replace.vector=0, new.values.vector=NA, newobj="recode.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

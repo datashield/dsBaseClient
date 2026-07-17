@@ -4,7 +4,7 @@
 #
 
 # context("ds.dataFrameFill::perf::setup")
-
+connect.discordant.dataset.simple(list("A", "B", "C"))
 
 #
 # Tests
@@ -46,5 +46,5 @@ test_that("performance", {
 #
 
 # context("ds.dataFrameFill::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.discordant.dataset.simple()
 # context("ds.dataFrameFill::perf::done")

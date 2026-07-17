@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.dataFrameSubset(df.name="D", V1.name="D$LAB_TSC", V2.name="D$LAB_TRIG", Boolean.operator=">=", newobj="subset.newobj")
+        ds.dataFrameSubset(df.name="D", V1.name="D$LAB_TSC", V2.name="D$LAB_HDL", Boolean.operator=">=", newobj="subset.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
