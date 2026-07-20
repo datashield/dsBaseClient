@@ -105,9 +105,7 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     sort.descending <- FALSE
   }
   
-  if(is.null(newobj)){
-    newobj <- "dataframesort.newobj"
-  }
+  newobj <- .set_newobj_name(newobj, "dataframesort.newobj")
   
   # Call to assign function
   calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.method)

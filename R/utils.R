@@ -62,6 +62,43 @@
   }
 }
 
+#' Check That a New Object Name Is Valid
+#'
+#' Internal helper that checks whether the name supplied for a server-side
+#' output object is a single character string. If not, it aborts with a
+#' user-friendly error.
+#'
+#' @param newobj A character string naming the object to be created server-side.
+#' @importFrom cli cli_abort
+#' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.check_newobj_name <- function(newobj) {
+  if (!is.character(newobj) || length(newobj) != 1) {
+    cli_abort("'newobj' must be a single character string")
+  }
+}
+
+#' Set and verify the name of a server-side output object.
+#'
+#' Applies the function's default name when `newobj` is `NULL`, then checks the
+#' result is a single character string. The default must be applied first, since
+#' `NULL` is a valid input meaning "use the default".
+#'
+#' @param newobj A character string naming the object to be created server-side,
+#'   or `NULL` to use `default`.
+#' @param default The name to use when `newobj` is `NULL`.
+#' @return A validated, single character string.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.set_newobj_name <- function(newobj, default) {
+  if (is.null(newobj)) {
+    newobj <- default
+  }
+  .check_newobj_name(newobj)
+  return(newobj)
+}
+
 #' Check That a Data Frame Name Is Provided
 #'
 #' Internal helper that checks whether a data frame or matrix object
