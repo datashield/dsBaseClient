@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
+<url><loc>/REFACTOR_GUIDE.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/reference/checkClass.html</loc></url>
@@ -102,7 +103,6 @@
 <url><loc>/reference/ds.rNorm.html</loc></url>
 <url><loc>/reference/ds.rPois.html</loc></url>
 <url><loc>/reference/ds.rUnif.html</loc></url>
-<url><loc>/reference/ds.ranksSecure.html</loc></url>
 <url><loc>/reference/ds.rbind.html</loc></url>
 <url><loc>/reference/ds.reShape.html</loc></url>
 <url><loc>/reference/ds.recodeLevels.html</loc></url>

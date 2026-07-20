@@ -1,0 +1,173 @@
+# Applies a Function Over a Ragged Array on the server-side
+
+Applies one of a selected range of functions to summarize an outcome
+variable over one or more indexing factors and write the resultant
+summary as an object on the server-side.
+
+## Usage
+
+``` r
+ds.tapply.assign(
+  X.name = NULL,
+  INDEX.names = NULL,
+  FUN.name = NULL,
+  newobj = NULL,
+  datasources = NULL
+)
+```
+
+## Arguments
+
+- X.name:
+
+  a character string specifying the name of the variable to be
+  summarized.
+
+- INDEX.names:
+
+  a character string specifying the name of a single factor or a vector
+  of names of up to two factors to index the variable to be summarized.
+  For more information see **Details**.
+
+- FUN.name:
+
+  a character string specifying the name of one of the allowable
+  summarizing functions. This can be set as: `"N"` (or `"length"`),
+  `"mean"`,`"sd"`, `"sum"`, or `"quantile"`. For more information see
+  **Details**.
+
+- newobj:
+
+  a character string that provides the name for the output variable that
+  is stored on the data servers. Default `tapply.assign.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.tapply.assign` returns an array of the summarized values. The array
+is written to the server-side. It has the same number of dimensions as
+INDEX.
+
+## Details
+
+This function applies one of a selected range of functions to each cell
+of a ragged array, that is to each (non-empty) group of values given by
+each unique combination of a series of indexing factors.
+
+The range of allowable summarizing functions for DataSHIELD `ds.tapply`
+function is much more restrictive than for the native R `tapply`
+function. The reason for this is the protection against disclosure risk.
+
+Should other functions be required in the future then, provided they are
+non-disclosive, the DataSHIELD development team could work on them if
+requested.
+
+To protect against disclosure the number of observations in each
+summarizing group in each source is calculated and if any of these falls
+below the value of `nfilter.tab` (the minimum allowable non-zero count
+in a contingency table) the tapply analysis of that source will return
+only an error message. The value of `nfilter.tab` is can be set and
+modified only by the data custodian. If an analytic team wishes the
+value to be reduced (e.g. to 1 which will allow any output from tapply
+to be returned) this needs to formally be discussed and agreed with the
+data custodian.
+
+If the reason for the tapply analysis is, for example, to break a
+dataset down into a small number of values for each individual and then
+to flag up which individuals have got at least one positive value for a
+binary outcome variable, then that flagging does not have to be overtly
+returned to the client-side. Rather, it can be written as a vector to
+the server-side at each source (which, like any other server-side
+object, cannot then be seen, abstracted or copied). This can be done
+using `ds.tapply.assign` which writes the results as a `newobj` to the
+server-side and does not test the number of observations in each group
+against `nfilter.tab`. For more information see the help option of
+`ds.tapply.assign` function.
+
+The native R tapply function has optional arguments such as
+`na.rm = TRUE` for `FUN = mean` which will exclude any NAs from the
+outcome variable to be summarized. However, in order to keep
+DataSHIELD's `ds.tapply` and `ds.tapply.assign` functions
+straightforward, the server-side functions `tapplyDS` and
+`tapplyDS.assign` both starts by stripping any observations which have
+missing (NA) values in either the outcome variable or in any one of the
+indexing factors. In consequence, the resultant analyses are always
+based on complete cases.
+
+In `INDEX.names` argument the native R tapply function can coerce
+non-factor vectors into factors. However, this does not always work when
+using the DataSHIELD `ds.tapply` or `ds.tapply.assign` functions so if
+you are concerned that an indexing vector is not being treated correctly
+as a factor, please first declare it explicitly as a factor using
+`ds.asFactor`.
+
+In `FUN.name` argument the allowable functions are: N or length (the
+number of (non-missing) observations in the group defined by each
+combination of indexing factors); mean; SD (standard deviation); sum;
+quantile (with quantile probabilities set at
+c(0.05,0.1,0.2,0.25,0.3,0.33,0.4,0.5,0.6,0.67,0.7,0.75,0.8,0.9,0.95)).
+
+Server function called: `ds.tapply.assign`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Apply a Function Over a Server-Side Ragged Array. 
+  # Write the resultant object on the server-side
+  
+  
+  ds.assign(toAssign = "D$LAB_TSC",
+            newobj = "LAB_TSC",
+            datasources = connections)
+            
+  ds.assign(toAssign = "D$GENDER",
+            newobj =  "GENDER",
+            datasources = connections)
+            
+  ds.tapply.assign(X.name = "LAB_TSC",
+                   INDEX.names = c("GENDER"),
+                   FUN.name = "mean",
+                   newobj="fun_mean.newobj",
+                   datasources = connections)
+                 
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  } # }
+```

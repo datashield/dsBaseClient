@@ -1,0 +1,171 @@
+# Combines R objects by columns in the server-side
+
+Takes a sequence of vector, matrix or data-frame arguments and combines
+them by column to produce a data-frame.
+
+## Usage
+
+``` r
+ds.cbind(
+  x = NULL,
+  DataSHIELD.checks = FALSE,
+  force.colnames = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE,
+  classConsistencyCheck = TRUE
+)
+```
+
+## Arguments
+
+- x:
+
+  a character vector with the name of the objects to be combined.
+
+- DataSHIELD.checks:
+
+  logical. if TRUE does four checks:  
+  1. the input object(s) is(are) defined in all the studies.  
+  2. the input object(s) is(are) of the same legal class in all the
+  studies.  
+  3. if there are any duplicated column names in the input objects in
+  each study.  
+  4. the number of rows is the same in all components to be cbind.  
+  Default FALSE.
+
+- force.colnames:
+
+  can be NULL (recommended) or a vector of characters that specifies
+  column names of the output object. If it is not NULL the user should
+  take some caution. For more information see **Details**.
+
+- newobj:
+
+  a character string that provides the name for the output variable that
+  is stored on the data servers. Defaults `cbind.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+- notify.of.progress:
+
+  specifies if console output should be produced to indicate progress.
+  Default FALSE.
+
+- classConsistencyCheck:
+
+  logical. If TRUE, verifies that each input object has the same class
+  across all studies. Default TRUE.
+
+## Value
+
+`ds.cbind` returns a data frame combining the columns of the R objects
+specified in the function which is written to the server-side.
+
+## Details
+
+A sequence of vector, matrix or data-frame arguments is combined column
+by column to produce a data-frame that is written to the server-side.
+
+This function is similar to the native R function `cbind`.
+
+In `DataSHIELD.checks` the checks are relatively slow. Default
+`DataSHIELD.checks` value is FALSE.
+
+If `force.colnames` is NULL (which is recommended), the column names are
+inferred from the names or column names of the first object specified in
+the `x` argument. If this argument is not NULL, then the column names of
+the assigned data.frame have the same order as the characters specified
+by the user in this argument. Therefore, the vector of `force.colnames`
+must have the same number of elements as the columns in the output
+object. In a multi-site DataSHIELD setting to use this argument, the
+user should make sure that each study has the same number of names and
+column names of the input elements specified in the `x` argument and in
+the same order in all the studies.
+
+Server function called: `cbindDS`
+
+## Author
+
+DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+  ## Version 6, for version 5 see the Wiki 
+  
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  # Example 1: Assign the exponent of a numeric variable at each server and cbind it 
+  # to the data frame D
+  
+  ds.exp(x = "D$LAB_HDL",
+         newobj = "LAB_HDL.exp",
+         datasources = connections) 
+         
+  ds.cbind(x = c("D", "LAB_HDL.exp"),
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.1",
+           datasources = connections)
+             
+  # Example 2: If there are duplicated column names in the input objects the function adds
+  # a suffix '.k' to the kth replicate". If also the argument DataSHIELD.checks is set to TRUE
+  # the function returns a warning message notifying the user for the existence of any duplicated
+  # column names in each study
+  
+  ds.cbind(x = c("LAB_HDL.exp", "LAB_HDL.exp"), 
+           DataSHIELD.checks = TRUE,
+           newobj = "D.cbind.2",
+           datasources = connections)
+           
+  ds.colnames(x = "D.cbind.2",
+              datasources = connections)            
+             
+  # Example 3: Generate a random normally distributed variable of length 100 at each study,
+  # and cbind it to the data frame D. This example fails and  returns an error as the length
+  # of the generated variable "norm.var" is not the same as the number of rows in the data frame D
+  
+  ds.rNorm(samp.size = 100,
+           newobj = "norm.var",
+           datasources = connections) 
+           
+  ds.cbind(x = c("D", "norm.var"), 
+           DataSHIELD.checks = FALSE,
+           newobj = "D.cbind.3", 
+           datasources = connections)                 
+                   
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
+  } # }
+```
