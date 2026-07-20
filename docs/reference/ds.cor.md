@@ -1,0 +1,134 @@
+# Calculates the correlation of R objects in the server-side
+
+This function calculates the correlation of two variables or the
+correlation matrix for the variables of an input data frame.
+
+## Usage
+
+``` r
+ds.cor(
+  x = NULL,
+  y = NULL,
+  type = "split",
+  datasources = NULL,
+  classConsistencyCheck = TRUE
+)
+```
+
+## Arguments
+
+- x:
+
+  a character string providing the name of the input vector, data frame
+  or matrix.
+
+- y:
+
+  a character string providing the name of the input vector, data frame
+  or matrix. Default NULL.
+
+- type:
+
+  a character string that represents the type of analysis to carry out.
+  This must be set to `'split'` or `'combine'`. Default `'split'`. For
+  more information see details.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+- classConsistencyCheck:
+
+  logical. If TRUE, checks that the input object has the same class
+  across all studies. Default TRUE.
+
+## Value
+
+`ds.cor` returns a list containing the number of missing values in each
+variable, the number of missing variables casewise, the correlation
+matrix, the number of used complete cases. The function applies two
+disclosure controls. The first disclosure control checks that the number
+of variables is not bigger than a percentage of the individual-level
+records (the allowed percentage is pre-specified by the 'nfilter.glm').
+The second disclosure control checks that none of them is dichotomous
+with a level having fewer counts than the pre-specified 'nfilter.tab'
+threshold.
+
+## Details
+
+In addition to computing correlations; this function produces a table
+outlining the number of complete cases and a table outlining the number
+of missing values to allow the user to decide the 'relevance' of the
+correlation based on the number of complete cases included in the
+correlation calculations.
+
+If the argument `y` is not NULL, the dimensions of the object have to be
+compatible with the argument `x`.
+
+The function calculates the pairwise correlations based on casewise
+complete cases which means that it omits all the rows in the input data
+frame that include at least one cell with a missing value, before the
+calculation of correlations.
+
+If `type` is set to `'split'` (default), the correlation of two
+variables or the variance-correlation matrix of an input data frame and
+the number of complete cases and missing values are returned for every
+single study. If type is set to `'combine'`, the pooled correlation, the
+total number of complete cases and the total number of missing values
+aggregated from all the involved studies, are returned.
+
+Server function called: `corDS`
+
+## Author
+
+DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Example 1: Get the correlation matrix of two continuous variables
+  ds.cor(x="D$LAB_TSC", y="D$LAB_TRIG", type="combine", datasources = connections)
+  
+  # Example 2: Get the correlation matrix of the variables in a dataframe
+  ds.dataFrame(x=c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$PM_BMI_CONTINUOUS"), 
+               newobj="D.new", check.names=FALSE, datasources=connections)
+  ds.cor("D.new", type="combine", datasources = connections)
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+
+} # }
+```
