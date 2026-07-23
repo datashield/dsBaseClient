@@ -27,10 +27,9 @@ test_that("setup", {
 
 # context("ds.rbind::smk")
 test_that("simple test", {
-    res <- ds.rbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="rbind_newobj")
+    ds.rbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="rbind_newobj")
 
-    expect_equal(res$is.object.created, "A data object <rbind_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<rbind_newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "rbind_newobj"))
 
     res1 <- ds.class("rbind_newobj")
 

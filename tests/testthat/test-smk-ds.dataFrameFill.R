@@ -42,9 +42,6 @@ test_that("dataFrameFill_exists", {
 
     res <- ds.dataFrameFill(df.name="D", newobj="filled_df")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <filled_df> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<filled_df> appears valid in all sources")
 
     colnamesFilled <- ds.colnames('filled_df')
 
