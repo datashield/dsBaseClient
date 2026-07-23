@@ -14,11 +14,12 @@ armadillo:
   # oidc-admin-user: user@yourdomain.org
   profiles:
     - name: default
-      image: datashield/rock-quebrada-lamda-permissive:latest
+      image: datashield/rock_citest-permissive:latest
       port: 8085
       host: default
       package-whitelist: # Packages for 'permissive'
         - dsBase
+        - dsTidyverse
         - resourcer
       function-blacklist: [ ]
       options:
@@ -66,8 +67,13 @@ stdout.log.path: '/logs/armadillo.log'
 
 logging:
   level:
-    root: INFO
+    root: "warn"
     ## change to DEBUG to have more details, typically when developing
-    org.molgenis: INFO
+    org.molgenis: "warn"
     ## Don't log upload data
-    org.apache.coyote.http11.Http11InputBuffer: INFO
+    org.apache.coyote.http11.Http11InputBuffer: "warn"
+    ## SpringFramework
+    org.springframework.boot: "warn"
+    org.springframework.web: "warn"
+    org.springframework.core: "warn"
+    org.springframework.codex: "warn"

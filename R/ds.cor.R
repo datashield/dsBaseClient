@@ -30,6 +30,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckTrue
 #' @return \code{ds.cor} returns a list containing the number of missing values in each variable,
 #' the number of missing variables casewise, the correlation matrix, 
 #' the number of used complete cases. The function applies two disclosure controls. The first disclosure
@@ -37,6 +38,7 @@
 #' percentage is pre-specified by the 'nfilter.glm'). The second disclosure control checks that none of them is dichotomous
 #' with a level having fewer counts than the pre-specified 'nfilter.tab' threshold.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'
@@ -79,56 +81,25 @@
 #' }
 #' @export
 #' 
-ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL){
+ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL, classConsistencyCheck=TRUE){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
-  }else{
-    isDefined(datasources, x)
-  }
-
-  # check the type of the input objects
-  typ <- checkClass(datasources, x)
-  
-  if(('numeric' %in% typ) | ('integer' %in% typ) | ('factor' %in% typ)){
-    if(is.null(y)){
-      stop("If x is a numeric vector, y must be a numeric vector!", call.=FALSE)
-    }else{
-      isDefined(datasources, y)
-      typ2 <- checkClass(datasources, y)
-    }
-  }
-  
-  if(('matrix' %in% typ) | ('data.frame' %in% typ) & !(is.null(y))){
-    y <- NULL
-    warning("x is a matrix or a dataframe; y will be ignored and a correlation matrix computed for x!")
   }
 
   # name of the studies to be used in the output
   stdnames <- names(datasources)
 
   # call the server side function
-  if(('matrix' %in% typ) | ('data.frame' %in% typ)){
-    calltext <- call("corDS", x, NULL)
-  }else{
-    if(!(is.null(y))){
-      calltext <- call("corDS", x, y)
-    }else{
-      calltext <- call("corDS", x, NULL)
-    }
-  }
+  calltext <- call("corDS", x, y)
   output <- DSI::datashield.aggregate(datasources, calltext)
-  
+
+  if(classConsistencyCheck){
+    .checkClassConsistency(output)
+  }
+
   if (type=="split"){
     covariance <- list()
     sqrt.diag <- list()

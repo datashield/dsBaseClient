@@ -97,6 +97,12 @@ test_that("simple test, split, casewise.complete", {
 
 # context("ds.cor::smk::setup::shutdown")
 
+test_that("error, x numeric vector requires y", {
+    expect_error(ds.cor(x="D$survtime"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "If x is a numeric vector, y must also be a numeric vector")
+})
+
 test_that("shutdown", {
     ds_expect_variables(c("D"))
 })

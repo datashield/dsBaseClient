@@ -4,7 +4,12 @@
 \alias{ds.dataFrameFill}
 \title{Creates missing values columns in the server-side}
 \usage{
-ds.dataFrameFill(df.name = NULL, newobj = NULL, datasources = NULL)
+ds.dataFrameFill(
+  df.name = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  classConsistencyCheck = TRUE
+)
 }
 \arguments{
 \item{df.name}{a character string representing the name of the input data frame that will be
@@ -13,15 +18,15 @@ filled with extra columns of missing values.}
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default value is "dataframefill.newobj".}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
 If the \code{datasources} argument is not specified 
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
-\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which 
-is written to the server-side. Also, two validity messages are returned to the
-client-side indicating the name of the \code{newobj} that has been created in each data source
-and if it is in a valid form.
+\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which
+is written to the server-side.
 }
 \description{
 Adds extra columns with missing values in a data frame on the server-side.
@@ -89,4 +94,6 @@ Server function called: \code{dataFrameFillDS}
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
