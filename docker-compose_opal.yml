@@ -21,6 +21,6 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: datashield/rock_citest-permissive:latest
+        image: datashield/rock_tulip-devel-permissive:1.0.0
         environment:
             DEBUG: "FALSE"
