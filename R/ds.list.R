@@ -8,11 +8,14 @@
 #' @param x a character string specifying the names of the objects to coerce into a list.
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{list.newobj}.
+#' @param classConsistencyCheck logical. If TRUE, verifies that each input object has
+#' the same class across all studies before coercion. Default TRUE.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.list} returns a list of objects for each study that is stored on the server-side.  
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -51,49 +54,31 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.list <- function(x=NULL, newobj=NULL, datasources=NULL){
+ds.list <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the objects to coerce into a list!", call.=FALSE)
-  }
-
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  for(i in 1:length(x)){
-    typ <- checkClass(datasources, x[i])
   }
 
   # create a name by default if user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "list.newobj"
   }
-  
+
   # get the variable names
   xnames <- extract(x)
   varnames <- xnames$elements
 
-  # get the names of the list elements if the user has not specified any
-  if(is.null(names)){
-    names <- varnames
+  if(classConsistencyCheck){
+    for(i in seq_along(x)){
+      checkClass(datasources, x[i])
+    }
   }
 
   # call the server side function that does the job
-  cally <-  paste0("listDS(list(",paste(x,collapse=","),"), list('",paste(varnames,collapse="','"),"'))")
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
+  cally <- call("listDS", x, as.list(varnames))
+  DSI::datashield.assign(datasources, newobj, cally)
 
 }

@@ -10,7 +10,8 @@ ds.cbind(
   force.colnames = NULL,
   newobj = NULL,
   datasources = NULL,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -27,21 +28,21 @@ Default FALSE.}
 column names of the output object. If it is not NULL the user should take some caution. 
 For more information see \strong{Details}.}
 
-\item{newobj}{a character string that provides the name for the output variable 
+\item{newobj}{a character string that provides the name for the output variable
 that is stored on the data servers. Defaults \code{cbind.newobj}.}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default FALSE.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
-\code{ds.cbind} returns a data frame combining the columns of the R 
-objects specified in the function which is written to the server-side. 
-It also returns to the client-side two messages with the name of \code{newobj}
-that has been created in each data source and \code{DataSHIELD.checks} result.
+\code{ds.cbind} returns a data frame combining the columns of the R
+objects specified in the function which is written to the server-side.
 }
 \description{
 Takes a sequence of vector, matrix or data-frame arguments
@@ -141,4 +142,6 @@ Server function called: \code{cbindDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
