@@ -121,31 +121,41 @@ export(ds.var)
 export(ds.vectorCalc)
 export(subsetHelper)
 import(DSI)
-importFrom(DSI,datashield.aggregate)
-importFrom(DSI,datashield.assign)
+importFrom(DSI,
+  datashield.aggregate,
+  datashield.assign
+)
 importFrom(assertthat,assert_that)
-importFrom(cli,cli_abort)
-importFrom(cli,cli_alert_danger)
-importFrom(cli,cli_alert_info)
-importFrom(cli,cli_alert_success)
-importFrom(cli,cli_alert_warning)
-importFrom(cli,cli_end)
-importFrom(cli,cli_li)
-importFrom(cli,cli_ol)
-importFrom(cli,cli_text)
-importFrom(cli,cli_ul)
+importFrom(cli,
+  cli_abort,
+  cli_alert_danger,
+  cli_alert_info,
+  cli_alert_success,
+  cli_alert_warning,
+  cli_end,
+  cli_li,
+  cli_ol,
+  cli_text,
+  cli_ul
+)
 importFrom(data.table,.SD)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,all_of)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,case_when)
-importFrom(dplyr,row_number)
-importFrom(dplyr,where)
-importFrom(purrr,map)
-importFrom(purrr,map_lgl)
-importFrom(purrr,pmap)
-importFrom(purrr,pmap_lgl)
-importFrom(stats,as.formula)
-importFrom(stats,na.omit)
-importFrom(stats,ts)
-importFrom(stats,weighted.mean)
+importFrom(dplyr,
+  "%>%",
+  all_of,
+  bind_rows,
+  case_when,
+  row_number,
+  where
+)
+importFrom(purrr,
+  map,
+  map_lgl,
+  pmap,
+  pmap_lgl
+)
+importFrom(stats,
+  as.formula,
+  na.omit,
+  ts,
+  weighted.mean
+)
