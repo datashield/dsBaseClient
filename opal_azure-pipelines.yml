@@ -553,7 +553,7 @@ jobs:
 
       echo -e "\n#############################"
       echo -e "Server packages: ############"
-      curl -s -u admin:admin -X GET http://localhost:8080/packages -o - | jq '.'
+      R --no-echo -q -e "sink(nullfile(), type = c('output', 'message')); library(rjson); library(opalr); o <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); p <- oadmin.installed_packages(o); opal.logout(o); sink(NULL); cat(toJSON(p))" 2> /dev/null | jq '.'
 
       echo -e "\n#############################"
       echo -e "PWD: ############"
