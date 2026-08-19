@@ -551,8 +551,15 @@ jobs:
       echo -e "R sessionInfo(): ############"
       R -e 'sessionInfo()'
 
-      sudo apt install tree -y
+      echo -e "\n#############################"
+      echo -e "Server packages: ############"
+      curl -s -u admin:admin -X GET http://localhost:8080/packages -o - | jq '.'
+
+      echo -e "\n#############################"
+      echo -e "PWD: ############"
       pwd
+
+      sudo apt install tree -y
       echo -e "\n#############################"
       echo -e "File tree: ##################"
       tree $(Pipeline.Workspace)
