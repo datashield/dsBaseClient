@@ -551,8 +551,16 @@ jobs:
       echo -e "R sessionInfo(): ############"
       R -e 'sessionInfo()'
 
-      sudo apt install tree -y
+      echo -e "\n#############################"
+      echo -e "Server packages: ############"
+      sudo R -q -e "install.packages(c('rjson'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      R --no-echo -q -e "sink(nullfile(), type = c('output', 'message')); library(rjson); library(opalr); o <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); p <- oadmin.installed_packages(o); opal.logout(o); sink(NULL); cat(toJSON(p))" | jq '.'
+
+      echo -e "\n#############################"
+      echo -e "PWD: ############"
       pwd
+
+      sudo apt install tree -y
       echo -e "\n#############################"
       echo -e "File tree: ##################"
       tree $(Pipeline.Workspace)
