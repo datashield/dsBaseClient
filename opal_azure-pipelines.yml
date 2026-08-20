@@ -553,7 +553,8 @@ jobs:
 
       echo -e "\n#############################"
       echo -e "Server packages: ############"
-      R --no-echo -q -e "sink(nullfile(), type = c('output', 'message')); library(rjson); library(opalr); o <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); p <- oadmin.installed_packages(o); opal.logout(o); sink(NULL); cat(toJSON(p))" 2> /dev/null | jq '.'
+      sudo R -q -e "install.packages(c('rjson'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      R --no-echo -q -e "sink(nullfile(), type = c('output', 'message')); library(rjson); library(opalr); o <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); p <- oadmin.installed_packages(o); opal.logout(o); sink(NULL); cat(toJSON(p))" | jq '.'
 
       echo -e "\n#############################"
       echo -e "PWD: ############"
