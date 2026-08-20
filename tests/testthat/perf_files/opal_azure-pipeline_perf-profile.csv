@@ -2,7 +2,7 @@
 "conndisconn::perf::simple0","0.1654","0.5","2"
 "ds.abs::perf::0","7.933","0.5","2"
 "ds.asCharacter::perf::0","7.797","0.5","2"
-"ds.asDataMatrix::perf:0","8.152","0.5","2"
+"ds.asDataMatrix::perf::0","8.152","0.5","2"
 "ds.asInteger::perf:0","8.178","0.5","2"
 "ds.asList::perf:0","8.243","0.5","2"
 "ds.asLogical::perf::0","8.270","0.5","2"
