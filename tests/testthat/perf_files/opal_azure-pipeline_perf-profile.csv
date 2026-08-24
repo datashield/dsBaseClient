@@ -22,7 +22,7 @@
 "ds.dataFrameFill::perf::0","1.098","0.5","2"
 "ds.dataFrameSort::perf::0","8.263","0.5","2"
 "ds.dataFrameSubset::perf::0","0.822","0.5","2"
-"ds.dim::perf::combine:0","8.687","0.5","2"
+"ds.dim::perf::0","8.687","0.5","2"
 "ds.exists::perf::combine:0","10.02","0.5","2"
 "ds.exp::perf::0","8.644","0.5","2"
 "ds.isNA::perf::combine:0","8.677","0.5","2"
