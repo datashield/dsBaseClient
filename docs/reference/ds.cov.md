@@ -1,0 +1,150 @@
+# Calculates the covariance of R objects in the server-side
+
+This function calculates the covariance of two variables or the
+variance-covariance matrix for the variables of an input data frame.
+
+## Usage
+
+``` r
+ds.cov(
+  x = NULL,
+  y = NULL,
+  naAction = "pairwise.complete",
+  type = "split",
+  datasources = NULL
+)
+```
+
+## Arguments
+
+- x:
+
+  a character string providing the name of the input vector, data frame
+  or matrix.
+
+- y:
+
+  a character string providing the name of the input vector, data frame
+  or matrix. Default NULL.
+
+- naAction:
+
+  a character string giving a method for computing covariances in the
+  presence of missing values. This must be set to `'casewise.complete'`
+  or `'pairwise.complete'`. Default `'pairwise.complete'`. For more
+  information see details.
+
+- type:
+
+  a character string that represents the type of analysis to carry out.
+  This must be set to `'split'` or `'combine'`. Default `'split'`. For
+  more information see details.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.cov` returns a list containing the number of missing values in each
+variable, the number of missing values casewise or pairwise depending on
+the argument `naAction`, the covariance matrix, the number of used
+complete cases and an error message which indicates whether or not the
+input variables pass the disclosure controls. The first disclosure
+control checks that the number of variables is not bigger than a
+percentage of the individual-level records (the allowed percentage is
+pre-specified by the 'nfilter.glm'). The second disclosure control
+checks that none of them is dichotomous with a level having fewer counts
+than the pre-specified 'nfilter.tab' threshold. If any of the input
+variables do not pass the disclosure controls then all the output values
+are replaced with NAs. If all the variables are valid and pass the
+controls, then the output matrices are returned and also an error
+message is returned but it is replaced by NA.
+
+## Details
+
+In addition to computing covariances; this function produces a table
+outlining the number of complete cases and a table outlining the number
+of missing values to allow for the user to decide about the 'relevance'
+of the covariance based on the number of complete cases included in the
+covariance calculations.
+
+If the argument `y` is not NULL, the dimensions of the object have to be
+compatible with the argument `x`.
+
+If `naAction` is set to `'casewise.complete'`, then the function omits
+all the rows in the whole data frame that include at least one cell with
+a missing value before the calculation of covariances. If `naAction` is
+set to `'pairwise.complete'` (default), then the function divides the
+input data frame to subset data frames formed by each pair between two
+variables (all combinations are considered) and omits the rows with
+missing values at each pair separately and then calculates the
+covariances of those pairs.
+
+If `type` is set to `'split'` (default), the covariance of two variables
+or the variance-covariance matrix of an input data frame and the number
+of complete cases and missing values are returned for every single
+study. If type is set to `'combine'`, the pooled covariance, the total
+number of complete cases and the total number of missing values
+aggregated from all the involved studies, are returned.
+
+Server function called: `covDS`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Calculate the covariance between two vectors
+  ds.assign(newobj='labhdl', toAssign='D$LAB_HDL', datasources = connections)
+  ds.assign(newobj='labtsc', toAssign='D$LAB_TSC', datasources = connections)
+  ds.assign(newobj='gender', toAssign='D$GENDER', datasources = connections)
+  ds.cov(x = 'labhdl',
+         y = 'labtsc',
+         naAction = 'pairwise.complete',
+         type = 'combine',
+         datasources = connections)
+  ds.cov(x = 'labhdl',
+         y = 'gender',
+         naAction = 'pairwise.complete',
+         type = 'combine',
+         datasources = connections[1]) #only the first Opal server is used ("study1")
+
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+
+} # }
+```

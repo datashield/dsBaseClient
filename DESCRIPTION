@@ -44,7 +44,7 @@ Authors@R: c(person(given = "Paul",
                     comment = c(ORCID = "0009-0003-2419-1964")))
 License: GPL-3
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.1.0),
     DSI (>= 1.7.1)
 Imports:
     fields,
@@ -65,5 +65,5 @@ Suggests:
     DSOpal,
     DSMolgenisArmadillo,
     DSLite
-RoxygenNote: 8.0.0
 Encoding: UTF-8
+Config/roxygen2/version: 8.1.0

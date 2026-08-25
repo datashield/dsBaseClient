@@ -6,7 +6,7 @@
 #' 2. Combine numeric year, month, and day into a full date (\code{makedate})  
 #' 3. Compute the time interval between two dates (\code{timebetween})
 #' 
-#' @details 
+#' @details
 #' If the input is a data-frame column, it must be provided in the \code{x} argument as data-frame$column. 
 #' Inputs for \code{extractdate} and \code{timebetween} must be date objects.  
 #' For \code{makedate}, three numeric vectors (year, month, day) must be provided in the correct order.  
@@ -14,7 +14,7 @@
 #' data-frame (\code{TRUE}), or created as a new server-side object (\code{FALSE}).
 #' For \code{timebetween}, \code{months(1)} and \code{years(1)} are calendar periods (from the \code{lubridate} package). 
 #' The expression \code{interval() %/% months(1)} counts whole calendar months between two dates.  
-#' Examples: Jan 31 → Feb 2 = 0 months; Jan 31 → Mar 2 = 1 month.  
+#' Examples: Jan 31 - Feb 2 = 0 months; Jan 31 - Mar 2 = 1 month.  
 #' \code{days(1)}, it counts fixed 24-hour durations.  
 #' Note: \code{add.column = TRUE} is only valid for data-frame inputs.
 #' 
@@ -64,8 +64,8 @@
 #'   ds.date(x="diagnosis_date", type = "extractdate",
 #'           newobj = "diagnosis_year", unit = "years", add.column = FALSE)
 #' 
-#'   # Example 2: Create a new column by extracting year from an object. This will result in an error since
-#'   # creating a new column option requires a dataframe input.
+#'   # Example 2: Create a new column by extracting year from an object. This will result in 
+#'   # an error since creating a new column option requires a dataframe input.
 #'   ds.date(x="diagnosis_date", type = "extractdate",
 #'           newobj = "diagnosis_year", unit = "years", add.column = TRUE)
 #' 
@@ -73,7 +73,8 @@
 #'   ds.date(x=c("diagnosis_year", "D$diag_month", "D$diag_day"), type = "makedate",
 #'           newobj = "combined_date", add.column = TRUE)
 #' 
-#'   # Example 4: Create a new object by calculating time between one column and one object in months.
+#'   # Example 4: Create a new object by calculating time between one column and one
+#'   # object in months.
 #'   ds.date(x=c("diagnosis_date", "D$date_death"), type = "timebetween",
 #'           newobj = "timebetween.months", unit = "months", add.column = FALSE)
 #' 

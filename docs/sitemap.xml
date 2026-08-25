@@ -41,6 +41,7 @@
 <url><loc>/reference/ds.dataFrameFill.html</loc></url>
 <url><loc>/reference/ds.dataFrameSort.html</loc></url>
 <url><loc>/reference/ds.dataFrameSubset.html</loc></url>
+<url><loc>/reference/ds.date.html</loc></url>
 <url><loc>/reference/ds.densityGrid.html</loc></url>
 <url><loc>/reference/ds.dim.html</loc></url>
 <url><loc>/reference/ds.dmtC2S.html</loc></url>
@@ -95,6 +96,7 @@
 <url><loc>/reference/ds.names.html</loc></url>
 <url><loc>/reference/ds.ns.html</loc></url>
 <url><loc>/reference/ds.numNA.html</loc></url>
+<url><loc>/reference/ds.predict.html</loc></url>
 <url><loc>/reference/ds.qlspline.html</loc></url>
 <url><loc>/reference/ds.quantileMean.html</loc></url>
 <url><loc>/reference/ds.rBinom.html</loc></url>
@@ -108,9 +110,12 @@
 <url><loc>/reference/ds.recodeValues.html</loc></url>
 <url><loc>/reference/ds.rep.html</loc></url>
 <url><loc>/reference/ds.replaceNA.html</loc></url>
+<url><loc>/reference/ds.resPlot.html</loc></url>
 <url><loc>/reference/ds.rm.html</loc></url>
+<url><loc>/reference/ds.round.html</loc></url>
 <url><loc>/reference/ds.rowColCalc.html</loc></url>
 <url><loc>/reference/ds.sample.html</loc></url>
+<url><loc>/reference/ds.scale.html</loc></url>
 <url><loc>/reference/ds.scatterPlot.html</loc></url>
 <url><loc>/reference/ds.seq.html</loc></url>
 <url><loc>/reference/ds.setDefaultOpals.html</loc></url>

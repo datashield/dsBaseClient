@@ -70,7 +70,8 @@ Server function called: \code{predictDS2}
   
   # Example: Fit the model using ds.glm for study1 and study2
   fitted_model <- ds.glm(formula = "LAB_TSC ~ LAB_HDL + PM_BMI_CONTINUOUS * GENDER + MEDI_LPD",
-                        data = "D", family = "gaussian", datasources = connections[c("study1", "study2"]))
+                        data = "D", family = "gaussian",
+                        datasources = connections[c("study1", "study2"]))
                          
   # Predictions for study3
   ds.predict(name = fitted_model, newdataname = "D", type = "response",

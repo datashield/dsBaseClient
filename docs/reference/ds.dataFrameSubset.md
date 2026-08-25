@@ -1,0 +1,172 @@
+# Sub-sets data frames in the server-side
+
+Subsets a data frame by rows and/or by columns.
+
+## Usage
+
+``` r
+ds.dataFrameSubset(
+  df.name = NULL,
+  V1.name = NULL,
+  V2.name = NULL,
+  Boolean.operator = NULL,
+  keep.cols = NULL,
+  rm.cols = NULL,
+  keep.NAs = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
+```
+
+## Arguments
+
+- df.name:
+
+  a character string providing the name of the data frame to be
+  subseted.
+
+- V1.name:
+
+  A character string specifying the name of the vector to which the
+  Boolean operator is to be applied to define the subset. For more
+  information see details.
+
+- V2.name:
+
+  A character string specifying the name of the vector to compare with
+  `V1.name`.
+
+- Boolean.operator:
+
+  A character string specifying one of six possible Boolean operators:
+  `'==', '!=', '>', '>=', '<'` and `'<='`.
+
+- keep.cols:
+
+  a numeric vector specifying the numbers of the columns to be kept in
+  the final subset.
+
+- rm.cols:
+
+  a numeric vector specifying the numbers of the columns to be removed
+  from the final subset.
+
+- keep.NAs:
+
+  logical, if TRUE the missing values are included in the subset. If
+  FALSE or NULL all rows with at least one missing values are removed
+  from the subset.
+
+- newobj:
+
+  a character string that provides the name for the output object that
+  is stored on the data servers. Default `dataframesubset.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` the default set of
+  connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+- notify.of.progress:
+
+  specifies if console output should be produced to indicate progress.
+  Default FALSE.
+
+## Value
+
+`ds.dataFrameSubset` returns the object specified by the `newobj`
+argument which is written to the server-side. Also, two validity
+messages are returned to the client-side indicating the name of the
+`newobj` which has been created in each data source and if it is in a
+valid form.
+
+## Details
+
+Subset a pre-existing data frame using the standard set of Boolean
+operators (`==, !=, >, >=, <, <=`). The subsetting is made by rows, but
+it is also possible to select columns to keep or remove. Instead, if you
+wish to keep all rows in the subset (e.g. if the primary plan is to
+subset by columns and not by rows) the `V1.name` and `V2.name`
+parameters can be used to specify a vector of the same length as the
+data frame to be subsetted in each study in which every element is 1 and
+there are no missing values. For more information see the example 2
+below.
+
+Server functions called: `dataFrameSubsetDS1` and `dataFrameSubsetDS2`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  # Subsetting a data frame
+  #Example 1: Include some rows and all columns in the subset
+  ds.dataFrameSubset(df.name = "D",
+                     V1.name = "D$LAB_TSC",
+                     V2.name = "D$LAB_TRIG",
+                     Boolean.operator = ">",
+                     keep.cols = NULL, #All columns are included in the new subset
+                     rm.cols = NULL, #All columns are included in the new subset
+                     keep.NAs = FALSE, #All rows with NAs are removed
+                     newobj = "new.subset",
+                     datasources = connections[1],#only the first server is used ("study1")
+                     notify.of.progress = FALSE)
+  #Example 2: Include all rows and some columns in the new subset
+    #Select complete cases (rows without NA)
+    ds.completeCases(x1 = "D",
+                     newobj = "complet",
+                     datasources = connections)
+    #Create a vector with all ones
+    ds.make(toAssign = "complet$LAB_TSC-complet$LAB_TSC+1",
+            newobj = "ONES",
+            datasources = connections) 
+    #Subset the data
+    ds.dataFrameSubset(df.name = "complet",
+                       V1.name = "ONES",
+                       V2.name = "ONES",
+                       Boolean.operator = "==",
+                       keep.cols = c(1:4,10), #only columns 1, 2, 3, 4 and 10 are selected
+                       rm.cols = NULL,
+                       keep.NAs = FALSE,
+                       newobj = "subset.all.rows",
+                       datasources = connections, #all servers are used
+                       notify.of.progress = FALSE)                
+                     
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+} # }   
+```

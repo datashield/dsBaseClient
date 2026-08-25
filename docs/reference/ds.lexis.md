@@ -1,0 +1,271 @@
+# Represents follow-up in multiple states on multiple time scales
+
+This function takes a data frame containing survival data and expands it
+by converting records at the level of individual subjects (survival
+time, censoring status, IDs and other variables) into multiple records
+over a series of pre-defined time intervals.
+
+## Usage
+
+``` r
+ds.lexis(
+  data = NULL,
+  intervalWidth = NULL,
+  idCol = NULL,
+  entryCol = NULL,
+  exitCol = NULL,
+  statusCol = NULL,
+  variables = NULL,
+  expandDF = NULL,
+  datasources = NULL
+)
+```
+
+## Arguments
+
+- data:
+
+  a character string specifying the name of a data frame containing the
+  survival data to be expanded.
+
+- intervalWidth:
+
+  a numeric vector specifying the length of each interval. For more
+  information see **Details**.
+
+- idCol:
+
+  a character string denoting the column name that holds the individual
+  IDs of the subjects. For more information see **Details**.
+
+- entryCol:
+
+  a character string denoting the column name that holds the entry times
+  (i.e. start of follow up). For more information see **Details**.
+
+- exitCol:
+
+  a character string denoting the column name that holds the exit times
+  (i.e. end of follow up). For more information see **Details**.
+
+- statusCol:
+
+  a character string denoting the column name that holds the
+  failure/censoring status of each subject. For more information see
+  **Details**.
+
+- variables:
+
+  a vector of character strings denoting the column names of additional
+  variables to include in the final expanded table. For more information
+  see **Details**.
+
+- expandDF:
+
+  a character string denoting the name of the new data frame containing
+  the expanded data set. Default `lexis.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.lexis` returns to the server-side a data frame for each study with
+the expanded version of the input table.
+
+## Details
+
+The function `ds.lexis` splits the survival interval time of subjects
+into pre-specified sub-intervals that are each assumed to encompass a
+constant base-line hazard which means a constant instantaneous risk of
+death). In the expanded dataset a row is included for every interval in
+which a given individual is followed - regardless of how short or long
+that period may be. Each row includes:  
+(1) **CENSOR**: a variable indicating failure status for a particular
+interval in that interval also known as censoring status. This variable
+can take two values: **1** representing that the patient has died,
+relapsed or developed a disease. **0** representing the
+lost-to-follow-up or passed right through the interval without
+failing.  
+(2) **SURVTIME** an exposure-time variable indicating the duration of
+exposure-to-risk-of-failure the corresponding individual experienced in
+that interval before he/she failed or was censored.
+
+To illustrate, an individual who survives through 5 such intervals and
+then dies/fails in the 6th interval will be allocated a 0 value for the
+failure status/censoring variable in the first five intervals and a 1
+value in the 6th, while the exposure-time variable will be equal to the
+total length of the relevant interval in each of the first five
+intervals, and the additional length of time they survived in the sixth
+interval before they failed or were censored. If they survive through
+the first interval and they are censored in the second interval, the
+failure-status variable will take the value 0 in both intervals.  
+(3) **UID.expanded** the expanded data set also includes a unique ID in
+a form such as 77.13 which identifies that row of the dataset as
+relating to the 77th individual in the input data set and his/her
+experience (exposure-time and failure status)in the 14th interval. Note
+that `.N` indicates the `(N+1)`th interval because interval 1 has no
+suffix.  
+(4) **IDSEQ** the first part of `UID.expanded` (before the `'.'`). The
+value of this variable is repeated in every row to which the
+corresponding individual contributes data (i.e. to every row
+corresponding to an interval in which that individual was followed).  
+(5) The expanded dataset contains any other variables about each
+individual that the user would like to carry forward to a survival
+analysis based on the expanded data. Typically, this will include the
+original ID as specified to the data repository, the total survival time
+(equivalent to the sum of the exposure times across all intervals) and
+the ultimate failure-status in the final interval to which they were
+exposed. The value of each of these variables is also repeated in every
+row corresponding to an interval in which that individual was followed.
+
+In `intervalWidth` argument if the total sum of the duration across all
+intervals is less than the maximum follow-up of any individual in any
+contributing study, a final interval will be added by `ds.lexis`
+extending from the end of the last interval specified to the maximum
+follow-up time. If a single numeric value is specified rather than a
+vector, `ds.lexis` will keep adding intervals of the length specified
+until the maximum follow-up time in any single study is exceeded. This
+argument is subject to disclosure checks.
+
+The `idCol` argument must be a numeric or character. Note that when a
+particular variable is identified as being the main ID to the data
+repository when the data are first transferred to the data repository
+(i.e. before DataSHIELD is used), that ID often ends up being of class
+character and will then be sorted in alphabetic order (treating each
+digit as a character) rather than numeric. For example, containing the
+sequential IDs 1-1000, the order of the IDs will be:  
+1,10,100,101,102,103,104,105,106,107,108,109,11 ...  
+In an alphabetic listing: NOT to the expected order:  
+1,2,3,4,5,6,7,8,9,10,11,12,13 ...  
+
+This alphabetic order or the ID listing will then carry forward to the
+expanded dataset. But the nature and order of the original ID variable
+held in `idCol` doesn't matter to `ds.lexis`. Provided every individual
+appears only once in the original data set (before expansion) the order
+does not matter because `ds.lexis` works on its unique numeric vector
+that is allocated from `1:M` (where there are `M` individuals) in
+whatever order they appear in the original dataset.
+
+in `entryCol` argument rather than using a total survival time variable
+to identify the intervals to which any given individual is exposed,
+`ds.lexis` requires an initial entry time and a final exit time. If the
+data you wish to expand contain only a total survival time variable and
+every individual starts follow-up at time 0, the entry times should all
+be specified as zero, and the exit times as the total survival time. So,
+`entryCol` should either be the name of the column holding the entry
+time of each individual or else if no `entryCol` is specified it will be
+defaulted to zero anyway and put into a variable called `starttime` in
+the expanded data set.
+
+In `exitCol` argument, if the entry times (`entryCol`) are set, or
+defaulted, to zero, the `exitCol` variable should contain the total
+survival times.
+
+If `variables` argument is not set (is null) but the `data` argument is
+set, the expanded data set will contain all variables in the data frame
+identified by the `data` argument. If neither the `data` or `variables`
+arguments are set, the expanded data set will only include the ID,
+exposure time and failure/censoring status variables which may still be
+useful for plotting survival data once these become available.
+
+This function is particularly meant to be used in preparing data for a
+piecewise regression analysis (PAR). Although the time intervals have to
+be pre-specified and are arbitrary, even a vaguely reasonable set of
+time intervals will give results very similar to a Cox regression
+analysis. The key issue is to choose survival intervals such that the
+baseline hazard (risk of death/disease/failure) within each interval is
+reasonably constant while the baseline hazard can vary freely between
+intervals. Even if the choice of intervals is very poor the ultimate
+results are typically qualitatively similar to Cox regression.
+Increasing the number of intervals will inevitably improve the
+approximation to the true baseline hazard, but the addition of many more
+unnecessary time intervals slows the analysis and can become disclosive
+and yet will not improve the fit of the model.
+
+If the number of failures in one or more periods in a given study is
+less than the specified disclosure filter determining minimum acceptable
+cell size in a table (`nfilter.tab`) then the expanded data frame is not
+created in that study, and a study-side message to this effect is made
+available in that study via [`ds.message()`](ds.message.md) function.
+
+Server functions called: `lexisDS1`, `lexisDS2` and `lexisDS3`
+
+## See also
+
+[`ds.glm`](ds.glm.md) for generalized linear models.
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+ ## Version 6, for version 5 see Wiki
+  # Connecting to the Opal servers
+  
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+  
+  # Example 1: Fitting GLM for survival analysis
+  # For this analysis we need to load survival data from the server 
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Example 1: Create the expanded data frame. 
+  #The survival time intervals are to be 0<t<=2.5; 2.5<t<=5.0, 5.0<t<=7.5, 
+  #up to the final interval of duration 2.5
+  #that includes the maximum survival time. 
+
+  ds.lexis(data = "D", 
+           intervalWidth = 2.5,
+           idCol = "D$id",
+           entryCol = "D$starttime",
+           exitCol = "D$endtime",
+           statusCol = "D$cens",
+           expandDF = "EM.new",
+           datasources = connections)
+           
+  #Confirm that the expanded data frame has been ceated
+  ds.ls(datasources = connections) 
+  #Example 2: Create the expanded data frame. 
+  #The survival time intervals are to be 0<t<=1; 1<t<=2.0, 2.0<t<=5.0, 5.0<t<=11.0,
+  
+  ds.lexis(data = "D",
+           intervalWidth = c(1,1,3,6), 
+           idCol = "D$id",
+           entryCol = "D$starttime", 
+           exitCol = "D$endtime", 
+           statusCol = "D$cens",
+           expandDF = "EM.new2",
+           datasources = connections)
+           
+  #Confirm expanded dataframe created
+  ds.ls(datasources = connections) 
+} # }
+```
