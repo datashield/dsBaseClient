@@ -1,4 +1,5 @@
 ################################################################################
+# trigger CI
 # DataSHIELD GHA test suite - dsBaseClient
 # Replaces azure-pipelines.yml / opal_azure-pipelines.yml / armadillo_azure-pipelines.yml.
 #
