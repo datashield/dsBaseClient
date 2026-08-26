@@ -4,18 +4,24 @@
 #
 # Structure (all jobs below run in parallel except where "needs" says otherwise):
 #   r-checks        - devtools::document()/check() sync checks. No backend needed.
-#   opal-dsbase      (matrix x4 shards) - dsBase suite against Opal, one shard each.
+#   opal-dsbase      (matrix: smk/arg/perf/misc) - dsBase suite against Opal,
+#                    one category per job.
 #   opal-dsdanger    - dsDanger suite against Opal (small, not sharded).
 #   opal-report      - needs the two Opal jobs above; merges + publishes report.
-#   armadillo-dsbase (matrix x4 shards) - dsBase suite against Armadillo.
+#   armadillo-dsbase (matrix: smk/arg/perf/misc) - dsBase suite against Armadillo.
 #   armadillo-dsdanger - dsDanger suite against Armadillo.
 #   armadillo-report - needs the two Armadillo jobs above; merges + publishes report.
 #
+# The dsBase suite (matching TEST_FILTER_DSBASE - same 292 files the Azure
+# pipelines run) is split by matrix into 4 fixed categories - smk (116 files),
+# arg (96), perf (51), and misc (the smaller categories: datachk, disc, expt,
+# smk_expt, math, and the "_-" catch-all - 29 combined) - each with its own
+# testthat filter substring, no file-list partitioning logic. Categories
+# aren't evenly sized, so job durations differ, but a category can be added,
+# removed, or temporarily skipped just by editing the matrix list.
+#
 # Each dsbase/dsdanger job spins up its OWN backend instance (isolated - no
-# shared server state / concurrency risk between shards). This is what makes
-# splitting the ~260-file dsBase suite into shards safe: shard 4x lets that
-# phase run in roughly a quarter of the wall-clock instead of one long
-# sequential testthat::test_package() call.
+# shared server state / concurrency risk between categories running at once).
 #
 # Opal runs via docker-compose (docker-compose_opal.yml).
 # Armadillo runs as a plain `java -jar` process (not docker-compose): Armadillo
@@ -114,16 +120,26 @@ jobs:
   # with its own Opal instance.
   ################################################################################
   opal-dsbase:
-    name: Opal dsBase tests (shard ${{ matrix.shard }})
+    name: Opal dsBase tests (${{ matrix.category }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      # Shard count is hardcoded here and in "Compute shard filter" below (both
-      # must match) - there's no clean way to share a single value between a
-      # matrix definition and a step's env in plain workflow YAML.
+      # One matrix entry per test-file category, each with its own testthat
+      # filter substring - not evenly sized (smk/arg are much bigger than
+      # perf/misc), so job durations differ. Traded for the ability to add,
+      # remove, or temporarily skip a whole category by editing this list
+      # alone, with no shell-side partitioning logic to keep in sync.
       matrix:
-        shard: [0, 1, 2, 3]
+        include:
+          - category: smk
+            filter: 'smk-'
+          - category: arg
+            filter: 'arg-'
+          - category: perf
+            filter: 'perf-'
+          - category: misc
+            filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
     env:
       DS_DRIVER: OpalDriver
       DSBASE_REF: v7.0-dev
@@ -209,16 +225,6 @@ jobs:
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
         working-directory: dsBaseClient/tests/testthat/data_files
 
-      - name: Compute shard filter
-        run: |
-          all_files=$(cd tests/testthat && ls test-*.R | grep -E "${{ env.TEST_FILTER_DSBASE }}" | sort)
-          shard_files=$(echo "$all_files" | awk -v n=4 -v s=${{ matrix.shard }} 'NR % n == s')
-          echo "Shard ${{ matrix.shard }}/4 running $(echo "$shard_files" | grep -c .) files:"
-          echo "$shard_files"
-          shard_filter=$(echo "$shard_files" | sed -E 's/^test-//; s/\.R$//' | sed 's/\./\\./g' | paste -sd'|' -)
-          echo "SHARD_FILTER=$shard_filter" >> "$GITHUB_ENV"
-        working-directory: dsBaseClient
-
       - name: Run dsBase tests with coverage & JUnit report
         run: |
           R -q -e "devtools::reload();"
@@ -235,7 +241,7 @@ jobs:
                     progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
                     multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
                     options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.SHARD_FILTER }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
                   )
                 )
               ),
@@ -247,7 +253,7 @@ jobs:
       - name: Upload shard results
         uses: actions/upload-artifact@v4
         with:
-          name: opal-dsbase-shard-${{ matrix.shard }}
+          name: opal-dsbase-${{ matrix.category }}
           path: |
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
@@ -449,7 +455,7 @@ jobs:
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
 
           first=1
-          for f in artifacts/opal-dsbase-shard-*/coveragelist.csv; do
+          for f in artifacts/opal-dsbase-*/coveragelist.csv; do
             if [ $first -eq 1 ]; then
               cat "$f" > logs/coveragelist.csv
               first=0
@@ -519,13 +525,26 @@ jobs:
   # whitelist directly.
   ################################################################################
   armadillo-dsbase:
-    name: Armadillo dsBase tests (shard ${{ matrix.shard }})
+    name: Armadillo dsBase tests (${{ matrix.category }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
+      # One matrix entry per test-file category, each with its own testthat
+      # filter substring - not evenly sized (smk/arg are much bigger than
+      # perf/misc), so job durations differ. Traded for the ability to add,
+      # remove, or temporarily skip a whole category by editing this list
+      # alone, with no shell-side partitioning logic to keep in sync.
       matrix:
-        shard: [0, 1, 2, 3]
+        include:
+          - category: smk
+            filter: 'smk-'
+          - category: arg
+            filter: 'arg-'
+          - category: perf
+            filter: 'perf-'
+          - category: misc
+            filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
     env:
       DS_DRIVER: ArmadilloDriver
       DSBASE_TARBALL: dsBase_7.0.0-permissive.tar.gz
@@ -691,16 +710,6 @@ jobs:
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
         working-directory: dsBaseClient
 
-      - name: Compute shard filter
-        run: |
-          all_files=$(cd tests/testthat && ls test-*.R | grep -E "${{ env.TEST_FILTER_DSBASE }}" | sort)
-          shard_files=$(echo "$all_files" | awk -v n=4 -v s=${{ matrix.shard }} 'NR % n == s')
-          echo "Shard ${{ matrix.shard }}/4 running $(echo "$shard_files" | grep -c .) files:"
-          echo "$shard_files"
-          shard_filter=$(echo "$shard_files" | sed -E 's/^test-//; s/\.R$//' | sed 's/\./\\./g' | paste -sd'|' -)
-          echo "SHARD_FILTER=$shard_filter" >> "$GITHUB_ENV"
-        working-directory: dsBaseClient
-
       - name: Run dsBase tests with coverage & JUnit report
         run: |
           R -q -e "devtools::reload();"
@@ -717,7 +726,7 @@ jobs:
                     progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
                     multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
                     options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.SHARD_FILTER }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
                   )
                 )
               ),
@@ -729,7 +738,7 @@ jobs:
       - name: Upload shard results
         uses: actions/upload-artifact@v4
         with:
-          name: armadillo-dsbase-shard-${{ matrix.shard }}
+          name: armadillo-dsbase-${{ matrix.category }}
           path: |
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
@@ -1025,7 +1034,7 @@ jobs:
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
 
           first=1
-          for f in artifacts/armadillo-dsbase-shard-*/coveragelist.csv; do
+          for f in artifacts/armadillo-dsbase-*/coveragelist.csv; do
             if [ $first -eq 1 ]; then
               cat "$f" > logs/coveragelist.csv
               first=0
