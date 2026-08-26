@@ -158,7 +158,6 @@ jobs:
 
       - name: Uninstall default MySQL
         run: |
-          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
           sudo service mysql stop || true
           sudo apt-get update
           sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
@@ -287,7 +286,6 @@ jobs:
 
       - name: Uninstall default MySQL
         run: |
-          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
           sudo service mysql stop || true
           sudo apt-get update
           sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
@@ -616,7 +614,6 @@ jobs:
 
       - name: Uninstall default MySQL
         run: |
-          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
           sudo service mysql stop || true
           sudo apt-get update
           sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
@@ -824,7 +821,6 @@ jobs:
 
       - name: Uninstall default MySQL
         run: |
-          curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
           sudo service mysql stop || true
           sudo apt-get update
           sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
