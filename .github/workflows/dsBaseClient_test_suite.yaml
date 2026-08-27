@@ -719,7 +719,7 @@ jobs:
 
       - name: Dump Armadillo server log
         if: failure()
-        run: tail -c 20000 armadillo_home/logs/stdout.log
+        run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u
         working-directory: dsBaseClient
 
       - name: Run dsBase tests with coverage & JUnit report
@@ -938,7 +938,7 @@ jobs:
 
       - name: Dump Armadillo server log
         if: failure()
-        run: tail -c 20000 armadillo_home/logs/stdout.log
+        run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u
         working-directory: dsBaseClient
 
       - name: Install dsDanger package on Armadillo server
