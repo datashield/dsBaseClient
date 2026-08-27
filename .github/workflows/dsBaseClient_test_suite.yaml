@@ -577,7 +577,6 @@ jobs:
               - name: default
                 image: datashield/rock_citest-permissive:latest
                 port: 8085
-                host: default
                 package-whitelist:
                   - dsBase
                   - dsTidyverse
@@ -788,7 +787,6 @@ jobs:
               - name: default
                 image: datashield/rock_citest-permissive:latest
                 port: 8085
-                host: default
                 package-whitelist:
                   - dsBase
                   - dsTidyverse
