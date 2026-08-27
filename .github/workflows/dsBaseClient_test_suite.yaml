@@ -97,6 +97,7 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             cran::devtools
+            cran::usethis
           needs: check
 
       - name: Check manual updated
@@ -184,6 +185,7 @@ jobs:
           dependencies: 'c("Imports")'
           extra-packages: |
             cran::devtools
+            cran::usethis
             cran::covr
             cran::fields
             cran::meta
@@ -313,6 +315,7 @@ jobs:
           dependencies: 'c("Imports")'
           extra-packages: |
             cran::devtools
+            cran::usethis
             cran::git2r
             cran::covr
             cran::fields
@@ -643,6 +646,7 @@ jobs:
           dependencies: 'c("Imports")'
           extra-packages: |
             cran::devtools
+            cran::usethis
             cran::covr
             cran::fields
             cran::meta
@@ -852,6 +856,7 @@ jobs:
           dependencies: 'c("Imports")'
           extra-packages: |
             cran::devtools
+            cran::usethis
             cran::git2r
             cran::covr
             cran::fields
