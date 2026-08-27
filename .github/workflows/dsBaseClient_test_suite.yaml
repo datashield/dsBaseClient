@@ -616,6 +616,7 @@ jobs:
               --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
               > armadillo_home/logs/stdout.log 2>&1 &
           echo $! > armadillo_home/armadillo.pid
+          docker pull datashield/rock_citest-permissive:latest
         working-directory: dsBaseClient
 
       - name: Uninstall default MySQL
@@ -826,6 +827,7 @@ jobs:
               --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
               > armadillo_home/logs/stdout.log 2>&1 &
           echo $! > armadillo_home/armadillo.pid
+          docker pull datashield/rock_citest-permissive:latest
         working-directory: dsBaseClient
 
       - name: Uninstall default MySQL
