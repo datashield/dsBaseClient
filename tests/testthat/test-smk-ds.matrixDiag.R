@@ -31,9 +31,7 @@ test_that("simplest ds.matrixDiag", {
 
     res <- ds.matrixDiag(matrix, aim="clientside.vector.2.matrix", newobj="matrix_diag")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <matrix_diag> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<matrix_diag> appears valid in all sources")
+    ds_expect_variables(c("D", "matrix_diag"))
 
     check.class<-ds.class("matrix_diag")
 
@@ -49,9 +47,7 @@ test_that("simplest ds.matrixDiag", {
 
     res <- ds.matrixDiag(matrix, aim="clientside.vector.2.matrix")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <matrixdiag.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<matrixdiag.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "matrix_diag", "matrixdiag.newobj"))
 
     check.class<-ds.class("matrixdiag.newobj",datasources=ds.test_env$connections)
 
