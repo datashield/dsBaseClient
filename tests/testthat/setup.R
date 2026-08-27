@@ -34,5 +34,6 @@ source("connection_to_datasets/init_studies_datasets.R")
 source("connection_to_datasets/init_discordant_datasets.R")
 source("connection_to_datasets/init_mediation_datasets.R")
 options(datashield.errors.print = FALSE)
+options(useFancyQuotes = FALSE)
 
 # context("setup - done")

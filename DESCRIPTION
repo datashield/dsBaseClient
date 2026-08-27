@@ -64,7 +64,7 @@ Authors@R: c(person(given = "Paul",
                                 affiliation = "Genomics Coordination Centre, UMCG, Netherlands")))
 License: GPL-3
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.1.0),
     DSI (>= 1.7.1)
 Imports:
     cli,
