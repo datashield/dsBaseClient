@@ -12,7 +12,7 @@ You can install the released version of dsBaseClient from
 [CRAN](https://cran.r-project.org/package=dsBaseClient) with:
 
 ``` r
-install.packages("dsBaseClient")
+install.packages("dsBaseClient") 
 ```
 
 And the development version from
