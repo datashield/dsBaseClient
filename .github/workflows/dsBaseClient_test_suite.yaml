@@ -717,6 +717,11 @@ jobs:
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
         working-directory: dsBaseClient
 
+      - name: Dump Armadillo server log
+        if: failure()
+        run: tail -c 20000 armadillo_home/logs/stdout.log
+        working-directory: dsBaseClient
+
       - name: Run dsBase tests with coverage & JUnit report
         run: |
           R -q -e "devtools::reload();"
@@ -929,6 +934,11 @@ jobs:
           fi
 
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+        working-directory: dsBaseClient
+
+      - name: Dump Armadillo server log
+        if: failure()
+        run: tail -c 20000 armadillo_home/logs/stdout.log
         working-directory: dsBaseClient
 
       - name: Install dsDanger package on Armadillo server
