@@ -8,7 +8,7 @@
 "ds.asLogical::perf::0","17.46","0.5","2"
 "ds.asMatrix::perf::0","17.44","0.5","2"
 "ds.asNumeric::perf:0","16.79","0.5","2"
-"ds.Boole::perf::0","2.179","0.5,"2"
+"ds.Boole::perf::0","2.179","0.5","2"
 "ds.assign::perf::0","10.23","0.5","2"
 "ds.Boole::perf::0","2.179","0.5","2"
 "ds.c::perf::0","10.23","0.5","2"
