@@ -250,8 +250,9 @@ jobs:
                 )
               ),
               "coveragelist.csv"
-            )'
+            )' || R_EXIT=$?
           cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload shard results
@@ -380,8 +381,9 @@ jobs:
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)'
+            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
           cat test_console_output_dsdanger.txt
+          exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload dsDanger results
@@ -755,8 +757,9 @@ jobs:
                 )
               ),
               "coveragelist.csv"
-            )'
+            )' || R_EXIT=$?
           cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload shard results
@@ -997,8 +1000,9 @@ jobs:
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)'
+            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
           cat test_console_output_dsdanger.txt
+          exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload dsDanger results
