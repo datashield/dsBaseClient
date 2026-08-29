@@ -130,18 +130,26 @@ jobs:
     strategy:
       fail-fast: false
       # One matrix entry per test-file category, each with its own testthat
-      # filter substring - not evenly sized (smk/arg are much bigger than
-      # perf/misc), so job durations differ. Traded for the ability to add,
-      # remove, or temporarily skip a whole category by editing this list
-      # alone, with no shell-side partitioning logic to keep in sync.
+      # filter substring. smk and perf are split further by the first letter
+      # of the function name (after any "ds." prefix) rather than an
+      # enumerated file list, so newly added test files fall into a bucket
+      # automatically without editing this matrix. perf (50 fixed 30s-loop
+      # benchmarks) and smk (116 files) dominated wall-clock before this
+      # split - see armadillo-dsbase timings in job history.
       matrix:
         include:
-          - category: smk
-            filter: 'smk-'
+          - category: smk-1
+            filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
+          - category: smk-2
+            filter: 'smk-ds.[m-vM-V]'
           - category: arg
             filter: 'arg-'
-          - category: perf
-            filter: 'perf-'
+          - category: perf-1
+            filter: 'perf-ds.[a-cA-C]'
+          - category: perf-2
+            filter: 'perf-ds.[d-mD-M]'
+          - category: perf-3
+            filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
     env:
@@ -233,7 +241,7 @@ jobs:
 
       - name: Run dsBase tests with coverage & JUnit report
         run: |
-          R -q -e "devtools::reload();"
+          R -q -e "devtools::load_all();"
           R -q -e '
             write.csv(
               covr::coverage_to_list(
@@ -339,7 +347,11 @@ jobs:
           needs: check
 
       - name: Install dsDangerClient
-        run: R -q -e "pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', Sys.getenv('BRANCH_NAME')))"
+        run: |
+          R -q -e "
+            ref <- Sys.getenv('BRANCH_NAME')
+            ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
+            if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
 
       - name: Install test datasets to Opal
         run: |
@@ -540,18 +552,26 @@ jobs:
     strategy:
       fail-fast: false
       # One matrix entry per test-file category, each with its own testthat
-      # filter substring - not evenly sized (smk/arg are much bigger than
-      # perf/misc), so job durations differ. Traded for the ability to add,
-      # remove, or temporarily skip a whole category by editing this list
-      # alone, with no shell-side partitioning logic to keep in sync.
+      # filter substring. smk and perf are split further by the first letter
+      # of the function name (after any "ds." prefix) rather than an
+      # enumerated file list, so newly added test files fall into a bucket
+      # automatically without editing this matrix. perf (50 fixed 30s-loop
+      # benchmarks) and smk (116 files) dominated wall-clock before this
+      # split - see armadillo-dsbase timings in job history.
       matrix:
         include:
-          - category: smk
-            filter: 'smk-'
+          - category: smk-1
+            filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
+          - category: smk-2
+            filter: 'smk-ds.[m-vM-V]'
           - category: arg
             filter: 'arg-'
-          - category: perf
-            filter: 'perf-'
+          - category: perf-1
+            filter: 'perf-ds.[a-cA-C]'
+          - category: perf-2
+            filter: 'perf-ds.[d-mD-M]'
+          - category: perf-3
+            filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
     env:
@@ -741,7 +761,7 @@ jobs:
 
       - name: Run dsBase tests with coverage & JUnit report
         run: |
-          R -q -e "devtools::reload();"
+          R -q -e "devtools::load_all();"
           R -q -e '
             write.csv(
               covr::coverage_to_list(
@@ -900,7 +920,11 @@ jobs:
           needs: check
 
       - name: Install dsDangerClient
-        run: R -q -e "pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', Sys.getenv('BRANCH_NAME')))"
+        run: |
+          R -q -e "
+            ref <- Sys.getenv('BRANCH_NAME')
+            ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
+            if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
 
       - name: Wait for Armadillo to be ready
         run: |
