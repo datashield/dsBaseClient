@@ -87,7 +87,10 @@ Suggests:
     DescTools,
     DSOpal,
     DSMolgenisArmadillo,
-    DSLite
+    DSLite,
+    dsDangerClient
+Remotes:
+    datashield/dsDangerClient
 RoxygenNote: 8.0.0
 Encoding: UTF-8
 Language: en-GB
