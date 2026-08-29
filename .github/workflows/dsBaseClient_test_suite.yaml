@@ -93,7 +93,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'c("Imports")'
+          dependencies: 'NA'
           extra-packages: |
             any::rcmdcheck
             cran::devtools
@@ -182,7 +182,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'c("Imports")'
+          dependencies: 'NA'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -313,7 +313,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'c("Imports")'
+          dependencies: 'NA'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -645,7 +645,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'c("Imports")'
+          dependencies: 'NA'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -873,7 +873,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'c("Imports")'
+          dependencies: 'NA'
           extra-packages: |
             cran::devtools
             cran::usethis
