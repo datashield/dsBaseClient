@@ -237,7 +237,6 @@ jobs:
           R -q -e '
             output_file <- file("test_console_output_dsbase.txt");
             sink(output_file, split = TRUE);
-            sink(output_file, type = "message", split = TRUE);
             junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
             progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
             multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
@@ -347,7 +346,7 @@ jobs:
           needs: check
 
       - name: Install dsDangerClient
-        run: R -q -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
+        run: R -q -e "pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', Sys.getenv('BRANCH_NAME')))"
 
       - name: Install test datasets to Opal
         run: |
@@ -386,7 +385,6 @@ jobs:
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
-            sink(output_file, type = "message", split = TRUE);
             junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
@@ -754,7 +752,6 @@ jobs:
           R -q -e '
             output_file <- file("test_console_output_dsbase.txt");
             sink(output_file, split = TRUE);
-            sink(output_file, type = "message", split = TRUE);
             junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
             progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
             multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
@@ -917,7 +914,7 @@ jobs:
           needs: check
 
       - name: Install dsDangerClient
-        run: R -q -e "devtools::install_github(repo='datashield/dsDangerClient', ref=Sys.getenv('BRANCH_NAME'))"
+        run: R -q -e "pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', Sys.getenv('BRANCH_NAME')))"
 
       - name: Wait for Armadillo to be ready
         run: |
@@ -1015,7 +1012,6 @@ jobs:
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
-            sink(output_file, type = "message", split = TRUE);
             junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
