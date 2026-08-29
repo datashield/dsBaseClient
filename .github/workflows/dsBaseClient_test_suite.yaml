@@ -685,6 +685,8 @@ jobs:
 
       - name: Install dsBase to Armadillo
         run: |
+          curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
+
           profile_status=""
           for i in $(seq 1 30); do
             profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
@@ -914,6 +916,8 @@ jobs:
 
       - name: Install dsBase to Armadillo
         run: |
+          curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
+
           profile_status=""
           for i in $(seq 1 30); do
             profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
