@@ -604,7 +604,7 @@ jobs:
               org.molgenis: "warn"
           EOF
 
-          release_json=$(curl -sf https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest)
+          release_json=$(curl -sf -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
           jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
           echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
           curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
@@ -819,7 +819,7 @@ jobs:
               org.molgenis: "warn"
           EOF
 
-          release_json=$(curl -sf https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest)
+          release_json=$(curl -sf -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
           jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
           echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
           curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
