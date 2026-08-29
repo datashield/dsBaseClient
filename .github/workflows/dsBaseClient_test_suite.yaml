@@ -685,7 +685,17 @@ jobs:
 
       - name: Install dsBase to Armadillo
         run: |
-          curl -u admin:admin -X GET http://localhost:8080/packages
+          profile_status=""
+          for i in $(seq 1 30); do
+            profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
+            [ "$profile_status" == "RUNNING" ] && break
+            sleep 10
+          done
+          if [ "$profile_status" != "RUNNING" ]; then
+            echo "default profile container did not become RUNNING in time (status: $profile_status)"
+            exit 1
+          fi
+
           install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ env.DSBASE_TARBALL }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
           if [ "$install_status" != "200" ]; then
             echo "dsBase install request failed with HTTP status $install_status"
@@ -904,7 +914,17 @@ jobs:
 
       - name: Install dsBase to Armadillo
         run: |
-          curl -u admin:admin -X GET http://localhost:8080/packages
+          profile_status=""
+          for i in $(seq 1 30); do
+            profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
+            [ "$profile_status" == "RUNNING" ] && break
+            sleep 10
+          done
+          if [ "$profile_status" != "RUNNING" ]; then
+            echo "default profile container did not become RUNNING in time (status: $profile_status)"
+            exit 1
+          fi
+
           install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ env.DSBASE_TARBALL }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
           if [ "$install_status" != "200" ]; then
             echo "dsBase install request failed with HTTP status $install_status"
