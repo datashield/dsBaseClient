@@ -231,30 +231,37 @@ jobs:
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
         working-directory: dsBaseClient/tests/testthat/data_files
 
-      - name: Run dsBase tests with coverage & JUnit report
+      - name: Run dsBase tests with JUnit report
         run: |
           R -q -e "devtools::reload();"
+          R -q -e '
+            output_file <- file("test_console_output_dsbase.txt");
+            sink(output_file, split = TRUE);
+            sink(output_file, type = "message", split = TRUE);
+            junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+            progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+            multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+            options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Generate dsBase coverage report
+        run: |
           R -q -e '
             write.csv(
               covr::coverage_to_list(
                 covr::package_coverage(
-                  type = c("none"),
+                  type = "none",
                   code = c('"'"'
-                    output_file <- file("test_console_output_dsbase.txt");
-                    sink(output_file);
-                    sink(output_file, type = "message");
-                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
                     options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = "silent", stop_on_failure = FALSE)'"'"'
                   )
                 )
               ),
               "coveragelist.csv"
-            )' || R_EXIT=$?
-          cat test_console_output_dsbase.txt
-          exit "${R_EXIT:-0}"
+            )'
         working-directory: dsBaseClient
 
       - name: Upload shard results
@@ -378,8 +385,8 @@ jobs:
           R -q -e '
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
-            sink(output_file);
-            sink(output_file, type = "message");
+            sink(output_file, split = TRUE);
+            sink(output_file, type = "message", split = TRUE);
             junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
@@ -741,30 +748,37 @@ jobs:
         run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u
         working-directory: dsBaseClient
 
-      - name: Run dsBase tests with coverage & JUnit report
+      - name: Run dsBase tests with JUnit report
         run: |
           R -q -e "devtools::reload();"
+          R -q -e '
+            output_file <- file("test_console_output_dsbase.txt");
+            sink(output_file, split = TRUE);
+            sink(output_file, type = "message", split = TRUE);
+            junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+            progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+            multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+            options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Generate dsBase coverage report
+        run: |
           R -q -e '
             write.csv(
               covr::coverage_to_list(
                 covr::package_coverage(
-                  type = c("none"),
+                  type = "none",
                   code = c('"'"'
-                    output_file <- file("test_console_output_dsbase.txt");
-                    sink(output_file);
-                    sink(output_file, type = "message");
-                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
                     options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = "silent", stop_on_failure = FALSE)'"'"'
                   )
                 )
               ),
               "coveragelist.csv"
-            )' || R_EXIT=$?
-          cat test_console_output_dsbase.txt
-          exit "${R_EXIT:-0}"
+            )'
         working-directory: dsBaseClient
 
       - name: Upload shard results
@@ -1000,8 +1014,8 @@ jobs:
           R -q -e '
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
-            sink(output_file);
-            sink(output_file, type = "message");
+            sink(output_file, split = TRUE);
+            sink(output_file, type = "message", split = TRUE);
             junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
