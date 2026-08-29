@@ -93,7 +93,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             any::rcmdcheck
             cran::devtools
@@ -182,7 +182,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -313,7 +313,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -434,7 +434,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::quarto
             cran::knitr
@@ -645,7 +645,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -873,7 +873,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::devtools
             cran::usethis
@@ -1053,7 +1053,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          dependencies: 'NA'
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::quarto
             cran::knitr
