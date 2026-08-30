@@ -243,23 +243,20 @@ jobs:
         run: |
           R -q -e "devtools::load_all();"
           R -q -e '
-            write.csv(
-              covr::coverage_to_list(
-                covr::package_coverage(
-                  type = c("none"),
-                  code = c('"'"'
-                    output_file <- file("test_console_output_dsbase.txt");
-                    sink(output_file, split = TRUE);
-                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                    options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
-                  )
-                )
-              ),
-              "coveragelist.csv"
-            )' || R_EXIT=$?
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
           cat test_console_output_dsbase.txt
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
@@ -272,6 +269,7 @@ jobs:
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
 
 
   ################################################################################
@@ -461,6 +459,7 @@ jobs:
             cran::tidyr
             cran::readr
             cran::magrittr
+            cran::covr
             github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
@@ -474,16 +473,58 @@ jobs:
           mkdir -p logs
           xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" artifacts/*/test_results_*.xml > logs/test_results.xml
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
+        working-directory: dsBaseClient
 
-          first=1
-          for f in artifacts/opal-dsbase-*/coveragelist.csv; do
-            if [ $first -eq 1 ]; then
-              cat "$f" > logs/coveragelist.csv
-              first=0
-            else
-              tail -n +2 "$f" >> logs/coveragelist.csv
-            fi
-          done
+      - name: Merge coverage and write job summary
+        run: |
+          Rscript -e '
+            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
+            if (length(rds_files) > 0) {
+              merged <- covr::merge_coverage(rds_files)
+              cl <- covr::coverage_to_list(merged)
+              write.csv(cl, "logs/coveragelist.csv")
+              low <- head(sort(cl$filecoverage), 5)
+              cov_lines <- c(
+                sprintf("**Combined coverage: %.1f%%**", cl$totalcoverage),
+                "",
+                "Lowest-covered files:",
+                paste0("- `", names(low), "`: ", low, "%")
+              )
+            } else {
+              cov_lines <- "No coverage data found."
+            }
+
+            doc <- xml2::read_xml("logs/test_results.xml")
+            suites <- xml2::xml_find_all(doc, ".//testsuite")
+            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
+            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
+            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
+            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
+
+            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
+            fail_lines <- if (length(failed) > 0) {
+              msgs <- vapply(failed, function(tc) {
+                node <- xml2::xml_find_first(tc, "failure|error")
+                m <- xml2::xml_attr(node, "message")
+                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
+                m
+              }, character(1))
+              c("", "### Failed tests",
+                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs))
+            } else {
+              character(0)
+            }
+
+            summary <- c(
+              "## Opal dsBase/dsDanger test results",
+              "",
+              sprintf("**%d tests** - %d failures, %d errors, %d skipped", n_tests, n_failures, n_errors, n_skipped),
+              "",
+              cov_lines,
+              fail_lines
+            )
+            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+          '
         working-directory: dsBaseClient
 
       - name: Check for JUnit errors
@@ -763,23 +804,20 @@ jobs:
         run: |
           R -q -e "devtools::load_all();"
           R -q -e '
-            write.csv(
-              covr::coverage_to_list(
-                covr::package_coverage(
-                  type = c("none"),
-                  code = c('"'"'
-                    output_file <- file("test_console_output_dsbase.txt");
-                    sink(output_file, split = TRUE);
-                    junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                    progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                    multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                    options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                    testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
-                  )
-                )
-              ),
-              "coveragelist.csv"
-            )' || R_EXIT=$?
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
           cat test_console_output_dsbase.txt
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
@@ -792,6 +830,7 @@ jobs:
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
 
 
   ################################################################################
@@ -1093,6 +1132,7 @@ jobs:
             cran::tidyr
             cran::readr
             cran::magrittr
+            cran::covr
             github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
@@ -1106,16 +1146,58 @@ jobs:
           mkdir -p logs
           xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" artifacts/*/test_results_*.xml > logs/test_results.xml
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
+        working-directory: dsBaseClient
 
-          first=1
-          for f in artifacts/armadillo-dsbase-*/coveragelist.csv; do
-            if [ $first -eq 1 ]; then
-              cat "$f" > logs/coveragelist.csv
-              first=0
-            else
-              tail -n +2 "$f" >> logs/coveragelist.csv
-            fi
-          done
+      - name: Merge coverage and write job summary
+        run: |
+          Rscript -e '
+            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
+            if (length(rds_files) > 0) {
+              merged <- covr::merge_coverage(rds_files)
+              cl <- covr::coverage_to_list(merged)
+              write.csv(cl, "logs/coveragelist.csv")
+              low <- head(sort(cl$filecoverage), 5)
+              cov_lines <- c(
+                sprintf("**Combined coverage: %.1f%%**", cl$totalcoverage),
+                "",
+                "Lowest-covered files:",
+                paste0("- `", names(low), "`: ", low, "%")
+              )
+            } else {
+              cov_lines <- "No coverage data found."
+            }
+
+            doc <- xml2::read_xml("logs/test_results.xml")
+            suites <- xml2::xml_find_all(doc, ".//testsuite")
+            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
+            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
+            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
+            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
+
+            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
+            fail_lines <- if (length(failed) > 0) {
+              msgs <- vapply(failed, function(tc) {
+                node <- xml2::xml_find_first(tc, "failure|error")
+                m <- xml2::xml_attr(node, "message")
+                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
+                m
+              }, character(1))
+              c("", "### Failed tests",
+                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs))
+            } else {
+              character(0)
+            }
+
+            summary <- c(
+              "## Armadillo dsBase/dsDanger test results",
+              "",
+              sprintf("**%d tests** - %d failures, %d errors, %d skipped", n_tests, n_failures, n_errors, n_skipped),
+              "",
+              cov_lines,
+              fail_lines
+            )
+            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+          '
         working-directory: dsBaseClient
 
       - name: Check for JUnit errors
