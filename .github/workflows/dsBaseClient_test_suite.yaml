@@ -480,8 +480,11 @@ jobs:
           Rscript -e '
             rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
-              merged <- covr::merge_coverage(rds_files)
-              cl <- covr::coverage_to_list(merged)
+              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
+              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
+              filecoverage <- tapply(agg$value, agg$filename, function(x) round(sum(x > 0) / length(x) * 100, 2))
+              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 2)
+              cl <- list(filecoverage = filecoverage, totalcoverage = totalcoverage)
               write.csv(cl, "logs/coveragelist.csv")
               low <- head(sort(cl$filecoverage), 5)
               cov_lines <- c(
@@ -1153,8 +1156,11 @@ jobs:
           Rscript -e '
             rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
-              merged <- covr::merge_coverage(rds_files)
-              cl <- covr::coverage_to_list(merged)
+              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
+              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
+              filecoverage <- tapply(agg$value, agg$filename, function(x) round(sum(x > 0) / length(x) * 100, 2))
+              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 2)
+              cl <- list(filecoverage = filecoverage, totalcoverage = totalcoverage)
               write.csv(cl, "logs/coveragelist.csv")
               low <- head(sort(cl$filecoverage), 5)
               cov_lines <- c(
