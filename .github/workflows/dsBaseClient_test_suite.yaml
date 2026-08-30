@@ -421,44 +421,16 @@ jobs:
         with:
           path: dsBaseClient
 
-      - name: Checkout testStatus
-        if: ${{ github.actor != 'nektos/act' }} # for local deployment only
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ env.REPO_OWNER }}/testStatus
-          ref: master
-          path: testStatus
-          persist-credentials: false
-          token: ${{ env.GITHUB_TOKEN }}
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: release
           use-public-rspm: true
 
-      - name: Install xml-twig-tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq xml-twig-tools -y
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
-            cran::quarto
-            cran::knitr
-            cran::kableExtra
-            cran::rmarkdown
-            cran::downlit
             cran::xml2
-            cran::purrr
-            cran::dplyr
-            cran::stringr
-            cran::tidyr
-            cran::readr
-            cran::magrittr
             cran::covr
             github::datashield/dsDangerClient
 
@@ -468,16 +440,20 @@ jobs:
           pattern: 'opal-*'
           path: dsBaseClient/artifacts
 
-      - name: Merge results
+      - name: Merge results and write job summary
         run: |
           mkdir -p logs
-          xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" artifacts/*/test_results_*.xml > logs/test_results.xml
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
-        working-directory: dsBaseClient
 
-      - name: Merge coverage and write job summary
-        run: |
           Rscript -e '
+            xml_files <- list.files("artifacts", pattern = "^test_results_.*\\.xml$", recursive = TRUE, full.names = TRUE)
+            docs <- lapply(xml_files, xml2::read_xml)
+            root <- xml2::xml_new_root("testsuites")
+            for (doc in docs) {
+              for (s in xml2::xml_find_all(doc, ".//testsuite")) xml2::xml_add_child(root, s)
+            }
+            xml2::write_xml(root, "logs/test_results.xml")
+
             rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
               tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
@@ -530,51 +506,14 @@ jobs:
           '
         working-directory: dsBaseClient
 
-      - name: Check for JUnit errors
-        run: |
-          issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep -c errors= || true)
-          echo "Number of testsuites with issues: $issue_count"
-          sed 's/failures="0" errors="0"//' test_results.xml | grep errors= > issues.log || true
-          cat issues.log || true
-          # continue with workflow even when some tests fail
-          exit 0
-        working-directory: dsBaseClient/logs
-
-      - name: Write versions to file
-        run: |
-          echo "branch:${{ env.BRANCH_NAME }}" > ${{ env.WORKFLOW_ID }}.txt
-          echo "os:$(lsb_release -ds)" >> ${{ env.WORKFLOW_ID }}.txt
-          echo "R:$(R --version | head -n1)" >> ${{ env.WORKFLOW_ID }}.txt
-        working-directory: dsBaseClient/logs
-
-      - name: Parse results from testthat and covr
-        run: Rscript --verbose --vanilla ../testStatus/source/parse_test_report.R logs/
-        working-directory: dsBaseClient
-
-      - name: Render report
-        run: |
-          cd testStatus
-
-          mkdir -p new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
-
-          cp -rv ../dsBaseClient/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-
-          R -e 'input_dir <- file.path("../new/logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
-          mv source/test_report.html new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
-          cp -r new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
-        env:
-          PROJECT_NAME: ${{ env.PROJECT_NAME }}
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-          WORKFLOW_ID: ${{ env.WORKFLOW_ID }}
-
-      - name: Upload test logs
+      - name: Upload merged results
         uses: actions/upload-artifact@v4
         with:
-          name: dsbaseclient-logs-opal
-          path: testStatus/new
+          name: opal-report-results
+          path: |
+            dsBaseClient/logs/test_results.xml
+            dsBaseClient/logs/test_console_output.txt
+            dsBaseClient/logs/coveragelist.csv
 
 
   ################################################################################
@@ -1097,44 +1036,16 @@ jobs:
         with:
           path: dsBaseClient
 
-      - name: Checkout testStatus
-        if: ${{ github.actor != 'nektos/act' }} # for local deployment only
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ env.REPO_OWNER }}/testStatus
-          ref: master
-          path: testStatus
-          persist-credentials: false
-          token: ${{ env.GITHUB_TOKEN }}
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: release
           use-public-rspm: true
 
-      - name: Install xml-twig-tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq xml-twig-tools -y
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
-            cran::quarto
-            cran::knitr
-            cran::kableExtra
-            cran::rmarkdown
-            cran::downlit
             cran::xml2
-            cran::purrr
-            cran::dplyr
-            cran::stringr
-            cran::tidyr
-            cran::readr
-            cran::magrittr
             cran::covr
             github::datashield/dsDangerClient
 
@@ -1144,16 +1055,20 @@ jobs:
           pattern: 'armadillo-*'
           path: dsBaseClient/artifacts
 
-      - name: Merge results
+      - name: Merge results and write job summary
         run: |
           mkdir -p logs
-          xml_grep --pretty_print indented --wrap "testsuites" --descr "" --cond "testsuite" artifacts/*/test_results_*.xml > logs/test_results.xml
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
-        working-directory: dsBaseClient
 
-      - name: Merge coverage and write job summary
-        run: |
           Rscript -e '
+            xml_files <- list.files("artifacts", pattern = "^test_results_.*\\.xml$", recursive = TRUE, full.names = TRUE)
+            docs <- lapply(xml_files, xml2::read_xml)
+            root <- xml2::xml_new_root("testsuites")
+            for (doc in docs) {
+              for (s in xml2::xml_find_all(doc, ".//testsuite")) xml2::xml_add_child(root, s)
+            }
+            xml2::write_xml(root, "logs/test_results.xml")
+
             rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
               tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
@@ -1206,48 +1121,11 @@ jobs:
           '
         working-directory: dsBaseClient
 
-      - name: Check for JUnit errors
-        run: |
-          issue_count=$(sed 's/failures="0" errors="0"//' test_results.xml | grep -c errors= || true)
-          echo "Number of testsuites with issues: $issue_count"
-          sed 's/failures="0" errors="0"//' test_results.xml | grep errors= > issues.log || true
-          cat issues.log || true
-          # continue with workflow even when some tests fail
-          exit 0
-        working-directory: dsBaseClient/logs
-
-      - name: Write versions to file
-        run: |
-          echo "branch:${{ env.BRANCH_NAME }}" > ${{ env.WORKFLOW_ID }}.txt
-          echo "os:$(lsb_release -ds)" >> ${{ env.WORKFLOW_ID }}.txt
-          echo "R:$(R --version | head -n1)" >> ${{ env.WORKFLOW_ID }}.txt
-        working-directory: dsBaseClient/logs
-
-      - name: Parse results from testthat and covr
-        run: Rscript --verbose --vanilla ../testStatus/source/parse_test_report.R logs/
-        working-directory: dsBaseClient
-
-      - name: Render report
-        run: |
-          cd testStatus
-
-          mkdir -p new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          mkdir -p new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest/
-
-          cp -rv ../dsBaseClient/logs/* new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-          cp -rv ../dsBaseClient/logs/${{ env.WORKFLOW_ID }}.txt new/logs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/
-
-          R -e 'input_dir <- file.path("../new/logs", Sys.getenv("PROJECT_NAME"), Sys.getenv("BRANCH_NAME"), Sys.getenv("WORKFLOW_ID")); quarto::quarto_render("source/test_report.qmd", execute_params = list(input_dir = input_dir))'
-          mv source/test_report.html new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/index.html
-          cp -r new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/${{ env.WORKFLOW_ID }}/* new/docs/${{ env.PROJECT_NAME }}/${{ env.BRANCH_NAME }}/latest
-        env:
-          PROJECT_NAME: ${{ env.PROJECT_NAME }}
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-          WORKFLOW_ID: ${{ env.WORKFLOW_ID }}
-
-      - name: Upload test logs
+      - name: Upload merged results
         uses: actions/upload-artifact@v4
         with:
-          name: dsbaseclient-logs-armadillo
-          path: testStatus/new
+          name: armadillo-report-results
+          path: |
+            dsBaseClient/logs/test_results.xml
+            dsBaseClient/logs/test_console_output.txt
+            dsBaseClient/logs/coveragelist.csv
