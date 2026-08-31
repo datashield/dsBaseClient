@@ -168,6 +168,11 @@ jobs:
             write.csv(covr::coverage_to_list(cov), "coveragelist.csv")
             covr::to_cobertura(cov, "cobertura.xml")' || R_EXIT=$?
           cat test_console_output_dsbase.txt
+          n_tests=$(grep -c '<testcase' test_results_dsbase.xml || true)
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_tests:-0}" -eq 0 ]; then
+            echo "0 tests actually ran (no <testcase> entries in test_results_dsbase.xml) - treating as a failure rather than a silent pass."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
@@ -175,6 +180,7 @@ jobs:
         if: matrix.category == 'dsdanger'
         run: |
           R -q -e '
+            devtools::load_all(quiet = TRUE);
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
@@ -182,8 +188,13 @@ jobs:
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
+            test_dir("tests/testthat", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
           cat test_console_output_dsdanger.txt
+          n_tests=$(grep -c '<testcase' test_results_dsdanger.xml || true)
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_tests:-0}" -eq 0 ]; then
+            echo "0 tests actually ran (no <testcase> entries in test_results_dsdanger.xml) - treating as a failure rather than a silent pass."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
@@ -385,6 +396,11 @@ jobs:
             write.csv(covr::coverage_to_list(cov), "coveragelist.csv")
             covr::to_cobertura(cov, "cobertura.xml")' || R_EXIT=$?
           cat test_console_output_dsbase.txt
+          n_tests=$(grep -c '<testcase' test_results_dsbase.xml || true)
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_tests:-0}" -eq 0 ]; then
+            echo "0 tests actually ran (no <testcase> entries in test_results_dsbase.xml) - treating as a failure rather than a silent pass."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
@@ -392,6 +408,7 @@ jobs:
         if: matrix.category == 'dsdanger'
         run: |
           R -q -e '
+            devtools::load_all(quiet = TRUE);
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
@@ -399,8 +416,13 @@ jobs:
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-            testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
+            test_dir("tests/testthat", filter = "${{ env.TEST_FILTER_DSDANGER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
           cat test_console_output_dsdanger.txt
+          n_tests=$(grep -c '<testcase' test_results_dsdanger.xml || true)
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_tests:-0}" -eq 0 ]; then
+            echo "0 tests actually ran (no <testcase> entries in test_results_dsdanger.xml) - treating as a failure rather than a silent pass."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
