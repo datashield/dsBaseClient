@@ -1,0 +1,100 @@
+name: Setup Opal with dsBase
+description: >
+  Starts a fresh Opal instance via docker-compose, installs R and system
+  dependencies, uploads test datasets, and installs dsBase with disclosure
+  test options. Assumes the caller has already checked out dsBaseClient at
+  ./dsBaseClient. Shared by the Opal dsbase shard workflow and the Opal
+  dsdanger job, so this setup only needs fixing in one place.
+
+inputs:
+  dsbase-ref:
+    description: dsBase GitHub ref to install
+    required: false
+    default: v7.0-dev
+
+runs:
+  using: composite
+  steps:
+    - name: Start Opal docker-compose
+      shell: bash
+      run: docker compose -f docker-compose_opal.yml up -d --build
+      working-directory: dsBaseClient
+
+    - name: Uninstall default MySQL
+      shell: bash
+      run: |
+        sudo service mysql stop || true
+        sudo apt-get update
+        sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean -y
+        sudo rm -rf /var/lib/mysql/
+
+    - uses: r-lib/actions/setup-pandoc@v2
+
+    - uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: release
+        http-user-agent: release
+        use-public-rspm: true
+
+    - name: Install system libraries
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
+        sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
+
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        dependencies: 'c("Depends", "Imports", "LinkingTo")'
+        extra-packages: |
+          cran::devtools
+          cran::usethis
+          cran::git2r
+          cran::covr
+          cran::fields
+          cran::meta
+          cran::metafor
+          cran::ggplot2
+          cran::gridExtra
+          cran::data.table
+          cran::DSI
+          cran::opalr
+          cran::DSOpal
+          cran::DSLite
+          cran::MolgenisAuth
+          cran::MolgenisArmadillo
+          cran::DSMolgenisArmadillo
+          cran::DescTools
+          cran::e1071
+          github::datashield/dsDangerClient
+        needs: check
+
+    - name: Install test datasets to Opal
+      shell: bash
+      run: |
+        sleep 60
+        R -q -f "obiba_opal-upload_testing_datasets.R"
+      working-directory: dsBaseClient/tests/testthat/data_files
+
+    - name: Install dsBase to Opal, set disclosure test options
+      shell: bash
+      run: |
+        R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
+        R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '${{ inputs.dsbase-ref }}'); opal.logout(opal)"
+
+        sleep 60
+
+        expected_version=$(curl -sf "https://raw.githubusercontent.com/datashield/dsBase/${{ inputs.dsbase-ref }}/DESCRIPTION" | sed -n 's/^Version: //p' | tr -d '\r')
+        if [ -z "$expected_version" ]; then
+          echo "Could not determine expected dsBase version from GitHub"
+          exit 1
+        fi
+        echo "Expected dsBase version: $expected_version"
+        echo "$expected_version" > dsbase_version.txt
+
+        R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
+        R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
+        R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
+      working-directory: dsBaseClient/tests/testthat/data_files

@@ -1,0 +1,69 @@
+name: Opal dsBase shard
+
+# Reusable workflow: runs one dsBase testthat filter against a fresh Opal
+# instance. Called (with a different category/filter per matrix entry) from
+# dsBaseClient_test_suite.yaml's opal-dsbase-smk/-perf/-other jobs, so each
+# category group shows as its own box in the run graph instead of one flat
+# 7-shard matrix, without duplicating this setup 3x. The setup itself
+# (checkout through installing dsBase) lives in the setup-opal-with-dsbase
+# composite action, shared with opal-dsdanger too.
+
+on:
+  workflow_call:
+    inputs:
+      category:
+        required: true
+        type: string
+      filter:
+        required: true
+        type: string
+
+env:
+  PROJECT_NAME: dsBaseClient
+  DS_DRIVER: OpalDriver
+
+jobs:
+  run-shard:
+    name: Opal dsBase tests (${{ inputs.category }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v4
+        with:
+          path: dsBaseClient
+
+      - uses: ./.github/actions/setup-opal-with-dsbase
+
+      - name: Run dsBase tests with coverage & JUnit report
+        run: |
+          R -q -e "devtools::load_all();"
+          R -q -e '
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ inputs.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Upload shard results
+        uses: actions/upload-artifact@v4
+        with:
+          name: opal-dsbase-${{ inputs.category }}
+          path: |
+            dsBaseClient/test_results_dsbase.xml
+            dsBaseClient/test_console_output_dsbase.txt
+            dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
+            dsBaseClient/tests/testthat/data_files/dsbase_version.txt

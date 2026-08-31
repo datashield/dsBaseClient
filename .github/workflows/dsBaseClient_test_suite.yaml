@@ -4,22 +4,32 @@
 # Replaces azure-pipelines.yml / opal_azure-pipelines.yml / armadillo_azure-pipelines.yml.
 #
 # Structure (all jobs below run in parallel except where "needs" says otherwise):
-#   r-checks        - devtools::document()/check() sync checks. No backend needed.
-#   opal-dsbase      (matrix: smk/arg/perf/misc) - dsBase suite against Opal,
-#                    one category per job.
-#   opal-dsdanger    - dsDanger suite against Opal (small, not sharded).
-#   opal-report      - needs the two Opal jobs above; merges + publishes report.
-#   armadillo-dsbase (matrix: smk/arg/perf/misc) - dsBase suite against Armadillo.
-#   armadillo-dsdanger - dsDanger suite against Armadillo.
-#   armadillo-report - needs the two Armadillo jobs above; merges + publishes report.
+#   r-checks             - devtools::document()/check() sync checks. No backend needed.
+#   opal-dsbase-smk       (matrix x2) \
+#   opal-dsbase-perf      (matrix x3)  } dsBase suite against Opal, one category
+#   opal-dsbase-other     (matrix x2) /  group per job - see below.
+#   opal-dsdanger         - dsDanger suite against Opal (small, not sharded).
+#   opal-report           - needs the three opal-dsbase-* jobs + opal-dsdanger; merges results.
+#   armadillo-dsbase-smk  (matrix x2) \
+#   armadillo-dsbase-perf (matrix x3)  } dsBase suite against Armadillo, same split.
+#   armadillo-dsbase-other(matrix x2) /
+#   armadillo-dsdanger    - dsDanger suite against Armadillo.
+#   armadillo-report      - needs the three armadillo-dsbase-* jobs + armadillo-dsdanger; merges results.
+#   test-summary          - needs opal-report + armadillo-report; one combined
+#                           coverage figure + pass/fail table + collapsible
+#                           failure details, written to the job summary.
 #
 # The dsBase suite (matching TEST_FILTER_DSBASE - same 292 files the Azure
-# pipelines run) is split by matrix into 4 fixed categories - smk (116 files),
-# arg (96), perf (51), and misc (the smaller categories: datachk, disc, expt,
-# smk_expt, math, and the "_-" catch-all - 29 combined) - each with its own
-# testthat filter substring, no file-list partitioning logic. Categories
-# aren't evenly sized, so job durations differ, but a category can be added,
-# removed, or temporarily skipped just by editing the matrix list.
+# pipelines run) is split into 7 shards across 3 category groups - smk (116
+# files, 2 shards), perf (51 fixed 30s-loop benchmarks, 3 shards - by far the
+# slowest per-file), and other (arg + misc, 2 shards) - each shard with its
+# own testthat filter substring. smk/perf are additionally split by the first
+# letter of the function name (after any "ds." prefix) rather than an
+# enumerated file list, so newly added test files fall into a bucket
+# automatically. The 3 category groups are separate job definitions (not one
+# 7-entry matrix) purely so they show as separate boxes in the run graph;
+# each calls the shared _armadillo-dsbase-shard.yaml / _opal-dsbase-shard.yaml
+# reusable workflow to avoid tripling the setup steps.
 #
 # Each dsbase/dsdanger job spins up its OWN backend instance (isolated - no
 # shared server state / concurrency risk between categories running at once).
@@ -52,12 +62,9 @@ permissions:
 
 env:
   _r_check_system_clock_: 0
-  WORKFLOW_ID: ${{ github.run_id }}-${{ github.run_attempt }}
   PROJECT_NAME: dsBaseClient
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  REPO_OWNER: ${{ github.repository_owner }}
   R_KEEP_PKG_SOURCE: yes
-  GITHUB_TOKEN: ${{ github.token || 'placeholder-token' }}
   # These should all be constant, except the two TEST_FILTER_* values. These can
   # be used to test subsets of test files in the testthat directory. Options are
   # like: '*' <- run all tests, '*_smk_*' <- run all the smoke tests.
@@ -123,155 +130,56 @@ jobs:
   # Opal - dsBase suite, sharded 4 ways. Each shard is a fully isolated job
   # with its own Opal instance.
   ################################################################################
-  opal-dsbase:
-    name: Opal dsBase tests (${{ matrix.category }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+  # Split into 3 caller jobs (smk / perf / other) rather than one 7-entry
+  # matrix, so each category group shows as its own box in the run graph.
+  # All three call the same reusable workflow (_opal-dsbase-shard.yaml) to
+  # avoid tripling the setup boilerplate.
+  opal-dsbase-smk:
+    name: Opal dsBase tests (smk)
     strategy:
       fail-fast: false
-      # One matrix entry per test-file category, each with its own testthat
-      # filter substring. smk and perf are split further by the first letter
-      # of the function name (after any "ds." prefix) rather than an
-      # enumerated file list, so newly added test files fall into a bucket
-      # automatically without editing this matrix. perf (50 fixed 30s-loop
-      # benchmarks) and smk (116 files) dominated wall-clock before this
-      # split - see armadillo-dsbase timings in job history.
       matrix:
         include:
           - category: smk-1
             filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
           - category: smk-2
             filter: 'smk-ds.[m-vM-V]'
-          - category: arg
-            filter: 'arg-'
+    uses: ./.github/workflows/_opal-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
+
+  opal-dsbase-perf:
+    name: Opal dsBase tests (perf)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
           - category: perf-1
             filter: 'perf-ds.[a-cA-C]'
           - category: perf-2
             filter: 'perf-ds.[d-mD-M]'
           - category: perf-3
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
+    uses: ./.github/workflows/_opal-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
+
+  opal-dsbase-other:
+    name: Opal dsBase tests (other)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - category: arg
+            filter: 'arg-'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
-    env:
-      DS_DRIVER: OpalDriver
-      DSBASE_REF: v7.0-dev
-
-    steps:
-      - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
-        with:
-          path: dsBaseClient
-
-      - name: Start Opal docker-compose
-        run: docker compose -f docker-compose_opal.yml up -d --build
-        working-directory: dsBaseClient
-
-      - name: Uninstall default MySQL
-        run: |
-          sudo service mysql stop || true
-          sudo apt-get update
-          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
-          sudo apt-get autoremove -y
-          sudo apt-get autoclean -y
-          sudo rm -rf /var/lib/mysql/
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: release
-          http-user-agent: release
-          use-public-rspm: true
-
-      - name: Install system libraries
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
-          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
-          extra-packages: |
-            cran::devtools
-            cran::usethis
-            cran::covr
-            cran::fields
-            cran::meta
-            cran::metafor
-            cran::ggplot2
-            cran::gridExtra
-            cran::data.table
-            cran::DSI
-            cran::opalr
-            cran::DSOpal
-            cran::DSLite
-            cran::MolgenisAuth
-            cran::MolgenisArmadillo
-            cran::DSMolgenisArmadillo
-            cran::DescTools
-            cran::e1071
-            github::datashield/dsDangerClient
-          needs: check
-
-      - name: Install test datasets to Opal
-        run: |
-          sleep 60
-          R -q -f "obiba_opal-upload_testing_datasets.R"
-        working-directory: dsBaseClient/tests/testthat/data_files
-
-      - name: Install dsBase to Opal, set disclosure test options
-        run: |
-          R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
-          R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '${{ env.DSBASE_REF }}'); opal.logout(opal)"
-
-          sleep 60
-
-          expected_version=$(curl -sf "https://raw.githubusercontent.com/datashield/dsBase/${{ env.DSBASE_REF }}/DESCRIPTION" | sed -n 's/^Version: //p' | tr -d '\r')
-          if [ -z "$expected_version" ]; then
-            echo "Could not determine expected dsBase version from GitHub"
-            exit 1
-          fi
-          echo "Expected dsBase version: $expected_version"
-          echo "$expected_version" > dsbase_version.txt
-
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
-        working-directory: dsBaseClient/tests/testthat/data_files
-
-      - name: Run dsBase tests with coverage & JUnit report
-        run: |
-          R -q -e "devtools::load_all();"
-          R -q -e '
-            cov <- covr::package_coverage(
-              type = c("none"),
-              code = c('"'"'
-                output_file <- file("test_console_output_dsbase.txt");
-                sink(output_file, split = TRUE);
-                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
-              )
-            )
-            saveRDS(cov, "coverage.rds")
-            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
-          cat test_console_output_dsbase.txt
-          exit "${R_EXIT:-0}"
-        working-directory: dsBaseClient
-
-      - name: Upload shard results
-        uses: actions/upload-artifact@v4
-        with:
-          name: opal-dsbase-${{ matrix.category }}
-          path: |
-            dsBaseClient/test_results_dsbase.xml
-            dsBaseClient/test_console_output_dsbase.txt
-            dsBaseClient/coveragelist.csv
-            dsBaseClient/coverage.rds
-            dsBaseClient/tests/testthat/data_files/dsbase_version.txt
+    uses: ./.github/workflows/_opal-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
 
 
   ################################################################################
@@ -284,7 +192,6 @@ jobs:
     timeout-minutes: 60
     env:
       DS_DRIVER: OpalDriver
-      DSBASE_REF: v7.0-dev
       DSDANGER_REF: '6.3.4'
 
     steps:
@@ -293,58 +200,9 @@ jobs:
         with:
           path: dsBaseClient
 
-      - name: Start Opal docker-compose
-        run: docker compose -f docker-compose_opal.yml up -d --build
-        working-directory: dsBaseClient
-
-      - name: Uninstall default MySQL
-        run: |
-          sudo service mysql stop || true
-          sudo apt-get update
-          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
-          sudo apt-get autoremove -y
-          sudo apt-get autoclean -y
-          sudo rm -rf /var/lib/mysql/
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
+      - uses: ./.github/actions/setup-opal-with-dsbase
         with:
-          r-version: release
-          http-user-agent: release
-          use-public-rspm: true
-
-      - name: Install system libraries
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
-          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
-          extra-packages: |
-            cran::devtools
-            cran::usethis
-            cran::git2r
-            cran::covr
-            cran::fields
-            cran::meta
-            cran::metafor
-            cran::ggplot2
-            cran::gridExtra
-            cran::data.table
-            cran::DSI
-            cran::opalr
-            cran::DSOpal
-            cran::DSLite
-            cran::MolgenisAuth
-            cran::MolgenisArmadillo
-            cran::DSMolgenisArmadillo
-            cran::DescTools
-            cran::e1071
-            github::datashield/dsDangerClient
-          needs: check
+          dsbase-ref: v7.0-dev
 
       - name: Install dsDangerClient
         run: |
@@ -352,32 +210,6 @@ jobs:
             ref <- Sys.getenv('BRANCH_NAME')
             ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
             if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
-
-      - name: Install test datasets to Opal
-        run: |
-          sleep 60
-          R -q -f "obiba_opal-upload_testing_datasets.R"
-        working-directory: dsBaseClient/tests/testthat/data_files
-
-      - name: Install dsBase to Opal, set disclosure test options
-        run: |
-          R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
-          R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '${{ env.DSBASE_REF }}'); opal.logout(opal)"
-
-          sleep 60
-
-          expected_version=$(curl -sf "https://raw.githubusercontent.com/datashield/dsBase/${{ env.DSBASE_REF }}/DESCRIPTION" | sed -n 's/^Version: //p' | tr -d '\r')
-          if [ -z "$expected_version" ]; then
-            echo "Could not determine expected dsBase version from GitHub"
-            exit 1
-          fi
-          echo "Expected dsBase version: $expected_version"
-          echo "$expected_version" > dsbase_version.txt
-
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
-          R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
-        working-directory: dsBaseClient/tests/testthat/data_files
 
       - name: Install dsDanger package on Opal server
         run: |
@@ -414,7 +246,7 @@ jobs:
   ################################################################################
   opal-report:
     name: Opal report
-    needs: [opal-dsbase, opal-dsdanger]
+    needs: [opal-dsbase-smk, opal-dsbase-perf, opal-dsbase-other, opal-dsdanger]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -479,253 +311,56 @@ jobs:
   # run time. No process is restarted after installing dsBase - install then
   # whitelist directly.
   ################################################################################
-  armadillo-dsbase:
-    name: Armadillo dsBase tests (${{ matrix.category }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+  # Split into 3 caller jobs (smk / perf / other) rather than one 7-entry
+  # matrix, so each category group shows as its own box in the run graph.
+  # All three call the same reusable workflow (_armadillo-dsbase-shard.yaml)
+  # to avoid tripling the setup boilerplate.
+  armadillo-dsbase-smk:
+    name: Armadillo dsBase tests (smk)
     strategy:
       fail-fast: false
-      # One matrix entry per test-file category, each with its own testthat
-      # filter substring. smk and perf are split further by the first letter
-      # of the function name (after any "ds." prefix) rather than an
-      # enumerated file list, so newly added test files fall into a bucket
-      # automatically without editing this matrix. perf (50 fixed 30s-loop
-      # benchmarks) and smk (116 files) dominated wall-clock before this
-      # split - see armadillo-dsbase timings in job history.
       matrix:
         include:
           - category: smk-1
             filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
           - category: smk-2
             filter: 'smk-ds.[m-vM-V]'
-          - category: arg
-            filter: 'arg-'
+    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
+
+  armadillo-dsbase-perf:
+    name: Armadillo dsBase tests (perf)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
           - category: perf-1
             filter: 'perf-ds.[a-cA-C]'
           - category: perf-2
             filter: 'perf-ds.[d-mD-M]'
           - category: perf-3
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
+    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
+
+  armadillo-dsbase-other:
+    name: Armadillo dsBase tests (other)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - category: arg
+            filter: 'arg-'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
-    env:
-      DS_DRIVER: ArmadilloDriver
-      DSBASE_TARBALL: dsBase_7.0.0-permissive.tar.gz
-
-    steps:
-      - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
-        with:
-          path: dsBaseClient
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - name: Download and start Armadillo (jar)
-        run: |
-          mkdir -p armadillo_home/config armadillo_home/storage armadillo_home/logs
-
-          cat > armadillo_home/config/application.yml <<EOF
-          armadillo:
-            docker-management-enabled: true
-            docker-run-in-container: false
-            profiles:
-              - name: default
-                image: datashield/rock_citest-permissive:latest
-                port: 8085
-                package-whitelist:
-                  - dsBase
-                  - dsTidyverse
-                  - resourcer
-                function-blacklist: [ ]
-                options:
-                  datashield:
-                    seed: 342325352
-          spring:
-            security:
-              user:
-                name: admin
-                password: admin
-            servlet:
-              multipart:
-                max-file-size: 1000MB
-                max-request-size: 1000MB
-          storage:
-            root-dir: $(pwd)/armadillo_home/storage
-          audit.log.path: '$(pwd)/armadillo_home/logs/audit.log'
-          stdout.log.path: '$(pwd)/armadillo_home/logs/armadillo.log'
-          logging:
-            level:
-              root: "warn"
-              org.molgenis: "warn"
-          EOF
-
-          release_json=$(curl -sf -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
-          jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
-          echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
-          curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
-
-          JAVA_TOOL_OPTIONS="-Xms1G -Xmx2G -XX:+UseG1GC" \
-            nohup java -jar armadillo_home/armadillo.jar \
-              --server.port=8080 \
-              --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
-              > armadillo_home/logs/stdout.log 2>&1 &
-          echo $! > armadillo_home/armadillo.pid
-          docker pull datashield/rock_citest-permissive:latest
-        working-directory: dsBaseClient
-
-      - name: Uninstall default MySQL
-        run: |
-          sudo service mysql stop || true
-          sudo apt-get update
-          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
-          sudo apt-get autoremove -y
-          sudo apt-get autoclean -y
-          sudo rm -rf /var/lib/mysql/
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: release
-          http-user-agent: release
-          use-public-rspm: true
-
-      - name: Install system libraries
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
-          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
-          extra-packages: |
-            cran::devtools
-            cran::usethis
-            cran::covr
-            cran::fields
-            cran::meta
-            cran::metafor
-            cran::ggplot2
-            cran::gridExtra
-            cran::data.table
-            cran::DSI
-            cran::opalr
-            cran::DSOpal
-            cran::DSLite
-            cran::MolgenisAuth
-            cran::MolgenisArmadillo
-            cran::DSMolgenisArmadillo
-            cran::DescTools
-            cran::e1071
-            github::datashield/dsDangerClient
-          needs: check
-
-      - name: Wait for Armadillo to be ready
-        run: |
-          for i in $(seq 1 60); do
-            if curl -fsS http://localhost:8080/actuator/health 2>/dev/null | grep -q '"status":"UP"'; then
-              echo "Armadillo is ready"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Armadillo did not become ready in time"
-          cat armadillo_home/logs/stdout.log || true
-          exit 1
-        working-directory: dsBaseClient
-
-      - name: Install test datasets to Armadillo
-        run: R -q -f "molgenis_armadillo-upload_testing_datasets.R"
-        working-directory: dsBaseClient/tests/testthat/data_files
-
-      - name: Install dsBase to Armadillo
-        run: |
-          curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
-
-          profile_status=""
-          for i in $(seq 1 30); do
-            profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
-            [ "$profile_status" == "RUNNING" ] && break
-            sleep 10
-          done
-          if [ "$profile_status" != "RUNNING" ]; then
-            echo "default profile container did not become RUNNING in time (status: $profile_status)"
-            exit 1
-          fi
-
-          install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ env.DSBASE_TARBALL }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
-          if [ "$install_status" != "200" ]; then
-            echo "dsBase install request failed with HTTP status $install_status"
-            exit 1
-          fi
-
-          expected_version=$(tar -xOzf ${{ env.DSBASE_TARBALL }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
-          if [ -z "$expected_version" ]; then
-            echo "Could not determine expected dsBase version from ${{ env.DSBASE_TARBALL }}"
-            exit 1
-          fi
-          echo "Expected dsBase version: $expected_version"
-
-          actual_version=""
-          for i in $(seq 1 30); do
-            packages_json=$(curl -sf -u admin:admin -X GET http://localhost:8080/packages || true)
-            actual_version=$(echo "$packages_json" | jq -r '.[] | select(.name == "dsBase") | .version' 2>/dev/null || true)
-            if [ "$actual_version" == "$expected_version" ]; then
-              break
-            fi
-            sleep 10
-          done
-          echo "Installed dsBase version: $actual_version"
-          if [ "$actual_version" != "$expected_version" ]; then
-            echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
-            exit 1
-          fi
-          echo "$actual_version" > dsbase_version.txt
-
-          curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
-        working-directory: dsBaseClient
-
-      - name: Dump Armadillo server log
-        if: failure()
-        run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u
-        working-directory: dsBaseClient
-
-      - name: Run dsBase tests with coverage & JUnit report
-        run: |
-          R -q -e "devtools::load_all();"
-          R -q -e '
-            cov <- covr::package_coverage(
-              type = c("none"),
-              code = c('"'"'
-                output_file <- file("test_console_output_dsbase.txt");
-                sink(output_file, split = TRUE);
-                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
-              )
-            )
-            saveRDS(cov, "coverage.rds")
-            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
-          cat test_console_output_dsbase.txt
-          exit "${R_EXIT:-0}"
-        working-directory: dsBaseClient
-
-      - name: Upload shard results
-        uses: actions/upload-artifact@v4
-        with:
-          name: armadillo-dsbase-${{ matrix.category }}
-          path: |
-            dsBaseClient/test_results_dsbase.xml
-            dsBaseClient/test_console_output_dsbase.txt
-            dsBaseClient/coveragelist.csv
-            dsBaseClient/coverage.rds
-            dsBaseClient/dsbase_version.txt
+    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
+    with:
+      category: ${{ matrix.category }}
+      filter: ${{ matrix.filter }}
 
 
   ################################################################################
@@ -737,7 +372,6 @@ jobs:
     timeout-minutes: 60
     env:
       DS_DRIVER: ArmadilloDriver
-      DSBASE_TARBALL: dsBase_7.0.0-permissive.tar.gz
       DSDANGER_TARBALL: dsDanger_6.3.4.tar.gz
 
     steps:
@@ -746,112 +380,7 @@ jobs:
         with:
           path: dsBaseClient
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - name: Download and start Armadillo (jar)
-        run: |
-          mkdir -p armadillo_home/config armadillo_home/storage armadillo_home/logs
-
-          cat > armadillo_home/config/application.yml <<EOF
-          armadillo:
-            docker-management-enabled: true
-            docker-run-in-container: false
-            profiles:
-              - name: default
-                image: datashield/rock_citest-permissive:latest
-                port: 8085
-                package-whitelist:
-                  - dsBase
-                  - dsTidyverse
-                  - resourcer
-                function-blacklist: [ ]
-                options:
-                  datashield:
-                    seed: 342325352
-          spring:
-            security:
-              user:
-                name: admin
-                password: admin
-            servlet:
-              multipart:
-                max-file-size: 1000MB
-                max-request-size: 1000MB
-          storage:
-            root-dir: $(pwd)/armadillo_home/storage
-          audit.log.path: '$(pwd)/armadillo_home/logs/audit.log'
-          stdout.log.path: '$(pwd)/armadillo_home/logs/armadillo.log'
-          logging:
-            level:
-              root: "warn"
-              org.molgenis: "warn"
-          EOF
-
-          release_json=$(curl -sf -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
-          jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
-          echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
-          curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
-
-          JAVA_TOOL_OPTIONS="-Xms1G -Xmx2G -XX:+UseG1GC" \
-            nohup java -jar armadillo_home/armadillo.jar \
-              --server.port=8080 \
-              --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
-              > armadillo_home/logs/stdout.log 2>&1 &
-          echo $! > armadillo_home/armadillo.pid
-          docker pull datashield/rock_citest-permissive:latest
-        working-directory: dsBaseClient
-
-      - name: Uninstall default MySQL
-        run: |
-          sudo service mysql stop || true
-          sudo apt-get update
-          sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
-          sudo apt-get autoremove -y
-          sudo apt-get autoclean -y
-          sudo rm -rf /var/lib/mysql/
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: release
-          http-user-agent: release
-          use-public-rspm: true
-
-      - name: Install system libraries
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
-          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
-          extra-packages: |
-            cran::devtools
-            cran::usethis
-            cran::git2r
-            cran::covr
-            cran::fields
-            cran::meta
-            cran::metafor
-            cran::ggplot2
-            cran::gridExtra
-            cran::data.table
-            cran::DSI
-            cran::opalr
-            cran::DSOpal
-            cran::DSLite
-            cran::MolgenisAuth
-            cran::MolgenisArmadillo
-            cran::DSMolgenisArmadillo
-            cran::DescTools
-            cran::e1071
-            github::datashield/dsDangerClient
-          needs: check
+      - uses: ./.github/actions/setup-armadillo-with-dsbase
 
       - name: Install dsDangerClient
         run: |
@@ -859,76 +388,6 @@ jobs:
             ref <- Sys.getenv('BRANCH_NAME')
             ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
             if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
-
-      - name: Wait for Armadillo to be ready
-        run: |
-          for i in $(seq 1 60); do
-            if curl -fsS http://localhost:8080/actuator/health 2>/dev/null | grep -q '"status":"UP"'; then
-              echo "Armadillo is ready"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Armadillo did not become ready in time"
-          cat armadillo_home/logs/stdout.log || true
-          exit 1
-        working-directory: dsBaseClient
-
-      - name: Install test datasets to Armadillo
-        run: R -q -f "molgenis_armadillo-upload_testing_datasets.R"
-        working-directory: dsBaseClient/tests/testthat/data_files
-
-      - name: Install dsBase to Armadillo
-        run: |
-          curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
-
-          profile_status=""
-          for i in $(seq 1 30); do
-            profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
-            [ "$profile_status" == "RUNNING" ] && break
-            sleep 10
-          done
-          if [ "$profile_status" != "RUNNING" ]; then
-            echo "default profile container did not become RUNNING in time (status: $profile_status)"
-            exit 1
-          fi
-
-          install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ env.DSBASE_TARBALL }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
-          if [ "$install_status" != "200" ]; then
-            echo "dsBase install request failed with HTTP status $install_status"
-            exit 1
-          fi
-
-          expected_version=$(tar -xOzf ${{ env.DSBASE_TARBALL }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
-          if [ -z "$expected_version" ]; then
-            echo "Could not determine expected dsBase version from ${{ env.DSBASE_TARBALL }}"
-            exit 1
-          fi
-          echo "Expected dsBase version: $expected_version"
-
-          actual_version=""
-          for i in $(seq 1 30); do
-            packages_json=$(curl -sf -u admin:admin -X GET http://localhost:8080/packages || true)
-            actual_version=$(echo "$packages_json" | jq -r '.[] | select(.name == "dsBase") | .version' 2>/dev/null || true)
-            if [ "$actual_version" == "$expected_version" ]; then
-              break
-            fi
-            sleep 10
-          done
-          echo "Installed dsBase version: $actual_version"
-          if [ "$actual_version" != "$expected_version" ]; then
-            echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
-            exit 1
-          fi
-          echo "$actual_version" > dsbase_version.txt
-
-          curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
-        working-directory: dsBaseClient
-
-      - name: Dump Armadillo server log
-        if: failure()
-        run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u
-        working-directory: dsBaseClient
 
       - name: Install dsDanger package on Armadillo server
         run: |
@@ -980,7 +439,7 @@ jobs:
   ################################################################################
   armadillo-report:
     name: Armadillo report
-    needs: [armadillo-dsbase, armadillo-dsdanger]
+    needs: [armadillo-dsbase-smk, armadillo-dsbase-perf, armadillo-dsbase-other, armadillo-dsdanger]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -1083,8 +542,14 @@ jobs:
               trimws(readLines(files[1], warn = FALSE)[1])
             }
 
-            summarise_backend <- function(name, xml_path, version) {
-              doc <- xml2::read_xml(xml_path)
+            find_results_xml <- function(artifact_dir) {
+              files <- list.files(artifact_dir, pattern = "^test_results\\.xml$", recursive = TRUE, full.names = TRUE)
+              if (length(files) == 0) stop(sprintf("No test_results.xml found under %s", artifact_dir))
+              files[1]
+            }
+
+            summarise_backend <- function(name, artifact_dir, version) {
+              doc <- xml2::read_xml(find_results_xml(artifact_dir))
               suites <- xml2::xml_find_all(doc, ".//testsuite")
               n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
               n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
@@ -1116,8 +581,8 @@ jobs:
               )
             }
 
-            armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results/logs/test_results.xml", find_version("armadillo-dsbase"))
-            opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results/logs/test_results.xml", find_version("opal-dsbase"))
+            armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results", find_version("armadillo-dsbase"))
+            opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results", find_version("opal-dsbase"))
 
             rds_files <- list.files("artifacts/shards", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
