@@ -532,6 +532,7 @@ jobs:
           path: artifacts/shards
 
       - name: Write combined job summary
+        id: summary
         run: |
           Rscript -e '
             find_version <- function(prefix) {
@@ -576,20 +577,29 @@ jobs:
                   fail_lines,
                   "",
                   "</details>"
-                )
+                ),
+                n_failures = n_failures,
+                n_errors = n_errors
               )
             }
 
             armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results", find_version("armadillo-dsbase"))
             opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results", find_version("opal-dsbase"))
 
+            coverage_threshold <- 80
             rds_files <- list.files("artifacts/shards", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
               tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
               agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
               totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
-              cov_line <- sprintf("**Combined coverage: %.1f%%**", totalcoverage)
+              coverage_ok <- totalcoverage >= coverage_threshold
+              cov_line <- if (coverage_ok) {
+                sprintf("**Combined coverage: %.1f%%**", totalcoverage)
+              } else {
+                sprintf("**Combined coverage: %.1f%%** - below the %d%% threshold", totalcoverage, coverage_threshold)
+              }
             } else {
+              coverage_ok <- FALSE
               cov_line <- "No coverage data found."
             }
 
@@ -608,4 +618,15 @@ jobs:
               opal$details
             )
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+
+            tests_ok <- (armadillo$n_failures + armadillo$n_errors + opal$n_failures + opal$n_errors) == 0
+            cat(sprintf("coverage_ok=%s\ntests_ok=%s\n", tolower(coverage_ok), tolower(tests_ok)),
+                file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
           '
+
+      - name: Enforce coverage & test thresholds
+        if: steps.summary.outputs.coverage_ok != 'true' || steps.summary.outputs.tests_ok != 'true'
+        run: |
+          echo "Coverage ok: ${{ steps.summary.outputs.coverage_ok }}"
+          echo "Tests ok: ${{ steps.summary.outputs.tests_ok }}"
+          exit 1

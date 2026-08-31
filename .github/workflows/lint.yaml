@@ -33,6 +33,7 @@ jobs:
             github::datashield/dsDangerClient
 
       - name: Lint
+        id: lint
         run: |
           Rscript -e '
             al <- lintr::available_linters()
@@ -72,9 +73,16 @@ jobs:
               summary <- c("## Lint results", "", "No findings.")
             }
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+
+            cat(sprintf("has_findings=%s\n", tolower(length(lints) > 0)),
+                file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
           '
 
       - name: Upload lint results
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: lintr_results.sarif
+
+      - name: Fail on lint findings
+        if: steps.lint.outputs.has_findings == 'true'
+        run: exit 1
