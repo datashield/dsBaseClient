@@ -5,6 +5,12 @@ on:
     branches: [main, master]
   pull_request:
 
+# A new push to the same ref supersedes any run still in progress for it, so
+# we don't burn compute on stale commits.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

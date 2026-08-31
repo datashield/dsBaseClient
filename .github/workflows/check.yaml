@@ -7,6 +7,13 @@ on:
     - cron: '0 0 * * 0'   # Weekly
     - cron: '0 1 * * *'   # Nightly
 
+# A new push to the same ref supersedes any run still in progress for it, so
+# we don't burn compute on stale commits. Scoped by event_name too, so a
+# schedule/workflow_dispatch run is never auto-cancelled by an unrelated push.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+
 permissions:
   contents: read
 
