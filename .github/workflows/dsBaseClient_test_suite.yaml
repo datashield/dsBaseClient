@@ -9,31 +9,31 @@
 # rather than one graph mixing test execution with static checks.
 #
 # Structure (all jobs below run in parallel except where "needs" says otherwise):
-#   opal-dsbase-smk       (matrix x2) \
-#   opal-dsbase-perf      (matrix x3)  } dsBase suite against Opal, one category
-#   opal-dsbase-other     (matrix x2) /  group per job - see below.
-#   opal-dsdanger         - dsDanger suite against Opal (small, not sharded).
-#   opal-report           - needs the three opal-dsbase-* jobs + opal-dsdanger; merges results.
-#   armadillo-dsbase-smk  (matrix x2) \
-#   armadillo-dsbase-perf (matrix x3)  } dsBase suite against Armadillo, same split.
-#   armadillo-dsbase-other(matrix x2) /
-#   armadillo-dsdanger    - dsDanger suite against Armadillo.
-#   armadillo-report      - needs the three armadillo-dsbase-* jobs + armadillo-dsdanger; merges results.
-#   test-summary          - needs opal-report + armadillo-report; one combined
-#                           coverage figure + pass/fail table + collapsible
-#                           failure details, written to the job summary.
+#   opal-dsbase        (matrix x7) - dsBase suite against Opal, one shard per
+#                       category, all grouped under one summary box.
+#   opal-dsdanger       - dsDanger suite against Opal (small, not sharded).
+#   opal-report         - needs opal-dsbase + opal-dsdanger; merges results.
+#   armadillo-dsbase    (matrix x7) - dsBase suite against Armadillo, same split.
+#   armadillo-dsdanger  - dsDanger suite against Armadillo.
+#   armadillo-report    - needs armadillo-dsbase + armadillo-dsdanger; merges results.
+#   test-summary        - needs opal-report + armadillo-report; one combined
+#                         coverage figure + pass/fail table + collapsible
+#                         failure details, written to the job summary.
 #
 # The dsBase suite (matching TEST_FILTER_DSBASE - same 292 files the Azure
-# pipelines run) is split into 7 shards across 3 category groups - smk (116
-# files, 2 shards), perf (51 fixed 30s-loop benchmarks, 3 shards - by far the
-# slowest per-file), and other (arg + misc, 2 shards) - each shard with its
-# own testthat filter substring. smk/perf are additionally split by the first
-# letter of the function name (after any "ds." prefix) rather than an
-# enumerated file list, so newly added test files fall into a bucket
-# automatically. The 3 category groups are separate job definitions (not one
-# 7-entry matrix) purely so they show as separate boxes in the run graph;
-# each calls the shared _armadillo-dsbase-shard.yaml / _opal-dsbase-shard.yaml
-# reusable workflow to avoid tripling the setup steps.
+# pipelines run) is split into 7 shards - smk (116 files, 2 shards), perf (51
+# fixed 30s-loop benchmarks, 3 shards - by far the slowest per-file), arg (1
+# shard), and misc (1 shard) - each shard with its own testthat filter
+# substring. smk/perf are split by the first letter of the function name
+# (after any "ds." prefix) rather than an enumerated file list, so newly
+# added test files fall into a bucket automatically. This is one job with a
+# 7-entry matrix (not split into separate job definitions per category) so
+# all shards share one summary box in the run graph, and so they don't share
+# a reusable workflow name - GitHub's default same-name concurrency cap of 2
+# would otherwise throttle them to 2-at-a-time. Setup (checkout through
+# installing dsBase) still lives in a shared composite action
+# (setup-armadillo-with-dsbase / setup-opal-with-dsbase), reused by the
+# dsdanger jobs too, so that part stays DRY without needing separate jobs.
 #
 # Each dsbase/dsdanger job spins up its OWN backend instance (isolated - no
 # shared server state / concurrency risk between categories running at once).
@@ -81,56 +81,80 @@ jobs:
   # Opal - dsBase suite, sharded 4 ways. Each shard is a fully isolated job
   # with its own Opal instance.
   ################################################################################
-  # Split into 3 caller jobs (smk / perf / other) rather than one 7-entry
-  # matrix, so each category group shows as its own box in the run graph.
-  # All three call the same reusable workflow (_opal-dsbase-shard.yaml) to
-  # avoid tripling the setup boilerplate.
-  opal-dsbase-smk:
-    name: Opal dsBase tests (smk)
+  # One job, 7-entry matrix, so all shards group under a single summary box
+  # in the run graph (previously split into 3 category-group jobs calling a
+  # reusable workflow - reverted since that lost the combined summary and,
+  # worse, made all 7 calls share the reusable workflow's name, which
+  # triggers GitHub's default same-name concurrency cap of 2 and throttled
+  # the shards to 2-at-a-time instead of running in parallel).
+  opal-dsbase:
+    name: Opal dsBase tests (${{ matrix.category }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
+      # smk and perf are split by the first letter of the function name
+      # (after any "ds." prefix) rather than an enumerated file list, so
+      # newly added test files fall into a bucket automatically.
       matrix:
         include:
           - category: smk-1
             filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
           - category: smk-2
             filter: 'smk-ds.[m-vM-V]'
-    uses: ./.github/workflows/_opal-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
-
-  opal-dsbase-perf:
-    name: Opal dsBase tests (perf)
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
+          - category: arg
+            filter: 'arg-'
           - category: perf-1
             filter: 'perf-ds.[a-cA-C]'
           - category: perf-2
             filter: 'perf-ds.[d-mD-M]'
           - category: perf-3
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
-    uses: ./.github/workflows/_opal-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
-
-  opal-dsbase-other:
-    name: Opal dsBase tests (other)
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - category: arg
-            filter: 'arg-'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
-    uses: ./.github/workflows/_opal-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
+    env:
+      PROJECT_NAME: dsBaseClient
+      DS_DRIVER: OpalDriver
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v4
+        with:
+          path: dsBaseClient
+
+      - uses: ./dsBaseClient/.github/actions/setup-opal-with-dsbase
+
+      - name: Run dsBase tests with coverage & JUnit report
+        run: |
+          R -q -e "devtools::load_all();"
+          R -q -e '
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Upload shard results
+        uses: actions/upload-artifact@v4
+        with:
+          name: opal-dsbase-${{ matrix.category }}
+          path: |
+            dsBaseClient/test_results_dsbase.xml
+            dsBaseClient/test_console_output_dsbase.txt
+            dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
+            dsBaseClient/tests/testthat/data_files/dsbase_version.txt
 
 
   ################################################################################
@@ -197,7 +221,7 @@ jobs:
   ################################################################################
   opal-report:
     name: Opal report
-    needs: [opal-dsbase-smk, opal-dsbase-perf, opal-dsbase-other, opal-dsdanger]
+    needs: [opal-dsbase, opal-dsdanger]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -262,56 +286,80 @@ jobs:
   # run time. No process is restarted after installing dsBase - install then
   # whitelist directly.
   ################################################################################
-  # Split into 3 caller jobs (smk / perf / other) rather than one 7-entry
-  # matrix, so each category group shows as its own box in the run graph.
-  # All three call the same reusable workflow (_armadillo-dsbase-shard.yaml)
-  # to avoid tripling the setup boilerplate.
-  armadillo-dsbase-smk:
-    name: Armadillo dsBase tests (smk)
+  # One job, 7-entry matrix, so all shards group under a single summary box
+  # in the run graph (previously split into 3 category-group jobs calling a
+  # reusable workflow - reverted since that lost the combined summary and,
+  # worse, made all 7 calls share the reusable workflow's name, which
+  # triggers GitHub's default same-name concurrency cap of 2 and throttled
+  # the shards to 2-at-a-time instead of running in parallel).
+  armadillo-dsbase:
+    name: Armadillo dsBase tests (${{ matrix.category }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
+      # smk and perf are split by the first letter of the function name
+      # (after any "ds." prefix) rather than an enumerated file list, so
+      # newly added test files fall into a bucket automatically.
       matrix:
         include:
           - category: smk-1
             filter: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)'
           - category: smk-2
             filter: 'smk-ds.[m-vM-V]'
-    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
-
-  armadillo-dsbase-perf:
-    name: Armadillo dsBase tests (perf)
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
+          - category: arg
+            filter: 'arg-'
           - category: perf-1
             filter: 'perf-ds.[a-cA-C]'
           - category: perf-2
             filter: 'perf-ds.[d-mD-M]'
           - category: perf-3
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
-    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
-
-  armadillo-dsbase-other:
-    name: Armadillo dsBase tests (other)
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - category: arg
-            filter: 'arg-'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
-    uses: ./.github/workflows/_armadillo-dsbase-shard.yaml
-    with:
-      category: ${{ matrix.category }}
-      filter: ${{ matrix.filter }}
+    env:
+      PROJECT_NAME: dsBaseClient
+      DS_DRIVER: ArmadilloDriver
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v4
+        with:
+          path: dsBaseClient
+
+      - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
+
+      - name: Run dsBase tests with coverage & JUnit report
+        run: |
+          R -q -e "devtools::load_all();"
+          R -q -e '
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Upload shard results
+        uses: actions/upload-artifact@v4
+        with:
+          name: armadillo-dsbase-${{ matrix.category }}
+          path: |
+            dsBaseClient/test_results_dsbase.xml
+            dsBaseClient/test_console_output_dsbase.txt
+            dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
+            dsBaseClient/dsbase_version.txt
 
 
   ################################################################################
@@ -390,7 +438,7 @@ jobs:
   ################################################################################
   armadillo-report:
     name: Armadillo report
-    needs: [armadillo-dsbase-smk, armadillo-dsbase-perf, armadillo-dsbase-other, armadillo-dsdanger]
+    needs: [armadillo-dsbase, armadillo-dsdanger]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30

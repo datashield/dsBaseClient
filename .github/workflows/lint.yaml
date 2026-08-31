@@ -43,6 +43,35 @@ jobs:
             lints <- lintr::lint_package(linters = linter_funs)
             cat("n lints:", length(lints), "\n")
             lintr::sarif_output(lints, "lintr_results.sarif")
+
+            if (length(lints) > 0) {
+              linter_names <- vapply(lints, function(l) l$linter, character(1))
+              counts <- sort(table(linter_names), decreasing = TRUE)
+              count_rows <- paste0("| ", names(counts), " | ", as.integer(counts), " |")
+
+              finding_lines <- vapply(lints, function(l) {
+                sprintf("- `%s:%d` %s - %s", basename(l$filename), l$line_number, l$linter, l$message)
+              }, character(1))
+
+              summary <- c(
+                "## Lint results",
+                "",
+                sprintf("**%d findings** (correctness/robustness/common_mistakes linters)", length(lints)),
+                "",
+                "| Linter | Count |",
+                "|---|---|",
+                count_rows,
+                "",
+                "<details><summary>All findings</summary>",
+                "",
+                finding_lines,
+                "",
+                "</details>"
+              )
+            } else {
+              summary <- c("## Lint results", "", "No findings.")
+            }
+            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
           '
 
       - name: Upload lint results
