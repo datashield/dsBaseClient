@@ -233,6 +233,7 @@ jobs:
             exit 1
           fi
           echo "Expected dsBase version: $expected_version"
+          echo "$expected_version" > dsbase_version.txt
 
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
@@ -270,6 +271,7 @@ jobs:
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/coveragelist.csv
             dsBaseClient/coverage.rds
+            dsBaseClient/tests/testthat/data_files/dsbase_version.txt
 
 
   ################################################################################
@@ -370,6 +372,7 @@ jobs:
             exit 1
           fi
           echo "Expected dsBase version: $expected_version"
+          echo "$expected_version" > dsbase_version.txt
 
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
           R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
@@ -431,7 +434,6 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
-            cran::covr
             github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
@@ -440,7 +442,7 @@ jobs:
           pattern: 'opal-*'
           path: dsBaseClient/artifacts
 
-      - name: Merge results and write job summary
+      - name: Merge JUnit results
         run: |
           mkdir -p logs
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
@@ -453,56 +455,6 @@ jobs:
               for (s in xml2::xml_find_all(doc, ".//testsuite")) xml2::xml_add_child(root, s)
             }
             xml2::write_xml(root, "logs/test_results.xml")
-
-            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
-            if (length(rds_files) > 0) {
-              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
-              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
-              filecoverage <- tapply(agg$value, agg$filename, function(x) round(sum(x > 0) / length(x) * 100, 2))
-              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 2)
-              cl <- list(filecoverage = filecoverage, totalcoverage = totalcoverage)
-              write.csv(cl, "logs/coveragelist.csv")
-              low <- head(sort(cl$filecoverage), 5)
-              cov_lines <- c(
-                sprintf("**Combined coverage: %.1f%%**", cl$totalcoverage),
-                "",
-                "Lowest-covered files:",
-                paste0("- `", names(low), "`: ", low, "%")
-              )
-            } else {
-              cov_lines <- "No coverage data found."
-            }
-
-            doc <- xml2::read_xml("logs/test_results.xml")
-            suites <- xml2::xml_find_all(doc, ".//testsuite")
-            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
-            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
-            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
-            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
-
-            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-            fail_lines <- if (length(failed) > 0) {
-              msgs <- vapply(failed, function(tc) {
-                node <- xml2::xml_find_first(tc, "failure|error")
-                m <- xml2::xml_attr(node, "message")
-                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-                m
-              }, character(1))
-              c("", "### Failed tests",
-                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs))
-            } else {
-              character(0)
-            }
-
-            summary <- c(
-              "## Opal dsBase/dsDanger test results",
-              "",
-              sprintf("**%d tests** - %d failures, %d errors, %d skipped", n_tests, n_failures, n_errors, n_skipped),
-              "",
-              cov_lines,
-              fail_lines
-            )
-            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
           '
         working-directory: dsBaseClient
 
@@ -513,7 +465,6 @@ jobs:
           path: |
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
-            dsBaseClient/logs/coveragelist.csv
 
 
   ################################################################################
@@ -733,6 +684,7 @@ jobs:
             echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
             exit 1
           fi
+          echo "$actual_version" > dsbase_version.txt
 
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
         working-directory: dsBaseClient
@@ -773,6 +725,7 @@ jobs:
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/coveragelist.csv
             dsBaseClient/coverage.rds
+            dsBaseClient/dsbase_version.txt
 
 
   ################################################################################
@@ -967,6 +920,7 @@ jobs:
             echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
             exit 1
           fi
+          echo "$actual_version" > dsbase_version.txt
 
           curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
         working-directory: dsBaseClient
@@ -1046,7 +1000,6 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
-            cran::covr
             github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
@@ -1055,7 +1008,7 @@ jobs:
           pattern: 'armadillo-*'
           path: dsBaseClient/artifacts
 
-      - name: Merge results and write job summary
+      - name: Merge JUnit results
         run: |
           mkdir -p logs
           cat artifacts/*/test_console_output_*.txt > logs/test_console_output.txt
@@ -1068,56 +1021,6 @@ jobs:
               for (s in xml2::xml_find_all(doc, ".//testsuite")) xml2::xml_add_child(root, s)
             }
             xml2::write_xml(root, "logs/test_results.xml")
-
-            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
-            if (length(rds_files) > 0) {
-              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
-              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
-              filecoverage <- tapply(agg$value, agg$filename, function(x) round(sum(x > 0) / length(x) * 100, 2))
-              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 2)
-              cl <- list(filecoverage = filecoverage, totalcoverage = totalcoverage)
-              write.csv(cl, "logs/coveragelist.csv")
-              low <- head(sort(cl$filecoverage), 5)
-              cov_lines <- c(
-                sprintf("**Combined coverage: %.1f%%**", cl$totalcoverage),
-                "",
-                "Lowest-covered files:",
-                paste0("- `", names(low), "`: ", low, "%")
-              )
-            } else {
-              cov_lines <- "No coverage data found."
-            }
-
-            doc <- xml2::read_xml("logs/test_results.xml")
-            suites <- xml2::xml_find_all(doc, ".//testsuite")
-            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
-            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
-            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
-            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
-
-            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-            fail_lines <- if (length(failed) > 0) {
-              msgs <- vapply(failed, function(tc) {
-                node <- xml2::xml_find_first(tc, "failure|error")
-                m <- xml2::xml_attr(node, "message")
-                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-                m
-              }, character(1))
-              c("", "### Failed tests",
-                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs))
-            } else {
-              character(0)
-            }
-
-            summary <- c(
-              "## Armadillo dsBase/dsDanger test results",
-              "",
-              sprintf("**%d tests** - %d failures, %d errors, %d skipped", n_tests, n_failures, n_errors, n_skipped),
-              "",
-              cov_lines,
-              fail_lines
-            )
-            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
           '
         working-directory: dsBaseClient
 
@@ -1128,4 +1031,117 @@ jobs:
           path: |
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
-            dsBaseClient/logs/coveragelist.csv
+
+
+  ################################################################################
+  # Single consolidated summary across both backends: one combined coverage
+  # figure (merged from every shard's raw coverage.rds, both backends
+  # together - coverage measures client-side code paths, which are largely
+  # backend-agnostic, so one figure is more meaningful than two near-duplicate
+  # ones), a pass/fail table per backend, and failures tucked into collapsible
+  # <details> blocks rather than cluttering the main summary.
+  ################################################################################
+  test-summary:
+    name: Test summary
+    needs: [opal-report, armadillo-report]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          packages: 'any::sessioninfo'
+          extra-packages: |
+            cran::xml2
+            cran::covr
+
+      - name: Download merged report results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-report-results'
+          path: artifacts/reports
+
+      - name: Download shard coverage and versions
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-dsbase-*'
+          path: artifacts/shards
+
+      - name: Write combined job summary
+        run: |
+          Rscript -e '
+            find_version <- function(prefix) {
+              files <- list.files("artifacts/shards", pattern = "dsbase_version\\.txt$", recursive = TRUE, full.names = TRUE)
+              files <- files[grepl(prefix, files)]
+              if (length(files) == 0) return("unknown")
+              trimws(readLines(files[1], warn = FALSE)[1])
+            }
+
+            summarise_backend <- function(name, xml_path, version) {
+              doc <- xml2::read_xml(xml_path)
+              suites <- xml2::xml_find_all(doc, ".//testsuite")
+              n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
+              n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
+              n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
+              n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
+
+              failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
+              fail_lines <- if (length(failed) > 0) {
+                msgs <- vapply(failed, function(tc) {
+                  node <- xml2::xml_find_first(tc, "failure|error")
+                  m <- xml2::xml_attr(node, "message")
+                  if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
+                  m
+                }, character(1))
+                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs)
+              } else {
+                "All tests passed."
+              }
+
+              list(
+                row = sprintf("| %s | %s | %d | %d | %d | %d |", name, version, n_tests, n_failures, n_errors, n_skipped),
+                details = c(
+                  sprintf("<details><summary>Failed tests (%s)</summary>", name),
+                  "",
+                  fail_lines,
+                  "",
+                  "</details>"
+                )
+              )
+            }
+
+            armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results/logs/test_results.xml", find_version("armadillo-dsbase"))
+            opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results/logs/test_results.xml", find_version("opal-dsbase"))
+
+            rds_files <- list.files("artifacts/shards", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
+            if (length(rds_files) > 0) {
+              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
+              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
+              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
+              cov_line <- sprintf("**Combined coverage: %.1f%%**", totalcoverage)
+            } else {
+              cov_line <- "No coverage data found."
+            }
+
+            summary <- c(
+              "## dsBaseClient test suite results",
+              "",
+              cov_line,
+              "",
+              "| Backend | dsBase version | Tests | Failures | Errors | Skipped |",
+              "|---|---|---|---|---|---|",
+              armadillo$row,
+              opal$row,
+              "",
+              armadillo$details,
+              "",
+              opal$details
+            )
+            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+          '
