@@ -43,7 +43,6 @@ jobs:
           echo "CHANGED_FILES_EOF" >> "$GITHUB_ENV"
 
       - name: Lint
-        id: lint
         env:
           IS_PR: ${{ github.event_name == 'pull_request' }}
           CHANGED_FILES: ${{ env.files }}
@@ -112,17 +111,14 @@ jobs:
             }
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            cat(sprintf("has_new_findings=%s\n", tolower(any(is_new))),
-                file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
+            if (any(is_new)) {
+              message("Lint found issues in files changed by this PR - see the annotations above, the job summary, or the SARIF upload for details.")
+            }
+            quit(save = "no", status = if (any(is_new)) 1 else 0)
           '
 
       - name: Upload lint results
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: lintr_results.sarif
-
-      - name: Fail on lint findings in changed files
-        if: steps.lint.outputs.has_new_findings == 'true'
-        run: |
-          echo "Lint found issues in files changed by this PR - see the annotations above, the job summary, or the SARIF upload for details."
-          exit 1

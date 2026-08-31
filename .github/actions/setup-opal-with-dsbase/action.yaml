@@ -47,6 +47,7 @@ runs:
 
     - uses: r-lib/actions/setup-r-dependencies@v2
       with:
+        working-directory: dsBaseClient
         dependencies: 'c("Depends", "Imports", "LinkingTo")'
         extra-packages: |
           cran::devtools

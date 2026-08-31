@@ -184,7 +184,7 @@ jobs:
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
-            junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
+            junit_rep <- JunitReporter$new(file = file.path(getwd(), "test_results_dsdanger.xml"));
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
@@ -251,6 +251,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          working-directory: dsBaseClient
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
@@ -412,7 +413,7 @@ jobs:
             library(testthat);
             output_file <- file("test_console_output_dsdanger.txt");
             sink(output_file, split = TRUE);
-            junit_rep <- JunitReporter$new(file = "test_results_dsdanger.xml");
+            junit_rep <- JunitReporter$new(file = file.path(getwd(), "test_results_dsdanger.xml"));
             progress_rep <- ProgressReporter$new(max_failures = 999999);
             multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
             options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
@@ -479,6 +480,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          working-directory: dsBaseClient
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
@@ -555,7 +557,6 @@ jobs:
           path: artifacts/shards
 
       - name: Write combined job summary
-        id: summary
         run: |
           Rscript -e '
             find_version <- function(prefix) {
@@ -678,12 +679,6 @@ jobs:
             )
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            cat(sprintf("tests_ok=%s\n", tolower(tests_ok)),
-                file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
+            if (!tests_ok) message("Tests failed - see the summary above for details.")
+            quit(save = "no", status = if (tests_ok) 0 else 1)
           '
-
-      - name: Enforce test pass/fail
-        if: steps.summary.outputs.tests_ok != 'true'
-        run: |
-          echo "Tests ok: ${{ steps.summary.outputs.tests_ok }}"
-          exit 1
