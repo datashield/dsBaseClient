@@ -286,6 +286,11 @@ jobs:
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
 
+      - name: Print link to run summary
+        if: always()
+        run: |
+          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
 
   ################################################################################
   # Armadillo - dsBase suite, sharded 4 ways. Each shard downloads and runs its
@@ -515,6 +520,11 @@ jobs:
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
 
+      - name: Print link to run summary
+        if: always()
+        run: |
+          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
 
   ################################################################################
   # Single consolidated summary across both backends: one combined coverage
@@ -671,3 +681,8 @@ jobs:
             if (!tests_ok) message("Tests failed - see the summary above for details.")
             quit(save = "no", status = if (tests_ok) 0 else 1)
           '
+
+      - name: Print link to run summary
+        if: always()
+        run: |
+          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
