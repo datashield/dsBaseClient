@@ -33,7 +33,7 @@ jobs:
         with:
           path: dsBaseClient
 
-      - uses: ./.github/actions/setup-armadillo-with-dsbase
+      - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
 
       - name: Run dsBase tests with coverage & JUnit report
         run: |

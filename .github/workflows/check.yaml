@@ -1,0 +1,60 @@
+name: Check
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'   # Weekly
+    - cron: '0 1 * * *'   # Nightly
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Package checks (doc sync, R CMD check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          http-user-agent: release
+          use-public-rspm: true
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
+          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          extra-packages: |
+            any::rcmdcheck
+            cran::devtools
+            cran::usethis
+            github::datashield/dsDangerClient
+          needs: check
+
+      - name: Check manual updated
+        run: |
+          orig_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          R -q -e "devtools::document()"
+          new_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          if [ "$orig_sum" != "$new_sum" ]; then
+            echo "Your committed man/*.Rd files are out of sync with the R headers."
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Devtools checks
+        run: |
+          R -q -e "devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
+          grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
+        continue-on-error: true
