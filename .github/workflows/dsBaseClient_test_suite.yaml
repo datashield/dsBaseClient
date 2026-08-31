@@ -579,50 +579,49 @@ jobs:
               n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
               n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
               n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
+              n_pass     <- n_tests - n_failures - n_errors - n_skipped
 
               failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-              fail_lines <- if (length(failed) > 0) {
+              ok <- length(failed) == 0
+
+              if (ok) {
+                fail_block <- character(0)
+                fail_list  <- "All tests passed."
+              } else {
                 msgs <- vapply(failed, function(tc) {
                   node <- xml2::xml_find_first(tc, "failure|error")
                   m <- xml2::xml_attr(node, "message")
                   if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
                   m
                 }, character(1))
-                paste0("- `", xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"), "` - ", msgs)
-              } else {
-                "All tests passed."
+                labels <- paste0(xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"))
+                fail_block <- unlist(lapply(seq_along(failed), function(i) {
+                  c(sprintf("-- Failure (%s) %s", labels[i], strrep("-", max(1, 60 - nchar(labels[i])))), msgs[i], "")
+                }))
+                fail_list <- paste0("- `", labels, "` - ", msgs)
               }
 
+              tally <- sprintf("[ FAIL %d | WARN 0 | SKIP %d | PASS %d ]", n_failures + n_errors, n_skipped, n_pass)
+
               list(
-                row = sprintf("| %s | %s | %d | %d | %d | %d |", name, version, n_tests, n_failures, n_errors, n_skipped),
-                details = c(
-                  sprintf("<details><summary>Failed tests (%s)</summary>", name),
+                block = c(
+                  sprintf("### %s %s %s", if (ok) "✅" else "❌", name, if (ok) "passed" else "failed"),
                   "",
-                  fail_lines,
+                  sprintf("dsBase %s", version),
+                  "",
+                  "```",
+                  fail_block,
+                  tally,
+                  "```",
+                  "",
+                  "<details><summary>Failed tests</summary>",
+                  "",
+                  fail_list,
                   "",
                   "</details>"
                 ),
                 n_failures = n_failures,
                 n_errors = n_errors
-              )
-            }
-
-            console_block <- function(name, artifact_dir) {
-              files <- list.files(artifact_dir, pattern = "^test_console_output\\.txt$", recursive = TRUE, full.names = TRUE)
-              body <- if (length(files) == 0) {
-                "No console output found."
-              } else {
-                # Strip ANSI colour codes testthat'"'"'s ProgressReporter may emit.
-                paste(gsub("\033\\[[0-9;]*[a-zA-Z]", "", readLines(files[1], warn = FALSE)), collapse = "\n")
-              }
-              c(
-                sprintf("<details><summary>Full testthat console output (%s)</summary>", name),
-                "",
-                "```",
-                body,
-                "```",
-                "",
-                "</details>"
               )
             }
 
@@ -641,41 +640,31 @@ jobs:
               agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
               totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
               coverage_ok <- totalcoverage >= coverage_threshold
-              cov_line <- sprintf("**Combined coverage: %.1f%%** (target %d%%, informational - see Codecov patch check for enforcement)", totalcoverage, coverage_threshold)
             } else {
+              totalcoverage <- NA
               coverage_ok <- NA
-              cov_line <- "No coverage data found."
             }
 
             status_icon <- function(ok) if (isTRUE(ok)) "✅" else if (isFALSE(ok)) "❌" else "❓"
+
+            cov_status_line <- if (is.na(coverage_ok)) {
+              sprintf("%s Coverage unknown: no coverage data found", status_icon(NA))
+            } else {
+              sprintf("%s Coverage %s: %.1f%% vs %d%% target (informational - see Codecov patch check for enforcement)",
+                status_icon(coverage_ok), if (coverage_ok) "passed" else "failed", totalcoverage, coverage_threshold)
+            }
 
             codecov_url <- sprintf("https://app.codecov.io/gh/%s/commit/%s", Sys.getenv("GITHUB_REPOSITORY"), Sys.getenv("GITHUB_SHA"))
 
             summary <- c(
               "## dsBaseClient test suite results",
               "",
-              sprintf("%s Tests %s", status_icon(tests_ok), if (tests_ok) "passed" else "failed"),
-              sprintf(
-                "%s Coverage %s (informational)",
-                status_icon(coverage_ok),
-                if (is.na(coverage_ok)) "unknown - no coverage data found" else if (coverage_ok) sprintf("meets the %d%% target", coverage_threshold) else sprintf("is below the %d%% target", coverage_threshold)
-              ),
-              "",
-              cov_line,
+              cov_status_line,
               sprintf("[View coverage report on Codecov](%s)", codecov_url),
               "",
-              "| Backend | dsBase version | Tests | Failures | Errors | Skipped |",
-              "|---|---|---|---|---|---|",
-              armadillo$row,
-              opal$row,
+              armadillo$block,
               "",
-              armadillo$details,
-              "",
-              opal$details,
-              "",
-              console_block("Armadillo", "artifacts/reports/armadillo-report-results"),
-              "",
-              console_block("Opal", "artifacts/reports/opal-report-results")
+              opal$block
             )
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
