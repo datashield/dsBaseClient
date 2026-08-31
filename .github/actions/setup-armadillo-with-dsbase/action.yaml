@@ -104,8 +104,6 @@ runs:
         dependencies: 'c("Depends", "Imports", "LinkingTo")'
         extra-packages: |
           cran::devtools
-          cran::usethis
-          cran::git2r
           cran::covr
           cran::fields
           cran::meta
