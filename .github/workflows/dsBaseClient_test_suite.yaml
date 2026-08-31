@@ -76,10 +76,7 @@ env:
   # Reuses the existing azure-pipeline reference files rather than adding new
   # ones, matching what the old Azure pipelines set via perf.profile.
   PERF_PROFILE: azure-pipeline
-  # These should all be constant, except the two TEST_FILTER_* values. These can
-  # be used to test subsets of test files in the testthat directory. Options are
-  # like: '*' <- run all tests, '*_smk_*' <- run all the smoke tests.
-  TEST_FILTER_DSBASE: '_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-'
+  # dsBase shards get their filter from matrix.filter per entry instead.
   TEST_FILTER_DSDANGER: '__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-'
 
 jobs:
@@ -246,7 +243,6 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
-            github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
         uses: actions/download-artifact@v4
@@ -464,7 +460,6 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
-            github::datashield/dsDangerClient
 
       - name: Download shard/dsdanger results
         uses: actions/download-artifact@v4
@@ -589,9 +584,33 @@ jobs:
               )
             }
 
+            console_block <- function(name, artifact_dir) {
+              files <- list.files(artifact_dir, pattern = "^test_console_output\\.txt$", recursive = TRUE, full.names = TRUE)
+              body <- if (length(files) == 0) {
+                "No console output found."
+              } else {
+                # Strip ANSI colour codes testthat'"'"'s ProgressReporter may emit.
+                paste(gsub("\033\\[[0-9;]*[a-zA-Z]", "", readLines(files[1], warn = FALSE)), collapse = "\n")
+              }
+              c(
+                sprintf("<details><summary>Full testthat console output (%s)</summary>", name),
+                "",
+                "```",
+                body,
+                "```",
+                "",
+                "</details>"
+              )
+            }
+
             armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results", find_version("armadillo-dsbase"))
             opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results", find_version("opal-dsbase"))
+            tests_ok <- (armadillo$n_failures + armadillo$n_errors + opal$n_failures + opal$n_errors) == 0
 
+            # Coverage threshold here is informational only, for the status
+            # line below - actual enforcement lives in Codecovs own
+            # patch-coverage check (see codecov.yml), scoped to lines changed
+            # by the PR rather than the whole repo, so it does not gate this job.
             coverage_threshold <- 80
             rds_files <- list.files("artifacts/shards", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
@@ -599,20 +618,25 @@ jobs:
               agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
               totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
               coverage_ok <- totalcoverage >= coverage_threshold
-              cov_line <- if (coverage_ok) {
-                sprintf("**Combined coverage: %.1f%%**", totalcoverage)
-              } else {
-                sprintf("**Combined coverage: %.1f%%** - below the %d%% threshold", totalcoverage, coverage_threshold)
-              }
+              cov_line <- sprintf("**Combined coverage: %.1f%%** (target %d%%, informational - see Codecov patch check for enforcement)", totalcoverage, coverage_threshold)
             } else {
-              coverage_ok <- FALSE
+              coverage_ok <- NA
               cov_line <- "No coverage data found."
             }
+
+            status_icon <- function(ok) if (isTRUE(ok)) "✅" else if (isFALSE(ok)) "❌" else "❓"
 
             codecov_url <- sprintf("https://app.codecov.io/gh/%s/commit/%s", Sys.getenv("GITHUB_REPOSITORY"), Sys.getenv("GITHUB_SHA"))
 
             summary <- c(
               "## dsBaseClient test suite results",
+              "",
+              sprintf("%s Tests %s", status_icon(tests_ok), if (tests_ok) "passed" else "failed"),
+              sprintf(
+                "%s Coverage %s (informational)",
+                status_icon(coverage_ok),
+                if (is.na(coverage_ok)) "unknown - no coverage data found" else if (coverage_ok) sprintf("meets the %d%% target", coverage_threshold) else sprintf("is below the %d%% target", coverage_threshold)
+              ),
               "",
               cov_line,
               sprintf("[View coverage report on Codecov](%s)", codecov_url),
@@ -624,18 +648,20 @@ jobs:
               "",
               armadillo$details,
               "",
-              opal$details
+              opal$details,
+              "",
+              console_block("Armadillo", "artifacts/reports/armadillo-report-results"),
+              "",
+              console_block("Opal", "artifacts/reports/opal-report-results")
             )
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            tests_ok <- (armadillo$n_failures + armadillo$n_errors + opal$n_failures + opal$n_errors) == 0
-            cat(sprintf("coverage_ok=%s\ntests_ok=%s\n", tolower(coverage_ok), tolower(tests_ok)),
+            cat(sprintf("tests_ok=%s\n", tolower(tests_ok)),
                 file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
           '
 
-      - name: Enforce coverage & test thresholds
-        if: steps.summary.outputs.coverage_ok != 'true' || steps.summary.outputs.tests_ok != 'true'
+      - name: Enforce test pass/fail
+        if: steps.summary.outputs.tests_ok != 'true'
         run: |
-          echo "Coverage ok: ${{ steps.summary.outputs.coverage_ok }}"
           echo "Tests ok: ${{ steps.summary.outputs.tests_ok }}"
           exit 1

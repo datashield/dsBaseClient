@@ -18,6 +18,8 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -30,10 +32,21 @@ jobs:
           extra-packages: |
             cran::lintr
             cran::jsonlite
-            github::datashield/dsDangerClient
+
+      - name: Get PR changed files
+        if: github.event_name == 'pull_request'
+        id: changed
+        run: |
+          files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
+          echo "files<<CHANGED_FILES_EOF" >> "$GITHUB_ENV"
+          echo "$files" >> "$GITHUB_ENV"
+          echo "CHANGED_FILES_EOF" >> "$GITHUB_ENV"
 
       - name: Lint
         id: lint
+        env:
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          CHANGED_FILES: ${{ env.files }}
         run: |
           Rscript -e '
             al <- lintr::available_linters()
@@ -46,19 +59,45 @@ jobs:
             print(lints) # emits ::warning file=...,line=...:: annotations (auto-detects GitHub Actions)
             lintr::sarif_output(lints, "lintr_results.sarif")
 
-            if (length(lints) > 0) {
-              linter_names <- vapply(lints, function(l) l$linter, character(1))
-              counts <- sort(table(linter_names), decreasing = TRUE)
-              count_rows <- paste0("| ", names(counts), " | ", as.integer(counts), " |")
+            is_pr <- Sys.getenv("IS_PR") == "true"
+            changed_files <- strsplit(Sys.getenv("CHANGED_FILES"), "\n")[[1]]
+            changed_files <- changed_files[nzchar(changed_files)]
 
-              finding_lines <- vapply(lints, function(l) {
+            lint_files <- vapply(lints, function(l) l$filename, character(1))
+            is_new <- if (is_pr) lint_files %in% changed_files else rep(FALSE, length(lints))
+
+            format_findings <- function(idx) {
+              vapply(idx, function(i) {
+                l <- lints[[i]]
                 sprintf("- `%s:%d` %s - %s", basename(l$filename), l$line_number, l$linter, l$message)
               }, character(1))
+            }
 
+            if (length(lints) == 0) {
+              summary <- c("## Lint results", "", "No findings.")
+            } else if (is_pr) {
+              new_idx <- which(is_new)
+              existing_idx <- which(!is_new)
               summary <- c(
                 "## Lint results",
                 "",
-                sprintf("**%d findings** (correctness/robustness/common_mistakes linters)", length(lints)),
+                sprintf("**%d findings in files changed by this PR** (fails the check)", length(new_idx)),
+                if (length(new_idx) > 0) format_findings(new_idx) else "None.",
+                "",
+                sprintf("<details><summary>%d pre-existing findings elsewhere in the repo (informational only)</summary>", length(existing_idx)),
+                "",
+                format_findings(existing_idx),
+                "",
+                "</details>"
+              )
+            } else {
+              linter_names <- vapply(lints, function(l) l$linter, character(1))
+              counts <- sort(table(linter_names), decreasing = TRUE)
+              count_rows <- paste0("| ", names(counts), " | ", as.integer(counts), " |")
+              summary <- c(
+                "## Lint results",
+                "",
+                sprintf("**%d findings** (correctness/robustness/common_mistakes linters, informational only outside PRs)", length(lints)),
                 "",
                 "| Linter | Count |",
                 "|---|---|",
@@ -66,16 +105,14 @@ jobs:
                 "",
                 "<details><summary>All findings</summary>",
                 "",
-                finding_lines,
+                format_findings(seq_along(lints)),
                 "",
                 "</details>"
               )
-            } else {
-              summary <- c("## Lint results", "", "No findings.")
             }
             writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            cat(sprintf("has_findings=%s\n", tolower(length(lints) > 0)),
+            cat(sprintf("has_new_findings=%s\n", tolower(any(is_new))),
                 file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
           '
 
@@ -84,8 +121,8 @@ jobs:
         with:
           sarif_file: lintr_results.sarif
 
-      - name: Fail on lint findings
-        if: steps.lint.outputs.has_findings == 'true'
+      - name: Fail on lint findings in changed files
+        if: steps.lint.outputs.has_new_findings == 'true'
         run: |
-          echo "Lint found issues - see the annotations above, the job summary, or the SARIF upload for details."
+          echo "Lint found issues in files changed by this PR - see the annotations above, the job summary, or the SARIF upload for details."
           exit 1
