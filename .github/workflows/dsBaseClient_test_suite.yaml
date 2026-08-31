@@ -71,6 +71,11 @@ env:
   PROJECT_NAME: dsBaseClient
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   R_KEEP_PKG_SOURCE: yes
+  # Selects perf_files/<driver>_<PERF_PROFILE>_perf-profile.csv as the perf
+  # test reference rates/tolerances (see tests/testthat/perf_tests/perf_rate.R).
+  # Reuses the existing azure-pipeline reference files rather than adding new
+  # ones, matching what the old Azure pipelines set via perf.profile.
+  PERF_PROFILE: azure-pipeline
   # These should all be constant, except the two TEST_FILTER_* values. These can
   # be used to test subsets of test files in the testthat directory. Options are
   # like: '*' <- run all tests, '*_smk_*' <- run all the smoke tests.
@@ -604,10 +609,13 @@ jobs:
               cov_line <- "No coverage data found."
             }
 
+            codecov_url <- sprintf("https://app.codecov.io/gh/%s/commit/%s", Sys.getenv("GITHUB_REPOSITORY"), Sys.getenv("GITHUB_SHA"))
+
             summary <- c(
               "## dsBaseClient test suite results",
               "",
               cov_line,
+              sprintf("[View coverage report on Codecov](%s)", codecov_url),
               "",
               "| Backend | dsBase version | Tests | Failures | Errors | Skipped |",
               "|---|---|---|---|---|---|",
