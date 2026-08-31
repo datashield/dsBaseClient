@@ -9,13 +9,12 @@
 # rather than one graph mixing test execution with static checks.
 #
 # Structure (all jobs below run in parallel except where "needs" says otherwise):
-#   opal-dsbase        (matrix x7) - dsBase suite against Opal, one shard per
-#                       category, all grouped under one summary box.
-#   opal-dsdanger       - dsDanger suite against Opal (small, not sharded).
-#   opal-report         - needs opal-dsbase + opal-dsdanger; merges results.
-#   armadillo-dsbase    (matrix x7) - dsBase suite against Armadillo, same split.
-#   armadillo-dsdanger  - dsDanger suite against Armadillo.
-#   armadillo-report    - needs armadillo-dsbase + armadillo-dsdanger; merges results.
+#   opal-dsbase        (matrix x8) - dsBase suite against Opal, one shard per
+#                       category, plus a dsdanger entry, all grouped under
+#                       one summary box.
+#   opal-report         - needs opal-dsbase; merges results.
+#   armadillo-dsbase    (matrix x8) - dsBase suite against Armadillo, same split.
+#   armadillo-report    - needs armadillo-dsbase; merges results.
 #   test-summary        - needs opal-report + armadillo-report; one combined
 #                         coverage figure + pass/fail table + collapsible
 #                         failure details, written to the job summary.
@@ -26,14 +25,17 @@
 # shard), and misc (1 shard) - each shard with its own testthat filter
 # substring. smk/perf are split by the first letter of the function name
 # (after any "ds." prefix) rather than an enumerated file list, so newly
-# added test files fall into a bucket automatically. This is one job with a
-# 7-entry matrix (not split into separate job definitions per category) so
-# all shards share one summary box in the run graph, and so they don't share
-# a reusable workflow name - GitHub's default same-name concurrency cap of 2
-# would otherwise throttle them to 2-at-a-time. Setup (checkout through
-# installing dsBase) still lives in a shared composite action
-# (setup-armadillo-with-dsbase / setup-opal-with-dsbase), reused by the
-# dsdanger jobs too, so that part stays DRY without needing separate jobs.
+# added test files fall into a bucket automatically. The small dsDanger suite
+# is folded in as an 8th matrix entry (steps gated on matrix.category ==
+# 'dsdanger') rather than a standalone job, so it groups under the same
+# summary box instead of its own. This is one job with a matrix (not split
+# into separate job definitions per category) so all entries share one
+# summary box in the run graph, and so they don't share a reusable workflow
+# name - GitHub's default same-name concurrency cap of 2 would otherwise
+# throttle them to 2-at-a-time. Setup (checkout through installing dsBase)
+# lives in a shared composite action (setup-armadillo-with-dsbase /
+# setup-opal-with-dsbase), used by every matrix entry including dsdanger, so
+# that part stays DRY.
 #
 # Each dsbase/dsdanger job spins up its OWN backend instance (isolated - no
 # shared server state / concurrency risk between categories running at once).
@@ -78,24 +80,27 @@ env:
 jobs:
 
   ################################################################################
-  # Opal - dsBase suite, sharded 4 ways. Each shard is a fully isolated job
-  # with its own Opal instance.
+  # Opal - dsBase suite, sharded, plus dsDanger folded in as an extra matrix
+  # entry. Each entry is a fully isolated job with its own Opal instance.
   ################################################################################
-  # One job, 7-entry matrix, so all shards group under a single summary box
+  # One job, 8-entry matrix, so all entries group under a single summary box
   # in the run graph (previously split into 3 category-group jobs calling a
   # reusable workflow - reverted since that lost the combined summary and,
-  # worse, made all 7 calls share the reusable workflow's name, which
-  # triggers GitHub's default same-name concurrency cap of 2 and throttled
-  # the shards to 2-at-a-time instead of running in parallel).
+  # worse, made all calls share the reusable workflow's name, which triggers
+  # GitHub's default same-name concurrency cap of 2 and throttled the shards
+  # to 2-at-a-time instead of running in parallel).
   opal-dsbase:
-    name: Opal dsBase tests (${{ matrix.category }})
+    name: Opal tests (${{ matrix.category }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
       # smk and perf are split by the first letter of the function name
       # (after any "ds." prefix) rather than an enumerated file list, so
-      # newly added test files fall into a bucket automatically.
+      # newly added test files fall into a bucket automatically. dsdanger is
+      # a separate, smaller suite (steps below are gated on
+      # matrix.category == 'dsdanger') folded in here so it groups under this
+      # job's summary box instead of a standalone job.
       matrix:
         include:
           - category: smk-1
@@ -112,9 +117,11 @@ jobs:
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
+          - category: dsdanger
     env:
       PROJECT_NAME: dsBaseClient
       DS_DRIVER: OpalDriver
+      DSDANGER_REF: '6.3.4'
     steps:
       - name: Checkout dsBaseClient
         uses: actions/checkout@v4
@@ -123,7 +130,23 @@ jobs:
 
       - uses: ./dsBaseClient/.github/actions/setup-opal-with-dsbase
 
+      - name: Install dsDangerClient
+        if: matrix.category == 'dsdanger'
+        run: |
+          R -q -e "
+            ref <- Sys.getenv('BRANCH_NAME')
+            ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
+            if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
+
+      - name: Install dsDanger package on Opal server
+        if: matrix.category == 'dsdanger'
+        run: |
+          R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
+          R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '${{ env.DSDANGER_REF }}'); opal.logout(opal)"
+        working-directory: dsBaseClient
+
       - name: Run dsBase tests with coverage & JUnit report
+        if: matrix.category != 'dsdanger'
         run: |
           R -q -e "devtools::load_all();"
           R -q -e '
@@ -140,59 +163,14 @@ jobs:
               )
             )
             saveRDS(cov, "coverage.rds")
-            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")
+            covr::to_cobertura(cov, "cobertura.xml")' || R_EXIT=$?
           cat test_console_output_dsbase.txt
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
-      - name: Upload shard results
-        uses: actions/upload-artifact@v4
-        with:
-          name: opal-dsbase-${{ matrix.category }}
-          path: |
-            dsBaseClient/test_results_dsbase.xml
-            dsBaseClient/test_console_output_dsbase.txt
-            dsBaseClient/coveragelist.csv
-            dsBaseClient/coverage.rds
-            dsBaseClient/tests/testthat/data_files/dsbase_version.txt
-
-
-  ################################################################################
-  # Opal - dsDanger suite. Small (~15 files), so it stays a single job rather
-  # than sharding further.
-  ################################################################################
-  opal-dsdanger:
-    name: Opal dsDanger tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env:
-      DS_DRIVER: OpalDriver
-      DSDANGER_REF: '6.3.4'
-
-    steps:
-      - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
-        with:
-          path: dsBaseClient
-
-      - uses: ./dsBaseClient/.github/actions/setup-opal-with-dsbase
-        with:
-          dsbase-ref: v7.0-dev
-
-      - name: Install dsDangerClient
-        run: |
-          R -q -e "
-            ref <- Sys.getenv('BRANCH_NAME')
-            ok <- tryCatch({ pak::pkg_install(sprintf('github::datashield/dsDangerClient@%s', ref)); TRUE }, error = function(e) FALSE)
-            if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
-
-      - name: Install dsDanger package on Opal server
-        run: |
-          R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
-          R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsDanger', username = 'datashield', ref = '${{ env.DSDANGER_REF }}'); opal.logout(opal)"
-        working-directory: dsBaseClient
-
       - name: Run dsDanger tests with JUnit report
+        if: matrix.category == 'dsdanger'
         run: |
           R -q -e '
             library(testthat);
@@ -207,7 +185,20 @@ jobs:
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
+      - name: Upload shard results
+        if: matrix.category != 'dsdanger'
+        uses: actions/upload-artifact@v4
+        with:
+          name: opal-dsbase-${{ matrix.category }}
+          path: |
+            dsBaseClient/test_results_dsbase.xml
+            dsBaseClient/test_console_output_dsbase.txt
+            dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
+            dsBaseClient/tests/testthat/data_files/dsbase_version.txt
+
       - name: Upload dsDanger results
+        if: matrix.category == 'dsdanger'
         uses: actions/upload-artifact@v4
         with:
           name: opal-dsdanger
@@ -215,13 +206,22 @@ jobs:
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
 
+      - name: Upload coverage to Codecov
+        if: matrix.category != 'dsdanger'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: dsBaseClient/cobertura.xml
+          flags: opal-${{ matrix.category }}
+          fail_ci_if_error: false
+
 
   ################################################################################
-  # Opal - merge all shard + dsDanger results and publish the report.
+  # Opal - merge all matrix entry results and publish the report.
   ################################################################################
   opal-report:
     name: Opal report
-    needs: [opal-dsbase, opal-dsdanger]
+    needs: [opal-dsbase]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -286,21 +286,24 @@ jobs:
   # run time. No process is restarted after installing dsBase - install then
   # whitelist directly.
   ################################################################################
-  # One job, 7-entry matrix, so all shards group under a single summary box
+  # One job, 8-entry matrix, so all entries group under a single summary box
   # in the run graph (previously split into 3 category-group jobs calling a
   # reusable workflow - reverted since that lost the combined summary and,
-  # worse, made all 7 calls share the reusable workflow's name, which
-  # triggers GitHub's default same-name concurrency cap of 2 and throttled
-  # the shards to 2-at-a-time instead of running in parallel).
+  # worse, made all calls share the reusable workflow's name, which triggers
+  # GitHub's default same-name concurrency cap of 2 and throttled the shards
+  # to 2-at-a-time instead of running in parallel).
   armadillo-dsbase:
-    name: Armadillo dsBase tests (${{ matrix.category }})
+    name: Armadillo tests (${{ matrix.category }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
       # smk and perf are split by the first letter of the function name
       # (after any "ds." prefix) rather than an enumerated file list, so
-      # newly added test files fall into a bucket automatically.
+      # newly added test files fall into a bucket automatically. dsdanger is
+      # a separate, smaller suite (steps below are gated on
+      # matrix.category == 'dsdanger') folded in here so it groups under this
+      # job's summary box instead of a standalone job.
       matrix:
         include:
           - category: smk-1
@@ -317,62 +320,11 @@ jobs:
             filter: 'perf-ds.[n-vN-V]|perf-(conndisconn|void)'
           - category: misc
             filter: 'datachk-|disc-|expt-|smk_expt-|math-|_-'
+          - category: dsdanger
     env:
       PROJECT_NAME: dsBaseClient
       DS_DRIVER: ArmadilloDriver
-    steps:
-      - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
-        with:
-          path: dsBaseClient
-
-      - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
-
-      - name: Run dsBase tests with coverage & JUnit report
-        run: |
-          R -q -e "devtools::load_all();"
-          R -q -e '
-            cov <- covr::package_coverage(
-              type = c("none"),
-              code = c('"'"'
-                output_file <- file("test_console_output_dsbase.txt");
-                sink(output_file, split = TRUE);
-                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
-                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
-                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
-                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
-                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
-              )
-            )
-            saveRDS(cov, "coverage.rds")
-            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")' || R_EXIT=$?
-          cat test_console_output_dsbase.txt
-          exit "${R_EXIT:-0}"
-        working-directory: dsBaseClient
-
-      - name: Upload shard results
-        uses: actions/upload-artifact@v4
-        with:
-          name: armadillo-dsbase-${{ matrix.category }}
-          path: |
-            dsBaseClient/test_results_dsbase.xml
-            dsBaseClient/test_console_output_dsbase.txt
-            dsBaseClient/coveragelist.csv
-            dsBaseClient/coverage.rds
-            dsBaseClient/dsbase_version.txt
-
-
-  ################################################################################
-  # Armadillo - dsDanger suite. Small, so it stays a single job.
-  ################################################################################
-  armadillo-dsdanger:
-    name: Armadillo dsDanger tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env:
-      DS_DRIVER: ArmadilloDriver
       DSDANGER_TARBALL: dsDanger_6.3.4.tar.gz
-
     steps:
       - name: Checkout dsBaseClient
         uses: actions/checkout@v4
@@ -382,6 +334,7 @@ jobs:
       - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
 
       - name: Install dsDangerClient
+        if: matrix.category == 'dsdanger'
         run: |
           R -q -e "
             ref <- Sys.getenv('BRANCH_NAME')
@@ -389,6 +342,7 @@ jobs:
             if (!ok) pak::pkg_install('github::datashield/dsDangerClient')"
 
       - name: Install dsDanger package on Armadillo server
+        if: matrix.category == 'dsdanger'
         run: |
           curl -u admin:admin http://localhost:8080/whitelist
           install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ env.DSDANGER_TARBALL }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
@@ -409,7 +363,32 @@ jobs:
           curl -u admin:admin http://localhost:8080/whitelist
         working-directory: dsBaseClient
 
+      - name: Run dsBase tests with coverage & JUnit report
+        if: matrix.category != 'dsdanger'
+        run: |
+          R -q -e "devtools::load_all();"
+          R -q -e '
+            cov <- covr::package_coverage(
+              type = c("none"),
+              code = c('"'"'
+                output_file <- file("test_console_output_dsbase.txt");
+                sink(output_file, split = TRUE);
+                junit_rep <- testthat::JunitReporter$new(file = file.path(getwd(), "test_results_dsbase.xml"));
+                progress_rep <- testthat::ProgressReporter$new(max_failures = 999999);
+                multi_rep <- testthat::MultiReporter$new(reporters = list(progress_rep, junit_rep));
+                options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+                testthat::test_package("${{ env.PROJECT_NAME }}", filter = "${{ matrix.filter }}", reporter = multi_rep, stop_on_failure = FALSE)'"'"'
+              )
+            )
+            saveRDS(cov, "coverage.rds")
+            write.csv(covr::coverage_to_list(cov), "coveragelist.csv")
+            covr::to_cobertura(cov, "cobertura.xml")' || R_EXIT=$?
+          cat test_console_output_dsbase.txt
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
       - name: Run dsDanger tests with JUnit report
+        if: matrix.category == 'dsdanger'
         run: |
           R -q -e '
             library(testthat);
@@ -424,7 +403,20 @@ jobs:
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
+      - name: Upload shard results
+        if: matrix.category != 'dsdanger'
+        uses: actions/upload-artifact@v4
+        with:
+          name: armadillo-dsbase-${{ matrix.category }}
+          path: |
+            dsBaseClient/test_results_dsbase.xml
+            dsBaseClient/test_console_output_dsbase.txt
+            dsBaseClient/coveragelist.csv
+            dsBaseClient/coverage.rds
+            dsBaseClient/dsbase_version.txt
+
       - name: Upload dsDanger results
+        if: matrix.category == 'dsdanger'
         uses: actions/upload-artifact@v4
         with:
           name: armadillo-dsdanger
@@ -432,13 +424,22 @@ jobs:
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
 
+      - name: Upload coverage to Codecov
+        if: matrix.category != 'dsdanger'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: dsBaseClient/cobertura.xml
+          flags: armadillo-${{ matrix.category }}
+          fail_ci_if_error: false
+
 
   ################################################################################
-  # Armadillo - merge all shard + dsDanger results and publish the report.
+  # Armadillo - merge all matrix entry results and publish the report.
   ################################################################################
   armadillo-report:
     name: Armadillo report
-    needs: [armadillo-dsbase, armadillo-dsdanger]
+    needs: [armadillo-dsbase]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 30

@@ -43,6 +43,7 @@ jobs:
             names(linter_funs) <- sel
             lints <- lintr::lint_package(linters = linter_funs)
             cat("n lints:", length(lints), "\n")
+            print(lints) # emits ::warning file=...,line=...:: annotations (auto-detects GitHub Actions)
             lintr::sarif_output(lints, "lintr_results.sarif")
 
             if (length(lints) > 0) {
@@ -85,4 +86,6 @@ jobs:
 
       - name: Fail on lint findings
         if: steps.lint.outputs.has_findings == 'true'
-        run: exit 1
+        run: |
+          echo "Lint found issues - see the annotations above, the job summary, or the SARIF upload for details."
+          exit 1
