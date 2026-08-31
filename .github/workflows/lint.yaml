@@ -29,6 +29,7 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::lintr
+            cran::jsonlite
             github::datashield/dsDangerClient
 
       - name: Lint
@@ -43,7 +44,6 @@ jobs:
             cat("n lints:", length(lints), "\n")
             lintr::sarif_output(lints, "lintr_results.sarif")
           '
-        continue-on-error: true
 
       - name: Upload lint results
         uses: github/codeql-action/upload-sarif@v3
