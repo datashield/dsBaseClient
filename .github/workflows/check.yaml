@@ -22,6 +22,9 @@ jobs:
     name: Package checks (doc sync, R CMD check)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
+      checks: write
     steps:
       - uses: actions/checkout@v4
 
@@ -49,6 +52,7 @@ jobs:
           needs: check
 
       - name: Check manual updated
+        id: docsync
         run: |
           orig_sum=$(find man -type f | sort -u | xargs cat | md5sum)
           R -q -e "devtools::document()"
@@ -59,7 +63,38 @@ jobs:
           fi
 
       - name: Devtools checks
+        id: rcmdcheck
         if: always()
         run: |
           R -q -e "devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
           grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
+
+      - name: Publish check results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const docsync = '${{ steps.docsync.outcome }}';
+            const rcmdcheck = '${{ steps.rcmdcheck.outcome }}';
+            const ok = docsync === 'success' && rcmdcheck === 'success';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const summary = [
+              '| Check | Result |',
+              '|---|---|',
+              `| Doc sync (man/*.Rd vs R headers) | ${docsync === 'success' ? '✅ passed' : '❌ failed'} |`,
+              `| R CMD check (0 errors/warnings/notes) | ${rcmdcheck === 'success' ? '✅ passed' : '❌ failed'} |`,
+              '',
+              `[View full log](${runUrl})`
+            ].join('\n');
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Check results',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: ok ? 'success' : 'failure',
+              output: {
+                title: ok ? 'All checks passed' : 'Checks failed',
+                summary
+              }
+            });
