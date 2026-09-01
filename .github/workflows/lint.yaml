@@ -54,7 +54,12 @@ jobs:
         if: github.event_name == 'pull_request'
         id: changed
         run: |
-          patch=$(git diff --unified=0 "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
+          # Three-dot diff (against the merge-base) rather than two-dot: when
+          # the base branch has diverged and gained its own independent
+          # commits, a plain two-dot diff shows those too, not just what this
+          # PR actually added - matching what GitHub's own "Files changed"
+          # tab and Advanced Security baseline compare against.
+          patch=$(git diff --unified=0 "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
           echo "patch<<DIFF_PATCH_EOF" >> "$GITHUB_ENV"
           echo "$patch" >> "$GITHUB_ENV"
           echo "DIFF_PATCH_EOF" >> "$GITHUB_ENV"
