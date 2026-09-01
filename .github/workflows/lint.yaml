@@ -1,0 +1,148 @@
+name: Lint
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+# A new push to the same ref supersedes any run still in progress for it, so
+# we don't burn compute on stale commits.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: R lint (lintr)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mark pending
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:lint': `<tr><td>Code quality</td><td>⏳ pending</td></tr>`,
+              'log:lint': `_pending_`
+            }});
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          extra-packages: |
+            cran::lintr
+            cran::jsonlite
+
+      - name: Get PR diff
+        if: github.event_name == 'pull_request'
+        id: changed
+        run: |
+          # Three-dot diff (against the merge-base) rather than two-dot: when
+          # the base branch has diverged and gained its own independent
+          # commits, a plain two-dot diff shows those too, not just what this
+          # PR actually added - matching what GitHub's own "Files changed"
+          # tab and Advanced Security baseline compare against.
+          patch=$(git diff --unified=0 "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
+          echo "patch<<DIFF_PATCH_EOF" >> "$GITHUB_ENV"
+          echo "$patch" >> "$GITHUB_ENV"
+          echo "DIFF_PATCH_EOF" >> "$GITHUB_ENV"
+
+      - name: Lint
+        id: lint
+        env:
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          DIFF_PATCH: ${{ env.patch }}
+        run: |
+          Rscript -e '
+            al <- lintr::available_linters()
+            keep <- vapply(al$tags, function(t) any(t %in% c("correctness", "common_mistakes", "robustness")), logical(1))
+            sel <- al$linter[keep]
+            linter_funs <- lapply(sel, function(n) get(n, envir = asNamespace("lintr"))())
+            names(linter_funs) <- sel
+            lints <- lintr::lint_package(linters = linter_funs)
+            cat("n lints:", length(lints), "\n")
+            print(lints) # emits ::warning file=...,line=...:: annotations (auto-detects GitHub Actions)
+            lintr::sarif_output(lints, "lintr_results.sarif")
+
+            is_pr <- Sys.getenv("IS_PR") == "true"
+
+            # A finding only counts as "new" if the PR diff actually added or
+            # changed that exact line - matching a file merely being touched
+            # elsewhere (the old approach) blamed PRs for pre-existing issues
+            # anywhere in a file they only partly edited.
+            parse_added_lines <- function(patch) {
+              added <- new.env()
+              cur_file <- NULL
+              for (ln in strsplit(patch, "\n")[[1]]) {
+                if (startsWith(ln, "+++ ")) {
+                  path <- sub("^\\+\\+\\+ b/", "", ln)
+                  cur_file <- if (identical(path, "/dev/null")) NULL else path
+                } else if (!is.null(cur_file) && startsWith(ln, "@@")) {
+                  m <- regmatches(ln, regexpr("\\+[0-9]+(,[0-9]+)?", ln))
+                  if (length(m) == 1 && nzchar(m)) {
+                    parts <- strsplit(sub("^\\+", "", m), ",")[[1]]
+                    new_start <- as.integer(parts[1])
+                    new_count <- if (length(parts) > 1) as.integer(parts[2]) else 1L
+                    if (new_count > 0) {
+                      existing <- if (is.null(added[[cur_file]])) integer(0) else added[[cur_file]]
+                      added[[cur_file]] <- c(existing, seq(new_start, length.out = new_count))
+                    }
+                  }
+                }
+              }
+              added
+            }
+
+            added_lines <- if (is_pr) parse_added_lines(Sys.getenv("DIFF_PATCH")) else new.env()
+            is_new <- vapply(lints, function(l) {
+              lines <- added_lines[[l$filename]]
+              !is.null(lines) && l$line_number %in% lines
+            }, logical(1))
+            n_new <- sum(is_new)
+
+            cat(sprintf("n_new=%d\n", n_new), file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
+
+            if (n_new > 0) {
+              message(sprintf("Lint found %d issue(s) in files changed by this PR - see the annotations above or the SARIF upload for details.", n_new))
+            }
+            quit(save = "no", status = if (n_new > 0) 1 else 0)
+          '
+
+      - name: Upload lint results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: lintr_results.sarif
+
+      - name: Post PR comment
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const nNew = parseInt('${{ steps.lint.outputs.n_new }}' || '0', 10);
+            const ok = nNew === 0;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:lint': `<tr><td>Code quality</td><td>${ok ? '✅ 0 findings' : `❌ ${nNew} finding${nNew === 1 ? '' : 's'}`}</td></tr>`,
+              'log:lint': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Code quality</a>`
+            }});
