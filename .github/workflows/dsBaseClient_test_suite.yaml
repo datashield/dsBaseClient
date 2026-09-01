@@ -293,10 +293,13 @@ jobs:
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
 
-      - name: Print link to run summary
+      - name: Fail if any shard failed
         if: always()
         run: |
-          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ "${{ needs.opal-dsbase.result }}" != "success" ]; then
+            echo "One or more Opal dsbase/dsdanger matrix entries did not succeed - failing this report even though the merged JUnit results (from whichever shards did upload) may show 0 failures. A shard that never produced results must not look like a pass."
+            exit 1
+          fi
 
 
   ################################################################################
@@ -527,10 +530,13 @@ jobs:
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
 
-      - name: Print link to run summary
+      - name: Fail if any shard failed
         if: always()
         run: |
-          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ "${{ needs.armadillo-dsbase.result }}" != "success" ]; then
+            echo "One or more Armadillo dsbase/dsdanger matrix entries did not succeed - failing this report even though the merged JUnit results (from whichever shards did upload) may show 0 failures. A shard that never produced results must not look like a pass."
+            exit 1
+          fi
 
 
   ################################################################################
@@ -549,8 +555,11 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      actions: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
+
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: release
@@ -576,8 +585,11 @@ jobs:
           pattern: '*-dsbase-*'
           path: artifacts/shards
 
-      - name: Write combined job summary
+      - name: Compute test/coverage results
         id: summary
+        env:
+          OPAL_REPORT_RESULT: ${{ needs.opal-report.result }}
+          ARMADILLO_REPORT_RESULT: ${{ needs.armadillo-report.result }}
         run: |
           Rscript -e '
             find_version <- function(prefix) {
@@ -593,7 +605,7 @@ jobs:
               files[1]
             }
 
-            summarise_backend <- function(name, artifact_dir, version) {
+            summarise_backend <- function(artifact_dir) {
               doc <- xml2::read_xml(find_results_xml(artifact_dir))
               suites <- xml2::xml_find_all(doc, ".//testsuite")
               n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
@@ -601,59 +613,26 @@ jobs:
               n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
               n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
               n_pass     <- n_tests - n_failures - n_errors - n_skipped
-
-              failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-              ok <- length(failed) == 0
-
-              if (ok) {
-                fail_block <- character(0)
-                fail_list  <- "All tests passed."
-              } else {
-                msgs <- vapply(failed, function(tc) {
-                  node <- xml2::xml_find_first(tc, "failure|error")
-                  m <- xml2::xml_attr(node, "message")
-                  if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-                  m
-                }, character(1))
-                labels <- paste0(xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"))
-                fail_block <- unlist(lapply(seq_along(failed), function(i) {
-                  c(sprintf("-- Failure (%s) %s", labels[i], strrep("-", max(1, 60 - nchar(labels[i])))), msgs[i], "")
-                }))
-                fail_list <- paste0("- `", labels, "` - ", msgs)
-              }
-
-              tally <- sprintf("[ FAIL %d | WARN 0 | SKIP %d | PASS %d ]", n_failures + n_errors, n_skipped, n_pass)
-
               list(
-                block = c(
-                  sprintf("### %s %s %s", if (ok) "✅" else "❌", name, if (ok) "passed" else "failed"),
-                  "",
-                  sprintf("dsBase %s", version),
-                  "",
-                  "```",
-                  fail_block,
-                  tally,
-                  "```",
-                  "",
-                  "<details><summary>Failed tests</summary>",
-                  "",
-                  fail_list,
-                  "",
-                  "</details>"
-                ),
-                n_failures = n_failures,
-                n_errors = n_errors
+                ok = (n_failures + n_errors) == 0,
+                tally = sprintf("[ FAIL %d | WARN 0 | SKIP %d | PASS %d ]", n_failures + n_errors, n_skipped, n_pass)
               )
             }
 
-            armadillo <- summarise_backend("Armadillo", "artifacts/reports/armadillo-report-results", find_version("armadillo-dsbase"))
-            opal <- summarise_backend("Opal", "artifacts/reports/opal-report-results", find_version("opal-dsbase"))
-            tests_ok <- (armadillo$n_failures + armadillo$n_errors + opal$n_failures + opal$n_errors) == 0
+            armadillo <- summarise_backend("artifacts/reports/armadillo-report-results")
+            opal <- summarise_backend("artifacts/reports/opal-report-results")
 
-            # Coverage threshold here is informational only, for the status
-            # line below - actual enforcement lives in Codecovs own
-            # patch-coverage check (see codecov.yml), scoped to lines changed
-            # by the PR rather than the whole repo, so it does not gate this job.
+            # A report job fails hard (see its "Fail if any shard failed" step)
+            # if any matrix shard did not succeed, even if the shards that DID
+            # upload results show 0 failures - a shard that never reported must
+            # not look like a pass.
+            reports_ok <- Sys.getenv("OPAL_REPORT_RESULT") == "success" && Sys.getenv("ARMADILLO_REPORT_RESULT") == "success"
+            tests_ok <- armadillo$ok && opal$ok && reports_ok
+
+            # Coverage threshold here is informational only - actual
+            # enforcement lives in Codecovs own patch-coverage check (see
+            # codecov.yml), scoped to lines changed by the PR rather than the
+            # whole repo, so it does not gate this job.
             coverage_threshold <- 80
             rds_files <- list.files("artifacts/shards", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
             if (length(rds_files) > 0) {
@@ -661,35 +640,28 @@ jobs:
               agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
               totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
               coverage_ok <- totalcoverage >= coverage_threshold
+              coverage_text <- sprintf("%.1f%% vs %d%% target", totalcoverage, coverage_threshold)
             } else {
-              totalcoverage <- NA
               coverage_ok <- NA
+              coverage_text <- "no coverage data found"
             }
+            coverage_icon <- if (isTRUE(coverage_ok)) "✅" else if (isFALSE(coverage_ok)) "❌" else "❓"
 
-            status_icon <- function(ok) if (isTRUE(ok)) "✅" else if (isFALSE(ok)) "❌" else "❓"
-
-            cov_status_line <- if (is.na(coverage_ok)) {
-              sprintf("%s Coverage unknown: no coverage data found", status_icon(NA))
-            } else {
-              sprintf("%s Coverage %s: %.1f%% vs %d%% target (informational - see Codecov patch check for enforcement)",
-                status_icon(coverage_ok), if (coverage_ok) "passed" else "failed", totalcoverage, coverage_threshold)
-            }
-
-            codecov_url <- sprintf("https://app.codecov.io/gh/%s/commit/%s", Sys.getenv("GITHUB_REPOSITORY"), Sys.getenv("GITHUB_SHA"))
-
-            summary <- c(
-              "## dsBaseClient test suite results",
-              "",
-              cov_status_line,
-              sprintf("[View coverage report on Codecov](%s)", codecov_url),
-              "",
-              armadillo$block,
-              "",
-              opal$block
+            out <- Sys.getenv("GITHUB_OUTPUT")
+            cat(
+              sprintf("tests_ok=%s\n", tolower(tests_ok)),
+              sprintf("armadillo_ok=%s\n", tolower(armadillo$ok)),
+              sprintf("armadillo_tally=%s\n", armadillo$tally),
+              sprintf("armadillo_version=%s\n", find_version("armadillo-dsbase")),
+              sprintf("opal_ok=%s\n", tolower(opal$ok)),
+              sprintf("opal_tally=%s\n", opal$tally),
+              sprintf("opal_version=%s\n", find_version("opal-dsbase")),
+              sprintf("coverage_icon=%s\n", coverage_icon),
+              sprintf("coverage_text=%s\n", coverage_text),
+              file = out, append = TRUE, sep = ""
             )
-            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            if (!tests_ok) message("Tests failed - see the summary above for details.")
+            if (!tests_ok) message("Tests failed - see the PR comment for details.")
             quit(save = "no", status = if (tests_ok) 0 else 1)
           '
 
@@ -698,51 +670,35 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('fs');
-            const ok = '${{ steps.summary.outcome }}' === 'success';
-            const content = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf8');
+            const s = {
+              armadillo_ok: '${{ steps.summary.outputs.armadillo_ok }}' === 'true',
+              armadillo_tally: '${{ steps.summary.outputs.armadillo_tally }}',
+              armadillo_version: '${{ steps.summary.outputs.armadillo_version }}',
+              opal_ok: '${{ steps.summary.outputs.opal_ok }}' === 'true',
+              opal_tally: '${{ steps.summary.outputs.opal_tally }}',
+              opal_version: '${{ steps.summary.outputs.opal_version }}',
+              coverage_icon: '${{ steps.summary.outputs.coverage_icon }}',
+              coverage_text: '${{ steps.summary.outputs.coverage_text }}'
+            };
 
-            const branch = context.ref.replace('refs/heads/', '');
-            const prs = await github.rest.pulls.list({
-              owner: context.repo.owner, repo: context.repo.repo,
-              head: `${context.repo.owner}:${branch}`, state: 'open'
+            const codecovUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
+
+            const jobs = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId
             });
-            const prNumber = prs.data[0]?.number;
-            if (!prNumber) return;
-
-            // Shared summary comment: each workflow (check/lint/tests) owns one
-            // delimited section and only ever replaces its own, so they combine
-            // into a single comment regardless of which finishes first.
-            const topMarker = '<!-- dsbaseclient-ci:summary -->';
-            const sectionKey = 'tests';
-            const sectionBody = [
-              `<!-- section:${sectionKey} -->`,
-              `## ${ok ? '✅' : '❌'} Tests`,
-              '',
-              content,
-              `<!-- /section:${sectionKey} -->`
-            ].join('\n');
-
-            const comments = await github.rest.issues.listComments({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber
-            });
-            const existing = comments.data.find(c => c.body.includes(topMarker));
-            if (!existing) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber,
-                body: [topMarker, '', sectionBody].join('\n')
-              });
-            } else {
-              const sectionRegex = new RegExp(`<!-- section:${sectionKey} -->[\\s\\S]*?<!-- /section:${sectionKey} -->`);
-              const newBody = sectionRegex.test(existing.body)
-                ? existing.body.replace(sectionRegex, sectionBody)
-                : existing.body + '\n\n' + sectionBody;
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: newBody
-              });
+            function jobUrl(name) {
+              const j = jobs.data.jobs.find(j => j.name === name);
+              return j ? j.html_url : `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             }
 
-      - name: Print link to run summary
-        if: always()
-        run: |
-          echo "::notice title=Test summary::Job summaries only render on the run's own Summary page, not here - see ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>${s.armadillo_ok ? '✅' : '❌'} <code>${s.armadillo_tally}</code></td></tr>`,
+              'row:tests-opal': `<tr><td>Opal unit tests</td><td>${s.opal_ok ? '✅' : '❌'} <code>${s.opal_tally}</code></td></tr>`,
+              'row:coverage': `<tr><td>Test coverage</td><td>${s.coverage_icon} ${s.coverage_text} (informational)</td></tr>`,
+              'ver:armadillo': s.armadillo_version,
+              'ver:opal': s.opal_version,
+              'log:tests-armadillo': `[Armadillo unit tests](${jobUrl('Armadillo report')})`,
+              'log:tests-opal': `[Opal unit tests](${jobUrl('Opal report')})`,
+              'log:coverage': `[Codecov](${codecovUrl})`
+            }});

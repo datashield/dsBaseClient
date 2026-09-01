@@ -72,57 +72,14 @@ jobs:
 
             lint_files <- vapply(lints, function(l) l$filename, character(1))
             is_new <- if (is_pr) lint_files %in% changed_files else rep(FALSE, length(lints))
+            n_new <- sum(is_new)
 
-            format_findings <- function(idx) {
-              vapply(idx, function(i) {
-                l <- lints[[i]]
-                sprintf("- `%s:%d` %s - %s", basename(l$filename), l$line_number, l$linter, l$message)
-              }, character(1))
-            }
+            cat(sprintf("n_new=%d\n", n_new), file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
 
-            if (length(lints) == 0) {
-              summary <- c("## Lint results", "", "No findings.")
-            } else if (is_pr) {
-              new_idx <- which(is_new)
-              existing_idx <- which(!is_new)
-              summary <- c(
-                "## Lint results",
-                "",
-                sprintf("**%d findings in files changed by this PR** (fails the check)", length(new_idx)),
-                if (length(new_idx) > 0) format_findings(new_idx) else "None.",
-                "",
-                sprintf("<details><summary>%d pre-existing findings elsewhere in the repo (informational only)</summary>", length(existing_idx)),
-                "",
-                format_findings(existing_idx),
-                "",
-                "</details>"
-              )
-            } else {
-              linter_names <- vapply(lints, function(l) l$linter, character(1))
-              counts <- sort(table(linter_names), decreasing = TRUE)
-              count_rows <- paste0("| ", names(counts), " | ", as.integer(counts), " |")
-              summary <- c(
-                "## Lint results",
-                "",
-                sprintf("**%d findings** (correctness/robustness/common_mistakes linters, informational only outside PRs)", length(lints)),
-                "",
-                "| Linter | Count |",
-                "|---|---|",
-                count_rows,
-                "",
-                "<details><summary>All findings</summary>",
-                "",
-                format_findings(seq_along(lints)),
-                "",
-                "</details>"
-              )
+            if (n_new > 0) {
+              message(sprintf("Lint found %d issue(s) in files changed by this PR - see the annotations above or the SARIF upload for details.", n_new))
             }
-            writeLines(summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
-
-            if (any(is_new)) {
-              message("Lint found issues in files changed by this PR - see the annotations above, the job summary, or the SARIF upload for details.")
-            }
-            quit(save = "no", status = if (any(is_new)) 1 else 0)
+            quit(save = "no", status = if (n_new > 0) 1 else 0)
           '
 
       - name: Upload lint results
@@ -136,39 +93,12 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('fs');
-            const ok = '${{ steps.lint.outcome }}' === 'success';
-            const content = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf8');
-            const prNumber = context.payload.pull_request.number;
+            const nNew = parseInt('${{ steps.lint.outputs.n_new }}' || '0', 10);
+            const ok = nNew === 0;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
 
-            // Shared summary comment: each workflow (check/lint/tests) owns one
-            // delimited section and only ever replaces its own, so they combine
-            // into a single comment regardless of which finishes first.
-            const topMarker = '<!-- dsbaseclient-ci:summary -->';
-            const sectionKey = 'lint';
-            const sectionBody = [
-              `<!-- section:${sectionKey} -->`,
-              `## ${ok ? '✅' : '❌'} Lint`,
-              '',
-              content,
-              `<!-- /section:${sectionKey} -->`
-            ].join('\n');
-
-            const comments = await github.rest.issues.listComments({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber
-            });
-            const existing = comments.data.find(c => c.body.includes(topMarker));
-            if (!existing) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber,
-                body: [topMarker, '', sectionBody].join('\n')
-              });
-            } else {
-              const sectionRegex = new RegExp(`<!-- section:${sectionKey} -->[\\s\\S]*?<!-- /section:${sectionKey} -->`);
-              const newBody = sectionRegex.test(existing.body)
-                ? existing.body.replace(sectionRegex, sectionBody)
-                : existing.body + '\n\n' + sectionBody;
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: newBody
-              });
-            }
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:lint': `<tr><td>Code quality</td><td>${ok ? '✅ 0 findings' : `❌ ${nNew} finding${nNew === 1 ? '' : 's'}`}</td></tr>`,
+              'log:lint': `[Code quality](${runUrl})`
+            }});
