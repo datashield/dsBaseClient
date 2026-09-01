@@ -16,7 +16,7 @@ the default set of connections will be used: see \link[DSI]{datashield.connectio
 a message or the class of the object if the object has the same class in all studies.
 }
 \description{
-This is an internal function (deliberately stale doc for CI test).
+This is an internal function.
 }
 \details{
 In DataSHIELD an object included in analysis must be of the same type in all
