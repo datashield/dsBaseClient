@@ -138,25 +138,37 @@ jobs:
           script: |
             const fs = require('fs');
             const ok = '${{ steps.lint.outcome }}' === 'success';
-            const marker = '<!-- dsbaseclient-ci:lint -->';
-            const body = [
-              marker,
+            const content = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf8');
+            const prNumber = context.payload.pull_request.number;
+
+            // Shared summary comment: each workflow (check/lint/tests) owns one
+            // delimited section and only ever replaces its own, so they combine
+            // into a single comment regardless of which finishes first.
+            const topMarker = '<!-- dsbaseclient-ci:summary -->';
+            const sectionKey = 'lint';
+            const sectionBody = [
+              `<!-- section:${sectionKey} -->`,
               `## ${ok ? '✅' : '❌'} Lint`,
               '',
-              fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf8')
+              content,
+              `<!-- /section:${sectionKey} -->`
             ].join('\n');
 
-            const prNumber = context.payload.pull_request.number;
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber
             });
-            const existing = comments.data.find(c => c.body.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body
+            const existing = comments.data.find(c => c.body.includes(topMarker));
+            if (!existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber,
+                body: [topMarker, '', sectionBody].join('\n')
               });
             } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: prNumber, body
+              const sectionRegex = new RegExp(`<!-- section:${sectionKey} -->[\\s\\S]*?<!-- /section:${sectionKey} -->`);
+              const newBody = sectionRegex.test(existing.body)
+                ? existing.body.replace(sectionRegex, sectionBody)
+                : existing.body + '\n\n' + sectionBody;
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: newBody
               });
             }
