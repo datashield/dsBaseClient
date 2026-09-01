@@ -28,6 +28,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Mark pending
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:lint': `<tr><td>Code quality</td><td>⏳ pending</td></tr>`
+            }});
+
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: release
