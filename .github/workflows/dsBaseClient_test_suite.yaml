@@ -143,6 +143,12 @@ jobs:
         with:
           path: dsBaseClient
 
+      - name: TEMP - induce a hard shard failure for CI test plan
+        if: matrix.category == 'arg'
+        run: |
+          echo "Deliberately failing this shard (not a testthat failure) to verify opal-report's hard-fail guard."
+          exit 1
+
       - uses: ./dsBaseClient/.github/actions/setup-opal-with-dsbase
 
       - name: Install dsDangerClient

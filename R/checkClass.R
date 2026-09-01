@@ -12,6 +12,7 @@
 #'
 checkClass <- function(datasources=NULL, obj=NULL){
   # check the class of the input object
+  verbose <- T
   cally <- call("classDS", obj)
   classesBy <- DSI::datashield.aggregate(datasources, cally)
   classes <- unique(unlist(classesBy))
