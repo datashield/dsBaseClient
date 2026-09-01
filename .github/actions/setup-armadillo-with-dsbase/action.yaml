@@ -1,0 +1,199 @@
+name: Setup Armadillo with dsBase
+description: >
+  Starts a fresh Armadillo instance (self-managed Rock container), installs R
+  and system dependencies, waits for readiness, uploads test datasets, and
+  installs dsBase. Assumes the caller has already checked out dsBaseClient at
+  ./dsBaseClient. Shared by the Armadillo dsbase shard workflow and the
+  Armadillo dsdanger job, so this setup only needs fixing in one place.
+
+inputs:
+  dsbase-tarball:
+    description: dsBase tarball filename to install
+    required: false
+    default: dsBase_7.0.0-permissive.tar.gz
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '21'
+
+    - name: Download and start Armadillo (jar)
+      shell: bash
+      run: |
+        mkdir -p armadillo_home/config armadillo_home/storage armadillo_home/logs
+
+        cat > armadillo_home/config/application.yml <<EOF
+        armadillo:
+          docker-management-enabled: true
+          docker-run-in-container: false
+          profiles:
+            - name: default
+              image: datashield/rock_citest-permissive:latest
+              port: 8085
+              package-whitelist:
+                - dsBase
+                - dsTidyverse
+                - resourcer
+              function-blacklist: [ ]
+              options:
+                datashield:
+                  seed: 342325352
+        spring:
+          security:
+            user:
+              name: admin
+              password: admin
+          servlet:
+            multipart:
+              max-file-size: 1000MB
+              max-request-size: 1000MB
+        storage:
+          root-dir: $(pwd)/armadillo_home/storage
+        audit.log.path: '$(pwd)/armadillo_home/logs/audit.log'
+        stdout.log.path: '$(pwd)/armadillo_home/logs/armadillo.log'
+        logging:
+          level:
+            root: "warn"
+            org.molgenis: "warn"
+        EOF
+
+        release_json=$(curl -sf -H "Authorization: Bearer ${{ github.token }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ github.token }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
+        jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
+        echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
+        curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
+
+        JAVA_TOOL_OPTIONS="-Xms1G -Xmx2G -XX:+UseG1GC" \
+          nohup java -jar armadillo_home/armadillo.jar \
+            --server.port=8080 \
+            --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
+            > armadillo_home/logs/stdout.log 2>&1 &
+        echo $! > armadillo_home/armadillo.pid
+        docker pull datashield/rock_citest-permissive:latest
+      working-directory: dsBaseClient
+
+    - name: Uninstall default MySQL
+      shell: bash
+      run: |
+        sudo service mysql stop || true
+        sudo apt-get update
+        sudo apt-get remove --purge mysql-client mysql-server mysql-common -y
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean -y
+        sudo rm -rf /var/lib/mysql/
+
+    - uses: r-lib/actions/setup-pandoc@v2
+
+    - uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: release
+        http-user-agent: release
+        use-public-rspm: true
+
+    - name: Install system libraries
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
+        sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
+
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        working-directory: dsBaseClient
+        dependencies: 'c("Depends", "Imports", "LinkingTo")'
+        extra-packages: |
+          cran::devtools
+          cran::covr
+          cran::fields
+          cran::meta
+          cran::metafor
+          cran::ggplot2
+          cran::gridExtra
+          cran::data.table
+          cran::DSI
+          cran::opalr
+          cran::DSOpal
+          cran::DSLite
+          cran::MolgenisAuth
+          cran::MolgenisArmadillo
+          cran::DSMolgenisArmadillo
+          cran::DescTools
+          cran::e1071
+          github::datashield/dsDangerClient
+        needs: check
+
+    - name: Wait for Armadillo to be ready
+      shell: bash
+      run: |
+        for i in $(seq 1 60); do
+          if curl -fsS http://localhost:8080/actuator/health 2>/dev/null | grep -q '"status":"UP"'; then
+            echo "Armadillo is ready"
+            exit 0
+          fi
+          sleep 5
+        done
+        echo "Armadillo did not become ready in time"
+        cat armadillo_home/logs/stdout.log || true
+        exit 1
+      working-directory: dsBaseClient
+
+    - name: Install test datasets to Armadillo
+      shell: bash
+      run: R -q -f "molgenis_armadillo-upload_testing_datasets.R"
+      working-directory: dsBaseClient/tests/testthat/data_files
+
+    - name: Install dsBase to Armadillo
+      shell: bash
+      run: |
+        curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
+
+        profile_status=""
+        for i in $(seq 1 30); do
+          profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
+          [ "$profile_status" == "RUNNING" ] && break
+          sleep 10
+        done
+        if [ "$profile_status" != "RUNNING" ]; then
+          echo "default profile container did not become RUNNING in time (status: $profile_status)"
+          exit 1
+        fi
+
+        install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ inputs.dsbase-tarball }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
+        if [ "$install_status" != "200" ]; then
+          echo "dsBase install request failed with HTTP status $install_status"
+          exit 1
+        fi
+
+        expected_version=$(tar -xOzf ${{ inputs.dsbase-tarball }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
+        if [ -z "$expected_version" ]; then
+          echo "Could not determine expected dsBase version from ${{ inputs.dsbase-tarball }}"
+          exit 1
+        fi
+        echo "Expected dsBase version: $expected_version"
+
+        actual_version=""
+        for i in $(seq 1 30); do
+          packages_json=$(curl -sf -u admin:admin -X GET http://localhost:8080/packages || true)
+          actual_version=$(echo "$packages_json" | jq -r '.[] | select(.name == "dsBase") | .version' 2>/dev/null || true)
+          if [ "$actual_version" == "$expected_version" ]; then
+            break
+          fi
+          sleep 10
+        done
+        echo "Installed dsBase version: $actual_version"
+        if [ "$actual_version" != "$expected_version" ]; then
+          echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
+          exit 1
+        fi
+        echo "$actual_version" > dsbase_version.txt
+
+        curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+      working-directory: dsBaseClient
+
+    - name: Dump Armadillo server log
+      if: failure()
+      shell: bash
+      run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u || true
+      working-directory: dsBaseClient
