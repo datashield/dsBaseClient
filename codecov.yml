@@ -1,0 +1,15 @@
+coverage:
+  status:
+    # Whole-repo coverage trend - informational only, never fails a PR. The
+    # combined figure is still shown in the GitHub Actions job summary
+    # (test-summary job) alongside a link to the full Codecov report.
+    project:
+      default:
+        target: auto
+        informational: true
+    # Coverage of lines actually changed by the PR - this is the enforced
+    # gate, so new/changed code is held to a bar without blocking on the
+    # pre-existing coverage backlog elsewhere in the repo.
+    patch:
+      default:
+        target: 80%
