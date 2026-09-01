@@ -12,10 +12,6 @@ const SKELETON = [
   TOP_MARKER,
   '<!-- headline -->⏳ Running checks...<!-- /headline -->',
   '',
-  'Tested against dsBase versions:',
-  'Armadillo: <!-- ver:armadillo -->_pending_<!-- /ver:armadillo -->',
-  'Opal: <!-- ver:opal -->_pending_<!-- /ver:opal -->',
-  '',
   '<table>',
   '<thead><tr><th>Check</th><th>Result</th></tr></thead>',
   '<tbody>',
@@ -26,6 +22,10 @@ const SKELETON = [
   '<!-- row:coverage --><tr><td>Test coverage</td><td>⏳ pending</td></tr><!-- /row:coverage -->',
   '</tbody>',
   '</table>',
+  '',
+  'Tested against dsBase versions:',
+  'Armadillo: <!-- ver:armadillo -->_pending_<!-- /ver:armadillo -->',
+  'Opal: <!-- ver:opal -->_pending_<!-- /ver:opal -->',
   '',
   'Logs: <!-- log:check -->_pending_<!-- /log:check --> &middot; <!-- log:lint -->_pending_<!-- /log:lint --> &middot; <!-- log:tests-armadillo -->_pending_<!-- /log:tests-armadillo --> &middot; <!-- log:tests-opal -->_pending_<!-- /log:tests-opal --> &middot; <!-- log:coverage -->_pending_<!-- /log:coverage -->'
 ].join('\n');
