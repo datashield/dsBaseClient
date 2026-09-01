@@ -40,20 +40,20 @@ jobs:
             cran::lintr
             cran::jsonlite
 
-      - name: Get PR changed files
+      - name: Get PR diff
         if: github.event_name == 'pull_request'
         id: changed
         run: |
-          files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
-          echo "files<<CHANGED_FILES_EOF" >> "$GITHUB_ENV"
-          echo "$files" >> "$GITHUB_ENV"
-          echo "CHANGED_FILES_EOF" >> "$GITHUB_ENV"
+          patch=$(git diff --unified=0 "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
+          echo "patch<<DIFF_PATCH_EOF" >> "$GITHUB_ENV"
+          echo "$patch" >> "$GITHUB_ENV"
+          echo "DIFF_PATCH_EOF" >> "$GITHUB_ENV"
 
       - name: Lint
         id: lint
         env:
           IS_PR: ${{ github.event_name == 'pull_request' }}
-          CHANGED_FILES: ${{ env.files }}
+          DIFF_PATCH: ${{ env.patch }}
         run: |
           Rscript -e '
             al <- lintr::available_linters()
@@ -67,11 +67,39 @@ jobs:
             lintr::sarif_output(lints, "lintr_results.sarif")
 
             is_pr <- Sys.getenv("IS_PR") == "true"
-            changed_files <- strsplit(Sys.getenv("CHANGED_FILES"), "\n")[[1]]
-            changed_files <- changed_files[nzchar(changed_files)]
 
-            lint_files <- vapply(lints, function(l) l$filename, character(1))
-            is_new <- if (is_pr) lint_files %in% changed_files else rep(FALSE, length(lints))
+            # A finding only counts as "new" if the PR diff actually added or
+            # changed that exact line - matching a file merely being touched
+            # elsewhere (the old approach) blamed PRs for pre-existing issues
+            # anywhere in a file they only partly edited.
+            parse_added_lines <- function(patch) {
+              added <- new.env()
+              cur_file <- NULL
+              for (ln in strsplit(patch, "\n")[[1]]) {
+                if (startsWith(ln, "+++ ")) {
+                  path <- sub("^\\+\\+\\+ b/", "", ln)
+                  cur_file <- if (identical(path, "/dev/null")) NULL else path
+                } else if (!is.null(cur_file) && startsWith(ln, "@@")) {
+                  m <- regmatches(ln, regexpr("\\+[0-9]+(,[0-9]+)?", ln))
+                  if (length(m) == 1 && nzchar(m)) {
+                    parts <- strsplit(sub("^\\+", "", m), ",")[[1]]
+                    new_start <- as.integer(parts[1])
+                    new_count <- if (length(parts) > 1) as.integer(parts[2]) else 1L
+                    if (new_count > 0) {
+                      existing <- if (is.null(added[[cur_file]])) integer(0) else added[[cur_file]]
+                      added[[cur_file]] <- c(existing, seq(new_start, length.out = new_count))
+                    }
+                  }
+                }
+              }
+              added
+            }
+
+            added_lines <- if (is_pr) parse_added_lines(Sys.getenv("DIFF_PATCH")) else new.env()
+            is_new <- vapply(lints, function(l) {
+              lines <- added_lines[[l$filename]]
+              !is.null(lines) && l$line_number %in% lines
+            }, logical(1))
             n_new <- sum(is_new)
 
             cat(sprintf("n_new=%d\n", n_new), file = Sys.getenv("GITHUB_OUTPUT"), append = TRUE)
