@@ -100,5 +100,5 @@ jobs:
             const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
               'row:lint': `<tr><td>Code quality</td><td>${ok ? '✅ 0 findings' : `❌ ${nNew} finding${nNew === 1 ? '' : 's'}`}</td></tr>`,
-              'log:lint': `[Code quality](${runUrl})`
+              'log:lint': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Code quality</a>`
             }});

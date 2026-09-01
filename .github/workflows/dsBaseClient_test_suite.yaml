@@ -352,7 +352,7 @@ jobs:
             await postCiComment({ github, context, updates: {
               'row:tests-opal': `<tr><td>Opal unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
               'ver:opal': version,
-              'log:tests-opal': `[Opal unit tests](${runUrl})`
+              'log:tests-opal': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Opal unit tests</a>`
             }});
 
 
@@ -681,7 +681,7 @@ jobs:
               'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
               'row:coverage': `<tr><td>Test coverage</td><td>${coverageIcon} ${coverageText}</td></tr>`,
               'ver:armadillo': version,
-              'log:tests-armadillo': `[Armadillo unit tests](${runUrl})`,
-              'log:coverage': `[Codecov](${codecovUrl})`
+              'log:tests-armadillo': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Armadillo unit tests</a>`,
+              'log:coverage': `<a href="${codecovUrl}" target="_blank" rel="noopener noreferrer">Codecov</a>`
             }});
 
