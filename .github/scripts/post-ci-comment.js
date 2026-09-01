@@ -36,6 +36,23 @@ function replaceMarker(body, key, content) {
   return re.test(body) ? body.replace(re, replacement) : body;
 }
 
+// Pulls every marker's current value out of an existing comment body, so it
+// can be replayed onto a fresh SKELETON. Without this, static/label text in
+// SKELETON (e.g. the "Tested against `dsBase` versions:" line) would be
+// frozen forever at whatever it was when the comment was first created,
+// since only the marked regions - never the surrounding template - would
+// ever get refreshed.
+function extractMarkers(body) {
+  const markers = {};
+  const re = /<!-- ([\w:-]+) -->([\s\S]*?)<!-- \/\1 -->/g;
+  let m;
+  while ((m = re.exec(body))) {
+    if (m[1] === 'headline') continue; // recomputed fresh below
+    markers[m[1]] = m[2];
+  }
+  return markers;
+}
+
 function computeHeadline(body) {
   let pass = 0, fail = 0, pending = 0;
   for (const key of ROW_KEYS) {
@@ -78,12 +95,18 @@ module.exports = async function postCiComment({ github, context, updates }) {
     });
     const existing = comments.data.find(c => c.body.includes(TOP_MARKER));
 
-    // A comment from before this skeleton's format changed won't contain our
-    // current markers - patching it would silently no-op every replace below.
-    // Reset it to a fresh skeleton (still updating the same comment in place,
-    // not creating a new one) rather than leaving stale content untouched.
-    const isCompatible = existing && ROW_KEYS.some(key => existing.body.includes(`<!-- ${key} -->`));
-    let body = isCompatible ? existing.body : SKELETON;
+    // Always rebuild onto a fresh SKELETON rather than reusing existing.body
+    // wholesale, so template wording changes (not just marker content) reach
+    // comments created under an older version of this script. A comment from
+    // before the marker format changed won't have any recognisable markers
+    // to carry forward, which is fine - it just starts from a clean skeleton.
+    let body = SKELETON;
+    if (existing) {
+      const carried = extractMarkers(existing.body);
+      for (const [key, content] of Object.entries(carried)) {
+        body = replaceMarker(body, key, content);
+      }
+    }
     for (const [key, content] of Object.entries(updates)) {
       body = replaceMarker(body, key, content);
     }
