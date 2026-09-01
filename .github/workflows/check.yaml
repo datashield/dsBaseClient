@@ -1,0 +1,93 @@
+name: Check
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'   # Weekly
+    - cron: '0 1 * * *'   # Nightly
+
+# A new push to the same ref supersedes any run still in progress for it, so
+# we don't burn compute on stale commits. Scoped by event_name too, so a
+# schedule/workflow_dispatch run is never auto-cancelled by an unrelated push.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Package checks (doc sync, R CMD check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mark pending
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:check': `<tr><td>Devtools checks</td><td>⏳ pending</td></tr>`,
+              'log:check': `_pending_`
+            }});
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          http-user-agent: release
+          use-public-rspm: true
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev -y
+          sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          extra-packages: |
+            any::rcmdcheck
+            cran::devtools
+          needs: check
+
+      - name: Check manual updated
+        id: docsync
+        run: |
+          orig_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          R -q -e "devtools::document()"
+          new_sum=$(find man -type f | sort -u | xargs cat | md5sum)
+          if [ "$orig_sum" != "$new_sum" ]; then
+            echo "Your committed man/*.Rd files are out of sync with the R headers."
+            exit 1
+          fi
+
+      - name: Devtools checks
+        id: rcmdcheck
+        if: always()
+        run: |
+          R -q -e "devtools::check(args = c('--no-examples', '--no-tests'))" | tee azure-pipelines_check.Rout
+          grep --quiet "^0 errors" azure-pipelines_check.Rout && grep --quiet " 0 warnings" azure-pipelines_check.Rout && grep --quiet " 0 notes" azure-pipelines_check.Rout
+
+      - name: Post PR comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ok = '${{ steps.docsync.outcome }}' === 'success' && '${{ steps.rcmdcheck.outcome }}' === 'success';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
+            await postCiComment({ github, context, updates: {
+              'row:check': `<tr><td>Devtools checks</td><td>${ok ? '✅ passed' : '❌ failed'}</td></tr>`,
+              'log:check': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Devtools checks</a>`
+            }});
