@@ -328,13 +328,9 @@ jobs:
             const ok = '${{ steps.results.outputs.ok }}' === 'true';
             const tally = '${{ steps.results.outputs.tally }}' || 'error - see log';
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
 
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
-            const prNumber = await postCiComment.resolvePrNumber({ github, context });
-            const runUrl = prNumber
-              ? `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}/checks`
-              : `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-
             await postCiComment({ github, context, updates: {
               'row:tests-opal': `<tr><td>Opal unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
               'ver:opal': version,
@@ -641,14 +637,10 @@ jobs:
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
             const coverageIcon = '${{ steps.results.outputs.coverage_icon }}' || '❓';
             const coverageText = '${{ steps.results.outputs.coverage_text }}' || 'error - see log';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const codecovUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
 
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
-            const prNumber = await postCiComment.resolvePrNumber({ github, context });
-            const runUrl = prNumber
-              ? `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}/checks`
-              : `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-
             await postCiComment({ github, context, updates: {
               'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
               'row:coverage': `<tr><td>Test coverage</td><td>${coverageIcon} ${coverageText}</td></tr>`,

@@ -95,13 +95,9 @@ jobs:
           script: |
             const nNew = parseInt('${{ steps.lint.outputs.n_new }}' || '0', 10);
             const ok = nNew === 0;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
 
             const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
-            const prNumber = await postCiComment.resolvePrNumber({ github, context });
-            const runUrl = prNumber
-              ? `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}/checks`
-              : `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-
             await postCiComment({ github, context, updates: {
               'row:lint': `<tr><td>Code quality</td><td>${ok ? '✅ 0 findings' : `❌ ${nNew} finding${nNew === 1 ? '' : 's'}`}</td></tr>`,
               'log:lint': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Code quality</a>`
