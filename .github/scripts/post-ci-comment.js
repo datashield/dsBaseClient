@@ -68,7 +68,12 @@ module.exports = async function postCiComment({ github, context, updates }) {
   });
   const existing = comments.data.find(c => c.body.includes(TOP_MARKER));
 
-  let body = existing ? existing.body : SKELETON;
+  // A comment from before this skeleton's format changed won't contain our
+  // current markers - patching it would silently no-op every replace below.
+  // Reset it to a fresh skeleton (still updating the same comment in place,
+  // not creating a new one) rather than leaving stale content untouched.
+  const isCompatible = existing && ROW_KEYS.some(key => existing.body.includes(`<!-- ${key} -->`));
+  let body = isCompatible ? existing.body : SKELETON;
   for (const [key, content] of Object.entries(updates)) {
     body = replaceMarker(body, key, content);
   }
