@@ -54,7 +54,11 @@ function computeHeadline(body) {
 const MAX_ATTEMPTS = 3;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-module.exports = async function postCiComment({ github, context, updates }) {
+// Push-triggered runs have no pull_request payload, so the PR has to be
+// looked up by branch instead. Exported so callers can also use it to build
+// PR-scoped links (e.g. the Checks tab) - a plain actions/runs/{id} link has
+// no PR association and its back-navigation doesn't return to the PR.
+async function resolvePrNumber({ github, context }) {
   let prNumber = context.payload.pull_request?.number;
   if (!prNumber) {
     const branch = context.ref.replace('refs/heads/', '');
@@ -64,6 +68,11 @@ module.exports = async function postCiComment({ github, context, updates }) {
     });
     prNumber = prs.data[0]?.number;
   }
+  return prNumber;
+}
+
+module.exports = async function postCiComment({ github, context, updates }) {
+  const prNumber = await resolvePrNumber({ github, context });
   if (!prNumber) return;
 
   // Two workflows (e.g. opal-report/armadillo-report) can finish within
@@ -112,3 +121,5 @@ module.exports = async function postCiComment({ github, context, updates }) {
     if (attempt < MAX_ATTEMPTS) await sleep(1000 * attempt);
   }
 };
+
+module.exports.resolvePrNumber = resolvePrNumber;
