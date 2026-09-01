@@ -35,7 +35,8 @@ jobs:
           script: |
             const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
-              'row:lint': `<tr><td>Code quality</td><td>⏳ pending</td></tr>`
+              'row:lint': `<tr><td>Code quality</td><td>⏳ pending</td></tr>`,
+              'log:lint': `_pending_`
             }});
 
       - uses: r-lib/actions/setup-r@v2

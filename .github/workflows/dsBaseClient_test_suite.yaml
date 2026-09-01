@@ -118,7 +118,12 @@ jobs:
             await postCiComment({ github, context, updates: {
               'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>⏳ pending</td></tr>`,
               'row:tests-opal': `<tr><td>Opal unit tests</td><td>⏳ pending</td></tr>`,
-              'row:coverage': `<tr><td>Test coverage</td><td>⏳ pending</td></tr>`
+              'row:coverage': `<tr><td>Test coverage</td><td>⏳ pending</td></tr>`,
+              'ver:armadillo': `_pending_`,
+              'ver:opal': `_pending_`,
+              'log:tests-armadillo': `_pending_`,
+              'log:tests-opal': `_pending_`,
+              'log:coverage': `_pending_`
             }});
 
   ################################################################################
@@ -360,7 +365,7 @@ jobs:
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
               'row:tests-opal': `<tr><td>Opal unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
-              'ver:opal': version,
+              'ver:opal': `\`${version}\``,
               'log:tests-opal': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Opal unit tests</a>`
             }});
 
@@ -671,7 +676,7 @@ jobs:
             await postCiComment({ github, context, updates: {
               'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
               'row:coverage': `<tr><td>Test coverage</td><td>${coverageIcon} ${coverageText}</td></tr>`,
-              'ver:armadillo': version,
+              'ver:armadillo': `\`${version}\``,
               'log:tests-armadillo': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Armadillo unit tests</a>`,
               'log:coverage': `<a href="${codecovUrl}" target="_blank" rel="noopener noreferrer">Codecov</a>`
             }});

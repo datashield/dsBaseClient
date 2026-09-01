@@ -34,7 +34,8 @@ jobs:
           script: |
             const postCiComment = require('${{ github.workspace }}/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
-              'row:check': `<tr><td>Devtools checks</td><td>⏳ pending</td></tr>`
+              'row:check': `<tr><td>Devtools checks</td><td>⏳ pending</td></tr>`,
+              'log:check': `_pending_`
             }});
 
       - uses: r-lib/actions/setup-pandoc@v2

@@ -23,7 +23,7 @@ const SKELETON = [
   '</tbody>',
   '</table>',
   '',
-  'Tested against dsBase versions:',
+  'Tested against `dsBase` versions:',
   'Armadillo: <!-- ver:armadillo -->_pending_<!-- /ver:armadillo -->',
   'Opal: <!-- ver:opal -->_pending_<!-- /ver:opal -->',
   '',
