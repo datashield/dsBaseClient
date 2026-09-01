@@ -48,7 +48,6 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             cran::devtools
-            cran::usethis
           needs: check
 
       - name: Check manual updated

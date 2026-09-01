@@ -250,7 +250,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: dsBaseClient
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          packages: 'any::sessioninfo'
           extra-packages: |
             cran::xml2
 
@@ -290,45 +290,23 @@ jobs:
           OPAL_DSBASE_RESULT: ${{ needs.opal-dsbase.result }}
         run: |
           Rscript -e '
-            doc <- xml2::read_xml("logs/test_results.xml")
-            suites <- xml2::xml_find_all(doc, ".//testsuite")
-            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
-            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
-            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
-            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
-            n_pass     <- n_tests - n_failures - n_errors - n_skipped
-            tally <- sprintf("[ FAIL %d | WARN 0 | SKIP %d | PASS %d ]", n_failures + n_errors, n_skipped, n_pass)
+            source(".github/scripts/summarise-junit.R")
+            res <- summarise_junit("logs/test_results.xml", "Opal")
+            writeLines(res$summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-            fail_block <- character(0)
-            if (length(failed) > 0) {
-              msgs <- vapply(failed, function(tc) {
-                node <- xml2::xml_find_first(tc, "failure|error")
-                m <- xml2::xml_attr(node, "message")
-                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-                m
-              }, character(1))
-              labels <- paste0(xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"))
-              fail_block <- unlist(lapply(seq_along(failed), function(i) {
-                c(sprintf("-- Failure (%s) %s", labels[i], strrep("-", max(1, 60 - nchar(labels[i])))), msgs[i], "")
-              }))
-            }
-            writeLines(c("## Opal unit tests", "", "```", fail_block, tally, "```"), Sys.getenv("GITHUB_STEP_SUMMARY"))
-
-            version_files <- list.files("artifacts", pattern = "dsbase_version\\.txt$", recursive = TRUE, full.names = TRUE)
-            version <- if (length(version_files) > 0) trimws(readLines(version_files[1], warn = FALSE)[1]) else "unknown"
+            version <- find_dsbase_version("artifacts")
 
             # needs.opal-dsbase.result is "failure" if ANY matrix shard did not
             # succeed (even if the shards that DID upload results show 0
             # failures) - a shard that never reported must not look like a pass.
             shard_ok <- Sys.getenv("OPAL_DSBASE_RESULT") == "success"
-            ok <- (n_failures + n_errors) == 0 && shard_ok
+            ok <- res$ok && shard_ok
             if (!shard_ok) message("One or more Opal dsbase/dsdanger matrix entries did not succeed.")
 
             out <- Sys.getenv("GITHUB_OUTPUT")
             cat(
               sprintf("ok=%s\n", tolower(ok)),
-              sprintf("tally=%s\n", tally),
+              sprintf("tally=%s\n", res$tally),
               sprintf("version=%s\n", version),
               file = out, append = TRUE, sep = ""
             )
@@ -553,7 +531,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: dsBaseClient
-          dependencies: 'c("Depends", "Imports", "LinkingTo")'
+          packages: 'any::sessioninfo'
           extra-packages: |
             cran::xml2
             cran::covr
@@ -594,33 +572,11 @@ jobs:
           ARMADILLO_DSBASE_RESULT: ${{ needs.armadillo-dsbase.result }}
         run: |
           Rscript -e '
-            doc <- xml2::read_xml("logs/test_results.xml")
-            suites <- xml2::xml_find_all(doc, ".//testsuite")
-            n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
-            n_failures <- sum(as.integer(xml2::xml_attr(suites, "failures")), na.rm = TRUE)
-            n_errors   <- sum(as.integer(xml2::xml_attr(suites, "errors")), na.rm = TRUE)
-            n_skipped  <- sum(as.integer(xml2::xml_attr(suites, "skipped")), na.rm = TRUE)
-            n_pass     <- n_tests - n_failures - n_errors - n_skipped
-            tally <- sprintf("[ FAIL %d | WARN 0 | SKIP %d | PASS %d ]", n_failures + n_errors, n_skipped, n_pass)
+            source(".github/scripts/summarise-junit.R")
+            res <- summarise_junit("logs/test_results.xml", "Armadillo")
+            writeLines(res$summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
-            failed <- xml2::xml_find_all(doc, ".//testcase[failure or error]")
-            fail_block <- character(0)
-            if (length(failed) > 0) {
-              msgs <- vapply(failed, function(tc) {
-                node <- xml2::xml_find_first(tc, "failure|error")
-                m <- xml2::xml_attr(node, "message")
-                if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-                m
-              }, character(1))
-              labels <- paste0(xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"))
-              fail_block <- unlist(lapply(seq_along(failed), function(i) {
-                c(sprintf("-- Failure (%s) %s", labels[i], strrep("-", max(1, 60 - nchar(labels[i])))), msgs[i], "")
-              }))
-            }
-            writeLines(c("## Armadillo unit tests", "", "```", fail_block, tally, "```"), Sys.getenv("GITHUB_STEP_SUMMARY"))
-
-            version_files <- list.files("artifacts", pattern = "dsbase_version\\.txt$", recursive = TRUE, full.names = TRUE)
-            version <- if (length(version_files) > 0) trimws(readLines(version_files[1], warn = FALSE)[1]) else "unknown"
+            version <- find_dsbase_version("artifacts")
 
             # Coverage is only computed here (not for Opal): dsBaseClients own
             # R/ source never branches on backend (verified - the only
@@ -645,13 +601,13 @@ jobs:
             # not succeed (even if the shards that DID upload results show 0
             # failures) - a shard that never reported must not look like a pass.
             shard_ok <- Sys.getenv("ARMADILLO_DSBASE_RESULT") == "success"
-            ok <- (n_failures + n_errors) == 0 && shard_ok
+            ok <- res$ok && shard_ok
             if (!shard_ok) message("One or more Armadillo dsbase/dsdanger matrix entries did not succeed.")
 
             out <- Sys.getenv("GITHUB_OUTPUT")
             cat(
               sprintf("ok=%s\n", tolower(ok)),
-              sprintf("tally=%s\n", tally),
+              sprintf("tally=%s\n", res$tally),
               sprintf("version=%s\n", version),
               sprintf("coverage_icon=%s\n", coverage_icon),
               sprintf("coverage_text=%s\n", coverage_text),

@@ -72,7 +72,13 @@ runs:
     - name: Install test datasets to Opal
       shell: bash
       run: |
-        sleep 60
+        for i in $(seq 1 18); do
+          if curl -sf -o /dev/null http://localhost:8080/; then
+            echo "Opal is responding"
+            break
+          fi
+          sleep 5
+        done
         R -q -f "obiba_opal-upload_testing_datasets.R"
       working-directory: dsBaseClient/tests/testthat/data_files
 
@@ -82,8 +88,6 @@ runs:
         R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
         R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '${{ inputs.dsbase-ref }}'); opal.logout(opal)"
 
-        sleep 60
-
         expected_version=$(curl -sf "https://raw.githubusercontent.com/datashield/dsBase/${{ inputs.dsbase-ref }}/DESCRIPTION" | sed -n 's/^Version: //p' | tr -d '\r')
         if [ -z "$expected_version" ]; then
           echo "Could not determine expected dsBase version from GitHub"
@@ -92,7 +96,27 @@ runs:
         echo "Expected dsBase version: $expected_version"
         echo "$expected_version" > dsbase_version.txt
 
-        R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); desc <- dsadmin.package_description(opal, 'dsBase'); opal.logout(opal); installed_version <- desc[['Version']]; cat('Installed dsBase version:', installed_version, '\n'); if (is.null(installed_version) || installed_version != '$expected_version') stop('dsBase version mismatch: expected $expected_version, found ', installed_version)"
+        ok=false
+        for i in $(seq 1 18); do
+          if Rscript -e "
+            library(opalr)
+            opal <- opal.login('administrator', 'datashield_test&', url = 'http://localhost:8080/')
+            desc <- dsadmin.package_description(opal, 'dsBase')
+            opal.logout(opal)
+            installed <- desc[['Version']]
+            cat('Installed dsBase version:', if (is.null(installed)) '(none yet)' else installed, '\n')
+            quit(status = if (!is.null(installed) && installed == '$expected_version') 0 else 1)
+          "; then
+            ok=true
+            break
+          fi
+          sleep 10
+        done
+        if [ "$ok" != "true" ]; then
+          echo "dsBase version mismatch or install not detected after polling: expected $expected_version"
+          exit 1
+        fi
+
         R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
         R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
       working-directory: dsBaseClient/tests/testthat/data_files
