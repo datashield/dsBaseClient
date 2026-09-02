@@ -100,6 +100,8 @@ runs:
         sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
 
     - uses: r-lib/actions/setup-r-dependencies@v2
+      env:
+        PKG_INCLUDE_LINKINGTO: true
       with:
         working-directory: dsBaseClient
         dependencies: 'c("Depends", "Imports", "LinkingTo")'

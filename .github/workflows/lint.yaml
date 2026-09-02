@@ -45,6 +45,8 @@ jobs:
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        env:
+          PKG_INCLUDE_LINKINGTO: true
         with:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
