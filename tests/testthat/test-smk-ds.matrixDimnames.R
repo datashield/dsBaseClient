@@ -35,9 +35,7 @@ test_that("simplest ds.matrixDimnames", {
 
     res <- ds.matrixDimnames("matrix.newobj", dimnames=dimnames)
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <matrixdimnames.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<matrixdimnames.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "matrix.newobj", "matrixdimnames.newobj"))
 
     check.class<-ds.class("matrixdimnames.newobj",datasources=ds.test_env$connections)
 

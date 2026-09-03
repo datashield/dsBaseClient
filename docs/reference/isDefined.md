@@ -1,0 +1,45 @@
+# Checks if the objects are defined in all studies
+
+This is an internal function.
+
+## Usage
+
+``` r
+isDefined(datasources = NULL, obj = NULL, error.message = TRUE)
+```
+
+## Arguments
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified, the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+- obj:
+
+  a character vector, the name of the object(s) to look for.
+
+- error.message:
+
+  a Boolean which specifies if the function should stop and return an
+  error message when the input object is not defined in one or more
+  studies or to return a list of TRUE/FALSE indicating in which studies
+  the object is defined
+
+## Value
+
+returns an error message if `error.message` argument is set to TRUE
+(default) and if the input object is not defined in one or more studies,
+or a Boolean value if `error.message` argument is set to FALSE.
+
+## Details
+
+In DataSHIELD an object included in analysis must be defined (i.e.
+exists) in all the studies. If not the process should halt.
+
+## Author
+
+Demetris Avraam for DataSHIELD Development Team
