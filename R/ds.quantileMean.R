@@ -15,12 +15,14 @@
 #' @param type a character that represents the type of graph to display.
 #' This can be set as \code{'combine'} or \code{'split'}.
 #' For more information see \strong{Details}. 
+#' @template classConsistencyCheckFalse
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.quantileMean} returns to the client-side the quantiles and statistical mean
 #' of a server-side numeric vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.mean}} to compute the statistical mean.
 #' @seealso \code{\link{ds.summary}} to generate the summary of a variable.
 #' @export
@@ -65,17 +67,9 @@
 #'
 #' }
 #'
-ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
+ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsistencyCheck=FALSE){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -85,27 +79,23 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL){
     stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # get the server function that produces the quantiles
+  cally1 <- call("quantileMeanDS", x)
+  results <- DSI::datashield.aggregate(datasources, cally1)
 
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a numeric or an integer vector
-  if(!('integer' %in% typ) & !('numeric' %in% typ)){
-    message(paste0(x, " is of type ", typ, "!"))
-    stop("The input object must be an integer or numeric vector.", call.=FALSE)
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
   }
 
-  # get the server function that produces the quantiles
-  cally1 <- paste0('quantileMeanDS(', x, ')')
-  quants <- DSI::datashield.aggregate(datasources, as.symbol(cally1))
+  quants <- lapply(results, function(r) r$quantiles)
 
   # combine the vector of quantiles - using weighted sum
   cally2 <- call('lengthDS', x)
-  lengths <- DSI::datashield.aggregate(datasources, cally2)
-  cally3 <- paste0("numNaDS(", x, ")")
-  numNAs <- DSI::datashield.aggregate(datasources, as.symbol(cally3))
+  length.results <- DSI::datashield.aggregate(datasources, cally2)
+  lengths <- lapply(length.results, function(r) r$length)
+  cally3 <- call("numNaDS", x)
+  numNA.results <- DSI::datashield.aggregate(datasources, cally3)
+  numNAs <- lapply(numNA.results, function(r) r$numNA)
   global.quantiles <- rep(0, length(quants[[1]])-1)
   global.mean <- 0
   for(i in 1: length(datasources)){

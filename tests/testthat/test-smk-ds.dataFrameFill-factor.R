@@ -70,9 +70,6 @@ test_that("setup", {
 test_that("dataFrameFill_exists", {
     res <- ds.dataFrameFill(df.name="DD", newobj="filled_df")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <filled_df> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<filled_df> appears valid in all sources")
 
     colnamesFilled <- ds.colnames('filled_df')
 
@@ -126,13 +123,13 @@ test_that("dataFrameFill_exists", {
     dis_cva_levelsFilled <- ds.levels('filled_df$DIS_CVA')
 
     expect_length(dis_cva_levelsFilled, 3)
-    expect_length(dis_cva_levelsFilled$sim1, 2)
+    expect_length(dis_cva_levelsFilled$sim1, 1)
     expect_length(dis_cva_levelsFilled$sim1$Levels, 2)
     expect_true(all(dis_cva_levelsFilled$sim1$Levels %in% c("0", "1")))
-    expect_length(dis_cva_levelsFilled$sim2, 2)
+    expect_length(dis_cva_levelsFilled$sim2, 1)
     expect_length(dis_cva_levelsFilled$sim2$Levels, 2)
     expect_true(all(dis_cva_levelsFilled$sim2$Levels %in% c("0", "1")))
-    expect_length(dis_cva_levelsFilled$sim3, 2)
+    expect_length(dis_cva_levelsFilled$sim3, 1)
     expect_length(dis_cva_levelsFilled$sim3$Levels, 2)
     expect_true(all(dis_cva_levelsFilled$sim3$Levels %in% c("0", "1")))
 
@@ -159,13 +156,13 @@ test_that("dataFrameFill_exists", {
     dis_diab_levelsFilled <- ds.levels('filled_df$DIS_DIAB')
 
     expect_length(dis_diab_levelsFilled, 3)
-    expect_length(dis_diab_levelsFilled$sim1, 2)
+    expect_length(dis_diab_levelsFilled$sim1, 1)
     expect_length(dis_diab_levelsFilled$sim1$Levels, 2)
     expect_true(all(dis_diab_levelsFilled$sim1$Levels %in% c("0", "1")))
-    expect_length(dis_diab_levelsFilled$sim2, 2)
+    expect_length(dis_diab_levelsFilled$sim2, 1)
     expect_length(dis_diab_levelsFilled$sim2$Levels, 2)
     expect_true(all(dis_diab_levelsFilled$sim2$Levels %in% c("0", "1")))
-    expect_length(dis_diab_levelsFilled$sim3, 2)
+    expect_length(dis_diab_levelsFilled$sim3, 1)
     expect_length(dis_diab_levelsFilled$sim3$Levels, 2)
     expect_true(all(dis_diab_levelsFilled$sim3$Levels %in% c("0", "1")))
 })

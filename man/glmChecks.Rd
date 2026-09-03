@@ -35,5 +35,7 @@ at complete) and eventually (if 'offset' or 'weights') are of 'numeric' with non
 }
 \author{
 Gaye, A.
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
 \keyword{internal}
