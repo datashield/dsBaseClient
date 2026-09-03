@@ -1,10 +1,13 @@
 name: Setup Armadillo with dsBase
 description: >
-  Starts a fresh Armadillo instance (self-managed Rock container), installs R
-  and system dependencies, waits for readiness, uploads test datasets, and
-  installs dsBase. Assumes the caller has already checked out dsBaseClient at
-  ./dsBaseClient. Shared by the Armadillo dsbase shard workflow and the
-  Armadillo dsdanger job, so this setup only needs fixing in one place.
+  Starts a fresh Armadillo instance via docker-compose, with the "default"
+  Rock profile as a static sibling container (no dynamic profile management -
+  we only ever use one profile, and never test Armadillo's container
+  orchestration itself). Installs R and system dependencies, waits for
+  readiness, uploads test datasets, and installs dsBase. Assumes the caller
+  has already checked out dsBaseClient at ./dsBaseClient. Shared by the
+  Armadillo dsbase shard workflow and the Armadillo dsdanger job, so this
+  setup only needs fixing in one place.
 
 inputs:
   dsbase-tarball:
@@ -15,25 +18,19 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version: '21'
-
-    - name: Download and start Armadillo (jar)
+    - name: Write Armadillo config
       shell: bash
-      env:
-        GH_TOKEN: ${{ github.token }}
       run: |
-        mkdir -p armadillo_home/config armadillo_home/storage armadillo_home/logs
+        mkdir -p armadillo_home/config
 
         cat > armadillo_home/config/application.yml <<EOF
         armadillo:
-          docker-management-enabled: true
-          docker-run-in-container: false
+          docker-management-enabled: false
+          docker-run-in-container: true
           profiles:
             - name: default
               image: datashield/rock_citest-permissive:latest
+              host: default
               port: 8085
               package-whitelist:
                 - dsBase
@@ -53,26 +50,19 @@ runs:
               max-file-size: 1000MB
               max-request-size: 1000MB
         storage:
-          root-dir: $(pwd)/armadillo_home/storage
-        audit.log.path: '$(pwd)/armadillo_home/logs/audit.log'
-        stdout.log.path: '$(pwd)/armadillo_home/logs/armadillo.log'
+          root-dir: /data
+        audit.log.path: '/logs/audit.log'
+        stdout.log.path: '/logs/armadillo.log'
         logging:
           level:
             root: "warn"
             org.molgenis: "warn"
         EOF
+      working-directory: dsBaseClient
 
-        gh release download --repo molgenis/molgenis-service-armadillo --pattern '*.jar' --dir armadillo_home --clobber
-        mv armadillo_home/*.jar armadillo_home/armadillo.jar
-        echo "Installing Armadillo $(gh release view --repo molgenis/molgenis-service-armadillo --json tagName -q .tagName)"
-
-        JAVA_TOOL_OPTIONS="-Xms1G -Xmx2G -XX:+UseG1GC" \
-          nohup java -jar armadillo_home/armadillo.jar \
-            --server.port=8080 \
-            --spring.config.additional-location=file:$(pwd)/armadillo_home/config/application.yml \
-            > armadillo_home/logs/stdout.log 2>&1 &
-        echo $! > armadillo_home/armadillo.pid
-        docker pull datashield/rock_citest-permissive:latest
+    - name: Start Armadillo docker-compose
+      shell: bash
+      run: docker compose -f docker-compose_armadillo.yml up -d
       working-directory: dsBaseClient
 
     - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
@@ -90,7 +80,7 @@ runs:
           sleep 5
         done
         echo "Armadillo did not become ready in time"
-        cat armadillo_home/logs/stdout.log || true
+        docker compose -f docker-compose_armadillo.yml logs armadillo || true
         exit 1
       working-directory: dsBaseClient
 
@@ -102,22 +92,14 @@ runs:
     - name: Install dsBase to Armadillo
       shell: bash
       run: |
-        curl -sf -u admin:admin -X POST http://localhost:8080/ds-profiles/default/start
-
-        profile_status=""
+        install_status=""
         for i in $(seq 1 30); do
-          profile_status=$(curl -sf -u admin:admin http://localhost:8080/ds-profiles/status | jq -r '.[] | select(.name=="default") | .status')
-          [ "$profile_status" == "RUNNING" ] && break
+          install_status=$(curl -sf -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ inputs.dsbase-tarball }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package || true)
+          [ "$install_status" == "200" ] && break
           sleep 10
         done
-        if [ "$profile_status" != "RUNNING" ]; then
-          echo "default profile container did not become RUNNING in time (status: $profile_status)"
-          exit 1
-        fi
-
-        install_status=$(curl -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ inputs.dsbase-tarball }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package)
         if [ "$install_status" != "200" ]; then
-          echo "dsBase install request failed with HTTP status $install_status"
+          echo "dsBase install request failed with HTTP status $install_status (default profile may not have started in time)"
           exit 1
         fi
 
@@ -150,5 +132,5 @@ runs:
     - name: Dump Armadillo server log
       if: failure()
       shell: bash
-      run: grep "Caused by:" armadillo_home/logs/stdout.log | sort -u || true
+      run: docker compose -f docker-compose_armadillo.yml logs armadillo | grep "Caused by:" | sort -u || true
       working-directory: dsBaseClient
