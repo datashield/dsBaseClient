@@ -22,6 +22,8 @@ runs:
 
     - name: Download and start Armadillo (jar)
       shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         mkdir -p armadillo_home/config armadillo_home/storage armadillo_home/logs
 
@@ -60,10 +62,9 @@ runs:
             org.molgenis: "warn"
         EOF
 
-        release_json=$(curl -sf -H "Authorization: Bearer ${{ github.token }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest) || { curl -s -H "Authorization: Bearer ${{ github.token }}" https://api.github.com/repos/molgenis/molgenis-service-armadillo/releases/latest; exit 1; }
-        jar_url=$(echo "$release_json" | jq -r '.assets[] | select(.name | endswith(".jar")) | .browser_download_url')
-        echo "Installing Armadillo $(echo "$release_json" | jq -r '.tag_name')"
-        curl -fSL -o armadillo_home/armadillo.jar "$jar_url"
+        gh release download --repo molgenis/molgenis-service-armadillo --pattern '*.jar' --dir armadillo_home --clobber
+        mv armadillo_home/*.jar armadillo_home/armadillo.jar
+        echo "Installing Armadillo $(gh release view --repo molgenis/molgenis-service-armadillo --json tagName -q .tagName)"
 
         JAVA_TOOL_OPTIONS="-Xms1G -Xmx2G -XX:+UseG1GC" \
           nohup java -jar armadillo_home/armadillo.jar \
