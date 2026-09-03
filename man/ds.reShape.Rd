@@ -54,11 +54,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.reShape} returns to the server-side  a reshaped data frame 
-converted from 'long' to 'wide' format or from 'wide' to long' format. 
-Also, two validity messages are returned to the client-side
-indicating whether the new object  has been created in each data source and if so whether
-it is in a valid form.
+\code{ds.reShape} returns to the server-side  a reshaped data frame
+converted from 'long' to 'wide' format or from 'wide' to long' format.
 }
 \description{
 Reshapes a data frame containing longitudinal or
@@ -117,4 +114,6 @@ Server function called: \code{reShapeDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
