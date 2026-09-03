@@ -1,0 +1,140 @@
+name: Setup Armadillo with dsBase
+description: >
+  Starts a fresh Armadillo instance via docker-compose, with the "default"
+  Rock profile as a static sibling container. Installs R and system
+  dependencies, waits for readiness, uploads test datasets, and installs
+  dsBase. Assumes the caller has already checked out dsBaseClient at
+  ./dsBaseClient. Shared by the Armadillo dsbase shard workflow and the
+  Armadillo dsdanger job, so this setup only needs fixing in one place.
+
+inputs:
+  dsbase-tarball:
+    description: dsBase tarball filename to install
+    required: false
+    default: dsBase_7.0.0-permissive.tar.gz
+
+runs:
+  using: composite
+  steps:
+    - name: Write Armadillo config
+      shell: bash
+      run: |
+        mkdir -p armadillo_home/config
+
+        cat > armadillo_home/config/application.yml <<EOF
+        armadillo:
+          docker-management-enabled: false
+          docker-run-in-container: true
+          profiles:
+            - name: default
+              image: datashield/rock_citest-permissive:latest
+              host: default
+              port: 8085
+              package-whitelist:
+                - dsBase
+                - dsTidyverse
+                - resourcer
+              function-blacklist: [ ]
+              options:
+                datashield:
+                  seed: 342325352
+        spring:
+          security:
+            user:
+              name: admin
+              password: admin
+          servlet:
+            multipart:
+              max-file-size: 1000MB
+              max-request-size: 1000MB
+        storage:
+          root-dir: /data
+        audit.log.path: '/logs/audit.log'
+        stdout.log.path: '/logs/armadillo.log'
+        logging:
+          level:
+            root: "warn"
+            org.molgenis: "warn"
+        EOF
+      working-directory: dsBaseClient
+
+    - name: Start Armadillo docker-compose
+      shell: bash
+      run: docker compose -f docker-compose_armadillo.yml up -d
+      working-directory: dsBaseClient
+
+    - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
+      with:
+        additional-packages: cran::covr
+
+    - name: Wait for Armadillo to be ready
+      shell: bash
+      run: |
+        for i in $(seq 1 60); do
+          if curl -fsS http://localhost:8080/actuator/health 2>/dev/null | grep -q '"status":"UP"'; then
+            echo "Armadillo is ready"
+            exit 0
+          fi
+          sleep 5
+        done
+        echo "Armadillo did not become ready in time"
+        docker compose -f docker-compose_armadillo.yml logs armadillo || true
+        exit 1
+      working-directory: dsBaseClient
+
+    - name: Install test datasets to Armadillo
+      shell: bash
+      run: R -q -f "molgenis_armadillo-upload_testing_datasets.R"
+      working-directory: dsBaseClient/tests/testthat/data_files
+
+    - name: Install dsBase to Armadillo
+      shell: bash
+      run: |
+        installed=false
+        for i in $(seq 1 30); do
+          if Rscript -e "
+            library(MolgenisArmadillo)
+            armadillo.login_basic('http://localhost:8080', 'admin', 'admin')
+            armadillo.install_packages('${{ inputs.dsbase-tarball }}', profile = 'default')
+          "; then
+            installed=true
+            break
+          fi
+          sleep 10
+        done
+        if [ "$installed" != "true" ]; then
+          echo "dsBase install via armadillo.install_packages() failed (default profile may not have started in time)"
+          exit 1
+        fi
+
+        expected_version=$(tar -xOzf ${{ inputs.dsbase-tarball }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
+        if [ -z "$expected_version" ]; then
+          echo "Could not determine expected dsBase version from ${{ inputs.dsbase-tarball }}"
+          exit 1
+        fi
+        echo "Expected dsBase version: $expected_version"
+
+        actual_version=""
+        for i in $(seq 1 30); do
+          packages_json=$(curl -sf -u admin:admin -X GET http://localhost:8080/packages || true)
+          actual_version=$(echo "$packages_json" | jq -r '.[] | select(.name == "dsBase") | .version' 2>/dev/null || true)
+          if [ "$actual_version" == "$expected_version" ]; then
+            break
+          fi
+          sleep 10
+        done
+        echo "Installed dsBase version: $actual_version"
+        if [ "$actual_version" != "$expected_version" ]; then
+          echo "dsBase version mismatch: expected $expected_version, found '$actual_version'"
+          exit 1
+        fi
+        echo "$actual_version" > dsbase_version.txt
+
+        curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+      working-directory: dsBaseClient
+
+    - name: Dump Armadillo server log
+      if: failure()
+      shell: bash
+      run: docker compose -f docker-compose_armadillo.yml logs armadillo | grep "Caused by:" | sort -u || true
+      working-directory: dsBaseClient
