@@ -19,7 +19,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.changeRefGroup(x="bmi_new", ref="obesity", reorderByRef=FALSE, newobj="bmi_ob")
+        ds.changeRefGroup(x="bmi_new", ref="1", reorderByRef=FALSE, newobj="bmi_ob")
 
         .count <- .count + 1
         .current.time <- Sys.time()

@@ -125,14 +125,6 @@ ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE,
     newobj <- "changerefgroup.newobj"
   }
 
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # if input vector is not a factor stop
-  if(!('factor' %in% typ)){
-    stop("The input vector must be a factor!", call.=FALSE)
-  }
-
   if(reorderByRef){
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
   }

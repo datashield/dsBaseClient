@@ -17,8 +17,10 @@ test_that("performance", {
     .start.time   <- Sys.time()
     .current.time <- .start.time
 
+    cdf <- data.frame(c(1, 2, 3, 4), c(2, 3, 4, 1))
+
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.dmtC2S(dfdata="D$LAB_TSC + D$LAB_TRIG", newobj="dmtc2s.newobj")
+        ds.dmtC2S(dfdata=cdf, newobj="dmtc2s.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
