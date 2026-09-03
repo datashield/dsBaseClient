@@ -20,7 +20,7 @@ runs:
       run: docker compose -f docker-compose_opal.yml up -d --build
       working-directory: dsBaseClient
 
-    - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
+    - uses: ./.github/actions/setup-r-with-dsbase-deps
 
     - name: Install test datasets to Opal
       shell: bash
