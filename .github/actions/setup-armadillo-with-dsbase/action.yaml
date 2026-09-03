@@ -1,13 +1,11 @@
 name: Setup Armadillo with dsBase
 description: >
   Starts a fresh Armadillo instance via docker-compose, with the "default"
-  Rock profile as a static sibling container (no dynamic profile management -
-  we only ever use one profile, and never test Armadillo's container
-  orchestration itself). Installs R and system dependencies, waits for
-  readiness, uploads test datasets, and installs dsBase. Assumes the caller
-  has already checked out dsBaseClient at ./dsBaseClient. Shared by the
-  Armadillo dsbase shard workflow and the Armadillo dsdanger job, so this
-  setup only needs fixing in one place.
+  Rock profile as a static sibling container. Installs R and system
+  dependencies, waits for readiness, uploads test datasets, and installs
+  dsBase. Assumes the caller has already checked out dsBaseClient at
+  ./dsBaseClient. Shared by the Armadillo dsbase shard workflow and the
+  Armadillo dsdanger job, so this setup only needs fixing in one place.
 
 inputs:
   dsbase-tarball:
@@ -92,14 +90,20 @@ runs:
     - name: Install dsBase to Armadillo
       shell: bash
       run: |
-        install_status=""
+        installed=false
         for i in $(seq 1 30); do
-          install_status=$(curl -sf -u admin:admin -H 'Content-Type: multipart/form-data' -F "file=@${{ inputs.dsbase-tarball }}" -o /dev/null -w '%{http_code}' -X POST http://localhost:8080/install-package || true)
-          [ "$install_status" == "200" ] && break
+          if Rscript -e "
+            library(MolgenisArmadillo)
+            armadillo.login_basic('http://localhost:8080', 'admin', 'admin')
+            armadillo.install_packages('${{ inputs.dsbase-tarball }}', profile = 'default')
+          "; then
+            installed=true
+            break
+          fi
           sleep 10
         done
-        if [ "$install_status" != "200" ]; then
-          echo "dsBase install request failed with HTTP status $install_status (default profile may not have started in time)"
+        if [ "$installed" != "true" ]; then
+          echo "dsBase install via armadillo.install_packages() failed (default profile may not have started in time)"
           exit 1
         fi
 
