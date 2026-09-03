@@ -63,7 +63,7 @@ runs:
       run: docker compose -f docker-compose_armadillo.yml up -d
       working-directory: dsBaseClient
 
-    - uses: ./.github/actions/setup-r-with-dsbase-deps
+    - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
       with:
         additional-packages: cran::covr
 
