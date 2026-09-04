@@ -45,7 +45,7 @@
 "ds.names::perf::combine:0","24.22","0.5","2"
 "ds.numNA::perf::combine:0","23.58","0.5","2"
 "ds.rbind::perf::0","4.624","0.5","2"
-"ds.recodeValues::perf::0","16.842,"0.5","2"
+"ds.recodeValues::perf::0","16.842","0.5","2"
 "ds.rep::perf::0","17.44","0.5","2"
 "ds.replaceNA::perf::0","3.292","0.5","2"
 "ds.skewness::perf::combine:0","8.226","0.5","2"
