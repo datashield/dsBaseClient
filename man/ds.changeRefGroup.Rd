@@ -136,4 +136,6 @@ Server function called: \code{changeRefGroupDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
