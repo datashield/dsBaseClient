@@ -25,6 +25,18 @@ test_that("setup", {
 # Tests
 #
 
+# context("ds.glmPredict::smk::binomial::nonexistent glm object")
+test_that("glmPredict errors when glmname does not exist", {
+  expect_error(ds.glmPredict("ABC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+
+  res.errors <- DSI::datashield.errors()
+
+  expect_length(res.errors, 3)
+  expect_match(res.errors$sim1, "The server-side object 'ABC' does not exist")
+  expect_match(res.errors$sim2, "The server-side object 'ABC' does not exist")
+  expect_match(res.errors$sim3, "The server-side object 'ABC' does not exist")
+})
+
 # context("ds.glmPredict::smk::binomial::without_newobj")
 test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")

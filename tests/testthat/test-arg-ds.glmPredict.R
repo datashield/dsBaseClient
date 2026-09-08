@@ -22,8 +22,6 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB",
 # context("ds.glmPredict::arg::test _glmname_ arg is correct object")
 test_that("glmPredict_errors", {
   expect_error(ds.glmPredict(), "<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside", fixed=TRUE)
-  
-  expect_error(ds.glmPredict("ABC"), "The input object ABC is not defined in sim1, sim2, sim3!", fixed=TRUE)
 })
 
 # context("ds.glmPredict::arg::setting up glm obj for further testing")
