@@ -5,6 +5,8 @@
 
 # context("ds.mice::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC","LAB_TRIG","LAB_HDL","LAB_GLUC_ADJUSTED",
+                                   "PM_BMI_CONTINUOUS","DIS_CVA","MEDI_LPD","DIS_DIAB",
+                                   "DIS_AMI","GENDER","PM_BMI_CATEGORICAL"))
 
 #
 # Tests

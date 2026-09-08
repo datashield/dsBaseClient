@@ -5,6 +5,7 @@
 
 # context("ds.gamlss::perf::setup")
 connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None", "hs_zbmi_who", "hs_child_age_None",
+                                    "h_mbmi_None", "hs_correct_raven", "hs_wgtgain_None"))
 
 #
 # Tests
@@ -18,7 +19,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.gamlss(formula='e3_bw ~ e3_gac_None', family="NO", newobj="gamlss.newobj")
+        ds.gamlss(formula='e3_bw ~ e3_gac_None', data='D', family='NO()', newobj="gamlss.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
