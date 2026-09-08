@@ -211,6 +211,7 @@
 #'    and the natural scale after exponentiation (rates and rate ratios). 
 #'
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -324,15 +325,7 @@
 ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=20, CI=0.95,
                      viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -354,11 +347,6 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
   # check that 'family' was set
   if(is.null(family)){
     stop(" Please provide a valid 'family' argument!", call.=FALSE)
-  }
-
-  # if the argument 'data' is set, check that the data frame is defined (i.e. exists) on the server site
-  if(!(is.null(data))){
-    defined <- isDefined(datasources, data)
   }
 
   # beginning of optional checks - the process stops if any of these checks fails #

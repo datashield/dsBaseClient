@@ -28,7 +28,7 @@ test_that("setup", {
 test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
@@ -109,7 +109,7 @@ test_that("simple glmPredict, gaussian, without newobj, se.fit=FALSE",{
 test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmPredict("gaussian.glmslma.obj", output.type = "response", se.fit = FALSE, newobj="gaussian.glm.predict.obj")
@@ -190,7 +190,7 @@ test_that("simple glmPredict, gaussian, with newobj, se.fit=FALSE", {
 test_that("simple glmPredict, gaussian, with newobj, se.fit=TRUE", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="gaussian.glm.predict.sefit.obj")

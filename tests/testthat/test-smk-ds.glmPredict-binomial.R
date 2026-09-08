@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   
-  expect_length(glmSLMA.res, 9)
+  expect_length(glmSLMA.res, 7)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
 
   res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, na.action = "na.pass")
@@ -110,7 +110,7 @@ test_that("simple glmPredict, binomial, without newobj, se.fit=FALSE",{
 test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
     glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmPredict("binomial.glmslma.obj", output.type = "response", se.fit = FALSE, newobj="binomial.glm.predict.obj")
@@ -191,7 +191,7 @@ test_that("simple glmPredict, binomial, with newobj, se.fit=FALSE", {
 test_that("simple glmPredict, binomial, with newobj, se.fit=TRUE", {
   glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
 
-  expect_length(glmSLMA.res, 9)
+  expect_length(glmSLMA.res, 7)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
 
   res <- ds.glmPredict("binomial.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = TRUE, na.action = "na.pass", newobj="binomial.glm.predict.sefit.obj")

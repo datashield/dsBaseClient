@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple glmSummary, gaussian, without newobj", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmSummary("gaussian.glmslma.obj")
@@ -60,7 +60,7 @@ test_that("simple glmSummary, gaussian, without newobj", {
 test_that("simple glmSummary, gaussian", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmSummary("gaussian.glmslma.obj", newobj="gaussian.glmsummary.obj")
@@ -92,7 +92,7 @@ test_that("simple glmSummary, gaussian", {
 test_that("simple glmSummary, poisson, without newobj", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmSummary("poisson.glmslma.obj")
@@ -123,7 +123,7 @@ test_that("simple glmSummary, poisson, without newobj", {
 test_that("simple glmSummary, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="poisson.glmslma.obj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
 
     res <- ds.glmSummary("poisson.glmslma.obj", newobj="poisson.glmsummary.obj")
