@@ -65,7 +65,7 @@ Authors@R: c(person(given = "Paul",
 License: GPL-3
 Depends:
     R (>= 4.1.0),
-    DSI (>= 1.7.1)
+    DSI (>= 1.8.0)
 Imports:
     cli,
     fields,
