@@ -11,6 +11,7 @@
 #' @keywords internal
 #' @return a list which one results table for each study.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])
@@ -36,14 +37,14 @@ meanByClassHelper3 <- function(dtsources, tablenames, variables, invalidrecorder
 
         if(length(rc) > 0){
           cally <- call("lengthDS", paste0(tablenames[[s]][i],'$',variables[z]))
-          ll <- unlist(DSI::datashield.aggregate(dtsources[s], cally))
+          ll <- DSI::datashield.aggregate(dtsources[s], cally)[[1]]$length
           mm <- NA
           sdv <- NA
           mean.sd <- paste0(mm, '(', sdv, ')')
           entries <- c(ll, mean.sd)
         }else{
           cally <- call("lengthDS", paste0(tablenames[[s]][i],'$',variables[z]))
-          ll <- unlist(DSI::datashield.aggregate(dtsources[s], cally))
+          ll <- DSI::datashield.aggregate(dtsources[s], cally)[[1]]$length
           mm <- round(getPooledMean(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
           sdv <- round(getPooledVar(dtsources[s], paste0(tablenames[[s]][i],'$',variables[z])),2)
           if(is.na(mm)){ sdv <- NA }

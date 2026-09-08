@@ -7,9 +7,9 @@
 ds.mean(
   x = NULL,
   type = "split",
-  checks = FALSE,
   save.mean.Nvalid = FALSE,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = FALSE
 )
 }
 \arguments{
@@ -21,11 +21,6 @@ This can be set as \code{'combine'}, \code{'combined'}, \code{'combines'},
 \code{'both'} or \code{'b'}. 
 For more information see \strong{Details}.}
 
-\item{checks}{logical. If TRUE  optional checks of model
-components will be undertaken. Default is FALSE to save time. 
-It is suggested that checks
-should only be undertaken once the function call has failed.}
-
 \item{save.mean.Nvalid}{logical. If TRUE generated values of the mean and 
 the number of valid (non-missing) observations will be saved  on the data servers. 
 Default FALSE. 
@@ -34,6 +29,9 @@ For more information see \strong{Details}.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 \code{ds.mean} returns to the client-side a list including: \cr
@@ -45,7 +43,6 @@ separately for each study (if \code{type = split} or \code{type = both}). \cr
 \code{Global.Mean}: estimated mean, \code{Nmissing}, \code{Nvalid} and \code{Ntotal} 
 across all studies combined (if \code{type = combine} or \code{type = both}). \cr
 \code{Nstudies}: number of studies being analysed. \cr
-\code{ValidityMessage}: indicates if the analysis was possible. \cr
 
 If \code{save.mean.Nvalid} is set as TRUE, the objects 
 \code{Nvalid.all.studies}, \code{Nvalid.study.specific},
@@ -110,7 +107,6 @@ Server function called: \code{meanDS}
   
   ds.mean(x = "D$LAB_TSC",
           type = "split",
-          checks = FALSE,
           save.mean.Nvalid = FALSE,
           datasources = connections)
              
@@ -126,4 +122,6 @@ Server function called: \code{meanDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -33,9 +33,6 @@ test_that("dataframe_exists", {
 
     res <- ds.dataFrame(x=vectors)
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <dataframe.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<dataframe.newobj> appears valid in all sources")
 
     ds.rm("LAB_TSC")
     ds.rm("LAB_HDL")
@@ -77,9 +74,6 @@ test_that("dataframe_exists, with DataSHIELD.checks", {
 
     res <- ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE, newobj="dataframe1")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <dataframe1> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<dataframe1> appears valid in all sources")
 
     ds.rm("LAB_TSC")
     ds.rm("LAB_HDL")
@@ -113,9 +107,6 @@ test_that("dataframe_exists, from dataframe variables", {
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     res <- ds.dataFrame(x=vectors)
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <dataframe.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<dataframe.newobj> appears valid in all sources")
 
     res.ls <- ds.ls()
     expect_length(res.ls, 3)
@@ -151,9 +142,6 @@ test_that("dataframe_exists, with DataSHIELD.checks, from dataframe variables", 
     vectors <- c('D$LAB_TSC', 'D$LAB_HDL')
     res <- ds.dataFrame(x=vectors, DataSHIELD.checks=TRUE, newobj="dataframe1")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <dataframe1> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<dataframe1> appears valid in all sources")
 
     res.ls <- ds.ls()
     expect_length(res.ls, 3)

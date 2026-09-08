@@ -26,15 +26,6 @@ test_that("simple ds.names errors", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 0)
-
-    expect_error(ds.names(x="D$LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
-
-    res.errors <- DSI::datashield.errors()
-
-    expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error : The input object is not of class <list>numeric")
-    expect_match(res.errors$sim2, "* Error : The input object is not of class <list>numeric")
-    expect_match(res.errors$sim3, "* Error : The input object is not of class <list>numeric")
 })
 
 #

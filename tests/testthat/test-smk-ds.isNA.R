@@ -33,6 +33,16 @@ test_that("isNA", {
     expect_false(res$sim1)
 })
 
+test_that("isNA, wrong input class returns a server error", {
+    ds.asList("D$LAB_HDL", newobj="not_a_vector")
+
+    expect_error(ds.isNA(x="not_a_vector"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type character, factor, integer, logical, numeric, data.frame or matrix")
+
+    ds.rm("not_a_vector")
+})
+
 #
 # Tear down
 #

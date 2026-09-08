@@ -4,6 +4,7 @@
 #' to find available data sources.
 #' @importFrom DSI datashield.connections_find
 #' @return A list of data sources.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .get_datasources <- function(datasources) {
   if (is.null(datasources)) {
@@ -16,6 +17,7 @@
 #'
 #' @param datasources A list of data sources.
 #' @importFrom cli cli_abort
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .verify_datasources <- function(datasources) {
   is_connection_class <- sapply(datasources, function(x) inherits(unlist(x), "DSConnection"))
@@ -29,6 +31,7 @@
 #' @param datasources An optional list of data sources. If not provided, the function will attempt
 #' to find available data sources.
 #' @return A list of verified data sources.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .set_datasources <- function(datasources) {
   datasources <- .get_datasources(datasources)
@@ -38,20 +41,62 @@
 
 #' Check cross-study class consistency from a list of server aggregate results
 #'
-#' Batch-refactored server functions return a list per study that includes a
-#' `class` field. This helper verifies that the class field is identical across
-#' all studies and aborts if not.
+#' Batch-refactored server functions return a list per study that includes one
+#' or more class fields. This helper verifies that the chosen field is identical
+#' across all studies and aborts if not.
 #'
 #' @param results A named list of server-side aggregate results, one per study,
-#'   each containing a `class` element.
+#'   each containing the class field named by `field`.
+#' @param field The name of the element holding the class. Default `"class"`.
+#' @param object_name Optional name of the input object, used to make the error
+#'   message specific. If `NULL` a generic message is used.
 #' @importFrom cli cli_abort
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.checkClassConsistency <- function(results) {
-  classes <- lapply(results, function(r) r$class)
+.checkClassConsistency <- function(results, field = "class", object_name = NULL) {
+  classes <- lapply(results, function(r) r[[field]])
   if (length(unique(lapply(classes, sort))) > 1) {
-    cli_abort("The input object is not of the same class in all studies!")
+    subject <- if (is.null(object_name)) "The input object" else paste0("'", object_name, "'")
+    cli_abort("{subject} is not of the same class in all studies!")
   }
+}
+
+#' Check That a New Object Name Is Valid
+#'
+#' Internal helper that checks whether the name supplied for a server-side
+#' output object is a single character string. If not, it aborts with a
+#' user-friendly error.
+#'
+#' @param newobj A character string naming the object to be created server-side.
+#' @importFrom cli cli_abort
+#' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.check_newobj_name <- function(newobj) {
+  if (!is.character(newobj) || length(newobj) != 1) {
+    cli_abort("'newobj' must be a single character string")
+  }
+}
+
+#' Set and verify the name of a server-side output object.
+#'
+#' Applies the function's default name when `newobj` is `NULL`, then checks the
+#' result is a single character string. The default must be applied first, since
+#' `NULL` is a valid input meaning "use the default".
+#'
+#' @param newobj A character string naming the object to be created server-side,
+#'   or `NULL` to use `default`.
+#' @param default The name to use when `newobj` is `NULL`.
+#' @return A validated, single character string.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.set_newobj_name <- function(newobj, default) {
+  if (is.null(newobj)) {
+    newobj <- default
+  }
+  .check_newobj_name(newobj)
+  return(newobj)
 }
 
 #' Check That a Data Frame Name Is Provided
@@ -61,6 +106,7 @@
 #'
 #' @param df A data.frame or matrix.
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .check_df_name_provided <- function(df) {
   if(is.null(df)){

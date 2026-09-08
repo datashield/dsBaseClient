@@ -14,7 +14,8 @@ ds.dataFrame(
   DataSHIELD.checks = FALSE,
   newobj = NULL,
   datasources = NULL,
-  notify.of.progress = FALSE
+  notify.of.progress = FALSE,
+  classConsistencyCheck = TRUE
 )
 }
 \arguments{
@@ -48,18 +49,18 @@ are the same}
 \item{newobj}{a character string that provides the name for the output data frame
 that is stored on the data servers. Default \code{dataframe.newobj}.}
 
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
+\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
 If the \code{datasources} argument is not specified 
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 
 \item{notify.of.progress}{specifies if console output should be produced to indicate
 progress. Default is FALSE.}
+
+\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.dataFrame} returns the object specified by the \code{newobj} argument
-which is written to the serverside. Also, two validity messages are returned to the
-client-side indicating the name of the \code{newobj} that has been created in each data source
-and if it is in a valid form.
+which is written to the server-side.
 }
 \description{
 Creates a data frame from its elemental components:
@@ -124,4 +125,6 @@ Server functions called: \code{classDS}, \code{colnamesDS}, \code{dataFrameDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -4,7 +4,7 @@ source("definition_tests/def-assign-stats.R")
 .test.var.combined <- function(variable.name,some.values)
 {
   var.local <- var(some.values)
-  var.server <- ds.var(variable.name,type='combine', check=TRUE)
+  var.server <- ds.var(variable.name,type='combine')
   expect_equal(var.server[[1]][1], var.local, tolerance = ds.test_env$tolerance)
 }
 
@@ -15,7 +15,7 @@ source("definition_tests/def-assign-stats.R")
   var.local.3 <- var(some.values.3)
   
   
-  var.servers <- ds.var(x=variable.name,type='split', check=TRUE)
+  var.servers <- ds.var(x=variable.name,type='split')
   expect_equal(var.servers[[1]][1], var.local.1, tolerance = ds.test_env$low_tolerance)
   expect_equal(var.servers[[1]][2], var.local.2, tolerance = ds.test_env$low_tolerance)
   expect_equal(var.servers[[1]][3], var.local.3, tolerance = ds.test_env$low_tolerance)
@@ -23,13 +23,13 @@ source("definition_tests/def-assign-stats.R")
 
 .test.variance.positive.combine <- function(variable.name)
 {
-  var.server <- ds.var(variable.name,type='combine', check=TRUE)
+  var.server <- ds.var(variable.name,type='combine')
   expect_true(var.server$Global.Variance[1] >= 0)
 }
 
 .test.variance.positive.split <- function(variable.name)
 {
-  var.server <- ds.var(variable.name,type='split', check=TRUE)
+  var.server <- ds.var(variable.name,type='split')
   expect_true(var.server[[1]][1] >= 0)
   expect_true(var.server[[1]][2] >= 0)
   expect_true(var.server[[1]][3] >= 0)
@@ -73,7 +73,7 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
 
   
-  var.server <- ds.var(variable.created,type='combine', check=TRUE)
+  var.server <- ds.var(variable.created,type='combine')
   expect_equal(var.server[[1]][1], var.local, tolerance = ds.test_env$tolerance)
 }
 
@@ -86,8 +86,8 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
   
   #calculate variances
-  var.no.change <- ds.var(variable.name,type='combine', check=TRUE)
-  var.changes <- ds.var(variable.created,type='combine', check=TRUE)
+  var.no.change <- ds.var(variable.name,type='combine')
+  var.changes <- ds.var(variable.created,type='combine')
   
   #comparison
   expect_equal(var.no.change[[1]][1], var.changes[[1]][1], tolerance = ds.test_env$tolerance)
@@ -102,8 +102,8 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
   
   #calculate variances
-  var.no.change <- ds.var(variable.name,type='combine', check=TRUE)
-  var.changes <- ds.var(variable.created,type='combine', check=TRUE)
+  var.no.change <- ds.var(variable.name,type='combine')
+  var.changes <- ds.var(variable.created,type='combine')
   scale <- constant.value^2 * var.no.change[[1]][1]
   #comparison
   expect_equal(scale, var.changes[[1]][1], tolerance = ds.test_env$tolerance)
@@ -112,6 +112,6 @@ source("definition_tests/def-assign-stats.R")
 .test.large.vectors  <- function(dist.name, size)
 {
   ds.rPois(samp.size = size, lambda = c(50), newobj=dist.name)
-  var.changes <- ds.var(dist.name,type='combine', check=TRUE)
+  var.changes <- ds.var(dist.name,type='combine')
   expect_false(is.na(var.changes[[1]][1]))
 }

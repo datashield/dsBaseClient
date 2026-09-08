@@ -107,4 +107,6 @@ Server function called: \code{replaceNaDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

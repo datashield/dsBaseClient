@@ -87,4 +87,6 @@ specified by the user through the argument \code{newobj}, otherwise is named by 
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

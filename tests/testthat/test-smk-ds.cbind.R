@@ -29,8 +29,6 @@ test_that("setup", {
 test_that("simple test, from dataframe variables", {
     res <- ds.cbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), newobj="cbind1_newobj")
 
-    expect_equal(res$is.object.created, "A data object <cbind1_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<cbind1_newobj> appears valid in all sources")
 
     res1 <- ds.class("cbind1_newobj")
     expect_true("data.frame" %in% res1$survival1)
@@ -82,8 +80,6 @@ test_that("simple test, from root variables", {
 
     res <- ds.cbind(c("survtime", "time.id", "female", "age.60"), newobj="cbind2_newobj")
 
-    expect_equal(res$is.object.created, "A data object <cbind2_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<cbind2_newobj> appears valid in all sources")
 
     ds.rm("survtime")
     ds.rm("time.id")
@@ -135,8 +131,6 @@ test_that("simple test, from root variables", {
 test_that("simple test, from dataframe variables, DataSHIELD.check=TRUE", {
     res <- ds.cbind(c("D$survtime", "D$time.id", "D$female", "D$age.60"), DataSHIELD.check=TRUE, newobj="cbind3_newobj")
 
-    expect_equal(res$is.object.created, "A data object <cbind3_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<cbind3_newobj> appears valid in all sources")
 
     res1 <- ds.class("cbind3_newobj")
     expect_true("data.frame" %in% res1$survival1)
@@ -188,8 +182,6 @@ test_that("simple test, from root variables, DataSHIELD.check=TRUE", {
 
     res <- ds.cbind(c("survtime", "time.id", "female", "age.60"), DataSHIELD.check=TRUE, newobj="cbind4_newobj")
 
-    expect_equal(res$is.object.created, "A data object <cbind4_newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<cbind4_newobj> appears valid in all sources")
 
     ds.rm("survtime")
     ds.rm("time.id")

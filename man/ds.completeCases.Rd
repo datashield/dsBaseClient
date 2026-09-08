@@ -85,4 +85,6 @@ Server function called: \code{completeCasesDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

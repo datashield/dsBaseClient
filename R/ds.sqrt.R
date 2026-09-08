@@ -17,6 +17,7 @@
 #' the input numeric or integer vector specified in the argument \code{x}. The created vectors
 #' are stored in the servers.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -70,41 +71,17 @@
 #'
 ds.sqrt <- function(x=NULL, newobj=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  if(!('numeric' %in% typ) && !('integer' %in% typ)){
-      stop("Only objects of type 'numeric' or 'integer' are allowed.", call.=FALSE)
-  }
-
-  # create a name by default if the user did not provide a name for the new variable
   if(is.null(newobj)){
     newobj <- "sqrt.newobj"
   }
 
-  # call the server side function that does the operation
   cally <- call("sqrtDS", x)
   DSI::datashield.assign(datasources, newobj, cally)
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
 
 }

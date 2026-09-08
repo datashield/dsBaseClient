@@ -19,11 +19,7 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 }
 \value{
 \code{ds.asDataMatrix} returns the object converted into a matrix 
-that is written to the server-side. Also, two validity messages are returned 
-to the client-side
-indicating the name of the \code{newobj} which 
-has been created in each data source and if 
-it is in a valid form.
+that is written to the server-side.
 }
 \description{
 Coerces an R object into a matrix maintaining original
@@ -73,4 +69,6 @@ Server function called: \code{asDataMatrixDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

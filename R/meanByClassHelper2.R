@@ -12,6 +12,7 @@
 #' @return a matrix, a table which contains the length, mean and standard deviation of each of the
 #' specified 'variables' in each subset table.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder){
   numtables <- length(tablenames[[1]])
@@ -43,8 +44,8 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
           def <-  unlist(DSI::datashield.aggregate(dtsources[qq], cally))
           if(def){
             cally <- call("dimDS", tnames[[qq]][i])
-            temp <- unlist(DSI::datashield.aggregate(dtsources[qq], cally))
-            lengths <- append(lengths, temp[1])
+            temp <- DSI::datashield.aggregate(dtsources[qq], cally)
+            lengths <- append(lengths, temp[[1]]$dim[1])
           }else{
             lengths <- append(lengths, 0)
           }
@@ -66,8 +67,8 @@ meanByClassHelper2 <- function(dtsources, tablenames, variables, invalidrecorder
         }
       }else{
         cally <- call("lengthDS", paste0(tablename,'$',variables[z]))
-        lengths <- DSI::datashield.aggregate(dtsources, cally)
-        ll <- sum(unlist(lengths))
+        lengths.raw <- DSI::datashield.aggregate(dtsources, cally)
+        ll <- sum(sapply(lengths.raw, function(r) r$length))
         mm <- round(getPooledMean(dtsources, paste0(tablename,'$',variables[z])),2)
         sdv <- round(getPooledVar(dtsources, paste0(tablename,'$',variables[z])),2)
         if(is.na(mm)){ sdv <- NA}

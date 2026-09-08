@@ -29,11 +29,7 @@ test_that("setup", {
 test_that("completeCases vector", {
     ds.c("D$survtime", newobj="vec_n")
 
-    res.completeCases <- ds.completeCases("vec_n", "vec_n_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_n_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_n_new> appears valid in all sources")
+    ds.completeCases("vec_n", "vec_n_new")
 
     res.vec.class <- ds.class("vec_n")
 
@@ -84,11 +80,7 @@ test_that("completeCases vector", {
 test_that("completeCases vector", {
     ds.asInteger("D$age.60", newobj="vec_i")
 
-    res.completeCases <- ds.completeCases("vec_i", "vec_i_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_i_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_i_new> appears valid in all sources")
+    ds.completeCases("vec_i", "vec_i_new")
 
     res.vec.class <- ds.class("vec_i")
 
@@ -139,11 +131,7 @@ test_that("completeCases vector", {
 test_that("completeCases vector", {
     ds.asCharacter("D$age.60", newobj="vec_c")
 
-    res.completeCases <- ds.completeCases("vec_c", "vec_c_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_c_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_c_new> appears valid in all sources")
+    ds.completeCases("vec_c", "vec_c_new")
 
     res.vec.class <- ds.class("vec_c")
 
@@ -194,11 +182,7 @@ test_that("completeCases vector", {
 test_that("completeCases vector", {
     ds.asLogical("D$age.60", newobj="vec_l")
 
-    res.completeCases <- ds.completeCases("vec_l", "vec_l_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_l_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_l_new> appears valid in all sources")
+    ds.completeCases("vec_l", "vec_l_new")
 
     res.vec.class <- ds.class("vec_l")
 
@@ -249,11 +233,7 @@ test_that("completeCases vector", {
 test_that("completeCases vector", {
     ds.c("D$female", newobj="vec_f")
 
-    res.completeCases <- ds.completeCases("vec_f", "vec_f_new")
-
-    expect_length(res.completeCases, 2)
-    expect_equal(res.completeCases$is.object.created, "A data object <vec_f_new> has been created in all specified data sources")
-    expect_equal(res.completeCases$validity.check, "<vec_f_new> appears valid in all sources")
+    ds.completeCases("vec_f", "vec_f_new")
 
     res.vec.class <- ds.class("vec_f")
 

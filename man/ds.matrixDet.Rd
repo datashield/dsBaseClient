@@ -20,11 +20,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.matrixDet} returns the determinant of an existing matrix on the server-side. 
-The created new object is stored on the server-side. 
-Also, two validity messages are returned
-indicating whether the matrix has been created in each data source and if so whether
-it is in a valid form.
+\code{ds.matrixDet} returns the determinant of an existing matrix on the server-side.
+The created new object is stored on the server-side.
 }
 \description{
 Calculates the determinant of a square matrix that is 
@@ -98,4 +95,6 @@ Server function called: \code{matrixDetDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -1,0 +1,84 @@
+# Checks if an R object exists on the server-side
+
+This function checks that a specified data object exists or has been
+correctly created on a specified set of data servers.
+
+## Usage
+
+``` r
+ds.testObjExists(test.obj.name = NULL, datasources = NULL)
+```
+
+## Arguments
+
+- test.obj.name:
+
+  a character string specifying the name of the object to search.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.testObjExists` returns a list of messages specifying that the object
+exists on the server-side. If the specified object does not exist in at
+least one of the specified data sources or it exists but is of class
+NULL, the function returns an error message specifying that the object
+does not exist in all data sources.
+
+## Details
+
+Close copies of the code in this function are embedded into other
+functions that create an object and you then wish to test whether it has
+successfully been created e.g. `ds.make` or `ds.asFactor`.
+
+Server function called: `testObjExistsDS`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+  ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Check if D object exists on the server-side
+  
+  ds.testObjExists(test.obj.name = "D",
+                   datasources = connections)
+ 
+  # Clear the Datashield R sessions and logout                 
+  datashield.logout(connections) 
+  
+} # }   
+```

@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple var, split", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='split')
 
-    expect_length(var.res, 3)
+    expect_length(var.res, 2)
     expect_length(var.res$Variance.by.Study, 12)
     expect_equal(var.res$Variance.by.Study[1], 1.229163, tolerance = .000001)
     expect_equal(var.res$Variance.by.Study[2], 1.140606, tolerance = .000001)
@@ -44,34 +44,26 @@ test_that("simple var, split", {
     expect_equal(var.res$Variance.by.Study[11], 3088)
     expect_equal(var.res$Variance.by.Study[12], 4128)
     expect_equal(var.res$Nstudies, 3)
-    expect_length(var.res$ValidityMessage, 3)
-    expect_equal(var.res$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
 # context("ds.var::smk::combine")
 test_that("simple var, combine", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='combine')
 
-    expect_length(var.res, 3)
+    expect_length(var.res, 2)
     expect_length(var.res$Global.Variance, 4)
     expect_equal(var.res$Global.Variance[1], 1.158384, tolerance = .000001)
     expect_equal(var.res$Global.Variance[2], 1554)
     expect_equal(var.res$Global.Variance[3], 7825)
     expect_equal(var.res$Global.Variance[4], 9379)
     expect_equal(var.res$Nstudies, 3)
-    expect_length(var.res$ValidityMessage, 3)
-    expect_equal(var.res$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
 # context("ds.var::smk::both")
 test_that("simple var, both", {
     var.res <- ds.var(x = 'D$LAB_TSC', type='both')
 
-    expect_length(var.res, 4)
+    expect_length(var.res, 3)
     expect_length(var.res$Variance.by.Study, 12)
     expect_equal(var.res$Variance.by.Study[1], 1.229163, tolerance = .000001)
     expect_equal(var.res$Variance.by.Study[2], 1.140606, tolerance = .000001)
@@ -91,10 +83,6 @@ test_that("simple var, both", {
     expect_equal(var.res$Global.Variance[3], 7825)
     expect_equal(var.res$Global.Variance[4], 9379)
     expect_equal(var.res$Nstudies, 3)
-    expect_length(var.res$ValidityMessage, 3)
-    expect_equal(var.res$ValidityMessage[1], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[2], "VALID ANALYSIS")
-    expect_equal(var.res$ValidityMessage[3], "VALID ANALYSIS")
 })
 
 #
@@ -103,8 +91,15 @@ test_that("simple var, both", {
 
 # context("ds.var::smk::shutdown")
 
+test_that("error, input must be numeric or integer", {
+    ds.asCharacter(x='D$LAB_TSC', newobj="not_a_numeric")
+    expect_error(ds.var(x='not_a_numeric'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type numeric or integer")
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "not_a_numeric"))
 })
 
 disconnect.studies.dataset.cnsim()

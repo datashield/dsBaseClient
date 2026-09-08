@@ -61,13 +61,13 @@ subsetHelper <- function(dts, data, rs=NULL, cs=NULL){
   fail <- c(0,0)
 
   if(!(is.null(rs))){
-    if(length(rs) > dims[[1]][1] ){
+    if(length(rs) > dims[[1]]$dim[1] ){
       fail[1] <- 1
     }
   }
 
   if(!(is.null(cs))){
-    if(length(cs) > dims[[1]][2]){
+    if(length(cs) > dims[[1]]$dim[2]){
       fail[2] <- 1
     }
   }

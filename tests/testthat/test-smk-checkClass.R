@@ -86,11 +86,10 @@ test_that("data.frame test", {
 })
 
 test_that("missing test", {
-    res <- checkClass(ds.test_env$connections, "D$TEST")
-
-    expect_length(res, 1)
-    expect_equal(class(res), "character")
-    expect_equal(res, "NULL")
+    expect_error(checkClass(ds.test_env$connections, "D$TEST"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_length(res.errors, 3)
+    expect_match(res.errors[[1]], "Column 'TEST' not found in 'D'")
 })
 
 #

@@ -15,6 +15,7 @@
 #' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @return a no data are return to the user but messages are printed out.
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \link{ds.meanByClass} to compute mean and standard deviation across categories of a factor vectors.
 #' @seealso \link{ds.subset} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
 #' @export
@@ -91,7 +92,7 @@ ds.subsetByClass <- function(x=NULL, subsets="subClasses", variables=NULL, datas
       cols <- DSI::datashield.aggregate(datasources[i], call("colnamesDS", x))
       dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
       tracker <-c()
-      for(j in 1:dims[[1]][2]){
+      for(j in 1:dims[[1]]$dim[2]){
         cally <- call("classDS", paste0(dtname, "$", cols[[1]][j]))
         res <- DSI::datashield.aggregate(datasources[i], cally)
         if(res[[1]] != 'factor'){

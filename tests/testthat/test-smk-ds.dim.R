@@ -70,6 +70,12 @@ test_that("simple dim, combine", {
     expect_equal(dim.res$`dimensions of D in combined studies`[[2]], 1)
 })
 
+test_that("dim, wrong input class returns a server error", {
+    expect_error(ds.dim("D$LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors[[1]], "must be of type data.frame or matrix")
+})
+
 #
 # Done
 #

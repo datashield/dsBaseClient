@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.seq::arg::test errors")
 test_that("seq_erros", {
-    expect_error(ds.seq(FROM.value.char="Test"), "object 'Test' not found", fixed=TRUE)
+    expect_error(ds.seq(FROM.value.char="Test"), "'Test'")
 })
 
 #

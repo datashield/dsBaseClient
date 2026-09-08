@@ -52,10 +52,7 @@ progress. Default FALSE.}
 \value{
 \code{ds.dataFrameSubset} returns
 the object specified by the \code{newobj} argument
-which is written to the server-side. 
-Also, two validity messages are returned to the client-side indicating
-the name of the \code{newobj} which has been created in each data source
- and if it is in a valid form.
+which is written to the server-side.
 }
 \description{
 Subsets a data frame by rows and/or by columns.
@@ -141,4 +138,6 @@ Server functions called: \code{dataFrameSubsetDS1} and \code{dataFrameSubsetDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

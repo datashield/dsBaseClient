@@ -24,3 +24,4 @@
 ^\.circleci/config\.yml$
 ^\.github$
 ^REFACTOR_GUIDE\.md$
+^man-roxygen$

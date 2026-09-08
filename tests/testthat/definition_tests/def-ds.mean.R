@@ -4,7 +4,7 @@ source("definition_tests/def-assign-stats.R")
 .test.mean.combined <- function(variable.name,some.values)
 {
   mean.local <- mean(some.values)
-  mean.server <- ds.mean(x=variable.name,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  mean.server <- ds.mean(x=variable.name,type='combine',save.mean.Nvalid=FALSE)
 
   expect_equal(mean.server[[1]][1], mean.local, tolerance = ds.test_env$tolerance)
 }
@@ -15,7 +15,7 @@ source("definition_tests/def-assign-stats.R")
   mean.local.2 <- mean(some.values.2)
   mean.local.3 <- mean(some.values.3)
   
-  mean.server <- ds.mean(x=variable.name,type='split', check=TRUE,save.mean.Nvalid=FALSE)
+  mean.server <- ds.mean(x=variable.name,type='split',save.mean.Nvalid=FALSE)
   expect_equal(mean.server[[1]][1], mean.local.1, tolerance = ds.test_env$low_tolerance)
   expect_equal(mean.server[[1]][2], mean.local.2, tolerance = ds.test_env$low_tolerance)
   expect_equal(mean.server[[1]][3], mean.local.3, tolerance = ds.test_env$low_tolerance)
@@ -23,7 +23,7 @@ source("definition_tests/def-assign-stats.R")
 
 .test.residual.combined <- function(variable.name, some.values)
 {
-  mean.server <- ds.mean(variable.name,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  mean.server <- ds.mean(variable.name,type='combine',save.mean.Nvalid=FALSE)
   residue <- sum(some.values - mean.server[[1]][1])
   expect_equal(residue, 0, tolerance = ds.test_env$very_low_tolerance)
 }  
@@ -31,7 +31,7 @@ source("definition_tests/def-assign-stats.R")
 
 .test.residual.split <- function(variable.name, some.values.1,some.values.2,some.values.3)
 {
-  mean.server <- ds.mean(variable.name,type='split', check=TRUE,save.mean.Nvalid=FALSE)
+  mean.server <- ds.mean(variable.name,type='split',save.mean.Nvalid=FALSE)
   residue.1 <- sum(some.values.1 - mean.server[[1]][1])
   residue.2 <- sum(some.values.2 - mean.server[[1]][2])
   residue.3 <- sum(some.values.3 - mean.server[[1]][3])
@@ -54,7 +54,7 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
   
   
-  mean.server <- ds.mean(variable.created,type='combine', check=TRUE)
+  mean.server <- ds.mean(variable.created,type='combine')
   expect_equal(mean.server[[1]][1], mean.local, tolerance = ds.test_env$tolerance)
 }
 
@@ -67,8 +67,8 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
   
   #calculate variances
-  var.no.change <- ds.mean(variable.name,type='combine',check=TRUE,save.mean.Nvalid=FALSE)
-  var.changes <- ds.mean(variable.created,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  var.no.change <- ds.mean(variable.name,type='combine',save.mean.Nvalid=FALSE)
+  var.changes <- ds.mean(variable.created,type='combine',save.mean.Nvalid=FALSE)
   difference <- var.changes[[1]][1] - var.no.change[[1]][1]
  
   #comparison
@@ -84,8 +84,8 @@ source("definition_tests/def-assign-stats.R")
   ds.make(operation,variable.created)
   
   #calculate variances
-  var.no.change <- ds.mean(variable.name,type='combine',check=TRUE,save.mean.Nvalid=FALSE)
-  var.changes <- ds.mean(variable.created,type='combine', check=TRUE,save.mean.Nvalid=FALSE)
+  var.no.change <- ds.mean(variable.name,type='combine',save.mean.Nvalid=FALSE)
+  var.changes <- ds.mean(variable.created,type='combine',save.mean.Nvalid=FALSE)
   scale <- constant.value * var.no.change[[1]][1]
   #comparison
   expect_equal(scale, var.changes[[1]][1], tolerance = ds.test_env$tolerance)

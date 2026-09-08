@@ -17,23 +17,14 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return an output vector of class factor to the serverside. In addition, returns a validity 
-#' message with the name of the created object on the client-side and if creation fails an
-#' error message which can be viewed using datashield.errors().  
+#' @return an output vector of class factor written to the serverside.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-     datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # check if user has provided the name of the column that holds the input variable
   if(is.null(input.var.name)){
@@ -54,59 +45,6 @@ ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources
 #Call the only serverside function required for this simple version of asFactor
   calltext0 <- call("asFactorSimpleDS", input.var.name)
   DSI::datashield.assign(datasources, newobj.name, calltext0)
-
-##########################################################################################################
-#MODULE 5: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                                   #
-																										 #
-#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 #
-test.obj.name<-newobj.name                                                                               #
-                                                                                                         #
-# CALL SEVERSIDE FUNCTION                                                                                #
-calltext <- call("testObjExistsDS", test.obj.name)													 #
-object.info<-DSI::datashield.aggregate(datasources, calltext)												 #
-																										 #
-# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 #
-# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 #
-num.datasources<-length(object.info)																	 #
-																										 #
-																										 #
-obj.name.exists.in.all.sources<-TRUE																	 #
-obj.non.null.in.all.sources<-TRUE																		 #
-																										 #
-for(j in 1:num.datasources){																			 #
-	if(!object.info[[j]]$test.obj.exists){																 #
-		obj.name.exists.in.all.sources<-FALSE															 #
-		}																								 #
-	if(is.null(object.info[[j]]$test.obj.class) || ("ABSENT" %in% object.info[[j]]$test.obj.class)){														 #
-		obj.non.null.in.all.sources<-FALSE																 #
-		}																								 #
-	}																									 #
-																										 #
-if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										 #
-																										 #
-	return.message<-																					 #
-    paste0("Data object <", test.obj.name, "> correctly created in all specified data sources")		 	 #
-																										 #
-	return(list(return.message=return.message))						 #
-																										 #
-	}else{																								 #
-																										 #
-    return.message.1<-																					 #
-	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")#
-																										 #
-	return.message.2<-																					 #
-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 #
-																										 #
-	return.message<-list(return.message.1,return.message.2)												 #
-																										 #
-	return.info<-object.info																			 #
-																										 #
-return(list(return.info=return.info,return.message=return.message))	 #
-																										 #
-	}																									 #
-#END OF MODULE 5																						 #
-##########################################################################################################
-
 
 }
 #ds.asFactorSimple

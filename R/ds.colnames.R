@@ -12,6 +12,7 @@
 #' @return \code{ds.colnames} returns the column names of 
 #' the specified server-side data frame or matrix. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.dim}} to obtain the dimensions of a matrix or a data frame.
 #' @examples 
 #' \dontrun{
