@@ -25,3 +25,4 @@
 ^\.github$
 ^REFACTOR_GUIDE\.md$
 ^man-roxygen$
+^codecov\.yml$
