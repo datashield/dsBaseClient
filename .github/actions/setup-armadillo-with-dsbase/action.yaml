@@ -106,7 +106,11 @@ runs:
           echo "dsBase install via armadillo.install_packages() failed (default profile may not have started in time)"
           exit 1
         fi
+      working-directory: dsBaseClient
 
+    - name: Verify installed dsBase version
+      shell: bash
+      run: |
         expected_version=$(tar -xOzf ${{ inputs.dsbase-tarball }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
         if [ -z "$expected_version" ]; then
           echo "Could not determine expected dsBase version from ${{ inputs.dsbase-tarball }}"
@@ -129,8 +133,11 @@ runs:
           exit 1
         fi
         echo "$actual_version" > dsbase_version.txt
+      working-directory: dsBaseClient
 
-        curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
+    - name: Whitelist dsBase
+      shell: bash
+      run: curl -u admin:admin -X POST http://localhost:8080/whitelist/dsBase
       working-directory: dsBaseClient
 
     - name: Dump Armadillo server log

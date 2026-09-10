@@ -35,12 +35,16 @@ runs:
         R -q -f "obiba_opal-upload_testing_datasets.R"
       working-directory: dsBaseClient/tests/testthat/data_files
 
-    - name: Install dsBase to Opal, set disclosure test options
+    - name: Install dsBase to Opal
       shell: bash
       run: |
         R -q -e "library(opalr); opal <- opal.login(username = 'administrator', password = 'datashield_test&', url = 'http://localhost:8080/'); opal.put(opal, 'system', 'conf', 'general', '_rPackage'); opal.logout(opal)"
         R -q -e "library(opalr); opal <- opal.login('administrator','datashield_test&', url='http://localhost:8080/'); dsadmin.install_github_package(opal, 'dsBase', username = 'datashield', ref = '${{ inputs.dsbase-ref }}'); opal.logout(opal)"
+      working-directory: dsBaseClient/tests/testthat/data_files
 
+    - name: Verify installed dsBase version
+      shell: bash
+      run: |
         expected_version=$(curl -sf "https://raw.githubusercontent.com/datashield/dsBase/${{ inputs.dsbase-ref }}/DESCRIPTION" | sed -n 's/^Version: //p' | tr -d '\r')
         if [ -z "$expected_version" ]; then
           echo "Could not determine expected dsBase version from GitHub"
@@ -69,7 +73,11 @@ runs:
           echo "dsBase version mismatch or install not detected after polling: expected $expected_version"
           exit 1
         fi
+      working-directory: dsBaseClient/tests/testthat/data_files
 
+    - name: Initialize default profile and set disclosure test options
+      shell: bash
+      run: |
         R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.profile_init(opal, name = 'default', packages = c('dsBase', 'dsTidyverse', 'resourcer')); opal.logout(opal)"
         R -q -e "library(opalr); opal <- opal.login('administrator', 'datashield_test&', url='http://localhost:8080/'); dsadmin.set_option(opal, 'default.datashield.privacyControlLevel', 'permissive'); opal.logout(opal)"
       working-directory: dsBaseClient/tests/testthat/data_files

@@ -3,6 +3,9 @@
 # XML into a pass/fail tally and, if any failures/errors, a testthat-style
 # failure block. The two report jobs are otherwise near-identical, so this
 # is the one piece that was previously duplicated between them.
+#
+# compute_coverage_summary() is used by armadillo-report's separate
+# "Compute coverage" step (Opal has no coverage figure - see that step).
 
 summarise_junit <- function(xml_path, label) {
   doc <- xml2::read_xml(xml_path)
@@ -40,4 +43,18 @@ find_dsbase_version <- function(artifact_dir) {
   files <- list.files(artifact_dir, pattern = "dsbase_version\\.txt$", recursive = TRUE, full.names = TRUE)
   if (length(files) == 0) return("unknown")
   trimws(readLines(files[1], warn = FALSE)[1])
+}
+
+compute_coverage_summary <- function(rds_files, threshold) {
+  if (length(rds_files) == 0) {
+    return(list(icon = "❓", text = "no coverage data found"))
+  }
+  tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
+  agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
+  total_coverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
+  ok <- total_coverage >= threshold
+  list(
+    icon = if (ok) "✅" else "❌",
+    text = sprintf("%.1f%% vs %d%% target", total_coverage, threshold)
+  )
 }

@@ -606,6 +606,28 @@ jobs:
             dsBaseClient/logs/test_results.xml
             dsBaseClient/logs/test_console_output.txt
 
+      - name: Compute coverage
+        id: coverage
+        # Coverage is only computed here (not for Opal): dsBaseClients own
+        # R/ source never branches on backend (verified - the only
+        # Opal/Armadillo-specific references in R/ are inside roxygen
+        # @examples comments, not executable code), so a single backends
+        # coverage figure is equivalent to a combined one.
+        run: |
+          Rscript -e '
+            source(".github/scripts/summarise-junit.R")
+            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
+            summary <- compute_coverage_summary(rds_files, threshold = 80)
+
+            out <- Sys.getenv("GITHUB_OUTPUT")
+            cat(
+              sprintf("icon=%s\n", summary$icon),
+              sprintf("text=%s\n", summary$text),
+              file = out, append = TRUE, sep = ""
+            )
+          '
+        working-directory: dsBaseClient
+
       - name: Compute results & write summary
         id: results
         env:
@@ -617,25 +639,6 @@ jobs:
             writeLines(res$summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
 
             version <- find_dsbase_version("artifacts")
-
-            # Coverage is only computed here (not for Opal): dsBaseClients own
-            # R/ source never branches on backend (verified - the only
-            # Opal/Armadillo-specific references in R/ are inside roxygen
-            # @examples comments, not executable code), so a single backends
-            # coverage figure is equivalent to a combined one.
-            coverage_threshold <- 80
-            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
-            if (length(rds_files) > 0) {
-              tallies <- lapply(rds_files, function(f) covr::tally_coverage(readRDS(f)))
-              agg <- aggregate(value ~ filename + line, data = do.call(rbind, tallies), FUN = sum)
-              totalcoverage <- round(sum(agg$value > 0) / nrow(agg) * 100, 1)
-              coverage_ok <- totalcoverage >= coverage_threshold
-              coverage_text <- sprintf("%.1f%% vs %d%% target", totalcoverage, coverage_threshold)
-            } else {
-              coverage_ok <- NA
-              coverage_text <- "no coverage data found"
-            }
-            coverage_icon <- if (isTRUE(coverage_ok)) "✅" else if (isFALSE(coverage_ok)) "❌" else "❓"
 
             # needs.armadillo-dsbase.result is "failure" if ANY matrix shard did
             # not succeed (even if the shards that DID upload results show 0
@@ -649,8 +652,6 @@ jobs:
               sprintf("ok=%s\n", tolower(ok)),
               sprintf("tally=%s\n", res$tally),
               sprintf("version=%s\n", version),
-              sprintf("coverage_icon=%s\n", coverage_icon),
-              sprintf("coverage_text=%s\n", coverage_text),
               file = out, append = TRUE, sep = ""
             )
 
@@ -671,8 +672,8 @@ jobs:
             const ok = '${{ steps.results.outputs.ok }}' === 'true';
             const tally = '${{ steps.results.outputs.tally }}' || 'error - see log';
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
-            const coverageIcon = '${{ steps.results.outputs.coverage_icon }}' || '❓';
-            const coverageText = '${{ steps.results.outputs.coverage_text }}' || 'error - see log';
+            const coverageIcon = '${{ steps.coverage.outputs.icon }}' || '❓';
+            const coverageText = '${{ steps.coverage.outputs.text }}' || 'error - see log';
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const codecovUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
 
