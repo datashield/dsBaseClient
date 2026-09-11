@@ -34,9 +34,7 @@ test_that("simplest ds.matrixMult", {
     ds.matrix(mdata=matrix2, nrows.scalar=3, ncols.scalar=3, newobj="mat2")
     res <- ds.matrixMult("mat1", "mat2")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <matrixmult.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<matrixmult.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "mat1", "mat2", "matrixmult.newobj"))
 
     check.class<-ds.class("matrixmult.newobj",datasources=ds.test_env$connections)
 

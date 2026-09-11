@@ -1,0 +1,99 @@
+# Returns server-side messages to the client-side
+
+This function allows for error messages arising from the running of a
+server-side assign function to be returned to the client-side.
+
+## Usage
+
+``` r
+ds.message(message.obj.name = NULL, datasources = NULL)
+```
+
+## Arguments
+
+- message.obj.name:
+
+  is a character string specifying the name of the list that contains
+  the message.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.message` returns a list object from each study, containing the
+message that has been written by DataSHIELD into `$studysideMessage`.
+
+## Details
+
+Errors arising from aggregate server-side functions can be returned
+directly to the client-side. But this is not possible for server-side
+assign functions because they are designed specifically to write objects
+to the server-side and to return no meaningful information to the
+client-side. Otherwise, users may be able to use assign functions to
+return disclosive output to the client-side.
+
+Server-side functions from which error messages are to be made available
+are designed to be able to write the designated error message to the
+`$serversideMessage` object into the list that is saved on the
+server-side as the primary output of that function. So only valid
+server-side functions of DataSHIELD can write a `$studysideMessage`. The
+error message is a string that cannot exceed a length of
+`nfilter.string` a default of 80 characters.
+
+Server function called: `messageDS`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+ ## Version 6, for version 5 see the Wiki
+  
+  # connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Use a ds.asCharacter assign function to create the message in the server-side
+  
+  ds.asCharacter(x.name = "D$LAB_TRIG", 
+                 newobj = "vector1",
+                 datasources = connections)
+                 
+  #Return the message to the client-side
+  
+  ds.message(message.obj.name = "vector1",
+             datasources = connections)
+  
+  # clear the Datashield R sessions and logout
+  datashield.logout(connections)
+} # }
+```

@@ -1,0 +1,148 @@
+# Reshapes server-side grouped data
+
+Reshapes a data frame containing longitudinal or otherwise grouped data
+from 'wide' to 'long' format or vice-versa.
+
+## Usage
+
+``` r
+ds.reShape(
+  data.name = NULL,
+  varying = NULL,
+  v.names = NULL,
+  timevar.name = "time",
+  idvar.name = "id",
+  drop = NULL,
+  direction = NULL,
+  sep = ".",
+  newobj = "newObject",
+  datasources = NULL
+)
+```
+
+## Arguments
+
+- data.name:
+
+  a character string specifying the name of the data frame to be
+  reshaped.
+
+- varying:
+
+  names of sets of variables in the wide format that correspond to
+  single variables in 'long' format.
+
+- v.names:
+
+  the names of variables in the 'long' format that correspond to
+  multiple variables in the 'wide' format.
+
+- timevar.name:
+
+  the variable in 'long' format that differentiates multiple records
+  from the same group or individual. If more than one record matches,
+  the first will be taken.
+
+- idvar.name:
+
+  names of one or more variables in 'long' format that identify multiple
+  records from the same group/individual. These variables may also be
+  present in 'wide' format.
+
+- drop:
+
+  a vector of names of variables to drop before reshaping. This can
+  simplify the resultant output.
+
+- direction:
+
+  a character string that partially matched to either 'wide' to reshape
+  from 'long' to 'wide' format, or 'long' to reshape from 'wide' to
+  'long' format.
+
+- sep:
+
+  a character vector of length 1, indicating a separating character in
+  the variable names in the 'wide' format. This is used for creating
+  good `v.names` and times arguments based on the names in the `varying`
+  argument. This is also used to create variable names when reshaping to
+  'wide' format.
+
+- newobj:
+
+  a character string that provides the name for the output object that
+  is stored on the data servers. Default `reshape.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.reShape` returns to the server-side a reshaped data frame converted
+from 'long' to 'wide' format or from 'wide' to long' format. Also, two
+validity messages are returned to the client-side indicating whether the
+new object has been created in each data source and if so whether it is
+in a valid form.
+
+## Details
+
+This function is based on the native R function `reshape`. It reshapes a
+data frame containing longitudinal or otherwise grouped data between
+'wide' format with repeated measurements in separate columns of the same
+record and 'long' format with the repeated measurements in separate
+records. The reshaping can be in either direction. Server function
+called: `reShapeDS`
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+ ## Version 6, for version 5 see Wiki
+  # Connecting to the Opal servers
+  
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+  
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+  
+  #Reshape server-side grouped data
+  
+  ds.reShape(data.name = "D", 
+             v.names = "age.60", 
+             timevar.name = "time.id",
+             idvar.name = "id",
+             direction = "wide",
+             newobj = "reshape1_obj",
+             datasources = connections)
+  
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+} # }
+```

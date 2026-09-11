@@ -59,4 +59,6 @@ columns or by rows and this is defaulted to byrow=FALSE i.e. "by column".
 }
 \author{
 Paul Burton for DataSHIELD Development Team - 3rd June, 2021
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

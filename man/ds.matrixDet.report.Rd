@@ -90,4 +90,6 @@ Server function called: \code{matrixDetDS1}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
