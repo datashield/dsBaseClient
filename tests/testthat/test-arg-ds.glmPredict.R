@@ -22,8 +22,6 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB",
 # context("ds.glmPredict::arg::test _glmname_ arg is correct object")
 test_that("glmPredict_errors", {
   expect_error(ds.glmPredict(), "<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside", fixed=TRUE)
-  
-  expect_error(ds.glmPredict("ABC"), "The input object ABC is not defined in sim1, sim2, sim3!", fixed=TRUE)
 })
 
 # context("ds.glmPredict::arg::setting up glm obj for further testing")
@@ -32,10 +30,9 @@ test_that("glmPredict_errors", {
   #glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
   
-  expect_length(glmSLMA.res, 9)
+  expect_length(glmSLMA.res, 7)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
-  expect_length(glmSLMA.res$validity.check, 1)
-  expect_equal(glmSLMA.res$validity.check, "<gaussian.glmslma.obj> appears valid in all sources")
+  ds_expect_variables(c("D", "gaussian.glmslma.obj"))
 })
 
 # context("ds.glmPredict::arg::test _newdataname_ arg is correct object")

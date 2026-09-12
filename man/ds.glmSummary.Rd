@@ -91,4 +91,6 @@ are listed under "return" below.
 }
 \author{
 Paul Burton, for DataSHIELD Development Team 17/07/20
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

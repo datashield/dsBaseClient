@@ -72,6 +72,7 @@
 #' residuals (the normalised quantile residuals of the model) are not disclosed to 
 #' the client-side.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
@@ -81,16 +82,8 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
                       i.control = c(0.001, 50, 30, 0.001), centiles = FALSE, 
                       xvar = NULL, newobj = NULL, datasources = NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- DSI::datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-  
+  datasources <- .set_datasources(datasources)
+
   # verify that 'formula' was set
   if(is.null(formula)){
     stop(" Please provide a valid formula!", call.=FALSE)

@@ -169,12 +169,6 @@ effect meta-analysis. This matrix is only returned if the
 argument combine.with.metafor is set to TRUE. Otherwise, users can take
 the \code{betamatrix.valid} and \code{sematrix.valid} matrices and enter
 them into their meta-analysis package of choice.
-
-\code{is.object.created} and \code{validity.check} are standard
-items returned by an assign function when the designated newobj appears to have
-been successfully created on the serverside at each study. This output is
-produced specifically by the assign function \code{glmSLMADS.assign} that writes
-out the glm object on the serverside
 }
 \description{
 Fits a generalized linear model (GLM) on data from single or multiple sources
@@ -440,4 +434,6 @@ datashield.logout(connections)
 }
 \author{
 Paul Burton, for DataSHIELD Development Team 07/07/20
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -261,12 +261,8 @@
 #' argument combine.with.metafor is set to TRUE. Otherwise, users can take
 #' the \code{betamatrix.valid} and \code{sematrix.valid} matrices and enter
 #' them into their meta-analysis package of choice.
-#' @return \code{is.object.created} and \code{validity.check} are standard
-#' items returned by an assign function when the designated newobj appears to have
-#' been successfully created on the serverside at each study. This output is
-#' produced specifically by the assign function \code{glmSLMADS.assign} that writes
-#' out the glm object on the serverside 
 #' @author Paul Burton, for DataSHIELD Development Team 07/07/20
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #' 
@@ -377,16 +373,7 @@
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,
 	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, notify.of.progress=FALSE, datasources=NULL) {
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-
+  datasources <- .set_datasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -454,11 +441,6 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
   if(paste(strsplit(family,split=" ")[[1]],collapse="")=="gamma(link=log)")
  	 {family<-"Gamma.link.log"}
   
-  # if the argument 'dataName' is set, check that the data frame is defined (i.e. exists) on the server site
-  if(!(is.null(dataName))){
-    defined <- isDefined(datasources, dataName)
-  }
-
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){
     message(" -- Verifying the variables in the model")
@@ -842,94 +824,10 @@ return(list(output.summary=output.summary))
   }
 
 
-#final.outlist<-(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
-#            SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix))
-
-
-#############################################################################################################
-#DataSHIELD CLIENTSIDE MODULE: CHECK KEY DATA OBJECTS SUCCESSFULLY CREATED                                  #
-																											#
-#SET APPROPRIATE PARAMETERS FOR THIS PARTICULAR FUNCTION                                                 	#
-test.obj.name<-newobj																					 	#
-																											#
-#TRACER																									 	#
-#return(test.obj.name)																					 	#
-#}                                                                                   					 	#
-																											#
-																											#							
-# CALL SEVERSIDE FUNCTION                                                                                	#
-calltext <- call("testObjExistsDS", test.obj.name)													 		#
-																											#
-object.info<-datashield.aggregate(datasources, calltext)
-																											#
-																											#
-# CHECK IN EACH SOURCE WHETHER OBJECT NAME EXISTS														 	#
-# AND WHETHER OBJECT PHYSICALLY EXISTS WITH A NON-NULL CLASS											 	#
-num.datasources<-length(object.info)																	 	#
-																											#
-																											#
-obj.name.exists.in.all.sources<-TRUE																	 	#
-obj.non.null.in.all.sources<-TRUE																		 	#
-																											#
-for(j in 1:num.datasources){																			 	#
-	if(!object.info[[j]]$test.obj.exists){																 	#
-		obj.name.exists.in.all.sources<-FALSE															 	#
-		}																								 	#
-	if("ABSENT" %in% object.info[[j]]$test.obj.class){														#
-		obj.non.null.in.all.sources<-FALSE																 	#
-		}																								 	#
-	}																									 	#
-																											#
-if(obj.name.exists.in.all.sources && obj.non.null.in.all.sources){										    #	
-																											#
-	return.message<-																					 	#
-    paste0("A data object <", test.obj.name, "> has been created in all specified data sources")		 	#
-																											#
-																											#
-	}else{																								 	#
-																											#
-    return.message.1<-																					 	#
-	paste0("Error: A valid data object <", test.obj.name, "> does NOT exist in ALL specified data sources")	#
-																											#
-	return.message.2<-																					 	#
-	paste0("It is either ABSENT and/or has no valid content/class,see return.info above")				 	#
-																											#
-	return.message.3<-																					 	#
-	paste0("Please use ds.ls() to identify where missing")												 	#
-																											#
-																											#
-	return.message<-list(return.message.1,return.message.2,return.message.3)							 	#
-																											#
-	}																										#
-																											#
-	calltext <- call("messageDS", test.obj.name)															#
-    studyside.message<-datashield.aggregate(datasources, calltext)											#
-																											#	
-	no.errors<-TRUE																							#
-	for(nd in 1:num.datasources){																			#
-		if(studyside.message[[nd]]!="ALL OK: there are no studysideMessage(s) on this datasource"){			#
-		no.errors<-FALSE																					#
-		}																									#
-	}																										#	
-																											#
-																											#
-	if(no.errors){																							#
-	validity.check<-paste0("<",test.obj.name, "> appears valid in all sources")							    #
-	return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,							#
-	betamatrix.all=betamatrix.all,																			#
-	sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,				#
-    SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,														#
-	is.object.created=return.message,validity.check=validity.check))						    			#
-	}																										#
-																											#
-if(!no.errors){																								#
-	validity.check<-paste0("<",test.obj.name,"> invalid in at least one source. See studyside.messages:")   #
-	return(list(is.object.created=return.message,validity.check=validity.check,					    		#
-	            studyside.messages=studyside.message))			                                            #
-	}																										#
-																											#
-#END OF CHECK OBJECT CREATED CORRECTLY MODULE															 	#
-#############################################################################################################
+  return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,
+              betamatrix.all=betamatrix.all,
+              sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid, sematrix.valid=sematrix.valid,
+              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix))
 
 }
 
