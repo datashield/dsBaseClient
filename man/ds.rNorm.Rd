@@ -122,7 +122,7 @@ Server functions called: \code{rNormDS} and \code{setSeedDS}.
   # Generating the vectors in the Opal servers
 
   ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
-           mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
+           mean=c(1,6,4),         #the mean cycles through 1, 6, 4 across observations
            sd=1,
            newobj="Norm.dist",
            seed.as.integer=2345, 
