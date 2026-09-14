@@ -22,9 +22,10 @@ summarise_junit <- function(xml_path, label) {
   if (length(failed) > 0) {
     msgs <- vapply(failed, function(tc) {
       node <- xml2::xml_find_first(tc, "failure|error")
-      m <- xml2::xml_attr(node, "message")
-      if (is.na(m) || !nzchar(m)) m <- trimws(xml2::xml_text(node))
-      m
+      first <- xml2::xml_attr(node, "message")
+      if (is.na(first)) first <- ""
+      rest <- strsplit(trimws(xml2::xml_text(node)), "\n")[[1]][-1]
+      paste(c(first, rest), collapse = "\n")
     }, character(1))
     labels <- paste0(xml2::xml_attr(failed, "classname"), "::", xml2::xml_attr(failed, "name"))
     fail_block <- unlist(lapply(seq_along(failed), function(i) {
