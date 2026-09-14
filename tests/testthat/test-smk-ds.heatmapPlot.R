@@ -21,7 +21,19 @@ test_that("simple heatmap plot combine", {
 })
 
 test_that("heatmap plot with nonexistent object fails", {
-    expect_error(ds.heatmapPlot(x="nonexistent_obj", y="D$LAB_TRIG"), "There are some DataSHIELD errors", fixed=TRUE)
+    expect_error(ds.heatmapPlot(x="nonexistent_obj", y="D$LAB_TRIG", method="deterministic"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
+test_that("heatmap plot with wrong input class fails", {
+    expect_error(ds.heatmapPlot(x="D", y="D$LAB_TRIG", method="deterministic"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "must be of type numeric or integer", fixed = TRUE)
 })
 
 #

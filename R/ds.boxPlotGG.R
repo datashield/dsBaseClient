@@ -20,12 +20,13 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 
 ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
   x_var <- lower <- upper <- ymin <- ymax <- middle <- fill <- NULL
   datasources <- .set_datasources(datasources)
 
-  pt <- DSI::datashield.aggregate(datasources, call("boxPlotGGDS", data_table.name=x, group=group, group2=group2))
+  pt <- datashield.aggregate(datasources, call("boxPlotGGDS", data_table.name=x, group=group, group2=group2))
 
   if(type == "pooled"){
     num_servers <- length(names(datasources))

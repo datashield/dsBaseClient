@@ -53,6 +53,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.contourPlot} returns a contour plot to the client-side. 
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
@@ -102,7 +103,7 @@
 #' }
 #' @export
 #' 
-ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
+ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 
@@ -142,7 +143,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     method.indicator <- 1
 
     # call the server-side function that generates the x and y coordinates of the centroids
-    anonymous.data <- DSI::datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    if(classConsistencyCheck){
+      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+    }
 
     pooled.points.x <- c()
     pooled.points.y <- c()
@@ -157,7 +162,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     method.indicator <- 2
 
     # call the server-side function that generates the x and y coordinates of the anonymous.data
-    anonymous.data <- DSI::datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    if(classConsistencyCheck){
+      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+    }
 
     pooled.points.x <- c()
     pooled.points.y <- c()
@@ -172,9 +181,9 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     if(method=='smallCellsRule'){
 
     # get the range from each study and produce the 'global' range
-    x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
+    x.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
 
-    y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
+    y.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
 
     x.minrs <- c()
     x.maxrs <- c()
@@ -195,7 +204,12 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     y.global.max <- y.range.arg[2]
 
     # generate the grid density object to plot
-    grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
+    grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
+    if(classConsistencyCheck){
+      .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+      .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+    }
+    grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
     numcol <- dim(grid.density.obj[[1]])[2]
 
@@ -345,7 +359,12 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
 
    if(method=="smallCellsRule"){
      # generate the grid density object to plot
-     grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
+     grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
+     if(classConsistencyCheck){
+       .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+       .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+     }
+     grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
      numcol <- dim(grid.density.obj[[1]])[2]
    }
 

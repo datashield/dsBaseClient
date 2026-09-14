@@ -24,6 +24,18 @@ test_that("simple boxPlot with data frame", {
 
 test_that("boxPlot with nonexistent object fails", {
     expect_error(ds.boxPlot(x="nonexistent_obj", variables=c("LAB_TSC")), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
+test_that("boxPlot with non-factor group fails", {
+    expect_error(ds.boxPlot(x="D", variables=c("LAB_TSC"), group="LAB_TRIG"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "must be of type factor", fixed = TRUE)
 })
 
 #

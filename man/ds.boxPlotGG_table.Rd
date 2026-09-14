@@ -39,3 +39,6 @@ ds.boxPlotGG_table(
 \description{
 Draws a boxplot with the option of adding two grouping variables from data held on a table
 }
+\author{
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+}

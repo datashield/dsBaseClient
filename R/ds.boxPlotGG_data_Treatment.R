@@ -16,23 +16,13 @@
 #'  Column 'group': (Optional) Values of the grouping variable \cr
 #'  Column 'group2': (Optional) Values of the second grouping variable \cr
 #'
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 
 ds.boxPlotGG_data_Treatment <- function(table, variables, group = NULL, group2 = NULL, datasources = NULL){
   
-  if (is.null(datasources)) {
-    datasources <- DSI::datashield.connections_find()
-  }
+  datasources <- .set_datasources(datasources)
 
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-
-  cally <- paste0("boxPlotGG_data_TreatmentDS(", table, ", c('", 
-                  paste0(variables, collapse = "','"), "'), ", 
-                  if(is.null(group)){paste0("NULL")}else{paste0("'",group,"'")}, ", ", 
-                  if(is.null(group2)){paste0("NULL")}else{paste0("'",group2,"'")}, ")")
-  DSI::datashield.assign.expr(datasources, "boxPlotRawData", as.symbol(cally))
+  datashield.assign.expr(datasources, "boxPlotRawData", call("boxPlotGG_data_TreatmentDS", table.name = table, variables = variables, group = group, group2 = group2))
   
   
 }

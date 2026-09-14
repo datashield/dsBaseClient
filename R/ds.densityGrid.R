@@ -26,6 +26,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.densityGrid} returns a grid density matrix.  
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
@@ -83,7 +84,7 @@
 #'
 #' }
 #'
-ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasources=NULL){
+ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 
@@ -103,9 +104,9 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
   if(type=="combine"){
     # get the range from each study and produce the 'global' range
-    x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
+    x.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
 
-    y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
+    y.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
 
     x.minrs <- c()
     x.maxrs <- c()
@@ -126,7 +127,12 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     y.global.max <- y.range.arg[2]
 
     # generate the grid density object to plot
-    grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
+    grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
+    if(classConsistencyCheck){
+      .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+      .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+    }
+    grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
     numcol <- dim(grid.density.obj[[1]])[2]
 
     # print the number of invalid cells in each participating study
@@ -145,7 +151,12 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
   }else{
     if(type=="split"){
       # generate the grid density object
-      grid.density.obj <- DSI::datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
+      grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
+      if(classConsistencyCheck){
+        .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+        .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+      }
+      grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
       numcol <- dim(grid.density.obj[[1]])[2]
 
       # print the number of invalid cells in each participating study

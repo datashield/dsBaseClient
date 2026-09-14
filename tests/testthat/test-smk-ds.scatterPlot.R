@@ -30,6 +30,18 @@ test_that("simple scatter plot with coords", {
 
 test_that("scatter plot with nonexistent object fails", {
     expect_error(ds.scatterPlot(x="nonexistent_obj", y="D$LAB_TRIG"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
+test_that("scatter plot with wrong input class fails", {
+    expect_error(ds.scatterPlot(x="D", y="D$LAB_TRIG"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "must be of type numeric or integer", fixed = TRUE)
 })
 
 #

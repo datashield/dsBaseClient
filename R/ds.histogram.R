@@ -82,6 +82,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return one or more histogram objects and plots depending on the argument \code{type}
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
@@ -152,7 +153,7 @@
 #'   }
 #'
 #'
-ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL){
+ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL, classConsistencyCheck=FALSE){
 
   datasources <- .set_datasources(datasources)
 
@@ -185,7 +186,11 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   if(method=='probabilistic'){ method.indicator <- 3 }
 
   # call the server-side function that returns the range of the vector from each study
-  ranges <- unique(unlist(DSI::datashield.aggregate(datasources, call("histogramDS1", x=x, method.indicator=method.indicator, k=k, noise=noise))))
+  histogram.ranges <- datashield.aggregate(datasources, call("histogramDS1", x=x, method.indicator=method.indicator, k=k, noise=noise))
+  if(classConsistencyCheck){
+    .checkClassConsistency(histogram.ranges, object_name = x)
+  }
+  ranges <- unique(unlist(lapply(histogram.ranges, function(r) r$range)))
 
   # produce the 'global' range
   range.arg <- c(min(ranges, na.rm=TRUE), max(ranges, na.rm=TRUE))
@@ -197,7 +202,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   varname <- xnames$elements
 
   # call the server-side function that generates the histogram object to plot
-  outputs <- DSI::datashield.aggregate(datasources, call("histogramDS2", x=x, num.breaks=num.breaks, min=min, max=max, method.indicator=method.indicator, k=k, noise=noise))
+  outputs <- datashield.aggregate(datasources, call("histogramDS2", x=x, num.breaks=num.breaks, min=min, max=max, method.indicator=method.indicator, k=k, noise=noise))
 
   hist.objs <- vector("list", length(datasources))
   invalidcells <- vector("list", length(datasources))

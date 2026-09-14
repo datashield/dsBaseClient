@@ -15,6 +15,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples 
 #' \dontrun{
@@ -94,7 +95,8 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
   }
 
   # Determine class of x for dispatch
-  cls <- DSI::datashield.aggregate(datasources, call("classDS", x))
+  cls <- datashield.aggregate(datasources, call("classDS", x))
+  .checkClassConsistency(lapply(cls, function(study.class) list(class = study.class)), object_name = x)
   cls <- unique(unlist(cls))
 
   if(!any(c("numeric", "data.frame") %in% cls)){

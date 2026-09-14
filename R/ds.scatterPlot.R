@@ -67,6 +67,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
 #' plots depending on the argument \code{type}. 
 #' @author DataSHIELD Development Team
@@ -128,7 +129,7 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
+ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
   if(is.null(x)){
     stop("Please provide the name of the x-variable", call.=FALSE)
@@ -160,7 +161,11 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
   if(method=='probabilistic'){ method.indicator <- 2 }
 
   # call the server-side function that generates the x and y coordinates of the centroids
-  output <- DSI::datashield.aggregate(datasources, call("scatterPlotDS", x.name=x, y.name=y, method.indicator=method.indicator, k=k, noise=noise))
+  output <- datashield.aggregate(datasources, call("scatterPlotDS", x.name=x, y.name=y, method.indicator=method.indicator, k=k, noise=noise))
+  if(classConsistencyCheck){
+    .checkClassConsistency(output, field = "class.x", object_name = x)
+    .checkClassConsistency(output, field = "class.y", object_name = y)
+  }
 
   pooled.points.x <- c()
   pooled.points.y <- c()

@@ -37,6 +37,18 @@ test_that("histogram with deterministic method", {
 
 test_that("histogram with nonexistent object fails", {
     expect_error(ds.histogram(x="nonexistent_obj"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
+test_that("histogram with wrong input class fails", {
+    expect_error(ds.histogram(x="D"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_match(res.errors$sim1, "must be of type numeric or integer", fixed = TRUE)
 })
 
 #
