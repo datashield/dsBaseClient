@@ -570,7 +570,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      statuses: read
     steps:
       - name: Checkout dsBaseClient
         uses: actions/checkout@v5
@@ -625,37 +624,70 @@ jobs:
         id: coverage
         # Codecov already computes patch (diff) coverage for this commit from
         # the cobertura.xml uploaded by each armadillo-dsbase shard, gated at
-        # 80% in codecov.yml - that is the branch-level figure we want here,
-        # so poll for the "codecov/patch" commit status it posts rather than
-        # recomputing a project-wide total ourselves. Codecov needs a little
-        # time to process the upload after this job starts, hence the poll.
+        # 80% in codecov.yml - that is the branch-level figure we want here.
+        # We used to poll the "codecov/patch" GitHub commit status for it,
+        # but this repo's Codecov integration never posts that status/check
+        # (confirmed via the GitHub API - only the PR comment feature is
+        # active), so we poll Codecov's own public API instead, which has
+        # the same data regardless of GitHub status-posting being enabled.
         uses: actions/github-script@v8
         with:
           script: |
-            const sha = context.sha;
-            let status = null;
-            for (let i = 0; i < 18 && !status; i++) {
-              if (i > 0) await new Promise(r => setTimeout(r, 10000));
-              const { data } = await github.rest.repos.getCombinedStatusForRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: sha,
+            let prNumber = context.payload.pull_request?.number;
+            if (!prNumber) {
+              const branch = context.ref.replace('refs/heads/', '');
+              const prs = await github.rest.pulls.list({
+                owner: context.repo.owner, repo: context.repo.repo,
+                head: `${context.repo.owner}:${branch}`, state: 'open'
               });
-              status = data.statuses.find(s => s.context === 'codecov/patch') || null;
+              prNumber = prs.data[0]?.number;
             }
 
-            const fallbackUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${sha}`;
+            // One session per armadillo-dsbase shard that uploads coverage
+            // (dsdanger is excluded - see the matrix above); Codecov's report
+            // isn't final until all of them have landed.
+            const EXPECTED_SESSIONS = 7;
+            const THRESHOLD = 80;
+
             let icon = '❓';
-            let text = 'no codecov/patch status found after polling';
-            let url = fallbackUrl;
-            if (status) {
-              icon = status.state === 'success' ? '✅' : status.state === 'pending' ? '⏳' : '❌';
-              text = status.description || status.state;
-              url = status.target_url || fallbackUrl;
+            let text = 'no PR found to look up patch coverage for';
+            let project = 'unknown';
+            let url = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
+
+            if (prNumber) {
+              url = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}`;
+              icon = '❓';
+              text = 'no codecov patch data found after polling';
+              for (let i = 0; i < 18; i++) {
+                if (i > 0) await new Promise(r => setTimeout(r, 10000));
+                const res = await fetch(`https://api.codecov.io/api/v2/github/${context.repo.owner}/repos/${context.repo.repo}/pulls/${prNumber}/`);
+                if (!res.ok) continue;
+                const data = await res.json();
+
+                // Whole-project total (informational only per codecov.yml) -
+                // report it as soon as it's available, independent of the
+                // patch-readiness gate below.
+                if (typeof data.head_totals?.coverage === 'number') {
+                  project = `${data.head_totals.coverage.toFixed(1)}%`;
+                }
+
+                if ((data.head_totals?.sessions ?? 0) < EXPECTED_SESSIONS) continue;
+
+                const { hits, misses, partials, coverage } = data.patch;
+                if (hits + misses + partials === 0) {
+                  icon = 'ℹ️';
+                  text = 'no coverable lines changed';
+                } else {
+                  icon = coverage >= THRESHOLD ? '✅' : '❌';
+                  text = `${coverage.toFixed(1)}% vs ${THRESHOLD}% target`;
+                }
+                break;
+              }
             }
 
             core.setOutput('icon', icon);
             core.setOutput('text', text);
+            core.setOutput('project', project);
             core.setOutput('url', url);
 
       - name: Compute results & write summary
@@ -704,6 +736,7 @@ jobs:
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
             const coverageIcon = '${{ steps.coverage.outputs.icon }}' || '❓';
             const coverageText = '${{ steps.coverage.outputs.text }}' || 'error - see log';
+            const coverageProject = '${{ steps.coverage.outputs.project }}' || 'unknown';
             // #summary-<job_id> scrolls straight to this job's summary card
             // (the pass/fail tally written via GITHUB_STEP_SUMMARY) instead
             // of just the top of the run page.
@@ -713,7 +746,7 @@ jobs:
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
               'row:tests-armadillo': `<tr><td>Armadillo unit tests</td><td>${ok ? '✅' : '❌'} <code>${tally}</code></td></tr>`,
-              'row:coverage': `<tr><td>Test coverage</td><td>${coverageIcon} ${coverageText}</td></tr>`,
+              'row:coverage': `<tr><td>Test coverage</td><td>${coverageIcon} ${coverageText} (project: ${coverageProject})</td></tr>`,
               'ver:armadillo': `\`${version}\``,
               'log:tests-armadillo': `<a href="${runUrl}" target="_blank" rel="noopener noreferrer">Armadillo unit tests</a>`,
               'log:coverage': `<a href="${codecovUrl}" target="_blank" rel="noopener noreferrer">Codecov</a>`
