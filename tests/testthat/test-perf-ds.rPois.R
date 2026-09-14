@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.rPois(samp.size=50, lambda=5, newobj="rpois.newobj", seed.as.integer=123)
+        ds.rPois(samp.size = 50, lambda = 1, newobj = "pois_dist", seed.as.integer = 27)
 
         .count <- .count + 1
         .current.time <- Sys.time()

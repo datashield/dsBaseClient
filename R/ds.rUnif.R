@@ -61,11 +61,12 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.Unif} returns random number vectors with a uniform distribution for each study,
-#' taking into account the values specified in each parameter of the function.
-#' The created vectors are stored in the server-side. If requested, it also returned to the 
-#' client-side the full 626 lengths random seed vector generated in each source
-#' (see info for the argument \code{return.full.seed.as.set}).
+#' @return \code{ds.rUnif} writes a random number vector with a uniform distribution
+#' to the server-side in each study and returns a list to the client-side containing
+#' \code{integer.seed.as.set.by.source} (the trigger seed set in each source),
+#' \code{random.vector.length.by.source} (the length of the vector created in each source)
+#' and, if \code{return.full.seed.as.set} is TRUE, \code{full.seed.as.set}
+#' (the full 626 length random seed vector generated in each source).
 #' @examples 
 #' 
 #' \dontrun{
@@ -99,8 +100,8 @@
 #'   # Generating the vectors in the Opal servers
 #'
 #'   ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
-#'            min = as.character(c(0,2,5)), #different minumum value of the function in each source
-#'            max = as.character(c(2,5,9)), #different maximum value of the function in each source
+#'            min = 0,
+#'            max = 2,
 #'            newobj = "Unif.dist",
 #'            seed.as.integer = 234,
 #'            return.full.seed.as.set = FALSE,

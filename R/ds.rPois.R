@@ -41,12 +41,12 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.rPois} returns random number vectors with a Poisson distribution for each study, 
-#' taking into  account the values specified in each parameter of the function. 
-#' The created vectors are stored in the server-side.  
-#' If requested, it also returned to the client-side the full
-#' 626 lengths random seed vector generated in each source 
-#'  (see info for the argument  \code{return.full.seed.as.set}).
+#' @return \code{ds.rPois} writes a random number vector with a Poisson distribution
+#' to the server-side in each study and returns a list to the client-side containing
+#' \code{integer.seed.as.set.by.source} (the trigger seed set in each source),
+#' \code{random.vector.length.by.source} (the length of the vector created in each source)
+#' and, if \code{return.full.seed.as.set} is TRUE, \code{full.seed.as.set}
+#' (the full 626 length random seed vector generated in each source).
 #' 
 #' @examples 
 #' 
@@ -81,7 +81,7 @@
 #'
 #'   # Generating the vectors in the Opal servers
 #'   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
-#'           lambda=as.character(c(2,3,4)), #different mean per interval (2,3,4) in each source
+#'           lambda=2,
 #'           newobj="Pois.dist",                   
 #'           seed.as.integer=1234,         
 #'           return.full.seed.as.set=FALSE, 

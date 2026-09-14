@@ -55,11 +55,12 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.rNorm} returns random number vectors with a normal  distribution for each 
-#' study, taking into account the values specified in each parameter of the function. 
-#' The output vector is written to the server-side.
-#' If requested, it also returned to the client-side the full 626 lengths random seed vector
-#' generated in each source  (see info for the argument \code{return.full.seed.as.set}).
+#' @return \code{ds.rNorm} writes a random number vector with a normal distribution
+#' to the server-side in each study and returns a list to the client-side containing
+#' \code{integer.seed.as.set.by.source} (the trigger seed set in each source),
+#' \code{random.vector.length.by.source} (the length of the vector created in each source)
+#' and, if \code{return.full.seed.as.set} is TRUE, \code{full.seed.as.set}
+#' (the full 626 length random seed vector generated in each source).
 #' @examples 
 #' \dontrun{
 #' 
@@ -92,7 +93,7 @@
 #' 
 #'   ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
 #'            mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
-#'            sd=as.character(c(1,4,3)), #the sd of the Normal distribution changes in each server
+#'            sd=1,
 #'            newobj="Norm.dist",
 #'            seed.as.integer=2345, 
 #'            return.full.seed.as.set=FALSE,

@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.rUnif(samp.size=50, min=0, max=1, newobj="runif.newobj", seed.as.integer=123)
+        ds.rUnif(samp.size = 50, min = 0, max = 1, newobj = "unif_dist", seed.as.integer = 27, force.output.to.k.decimal.places = 4)
 
         .count <- .count + 1
         .current.time <- Sys.time()

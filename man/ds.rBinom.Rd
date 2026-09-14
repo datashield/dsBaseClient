@@ -38,13 +38,12 @@ If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.rBinom} returns random number vectors 
-with a Binomial distribution for each study, 
-taking into account the values specified in each parameter of the function.
-The output vector is written to the server-side. 
-If requested, it also returned to the client-side the full 626 lengths 
-random seed vector generated in each source 
-(see info for the argument \code{return.full.seed.as.set}).
+\code{ds.rBinom} writes a random number vector with a Binomial distribution
+to the server-side in each study and returns a list to the client-side containing
+\code{integer.seed.as.set.by.source} (the trigger seed set in each source),
+\code{random.vector.length.by.source} (the length of the vector created in each source)
+and, if \code{return.full.seed.as.set} is TRUE, \code{full.seed.as.set}
+(the full 626 length random seed vector generated in each source).
 }
 \description{
 Generates random (pseudorandom) non-negative integers from a Binomial distribution.
@@ -110,7 +109,7 @@ Server functions called: \code{rBinomDS} and \code{setSeedDS}.
 
   #Generating the vectors in the Opal servers
   ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
-  size=as.character(c(10,23,5)),   #Bernoulli trials change in each source 
+  size=10,
   prob=c(0.6,0.1,0.5), #Probability  changes in each source 
   newobj="Binom.dist", 
   seed.as.integer=45, 

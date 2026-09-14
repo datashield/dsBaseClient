@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.rBinom(samp.size=50, size=10, prob=0.5, newobj="rbinom.newobj", seed.as.integer=123)
+        ds.rBinom(samp.size = 50, size = 50, prob = 0.25, newobj = "binom_dist", seed.as.integer = 27)
 
         .count <- .count + 1
         .current.time <- Sys.time()

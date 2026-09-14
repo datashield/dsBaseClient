@@ -41,6 +41,16 @@ test_that("simple test", {
     ds_expect_variables(c("D", "norm_dist"))
 })
 
+# context("ds.rNorm::smk::nonexistent object")
+test_that("nonexistent server-side object", {
+    expect_error(ds.rNorm(samp.size = 50, mean = "nonexistent_obj", sd = 5, newobj = "no.obj", seed.as.integer = 27), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 1)
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
 #
 # Done
 #
