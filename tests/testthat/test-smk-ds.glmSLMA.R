@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple glmSLMA, gaussian", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -72,17 +72,14 @@ test_that("simple glmSLMA, gaussian", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <new.glm.obj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj"))
 })
 
 # context("ds.glmSLMA::smk::gaussian-assigned")
 test_that("simple glmSLMA, gaussian-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="glmSLMA_1.newobj")
     
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -125,10 +122,7 @@ test_that("simple glmSLMA, gaussian-assigned", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <glmSLMA_1.newobj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<glmSLMA_1.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj"))
 })
 
 # context("ds.glmSLMA::smk::binomial")
@@ -142,7 +136,7 @@ test_that("simple glmSLMA, binomial", {
 
     glmSLMA.res <- ds.glmSLMA('num.medi.lpd~num.gender*num.dis.diab', family="binomial")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -185,10 +179,8 @@ test_that("simple glmSLMA, binomial", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 0)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <new.glm.obj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "str.medi.lpd", "num.medi.lpd",
+                          "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
 # context("ds.glmSLMA::smk::binomial-assigned")
@@ -202,7 +194,7 @@ test_that("simple glmSLMA, binomial-assigned", {
 
     glmSLMA.res <- ds.glmSLMA('num.medi.lpd~num.gender*num.dis.diab', family="binomial", newobj="glmSLMA_2.newobj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -245,17 +237,15 @@ test_that("simple glmSLMA, binomial-assigned", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 0)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <glmSLMA_2.newobj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<glmSLMA_2.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "glmSLMA_2.newobj", "str.medi.lpd", "num.medi.lpd",
+                          "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
 # context("ds.glmSLMA::smk::poisson")
 test_that("simple glmSLMA, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -298,17 +288,15 @@ test_that("simple glmSLMA, poisson", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <new.glm.obj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<new.glm.obj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "glmSLMA_2.newobj", "str.medi.lpd", "num.medi.lpd",
+                          "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
 # context("ds.glmSLMA::smk::poisson-assigned")
 test_that("simple glmSLMA, poisson-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="glmSLMA_3.newobj")
 
-    expect_length(glmSLMA.res, 9)
+    expect_length(glmSLMA.res, 7)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -351,10 +339,8 @@ test_that("simple glmSLMA, poisson-assigned", {
     expect_equal(glmSLMA.res$output.summary$study3$Ntotal, 4128)
     expect_equal(glmSLMA.res$output.summary$study3$Nvalid, 3473)
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
-    expect_length(glmSLMA.res$is.object.created, 1)
-    expect_equal(glmSLMA.res$is.object.created, "A data object <glmSLMA_3.newobj> has been created in all specified data sources")
-    expect_length(glmSLMA.res$validity.check, 1)
-    expect_equal(glmSLMA.res$validity.check, "<glmSLMA_3.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "glmSLMA_2.newobj", "glmSLMA_3.newobj",
+                          "str.medi.lpd", "num.medi.lpd", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
 #
