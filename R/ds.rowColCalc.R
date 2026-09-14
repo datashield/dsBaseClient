@@ -19,6 +19,7 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return \code{ds.rowColCalc} returns to the server-side  rows and columns sums and means. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #' 
@@ -100,10 +101,10 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
   dim2 <- c()
   for(i in 1:numsources){
     dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
-    if(length(dims[[1]]) != 2){
+    if(length(dims[[1]]$dim) != 2){
       stop("The input table in ", stdnames[i]," has more than two dimensions. Only strutures of two dimensions are allowed", call.=FALSE)
     }
-    dim2 <- append(dim2, dims[[1]][2])
+    dim2 <- append(dim2, dims[[1]]$dim[2])
   }
 
   # check that, for each study,  all the columns of the input table are of 'numeric' type

@@ -33,5 +33,7 @@ if the user specify a table structure.
 }
 \author{
 Gaye, A.
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
 \keyword{internal}

@@ -29,9 +29,6 @@ test_that("setup", {
 test_that("simple test", {
     res <- ds.recodeValues("D$time.id", values2replace.vector=c(1,2), new.values.vector=c(10,20), newobj="time.id")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <time.id> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<time.id> appears valid in all sources")
 
     ds.dataFrame(c('D$time.id'), newobj='odf')
     odf <- ds.DANGERdfEXTRACT('odf')

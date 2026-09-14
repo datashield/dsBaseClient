@@ -77,4 +77,6 @@ a subset is empty (i.e. no entries) the name of the subset is labelled with the 
 }
 \author{
 Gaye, A.
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

@@ -80,4 +80,6 @@ Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

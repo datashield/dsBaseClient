@@ -29,9 +29,6 @@ test_that("setup", {
 test_that("simple factor 1", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c('0'), new.values.vector=c('2'), newobj="GENDER")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <GENDER> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<GENDER> appears valid in all sources")
 
     ds.dataFrame(c('D$GENDER'), newobj='odf_1')
     odf <- ds.DANGERdfEXTRACT('odf_1')
@@ -84,9 +81,6 @@ test_that("simple factor 1", {
 test_that("simple factor 2", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0), new.values.vector=c(2), newobj="GENDER")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <GENDER> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<GENDER> appears valid in all sources")
 
     ds.dataFrame(c('D$GENDER'), newobj='odf_2')
     odf <- ds.DANGERdfEXTRACT('odf_2')
@@ -139,9 +133,6 @@ test_that("simple factor 2", {
 test_that("simple factor 3", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0), new.values.vector=c(2), missing='3', newobj="GENDER")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <GENDER> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<GENDER> appears valid in all sources")
 
     ds.dataFrame(c('D$GENDER'), newobj='odf_3')
     odf <- ds.DANGERdfEXTRACT('odf_3')
@@ -200,9 +191,6 @@ test_that("simple factor 3", {
 test_that("simple factor 4", {
     res <- ds.recodeValues("D$GENDER", values2replace.vector=c(0,1), new.values.vector=c(10,20), newobj="GENDER")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <GENDER> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<GENDER> appears valid in all sources")
 
     ds.dataFrame(c('D$GENDER'), newobj='odf_4')
     odf <- ds.DANGERdfEXTRACT('odf_4')

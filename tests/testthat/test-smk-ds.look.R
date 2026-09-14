@@ -31,9 +31,9 @@ test_that("simple look", {
 
     expect_length(res, 1)
     expect_length(res$output, 3)
-    expect_equal(res$output$sim1, 2163)
-    expect_equal(res$output$sim2, 3088)
-    expect_equal(res$output$sim3, 4128)
+    expect_equal(res$output$sim1$length, 2163)
+    expect_equal(res$output$sim2$length, 3088)
+    expect_equal(res$output$sim3$length, 4128)
 })
 
 #

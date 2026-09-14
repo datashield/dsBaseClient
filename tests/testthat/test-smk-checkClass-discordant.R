@@ -27,15 +27,24 @@ test_that("setup", {
 
 # context("checkClass::smk::discordant")
 test_that("simple test, discordant dataset A", {
-    expect_error(checkClass(ds.test_env$connections, "D$A"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$A"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_length(res.errors, 1)
+    expect_match(res.errors[[1]], "Column 'A' not found in 'D'")
 })
 
 test_that("simple test, discordant dataset B", {
-    expect_error(checkClass(ds.test_env$connections, "D$B"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$B"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_length(res.errors, 1)
+    expect_match(res.errors[[1]], "Column 'B' not found in 'D'")
 })
 
 test_that("simple test, discordant dataset C", {
-    expect_error(checkClass(ds.test_env$connections, "D$C"), " End of process!", fixed=TRUE)
+    expect_error(checkClass(ds.test_env$connections, "D$C"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
+    res.errors <- DSI::datashield.errors()
+    expect_length(res.errors, 1)
+    expect_match(res.errors[[1]], "Column 'C' not found in 'D'")
 })
 
 #

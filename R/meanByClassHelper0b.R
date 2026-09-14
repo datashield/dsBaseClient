@@ -15,6 +15,7 @@
 #' and standard deviation in each subgroup (subset).
 #' @keywords internal
 #' @author Gaye, A.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
 meanByClassHelper0b <- function(x, outvar, covar, type, datasources){
   if(is.null(outvar)){
@@ -32,14 +33,14 @@ meanByClassHelper0b <- function(x, outvar, covar, type, datasources){
   # categories in each of the categorical variables
   classes <- vector("list", length(covar))
   for(i in 1:length(covar)){
-    cally <- paste0("levelsDS(",paste0(x, '$', covar[i]), ")")
+    cally <- call("levelsDS", paste0(x, '$', covar[i]))
 
     all.study.levels <- list()
-    full.levels.resp <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+    full.levels.resp <- DSI::datashield.aggregate(datasources, cally)
     for (index in 1:length(full.levels.resp)) {
-      if (any(is.na(full.levels.resp[[i]]$Levels)))
-        stop(paste0("Failed to get levels from study: ", full.levels.resp[[i]]$ValidityMessage), call.=FALSE)
-      all.study.levels[[index]] <- full.levels.resp[[i]]$Levels
+      if (any(is.na(full.levels.resp[[index]]$Levels)))
+        stop(paste0("Failed to get levels from study"), call.=FALSE)
+      all.study.levels[[index]] <- full.levels.resp[[index]]$Levels
     }
     classes[[i]] <- all.study.levels
   }

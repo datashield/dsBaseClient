@@ -28,7 +28,7 @@ Computes the logarithms for a specified numeric vector.
 This function is similar to the R \code{log} function. by default natural logarithms.
 }
 \details{
-Server function called: \code{log}
+Server function called: \code{logDS}
 }
 \examples{
 \dontrun{
@@ -73,4 +73,6 @@ Server function called: \code{log}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

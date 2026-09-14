@@ -44,6 +44,17 @@ test_that("level_names", {
   expect_equal(res$sim3[2], 'LAB_HDL')
 })
 
+test_that("names, wrong input class returns a server error", {
+    expect_error(ds.names(x="D$LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_match(res.errors$sim1, "The input object is not of class <list>. 'D$LAB_TSC' is type numeric", fixed = TRUE)
+    expect_match(res.errors$sim2, "The input object is not of class <list>. 'D$LAB_TSC' is type numeric", fixed = TRUE)
+    expect_match(res.errors$sim3, "The input object is not of class <list>. 'D$LAB_TSC' is type numeric", fixed = TRUE)
+})
+
 #
 # Tear down
 #

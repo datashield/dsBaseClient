@@ -1,0 +1,6 @@
+"refer_name","rate","lower_tolerance","upper_tolerance"
+"ds.asFactor::perf::0","22.5315","0.5","2"
+"ds.asFactorSimple::perf::0","23.9648","0.5","2"
+"ds.changeRefGroup::perf::0","24.4483","0.5","2"
+"ds.dmtC2S::perf::0","35.8918","0.5","2"
+"ds.reShape::perf::0","25.3213","0.5","2"

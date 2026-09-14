@@ -1,4 +1,5 @@
 template:
+  bootstrap: 5
   lang: en-GB
   params:
     bootswatch: simplex

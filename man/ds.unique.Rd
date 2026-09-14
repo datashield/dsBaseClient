@@ -61,4 +61,6 @@ Server function called: \code{uniqueDS}
 }
 \author{
 Stuart Wheater, DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
