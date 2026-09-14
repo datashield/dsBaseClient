@@ -11,6 +11,9 @@ inputs:
   dsbase-ref:
     description: dsBase GitHub ref to build and install
     required: true
+  armadillo-version:
+    description: molgenis/molgenis-armadillo Docker image tag to run
+    required: true
 
 runs:
   using: composite
@@ -60,6 +63,8 @@ runs:
 
     - name: Start Armadillo docker-compose
       shell: bash
+      env:
+        ARMADILLO_VERSION: ${{ inputs.armadillo-version }}
       run: docker compose -f docker-compose_armadillo.yml up -d
       working-directory: dsBaseClient
 

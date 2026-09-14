@@ -1,6 +1,6 @@
 services:
     armadillo:
-        image: molgenis/molgenis-armadillo:latest
+        image: molgenis/molgenis-armadillo:${ARMADILLO_VERSION:-latest}
         ports:
             - 8080:8080
         volumes:

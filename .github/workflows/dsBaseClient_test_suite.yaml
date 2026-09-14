@@ -72,6 +72,10 @@ on:
         description: dsBase branch, tag or SHA to test against
         required: false
         default: v7.0-dev
+      armadillo-version:
+        description: molgenis/molgenis-armadillo Docker image tag to test against
+        required: false
+        default: 5.17.3
   schedule:
     - cron: '0 0 * * 0'   # Weekly
     - cron: '0 1 * * *'   # Nightly
@@ -91,6 +95,7 @@ env:
   PROJECT_NAME: dsBaseClient
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   DSBASE_REF: ${{ inputs.dsbase-ref || 'v7.0-dev' }}
+  ARMADILLO_VERSION: ${{ inputs.armadillo-version || '5.17.3' }}
   R_KEEP_PKG_SOURCE: yes
   # Selects perf_files/<driver>_<PERF_PROFILE>_perf-profile.csv as the perf
   # test reference rates/tolerances (see tests/testthat/perf_tests/perf_rate.R).
@@ -442,6 +447,7 @@ jobs:
       - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
         with:
           dsbase-ref: ${{ env.DSBASE_REF }}
+          armadillo-version: ${{ env.ARMADILLO_VERSION }}
 
       - name: Install dsDangerClient
         if: matrix.category == 'dsdanger'
