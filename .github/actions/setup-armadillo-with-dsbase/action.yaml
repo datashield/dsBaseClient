@@ -65,7 +65,7 @@ runs:
       shell: bash
       env:
         ARMADILLO_VERSION: ${{ inputs.armadillo-version }}
-      run: docker compose -f docker-compose_armadillo.yml up -d
+      run: docker compose -f docker-compose_armadillo_gha.yml up -d
       working-directory: dsBaseClient
 
     - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
@@ -83,7 +83,7 @@ runs:
           sleep 5
         done
         echo "Armadillo did not become ready in time"
-        docker compose -f docker-compose_armadillo.yml logs armadillo || true
+        docker compose -f docker-compose_armadillo_gha.yml logs armadillo || true
         exit 1
       working-directory: dsBaseClient
 
@@ -162,5 +162,5 @@ runs:
     - name: Dump Armadillo server log
       if: failure()
       shell: bash
-      run: docker compose -f docker-compose_armadillo.yml logs armadillo | grep "Caused by:" | sort -u || true
+      run: docker compose -f docker-compose_armadillo_gha.yml logs armadillo | grep "Caused by:" | sort -u || true
       working-directory: dsBaseClient
