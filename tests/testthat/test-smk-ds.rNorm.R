@@ -51,6 +51,22 @@ test_that("nonexistent server-side object", {
     expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
 })
 
+# context("ds.rNorm::smk::one value per study")
+test_that("one value per study", {
+    ds.rNorm(samp.size = 50, mean = c(0, 100, 200), sd = 1, newobj = "norm_by_study", seed.as.integer = 27)
+
+    res.mean <- ds.mean(x = "norm_by_study", type = "split")
+
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[1]) - 0), 1)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[2]) - 100), 1)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[3]) - 200), 1)
+})
+
+# context("ds.rNorm::smk::wrong number of values")
+test_that("wrong number of values per study", {
+    expect_error(ds.rNorm(samp.size = 50, mean = c(0, 100), sd = 1, newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
+})
+
 #
 # Done
 #
@@ -58,7 +74,7 @@ test_that("nonexistent server-side object", {
 # context("ds.rNorm::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "norm_dist"))
+    ds_expect_variables(c("D", "norm_dist", "norm_by_study"))
 })
 
 disconnect.studies.dataset.cnsim()

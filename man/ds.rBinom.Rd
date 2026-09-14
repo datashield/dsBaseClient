@@ -18,10 +18,10 @@ ds.rBinom(
 \item{samp.size}{an integer value or an integer vector that defines the length of 
 the random numeric vector to be created in each source.}
 
-\item{size}{a positive integer that specifies the number of Bernoulli trials.}
+\item{size}{a positive integer that specifies the number of Bernoulli trials. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{prob}{a numeric scalar value or vector  in range 0 > prob > 1 which specifies the
-probability of a positive response (i.e. 1 rather than 0).}
+probability of a positive response (i.e. 1 rather than 0). A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{rbinom.newobj}.}
@@ -109,7 +109,7 @@ Server functions called: \code{rBinomDS} and \code{setSeedDS}.
 
   #Generating the vectors in the Opal servers
   ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
-  size=10,
+  size=c(10,23,5),   #Bernoulli trials change in each source
   prob=c(0.6,0.1,0.5), #Probability  changes in each source 
   newobj="Binom.dist", 
   seed.as.integer=45, 

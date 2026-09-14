@@ -31,9 +31,9 @@
 #' Server functions called: \code{rBinomDS} and \code{setSeedDS}. 
 #' @param samp.size an integer value or an integer vector that defines the length of 
 #' the random numeric vector to be created in each source.
-#' @param size a positive integer that specifies the number of Bernoulli trials.
+#' @param size a positive integer that specifies the number of Bernoulli trials. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.
 #' @param prob a numeric scalar value or vector  in range 0 > prob > 1 which specifies the
-#' probability of a positive response (i.e. 1 rather than 0).  
+#' probability of a positive response (i.e. 1 rather than 0). A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.  
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{rbinom.newobj}. 
 #' @param seed.as.integer an integer or a NULL value which provides the 
@@ -82,7 +82,7 @@
 #' 
 #'   #Generating the vectors in the Opal servers
 #'   ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
-#'   size=10,
+#'   size=c(10,23,5),   #Bernoulli trials change in each source
 #'   prob=c(0.6,0.1,0.5), #Probability  changes in each source 
 #'   newobj="Binom.dist", 
 #'   seed.as.integer=45, 
@@ -153,9 +153,13 @@ mess2<-("ERROR: appropriate values must be set for samp.size, size, prob, and ne
 return(mess2)
 }
 
+numsources<-length(datasources)
+size<-.expand_to_studies(size, "size", numsources)
+prob<-.expand_to_studies(prob, "prob", numsources)
+
 size.valid<-1
 if(is.numeric(size)){
-	if(size<=0){
+	if(any(size<=0)){
 		size.valid<-0
 	}
 }
@@ -167,7 +171,7 @@ return(mess3)
 
 prob.valid<-1
 if(is.numeric(prob)){
-	if(prob<=0||prob>=1.0){
+	if(any(prob<=0|prob>=1.0)){
 		prob.valid<-0
 	}
 }
@@ -225,7 +229,7 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
-  DSI::datashield.assign(datasources[k], newobj, call("rBinomDS", samp.size[k], size=size, prob=prob))
+  DSI::datashield.assign(datasources[k], newobj, call("rBinomDS", samp.size[k], size=size[k], prob=prob[k]))
 }
 
 if(return.full.seed.as.set){

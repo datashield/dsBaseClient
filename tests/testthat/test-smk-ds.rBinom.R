@@ -51,6 +51,22 @@ test_that("nonexistent server-side object", {
     expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
 })
 
+# context("ds.rBinom::smk::one value per study")
+test_that("one value per study", {
+    ds.rBinom(samp.size = 50, size = c(1, 10, 100), prob = 0.5, newobj = "binom_by_study", seed.as.integer = 27)
+
+    res.mean <- ds.mean(x = "binom_by_study", type = "split")
+
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[1]) - 0.5), 0.3)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[2]) - 5), 1.5)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[3]) - 50), 5)
+})
+
+# context("ds.rBinom::smk::wrong number of values")
+test_that("wrong number of values per study", {
+    expect_error(ds.rBinom(samp.size = 50, size = c(1, 10), prob = 0.5, newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
+})
+
 #
 # Done
 #
@@ -58,7 +74,7 @@ test_that("nonexistent server-side object", {
 # context("ds.rBinom::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "binom_dist"))
+    ds_expect_variables(c("D", "binom_dist", "binom_by_study"))
 })
 
 disconnect.studies.dataset.cnsim()

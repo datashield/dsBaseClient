@@ -29,7 +29,7 @@
 #'  
 #' @param samp.size an integer value or an integer vector that defines the length of the
 #' random numeric vector to be created in each source. 
-#' @param lambda the number of events mean per interval. 
+#' @param lambda the number of events mean per interval. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k. 
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer or a NULL value which provides the random seed
@@ -81,7 +81,7 @@
 #'
 #'   # Generating the vectors in the Opal servers
 #'   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
-#'           lambda=2,
+#'           lambda=c(2,3,4), #different mean per interval (2,3,4) in each source
 #'           newobj="Pois.dist",                   
 #'           seed.as.integer=1234,         
 #'           return.full.seed.as.set=FALSE, 
@@ -144,9 +144,12 @@ mess2<-("ERROR: appropriate values must be set for samp.size, lambda, and newobj
 return(mess2)
 }
 
+numsources<-length(datasources)
+lambda<-.expand_to_studies(lambda, "lambda", numsources)
+
 lambda.valid<-1
 if(is.numeric(lambda)){
-	if(lambda<=0){
+	if(any(lambda<=0)){
 		lambda.valid<-0
 	}
 }
@@ -201,7 +204,7 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
-  DSI::datashield.assign(datasources[k], newobj, call("rPoisDS", samp.size[k], lambda=lambda))
+  DSI::datashield.assign(datasources[k], newobj, call("rPoisDS", samp.size[k], lambda=lambda[k]))
 }
 
 if(return.full.seed.as.set){

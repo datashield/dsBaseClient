@@ -19,9 +19,9 @@ ds.rNorm(
 \item{samp.size}{an integer value or an integer vector that defines the length
 of the random numeric vector to be created in each source.}
 
-\item{mean}{the mean value or vector of the Normal distribution to be created.}
+\item{mean}{the mean value or vector of the Normal distribution to be created. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
-\item{sd}{the standard deviation of the Normal distribution to be created.}
+\item{sd}{the standard deviation of the Normal distribution to be created. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{newObject}.}
@@ -35,7 +35,7 @@ If FALSE it will only return the trigger seed value you have provided.
 Default is FALSE.}
 
 \item{force.output.to.k.decimal.places}{an integer vector that 
-forces the output random numbers vector to have k decimals.}
+forces the output random numbers vector to have k decimals. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
@@ -122,8 +122,8 @@ Server functions called: \code{rNormDS} and \code{setSeedDS}.
   # Generating the vectors in the Opal servers
 
   ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
-           mean=c(1,6,4),         #the mean cycles through 1, 6, 4 across observations
-           sd=1,
+           mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
+           sd=c(1,4,3), #the sd of the Normal distribution changes in each server
            newobj="Norm.dist",
            seed.as.integer=2345, 
            return.full.seed.as.set=FALSE,

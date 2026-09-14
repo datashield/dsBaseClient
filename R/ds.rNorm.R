@@ -40,8 +40,8 @@
 #' 
 #' @param samp.size an integer value or an integer vector that defines the length
 #' of the random numeric vector to be created in each source.
-#' @param mean the mean value or vector of the Normal distribution to be created. 
-#' @param sd the standard deviation of the Normal distribution to be created. 
+#' @param mean the mean value or vector of the Normal distribution to be created. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k. 
+#' @param sd the standard deviation of the Normal distribution to be created. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k. 
 #' @param newobj a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer 
@@ -51,7 +51,7 @@
 #' If FALSE it will only return the trigger seed value you have provided. 
 #' Default is FALSE.
 #' @param force.output.to.k.decimal.places an integer vector that 
-#' forces the output random numbers vector to have k decimals.  
+#' forces the output random numbers vector to have k decimals. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.  
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
@@ -92,8 +92,8 @@
 #'   # Generating the vectors in the Opal servers
 #' 
 #'   ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
-#'            mean=c(1,6,4),         #the mean cycles through 1, 6, 4 across observations
-#'            sd=1,
+#'            mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
+#'            sd=c(1,4,3), #the sd of the Normal distribution changes in each server
 #'            newobj="Norm.dist",
 #'            seed.as.integer=2345, 
 #'            return.full.seed.as.set=FALSE,
@@ -162,9 +162,14 @@ mess2<-("ERROR: appropriate values must be set for samp.size, mean, sd, and newo
 return(mess2)
 }
 
+numsources<-length(datasources)
+mean<-.expand_to_studies(mean, "mean", numsources)
+sd<-.expand_to_studies(sd, "sd", numsources)
+force.output.to.k.decimal.places<-.expand_to_studies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
+
 sd.valid<-1
 if(is.numeric(sd)){
-	if(sd<=0){
+	if(any(sd<=0)){
 		sd.valid<-0
 	}
 }
@@ -175,7 +180,7 @@ return(mess3)
 }
 
 decimal.places.valid<-1
-if(force.output.to.k.decimal.places<0||force.output.to.k.decimal.places>9){
+if(any(force.output.to.k.decimal.places<0|force.output.to.k.decimal.places>9)){
 decimal.places.valid<-0
 }
 
@@ -229,7 +234,7 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
-  DSI::datashield.assign(datasources[k], newobj, call("rNormDS", samp.size[k], mean=mean, sd=sd, force.output.to.k.decimal.places=force.output.to.k.decimal.places))
+  DSI::datashield.assign(datasources[k], newobj, call("rNormDS", samp.size[k], mean=mean[k], sd=sd[k], force.output.to.k.decimal.places=force.output.to.k.decimal.places[k]))
 }
 
 if(return.full.seed.as.set){

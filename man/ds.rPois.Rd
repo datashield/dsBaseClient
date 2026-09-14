@@ -17,7 +17,7 @@ ds.rPois(
 \item{samp.size}{an integer value or an integer vector that defines the length of the
 random numeric vector to be created in each source.}
 
-\item{lambda}{the number of events mean per interval.}
+\item{lambda}{the number of events mean per interval. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{newObject}.}
@@ -103,7 +103,7 @@ Server functions called: \code{rPoisDS} and \code{setSeedDS}.
 
   # Generating the vectors in the Opal servers
   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
-          lambda=2,
+          lambda=c(2,3,4), #different mean per interval (2,3,4) in each source
           newobj="Pois.dist",                   
           seed.as.integer=1234,         
           return.full.seed.as.set=FALSE, 

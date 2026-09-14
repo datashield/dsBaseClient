@@ -43,10 +43,10 @@
 #' 
 #' @param samp.size an integer value or an integer vector that defines the 
 #' length of the random numeric vector to be created in each source.
-#' @param min a numeric scalar that specifies the minimum value of the 
-#' random numbers in the distribution.    
-#' @param max a numeric scalar that specifies the maximum value of the 
-#' random numbers in the distribution.
+#' @param min a numeric value that specifies the minimum value of the 
+#' random numbers in the distribution. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.    
+#' @param max a numeric value that specifies the maximum value of the 
+#' random numbers in the distribution. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.
 #' @param newobj 	a character string that provides the name for the output variable 
 #' that is stored on the data servers. Default \code{newObject}. 
 #' @param seed.as.integer an integer or a NULL value which provides the random 
@@ -56,7 +56,7 @@
 #' return the trigger seed value you have provided. Default is FALSE.
 #' @param force.output.to.k.decimal.places an integer or 
 #' an integer vector that forces the output random 
-#' numbers vector to have k decimals.
+#' numbers vector to have k decimals. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.
 #' 
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
@@ -100,8 +100,8 @@
 #'   # Generating the vectors in the Opal servers
 #'
 #'   ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
-#'            min = 0,
-#'            max = 2,
+#'            min = c(0,2,5), #different minumum value of the function in each source
+#'            max = c(2,5,9), #different maximum value of the function in each source
 #'            newobj = "Unif.dist",
 #'            seed.as.integer = 234,
 #'            return.full.seed.as.set = FALSE,
@@ -171,11 +171,16 @@ mess2<-("ERROR: appropriate values must be set for samp.size, min, max, and newo
 return(mess2)
 }
 
+numsources<-length(datasources)
+min<-.expand_to_studies(min, "min", numsources)
+max<-.expand_to_studies(max, "max", numsources)
+force.output.to.k.decimal.places<-.expand_to_studies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
+
 
 minmax.valid<-1
 if(is.numeric(min) && is.numeric(max)){
 
-	if(min>=max){
+	if(any(min>=max)){
 		minmax.valid<-0
 		}
 
@@ -187,7 +192,7 @@ return(mess3)
 }
 
 decimal.places.valid<-1
-if(force.output.to.k.decimal.places<0||force.output.to.k.decimal.places>9){
+if(any(force.output.to.k.decimal.places<0|force.output.to.k.decimal.places>9)){
 decimal.places.valid<-0
 }
 
@@ -241,7 +246,7 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
-  DSI::datashield.assign(datasources[k], newobj, call("rUnifDS", samp.size[k], min=min, max=max, force.output.to.k.decimal.places=force.output.to.k.decimal.places))
+  DSI::datashield.assign(datasources[k], newobj, call("rUnifDS", samp.size[k], min=min[k], max=max[k], force.output.to.k.decimal.places=force.output.to.k.decimal.places[k]))
 }
 
 if(return.full.seed.as.set){
