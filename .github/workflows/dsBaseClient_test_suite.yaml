@@ -372,7 +372,10 @@ jobs:
             const ok = '${{ steps.results.outputs.ok }}' === 'true';
             const tally = '${{ steps.results.outputs.tally }}' || 'error - see log';
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
-            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            // #summary-<job_id> scrolls straight to this job's summary card
+            // (the pass/fail tally written via GITHUB_STEP_SUMMARY) instead
+            // of just the top of the run page.
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}#summary-${{ job.check_run_id }}`;
 
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
@@ -701,7 +704,10 @@ jobs:
             const version = '${{ steps.results.outputs.version }}' || 'unknown';
             const coverageIcon = '${{ steps.coverage.outputs.icon }}' || '❓';
             const coverageText = '${{ steps.coverage.outputs.text }}' || 'error - see log';
-            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            // #summary-<job_id> scrolls straight to this job's summary card
+            // (the pass/fail tally written via GITHUB_STEP_SUMMARY) instead
+            // of just the top of the run page.
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}#summary-${{ job.check_run_id }}`;
             const codecovUrl = '${{ steps.coverage.outputs.url }}' || `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
 
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
