@@ -567,6 +567,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      statuses: read
     steps:
       - name: Checkout dsBaseClient
         uses: actions/checkout@v5
@@ -586,7 +587,6 @@ jobs:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
             cran::xml2
-            cran::covr
 
       - name: Download shard/dsdanger results
         uses: actions/download-artifact@v7
@@ -620,25 +620,40 @@ jobs:
 
       - name: Compute coverage
         id: coverage
-        # Coverage is only computed here (not for Opal): dsBaseClients own
-        # R/ source never branches on backend (verified - the only
-        # Opal/Armadillo-specific references in R/ are inside roxygen
-        # @examples comments, not executable code), so a single backends
-        # coverage figure is equivalent to a combined one.
-        run: |
-          Rscript -e '
-            source(".github/scripts/summarise-junit.R")
-            rds_files <- list.files("artifacts", pattern = "coverage\\.rds$", recursive = TRUE, full.names = TRUE)
-            summary <- compute_coverage_summary(rds_files, threshold = 80)
+        # Codecov already computes patch (diff) coverage for this commit from
+        # the cobertura.xml uploaded by each armadillo-dsbase shard, gated at
+        # 80% in codecov.yml - that is the branch-level figure we want here,
+        # so poll for the "codecov/patch" commit status it posts rather than
+        # recomputing a project-wide total ourselves. Codecov needs a little
+        # time to process the upload after this job starts, hence the poll.
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const sha = context.sha;
+            let status = null;
+            for (let i = 0; i < 18 && !status; i++) {
+              if (i > 0) await new Promise(r => setTimeout(r, 10000));
+              const { data } = await github.rest.repos.getCombinedStatusForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: sha,
+              });
+              status = data.statuses.find(s => s.context === 'codecov/patch') || null;
+            }
 
-            out <- Sys.getenv("GITHUB_OUTPUT")
-            cat(
-              sprintf("icon=%s\n", summary$icon),
-              sprintf("text=%s\n", summary$text),
-              file = out, append = TRUE, sep = ""
-            )
-          '
-        working-directory: dsBaseClient
+            const fallbackUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${sha}`;
+            let icon = '❓';
+            let text = 'no codecov/patch status found after polling';
+            let url = fallbackUrl;
+            if (status) {
+              icon = status.state === 'success' ? '✅' : status.state === 'pending' ? '⏳' : '❌';
+              text = status.description || status.state;
+              url = status.target_url || fallbackUrl;
+            }
+
+            core.setOutput('icon', icon);
+            core.setOutput('text', text);
+            core.setOutput('url', url);
 
       - name: Compute results & write summary
         id: results
@@ -687,7 +702,7 @@ jobs:
             const coverageIcon = '${{ steps.coverage.outputs.icon }}' || '❓';
             const coverageText = '${{ steps.coverage.outputs.text }}' || 'error - see log';
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const codecovUrl = `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
+            const codecovUrl = '${{ steps.coverage.outputs.url }}' || `https://app.codecov.io/gh/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}`;
 
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
             await postCiComment({ github, context, updates: {
