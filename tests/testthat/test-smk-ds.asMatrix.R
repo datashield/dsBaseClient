@@ -27,11 +27,12 @@ test_that("setup", {
 
 # context("ds.asMatrix::smk::simple test")
 test_that("simple test", {
-    res <- ds.asMatrix(x.name="D$GENDER")
+    expect_no_error(ds.asMatrix(x.name="D$GENDER"))
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <asmatrix.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<asmatrix.newobj> appears valid in all sources")
+    res.class <- ds.class("asmatrix.newobj")
+    expect_true("matrix" %in% res.class$sim1)
+    expect_true("matrix" %in% res.class$sim2)
+    expect_true("matrix" %in% res.class$sim3)
 })
 
 #

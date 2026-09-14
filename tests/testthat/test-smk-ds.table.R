@@ -32,11 +32,19 @@ test_that("simple dataframe input setup", {
 
   myvectors <- c('factorInteger', 'factorCharacter', "factorCategory")
   res1 <- ds.dataFrame(x=myvectors, newobj="tablesource")
-  subset.res <- ds.dataFrameSubset(df.name="tablesource", V1.name="factorInteger", V2.name='6', Boolean.operator="!=", newobj="tablesource_subset")
+  ds.dataFrameSubset(df.name="tablesource", V1.name="factorInteger", V2.name='6', Boolean.operator="!=", newobj="tablesource_subset")
 
-  expect_length(subset.res, 2)
-  expect_equal(subset.res$is.object.created, "A data object <tablesource_subset> has been created in all specified data sources")
-  expect_equal(subset.res$validity.check, "<tablesource_subset> appears valid in all sources")
+  subset.dim <- ds.dim("tablesource_subset")
+  expect_length(subset.dim, 4)
+  expect_length(subset.dim$`dimensions of tablesource_subset in study1`, 2)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study1`[1], 71)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study1`[2], 3)
+  expect_length(subset.dim$`dimensions of tablesource_subset in study2`, 2)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study2`[1], 61)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study2`[2], 3)
+  expect_length(subset.dim$`dimensions of tablesource_subset in study3`, 2)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study3`[1], 71)
+  expect_equal(subset.dim$`dimensions of tablesource_subset in study3`[2], 3)
 })
 
 # context("ds.table::smk::simple table 1D")

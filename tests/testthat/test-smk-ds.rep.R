@@ -27,11 +27,9 @@ test_that("setup", {
 
 # context("ds.rep::smk")
 test_that("simple test", {
-    res <- ds.rep("D$survtime")
+    ds.rep("D$survtime")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <seq.vect> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<seq.vect> appears valid in all sources")
+    ds_expect_variables(c("D", "seq.vect"))
 })
 
 #

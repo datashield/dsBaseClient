@@ -29,9 +29,6 @@ test_that("setup", {
 test_that("simple boole, variable", {
     res <- ds.Boole("D$LAB_TSC", "D$LAB_TRIG", "==")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <boole.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<boole.newobj> appears valid in all sources")
 
     res.boole <- ds.summary("boole.newobj")
 
@@ -78,9 +75,6 @@ test_that("simple boole, variable", {
 test_that("simple boole, small neg constant V2", {
     res <- ds.Boole("D$LAB_TRIG", "-1", "<", numeric.output = TRUE, newobj = "boole01.obj")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <boole01.obj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<boole01.obj> appears valid in all sources")
 
     res.boole <- ds.summary("boole01.obj")
 
@@ -126,9 +120,6 @@ test_that("simple boole, small neg constant V2", {
 test_that("simple boole, big neg constant V2", {
     res <- ds.Boole("D$LAB_TRIG", "-10", "<", numeric.output = TRUE, newobj = "boole02.obj")
   
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <boole02.obj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<boole02.obj> appears valid in all sources")
 
     res.boole <- ds.summary("boole02.obj")
 

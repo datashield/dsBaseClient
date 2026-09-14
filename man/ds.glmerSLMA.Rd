@@ -306,4 +306,6 @@ Server function called: \code{glmerSLMADS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

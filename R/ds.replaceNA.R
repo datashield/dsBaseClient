@@ -26,6 +26,7 @@
 #' with the missing values replaced by the specified values.
 #'  The class of the vector is the same as the initial vector. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -91,22 +92,11 @@
 #' 
 ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a vector!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
 
   # check if replacement values have been provided
   if(is.null(forNA)){
@@ -123,7 +113,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     # number of missing values stop the process and tell the analyst
     cally <- call("numNaDS", x)
     numNAs <- DSI::datashield.aggregate(datasources[i], cally)
-    if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]){
+    if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]$numNA){
       message("The number of replacement values must be of length 1 or of the same length as the number of missing values.")
       stop(paste0("This is not the case in ", names(datasources)[i]), call.=FALSE)
     }
@@ -136,11 +126,8 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
   # call the server side function and doo the replacement for each server
   for(i in 1:length(datasources)){
     message(paste0("--Processing ", names(datasources)[i], "..."))
-    cally <- paste0("replaceNaDS(", x, paste0(", vectorDS(",paste(forNA[[i]],collapse=","),")"), ")")
-    DSI::datashield.assign(datasources[i], newobj, as.symbol(cally))
-
-    # check that the new object has been created and display a message accordingly
-    finalcheck <- isAssigned(datasources[i], newobj)
+    cally <- call("replaceNaDS", x, forNA[[i]])
+    DSI::datashield.assign(datasources[i], newobj, cally)
 
     # if the input vector is within a table structure append the new vector to that table
     inputElts <- extract(x)

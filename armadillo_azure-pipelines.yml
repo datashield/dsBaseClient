@@ -34,6 +34,7 @@ variables:
   branchName:  $(Build.SourceBranchName)
   test_filter: '*'
   _r_check_system_clock_: 0
+  perf.profile: 'azure-pipeline'
 
 
 #########################################################################################
@@ -132,12 +133,13 @@ jobs:
       sudo apt-get upgrade -y
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
-      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev -y
-      sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+      sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
+
+      # Use Posit Public Package Manager, which serves precompiled binary packages
+      # for this Ubuntu release instead of source - so dependencies are downloaded
+      # rather than compiled (the slow part). The HTTPUserAgent option is what makes
+      # the manager hand back binaries.
+      sudo R -q -e "options(repos=c(CRAN=paste0('https://packagemanager.posit.co/cran/__linux__/', system('lsb_release -cs', intern=TRUE), '/latest')), HTTPUserAgent=sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version\$platform, R.version\$arch, R.version\$os)), Ncpus=4); install.packages(c('devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), dependencies=TRUE)"
 
       sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='v6.3.4-dev', dependencies = TRUE)"
 
@@ -274,7 +276,7 @@ jobs:
       #
       # "_-|arg-|smk-|datachk-|disc-|math-|expt-|expt_smk-"
       # testthat::test_package("$(projectName)", filter = "_-|datachk-|smk-|arg-|disc-|perf-|smk_expt-|expt-|math-", reporter = multi_rep, stop_on_failure = FALSE)
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsbase.res <- covr::package_coverage(
             type = c("none"),
@@ -396,7 +398,7 @@ jobs:
       # testthat::testpackage uses a MultiReporter, comprised of a ProgressReporter and JunitReporter
       # R output and messages are redirected by sink() to test_console_output.txt
       # junit reporter output is to test_results.xml
-      sudo R -q -e '
+      sudo env PERF_PROFILE=$PERF_PROFILE R -q -e '
         library(covr);
         dsdanger.res <- covr::package_coverage(
             type = c("none"),
