@@ -108,7 +108,7 @@ mess1<-("ERROR terminated: seed.as.integer must be set as an integer [numeric] o
 return(mess1)
 }
 
-  ssDS.obj <- DSI::datashield.aggregate(datasources, call("setSeedDS", seedtext=seed.as.text))
+  ssDS.obj <- datashield.aggregate(datasources, call("setSeedDS", seedtext=seed.as.text))
 
   return.message<-paste0("Trigger integer to prime random seed = ",seed.as.text)
 

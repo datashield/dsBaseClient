@@ -11,16 +11,15 @@ studies <- list(sim1 = "study1", sim2 = "study2", sim3 = "study3")
 record_server_calls <- function(env = parent.frame()) {
     sent <- new.env()
     sent$calls <- list()
-    local_mocked_bindings(
+    testthat::local_mocked_bindings(
         datashield.assign = function(conns, symbol, value, ...) {
             sent$calls[[length(sent$calls) + 1]] <- value
             invisible(NULL)
         },
         datashield.aggregate = function(conns, expr, ...) list(),
-        .package = "DSI",
+        .set_datasources = function(datasources) datasources,
         .env = env
     )
-    local_mocked_bindings(.set_datasources = function(datasources) datasources, .env = env)
     sent
 }
 

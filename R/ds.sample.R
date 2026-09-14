@@ -200,7 +200,7 @@ if(seed.as.text=="NULL"){
     if (notify.of.progress)
       message("setSeedDS(", seed.as.text, ")")
 
-  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
+  ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 } 
 if (notify.of.progress)
     message("\n\n")

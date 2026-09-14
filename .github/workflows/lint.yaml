@@ -50,6 +50,7 @@ jobs:
         with:
           dependencies: 'c("Depends", "Imports", "LinkingTo")'
           extra-packages: |
+            local::.
             cran::lintr
             cran::jsonlite
 

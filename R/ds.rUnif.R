@@ -233,7 +233,7 @@ if(seed.as.text=="NULL"){
 message("NO SEED SET IN STUDY",study.id,"\n")
 
 } else {
-  ssDS.obj[[study.id]] <- DSI::datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
+  ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 }
 }
 
@@ -246,7 +246,7 @@ samp.size<-rep(samp.size,numsources)
 }
 
 for(k in 1:numsources){
-  DSI::datashield.assign(datasources[k], newobj, call("rUnifDS", samp.size[k], min=min[k], max=max[k], force.output.to.k.decimal.places=force.output.to.k.decimal.places[k]))
+  datashield.assign(datasources[k], newobj, call("rUnifDS", samp.size[k], min=min[k], max=max[k], force.output.to.k.decimal.places=force.output.to.k.decimal.places[k]))
 }
 
 if(return.full.seed.as.set){
