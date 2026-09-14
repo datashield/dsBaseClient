@@ -9,8 +9,7 @@ description: >
 inputs:
   dsbase-ref:
     description: dsBase GitHub ref to install
-    required: false
-    default: v7.0-dev
+    required: true
 
 runs:
   using: composite

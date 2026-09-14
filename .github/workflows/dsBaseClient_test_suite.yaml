@@ -67,6 +67,11 @@ on:
     branches: [main, master, 'v*-dev']
   pull_request:
   workflow_dispatch:
+    inputs:
+      dsbase-ref:
+        description: dsBase branch, tag or SHA to test against
+        required: false
+        default: v7.0-dev
   schedule:
     - cron: '0 0 * * 0'   # Weekly
     - cron: '0 1 * * *'   # Nightly
@@ -85,6 +90,7 @@ env:
   _r_check_system_clock_: 0
   PROJECT_NAME: dsBaseClient
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  DSBASE_REF: ${{ inputs.dsbase-ref || 'v7.0-dev' }}
   R_KEEP_PKG_SOURCE: yes
   # Selects perf_files/<driver>_<PERF_PROFILE>_perf-profile.csv as the perf
   # test reference rates/tolerances (see tests/testthat/perf_tests/perf_rate.R).
@@ -178,6 +184,8 @@ jobs:
           path: dsBaseClient
 
       - uses: ./dsBaseClient/.github/actions/setup-opal-with-dsbase
+        with:
+          dsbase-ref: ${{ env.DSBASE_REF }}
 
       - name: Install dsDangerClient
         if: matrix.category == 'dsdanger'
@@ -432,6 +440,8 @@ jobs:
           path: dsBaseClient
 
       - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
+        with:
+          dsbase-ref: ${{ env.DSBASE_REF }}
 
       - name: Install dsDangerClient
         if: matrix.category == 'dsdanger'

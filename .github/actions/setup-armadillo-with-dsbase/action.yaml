@@ -8,10 +8,9 @@ description: >
   Armadillo dsdanger job, so this setup only needs fixing in one place.
 
 inputs:
-  dsbase-tarball:
-    description: dsBase tarball filename to install
-    required: false
-    default: dsBase_7.0.0-permissive.tar.gz
+  dsbase-ref:
+    description: dsBase GitHub ref to build and install
+    required: true
 
 runs:
   using: composite
@@ -38,6 +37,7 @@ runs:
               options:
                 datashield:
                   seed: 342325352
+                  privacyControlLevel: permissive
         spring:
           security:
             user:
@@ -87,6 +87,20 @@ runs:
       run: R -q -f "molgenis_armadillo-upload_testing_datasets.R"
       working-directory: dsBaseClient/tests/testthat/data_files
 
+    - name: Check out dsBase
+      uses: actions/checkout@v4
+      with:
+        repository: datashield/dsBase
+        ref: ${{ inputs.dsbase-ref }}
+        path: dsBase
+
+    - name: Build dsBase tarball
+      id: build-dsbase
+      shell: bash
+      run: |
+        R CMD build dsBase
+        echo "tarball=$GITHUB_WORKSPACE/$(ls dsBase_*.tar.gz)" >> "$GITHUB_OUTPUT"
+
     - name: Install dsBase to Armadillo
       shell: bash
       run: |
@@ -95,7 +109,7 @@ runs:
           if Rscript -e "
             library(MolgenisArmadillo)
             armadillo.login_basic('http://localhost:8080', 'admin', 'admin')
-            armadillo.install_packages('${{ inputs.dsbase-tarball }}', profile = 'default')
+            armadillo.install_packages('${{ steps.build-dsbase.outputs.tarball }}', profile = 'default')
           "; then
             installed=true
             break
@@ -111,9 +125,9 @@ runs:
     - name: Verify installed dsBase version
       shell: bash
       run: |
-        expected_version=$(tar -xOzf ${{ inputs.dsbase-tarball }} dsBase/DESCRIPTION | sed -n 's/^Version: //p' | tr -d '\r')
+        expected_version=$(sed -n 's/^Version: //p' "$GITHUB_WORKSPACE/dsBase/DESCRIPTION" | tr -d '\r')
         if [ -z "$expected_version" ]; then
-          echo "Could not determine expected dsBase version from ${{ inputs.dsbase-tarball }}"
+          echo "Could not determine expected dsBase version from dsBase@${{ inputs.dsbase-ref }}"
           exit 1
         fi
         echo "Expected dsBase version: $expected_version"
