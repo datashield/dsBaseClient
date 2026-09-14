@@ -2,7 +2,7 @@ name: Lint
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, 'v*-dev']
   pull_request:
 
 # A new push to the same ref supersedes any run still in progress for it, so
