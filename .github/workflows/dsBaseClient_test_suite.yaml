@@ -119,12 +119,12 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dsBaseClient
 
       - name: Mark pending
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const postCiComment = require('${{ github.workspace }}/dsBaseClient/.github/scripts/post-ci-comment.js');
@@ -184,7 +184,7 @@ jobs:
       DSDANGER_REF: '6.3.4'
     steps:
       - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dsBaseClient
 
@@ -253,7 +253,7 @@ jobs:
 
       - name: Upload shard results
         if: matrix.category != 'dsdanger'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: opal-dsbase-${{ matrix.category }}
           path: |
@@ -263,7 +263,7 @@ jobs:
 
       - name: Upload dsDanger results
         if: matrix.category == 'dsdanger'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: opal-dsdanger
           path: |
@@ -285,7 +285,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dsBaseClient
 
@@ -304,7 +304,7 @@ jobs:
             cran::xml2
 
       - name: Download shard/dsdanger results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: 'opal-*'
           path: dsBaseClient/artifacts
@@ -326,7 +326,7 @@ jobs:
         working-directory: dsBaseClient
 
       - name: Upload merged results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: opal-report-results
           path: |
@@ -367,7 +367,7 @@ jobs:
 
       - name: Post PR comment
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // steps.results.outputs.* come back empty (not "true"/"false") if
@@ -440,7 +440,7 @@ jobs:
       DSDANGER_TARBALL: dsDanger_6.3.4.tar.gz
     steps:
       - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dsBaseClient
 
@@ -532,7 +532,7 @@ jobs:
 
       - name: Upload shard results
         if: matrix.category != 'dsdanger'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: armadillo-dsbase-${{ matrix.category }}
           path: |
@@ -544,7 +544,7 @@ jobs:
 
       - name: Upload dsDanger results
         if: matrix.category == 'dsdanger'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: armadillo-dsdanger
           path: |
@@ -553,7 +553,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.category != 'dsdanger'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: dsBaseClient/cobertura.xml
@@ -575,7 +575,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout dsBaseClient
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dsBaseClient
 
@@ -595,7 +595,7 @@ jobs:
             cran::covr
 
       - name: Download shard/dsdanger results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: 'armadillo-*'
           path: dsBaseClient/artifacts
@@ -617,7 +617,7 @@ jobs:
         working-directory: dsBaseClient
 
       - name: Upload merged results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: armadillo-report-results
           path: |
@@ -680,7 +680,7 @@ jobs:
 
       - name: Post PR comment
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // steps.results.outputs.* come back empty (not "true"/"false") if

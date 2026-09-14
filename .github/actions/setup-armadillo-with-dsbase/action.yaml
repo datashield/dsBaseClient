@@ -93,7 +93,7 @@ runs:
       working-directory: dsBaseClient/tests/testthat/data_files
 
     - name: Check out dsBase
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: datashield/dsBase
         ref: ${{ inputs.dsbase-ref }}
