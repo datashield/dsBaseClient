@@ -221,6 +221,11 @@ jobs:
             echo "0 tests actually ran (no <testcase> entries in test_results_dsbase.xml) - treating as a failure rather than a silent pass."
             R_EXIT=1
           fi
+          n_failed=$(grep -oE '<(failure|error)[ >]' test_results_dsbase.xml | wc -l | tr -d ' ')
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_failed:-0}" -gt 0 ]; then
+            echo "$n_failed test failure(s)/error(s) in test_results_dsbase.xml - failing this shard."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
@@ -243,11 +248,16 @@ jobs:
             echo "0 tests actually ran (no <testcase> entries in test_results_dsdanger.xml) - treating as a failure rather than a silent pass."
             R_EXIT=1
           fi
+          n_failed=$(grep -oE '<(failure|error)[ >]' test_results_dsdanger.xml | wc -l | tr -d ' ')
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_failed:-0}" -gt 0 ]; then
+            echo "$n_failed test failure(s)/error(s) in test_results_dsdanger.xml - failing this shard."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload shard results
-        if: matrix.category != 'dsdanger'
+        if: always() && matrix.category != 'dsdanger'
         uses: actions/upload-artifact@v6
         with:
           name: opal-dsbase-${{ matrix.category }}
@@ -257,7 +267,7 @@ jobs:
             dsBaseClient/tests/testthat/data_files/dsbase_version.txt
 
       - name: Upload dsDanger results
-        if: matrix.category == 'dsdanger'
+        if: always() && matrix.category == 'dsdanger'
         uses: actions/upload-artifact@v6
         with:
           name: opal-dsdanger
@@ -502,6 +512,11 @@ jobs:
             echo "0 tests actually ran (no <testcase> entries in test_results_dsbase.xml) - treating as a failure rather than a silent pass."
             R_EXIT=1
           fi
+          n_failed=$(grep -oE '<(failure|error)[ >]' test_results_dsbase.xml | wc -l | tr -d ' ')
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_failed:-0}" -gt 0 ]; then
+            echo "$n_failed test failure(s)/error(s) in test_results_dsbase.xml - failing this shard."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
@@ -524,11 +539,16 @@ jobs:
             echo "0 tests actually ran (no <testcase> entries in test_results_dsdanger.xml) - treating as a failure rather than a silent pass."
             R_EXIT=1
           fi
+          n_failed=$(grep -oE '<(failure|error)[ >]' test_results_dsdanger.xml | wc -l | tr -d ' ')
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_failed:-0}" -gt 0 ]; then
+            echo "$n_failed test failure(s)/error(s) in test_results_dsdanger.xml - failing this shard."
+            R_EXIT=1
+          fi
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
       - name: Upload shard results
-        if: matrix.category != 'dsdanger'
+        if: always() && matrix.category != 'dsdanger'
         uses: actions/upload-artifact@v6
         with:
           name: armadillo-dsbase-${{ matrix.category }}
@@ -540,7 +560,7 @@ jobs:
             dsBaseClient/dsbase_version.txt
 
       - name: Upload dsDanger results
-        if: matrix.category == 'dsdanger'
+        if: always() && matrix.category == 'dsdanger'
         uses: actions/upload-artifact@v6
         with:
           name: armadillo-dsdanger
@@ -549,7 +569,7 @@ jobs:
             dsBaseClient/test_console_output_dsdanger.txt
 
       - name: Upload coverage to Codecov
-        if: matrix.category != 'dsdanger'
+        if: always() && matrix.category != 'dsdanger'
         uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
