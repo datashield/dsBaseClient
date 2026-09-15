@@ -750,7 +750,9 @@ jobs:
 
                 if ((data.head_totals?.sessions ?? 0) < EXPECTED_SESSIONS) continue;
 
-                const { hits, misses, partials, coverage } = data.patch;
+                // Codecov returns patch: null, rather than a zeroed object,
+                // when the PR touches no covr-instrumented line at all.
+                const { hits, misses, partials, coverage } = data.patch ?? { hits: 0, misses: 0, partials: 0 };
                 if (hits + misses + partials === 0) {
                   icon = 'ℹ️';
                   text = 'no coverable lines changed';
