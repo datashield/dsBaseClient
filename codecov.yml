@@ -1,3 +1,11 @@
+codecov:
+  notify:
+    # 7 armadillo-dsbase matrix shards each upload their own cobertura.xml
+    # (dsdanger is excluded - see dsBaseClient_test_suite.yaml) - without
+    # this, Codecov has no signal for when all uploads for a commit are in,
+    # and can delay posting codecov/patch by anywhere from minutes to hours.
+    after_n_builds: 7
+
 coverage:
   status:
     # Whole-repo coverage trend - informational only, never fails a PR. The
