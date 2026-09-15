@@ -32,9 +32,7 @@ test_that("simplest ds.matrixInvert", {
     ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=3)
     res <- ds.matrixInvert("matrix.newobj")
 
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <matrixinvert.newobj> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<matrixinvert.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "matrix.newobj", "matrixinvert.newobj"))
 
     check.class<-ds.class("matrixinvert.newobj",datasources=ds.test_env$connections)
 

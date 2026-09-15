@@ -28,10 +28,7 @@ the default set of connections will be used: see \code{\link[DSI]{datashield.con
 }
 \value{
 \code{ds.matrixDimnames} returns to the server-side
-the matrix with specified row and column names. 
-Also, two validity messages are returned to the client-side 
-indicating the new object that has been created in each data source and if so whether
-it is in a valid form.
+the matrix with specified row and column names.
 }
 \description{
 Adds the row names, the column names or both to
@@ -106,4 +103,6 @@ Server function called: \code{matrixDimnamesDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

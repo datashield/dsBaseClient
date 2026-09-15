@@ -115,12 +115,12 @@ jobs:
 
       sudo apt-get install -qq libxml2-dev libcurl4-openssl-dev libssl-dev libgsl-dev libgit2-dev r-base -y
       sudo apt-get install -qq libharfbuzz-dev libfribidi-dev libmagick++-dev libudunits2-dev libuv1-dev -y
-      sudo R -q -e "install.packages(c('curl','httr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('devtools','covr'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('fields','meta','metafor','ggplot2','gridExtra','data.table'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DSI','DSOpal','DSLite'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('MolgenisAuth', 'MolgenisArmadillo', 'DSMolgenisArmadillo'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-      sudo R -q -e "install.packages(c('DescTools','e1071'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+
+      # Use Posit Public Package Manager, which serves precompiled binary packages
+      # for this Ubuntu release instead of source - so dependencies are downloaded
+      # rather than compiled (the slow part). The HTTPUserAgent option is what makes
+      # the manager hand back binaries.
+      sudo R -q -e "options(repos=c(CRAN=paste0('https://packagemanager.posit.co/cran/__linux__/', system('lsb_release -cs', intern=TRUE), '/latest')), HTTPUserAgent=sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version\$platform, R.version\$arch, R.version\$os)), Ncpus=4); install.packages(c('curl','httr','devtools','covr','fields','meta','metafor','ggplot2','gridExtra','data.table','DSI','DSOpal','DSLite','MolgenisAuth','MolgenisArmadillo','DSMolgenisArmadillo','DescTools','e1071'), dependencies=TRUE)"
 
       sudo R -q -e "library('devtools'); devtools::install_github(repo='datashield/dsDangerClient', ref='6.3.4', dependencies = TRUE)"
 

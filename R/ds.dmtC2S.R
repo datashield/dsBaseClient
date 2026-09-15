@@ -41,20 +41,13 @@
 #' @return the object specified by the <newobj> argument (or default name "dmt.copied.C2S")
 #' which is written as a data.frame/matrix/tibble to the serverside.
 #' @author Paul Burton for DataSHIELD Development Team - 3rd June, 2021
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.dmtC2S <- function(dfdata=NA, newobj=NULL, datasources=NULL){
 
-  # if no opal login details are provided look for 'opal' objects in the environment
-  if(is.null(datasources)){
-	  datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-  
+  datasources <- .set_datasources(datasources)
+
   # check if a value has been provided for dfdata
   if(is.null(dfdata)){
     return("Error: dfdata must be a character string, a numeric vector or a scalar")

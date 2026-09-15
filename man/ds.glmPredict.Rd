@@ -154,4 +154,6 @@ in native R.
 }
 \author{
 Paul Burton, for DataSHIELD Development Team 13/08/20
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

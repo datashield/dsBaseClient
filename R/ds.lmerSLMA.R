@@ -159,6 +159,7 @@
 #' @return \code{convergence.error.message}:  reports for each study whether the model converged.
 #' If it did not some information about the reason for this is reported.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #' 
@@ -205,15 +206,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
                       control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE,
                       assign=FALSE, newobj=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -235,11 +228,6 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   
   # set family to gaussian
   family <- 'gaussian'
-  
-  # if the argument 'dataName' is set, check that the data frame is defined (i.e. exists) on the server site
-  if(!(is.null(dataName))){
-    defined <- isDefined(datasources, dataName)
-  }
   
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){

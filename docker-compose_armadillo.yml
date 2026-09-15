@@ -14,6 +14,8 @@ services:
             - ./tests/docker/armadillo/standard/data:/data
             - ./tests/docker/armadillo/standard/config:/config
             - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - default
 
     default:
         hostname: default
