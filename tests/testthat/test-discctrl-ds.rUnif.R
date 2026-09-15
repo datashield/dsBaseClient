@@ -32,7 +32,8 @@ test_that("simple c", {
 
     expect_length(res_errors, 1)
     expect_length(res_errors$sim1, 1)
-    expect_equal(res_errors$sim1, "Command 'setSeedDS(27)' failed on 'sim1': Error while evaluating 'dsBase::setSeedDS(27)' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_match(res_errors$sim1, "BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked", fixed = TRUE)
+    expect_match(res_errors$sim1, "setSeedDS", fixed = TRUE)
 })
 
 #

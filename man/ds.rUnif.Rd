@@ -19,11 +19,11 @@ ds.rUnif(
 \item{samp.size}{an integer value or an integer vector that defines the 
 length of the random numeric vector to be created in each source.}
 
-\item{min}{a numeric scalar that specifies the minimum value of the 
-random numbers in the distribution.}
+\item{min}{a numeric value that specifies the minimum value of the 
+random numbers in the distribution. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
-\item{max}{a numeric scalar that specifies the maximum value of the 
-random numbers in the distribution.}
+\item{max}{a numeric value that specifies the maximum value of the 
+random numbers in the distribution. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{newobj}{a character string that provides the name for the output variable 
 that is stored on the data servers. Default \code{newObject}.}
@@ -37,18 +37,19 @@ return the trigger seed value you have provided. Default is FALSE.}
 
 \item{force.output.to.k.decimal.places}{an integer or 
 an integer vector that forces the output random 
-numbers vector to have k decimals.}
+numbers vector to have k decimals. A single value is used in every study; a vector must have one value per study, with its k-th value used in study k.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.Unif} returns random number vectors with a uniform distribution for each study,
-taking into account the values specified in each parameter of the function.
-The created vectors are stored in the server-side. If requested, it also returned to the 
-client-side the full 626 lengths random seed vector generated in each source
-(see info for the argument \code{return.full.seed.as.set}).
+\code{ds.rUnif} writes a random number vector with a uniform distribution
+to the server-side in each study and returns a list to the client-side containing
+\code{integer.seed.as.set.by.source} (the trigger seed set in each source),
+\code{random.vector.length.by.source} (the length of the vector created in each source)
+and, if \code{return.full.seed.as.set} is TRUE, \code{full.seed.as.set}
+(the full 626 length random seed vector generated in each source).
 }
 \description{
 Generates uniformly distributed random (pseudorandom) scalar numbers.
@@ -127,8 +128,8 @@ Server functions called: \code{rUnifDS} and \code{setSeedDS}.
   # Generating the vectors in the Opal servers
 
   ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
-           min = as.character(c(0,2,5)), #different minumum value of the function in each source
-           max = as.character(c(2,5,9)), #different maximum value of the function in each source
+           min = c(0,2,5), #different minumum value of the function in each source
+           max = c(2,5,9), #different maximum value of the function in each source
            newobj = "Unif.dist",
            seed.as.integer = 234,
            return.full.seed.as.set = FALSE,
@@ -152,4 +153,6 @@ Server functions called: \code{rUnifDS} and \code{setSeedDS}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
