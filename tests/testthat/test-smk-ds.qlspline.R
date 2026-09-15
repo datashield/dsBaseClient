@@ -131,6 +131,13 @@ test_that("qlspline", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.qlspline(x = "nonexistent_object", q = 3),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.qlspline::smk::shutdown")
 
 test_that("shutdown", {

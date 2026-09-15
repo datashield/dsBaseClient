@@ -27,19 +27,7 @@ test_that("setup", {
 
 # context("ds.log::smk")
 test_that("simple log", {
-    res1 <- ds.log("D$LAB_TSC", newobj="log1_obj")
-
-    expect_length(res1, 0)
-
-    res1_exists <- ds.exists("log1_obj")
-
-    expect_length(res1_exists, 3)
-    expect_length(res1_exists$sim1, 1)
-    expect_equal(res1_exists$sim1, TRUE)
-    expect_length(res1_exists$sim2, 1)
-    expect_equal(res1_exists$sim2, TRUE)
-    expect_length(res1_exists$sim3, 1)
-    expect_equal(res1_exists$sim3, TRUE)
+    expect_no_error(ds.log("D$LAB_TSC", newobj="log1_obj"))
 
     res1_class <- ds.class("log1_obj")
 
@@ -53,19 +41,7 @@ test_that("simple log", {
 
     res_as <- ds.asInteger("D$LAB_TSC", newobj="new_data")
 
-    res2 <- ds.log("new_data", newobj="log2_obj")
-
-    expect_length(res2, 0)
-
-    res2_exists <- ds.exists("log2_obj")
-
-    expect_length(res2_exists, 3)
-    expect_length(res2_exists$sim1, 1)
-    expect_equal(res2_exists$sim1, TRUE)
-    expect_length(res2_exists$sim2, 1)
-    expect_equal(res2_exists$sim2, TRUE)
-    expect_length(res2_exists$sim3, 1)
-    expect_equal(res2_exists$sim3, TRUE)
+    expect_no_error(ds.log("new_data", newobj="log2_obj"))
 
     res2_class <- ds.class("log2_obj")
 

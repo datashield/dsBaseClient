@@ -12,7 +12,7 @@ You can install the released version of dsBaseClient from
 [CRAN](https://cran.r-project.org/package=dsBaseClient) with:
 
 ``` r
-install.packages("dsBaseClient")
+install.packages("dsBaseClient") 
 ```
 
 And the development version from
@@ -23,8 +23,8 @@ And the development version from
 install.packages("remotes")
 remotes::install_github("datashield/dsBaseClient", "<BRANCH>")
 
-# Install v6.3.5 with the following
-remotes::install_github("datashield/dsBaseClient", "6.3.5")
+# Install v7.0.0 with the following
+remotes::install_github("datashield/dsBaseClient", "7.0.0")
 ```
 
 For a full list of development branches, checkout https://github.com/datashield/dsBaseClient/branches

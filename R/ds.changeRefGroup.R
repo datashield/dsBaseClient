@@ -28,6 +28,7 @@
 #' @return \code{ds.changeRefGroup} returns a new vector  with the specified level as a reference
 #' which is written to the server-side. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.cbind}} Combines objects column-wise.
 #' @seealso \code{\link{ds.levels}} to obtain the levels (categories) of a vector of type factor.
 #' @seealso \code{\link{ds.colnames}} to obtain the column names of a matrix or a data frame
@@ -109,15 +110,7 @@
 #' @export
 ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a vector of type factor!", call.=FALSE)
@@ -132,26 +125,12 @@ ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE,
     newobj <- "changerefgroup.newobj"
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # if input vector is not a factor stop
-  if(!('factor' %in% typ)){
-    stop("The input vector must be a factor!", call.=FALSE)
-  }
-
   if(reorderByRef){
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
   }
 
   # call the server side function that will recode the levels
-  cally <- paste0('changeRefGroupDS(', x, ",'", ref, "',", reorderByRef,")")
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
+  calltext <- call("changeRefGroupDS", x, ref, reorderByRef)
+  DSI::datashield.assign(datasources, newobj, calltext)
 
 }

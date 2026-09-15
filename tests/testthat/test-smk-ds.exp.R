@@ -27,19 +27,7 @@ test_that("setup", {
 
 # context("ds.exp::smk")
 test_that("simple exp", {
-    res1 <- ds.exp("D$LAB_TSC", newobj="exp1_obj")
-
-    expect_length(res1, 0)
-
-    res1_exists <- ds.exists("exp1_obj")
-
-    expect_length(res1_exists, 3)
-    expect_length(res1_exists$sim1, 1)
-    expect_equal(res1_exists$sim1, TRUE)
-    expect_length(res1_exists$sim2, 1)
-    expect_equal(res1_exists$sim2, TRUE)
-    expect_length(res1_exists$sim3, 1)
-    expect_equal(res1_exists$sim3, TRUE)
+    expect_no_error(ds.exp("D$LAB_TSC", newobj="exp1_obj"))
 
     res1_class <- ds.class("exp1_obj")
 
@@ -53,21 +41,9 @@ test_that("simple exp", {
 
     res_as <- ds.asInteger("D$LAB_TSC", newobj="new_data")
 
-    res2 <- ds.exp("new_data", newobj="exp2_obj")
+    expect_no_error(ds.exp("new_data", newobj="exp2_obj"))
 
-    expect_length(res2, 0)
-
-    res2_exists <- ds.exists("exp2_obj")
-
-    expect_length(res2_exists, 3)
-    expect_length(res2_exists$sim1, 1)
-    expect_equal(res2_exists$sim1, TRUE)
-    expect_length(res2_exists$sim2, 1)
-    expect_equal(res2_exists$sim2, TRUE)
-    expect_length(res2_exists$sim3, 1)
-    expect_equal(res2_exists$sim3, TRUE)
-
-    res2_class <- ds.class("exp1_obj")
+    res2_class <- ds.class("exp2_obj")
 
     expect_length(res2_class, 3)
     expect_length(res2_class$sim1, 1)

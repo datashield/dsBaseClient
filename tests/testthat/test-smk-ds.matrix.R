@@ -29,11 +29,9 @@ test_that("setup", {
 test_that("simplest ds.matrix", {
     matrix <- c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
 
-    res <- ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=4)
+    ds.matrix(mdata=matrix, nrows.scalar=3, ncols.scalar=4)
 
-    expect_length(res, 2)
-    expect_equal(res[[1]], "A data object <matrix.newobj> has been created in all specified data sources")
-    expect_equal(res[[2]], "<matrix.newobj> appears valid in all sources")
+    ds_expect_variables(c("D", "matrix.newobj"))
 
     check.class<-ds.class("matrix.newobj",datasources=ds.test_env$connections)
 

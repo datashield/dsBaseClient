@@ -66,14 +66,6 @@ ds.metadata = function(x=NULL, datasources=NULL)
     }                                                                                   #
     #####################################################################################
 
-    #####################################################################################
-    #MODULE 5: CHECK ALL SERVICES HAVE SPECIFIED VARIABLES DEFINED                      #
-    defined = all(unlist(isDefined(datasources, x)))                                    #
-    if (! defined){                                                                     #
-        stop("Variable not defined in all servers", call.=FALSE)                        #
-    }                                                                                   #
-    #####################################################################################
-
     cally     <- call("metadataDS", x)
     metadatas <- DSI::datashield.aggregate(datasources, cally)
 

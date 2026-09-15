@@ -27,18 +27,12 @@ test_that("setup", {
 
 # context("ds.asList::smk::simple test")
 test_that("simple test", {
-    res <- ds.asList(x.name="D$GENDER")
+    expect_no_error(ds.asList(x.name="D$GENDER"))
 
-    expect_length(res, 3)
-    expect_length(res$sim1, 2)
-    expect_equal(res$sim1$return.message, "New object <aslist.newobj> created")
-    expect_equal(res$sim1$class.of.newobj, "Class of <aslist.newobj> is 'list'")
-    expect_length(res$sim2, 2)
-    expect_equal(res$sim2$return.message, "New object <aslist.newobj> created")
-    expect_equal(res$sim2$class.of.newobj, "Class of <aslist.newobj> is 'list'")
-    expect_length(res$sim3, 2)
-    expect_equal(res$sim3$return.message, "New object <aslist.newobj> created")
-    expect_equal(res$sim3$class.of.newobj, "Class of <aslist.newobj> is 'list'")
+    res.class <- ds.class("aslist.newobj")
+    expect_equal(res.class$sim1, "list")
+    expect_equal(res.class$sim2, "list")
+    expect_equal(res.class$sim3, "list")
 })
 
 #

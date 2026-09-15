@@ -129,6 +129,13 @@ test_that("elspline", {
 })
 
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.elspline(x = "nonexistent_object", n = 3),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 #
 # Done
 #

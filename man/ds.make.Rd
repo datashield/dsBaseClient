@@ -17,9 +17,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.make} returns the new object which is written to the
-server-side. Also a validity message is returned to the client-side indicating whether the new object has been correctly
-created at each source.
+\code{ds.make} writes the new object to the server-side; nothing is
+returned to the client-side.
 }
 \description{
 This function defines a new object in the server-side

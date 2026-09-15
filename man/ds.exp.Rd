@@ -25,7 +25,7 @@ Computes the exponential values for a specified numeric vector.
 This function is similar to R function \code{exp}.
 }
 \details{
-Server function called: \code{exp}.
+Server function called: \code{expDS}.
 }
 \examples{
 \dontrun{
@@ -69,4 +69,6 @@ Server function called: \code{exp}.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

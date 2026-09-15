@@ -67,9 +67,8 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
-#' @return \code{ds.make} returns the new object which is written to the
-#' server-side. Also a validity message is returned to the client-side indicating whether the new object has been correctly
-#' created at each source.
+#' @return \code{ds.make} writes the new object to the server-side; nothing is
+#' returned to the client-side.
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export

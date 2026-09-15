@@ -49,6 +49,13 @@ test_that("rowColCalc_out_exists", {
 #
 # Tear down
 #
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.rowColCalc(x = "nonexistent_object", operation = "rowSums"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.rowColCalc::smk::shutdown")
 
 test_that("shutdown", {

@@ -86,6 +86,13 @@ test_that("ns", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.ns(x = "nonexistent_object", df = 3),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.ns::smk::shutdown")
 
 test_that("shutdown", {

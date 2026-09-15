@@ -66,4 +66,6 @@ Server function called: \code{colnamesDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

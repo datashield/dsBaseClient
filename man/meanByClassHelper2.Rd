@@ -29,5 +29,7 @@ if the user sets the parameter 'type' to combine (the default behaviour of 'ds.m
 }
 \author{
 Gaye, A.
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
 \keyword{internal}

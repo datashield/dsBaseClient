@@ -82,6 +82,13 @@ test_that("lspline", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.lspline(x = "nonexistent_object", knots = c(1, 2)),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.lspline::smk::shutdown")
 
 test_that("shutdown", {

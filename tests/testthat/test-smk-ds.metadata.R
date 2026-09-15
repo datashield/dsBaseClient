@@ -114,6 +114,13 @@ test_that("column metadata", {
 # Tear down
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.metadata(x = "nonexistent_object"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.metadata::smk::shutdown")
 
 test_that("shutdown", {

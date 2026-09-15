@@ -14,8 +14,8 @@ getPooledMean <- function(dtsources, x){
 
   num.sources <- length(dtsources)
 
-  cally <- paste0("meanDS(", x, ")")
-  out.mean <- DSI::datashield.aggregate(dtsources, as.symbol(cally))
+  cally <- call("meanDS", x)
+  out.mean <- DSI::datashield.aggregate(dtsources, cally)
 
   length.total <- 0
   sum.weighted <- 0
