@@ -24,6 +24,11 @@ test_that("abs_errors", {
     expect_error(ds.abs(), "Please provide the name of the input object!", fixed=TRUE)
 })
 
+# TEMP - deliberately failing test to verify shard-level CI failure reporting. Revert before merging.
+test_that("arg-TEMP-induced-failure", {
+    expect_true(FALSE)
+})
+
 #
 # Done
 #
