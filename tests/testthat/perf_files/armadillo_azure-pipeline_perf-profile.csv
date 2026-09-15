@@ -11,7 +11,7 @@
 "ds.asMatrix::perf::0","17.44","0.5","2"
 "ds.asNumeric::perf:0","16.79","0.5","2"
 "ds.assign::perf::0","10.23","0.5","2"
-"ds.Boole::perf::0","2.179","0.5","2"
+"ds.Boole::perf::0","5.517","0.5","2"
 "ds.c::perf::0","10.23","0.5","2"
 "ds.cbind::perf::0","3.814","0.5","2"
 "ds.changeRefGroup::perf::0","17.98","0.5","2"
