@@ -259,11 +259,16 @@ jobs:
       # Written regardless of outcome so opal-report can tell a shard that
       # never reported (crashed in setup, before any test XML existed) apart
       # from one that reported 0 failures - job.status already reflects the
-      # test step's exit code by this point. Not scoped to dsBaseClient/ since
-      # a checkout failure would mean that directory never got created.
+      # test step's exit code by this point. mkdir -p so this still succeeds
+      # even if checkout itself is what failed. Written under dsBaseClient/,
+      # alongside everything else in the same upload below, so upload-artifact
+      # doesn't widen its common-ancestor computation to the workspace root
+      # and shift every other file down an extra directory level.
       - name: Record shard outcome
         if: always()
-        run: echo "${{ job.status }}" > shard_status.txt
+        run: |
+          mkdir -p dsBaseClient
+          echo "${{ job.status }}" > dsBaseClient/shard_status.txt
 
       - name: Upload shard results
         if: always() && matrix.category != 'dsdanger'
@@ -274,7 +279,7 @@ jobs:
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/tests/testthat/data_files/dsbase_version.txt
-            shard_status.txt
+            dsBaseClient/shard_status.txt
 
       - name: Upload dsDanger results
         if: always() && matrix.category == 'dsdanger'
@@ -284,7 +289,7 @@ jobs:
           path: |
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
-            shard_status.txt
+            dsBaseClient/shard_status.txt
 
 
   ################################################################################
@@ -569,12 +574,17 @@ jobs:
       # Written regardless of outcome so armadillo-report can tell a shard
       # that never reported (crashed in setup, before any test XML existed)
       # apart from one that reported 0 failures, and so the coverage step
-      # below knows how many Codecov sessions to actually expect. Not scoped
-      # to dsBaseClient/ since a checkout failure would mean that directory
-      # never got created.
+      # below knows how many Codecov sessions to actually expect. mkdir -p so
+      # this still succeeds even if checkout itself is what failed. Written
+      # under dsBaseClient/, alongside everything else in the same upload
+      # below, so upload-artifact doesn't widen its common-ancestor
+      # computation to the workspace root and shift every other file down an
+      # extra directory level.
       - name: Record shard outcome
         if: always()
-        run: echo "${{ job.status }}" > shard_status.txt
+        run: |
+          mkdir -p dsBaseClient
+          echo "${{ job.status }}" > dsBaseClient/shard_status.txt
 
       - name: Upload shard results
         if: always() && matrix.category != 'dsdanger'
@@ -587,7 +597,7 @@ jobs:
             dsBaseClient/coveragelist.csv
             dsBaseClient/coverage.rds
             dsBaseClient/dsbase_version.txt
-            shard_status.txt
+            dsBaseClient/shard_status.txt
 
       - name: Upload dsDanger results
         if: always() && matrix.category == 'dsdanger'
@@ -597,7 +607,7 @@ jobs:
           path: |
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
-            shard_status.txt
+            dsBaseClient/shard_status.txt
 
       - name: Upload coverage to Codecov
         if: always() && matrix.category != 'dsdanger'
