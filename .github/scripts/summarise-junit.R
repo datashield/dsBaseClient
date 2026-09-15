@@ -4,7 +4,34 @@
 # failure block. The two report jobs are otherwise near-identical, so this
 # is the one piece that was previously duplicated between them.
 
-summarise_junit <- function(xml_path, label) {
+# Each shard/dsdanger matrix entry uploads its own shard_status.txt (written
+# from the job.status context, after the test step) alongside its test
+# results, regardless of pass/fail. A shard that crashed before producing any
+# test XML (e.g. setup failure) leaves 0 tests in that shard's own XML but
+# still uploads a "failure" status file - that combination, not the XML
+# content alone, is what tells us the shard never actually reported rather
+# than reporting a clean pass.
+find_incomplete_shards <- function(artifact_dir) {
+  status_files <- list.files(artifact_dir, pattern = "^shard_status\\.txt$", recursive = TRUE, full.names = TRUE)
+  problems <- character(0)
+  for (f in status_files) {
+    status <- trimws(readLines(f, warn = FALSE)[1])
+    if (status == "success") next
+
+    shard_dir <- dirname(f)
+    xml_files <- list.files(shard_dir, pattern = "^test_results_.*\\.xml$", full.names = TRUE)
+    n_tests <- if (length(xml_files) == 0) 0 else {
+      doc <- xml2::read_xml(xml_files[1])
+      sum(as.integer(xml2::xml_attr(xml2::xml_find_all(doc, ".//testsuite"), "tests")), na.rm = TRUE)
+    }
+    if (n_tests == 0) {
+      problems <- c(problems, sprintf("- **%s** did not report any test results (job status: %s)", basename(shard_dir), status))
+    }
+  }
+  problems
+}
+
+summarise_junit <- function(xml_path, label, artifact_dir = NULL) {
   doc <- xml2::read_xml(xml_path)
   suites <- xml2::xml_find_all(doc, ".//testsuite")
   n_tests    <- sum(as.integer(xml2::xml_attr(suites, "tests")), na.rm = TRUE)
@@ -30,10 +57,16 @@ summarise_junit <- function(xml_path, label) {
     }))
   }
 
+  shard_problems <- if (is.null(artifact_dir)) character(0) else find_incomplete_shards(artifact_dir)
+
   list(
-    ok = (n_failures + n_errors) == 0,
+    ok = (n_failures + n_errors) == 0 && length(shard_problems) == 0,
     tally = tally,
-    summary = c(sprintf("## %s unit tests", label), "", "```", fail_block, tally, "```")
+    summary = c(
+      sprintf("## %s unit tests", label), "",
+      shard_problems, if (length(shard_problems) > 0) "",
+      "```", fail_block, tally, "```"
+    )
   )
 }
 

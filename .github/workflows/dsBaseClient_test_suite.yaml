@@ -256,6 +256,15 @@ jobs:
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
+      # Written regardless of outcome so opal-report can tell a shard that
+      # never reported (crashed in setup, before any test XML existed) apart
+      # from one that reported 0 failures - job.status already reflects the
+      # test step's exit code by this point. Not scoped to dsBaseClient/ since
+      # a checkout failure would mean that directory never got created.
+      - name: Record shard outcome
+        if: always()
+        run: echo "${{ job.status }}" > shard_status.txt
+
       - name: Upload shard results
         if: always() && matrix.category != 'dsdanger'
         uses: actions/upload-artifact@v6
@@ -265,6 +274,7 @@ jobs:
             dsBaseClient/test_results_dsbase.xml
             dsBaseClient/test_console_output_dsbase.txt
             dsBaseClient/tests/testthat/data_files/dsbase_version.txt
+            shard_status.txt
 
       - name: Upload dsDanger results
         if: always() && matrix.category == 'dsdanger'
@@ -274,6 +284,7 @@ jobs:
           path: |
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
+            shard_status.txt
 
 
   ################################################################################
@@ -345,8 +356,9 @@ jobs:
         run: |
           Rscript -e '
             source(".github/scripts/summarise-junit.R")
-            res <- summarise_junit("logs/test_results.xml", "Opal")
+            res <- summarise_junit("logs/test_results.xml", "Opal", "artifacts")
             writeLines(res$summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+            cat(res$summary, sep = "\n")
 
             version <- find_dsbase_version("artifacts")
 
@@ -456,6 +468,13 @@ jobs:
         with:
           dsbase-ref: ${{ env.DSBASE_REF }}
 
+      # TEMP - deliberately crash this one shard's setup, before any test XML
+      # exists, to verify the shard-status-marker "did not report" path.
+      # Revert before merging.
+      - name: TEMP break perf-1 setup
+        if: matrix.category == 'perf-1'
+        run: exit 1
+
       - name: Install dsDangerClient
         if: matrix.category == 'dsdanger'
         run: |
@@ -547,6 +566,16 @@ jobs:
           exit "${R_EXIT:-0}"
         working-directory: dsBaseClient
 
+      # Written regardless of outcome so armadillo-report can tell a shard
+      # that never reported (crashed in setup, before any test XML existed)
+      # apart from one that reported 0 failures, and so the coverage step
+      # below knows how many Codecov sessions to actually expect. Not scoped
+      # to dsBaseClient/ since a checkout failure would mean that directory
+      # never got created.
+      - name: Record shard outcome
+        if: always()
+        run: echo "${{ job.status }}" > shard_status.txt
+
       - name: Upload shard results
         if: always() && matrix.category != 'dsdanger'
         uses: actions/upload-artifact@v6
@@ -558,6 +587,7 @@ jobs:
             dsBaseClient/coveragelist.csv
             dsBaseClient/coverage.rds
             dsBaseClient/dsbase_version.txt
+            shard_status.txt
 
       - name: Upload dsDanger results
         if: always() && matrix.category == 'dsdanger'
@@ -567,6 +597,7 @@ jobs:
           path: |
             dsBaseClient/test_results_dsdanger.xml
             dsBaseClient/test_console_output_dsdanger.txt
+            shard_status.txt
 
       - name: Upload coverage to Codecov
         if: always() && matrix.category != 'dsdanger'
@@ -665,8 +696,24 @@ jobs:
 
             // One session per armadillo-dsbase shard that uploads coverage
             // (dsdanger is excluded - see the matrix above); Codecov's report
-            // isn't final until all of them have landed.
-            const EXPECTED_SESSIONS = 7;
+            // isn't final until all of them have landed. Counted from each
+            // shard's own shard_status.txt (written in armadillo-dsbase,
+            // downloaded above) rather than hardcoded, so a shard that never
+            // got as far as generating cobertura.xml isn't waited on forever,
+            // and this doesn't need updating if the matrix is resharded.
+            const fs = require('fs');
+            const artifactsDir = 'dsBaseClient/artifacts';
+            let expectedSessions = 0;
+            if (fs.existsSync(artifactsDir)) {
+              for (const dir of fs.readdirSync(artifactsDir)) {
+                if (dir.includes('dsdanger')) continue;
+                const statusFile = `${artifactsDir}/${dir}/shard_status.txt`;
+                if (fs.existsSync(statusFile) && fs.readFileSync(statusFile, 'utf8').trim() === 'success') {
+                  expectedSessions++;
+                }
+              }
+            }
+            const EXPECTED_SESSIONS = Math.max(expectedSessions, 1);
             const THRESHOLD = 80;
 
             let icon = '❓';
@@ -717,8 +764,9 @@ jobs:
         run: |
           Rscript -e '
             source(".github/scripts/summarise-junit.R")
-            res <- summarise_junit("logs/test_results.xml", "Armadillo")
+            res <- summarise_junit("logs/test_results.xml", "Armadillo", "artifacts")
             writeLines(res$summary, Sys.getenv("GITHUB_STEP_SUMMARY"))
+            cat(res$summary, sep = "\n")
 
             version <- find_dsbase_version("artifacts")
 
