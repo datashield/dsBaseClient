@@ -62,6 +62,7 @@ summarise_junit <- function(xml_path, label, artifact_dir = NULL) {
   list(
     ok = (n_failures + n_errors) == 0 && length(shard_problems) == 0,
     tally = tally,
+    shard_problems = shard_problems,
     summary = c(
       sprintf("## %s unit tests", label), "",
       shard_problems, if (length(shard_problems) > 0) "",

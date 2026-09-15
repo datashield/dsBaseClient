@@ -372,7 +372,13 @@ jobs:
             # failures) - a shard that never reported must not look like a pass.
             shard_ok <- Sys.getenv("OPAL_DSBASE_RESULT") == "success"
             ok <- res$ok && shard_ok
-            if (!shard_ok) message("One or more Opal dsbase/dsdanger matrix entries did not succeed.")
+            # Only a fallback: the usual case (a shard crashed/reported 0
+            # tests) is already named above via res$shard_problems - this
+            # covers the rare gap where a shard job failed without leaving
+            # any trace summarise_junit() could identify.
+            if (!shard_ok && length(res$shard_problems) == 0) {
+              message("One or more Opal dsbase/dsdanger matrix entries did not succeed, but none could be identified from their uploaded results.")
+            }
 
             out <- Sys.getenv("GITHUB_OUTPUT")
             cat(
@@ -382,7 +388,7 @@ jobs:
               file = out, append = TRUE, sep = ""
             )
 
-            if (!ok) message("Opal tests failed - see the PR comment / job summary for details.")
+            if (!ok) message("Opal tests failed.")
             quit(save = "no", status = if (ok) 0 else 1)
           '
         working-directory: dsBaseClient
@@ -472,13 +478,6 @@ jobs:
       - uses: ./dsBaseClient/.github/actions/setup-armadillo-with-dsbase
         with:
           dsbase-ref: ${{ env.DSBASE_REF }}
-
-      # TEMP - deliberately crash this one shard's setup, before any test XML
-      # exists, to verify the shard-status-marker "did not report" path.
-      # Revert before merging.
-      - name: TEMP break perf-1 setup
-        if: matrix.category == 'perf-1'
-        run: exit 1
 
       - name: Install dsDangerClient
         if: matrix.category == 'dsdanger'
@@ -787,7 +786,13 @@ jobs:
             # failures) - a shard that never reported must not look like a pass.
             shard_ok <- Sys.getenv("ARMADILLO_DSBASE_RESULT") == "success"
             ok <- res$ok && shard_ok
-            if (!shard_ok) message("One or more Armadillo dsbase/dsdanger matrix entries did not succeed.")
+            # Only a fallback: the usual case (a shard crashed/reported 0
+            # tests) is already named above via res$shard_problems - this
+            # covers the rare gap where a shard job failed without leaving
+            # any trace summarise_junit() could identify.
+            if (!shard_ok && length(res$shard_problems) == 0) {
+              message("One or more Armadillo dsbase/dsdanger matrix entries did not succeed, but none could be identified from their uploaded results.")
+            }
 
             out <- Sys.getenv("GITHUB_OUTPUT")
             cat(
@@ -797,7 +802,7 @@ jobs:
               file = out, append = TRUE, sep = ""
             )
 
-            if (!ok) message("Armadillo tests failed - see the PR comment / job summary for details.")
+            if (!ok) message("Armadillo tests failed.")
             quit(save = "no", status = if (ok) 0 else 1)
           '
         working-directory: dsBaseClient
