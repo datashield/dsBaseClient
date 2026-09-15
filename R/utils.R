@@ -113,3 +113,25 @@
     cli_abort("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }
 }
+
+#' Expand an Argument to One Value per Study
+#'
+#' Arguments that may differ between studies can be given either as a single
+#' value, used for every study, or as a vector with one value per study.
+#'
+#' @param values A vector of length 1 or `num_studies`.
+#' @param arg_name The name of the argument, used in the error message.
+#' @param num_studies The number of studies being analysed.
+#' @importFrom cli cli_abort
+#' @return A vector of length `num_studies`.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.expand_to_studies <- function(values, arg_name, num_studies) {
+  if (length(values) == 1) {
+    return(rep(values, num_studies))
+  }
+  if (length(values) != num_studies) {
+    cli_abort("'{arg_name}' must be length 1 or one value per study")
+  }
+  return(values)
+}

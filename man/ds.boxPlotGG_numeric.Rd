@@ -30,3 +30,6 @@ ds.boxPlotGG_numeric(
 \description{
 Draw boxplot with information from a numeric vector
 }
+\author{
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+}

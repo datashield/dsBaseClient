@@ -13,7 +13,8 @@ ds.contourPlot(
   method = "smallCellsRule",
   k = 3,
   noise = 0.25,
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = FALSE
 )
 }
 \arguments{
@@ -47,6 +48,9 @@ noise if the argument \code{method} is set to \code{'probabilistic'}. For more i
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 \code{ds.contourPlot} returns a contour plot to the client-side.
@@ -132,4 +136,6 @@ Server functions called: \code{heatmapPlotDS}, \code{rangeDS} and \code{densityG
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

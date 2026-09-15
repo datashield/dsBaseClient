@@ -85,9 +85,11 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.heatmapPlot} returns to the client-side a heat map plot and a message specifying 
 #' the number of invalid cells in each study. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -149,17 +151,9 @@
 #' }
 #'
 ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, 
-                           method="smallCellsRule", k=3, noise=0.25, datasources=NULL){
+                           method="smallCellsRule", k=3, noise=0.25, datasources=NULL, classConsistencyCheck=FALSE){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
@@ -172,24 +166,6 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
   on.exit(graphics::par(old_par), add = TRUE)
-
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  typ.x <- checkClass(datasources, x)
-  typ.y <- checkClass(datasources, y)
-
-  # the input objects must be numeric or integer vectors
-  if(!('integer' %in% typ.x) & !('numeric' %in% typ.x)){
-    message(paste0(x, " is of type ", typ.x, "!"))
-    stop("The input objects must be integer or numeric vectors.", call.=FALSE)
-  }
-  if(!('integer' %in% typ.y) & !('numeric' %in% typ.y)){
-    message(paste0(y, " is of type ", typ.y, "!"))
-    stop("The input objects must be integer or numeric vectors.", call.=FALSE)
-  }
   
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
@@ -215,8 +191,11 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     method.indicator <- 1
 
     # call the server-side function that generates the x and y coordinates of the centroids
-    cally <- paste0("heatmapPlotDS(", x, ",", y, ",", k, ",", noise, ",", method.indicator, ")")
-    anonymous.data <- DSI::datashield.aggregate(datasources, cally)
+    anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    if(classConsistencyCheck){
+      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+    }
 
     pooled.points.x <- c()
     pooled.points.y <- c()
@@ -231,8 +210,11 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     method.indicator <- 2
 
     # call the server-side function that generates the x and y coordinates of the anonymous.data
-    cally <- paste0("heatmapPlotDS(", x, ",", y, ",", k, ",", noise, ",", method.indicator, ")")
-    anonymous.data <- DSI::datashield.aggregate(datasources, cally)
+    anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
+    if(classConsistencyCheck){
+      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+    }
 
     pooled.points.x <- c()
     pooled.points.y <- c()
@@ -247,11 +229,9 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     if (method=="smallCellsRule"){
 
       # get the range from each study and produce the 'global' range
-      cally <- paste("rangeDS(", x, ")")
-      x.ranges <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+      x.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", x, ")")))
 
-      cally <- paste("rangeDS(", y, ")")
-      y.ranges <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+      y.ranges <- datashield.aggregate(datasources, as.symbol(paste0("rangeDS(", y, ")")))
 
       x.minrs <- c()
       x.maxrs <- c()
@@ -272,9 +252,12 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       y.global.max <- y.range.arg[2]
 
       # generate the grid density object to plot
-      cally <- paste0("densityGridDS(",x,",",y,",",limits=T,",",x.global.min,",",
-                     x.global.max,",",y.global.min,",",y.global.max,",",numints,")")
-      grid.density.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+      grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
+      if(classConsistencyCheck){
+        .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+        .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+      }
+      grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
       numcol <- dim(grid.density.obj[[1]])[2]
 
@@ -428,10 +411,12 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
    if (method=="smallCellsRule"){
 
      # generate the grid density object to plot
-     num_intervals <- numints
-     cally <- paste0("densityGridDS(",x, ",", y, ",", 'limits=FALSE', ",", 'x.min=NULL', ",",
-                     'x.max=NULL', ",", 'y.min=NULL', ",", 'y.max=NULL', ",", numints=num_intervals, ")")
-     grid.density.obj <- DSI::datashield.aggregate(datasources, as.symbol(cally))
+     grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
+     if(classConsistencyCheck){
+       .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
+       .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+     }
+     grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
      numcol <- dim(grid.density.obj[[1]])[2]
    }

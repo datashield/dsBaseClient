@@ -91,13 +91,7 @@ progress. The default value for notify.of.progress is FALSE.}
 \value{
 the object specified by the <newobj> argument (or default name
 'newobj.sample')
-which is written to the serverside. In addition, two validity messages are returned
-indicating whether <newobj> has been created in each data source and if so whether
-it is in a valid form. If its form is not valid in at least one study - e.g. because
-a disclosure trap was tripped and creation of the full output object was blocked -
-ds.dataFrameSort() also returns any studysideMessages that may explain the error in creating
-the full output object. We are currently working to extend the information that can
-be returned to the clientside when an error occurs.
+which is written to the serverside.
 }
 \description{
 draws a pseudorandom sample from a vector, dataframe or matrix
@@ -162,4 +156,6 @@ why line 2 is inserted to create a copy with a shorter name.
 }
 \author{
 Paul Burton, for DataSHIELD Development Team, 15/4/2020
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

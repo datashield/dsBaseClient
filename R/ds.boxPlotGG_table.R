@@ -13,18 +13,12 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} (default \code{NULL}) objects obtained after login
 #'
 #' @return \code{ggplot} object
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 
 ds.boxPlotGG_table <- function(x, variables, group = NULL, group2 = NULL, xlabel = "x axis", 
                                ylabel = "y axis", type = "pooled", datasources = NULL){
   
-  if (is.null(datasources)) {
-    datasources <- DSI::datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   ds.boxPlotGG_data_Treatment(x, variables, group, group2, datasources)
   

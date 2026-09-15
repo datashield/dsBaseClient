@@ -27,11 +27,8 @@ test_that("setup", {
 
 # context("ds.sample::smk::test")
 test_that("simple test", {
-    res1 <- ds.sample(x="D", size=30)
-
-    expect_length(res1, 2)
-    expect_equal(res1$is.object.created, "A data object <newobj.sample> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(res1$validity.check, "<newobj.sample> appears valid in all sources", fixed=TRUE)
+    ds.sample(x="D", size=30)
+    ds_expect_variables(c("D", "newobj.sample"))
 
     res1_length <- ds.length('newobj.sample')
 
@@ -74,11 +71,8 @@ test_that("simple test", {
     expect_equal(res1_survtime_length$`length of newobj.sample$survtime in survival3`, 30)
     expect_equal(res1_survtime_length$`total length of newobj.sample$survtime in all studies combined`, 90)
 
-    res2 <- ds.sample(x="D$survtime", size=42, newobj="test.obj")
-
-    expect_length(res2, 2)
-    expect_equal(res2$is.object.created, "A data object <test.obj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(res2$validity.check, "<test.obj> appears valid in all sources", fixed=TRUE)
+    ds.sample(x="D$survtime", size=42, newobj="test.obj")
+    ds_expect_variables(c("D", "newobj.sample", "test.obj"))
 
     res2_length <- ds.length('test.obj')
 
@@ -126,6 +120,18 @@ test_that("simple test, error", {
     expect_match(res.errors$survival1, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
     expect_match(res.errors$survival2, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
     expect_match(res.errors$survival3, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
+})
+
+# context("ds.sample::smk::test nonexistent object")
+test_that("simple test, nonexistent object", {
+    expect_error(ds.sample(x="nonexistent_obj", size=30, newobj="no.obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 3)
+    expect_match(res.errors$survival1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+    expect_match(res.errors$survival2, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+    expect_match(res.errors$survival3, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
 })
 
 #
