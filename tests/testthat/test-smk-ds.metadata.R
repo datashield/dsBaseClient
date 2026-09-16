@@ -117,8 +117,27 @@ test_that("column metadata", {
 test_that("fails if the object does not exist", {
     expect_error(
         ds.metadata(x = "nonexistent_object"),
-        regexp = "DataSHIELD errors"
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
     )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_object' does not exist")
+    expect_match(res.errors$sim2, "The server-side object 'nonexistent_object' does not exist")
+    expect_match(res.errors$sim3, "The server-side object 'nonexistent_object' does not exist")
+})
+
+test_that("fails if the column does not exist", {
+    expect_error(
+        ds.metadata(x = "D$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$sim1, "Column 'nonexistent_column' not found in 'D'")
+    expect_match(res.errors$sim2, "Column 'nonexistent_column' not found in 'D'")
+    expect_match(res.errors$sim3, "Column 'nonexistent_column' not found in 'D'")
 })
 
 # context("ds.metadata::smk::shutdown")

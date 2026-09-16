@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.lspline("D$LAB_TSC", knots=c(3,5), newobj="lspline.newobj")
+        ds.lspline("D$PM_BMI_CONTINUOUS", knots=c(15,25,35), newobj="lspline.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

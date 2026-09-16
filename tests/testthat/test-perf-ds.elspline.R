@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.elspline("D$LAB_TSC", n=3, newobj="elspline.newobj")
+        ds.elspline("D$PM_BMI_CONTINUOUS", n=3, newobj="elspline.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

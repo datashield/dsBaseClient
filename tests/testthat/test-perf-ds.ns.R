@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.ns("D$LAB_TSC", df=3, newobj="ns.newobj")
+        ds.ns("D$PM_BMI_CONTINUOUS", df=3, newobj="ns.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

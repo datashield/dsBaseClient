@@ -26,17 +26,9 @@ test_that("setup", {
 #
 
 # context("ds.metadata::arg")
-test_that("missing variable", {
-    expect_error(ds.metadata(x='E'), "The input object E is not defined in sim1, sim2, sim3!", fixed = TRUE)
-})
-
-# test_that("missing column", {
-#     expect_error(ds.metadata(x='E$E'), "The input object E$E is not defined in sim1, sim2, sim3!", fixed = TRUE)
-# })
-
-test_that("missing column", {
-    expect_error(ds.metadata(x='D$E'), "The input object D$E is not defined in sim1, sim2, sim3!", fixed = TRUE)
-})
+# "missing variable" / "missing column" moved to test-smk-ds.metadata.R:
+# these are now server-side existence checks (via .loadServersideObject), not
+# client-side argument validation, so they belong in the smk suite.
 
 #
 # Tear down

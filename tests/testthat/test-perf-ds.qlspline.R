@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.qlspline("D$LAB_TSC", q=3, newobj="qlspline.newobj")
+        ds.qlspline("D$PM_BMI_CONTINUOUS", q=3, newobj="qlspline.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()
