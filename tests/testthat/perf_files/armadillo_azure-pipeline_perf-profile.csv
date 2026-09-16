@@ -66,6 +66,7 @@
 "ds.rUnif::perf::0","8.695","0.5","2"
 "ds.sample::perf::0","7.652","0.5","2"
 "ds.seq::perf::0","17.55","0.5","2"
+"ds.setSeed::perf::0","22.25","0.5","2"
 "ds.skewness::perf::combine:0","8.226","0.5","2"
 "ds.sqrt::perf::0","16.83","0.5","2"
 "ds.summary::perf::0","6.095","0.5","2"
