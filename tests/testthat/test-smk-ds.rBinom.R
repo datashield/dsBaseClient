@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple test", {
     res <- ds.rBinom(samp.size = 50, size = 50, prob = 0.25, newobj = "binom_dist", seed.as.integer = 27)
 
-    expect_length(res, 4)
+    expect_length(res, 2)
     expect_length(res$integer.seed.as.set.by.source, 3)
     expect_equal(res$integer.seed.as.set.by.source[1], 27)
     expect_equal(res$integer.seed.as.set.by.source[2], 54)
@@ -38,8 +38,33 @@ test_that("simple test", {
     expect_equal(res$random.vector.length.by.source[1], 50)
     expect_equal(res$random.vector.length.by.source[2], 50)
     expect_equal(res$random.vector.length.by.source[3], 50)
-    expect_equal(res$is.object.created, "A data object <binom_dist> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<binom_dist> appears valid in all sources")
+    ds_expect_variables(c("D", "binom_dist"))
+})
+
+# context("ds.rBinom::smk::nonexistent object")
+test_that("nonexistent server-side object", {
+    expect_error(ds.rBinom(samp.size = 50, size = "nonexistent_obj", prob = 0.25, newobj = "no.obj", seed.as.integer = 27), "There are some DataSHIELD errors, list them with datashield.errors()", fixed = TRUE)
+
+    res.errors <- DSI::datashield.errors()
+
+    expect_length(res.errors, 1)
+    expect_match(res.errors$sim1, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+})
+
+# context("ds.rBinom::smk::one value per study")
+test_that("one value per study", {
+    ds.rBinom(samp.size = 50, size = c(1, 10, 100), prob = 0.5, newobj = "binom_by_study", seed.as.integer = 27)
+
+    res.mean <- ds.mean(x = "binom_by_study", type = "split")
+
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[1]) - 0.5), 0.3)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[2]) - 5), 1.5)
+    expect_lt(abs(as.numeric(res.mean$Mean.by.Study[3]) - 50), 5)
+})
+
+# context("ds.rBinom::smk::wrong number of values")
+test_that("wrong number of values per study", {
+    expect_error(ds.rBinom(samp.size = 50, size = c(1, 10), prob = 0.5, newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
 })
 
 #
@@ -49,7 +74,7 @@ test_that("simple test", {
 # context("ds.rBinom::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "binom_dist"))
+    ds_expect_variables(c("D", "binom_dist", "binom_by_study"))
 })
 
 disconnect.studies.dataset.cnsim()
