@@ -108,3 +108,6 @@ of grouping using categorical variables on the dataset (only for data frames)
 }   
 
 }
+\author{
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+}

@@ -11,19 +11,12 @@
 #'  Column 'x': Names on the X axis of the boxplot, aka name of the vector (vector argument) \cr
 #'  Column 'value': Values for that variable \cr
 #'
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 
 ds.boxPlotGG_data_Treatment_numeric <- function(vector, datasources = NULL){
   
-  if (is.null(datasources)) {
-    datasources <- DSI::datashield.connections_find()
-  }
+  datasources <- .set_datasources(datasources)
 
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-
-  cally <- paste0("boxPlotGG_data_Treatment_numericDS(", vector, ")")
-  DSI::datashield.assign.expr(datasources, "boxPlotRawDataNumeric", as.symbol(cally))
+  datashield.assign.expr(datasources, "boxPlotRawDataNumeric", call("boxPlotGG_data_Treatment_numericDS", vector.name = vector))
   
 }

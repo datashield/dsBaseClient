@@ -21,3 +21,6 @@ ggplot boxplot function. Structure of the created table: \cr
 \description{
 Internal function
 }
+\author{
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+}

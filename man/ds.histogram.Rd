@@ -12,7 +12,8 @@ ds.histogram(
   k = 3,
   noise = 0.25,
   vertical.axis = "Frequency",
-  datasources = NULL
+  datasources = NULL,
+  classConsistencyCheck = FALSE
 )
 }
 \arguments{
@@ -49,6 +50,9 @@ For more information see \strong{Details}.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default FALSE.}
 }
 \value{
 one or more histogram objects and plots depending on the argument \code{type}
@@ -182,4 +186,6 @@ Server function called: \code{histogramDS2}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
