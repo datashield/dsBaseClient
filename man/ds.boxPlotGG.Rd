@@ -43,3 +43,6 @@ of this object must be: \cr
 Internal function. Renders a ggplot boxplot by retrieving from the server side a list with the identity stats and other
 parameters to render the plot without passing any data from the original dataset
 }
+\author{
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+}

@@ -67,9 +67,11 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
 #' If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckFalse
 #' @return \code{ds.scatterPlot} returns to the client-side one or more scatter 
 #' plots depending on the argument \code{type}. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -127,7 +129,7 @@
 #'
 #' }
 #'
-ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL){
+ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
   if(is.null(x)){
     stop("Please provide the name of the x-variable", call.=FALSE)
@@ -137,37 +139,11 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
     stop("Please provide the name of the y-variable", call.=FALSE)
   }
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
   on.exit(graphics::par(old_par), add = TRUE)
-
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, x)
-  isDefined(datasources, y)
-
-  # call the internal function that checks the input object(s) is(are) of the same class in all studies.
-  typ.x <- checkClass(datasources, x)
-  typ.y <- checkClass(datasources, y)
-
-  # the input objects must be numeric or integer vectors
-  if(!('integer' %in% typ.x) & !('numeric' %in% typ.x)){
-    message(paste0(x, " is of type ", typ.x, "!"))
-    stop("The input objects must be integer or numeric vectors.", call.=FALSE)
-  }
-  if(!('integer' %in% typ.y) & !('numeric' %in% typ.y)){
-    message(paste0(y, " is of type ", typ.y, "!"))
-    stop("The input objects must be integer or numeric vectors.", call.=FALSE)
-  }
 
   # get the axes labels
   xnames <- extract(x)
@@ -185,8 +161,11 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
   if(method=='probabilistic'){ method.indicator <- 2 }
 
   # call the server-side function that generates the x and y coordinates of the centroids
-  call <- paste0("scatterPlotDS(", x, ",", y, ",", method.indicator, ",", k, ",", noise, ")")
-  output <- DSI::datashield.aggregate(datasources, call)
+  output <- datashield.aggregate(datasources, call("scatterPlotDS", x.name=x, y.name=y, method.indicator=method.indicator, k=k, noise=noise))
+  if(classConsistencyCheck){
+    .checkClassConsistency(output, field = "class.x", object_name = x)
+    .checkClassConsistency(output, field = "class.y", object_name = y)
+  }
 
   pooled.points.x <- c()
   pooled.points.y <- c()

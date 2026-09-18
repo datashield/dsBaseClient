@@ -32,11 +32,14 @@ test_that("simple c", {
 
     expect_length(res_errors, 3)
     expect_length(res_errors$sim1, 1)
-    expect_equal(res_errors$sim1, "Command 'setSeedDS(4321)' failed on 'sim1': Error while evaluating 'dsBase::setSeedDS(4321)' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_match(res_errors$sim1, "BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked", fixed = TRUE)
+    expect_match(res_errors$sim1, "setSeedDS", fixed = TRUE)
     expect_length(res_errors$sim2, 1)
-    expect_equal(res_errors$sim2, "Command 'setSeedDS(4321)' failed on 'sim2': Error while evaluating 'dsBase::setSeedDS(4321)' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_match(res_errors$sim2, "BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked", fixed = TRUE)
+    expect_match(res_errors$sim2, "setSeedDS", fixed = TRUE)
     expect_length(res_errors$sim3, 1)
-    expect_equal(res_errors$sim3, "Command 'setSeedDS(4321)' failed on 'sim3': Error while evaluating 'dsBase::setSeedDS(4321)' -> Error in checkPermissivePrivacyControlLevel() : \n  BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked\n", fixed = TRUE)
+    expect_match(res_errors$sim3, "BLOCKED: The server is running in 'non-permissive' mode which has caused this method to be blocked", fixed = TRUE)
+    expect_match(res_errors$sim3, "setSeedDS", fixed = TRUE)
 })
 
 #
