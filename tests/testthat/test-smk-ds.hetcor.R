@@ -178,6 +178,13 @@ test_that("hetcor", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.hetcor(data = "nonexistent_object"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.hetcor::smk::shutdown")
 
 test_that("shutdown", {

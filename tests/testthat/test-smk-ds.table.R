@@ -150,6 +150,52 @@ test_that("simple table 3D, with assign", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.table(rvar = "nonexistent_object"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
+test_that("fails if rvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
+test_that("fails if cvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$factorInteger", cvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
+test_that("fails if stvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$factorInteger", cvar = "tablesource_subset$factorCharacter", stvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
 # context("ds.table::smk::shutdown")
 
 test_that("shutdown", {

@@ -50,4 +50,6 @@ range of x into n equal-width intervals.
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

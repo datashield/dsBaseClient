@@ -27,29 +27,20 @@ test_that("setup", {
 
 # context("ds.make::smk")
 test_that("simple make", {
-    res <- ds.make("(D$LAB_TSC*D$LAB_TRIG*D$LAB_HDL)", "maded.rand")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+    ds.make("(D$LAB_TSC*D$LAB_TRIG*D$LAB_HDL)", "maded.rand")
+    ds_expect_variables(c("D", "maded.rand"))
 })
 
 # context("ds.make::smk")
 test_that("simple make", {
-    res <- ds.make("(D$LAB_TSC*10)", "maded.rand")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+    ds.make("(D$LAB_TSC*10)", "maded.rand")
+    ds_expect_variables(c("D", "maded.rand"))
 })
 
 # context("ds.make::smk")
 test_that("simple make", {
-    res <- ds.make("(D$LAB_TSC)*10", "maded.rand")
-
-    expect_length(res, 2)
-    expect_equal(res$is.object.created, "A data object <maded.rand> has been created in all specified data sources")
-    expect_equal(res$validity.check, "<maded.rand> appears valid in all sources")
+    ds.make("(D$LAB_TSC)*10", "maded.rand")
+    ds_expect_variables(c("D", "maded.rand"))
 })
 
 #

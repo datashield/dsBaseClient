@@ -57,4 +57,6 @@ probabilities directly (the vector is passed to argument probs of quantile).
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

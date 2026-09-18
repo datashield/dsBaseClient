@@ -55,6 +55,13 @@ test_that("simple lexis", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.lexis(data = "D", intervalWidth = c(1.0, 1.5, 2.5), idCol = "D$id", entryCol = "D$starttime", exitCol = "nonexistent_object", statusCol = "D$cens"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.lexis::smk::shutdown")
 
 test_that("shutdown", {

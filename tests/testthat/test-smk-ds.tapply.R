@@ -133,6 +133,13 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 # Tear down
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.tapply("nonexistent_object", INDEX.names = c("GENDER"), FUN.name = "mean"),
+        regexp = "DataSHIELD errors"
+    )
+})
+
 # context("ds.tapply::smk::shutdown")
 
 test_that("shutdown", {

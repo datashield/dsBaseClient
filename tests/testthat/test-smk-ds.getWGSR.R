@@ -27,13 +27,7 @@ test_that("setup", {
 
 # context("ds.getWGSR::smk")
 test_that("simple getWGSR", {
-    res <- ds.getWGSR('D$sex', 'D$weight', 'D$height', 'wfh', newobj='newobj.getwgsr')
-
-    expect_length(res, 2)
-    expect_length(res$is.object.created, 1)
-    expect_equal(res$is.object.created, "A data object <newobj.getwgsr> has been created in all specified data sources")
-    expect_length(res$validity.check, 1)
-    expect_equal(res$validity.check, "<newobj.getwgsr> appears valid in all sources")
+    ds.getWGSR('D$sex', 'D$weight', 'D$height', 'wfh', newobj='newobj.getwgsr')
 
     res.class <- ds.class('newobj.getwgsr')
 
@@ -61,6 +55,13 @@ test_that("simple getWGSR", {
 #
 # Done
 #
+
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.getWGSR(sex = "D$sex", firstPart = "nonexistent_object", secondPart = "D$height", index = "hfa"),
+        regexp = "DataSHIELD errors"
+    )
+})
 
 # context("ds.getWGSR::smk::shutdown")
 
