@@ -18,6 +18,7 @@
 #' @return \code{ds.matrixDet.report} returns to the client-side
 #' the determinant of a matrix that is stored on the server-side.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples 
 #' \dontrun{
 #' 
@@ -76,15 +77,7 @@
 #'
 ds.matrixDet.report<-function(M1=NULL, logarithm=FALSE, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){

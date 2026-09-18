@@ -1,0 +1,124 @@
+# Combines R objects by rows in the server-side
+
+It takes a sequence of vector, matrix or data-frame arguments and
+combines them by rows to produce a matrix.
+
+## Usage
+
+``` r
+ds.rbind(
+  x = NULL,
+  DataSHIELD.checks = FALSE,
+  force.colnames = NULL,
+  newobj = NULL,
+  datasources = NULL,
+  notify.of.progress = FALSE
+)
+```
+
+## Arguments
+
+- x:
+
+  a character vector with the name of the objects to be combined.
+
+- DataSHIELD.checks:
+
+  logical, if TRUE checks that all input objects exist and are of an
+  appropriate class.
+
+- force.colnames:
+
+  can be NULL or a vector of characters that specifies column names of
+  the output object.
+
+- newobj:
+
+  a character string that provides the name for the output variable that
+  is stored on the data servers. Defaults `rbind.newobj`.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+- notify.of.progress:
+
+  specifies if console output should be produced to indicate progress.
+  Default FALSE.
+
+## Value
+
+`ds.rbind` returns a matrix combining the rows of the R objects
+specified in the function which is written to the server-side. It also
+returns two messages to the client-side with the name of `newobj` that
+has been created in each data source and `DataSHIELD.checks` result.
+
+## Details
+
+A sequence of vector, matrix or data-frame arguments is combined by rows
+to produce a matrix on the server-side.
+
+In `DataSHIELD.checks` the checks are relatively slow. Default
+`DataSHIELD.checks` value is FALSE.
+
+If `force.colnames` is NULL column names are inferred from the names or
+column names of the first object specified in the `x` argument. The
+vector of column names must have the same number of elements as the
+columns in the output object.
+
+Server functions called: `rbindDS`.
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+  ## Version 6, for version 5 see the Wiki 
+  
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+  logindata <- builder$build()
+
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  #Combining R objects by rows 
+   
+                   
+  ds.rbind(x = "D", #data frames in the server-side to be conbined 
+                    #(see above the connection to the Opal servers) 
+           DataSHIELD.checks = FALSE,
+           force.colnames = NULL,
+           newobj = "D.rbind", # name for the output object that is stored in the data servers
+           datasources = connections, # All Opal servers are used 
+                                      #(see above the connection to the Opal servers)
+           notify.of.progress = FALSE)
+           
+  # Clear the Datashield R sessions and logout  
+  datashield.logout(connections) 
+  } # }
+```

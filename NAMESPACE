@@ -121,7 +121,9 @@ import(DSI)
 import(data.table)
 importFrom(DSI,datashield.connections_find)
 importFrom(cli,cli_abort)
-importFrom(stats,as.formula)
-importFrom(stats,na.omit)
-importFrom(stats,ts)
-importFrom(stats,weighted.mean)
+importFrom(stats,
+  as.formula,
+  na.omit,
+  ts,
+  weighted.mean
+)

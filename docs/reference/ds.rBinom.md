@@ -1,0 +1,157 @@
+# Generates Binomial distribution in the server-side
+
+Generates random (pseudorandom) non-negative integers from a Binomial
+distribution. Also, `ds.rBinom` allows creating different vector lengths
+in each server.
+
+## Usage
+
+``` r
+ds.rBinom(
+  samp.size = 1,
+  size = 0,
+  prob = 1,
+  newobj = NULL,
+  seed.as.integer = NULL,
+  return.full.seed.as.set = FALSE,
+  datasources = NULL
+)
+```
+
+## Arguments
+
+- samp.size:
+
+  an integer value or an integer vector that defines the length of the
+  random numeric vector to be created in each source.
+
+- size:
+
+  a positive integer that specifies the number of Bernoulli trials.
+
+- prob:
+
+  a numeric scalar value or vector in range 0 \> prob \> 1 which
+  specifies the probability of a positive response (i.e. 1 rather than
+  0).
+
+- newobj:
+
+  a character string that provides the name for the output variable that
+  is stored on the data servers. Default `rbinom.newobj`.
+
+- seed.as.integer:
+
+  an integer or a NULL value which provides the random seed in each data
+  source.
+
+- return.full.seed.as.set:
+
+  logical, if TRUE will return the full random number seed in each data
+  source (a numeric vector of length 626). If FALSE it will only return
+  the trigger seed value you have provided. Default is FALSE.
+
+- datasources:
+
+  a list of
+  [`DSConnection-class`](https://datashield.github.io/DSI/reference/DSConnection-class.html)
+  objects obtained after login. If the `datasources` argument is not
+  specified the default set of connections will be used: see
+  [`datashield.connections_default`](https://datashield.github.io/DSI/reference/datashield.connections_default.html).
+
+## Value
+
+`ds.rBinom` returns random number vectors with a Binomial distribution
+for each study, taking into account the values specified in each
+parameter of the function. The output vector is written to the
+server-side. If requested, it also returned to the client-side the full
+626 lengths random seed vector generated in each source (see info for
+the argument `return.full.seed.as.set`).
+
+## Details
+
+Creates a vector of random or pseudorandom non-negative integer values
+distributed with a Binomial distribution. The ds.rBinom function's
+arguments specify the number of trials, the success probability, the
+length and the seed of the output vector in each source.
+
+To specify a different `size` in each source, you can use a character
+vector `(..., size="vector.of.sizes"...)` or the `datasources` parameter
+to create the random vector for one source at a time, changing `size` as
+required. The default value for `size = 1` which simulates binary
+outcomes (all observations 0 or 1).
+
+To specify different `prob` in each source, you can use an integer or
+character vector `(..., prob="vector.of.probs"...)` or the `datasources`
+parameter to create the random vector for one source at a time, changing
+`prob` as required.
+
+If `seed.as.integer` is an integer e.g. 5 and there is more than one
+source (N) the seed is set as 5\*N. For example, in the first study the
+seed is set as 938\*1, in the second as 938\*2 up to 938\*N in the Nth
+study.
+
+If `seed.as.integer` is set as 0 all sources will start with the seed
+value 0 and all the random number generators will, therefore, start from
+the same position. Besides, to use the same starting seed in all studies
+but do not wish it to be 0, you can use `datasources` argument to
+generate the random number vectors one source at a time.
+
+Server functions called: `rBinomDS` and `setSeedDS`.
+
+## Author
+
+DataSHIELD Development Team
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+  ## Version 6, for version 5 see the Wiki
+  # Connecting to the Opal servers
+
+  require('DSI')
+  require('DSOpal')
+  require('dsBaseClient')
+
+  builder <- DSI::newDSLoginBuilder()
+  builder$append(server = "study1", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+  builder$append(server = "study2", 
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
+  builder$append(server = "study3",
+                 url = "http://192.168.56.100:8080/", 
+                 user = "administrator", password = "datashield_test&", 
+                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+
+  logindata <- builder$build()
+  
+  # Log onto the remote Opal training servers
+  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
+
+  #Generating the vectors in the Opal servers
+  ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
+  size=as.character(c(10,23,5)),   #Bernoulli trials change in each source 
+  prob=c(0.6,0.1,0.5), #Probability  changes in each source 
+  newobj="Binom.dist", 
+  seed.as.integer=45, 
+  return.full.seed.as.set=FALSE,
+  datasources=connections)   #all the Opal servers are used, in this case 3 
+                             #(see above the connection to the servers) 
+
+  ds.rBinom(samp.size=15,    
+            size=4,          
+            prob=0.7, 
+            newobj="Binom.dist", 
+            seed.as.integer=324, 
+            return.full.seed.as.set=FALSE, 
+            datasources=connections[2]) #only the second  Opal server is used ("study2")
+            
+  # Clear the Datashield R sessions and logout
+  datashield.logout(connections) 
+} # }
+```

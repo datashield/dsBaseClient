@@ -26,11 +26,13 @@ armadillo:
         datashield:
           # the seed can only be 9 digits
           seed: 342325352
+          privacyControlLevel: permissive
 
 # required settings:
 spring:
   security:
     user:
+      name: admin
       # please change this admin password!
       password: admin
     ## uncomment oauth2 settings below to enable oidcgit
