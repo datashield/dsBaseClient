@@ -37,6 +37,13 @@ test_that("isValid", {
     expect_length(res1$sim3, 1)
     expect_true(res1$sim3)
 
+    res2 <- ds.isValid(x='D')
+
+    expect_length(res2, 3)
+    expect_true(res2$sim1)
+    expect_true(res2$sim2)
+    expect_true(res2$sim3)
+
 #    myvectors <- c("D$LAB_TSC", "D$LAB_TRIG")
 #    ds.dataFrame(x=myvectors, newobj="unsubset_df")
 #    ds.dataFrameSubset(df.name="unsubset_df", V1.name="D$LAB_TSC", V2.name="D$LAB_TRIG", Boolean.operator=">", newobj="subset_df")
@@ -52,6 +59,34 @@ test_that("isValid", {
 #    expect_false(res2$sim3)
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.isValid(x='nonexistent_object'),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is of a type that cannot be checked", {
+    ds.asList(x.name='D', newobj='D_list')
+
+    expect_error(
+        ds.isValid(x='D_list'),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type")
+    }
+})
+
 #
 # Tear down
 #
@@ -59,7 +94,7 @@ test_that("isValid", {
 # context("ds.isValid::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "D_list"))
 })
 
 disconnect.studies.dataset.cnsim()

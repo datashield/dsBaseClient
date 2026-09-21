@@ -26,9 +26,6 @@ test_that("setup", {
 #
 
 # context("ds.metadata::arg")
-# "missing variable" / "missing column" moved to test-smk-ds.metadata.R:
-# these are now server-side existence checks (via .loadServersideObject), not
-# client-side argument validation, so they belong in the smk suite.
 
 #
 # Tear down

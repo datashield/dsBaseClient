@@ -5,7 +5,13 @@
 
 # context("ds.table::perf::setup")
 
-connect.studies.dataset.cnsim(list("GENDER"))
+connect.all.datasets()
+
+ds.asFactor(input.var.name="D$FACTOR_CHARACTER", newobj.name="factorCharacter")
+ds.asFactor(input.var.name="D$FACTOR_INTEGER", newobj.name="factorInteger")
+ds.asFactor(input.var.name="D$CATEGORY", newobj.name="factorCategory")
+ds.dataFrame(x=c("factorInteger", "factorCharacter", "factorCategory"), newobj="tablesource")
+ds.dataFrameSubset(df.name="tablesource", V1.name="factorInteger", V2.name='6', Boolean.operator="!=", newobj="tablesource_subset")
 
 #
 # Tests
@@ -19,7 +25,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.table(rvar="D$GENDER")
+        ds.table(rvar='tablesource_subset$factorCharacter')
 
         .count <- .count + 1
         .current.time <- Sys.time()
@@ -47,5 +53,5 @@ test_that("performance", {
 #
 
 # context("ds.table::perf::shutdown")
-disconnect.studies.dataset.cnsim()
+disconnect.all.datasets()
 # context("ds.table::perf::done")

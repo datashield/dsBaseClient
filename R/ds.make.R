@@ -134,7 +134,6 @@
 #'
 ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
-  # look for DS connections
   datasources <- .set_datasources(datasources)
 
   if(is.null(toAssign)){

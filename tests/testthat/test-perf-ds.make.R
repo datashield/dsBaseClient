@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.make(toAssign="D$LAB_TSC + D$LAB_TRIG", newobj="make.newobj")
+        ds.make("(D$LAB_TSC*D$LAB_TRIG*D$LAB_HDL)", "make.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.metadata(x="D$LAB_TSC")
+        ds.metadata(x='D')
 
         .count <- .count + 1
         .current.time <- Sys.time()

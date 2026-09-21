@@ -18,7 +18,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.rowColCalc(x="D", operation="colMeans", newobj="rowcol.newobj")
+        ds.rowColCalc(x="D", operation="rowSums", newobj="rowcol.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

@@ -74,33 +74,6 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
   }
 
-  # number of studies and their names
-  numsources <- length(datasources)
-  stdnames <- names(datasources)
-
-  # we want to deal only with two dimensional tables
-  dim2 <- c()
-  for(i in 1:numsources){
-    dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
-    if(length(dims[[1]]$dim) != 2){
-      stop("The input table in ", stdnames[i]," has more than two dimensions. Only strutures of two dimensions are allowed", call.=FALSE)
-    }
-    dim2 <- append(dim2, dims[[1]]$dim[2])
-  }
-
-  # check that, for each study,  all the columns of the input table are of 'numeric' type
-  dtname <- x
-  for(i in 1:numsources){
-    cols <- DSI::datashield.aggregate(datasources[i], call("colnamesDS", x))
-    for(j in 1:dim2[i]){
-      cally <- call("classDS", paste0(dtname, "$", cols[[1]][j]))
-      res <- DSI::datashield.aggregate(datasources[i], cally)
-      if(res[[1]] != 'numeric' & res[[1]] != 'integer'){
-        stop("One or more columns of ", dtname, " are not of numeric type, in ",  stdnames[i], ".", call.=FALSE)
-      }
-    }
-  }
-
   ops <- c("rowSums","colSums","rowMeans","colMeans")
   if(is.null(operation)){
     message(" ALERT!")

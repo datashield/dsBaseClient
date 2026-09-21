@@ -139,5 +139,4 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   cally <- call("getWGSRDS", sex, firstPart, secondPart, index, standing, thirdPart)
   DSI::datashield.assign(datasources, newobj, cally)
 
-
-}  
+}

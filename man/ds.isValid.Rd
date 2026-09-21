@@ -4,7 +4,7 @@
 \alias{ds.isValid}
 \title{Checks if a server-side object is valid}
 \usage{
-ds.isValid(x = NULL, datasources = NULL)
+ds.isValid(x = NULL, datasources = NULL, classConsistencyCheck = TRUE)
 }
 \arguments{
 \item{x}{a character string specifying the name of a vector, dataframe or matrix.}
@@ -12,6 +12,9 @@ ds.isValid(x = NULL, datasources = NULL)
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
 objects obtained after login. If the \code{datasources} argument is not specified
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 \code{ds.isValid} returns a boolean. If it is TRUE input object is valid, FALSE otherwise.
@@ -71,4 +74,6 @@ Server function called: \code{isValidDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

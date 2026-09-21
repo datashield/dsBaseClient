@@ -13,3 +13,4 @@ tests/testthat/connection_to_datasets/local_settings.csv
 tests/docker/armadillo/standard/logs/
 tests/docker/armadillo/standard/data/
 lintr_results.sarif
+tests/testthat/Rplots.pdf

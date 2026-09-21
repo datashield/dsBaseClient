@@ -6,6 +6,9 @@
 # context("ds.tapply.assign::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC", "GENDER"))
 
+ds.assign('D$LAB_TSC', 'LAB_TSC')
+ds.assign('D$GENDER', 'GENDER')
+
 #
 # Tests
 #
@@ -18,7 +21,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.tapply.assign(X.name="D$LAB_TSC", INDEX.names="D$GENDER", FUN.name="mean", newobj="tapply.newobj")
+        ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='mean', newobj="tapply.newobj")
 
         .count <- .count + 1
         .current.time <- Sys.time()

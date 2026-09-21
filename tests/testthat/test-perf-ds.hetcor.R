@@ -6,6 +6,8 @@
 # context("ds.hetcor::perf::setup")
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "LAB_HDL", "LAB_GLUC_ADJUSTED", "PM_BMI_CONTINUOUS", "DIS_CVA", "MEDI_LPD", "DIS_DIAB", "DIS_AMI", "GENDER", "PM_BMI_CATEGORICAL"))
 
+ds.dataFrame(c("D$LAB_TSC", "D$LAB_TRIG", "D$LAB_HDL", "D$LAB_GLUC_ADJUSTED", "D$PM_BMI_CONTINUOUS", "D$DIS_CVA", "D$MEDI_LPD", "D$DIS_DIAB", "D$DIS_AMI", "D$GENDER", "D$PM_BMI_CATEGORICAL"), newobj="df")
+
 #
 # Tests
 #
@@ -18,7 +20,7 @@ test_that("performance", {
     .current.time <- .start.time
 
     while (difftime(.current.time, .start.time, units = "secs")[[1]] < .durationSec) {
-        ds.hetcor(data="D")
+        ds.hetcor(data="df", ML=TRUE, std.err=TRUE, bins=4, pd=TRUE, use="complete.obs")
 
         .count <- .count + 1
         .current.time <- Sys.time()

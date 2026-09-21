@@ -13,8 +13,10 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} 
 #' objects obtained after login. If the \code{datasources} argument is not specified
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckTrue
 #' @return \code{ds.isValid} returns a boolean. If it is TRUE input object is valid, FALSE otherwise. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -55,36 +57,21 @@
 #'
 #' }
 #'
-ds.isValid <- function(x=NULL, datasources=NULL){
+ds.isValid <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
   }
 
-  # check if the input object is defined in all the studies
-  isDefined(datasources, x)
+  # call the server side function that does the job and return its output
+  cally <- call("isValidDS", x)
+  results <- DSI::datashield.aggregate(datasources, cally)
 
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # the input object must be a vector
-  if(!('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ) & !('numeric' %in% typ) & !('data.frame' %in% typ) & !('matrix' %in% typ)){
-    stop("The input object must be a character, factor, integer, logical or numeric vector or a dataframe or a matrix", call.=FALSE)
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
   }
 
-  # call the server side function that does the job and return its output
-  cally <- paste0('isValidDS(', x, ')')
-  output <- DSI::datashield.aggregate(datasources, as.symbol(cally))
-  
-  return(output)
+  return(lapply(results, function(r) r$valid))
 }

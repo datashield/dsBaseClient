@@ -59,14 +59,35 @@ test_that("simple getWGSR", {
 test_that("fails if the object does not exist", {
     expect_error(
         ds.getWGSR(sex = "D$sex", firstPart = "nonexistent_object", secondPart = "D$height", index = "hfa"),
-        regexp = "DataSHIELD errors"
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
     )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if firstPart is not numeric", {
+    ds.asFactor(input.var.name = "D$sex", newobj.name = "sex_factor")
+
+    expect_error(
+        ds.getWGSR(sex = "D$sex", firstPart = "sex_factor", secondPart = "D$height", index = "hfa"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type numeric")
+    }
 })
 
 # context("ds.getWGSR::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "newobj.getwgsr"))
+    ds_expect_variables(c("D", "newobj.getwgsr", "sex_factor"))
 })
 
 disconnect.studies.dataset.cnsim()

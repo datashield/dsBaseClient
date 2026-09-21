@@ -136,8 +136,14 @@ test_that("simplest 'ds.tapply', fun=quantile", {
 test_that("fails if the object does not exist", {
     expect_error(
         ds.tapply("nonexistent_object", INDEX.names = c("GENDER"), FUN.name = "mean"),
-        regexp = "DataSHIELD errors"
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
     )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
 })
 
 # context("ds.tapply::smk::shutdown")

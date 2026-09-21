@@ -49,6 +49,15 @@ test_that("density grid with wrong input class fails", {
 # Done
 #
 
+test_that("density grid with nonexistent object fails in the default combine path", {
+    expect_error(ds.densityGrid(x="nonexistent_obj", y="D$LAB_TRIG"), "There are some DataSHIELD errors", fixed=TRUE)
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_obj' does not exist", fixed = TRUE)
+    }
+})
+
 # context("ds.densityGrid::smk::shutdown")
 
 test_that("shutdown", {
