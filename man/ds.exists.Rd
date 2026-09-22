@@ -79,4 +79,6 @@ Server function called: \code{exists}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

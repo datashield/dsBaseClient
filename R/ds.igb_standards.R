@@ -36,20 +36,13 @@
 #' }
 #' @return assigns the converted measurement as a new object on the server-side
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=NULL, 
                              fun='igb_value2zscore', newobj=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
   
   # check if user has provided the name of the input variables
   if(is.null(gagebrth)){
@@ -58,10 +51,6 @@ ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=N
   if(is.null(sex)){
     stop("Please provide the name of the sex variable", call.=FALSE)
   }
-  
-  # check if the input objects are defined in all the studies
-  isDefined(datasources, gagebrth)
-  isDefined(datasources, sex)
   
   # check if the provided fun is valid
   if(!(fun %in% c("igb_centile2value","igb_zscore2value","igb_value2zscore","igb_value2centile"))){
@@ -72,8 +61,6 @@ ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=N
   if(fun %in% c("igb_value2zscore","igb_value2centile")){
     if(is.null(val)){
       stop("Please provide the name of the val variable", call.=FALSE)
-    }else{
-      isDefined(datasources, val)
     }
   }
   
