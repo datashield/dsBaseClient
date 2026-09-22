@@ -183,6 +183,7 @@
 #' about the visible material passed to the clientside, and the optional
 #' table object written to the serverside can be seen under 'details' (above).
 #' @author Paul Burton and Alex Westerberg for DataSHIELD Development Team, 01/05/2020
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
@@ -1539,6 +1540,12 @@ if(num.table.dims==1)
 
 }#END second dim=1 loop
 
+#################################################
+# Setup on.exit() to restore options 'warn' value
+#################################################
+
+old_warn_option <- base::getOption("warn")
+on.exit(base::options(warn = old_warn_option), add = TRUE)
 
 ################################
 #NOW UNDERTAKE CHISQUARED TESTS#

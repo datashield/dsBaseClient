@@ -117,6 +117,10 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
     .checkClassConsistency(output)
   }
 
+  if(!is.null(y) && any(output[[1]]$class %in% c("matrix", "data.frame"))){
+    warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
+  }
+
   if (type=="split"){
     covariance <- list()
     results <- list()
