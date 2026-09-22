@@ -35,6 +35,44 @@ test_that("simple test", {
     expect_equal(res.class$sim3, "list")
 })
 
+test_that("no data is returned to the client", {
+    res <- ds.asList(x.name = "D$GENDER", newobj = "gender.list")
+
+    expect_null(res)
+})
+
+test_that("a data.frame is written to the server as a named list of its columns", {
+    ds.asList(x.name = "D", newobj = "df.list")
+
+    res.class <- ds.class("df.list")
+    for (study.class in res.class) {
+        expect_equal(study.class, "list")
+    }
+
+    res.length <- ds.length("df.list", type = "split")
+    for (study.length in res.length) {
+        expect_equal(study.length, 1)
+    }
+
+    res.names <- ds.names("df.list")
+    for (study.names in res.names) {
+        expect_equal(study.names, "GENDER")
+    }
+})
+
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.asList(x.name = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #
@@ -42,7 +80,7 @@ test_that("simple test", {
 # context("ds.asList::smk::shutdown")
 
 test_that("stutdown", {
-    ds_expect_variables(c("D", "aslist.newobj"))
+    ds_expect_variables(c("D", "aslist.newobj", "gender.list", "df.list"))
 })
 
 disconnect.studies.dataset.cnsim()

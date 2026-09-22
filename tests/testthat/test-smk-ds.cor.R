@@ -103,6 +103,17 @@ test_that("error, x numeric vector requires y", {
     expect_match(res.errors[[1]], "If x is a numeric vector, y must also be a numeric vector")
 })
 
+test_that("ds.cor ignores y with a warning when x is a data.frame", {
+    res.x <- ds.cor(x = "D", type = "split")
+
+    expect_warning(
+        res.xy <- ds.cor(x = "D", y = "D$survtime", type = "split"),
+        "y will be ignored", fixed = TRUE
+    )
+
+    expect_equal(res.xy, res.x)
+})
+
 test_that("shutdown", {
     ds_expect_variables(c("D"))
 })
