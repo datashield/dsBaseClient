@@ -61,7 +61,7 @@
 "ds.mean::perf::combine:0","8.690","0.5","2"
 "ds.mean::perf::split:0","9.823","0.5","2"
 "ds.meanSdGp::perf::combine:0","8.285","0.5","2"
-"ds.merge::perf::0","0.576","0.5","2"
+"ds.merge::perf::0","1.207","0.5","2"
 "ds.metadata::perf::0","9.529","0.5","2"
 "ds.mice::perf::0","3.166","0.5","2"
 "ds.names::perf::combine:0","8.620","0.5","2"
