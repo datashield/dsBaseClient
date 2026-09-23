@@ -25,3 +25,4 @@
 ^\.github$
 ^man-roxygen$
 ^codecov\.yml$
+^github-workflows_check\.Rout$
