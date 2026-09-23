@@ -114,8 +114,14 @@ test_that("ds.cor ignores y with a warning when x is a data.frame", {
     expect_equal(res.xy, res.x)
 })
 
+test_that("cor accepts a factor variable", {
+    ds.asFactorSimple(input.var.name = "D$female", newobj.name = "female.factor")
+
+    expect_no_error(ds.cor(x = "female.factor", y = "D$survtime", type = "split"))
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "female.factor"))
 })
 
 disconnect.studies.dataset.survival()
