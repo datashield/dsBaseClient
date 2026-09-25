@@ -26,20 +26,13 @@
 #' blood pressure in children and adolescents:
 #' https://www.nhlbi.nih.gov/sites/default/files/media/docs/hbp_ped.pdf
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @import data.table
 #' @export
 ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=TRUE, 
                             newobj=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- DSI::datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
   
   # verify that 'sex' was set
   if(is.null(sex)){
@@ -60,12 +53,6 @@ ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=T
   if(is.null(bp)){
     stop("Please provide the name of the blood pressure variable", call.=FALSE)
   }
-  
-  # check if the input objects are defined in all the studies
-  defined.sex <- isDefined(datasources, sex)
-  defined.age <- isDefined(datasources, age)
-  defined.height <- isDefined(datasources, height)
-  defined.bp <- isDefined(datasources, bp)
   
   # if no output object specified then provide a default name
   if(is.null(newobj)){

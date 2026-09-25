@@ -28,4 +28,6 @@ The AUC determines the discriminative ability of a model.
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

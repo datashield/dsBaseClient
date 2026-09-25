@@ -4,7 +4,12 @@
 \alias{ds.mdPattern}
 \title{Display missing data patterns with disclosure control}
 \usage{
-ds.mdPattern(x = NULL, type = "split", datasources = NULL)
+ds.mdPattern(
+  x = NULL,
+  type = "split",
+  datasources = NULL,
+  classConsistencyCheck = TRUE
+)
 }
 \arguments{
 \item{x}{a character string specifying the name of a data frame or matrix on the 
@@ -17,6 +22,9 @@ across studies.}
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained 
 after login. If the \code{datasources} argument is not specified, the default set of 
 connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
+
+\item{classConsistencyCheck}{logical. If TRUE, checks that the input object has the same
+class across all studies. Default TRUE.}
 }
 \value{
 For type='split': A list with one element per study, each containing:
@@ -123,4 +131,6 @@ for disclosure control:
 }
 \author{
 Xavier Escribà montagut for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
