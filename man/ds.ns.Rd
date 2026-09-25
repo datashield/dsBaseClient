@@ -59,4 +59,6 @@ A primary use is in modelling formula to directly specify a natural spline term 
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

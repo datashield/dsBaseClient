@@ -68,56 +68,10 @@
 #' 
 ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
-
-  # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # if the input object is not a matrix or a dataframe stop
-  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
-    stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
-  }
-
-  # number of studies and their names
-  numsources <- length(datasources)
-  stdnames <- names(datasources)
-
-  # we want to deal only with two dimensional tables
-  dim2 <- c()
-  for(i in 1:numsources){
-    dims <- DSI::datashield.aggregate(datasources[i], call("dimDS", x))
-    if(length(dims[[1]]$dim) != 2){
-      stop("The input table in ", stdnames[i]," has more than two dimensions. Only strutures of two dimensions are allowed", call.=FALSE)
-    }
-    dim2 <- append(dim2, dims[[1]]$dim[2])
-  }
-
-  # check that, for each study,  all the columns of the input table are of 'numeric' type
-  dtname <- x
-  for(i in 1:numsources){
-    cols <- DSI::datashield.aggregate(datasources[i], call("colnamesDS", x))
-    for(j in 1:dim2[i]){
-      cally <- call("classDS", paste0(dtname, "$", cols[[1]][j]))
-      res <- DSI::datashield.aggregate(datasources[i], cally)
-      if(res[[1]] != 'numeric' & res[[1]] != 'integer'){
-        stop("One or more columns of ", dtname, " are not of numeric type, in ",  stdnames[i], ".", call.=FALSE)
-      }
-    }
   }
 
   ops <- c("rowSums","colSums","rowMeans","colMeans")
@@ -140,10 +94,6 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
   }
 
   # call the server side function that does the job
-  cally <-  paste0("rowColCalcDS(", x, ",", indx, ")")
-  DSI::datashield.assign(datasources, newobj, as.symbol(cally))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
+  DSI::datashield.assign(datasources, newobj, call("rowColCalcDS", dataset.name=x, operation=indx))
 
 }

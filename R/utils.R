@@ -110,7 +110,7 @@
 #' @noRd
 .check_df_name_provided <- function(df) {
   if(is.null(df)){
-    cli_abort("Please provide the name of a data.frame or matrix!", call.=FALSE)
+    cli_abort("Please provide the name of a data.frame or matrix!")
   }
 }
 

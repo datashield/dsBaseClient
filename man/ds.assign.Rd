@@ -70,4 +70,6 @@ assigned the variable called \code{newobj} on the server-side.
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
