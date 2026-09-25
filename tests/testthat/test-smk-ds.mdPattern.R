@@ -28,17 +28,12 @@ test_that("simple mdPattern, split", {
 
 # context("ds.mdPattern::smk::combine")
 test_that("simple mdPattern, combine", {
-    warnings <- character()
-    res <- withCallingHandlers(
-        ds.mdPattern(x = "D", type = "combine"),
-        warning = function(w) {
-            warnings <<- c(warnings, conditionMessage(w))
-            invokeRestart("muffleWarning")
-        }
+    caught_warnings <- capture_warnings(
+        res <- ds.mdPattern(x = "D", type = "combine")
     )
 
     expect_named(res, c("pattern", "valid", "message", "studies"))
-    expect_true(any(grepl("Disclosure control", warnings)))
+    expect_true(any(grepl("Disclosure control", caught_warnings)))
     expect_true(is.matrix(res$pattern))
 })
 

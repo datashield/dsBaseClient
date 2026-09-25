@@ -5,7 +5,7 @@
 
 # context("ds.bp_standards::perf::setup")
 connect.studies.dataset.anthro(list("age", "sex", "weight", "height", "muac"))
-ds.make("D$age/12", "age.years")
+ds.make("D$age/12", "age.years") # nolint: nonportable_path_linter. DataSHIELD expression, not a file path
 ds.make("D$muac*7", "bp.value")
 
 #

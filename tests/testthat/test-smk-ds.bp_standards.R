@@ -11,7 +11,7 @@ test_that("setup", {
     ds_expect_variables(c("D"))
 })
 
-ds.make("D$age/12", "age.years")
+ds.make("D$age/12", "age.years") # nolint: nonportable_path_linter. DataSHIELD expression, not a file path
 ds.make("D$muac*7", "bp.value")
 
 #
