@@ -36,7 +36,7 @@ and the number of valid observations.
 }
 \description{
 This function calculates the skewness of a numeric variable 
-that is stored on the server-side (Opal server).
+that is stored on the server-side (Armadillo/Opal server).
 }
 \details{
 This function is similar to the function \code{skewness} in R package \code{e1071}.
@@ -65,7 +65,7 @@ Server functions called: \code{skewnessDS1} and \code{skewnessDS2}
 \dontrun{
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')

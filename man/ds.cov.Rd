@@ -76,7 +76,7 @@ and the total number of missing values aggregated from all the involved studies,
 \dontrun{
 
 ## Version 6, for version 5 see the Wiki
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -97,7 +97,7 @@ and the total number of missing values aggregated from all the involved studies,
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
   
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
   # Calculate the covariance between two vectors
@@ -113,7 +113,7 @@ and the total number of missing values aggregated from all the involved studies,
          y = 'gender',
          naAction = 'pairwise.complete',
          type = 'combine',
-         datasources = connections[1]) #only the first Opal server is used ("study1")
+         datasources = connections[1]) #only the first Armadillo/Opal server is used ("study1")
 
   # clear the Datashield R sessions and logout
   datashield.logout(connections)

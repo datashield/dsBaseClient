@@ -24,7 +24,7 @@
 #'   ### Please ensure you have a training Virtual Machine running,
 #'    or that you have a live connection to a server.
 #'      
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')

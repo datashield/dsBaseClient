@@ -35,7 +35,7 @@ Server function called: \code{exists}
 
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -60,9 +60,9 @@ Server function called: \code{exists}
   
   # Check if the object exist in the server-side
   ds.exists(x = "D", 
-            datasources = connections) #All opal servers are used
+            datasources = connections) #All Armadillo/Opal servers are used
   ds.exists(x = "D", 
-            datasources = connections[1]) #Only the first Opal server is used (study1)
+            datasources = connections[1]) #Only the first Armadillo/Opal server is used (study1)
             
   # clear the Datashield R sessions and logout
   datashield.logout(connections)

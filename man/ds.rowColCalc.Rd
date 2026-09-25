@@ -39,7 +39,7 @@ Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
 \dontrun{
 
   ## Version 6, for version 5 see the Wiki 
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -61,7 +61,7 @@ Server functions called: \code{classDS}, \code{dimDS} and \code{colnamesDS}
   logindata <- builder$build()
   myvar <- list("LAB_TSC","LAB_HDL")
    
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, 
   variables = myvar, symbol = "D") 
 

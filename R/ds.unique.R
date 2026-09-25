@@ -13,7 +13,7 @@
 #' @return  \code{ds.unique} returns the vector of unique R objects which are written to the server-side.
 #' @examples 
 #' \dontrun{
-#'   # connecting to the Opal servers
+#'   # connecting to the Armadillo/Opal servers
 #'
 #'   require('DSI')
 #'   require('DSOpal')

@@ -32,7 +32,7 @@ Server function called: \code{asLogicalDS}
 \dontrun{
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -58,7 +58,7 @@ Server function called: \code{asLogicalDS}
   # Converting the R object into a logical
   ds.asLogical(x.name = "D$LAB_TSC", 
                newobj = "logical.obj", 
-               datasources =connections[1]) #only the first Opal server is used ("study1")
+               datasources =connections[1]) #only the first Armadillo/Opal server is used ("study1")
   ds.class(x = "logical.obj", datasources = connections[1])  
                
   # Clear the Datashield R sessions and logout                 

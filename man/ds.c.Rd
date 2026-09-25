@@ -38,7 +38,7 @@ Server function called: \code{cDS}
 \dontrun{
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -65,7 +65,7 @@ Server function called: \code{cDS}
   myvect <- c("D$LAB_TSC", "D$LAB_HDL")
   ds.c(x = myvect,
        newobj = "new.vect",
-       datasources = connections[1]) #only the first Opal server is used ("study1")
+       datasources = connections[1]) #only the first Armadillo/Opal server is used ("study1")
                 
   # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 

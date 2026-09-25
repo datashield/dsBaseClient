@@ -65,7 +65,7 @@
 #' \dontrun{
 #'  ## Version 6, for version 5 see the Wiki
 #'
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #'
 #'   require('DSI')
 #'   require('DSOpal')

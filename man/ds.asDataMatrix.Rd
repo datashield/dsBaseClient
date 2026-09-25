@@ -34,7 +34,7 @@ Server function called: \code{asDataMatrixDS}.
 \dontrun{
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -60,7 +60,7 @@ Server function called: \code{asDataMatrixDS}.
   # Converting the R object into a matrix
   ds.asDataMatrix(x.name = "D",
                   newobj = "mat.obj",
-                  datasources = connections[1]) #only the first Opal server is used ("study1")
+                  datasources = connections[1]) #only the first Armadillo/Opal server is used ("study1")
                  
   # Clear the Datashield R sessions and logout                 
   datashield.logout(connections) 

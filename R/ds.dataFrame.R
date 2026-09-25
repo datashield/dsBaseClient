@@ -45,7 +45,7 @@
 #' \dontrun{
 #' 
 #'   ## Version 6, for version 5 see the Wiki 
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -68,7 +68,7 @@
 #'                  
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # Create a new data frame
@@ -80,7 +80,7 @@
 #'                completeCases = TRUE, #only rows with not missing values are selected
 #'                DataSHIELD.checks = FALSE,
 #'                newobj = "df1",
-#'                datasources = connections[1], #only the first Opal server is used ("study1")
+#'                datasources = connections[1], #only the first Armadillo/Opal server is used ("study1")
 #'                notify.of.progress = FALSE)
 #'
 #'

@@ -16,7 +16,7 @@ all Opal objects in the analytic environment.
 }
 \details{
 ds.listOpals calls the internal DataSHIELD function getOpals() which identifies
-all Opal objects in the analytic environment. If there are no Opal servers in the analytic
+all Opal objects in the analytic environment. If there are no Armadillo/Opal servers in the analytic
 environment ds.listOpalsIreminds the user that they have to login to a valid set of Opal
 login objects, if they wish to use DataSHIELD. If there is only one set of Opals, ds.listOpals
 copies that one set and names the copy 'default.opals'. This default set will then be used by
