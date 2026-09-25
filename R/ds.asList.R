@@ -67,7 +67,6 @@ ds.asList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
     newobj <- "aslist.newobj"
   }
 
-  calltext <- call("asListDS", x.name, newobj)
-  out.message <- DSI::datashield.aggregate(datasources, calltext)
+  DSI::datashield.assign(datasources, newobj, call("asListDS", x.name))
 
 }

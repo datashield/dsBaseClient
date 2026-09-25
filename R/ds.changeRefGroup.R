@@ -130,7 +130,7 @@ ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE,
   }
 
   # call the server side function that will recode the levels
-  calltext <- call("changeRefGroupDS", x, ref, reorderByRef)
+  calltext <- call("changeRefGroupDS", x, as.character(ref), reorderByRef)
   DSI::datashield.assign(datasources, newobj, calltext)
 
 }

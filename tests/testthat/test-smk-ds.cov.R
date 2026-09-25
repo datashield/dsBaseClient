@@ -68,6 +68,17 @@ test_that("simple test, combine", {
 # Done
 #
 
+test_that("ds.cov ignores y with a warning when x is a data.frame", {
+    res.x <- ds.cov(x = "D", type = "split")
+
+    expect_warning(
+        res.xy <- ds.cov(x = "D", y = "D$survtime", type = "split"),
+        "y will be ignored", fixed = TRUE
+    )
+
+    expect_equal(res.xy, res.x)
+})
+
 # context("ds.cov::smk::shutdown")
 
 test_that("error, x numeric vector requires y", {

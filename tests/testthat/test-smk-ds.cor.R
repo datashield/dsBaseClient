@@ -103,8 +103,25 @@ test_that("error, x numeric vector requires y", {
     expect_match(res.errors[[1]], "If x is a numeric vector, y must also be a numeric vector")
 })
 
+test_that("ds.cor ignores y with a warning when x is a data.frame", {
+    res.x <- ds.cor(x = "D", type = "split")
+
+    expect_warning(
+        res.xy <- ds.cor(x = "D", y = "D$survtime", type = "split"),
+        "y will be ignored", fixed = TRUE
+    )
+
+    expect_equal(res.xy, res.x)
+})
+
+test_that("cor accepts a factor variable", {
+    ds.asFactorSimple(input.var.name = "D$female", newobj.name = "female.factor")
+
+    expect_no_error(ds.cor(x = "female.factor", y = "D$survtime", type = "split"))
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "female.factor"))
 })
 
 disconnect.studies.dataset.survival()

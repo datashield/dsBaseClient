@@ -65,10 +65,22 @@ test_that("simple changeRefGroup", {
 # Done
 #
 
+test_that("a numeric ref is a level name, not a position", {
+    ds.recodeValues(var.name = "D$PM_BMI_CATEGORICAL", values2replace.vector = c(1, 2, 3), new.values.vector = c(0, 2, 5), newobj = "bmi_codes")
+    ds.asFactorSimple(input.var.name = "bmi_codes", newobj.name = "bmi_codes_f")
+
+    ds.changeRefGroup(x = "bmi_codes_f", ref = 5, newobj = "bmi_ref5")
+
+    res.levels <- ds.levels(x = "bmi_ref5")
+    for (study.levels in res.levels) {
+        expect_equal(study.levels$Levels[1], "5")
+    }
+})
+
 # context("ds.changeRefGroup::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "bmi_new", "bmi_ob"))
+    ds_expect_variables(c("D", "bmi_new", "bmi_ob", "bmi_codes", "bmi_codes_f", "bmi_ref5"))
 })
 
 disconnect.studies.dataset.cnsim()
