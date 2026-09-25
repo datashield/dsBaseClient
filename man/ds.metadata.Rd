@@ -28,7 +28,7 @@ which are non-disclosive.
 \examples{
 \dontrun{
 
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')

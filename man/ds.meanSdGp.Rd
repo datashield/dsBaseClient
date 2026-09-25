@@ -93,7 +93,7 @@ Server function called: \code{meanSdGpDS}
 
  ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')

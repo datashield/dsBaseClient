@@ -59,7 +59,7 @@ Server function called: \code{densityGridDS}
 \dontrun{
 
  ## Version 6, for version 5 see the Wiki
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -80,20 +80,20 @@ Server function called: \code{densityGridDS}
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
   
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
  
   #Generate the density grid
   # Example1: generate a combined grid density object (default)
   ds.densityGrid(x="D$LAB_TSC",
                  y="D$LAB_HDL",
-                 datasources = connections)#all opal servers are used
+                 datasources = connections)#all Armadillo/Opal servers are used
 
   # Example2: generate a grid density object for each study separately
   ds.densityGrid(x="D$LAB_TSC",
                  y="D$LAB_HDL",
                  type="split"
-                 datasources = connections[1])#only the first Opal server is used ("study1")
+                 datasources = connections[1])#only the first Armadillo/Opal server is used ("study1")
 
   # Example3: generate a grid density object where the number of intervals is set to 15, for
               each study separately

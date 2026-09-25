@@ -60,7 +60,7 @@
 #' otherwise left behind. These are not usually needed, but could be of value
 #' if one were investigating a problem with the ranking. FALSE: do not delete
 #' the residual objects
-#' @param extract.datasources specifies the particular opal object(s) to use.
+#' @param extract.datasources specifies the particular Armadillo/Opal connection object(s) to use.
 #' This is set via the argument<datasources> in ds.ranksSecure. For more details
 #' see the associated document entitled "secure.global.ranking.docx". Also see
 #' the header file for ds.ranksSecure.

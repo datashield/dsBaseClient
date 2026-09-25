@@ -21,7 +21,7 @@
 #' \dontrun{
 #'
 #'   ## Version 6, for version 5 see the Wiki 
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -43,13 +43,13 @@
 #'                  
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # compute exponential function of the 'PM_BMI_CONTINUOUS' variable
 #'   ds.exp(x = "D$PM_BMI_CONTINUOUS",
 #'          newobj = "exp.PM_BMI_CONTINUOUS",
-#'          datasources = connections[1]) #only the first Opal server is used (study1)
+#'          datasources = connections[1]) #only the first Armadillo/Opal server is used (study1)
 #'
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections) 

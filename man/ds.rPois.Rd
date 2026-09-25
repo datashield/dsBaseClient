@@ -78,7 +78,7 @@ Server functions called: \code{rPoisDS} and \code{setSeedDS}.
 \dontrun{
 
   ## Version 6, for version 5 see the Wiki 
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -98,23 +98,23 @@ Server functions called: \code{rPoisDS} and \code{setSeedDS}.
                  user = "administrator", password = "datashield_test&", 
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  # Generating the vectors in the Opal servers
+  # Generating the vectors in the Armadillo/Opal servers
   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
           lambda=c(2,3,4), #different mean per interval (2,3,4) in each source
           newobj="Pois.dist",                   
           seed.as.integer=1234,         
           return.full.seed.as.set=FALSE, 
-          datasources=connections)  #all the Opal servers are used, in this case 3 
+          datasources=connections)  #all the Armadillo/Opal servers are used, in this case 3 
                                     #(see above the connection to the servers) 
   ds.rPois(samp.size=13,                
           lambda=5,
           newobj="Pois.dist", 
           seed.as.integer=1234, 
           return.full.seed.as.set=FALSE, 
-          datasources=connections[1])  #only the first Opal server is used ("study1")
+          datasources=connections[1])  #only the first Armadillo/Opal server is used ("study1")
         
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 

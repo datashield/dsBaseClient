@@ -22,7 +22,7 @@
 #' @examples
 #' \dontrun{
 #'
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -44,7 +44,7 @@
 #'                  
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # Example 1: Get the square root of LAB_HDL variable

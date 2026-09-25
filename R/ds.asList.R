@@ -18,7 +18,7 @@
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
 #'   
-#'   # connecting to the Opal servers
+#'   # connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -44,7 +44,7 @@
 #'   # Converting the R object into a List
 #'   ds.asList(x.name = "D",
 #'   newobj = "D.asList", 
-#'   datasources = connections[1]) #only the first Opal server is used ("study1")
+#'   datasources = connections[1]) #only the first Armadillo/Opal server is used ("study1")
 #'   ds.class(x = "D.asList", datasources = connections[1])   
 #'               
 #'   # Clear the Datashield R sessions and logout                 

@@ -63,7 +63,7 @@ Server functions called: \code{rbindDS}.
 \dontrun{
   ## Version 6, for version 5 see the Wiki 
   
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -84,19 +84,19 @@ Server functions called: \code{rbindDS}.
                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
   logindata <- builder$build()
 
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
   #Combining R objects by rows 
    
                    
   ds.rbind(x = "D", #data frames in the server-side to be conbined 
-                    #(see above the connection to the Opal servers) 
+                    #(see above the connection to the Armadillo/Opal servers) 
            DataSHIELD.checks = FALSE,
            force.colnames = NULL,
            newobj = "D.rbind", # name for the output object that is stored in the data servers
-           datasources = connections, # All Opal servers are used 
-                                      #(see above the connection to the Opal servers)
+           datasources = connections, # All Armadillo/Opal servers are used 
+                                      #(see above the connection to the Armadillo/Opal servers)
            notify.of.progress = FALSE)
            
   # Clear the Datashield R sessions and logout  

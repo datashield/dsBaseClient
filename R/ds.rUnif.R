@@ -72,7 +72,7 @@
 #' \dontrun{
 #' 
 #'   ## Version 6, for version 5 see the Wiki
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -94,10 +94,10 @@
 
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
-#'   # Generating the vectors in the Opal servers
+#'   # Generating the vectors in the Armadillo/Opal servers
 #'
 #'   ds.rUnif(samp.size = c(12,20,4), #the length of the vector created in each source is different 
 #'            min = c(0,2,5), #different minumum value of the function in each source
@@ -106,7 +106,7 @@
 #'            seed.as.integer = 234,
 #'            return.full.seed.as.set = FALSE,
 #'            force.output.to.k.decimal.places = c(1,2,3),
-#'            datasources = connections)   #all the Opal servers are used, in this case 3 
+#'            datasources = connections)   #all the Armadillo/Opal servers are used, in this case 3 
 #'                                         #(see above the connection to the servers) 
 #'
 #'   ds.rUnif(samp.size = 12,
@@ -116,7 +116,7 @@
 #'            seed.as.integer = 12345,
 #'            return.full.seed.as.set = FALSE,
 #'            force.output.to.k.decimal.places = 2,
-#'            datasources = connections[2]) #only the second  Opal server is used ("study2")
+#'            datasources = connections[2]) #only the second  Armadillo/Opal server is used ("study2")
 #'            
 #'   # Clear the Datashield R sessions and logout           
 #'   datashield.logout(connections)

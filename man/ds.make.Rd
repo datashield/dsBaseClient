@@ -88,7 +88,7 @@ The \code{ds.make} function is a wrapper for the DSI package function \code{data
 
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')

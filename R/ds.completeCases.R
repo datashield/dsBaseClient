@@ -24,7 +24,7 @@
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -45,23 +45,23 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #' 
 #'   # Select complete cases from different R objects
 #' 
-#'   ds.completeCases(x1 = "D", #data frames in the Opal servers 
-#'                              #(see above the connection to the Opal servers)
+#'   ds.completeCases(x1 = "D", #data frames in the Armadillo/Opal servers 
+#'                              #(see above the connection to the Armadillo/Opal servers)
 #'                    newobj = "D.completeCases", # name for the output object 
-#'                                                # that is stored in the Opal servers
-#'                    datasources = connections)  # All Opal servers are used 
-#'                                                # (see above the connection to the Opal servers)
+#'                                                # that is stored in the Armadillo/Opal servers
+#'                    datasources = connections)  # All Armadillo/Opal servers are used 
+#'                                                # (see above the connection to the Armadillo/Opal servers)
 #'                  
-#'   ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers 
-#'                                      #(see above the connection to the Opal servers)
+#'   ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Armadillo/Opal servers 
+#'                                      #(see above the connection to the Armadillo/Opal servers)
 #'                    newobj = "LAB_TSC.completeCases", #name for the output variable 
-#'                                                      #that is stored in the Opal servers
-#'                    datasources = connections[2]) #only the second Opal server is used ("study2")
+#'                                                      #that is stored in the Armadillo/Opal servers
+#'                    datasources = connections[2]) #only the second Armadillo/Opal server is used ("study2")
 #'                    
 #'   # Clear the Datashield R sessions and logout
 #'   datashield.logout(connections) 

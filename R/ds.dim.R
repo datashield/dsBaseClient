@@ -37,7 +37,7 @@
 #'
 #'   ## Version 6, for version 5 see the Wiki
 #'   
-#'   # connecting to the Opal servers
+#'   # connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
 #'   require('DSOpal')
@@ -64,14 +64,14 @@
 #'   # Calculate the dimension
 #'   ds.dim(x="D", 
 #'          type="combine", #global dimension
-#'#'          datasources = connections)#all opal servers are used
+#'#'          datasources = connections)#all Armadillo/Opal servers are used
 #'   ds.dim(x="D",
 #'          type = "both",#separate dimension for each study
 #'                        #and the pooled dimension (default) 
-#'#'          datasources = connections)#all opal servers are used
+#'#'          datasources = connections)#all Armadillo/Opal servers are used
 #'   ds.dim(x="D", 
 #'          type="split", #separate dimension for each study
-#'#'          datasources = connections[1])#only the first opal server is used ("study1")
+#'#'          datasources = connections[1])#only the first Armadillo/Opal server is used ("study1")
 #'
 #'   # clear the Datashield R sessions and logout
 #'   datashield.logout(connections)

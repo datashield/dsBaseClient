@@ -35,7 +35,7 @@ specified by the user through the argument \code{newobj}, otherwise is named by 
 \examples{
 \dontrun{
 
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')
@@ -57,7 +57,7 @@ specified by the user through the argument \code{newobj}, otherwise is named by 
                  
   logindata <- builder$build()
   
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
   
   # Example 1: Generate a normally distributed variable with zero mean and variance equal

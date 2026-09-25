@@ -38,7 +38,7 @@ is formally of class "glm" and "ls" but responds TRUE to is.list(),
 
  ## Version 6, for version 5 see the Wiki
  
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
   require('DSOpal')

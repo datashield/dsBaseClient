@@ -217,7 +217,7 @@
 #' \dontrun{
 #' 
 #'  ## Version 6, for version 5 see Wiki
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #'   
 #'   require('DSI')
 #'   require('DSOpal')
@@ -241,7 +241,7 @@
 #'                  table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # Fit the GLM 
@@ -297,7 +297,7 @@
 #'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   # Fit the logistic regression model
