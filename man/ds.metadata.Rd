@@ -61,4 +61,6 @@ which are non-disclosive.
 }
 \author{
 Stuart Wheater, DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

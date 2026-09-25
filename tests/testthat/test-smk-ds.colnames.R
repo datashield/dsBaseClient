@@ -47,21 +47,28 @@ test_that("simple colnames", {
 test_that("fails if the object does not exist", {
   expect_error(
     ds.colnames("non_existing_df"),
-    regexp = "The input object non_existing_df is not defined in sim1, sim2, sim3!",
-    ignore.case = TRUE
+    "There are some DataSHIELD errors, list them with datashield.errors()",
+    fixed = TRUE
   )
+
+  res.errors <- DSI::datashield.errors()
+  for (study.errors in res.errors) {
+    expect_match(study.errors, "The server-side object 'non_existing_df' does not exist")
+  }
 })
 
-###########################################
-###     Remote checks not performed     ###
-###########################################
-# test_that("fails if object is not a data frame or matrix", {
-#   expect_error(
-#     ds.colnames("D$LAB_TSC"),
-#     regexp = "must be of type data.frame or matrix",
-#     ignore.case = TRUE
-#   )
-# })
+test_that("fails if object is not a data frame or matrix", {
+  expect_error(
+    ds.colnames("D$LAB_TSC"),
+    "There are some DataSHIELD errors, list them with datashield.errors()",
+    fixed = TRUE
+  )
+
+  res.errors <- DSI::datashield.errors()
+  for (study.errors in res.errors) {
+    expect_match(study.errors, "must be of type data.frame or matrix")
+  }
+})
 
 #
 # Done

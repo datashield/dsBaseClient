@@ -145,4 +145,6 @@ Server function called: \code{tapplyDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

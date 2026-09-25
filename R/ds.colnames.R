@@ -52,30 +52,8 @@
 #'
 ds.colnames <- function(x=NULL, datasources=NULL) {
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
-
-  if(is.null(x)){
-    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
-
-  # check if the input object(s) is(are) defined in all the studies
-  defined <- isDefined(datasources, x)
-
-  # call the internal function that checks the input object is of the same class in all studies.
-  typ <- checkClass(datasources, x)
-
-  # if the input object is not a matrix or a dataframe stop
-  if(!('data.frame' %in% typ) & !('matrix' %in% typ)){
-    stop("The input vector must be of type 'data.frame' or a 'matrix'!", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
+  .check_df_name_provided(x)
 
   cally <- call("colnamesDS", x)
   column_names <- DSI::datashield.aggregate(datasources, cally)

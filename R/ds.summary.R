@@ -89,7 +89,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   # now get the summary depending on the type of the input variable
   if(("data.frame" %in% typ) | ("matrix" %in% typ)){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         dims <- DSI::datashield.aggregate(datasources[i], call('dimDS', x))
         r <- dims[[1]]$dim[1]
@@ -106,7 +106,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("character" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         stdsummary <- list('class'=typ, 'length'=l)
@@ -120,7 +120,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("factor" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         levels.resp <- DSI::datashield.aggregate(datasources[i], call('levelsDS', x))[[1]]
@@ -141,7 +141,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if(("integer" %in% typ) | ("numeric" %in% typ)){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         q <- (DSI::datashield.aggregate(datasources[i], call('quantileMeanDS', x)))[[1]]$quantiles
@@ -176,7 +176,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("logical" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         freq <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]
