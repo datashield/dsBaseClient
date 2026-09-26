@@ -84,7 +84,7 @@
 "ds.sample::perf::0","7.652","0.5","2"
 "ds.scatterPlot::perf::0","3.318","0.5","2"
 "ds.seq::perf::0","17.55","0.5","2"
-"ds.setSeed::perf::0","44.75","0.5","2"
+"ds.setSeed::perf::0","20.88","0.5","2"
 "ds.skewness::perf::combine:0","8.226","0.5","2"
 "ds.sqrt::perf::0","16.83","0.5","2"
 "ds.summary::perf::0","6.095","0.5","2"
