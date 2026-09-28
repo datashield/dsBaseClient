@@ -57,6 +57,7 @@
 #' @return \code{ds.listDisclosureSettings} returns a list containing the current settings of the
 #' \code{nfilters} in each study specified. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
@@ -100,15 +101,7 @@
 #' }
 #'
 ds.listDisclosureSettings <- function(datasources=NULL){
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("listDisclosureSettingsDS")
