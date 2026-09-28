@@ -46,7 +46,7 @@
 "ds.isValid::perf::0","9.230","0.5","2"
 "ds.kurtosis::perf::combine:0","3.684","0.5","2"
 "ds.length::perf::combine:0","8.480","0.5","2"
-"ds.levels::perf::combine:0","4.724","0.5","2"
+"ds.levels::perf::combine:0","10.724","0.5","2"
 "ds.lexis::perf::0","5.610","0.5","2"
 "ds.list::perf::0","9.915","0.5","2"
 "ds.listDisclosureSettings::perf::0","9.170","0.5","2"
