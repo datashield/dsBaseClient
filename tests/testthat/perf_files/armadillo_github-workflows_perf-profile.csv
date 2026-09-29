@@ -26,7 +26,7 @@
 "ds.cov::perf::combine:0","7.010","0.5","2"
 "ds.dataFrame::perf::0","4.043","0.5","2"
 "ds.dataFrameFill::perf::0","3.549","0.5","2"
-"ds.dataFrameSort::perf::0","14.38","0.5","2"
+"ds.dataFrameSort::perf::0","24.38","0.5","2"
 "ds.dataFrameSubset::perf::0","2.450","0.5","2"
 "ds.densityGrid::perf::0","4.653","0.5","2"
 "ds.dim::perf::0","23.82","0.5","2"
