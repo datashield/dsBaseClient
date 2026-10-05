@@ -114,4 +114,6 @@ Server function called: \code{listDisclosureSettingsDS}
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
