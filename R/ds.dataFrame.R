@@ -80,7 +80,8 @@
 #'                completeCases = TRUE, #only rows with not missing values are selected
 #'                DataSHIELD.checks = FALSE,
 #'                newobj = "df1",
-#'                datasources = connections[1], #only the first Opal server is used ("study1")
+#'                datasources = connections[1], #only the first Opal server
+#'                                              #is used ("study1")
 #'                notify.of.progress = FALSE)
 #'
 #'

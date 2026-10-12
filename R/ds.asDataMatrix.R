@@ -43,7 +43,8 @@
 #'   # Converting the R object into a matrix
 #'   ds.asDataMatrix(x.name = "D",
 #'                   newobj = "mat.obj",
-#'                   datasources = connections[1]) #only the first Opal server is used ("study1")
+#'                   datasources = connections[1]) #only the first Opal server
+#'                                                 #is used ("study1")
 #'                  
 #'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 
