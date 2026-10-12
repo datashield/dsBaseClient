@@ -70,13 +70,16 @@ Server function called: \code{completeCasesDS}
                    newobj = "D.completeCases", # name for the output object 
                                                # that is stored in the Opal servers
                    datasources = connections)  # All Opal servers are used 
-                                               # (see above the connection to the Opal servers)
+                                               # (see above the connection to
+                                               # the Opal servers)
                  
-  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Opal servers 
+  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in
+                                     #the Opal servers 
                                      #(see above the connection to the Opal servers)
                    newobj = "LAB_TSC.completeCases", #name for the output variable 
                                                      #that is stored in the Opal servers
-                   datasources = connections[2]) #only the second Opal server is used ("study2")
+                   datasources = connections[2]) #only the second Opal server
+                                                 #is used ("study2")
                    
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 

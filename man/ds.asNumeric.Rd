@@ -72,7 +72,8 @@ Server function called: \code{asNumericDS}
   # Converting the R object into a numeric class
   ds.asNumeric(x.name = "D$LAB_TSC",
                   newobj = "num.obj",
-                  datasources = connections[1]) #only the first Opal server is used ("study1")
+                  datasources = connections[1]) #only the first Opal server
+                                                #is used ("study1")
   ds.class(x = "num.obj", datasources = connections[1]) 
                 
   # Clear the Datashield R sessions and logout                 
