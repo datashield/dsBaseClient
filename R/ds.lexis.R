@@ -134,37 +134,38 @@
 #' the expanded version of the input table.
 #' 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @seealso \code{\link{ds.glm}} for generalized linear models. 
 #' @export
 #' @examples
 #' \dontrun{
 #' 
 #'  ## Version 6, for version 5 see Wiki
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #'   
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'   
 #'   # Example 1: Fitting GLM for survival analysis
 #'   # For this analysis we need to load survival data from the server 
 #'   
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/survival/EXPAND_NO_MISSING1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'   
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   #Example 1: Create the expanded data frame. 
@@ -202,15 +203,7 @@
 #'
 ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exitCol=NULL, statusCol=NULL, variables=NULL, expandDF=NULL, datasources=NULL){
 
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   # check if user have provided the name of the column that holds the subject ids
   if(is.null(idCol)){

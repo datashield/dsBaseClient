@@ -16,30 +16,31 @@
 #' @return \code{ds.assign} returns the R object assigned to a name 
 #' that is written to the server-side.
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples 
 #' \dontrun{
 #'   ## Version 6, for version 5 see the Wiki
 #'   
-#'   # connecting to the Opal servers
+#'   # connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'   
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
@@ -47,7 +48,7 @@
 #'   # Assign a variable to a name
 #'   ds.assign(toAssign = "D$LAB_TSC",
 #'             newobj = "labtsc",
-#'             datasources = connections[1]) #only the first Opal server is used ("study1")
+#'             datasources = connections[1]) #only the first server is used ("study1")
 #'                 
 #'   # Clear the Datashield R sessions and logout                 
 #'   datashield.logout(connections) 
@@ -56,15 +57,7 @@
 #'
 ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(toAssign)){
     stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
@@ -77,8 +70,5 @@ ds.assign <- function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
   # now do the business
   DSI::datashield.assign(datasources, newobj, as.symbol(toAssign))
-
-  # check that the new object has been created and display a message accordingly
-  finalcheck <- isAssigned(datasources, newobj)
 
 }

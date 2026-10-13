@@ -12,29 +12,30 @@
 #' @return \code{ds.metadata} returns to the client-side the metadata of associated to an object
 #' held at the server.
 #' @author Stuart Wheater, DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
 #'
-#'   # connecting to the Opal servers
+#'   # connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'   
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
@@ -49,21 +50,7 @@
 ds.metadata = function(x=NULL, datasources=NULL)
 {
 
-    #####################################################################################
-    #MODULE 1: IDENTIFY DEFAULT CONNECTIONS                                             #
-    # look for DS connections                                                           #
-    if (is.null(datasources)){                                                          #
-        datasources <- datashield.connections_find()                                    #
-    }                                                                                   #
-    #####################################################################################
-
-    ###############################################################################################################
-    #MODULE 2: ENSURE CORRECT DATASOURCES                                                                         #
-    # ensure datasources is a list of DSConnection-class                                                          #
-    if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){ #
-      stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)             #
-    }                                                                                                             #
-    ###############################################################################################################
+    datasources <- .set_datasources(datasources)
 
     #####################################################################################
     #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
@@ -76,14 +63,6 @@ ds.metadata = function(x=NULL, datasources=NULL)
     #MODULE 4: CHECK CONSISTANCY OF VARIABLE NAME (SINGLE)                              #
     if ((! is.character(x)) || (length(x) != 1)){                                       #
         stop("Please provide the name of the object!", call.=FALSE)                     #
-    }                                                                                   #
-    #####################################################################################
-
-    #####################################################################################
-    #MODULE 5: CHECK ALL SERVICES HAVE SPECIFIED VARIABLES DEFINED                      #
-    defined = all(unlist(isDefined(datasources, x)))                                    #
-    if (! defined){                                                                     #
-        stop("Variable not defined in all servers", call.=FALSE)                        #
     }                                                                                   #
     #####################################################################################
 

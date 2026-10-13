@@ -96,7 +96,7 @@ env:
   # test reference rates/tolerances (see tests/testthat/perf_tests/perf_rate.R).
   # Reuses the existing azure-pipeline reference files rather than adding new
   # ones, matching what the old Azure pipelines set via perf.profile.
-  PERF_PROFILE: azure-pipeline
+  PERF_PROFILE: github-workflows
   # dsBase shards get their filter from matrix.filter per entry instead.
   TEST_FILTER_DSDANGER: '__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-'
 

@@ -150,6 +150,75 @@ test_that("simple table 3D, with assign", {
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.table(rvar = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if rvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
+test_that("fails if cvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$factorInteger", cvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
+test_that("fails if stvar column does not exist", {
+    expect_error(
+        ds.table(rvar = "tablesource_subset$factorInteger", cvar = "tablesource_subset$factorCharacter", stvar = "tablesource_subset$nonexistent_column"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    expect_match(res.errors$study1, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study2, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+    expect_match(res.errors$study3, "Column 'nonexistent_column' not found in 'tablesource_subset'")
+})
+
+test_that("simple table 1D, with forced nfilter", {
+  expect_no_error(ds.table(rvar='tablesource_subset$factorCharacter', force.nfilter="5"))
+})
+
+test_that("fails if forced nfilter is below nfilter.tab", {
+  expect_error(
+    ds.table(rvar='tablesource_subset$factorCharacter', force.nfilter="1"),
+    "There are some DataSHIELD errors, list them with datashield.errors()",
+    fixed = TRUE
+  )
+
+  res.errors <- DSI::datashield.errors()
+  for (study.errors in res.errors) {
+    expect_match(study.errors, "force.nfilter is non-null it must be >= to nfilter.tab")
+  }
+})
+
 # context("ds.table::smk::shutdown")
 
 test_that("shutdown", {

@@ -31,11 +31,9 @@ ds.assign('D$GENDER', 'GENDER')
 
 # context("ds.tapply.assign::smk::fun=mean")
 test_that("simplest 'ds.tapply.assign', fun=mean", {
-    list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='mean', newobj="fun_mean.newobj")
+    ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='mean', newobj="fun_mean.newobj")
 
-    expect_length(list, 2)
-    expect_equal(list$is.object.created, "A data object <fun_mean.newobj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(list$validity.check, "<fun_mean.newobj> appears valid in all sources", fixed=TRUE)
+    expect_no_error(ds.class("fun_mean.newobj"))
 
     res.length <- ds.length("fun_mean.newobj")
     expect_length(res.length, 4)
@@ -47,11 +45,9 @@ test_that("simplest 'ds.tapply.assign', fun=mean", {
 
 # context("ds.tapply.assign::smk::fun=sd")
 test_that("simplest 'ds.tapply.assign', fun=sd", {
-    list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sd', newobj="fun_sd.newobj")
+    ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sd', newobj="fun_sd.newobj")
 
-    expect_length(list, 2)
-    expect_equal(list$is.object.created, "A data object <fun_sd.newobj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(list$validity.check, "<fun_sd.newobj> appears valid in all sources", fixed=TRUE)
+    expect_no_error(ds.class("fun_sd.newobj"))
 
     res.length <- ds.length("fun_sd.newobj")
     expect_length(res.length, 4)
@@ -63,11 +59,9 @@ test_that("simplest 'ds.tapply.assign', fun=sd", {
 
 # context("ds.tapply.assign::smk::fun=sum")
 test_that("simplest 'ds.tapply.assign', fun=sum", {
-    list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sum', newobj="fun_sum.newobj")
+    ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='sum', newobj="fun_sum.newobj")
 
-    expect_length(list, 2)
-    expect_equal(list$is.object.created, "A data object <fun_sum.newobj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(list$validity.check, "<fun_sum.newobj> appears valid in all sources", fixed=TRUE)
+    expect_no_error(ds.class("fun_sum.newobj"))
 
     res.length <- ds.length("fun_sum.newobj")
     expect_length(res.length, 4)
@@ -79,11 +73,9 @@ test_that("simplest 'ds.tapply.assign', fun=sum", {
 
 # context("ds.tapply.assign::smk::fun=quantile")
 test_that("simplest 'ds.tapply.assign', fun=quantile", {
-    list <- ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='quantile', newobj="fun_quantile.newobj")
+    ds.tapply.assign('LAB_TSC', INDEX.names=c('GENDER'), FUN.name='quantile', newobj="fun_quantile.newobj")
 
-    expect_length(list, 2)
-    expect_equal(list$is.object.created, "A data object <fun_quantile.newobj> has been created in all specified data sources", fixed=TRUE)
-    expect_equal(list$validity.check, "<fun_quantile.newobj> appears valid in all sources", fixed=TRUE)
+    expect_no_error(ds.class("fun_quantile.newobj"))
 
     res.length <- ds.length("fun_quantile.newobj")
     expect_length(res.length, 4)
@@ -96,6 +88,19 @@ test_that("simplest 'ds.tapply.assign', fun=quantile", {
 #
 # Tear down
 #
+
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.tapply.assign("nonexistent_object", INDEX.names = c("GENDER"), FUN.name = "mean"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
 
 # context("ds.tapply.assign::smk::shutdown")
 

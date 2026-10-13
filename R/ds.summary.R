@@ -26,28 +26,28 @@
 #'
 #'   ## Version 6, for version 5 see the Wiki 
 #'   
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #' 
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'   
 #'   #Calculate the summary of a numeric variable
@@ -89,7 +89,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   # now get the summary depending on the type of the input variable
   if(("data.frame" %in% typ) | ("matrix" %in% typ)){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         dims <- DSI::datashield.aggregate(datasources[i], call('dimDS', x))
         r <- dims[[1]]$dim[1]
@@ -106,7 +106,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("character" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         stdsummary <- list('class'=typ, 'length'=l)
@@ -120,7 +120,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("factor" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         levels.resp <- DSI::datashield.aggregate(datasources[i], call('levelsDS', x))[[1]]
@@ -141,7 +141,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if(("integer" %in% typ) | ("numeric" %in% typ)){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         q <- (DSI::datashield.aggregate(datasources[i], call('quantileMeanDS', x)))[[1]]$quantiles
@@ -176,7 +176,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
 
   if("logical" %in% typ){
     for(i in 1:numsources){
-      validity <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('isValidDS(', x, ')')))[[1]]
+      validity <- DSI::datashield.aggregate(datasources[i], call('isValidDS', x))[[1]]$valid
       if(validity){
         l <- DSI::datashield.aggregate(datasources[i], call('lengthDS', x))[[1]]$length
         freq <- DSI::datashield.aggregate(datasources[i], as.symbol(paste0('table1DDS(', x, ')' )))[[1]][1]

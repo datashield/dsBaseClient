@@ -27,26 +27,16 @@
 #' the method by which any missing data were handled: "complete.obs" or "pairwise.complete.obs"; TRUE 
 #' for ML estimates, FALSE for two-step estimates.
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' 
 ds.hetcor <- function(data=NULL, ML=TRUE, std.err=TRUE, bins=4, pd=TRUE, use="complete.obs", datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
   
   if(is.null(data)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
-  
-  # check if the input object is defined in all the studies
-  defined <- isDefined(datasources, data)
   
   calltext <- call('hetcorDS', data, ML, std.err, bins, pd, use)
   output <- DSI::datashield.aggregate(datasources, calltext)

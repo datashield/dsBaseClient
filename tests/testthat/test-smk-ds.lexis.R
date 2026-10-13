@@ -51,14 +51,33 @@ test_that("simple lexis", {
     expect_equal(res.message$survival3, "ALL OK: there are no studysideMessage(s) on this datasource")
 })
 
+test_that("lexis without entryCol defaults entry times to 0", {
+    ds.lexis(data='D', intervalWidth = c(1.0, 1.5, 2.5), idCol = 'D$id', exitCol = 'D$endtime', statusCol = 'D$cens', expandDF = 'EM.noentry')
+
+    ds_expect_variables(c("D", "EM.new", "messageobj", "EM.noentry"))
+})
+
 #
 # Done
 #
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.lexis(data = "D", intervalWidth = c(1.0, 1.5, 2.5), idCol = "D$id", entryCol = "D$starttime", exitCol = "nonexistent_object", statusCol = "D$cens"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 # context("ds.lexis::smk::shutdown")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "EM.new", "messageobj"))
+    ds_expect_variables(c("D", "EM.new", "messageobj", "EM.noentry"))
 })
 
 disconnect.studies.dataset.survival()

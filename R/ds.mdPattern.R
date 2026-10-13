@@ -46,6 +46,7 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained 
 #' after login. If the \code{datasources} argument is not specified, the default set of 
 #' connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
+#' @template classConsistencyCheckTrue
 #' @return For type='split': A list with one element per study, each containing:
 #' \describe{
 #'   \item{pattern}{The missing data pattern matrix for that study}
@@ -60,26 +61,31 @@
 #'   \item{message}{A message describing the validity status}
 #' }
 #' @author Xavier Escribà montagut for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #' @examples
 #' \dontrun{
 #'  ## Version 6, for version 5 see the Wiki
 #'
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #'
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1",
-#'                  url = "http://192.168.56.100:8080/",
-#'                  user = "administrator", password = "datashield_test&",
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url,
+#'                  token = token@access_token,
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2",
-#'                  url = "http://192.168.56.100:8080/",
+#'                  url = "https://192.168.56.100:8443/",
 #'                  user = "administrator", password = "datashield_test&",
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D")
@@ -107,17 +113,9 @@
 #'   datashield.logout(connections)
 #' }
 #'
-ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL){
+ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classConsistencyCheck = TRUE){
 
-  # Look for DS connections
-  if(is.null(datasources)){
-    datasources <- datashield.connections_find()
-  }
-
-  # Ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data frame or matrix!", call.=FALSE)
@@ -130,10 +128,14 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL){
   cally <- call("mdPatternDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)
 
+  if(classConsistencyCheck){
+    .checkClassConsistency(results)
+  }
+
   # Process results based on type
   if(type == "split"){
     # Return individual study results
-    return(results)
+    return(lapply(results, function(r) { r$class <- NULL; r }))
 
   } else if(type == "combine"){
     # Pool results across studies
@@ -172,7 +174,7 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL){
     }
 
     # Pool the patterns
-    pooled_pattern <- .pool_md_patterns(patterns_list, study_names)
+    pooled_pattern <- .poolMdPatterns(patterns_list, study_names)
 
     # Check validity of pooled results
     # Get threshold from first study's results or use a default check
@@ -213,8 +215,8 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL){
 #' @param patterns_list List of pattern matrices from each study
 #' @param study_names Names of the studies
 #' @return Pooled pattern matrix
-#' @keywords internal
-.pool_md_patterns <- function(patterns_list, study_names){
+#' @noRd
+.poolMdPatterns <- function(patterns_list, study_names){
 
   # Initialize with first study's pattern structure
   pooled <- patterns_list[[1]]

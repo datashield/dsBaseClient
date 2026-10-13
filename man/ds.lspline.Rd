@@ -47,4 +47,6 @@ in slope as compared to the previous segment.
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }

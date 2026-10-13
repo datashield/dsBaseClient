@@ -17,9 +17,8 @@ objects obtained after login. If the \code{datasources} argument is not specifie
 the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
 }
 \value{
-\code{ds.make} returns the new object which is written to the
-server-side. Also a validity message is returned to the client-side indicating whether the new object has been correctly
-created at each source.
+\code{ds.make} writes the new object to the server-side; nothing is
+returned to the client-side.
 }
 \description{
 This function defines a new object in the server-side
@@ -89,25 +88,25 @@ The \code{ds.make} function is a wrapper for the DSI package function \code{data
 
   ## Version 6, for version 5 see the Wiki
   
-  # connecting to the Opal servers
+  # connecting to the Armadillo/Opal servers
 
   require('DSI')
+  require('DSMolgenisArmadillo')
   require('DSOpal')
   require('dsBaseClient')
 
+  armadillo_url <- "http://192.168.56.100:8080/"
+  token <- armadillo.get_credentials(armadillo_url)
   builder <- DSI::newDSLoginBuilder()
   builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+                 url = armadillo_url, 
+                 token = token@access_token, 
+                 table = "datashield/survival/EXPAND_NO_MISSING1", driver = "ArmadilloDriver")
   builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
+                 url = "https://192.168.56.100:8443/", 
                  user = "administrator", password = "datashield_test&", 
-                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
-  builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+                 table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver",
+                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
   logindata <- builder$build()
   
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
@@ -147,4 +146,6 @@ ds.make(toAssign = "exp(output.test.1)",
 }
 \author{
 DataSHIELD Development Team
+
+Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
