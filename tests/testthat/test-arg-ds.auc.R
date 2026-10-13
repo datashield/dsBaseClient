@@ -15,6 +15,8 @@
 
 # context("ds.auc::arg::setup")
 
+connect.studies.dataset.cnsim(list("LAB_TSC"))
+
 #
 # Tests
 #
@@ -33,4 +35,5 @@ test_that("ds.auc errors for null pred or y", {
 #
 
 # context("ds.auc::arg::shutdown")
+disconnect.studies.dataset.cnsim()
 # context("ds.auc::arg::done")

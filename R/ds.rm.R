@@ -22,6 +22,7 @@
 #' is successful the message \code{"Object(s) '<x.names>' was deleted."} is returned
 #' to the client-side. 
 #' @author DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
 #' \dontrun{
 #'
@@ -68,15 +69,7 @@
 
 ds.rm<-function(x.names=NULL, datasources=NULL){
     
-    # look for DS connections
-    if (is.null(datasources)) {
-        datasources <- datashield.connections_find()
-    }
-    
-    # ensure datasources is a list of DSConnection-class
-    if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-        stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-    }
+    datasources <- .set_datasources(datasources)
     
     if (is.null(x.names)) {
         stop("Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", call.=FALSE)
