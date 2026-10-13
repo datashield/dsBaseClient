@@ -46,28 +46,28 @@ Server function called: \code{replaceNaDS}
 \dontrun{
 
   ## Version 6, for version 5 see the Wiki
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
     require('DSI')
+    require('DSMolgenisArmadillo')
     require('DSOpal')
     require('dsBaseClient')
 
+    armadillo_url <- "http://192.168.56.100:8080/"
+    token <- armadillo.get_credentials(armadillo_url)
     builder <- DSI::newDSLoginBuilder()
     builder$append(server = "study1", 
-                   url = "http://192.168.56.100:8080/", 
-                   user = "administrator", password = "datashield_test&", 
-                   table = "CNSIM.CNSIM1", driver = "OpalDriver")
+                   url = armadillo_url, 
+                   token = token@access_token, 
+                   table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
     builder$append(server = "study2", 
-                   url = "http://192.168.56.100:8080/", 
+                   url = "https://192.168.56.100:8443/", 
                    user = "administrator", password = "datashield_test&", 
-                   table = "CNSIM.CNSIM2", driver = "OpalDriver")
-    builder$append(server = "study3",
-                   url = "http://192.168.56.100:8080/", 
-                   user = "administrator", password = "datashield_test&", 
-                   table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                   table = "CNSIM.CNSIM2", driver = "OpalDriver",
+                   options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
     logindata <- builder$build()
 
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
   # Example 1: Replace missing values in variable 'LAB_HDL' by the mean value 
@@ -80,7 +80,7 @@ Server function called: \code{replaceNaDS}
 
   # Replace the missing values using the mean for each study
   ds.replaceNA(x = "D$LAB_HDL",
-               forNA = list(mean[[1]][1], mean[[1]][2], mean[[1]][3]),
+               forNA = list(mean[[1]][1], mean[[1]][2]),
                newobj = "HDL.noNA",
                datasources = connections)
                
@@ -93,7 +93,7 @@ Server function called: \code{replaceNaDS}
           
   # Replace the missing values with 999s
   ds.replaceNA(x = "D$PM_BMI_CATEGORICAL", 
-               forNA = c(999,999,999), 
+               forNA = c(999,999), 
                newobj = "bmi999")
                
   # Check if the NAs have been replaced correctly

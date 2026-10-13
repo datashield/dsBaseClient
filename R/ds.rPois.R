@@ -53,46 +53,46 @@
 #' \dontrun{
 #' 
 #'   ## Version 6, for version 5 see the Wiki 
-#'   # Connecting to the Opal servers
+#'   # Connecting to the Armadillo/Opal servers
 #' 
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #' 
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 
 #'   logindata <- builder$build()
 
-#'   # Log onto the remote Opal training servers
+#'   # Log onto the remote Armadillo/Opal training servers
 #'   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 #'
-#'   # Generating the vectors in the Opal servers
-#'   ds.rPois(samp.size=c(13,20,25), #the length of the vector created in each source is different
-#'           lambda=c(2,3,4), #different mean per interval (2,3,4) in each source
+#'   # Generating the vectors in the servers
+#'   ds.rPois(samp.size=c(13,20), #the length of the vector created in each source is different
+#'           lambda=c(2,3), #different mean per interval (2,3) in each source
 #'           newobj="Pois.dist",                   
 #'           seed.as.integer=1234,         
 #'           return.full.seed.as.set=FALSE, 
-#'           datasources=connections)  #all the Opal servers are used, in this case 3 
+#'           datasources=connections)  #all the servers are used, in this case 2 
 #'                                     #(see above the connection to the servers) 
 #'   ds.rPois(samp.size=13,                
 #'           lambda=5,
 #'           newobj="Pois.dist", 
 #'           seed.as.integer=1234, 
 #'           return.full.seed.as.set=FALSE, 
-#'           datasources=connections[1])  #only the first Opal server is used ("study1")
+#'           datasources=connections[1])  #only the first server is used ("study1")
 #'         
 #'   # Clear the Datashield R sessions and logout
 #'   datashield.logout(connections) 

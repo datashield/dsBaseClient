@@ -80,17 +80,17 @@ object on the serverside defaults to the name "predict_glm".}
 
 \item{datasources}{specifies the particular 'connection object(s)' to use.
 e.g. if you have several data sets in the sources you are working with
-called opals.a, opals.w2, and connection.xyz, you can choose which of
+called connections.a, connections.w2, and connection.xyz, you can choose which of
 these to work with. The call 'datashield.connections_find()' lists all of
 the different datasets available and if one of these is called 'default.connections'
 that will be the dataset used by default if no other dataset is specified. If you
 wish to change the connections you wish to use by default the call
-datashield.connections_default('opals.a') will set 'default.connections'
-to be 'opals.a' and so in the absence of specific instructions to the contrary
+datashield.connections_default('connections.a') will set 'default.connections'
+to be 'connections.a' and so in the absence of specific instructions to the contrary
 (e.g. by specifying a particular dataset to be used via the <datasources>
-argument) all subsequent function calls will be to the datasets held in opals.a.
+argument) all subsequent function calls will be to the datasets held in connections.a.
 If the <datasources> argument is specified, it should be set without
-inverted commas: e.g. datasources=opals.a or datasources=default.connections.
+inverted commas: e.g. datasources=connections.a or datasources=default.connections.
 The <datasources> argument also allows you to apply a function solely to a subset
 of the studies/sources you are working with. For example, the second source
 in a set of three, can be specified using a call such as datasources=connection.xyz[2].
