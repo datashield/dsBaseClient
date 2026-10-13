@@ -85,36 +85,36 @@ Server functions called: \code{rBinomDS} and \code{setSeedDS}.
   # Connecting to the Armadillo/Opal servers
 
   require('DSI')
+  require('DSMolgenisArmadillo')
   require('DSOpal')
   require('dsBaseClient')
 
+  armadillo_url <- "http://192.168.56.100:8080/"
+  token <- armadillo.get_credentials(armadillo_url)
   builder <- DSI::newDSLoginBuilder()
   builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+                 url = armadillo_url, 
+                 token = token@access_token, 
+                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
   builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
+                 url = "https://192.168.56.100:8443/", 
                  user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
-  builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
+                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 
   logindata <- builder$build()
   
   # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  #Generating the vectors in the Armadillo/Opal servers
-  ds.rBinom(samp.size=c(13,20,25), #the length of the vector created in each source is different
-  size=c(10,23,5),   #Bernoulli trials change in each source
-  prob=c(0.6,0.1,0.5), #Probability  changes in each source 
+  #Generating the vectors in the servers
+  ds.rBinom(samp.size=c(13,20), #the length of the vector created in each source is different
+  size=c(10,23),   #Bernoulli trials change in each source
+  prob=c(0.6,0.1), #Probability  changes in each source 
   newobj="Binom.dist", 
   seed.as.integer=45, 
   return.full.seed.as.set=FALSE,
-  datasources=connections)   #all the Armadillo/Opal servers are used, in this case 3 
+  datasources=connections)   #all the servers are used, in this case 2 
                              #(see above the connection to the servers) 
 
   ds.rBinom(samp.size=15,    
@@ -123,7 +123,7 @@ Server functions called: \code{rBinomDS} and \code{setSeedDS}.
             newobj="Binom.dist", 
             seed.as.integer=324, 
             return.full.seed.as.set=FALSE, 
-            datasources=connections[2]) #only the second  Armadillo/Opal server is used ("study2")
+            datasources=connections[2]) #only the second  server is used ("study2")
             
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 

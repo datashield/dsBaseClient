@@ -270,25 +270,25 @@
 #'   # Connecting to the Armadillo/Opal servers
 #'   
 #'   require('DSI')
+#'   require('DSMolgenisArmadillo')
 #'   require('DSOpal')
 #'   require('dsBaseClient')
 #'   
 #'   # Example 1: Fitting GLM for survival analysis
 #'   # For this analysis we need to load survival data from the server 
 #'   
+#'   armadillo_url <- "http://192.168.56.100:8080/"
+#'   token <- armadillo.get_credentials(armadillo_url)
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/survival/EXPAND_NO_MISSING1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "SURVIVAL.EXPAND_NO_MISSING3", driver = "OpalDriver")
+#'                  table = "SURVIVAL.EXPAND_NO_MISSING2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'   
 #'   # Log onto the remote Armadillo/Opal training servers
@@ -330,17 +330,14 @@
 #'   
 #'   builder <- DSI::newDSLoginBuilder()
 #'   builder$append(server = "study1", 
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM1", driver = "OpalDriver")
+#'                  url = armadillo_url, 
+#'                  token = token@access_token, 
+#'                  table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
 #'   builder$append(server = "study2", 
-#'                  url = "http://192.168.56.100:8080/", 
+#'                  url = "https://192.168.56.100:8443/", 
 #'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver")
-#'   builder$append(server = "study3",
-#'                  url = "http://192.168.56.100:8080/", 
-#'                  user = "administrator", password = "datashield_test&", 
-#'                  table = "CNSIM.CNSIM3", driver = "OpalDriver")
+#'                  table = "CNSIM.CNSIM2", driver = "OpalDriver",
+#'                  options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 #'   logindata <- builder$build()
 #'   
 #'   # Log onto the remote Armadillo/Opal training servers

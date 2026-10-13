@@ -42,22 +42,22 @@ Server function called: \code{completeCasesDS}
   # Connecting to the Armadillo/Opal servers
 
   require('DSI')
+  require('DSMolgenisArmadillo')
   require('DSOpal')
   require('dsBaseClient')
 
+  armadillo_url <- "http://192.168.56.100:8080/"
+  token <- armadillo.get_credentials(armadillo_url)
   builder <- DSI::newDSLoginBuilder()
   builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+                 url = armadillo_url, 
+                 token = token@access_token, 
+                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
   builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
+                 url = "https://192.168.56.100:8443/", 
                  user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
-  builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
+                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
   logindata <- builder$build()
   
   # Log onto the remote Armadillo/Opal training servers
@@ -65,18 +65,18 @@ Server function called: \code{completeCasesDS}
 
   # Select complete cases from different R objects
 
-  ds.completeCases(x1 = "D", #data frames in the Armadillo/Opal servers 
-                             #(see above the connection to the Armadillo/Opal servers)
+  ds.completeCases(x1 = "D", #data frames in the servers 
+                             #(see above the connection to the servers)
                    newobj = "D.completeCases", # name for the output object 
-                                               # that is stored in the Armadillo/Opal servers
-                   datasources = connections)  # All Armadillo/Opal servers are used 
-                                               # (see above the connection to the Armadillo/Opal servers)
+                                               # that is stored in the servers
+                   datasources = connections)  # All servers are used 
+                                               # (see above the connection to the servers)
                  
-  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the Armadillo/Opal servers 
-                                     #(see above the connection to the Armadillo/Opal servers)
+  ds.completeCases(x1 = "D$LAB_TSC", #vector (variable) of the data frames in the servers 
+                                     #(see above the connection to the servers)
                    newobj = "LAB_TSC.completeCases", #name for the output variable 
-                                                     #that is stored in the Armadillo/Opal servers
-                   datasources = connections[2]) #only the second Armadillo/Opal server is used ("study2")
+                                                     #that is stored in the servers
+                   datasources = connections[2]) #only the second server is used ("study2")
                    
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 

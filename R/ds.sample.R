@@ -92,7 +92,7 @@
 #' If you want to use the same starting seed in all studies but do not wish it to
 #' be 0, you can specify a non-zero scalar value for <seed.as.integer> and then
 #' use the <datasources> argument to generate the random number vectors one source at
-#' a time (e.g. ,datasources=default.opals[2] to generate the random vector in source 2).
+#' a time (e.g. ,datasources=default.connections[2] to generate the random vector in source 2).
 #' As an example, if the <seed.as.integer> value is 78326 then the seed
 #' in each source will be set at 78326*1 = 78326 because the vector of datasources
 #' being used in each call to the function will always be of length 1 and so the
@@ -110,15 +110,15 @@
 #' For further details see help for \code{sample} in native R.
 #' @param newobj This a character string providing a name for the output
 #' data.frame which defaults to 'newobj.sample' if no name is specified.
-#' @param datasources specifies the particular Armadillo/Opal connection object(s) to use. If the <datasources>
-#' argument is not specified the default set of Armadillo/Opal servers will be used. The default servers
-#' are called default.opals and the default can be set using the function
-#' \code{ds.setDefaultOpals}. If the <datasources> is to be specified, it should be set without
-#' inverted commas: e.g. datasources=opals.em or datasources=default.opals. If you wish to
-#' apply the function solely to e.g. the second Armadillo/Opal server in a set of three,
-#' the argument can be specified as: e.g. datasources=opals.em[2].
-#' If you wish to specify the first and third Armadillo/Opal servers in a set you specify:
-#' e.g. datasources=opals.em[c(1,3)]
+#' @param datasources specifies the particular connection object(s) to use. If the <datasources>
+#' argument is not specified the default set of servers will be used. The default servers
+#' are called default.connections and the default can be set using the function
+#' \code{DSI::datashield.connections_default}. If the <datasources> is to be specified, it should be set without
+#' inverted commas: e.g. datasources=connections.em or datasources=default.connections. If you wish to
+#' apply the function solely to e.g. the second server in a set of three,
+#' the argument can be specified as: e.g. datasources=connections.em[2].
+#' If you wish to specify the first and third servers in a set you specify:
+#' e.g. datasources=connections.em[c(1,3)]
 #' @param notify.of.progress specifies if console output should be produce to indicate
 #' progress. The default value for notify.of.progress is FALSE.
 #' @return the object specified by the <newobj> argument (or default name
