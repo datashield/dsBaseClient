@@ -73,7 +73,8 @@ Server function called: \code{asIntegerDS}
   # Converting the R object into an integer
   ds.asInteger(x.name = "D$LAB_TSC",
                   newobj = "int.obj",
-                  datasources = connections[1]) #only the first Opal server is used ("study1")
+                  datasources = connections[1]) #only the first Opal server
+                                                #is used ("study1")
   ds.class(x = "int.obj", datasources = connections[1])   
   
   # Clear the Datashield R sessions and logout                 
