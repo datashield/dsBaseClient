@@ -95,41 +95,41 @@ Server functions called: \code{rNormDS} and \code{setSeedDS}.
 \dontrun{
 
   ## Version 6, for version 5 see the Wiki
-  # Connecting to the Opal servers
+  # Connecting to the Armadillo/Opal servers
 
   require('DSI')
+  require('DSMolgenisArmadillo')
   require('DSOpal')
   require('dsBaseClient')
 
+  armadillo_url <- "http://192.168.56.100:8080/"
+  token <- armadillo.get_credentials(armadillo_url)
   builder <- DSI::newDSLoginBuilder()
   builder$append(server = "study1", 
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM1", driver = "OpalDriver")
+                 url = armadillo_url, 
+                 token = token@access_token, 
+                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
   builder$append(server = "study2", 
-                 url = "http://192.168.56.100:8080/", 
+                 url = "https://192.168.56.100:8443/", 
                  user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver")
-  builder$append(server = "study3",
-                 url = "http://192.168.56.100:8080/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM3", driver = "OpalDriver")
+                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
+                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
   logindata <- builder$build()
   
-  # Log onto the remote Opal training servers
+  # Log onto the remote Armadillo/Opal training servers
   connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
 
-  # Generating the vectors in the Opal servers
+  # Generating the vectors in the servers
 
-  ds.rNorm(samp.size=c(10,20,45), #the length of the vector created in each source is different 
-           mean=c(1,6,4),         #the mean of the Normal distribution changes in each server
-           sd=c(1,4,3), #the sd of the Normal distribution changes in each server
+  ds.rNorm(samp.size=c(10,20), #the length of the vector created in each source is different 
+           mean=c(1,6),           #the mean of the Normal distribution changes in each server
+           sd=c(1,4), #the sd of the Normal distribution changes in each server
            newobj="Norm.dist",
            seed.as.integer=2345, 
            return.full.seed.as.set=FALSE,
-           force.output.to.k.decimal.places=c(4,5,6), #output random numbers have different 
+           force.output.to.k.decimal.places=c(4,5), #output random numbers have different 
                                                       #decimal quantity in each source 
-           datasources=connections) #all the Opal servers are used, in this case 3 
+           datasources=connections) #all the servers are used, in this case 2 
                                     #(see above the connection to the servers) 
   
   ds.rNorm(samp.size=10,
@@ -139,7 +139,7 @@ Server functions called: \code{rNormDS} and \code{setSeedDS}.
            seed.as.integer=2345,
            return.full.seed.as.set=FALSE,
            force.output.to.k.decimal.places=1,
-           datasources=connections[2]) #only the second  Opal server is used ("study2")
+           datasources=connections[2]) #only the second  server is used ("study2")
            
   # Clear the Datashield R sessions and logout
   datashield.logout(connections) 
