@@ -91,6 +91,19 @@ test_that("simple test, split, casewise.complete", {
     expect_true("matrix" %in% class(res[[3]]$`Number of complete cases used`))
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.cor(x = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #

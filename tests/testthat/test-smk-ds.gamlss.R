@@ -378,6 +378,19 @@ test_that("gamlss, WEIGHT GAIN", {
   expect_equal(as.numeric(model_wgtgain.DS$study1$centiles[9,'per']), 98.682043, tolerance=1e-7)
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.gamlss(formula = "e3_bw~e3_gac_None", data = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #

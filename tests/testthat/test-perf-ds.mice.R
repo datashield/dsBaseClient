@@ -14,7 +14,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC","LAB_TRIG","LAB_HDL","LAB_GLUC_ADJU
 
 # context("ds.mice::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration()
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

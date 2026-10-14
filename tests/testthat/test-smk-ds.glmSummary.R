@@ -151,6 +151,19 @@ test_that("simple glmSummary, poisson", {
     ds_expect_variables(c("D", "gaussian.glmslma.obj", "gaussian.glmsummary.obj", "poisson.glmslma.obj", "poisson.glmsummary.obj", "summary_glm.newobj"))
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.glmSummary(x.name = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Shutdown
 #

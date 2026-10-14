@@ -42,7 +42,7 @@
 
 perf.reference.save <- function(perf.ref.name, rate, tolerance.lower, tolerance.upper) {
     if (is.null(.perf.reference))
-        load.pref()
+        .load.pref()
 
     .perf.reference[nrow(.perf.reference)+1,] <- c(perf.ref.name, rate, tolerance.lower, tolerance.upper)
 
