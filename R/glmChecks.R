@@ -56,7 +56,7 @@ glmChecks <- function(formula, data, offset, weights, datasources){
   # check that each variable is defined and not empty and each study. Stop the process if any check fails
   stdnames <- names(datasources)
   for(i in 1:length(elts)){
-    if(is.na(as.numeric(elts[i], options(warn=-1)))){ # making sure an eventual intercept term is not included in the checks
+    if(is.na(suppressWarnings(as.numeric(elts[i])))){ # making sure an eventual intercept term is not included in the checks
       message(paste0("    ", elts[i], "..."))
       for(j in 1: length(datasources)){
         # check if the variable is defined on the server site

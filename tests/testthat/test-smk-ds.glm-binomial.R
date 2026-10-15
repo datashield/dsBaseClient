@@ -53,7 +53,7 @@ test_that("glm_binomial", {
 
 # context("ds.glm::smk::binomial, with check")
 test_that("glm_binomial, with check", {
-    expect_warning(res <- ds.glm('D$DIS_DIAB~D$GENDER*D$PM_BMI_CONTINUOUS+D$LAB_HDL', family="binomial", checks=TRUE), "NAs introduced by coercion")
+    expect_no_warning(res <- ds.glm('D$DIS_DIAB~D$GENDER*D$PM_BMI_CONTINUOUS+D$LAB_HDL', family="binomial", checks=TRUE), message = "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7485)

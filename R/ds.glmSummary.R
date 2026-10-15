@@ -95,7 +95,6 @@ ds.glmSummary <- function(x.name, newobj=NULL, datasources=NULL) {
 	calltext1 <- call("glmSummaryDS.as", x.name)
 	DSI::datashield.assign(datasources,newobj,calltext1)
 
-  # LOOK BELOW CLIENTSIDE MODULE FOR NEXT BLOCK OF CODE
   # PREPARE AND CALL THE SECOND ASSIGN FUNCTION TO PREPARE AN ABBREVIATED 
   # summary_glm OBJECT ON THE SERVERSIDE THAT CAN SAFELY BE RETURNED TO CLIENT
 
