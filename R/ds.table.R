@@ -1521,13 +1521,6 @@ if(num.table.dims==1)
 
 }#END second dim=1 loop
 
-#################################################
-# Setup on.exit() to restore options 'warn' value
-#################################################
-
-old_warn_option <- base::getOption("warn")
-on.exit(base::options(warn = old_warn_option), add = TRUE)
-
 ################################
 #NOW UNDERTAKE CHISQUARED TESTS#
 ################################
@@ -1538,17 +1531,13 @@ if(report.chisq.tests)
 #TABLES WITH 3 DIMENSIONS#
 ##########################
 
-#Suppress.chisq.warnings by default
-if(suppress.chisq.warnings)
-{
-options(warn=-1)
-}
 ##################
 #Combined studies#
 ##################
 
 
 if(num.table.dims==3){
+withCallingHandlers({
 
 	numtests<-dim(combine.array.all.sources)[num.table.dims]
 
@@ -1599,11 +1588,7 @@ for(ns in numsources:1)
 	eval(parse(text=chisq.list.text))
 	
 
-#If warnings suppressed now return to default
-if(suppress.chisq.warnings)
-{
-options(warn=0)
-}
+}, warning = function(w) if (suppress.chisq.warnings) invokeRestart("muffleWarning"))
 	
 
 	return.list.second<-list(output.list=return.list.first,chisq.tests=chisq.tests,validity.message=validity.message)
@@ -1622,17 +1607,13 @@ options(warn=0)
 ##########################
 #TABLES WITH 2 DIMENSIONS#
 ##########################
-#Suppress.chisq.warnings by default
-if(suppress.chisq.warnings)
-{
-options(warn=-1)
-}
 
 ##################
 #Combined studies#
 ##################
  
  if(num.table.dims==2){
+withCallingHandlers({
 
 	chisq.list.temp<-")"
 	
@@ -1670,11 +1651,7 @@ for(ns in numsources:1)
 
   }#END ns loop
 
-#If warnings suppressed now return to default
-if(suppress.chisq.warnings)
-{
-options(warn=0)
-}
+}, warning = function(w) if (suppress.chisq.warnings) invokeRestart("muffleWarning"))
 
 	
 	eval(parse(text=chisq.list.text))
@@ -1693,13 +1670,9 @@ options(warn=0)
 #########################
 #TABLES WITH 1 DIMENSION#
 #########################
-#Suppress.chisq.warnings by default
-if(suppress.chisq.warnings)
-{
-options(warn=-1)
-}
  
 if(num.table.dims==1){
+withCallingHandlers({
 
 #combined.studies.not.possible.as.one.column.only
 
@@ -1754,11 +1727,7 @@ for(ns in numsources:1)
 	}
 
 	
-#If warnings suppressed now return to default
-if(suppress.chisq.warnings)
-{
-options(warn=0)
-}
+}, warning = function(w) if (suppress.chisq.warnings) invokeRestart("muffleWarning"))
 	
 
  }#END third dim=1 loop

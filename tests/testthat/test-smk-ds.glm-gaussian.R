@@ -53,7 +53,7 @@ test_that("glm_gaussian", {
 
 # context("ds.glm::smk::gaussian, with check")
 test_that("glm_gaussian, with check", {
-    expect_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", checks=TRUE), "NAs introduced by coercion")
+    expect_no_warning(res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", checks=TRUE), message = "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 7800)

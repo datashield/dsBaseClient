@@ -67,6 +67,6 @@ ds.asList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
     newobj <- "aslist.newobj"
   }
 
-  DSI::datashield.assign(datasources, newobj, call("asListDS", x.name))
+  datashield.assign(datasources, newobj, call("asListDS", x.name))
 
 }
