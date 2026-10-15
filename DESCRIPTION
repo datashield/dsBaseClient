@@ -74,9 +74,8 @@ Imports:
     ggplot2,
     gridExtra,
     data.table,
-    methods,
     dplyr,
-    cli
+    lifecycle
 Suggests:
     lme4,
     httr,
