@@ -76,7 +76,8 @@ Imports:
     data.table,
     methods,
     dplyr,
-    cli
+    cli,
+    lifecycle
 Suggests:
     lme4,
     httr,

@@ -4,103 +4,17 @@
 \alias{ds.meanByClass}
 \title{Computes the mean and standard deviation across categories}
 \usage{
-ds.meanByClass(
-  x = NULL,
-  outvar = NULL,
-  covar = NULL,
-  type = "combine",
-  datasources = NULL
-)
+ds.meanByClass(...)
 }
 \arguments{
-\item{x}{a character string specifying the name of the dataset or a text formula.}
-
-\item{outvar}{a character vector specifying the names of the continuous variables.}
-
-\item{covar}{a character vector specifying the names of up to 3 categorical variables}
-
-\item{type}{a character string that represents the type of analysis to carry out.
-\code{type} can be set as: \code{'combine'} or \code{'split'}. 
-Default \code{'combine'}. 
-For more information see \strong{Details}.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
-objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
-}
-\value{
-\code{ds.meanByClass} returns to the client-side a table or a list of tables that 
-hold the length of the numeric variable(s) and their mean
-and standard deviation in each subgroup (subset).
+\item{...}{Not used.}
 }
 \description{
-This function calculates the mean and  the standard deviation (SD)
- of a continuous variable for each class of up to 3 categorical variables.
-}
-\details{
-The function splits the input dataset into subsets (one for each category) and calculates
-the mean and SD of the specified numeric variables. It is important to note that the process of
-generating the final table(s) can be time consuming particularly if the subsetting is done across
-more than one categorical variable and the run-time lengthens if the parameter \code{type} is set to
-\code{'split'} as a table is then produced for each study. It is therefore advisable to run the function
-only for the studies of the user interested in but including only those studies in the
-parameter \code{datasources}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
- Depending on the variable \code{type} can be carried out two analysis:\cr
- (1) \code{'combine'}: a pooled table of results is generated. \cr
- (2) \code{'split'}: a table of results is generated for each study.
-}
-\examples{
-\dontrun{
-
- ## Version 6, for version 5 see the Wiki
-  
-  # connecting to the Armadillo/Opal servers
-
-  require('DSI')
-  require('DSMolgenisArmadillo')
-  require('DSOpal')
-  require('dsBaseClient')
-
-  armadillo_url <- "http://192.168.56.100:8080/"
-  token <- armadillo.get_credentials(armadillo_url)
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = armadillo_url, 
-                 token = token@access_token, 
-                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
-  builder$append(server = "study2", 
-                 url = "https://192.168.56.100:8443/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
-                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
-  logindata <- builder$build()
-  
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  #Calculate mean by class
-  
-  ds.meanByClass(x = "D",
-                 outvar = c('LAB_HDL','LAB_TSC'),
-                 covar = c('PM_BMI_CATEGORICAL'),
-                 type = "combine",
-                 datasources = connections)
-                 
-  ds.meanByClass(x = "D$LAB_HDL~D$PM_BMI_CATEGORICAL",
-                 type = "combine",
-                 datasources = connections[1])#Only the frist server is used ("study1")  
-             
-  # clear the Datashield R sessions and logout
-  datashield.logout(connections)
-}
-
-}
-\seealso{
-\code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-
-\code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold, columns and rows.
+This function is defunct. Please use \code{ds.meanSdGp()} instead.
 }
 \author{
 DataSHIELD Development Team
 }
+\keyword{internal}

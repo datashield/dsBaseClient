@@ -4,85 +4,17 @@
 \alias{ds.message}
 \title{Returns server-side messages to the client-side}
 \usage{
-ds.message(message.obj.name = NULL, datasources = NULL)
+ds.message(...)
 }
 \arguments{
-\item{message.obj.name}{is a character string specifying  the name of the list that 
-contains the message.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
-objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
-}
-\value{
-\code{ds.message} returns a list object from each study, 
-containing the message that has been written by
-DataSHIELD into \code{$studysideMessage}.
+\item{...}{Not used.}
 }
 \description{
-This function allows for error messages arising from the
-running of a server-side assign function to be returned to the client-side.
-}
-\details{
-Errors arising from aggregate server-side functions can be returned
-directly to the client-side. But this is not possible for server-side assign
-functions because they are designed specifically to write objects to the
-server-side and to return no meaningful information to the client-side.
-Otherwise, users may be able to use assign functions to return disclosive
-output to the client-side.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Server-side functions from which error messages are to be made
-available are designed to be able to write the designated error message to
-the \code{$serversideMessage} object into the list that is saved on the server-side
-as the primary output of that function. So only valid server-side functions of
-DataSHIELD can write a \code{$studysideMessage}. The error message is a string that 
-cannot exceed a length of \code{nfilter.string} a default of 80 characters.
-
-Server function called: \code{messageDS}
-}
-\examples{
-\dontrun{
-
- ## Version 6, for version 5 see the Wiki
-  
-  # connecting to the Armadillo/Opal servers
-
-  require('DSI')
-  require('DSMolgenisArmadillo')
-  require('DSOpal')
-  require('dsBaseClient')
-
-  armadillo_url <- "http://192.168.56.100:8080/"
-  token <- armadillo.get_credentials(armadillo_url)
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = armadillo_url, 
-                 token = token@access_token, 
-                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
-  builder$append(server = "study2", 
-                 url = "https://192.168.56.100:8443/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
-                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
-  logindata <- builder$build()
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  #Use a ds.asCharacter assign function to create the message in the server-side
-  
-  ds.asCharacter(x.name = "D$LAB_TRIG", 
-                 newobj = "vector1",
-                 datasources = connections)
-                 
-  #Return the message to the client-side
-  
-  ds.message(message.obj.name = "vector1",
-             datasources = connections)
-  
-  # clear the Datashield R sessions and logout
-  datashield.logout(connections)
-}
+This function is defunct. Server-side errors are now returned directly and can be viewed with \code{DSI::datashield.errors()}.
 }
 \author{
 DataSHIELD Development Team
 }
+\keyword{internal}

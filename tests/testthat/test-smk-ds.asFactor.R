@@ -32,60 +32,60 @@ test_that("with no force.factor.levels", {
     ds.asFactor("TID", "TID.f1")
 
     res1 <- ds.class("TID.f1")
-    res2 <- expect_warning(ds.table1D("TID.f1"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    res2 <- ds.table("TID.f1")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
     expect_equal("factor", res1$`survival3`)
-    expect_equal("All tables are valid!", res2$validity)
+    expect_equal("Data in all studies were valid", res2$validity.message)
 })
 
 test_that("with forced.factor.levels of 1:6", {
     ds.asFactor("TID", "TID.f2", forced.factor.levels=1:6)
 
     res1 <- ds.class("TID.f2")
-    res2 <- expect_warning(ds.table1D("TID.f2"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    res2 <- ds.table("TID.f2")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
     expect_equal("factor", res1$`survival3`)
-    expect_equal("All tables are valid!", res2$validity)
+    expect_equal("Data in all studies were valid", res2$validity.message)
 })
 
 test_that("with force.factor.levels of 0:10", {
     ds.asFactor("TID", "TID.f3", forced.factor.levels=0:10)
 
     res1 <- ds.class("TID.f3")
-    res2 <- expect_warning(ds.table1D("TID.f3"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    res2 <- ds.table("TID.f3")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
     expect_equal("factor", res1$`survival3`)
-    expect_equal("All tables are valid!", res2$validity)
+    expect_equal("Data in all studies were valid", res2$validity.message)
 })
 
 test_that("with force.factor.levels of 2:3", {
     ds.asFactor("TID", "TID.f4", forced.factor.levels=2:3)
 
     res1 <- ds.class("TID.f4")
-    res2 <- expect_warning(ds.table1D("TID.f4"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    res2 <- ds.table("TID.f4")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
     expect_equal("factor", res1$`survival3`)
-    expect_equal("All tables are valid!", res2$validity)
+    expect_equal("Data in all studies were valid", res2$validity.message)
 })
 
 test_that("with force.factor.levels of c(1,2,3,4,'a','h',5)", {
     ds.asFactor("TID", "TID.f5", forced.factor.levels=c(1,2,3,4,'a','h',5))
 
     res1 <- ds.class("TID.f5")
-    res2 <- expect_warning(ds.table1D("TID.f5"), "'ds.table1D' is deprecated.\nUse 'ds.table' instead.", fixed = TRUE)
+    res2 <- ds.table("TID.f5")
 
     expect_equal("factor", res1$`survival1`)
     expect_equal("factor", res1$`survival2`)
     expect_equal("factor", res1$`survival3`)
-    expect_equal("All tables are valid!", res2$validity)
+    expect_equal("Data in all studies were valid", res2$validity.message)
 })
 
 # context("ds.asFactor::smk::fixed.dummy.vars")
