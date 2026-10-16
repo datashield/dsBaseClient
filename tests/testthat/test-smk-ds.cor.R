@@ -104,6 +104,22 @@ test_that("fails if the object does not exist", {
     }
 })
 
+test_that("fails if the object is the wrong type", {
+    ds.asCharacter(x = "D$survtime", newobj = "not_a_numeric")
+    expect_error(
+        ds.cor(x = "not_a_numeric", y = "D$survtime"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type numeric, integer, matrix or data.frame. 'not_a_numeric' is type character.", fixed = TRUE)
+    }
+
+    ds.rm("not_a_numeric")
+})
+
 #
 # Done
 #
