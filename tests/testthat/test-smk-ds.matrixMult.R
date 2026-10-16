@@ -50,6 +50,32 @@ test_that("simplest ds.matrixMult", {
 
 # context("ds.matrixMult::smk::shutdown")
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.matrixMult(M1 = "nonexistent_object", M2 = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is the wrong type", {
+    expect_error(
+        ds.matrixMult(M1 = "D$LAB_TSC", M2 = "D$LAB_TSC"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type matrix or data.frame. 'D$LAB_TSC' is type numeric.", fixed = TRUE)
+    }
+})
+
 test_that("shutdown", {
     ds_expect_variables(c("D", "mat1", "mat2", "matrixmult.newobj"))
 })

@@ -378,6 +378,35 @@ test_that("gamlss, WEIGHT GAIN", {
   expect_equal(as.numeric(model_wgtgain.DS$study1$centiles[9,'per']), 98.682043, tolerance=1e-7)
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.gamlss(formula = "e3_bw~e3_gac_None", data = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is the wrong type", {
+    ds.asCharacter(x = "D$e3_bw", newobj = "not_a_df")
+    expect_error(
+        ds.gamlss(formula = "e3_bw~e3_gac_None", data = "not_a_df"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type data.frame or list. 'not_a_df' is type character.", fixed = TRUE)
+    }
+
+    ds.rm("not_a_df")
+})
+
 #
 # Done
 #
