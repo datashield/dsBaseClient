@@ -70,8 +70,7 @@ as well as the global equivalents across all studies combined
 are saved in the server-side. 
 Once the estimated means and \code{Nvalids}
 are written into the server-side R environments, they can be used directly to centralize
-the variable of interest around its global mean or its study-specific means. Finally,
-the \code{isDefined} internal function checks whether the key variables have been created.
+the variable of interest around its global mean or its study-specific means.
 
 Server function called: \code{meanDS}
 }

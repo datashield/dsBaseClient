@@ -100,6 +100,10 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL, classConsiste
     .checkClassConsistency(output)
   }
 
+  if(!is.null(y) && any(output[[1]]$class %in% c("matrix", "data.frame"))){
+    warning("x is a matrix or a dataframe; y will be ignored and a correlation matrix computed for x!")
+  }
+
   if (type=="split"){
     covariance <- list()
     sqrt.diag <- list()

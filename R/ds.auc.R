@@ -11,19 +11,12 @@
 #' the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.
 #' @return returns the AUC and its standard error
 #' @author Demetris Avraam for DataSHIELD Development Team
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @export
 #'
 ds.auc <- function(pred=NULL, y=NULL, datasources=NULL){
   
-  # look for DS connections
-  if(is.null(datasources)){
-    datasources <- DSI::datashield.connections_find()
-  }
-  
-  # ensure datasources is a list of DSConnection-class
-  if(!(is.list(datasources) && all(unlist(lapply(datasources, function(d) {methods::is(d,"DSConnection")}))))){
-    stop("The 'datasources' were expected to be a list of DSConnection-class objects", call.=FALSE)
-  }
+  datasources <- .set_datasources(datasources)
   
   # verify that 'pred' was set
   if(is.null(pred)){
@@ -34,10 +27,6 @@ ds.auc <- function(pred=NULL, y=NULL, datasources=NULL){
   if(is.null(y)){
     stop("Please provide the name of the outcome variable", call.=FALSE)
   }
-  
-  # check if the pred and y objects are defined in all the studies
-  defined.pred <- isDefined(datasources, pred)
-  defined.y <- isDefined(datasources, y)
   
   cally <- call('aucDS', pred, y)
   output <- DSI::datashield.aggregate(datasources, cally)

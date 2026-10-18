@@ -53,7 +53,7 @@ test_that("glm_gaussian", {
 
 # context("ds.glm::smk::poisson, with check")
 test_that("glm_gaussian, which check", {
-    expect_warning(res <- ds.glm("D$survtime~1+D$time.id+D$female", family="poisson", checks=TRUE), "NAs introduced by coercion")
+    expect_no_warning(res <- ds.glm("D$survtime~1+D$time.id+D$female", family="poisson", checks=TRUE), message = "NAs introduced by coercion")
 
     expect_length(res, 13)
     expect_equal(res$Nvalid, 6299)
