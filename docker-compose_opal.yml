@@ -1,6 +1,6 @@
 services:
     opal:
-        image: datashield/opal_citest:latest
+        image: datashield/opal_citest:6.0.2
         ports:
             - 8443:8443
             - 8080:8080
@@ -16,7 +16,7 @@ services:
             - ROCK_HOSTS=rock:8085
             - ROCK_ADMINISTRATOR_PASSWORD=foobar
     mongo:
-        image: mongo:8.0
+        image: mongo:4.4.0
         environment:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
