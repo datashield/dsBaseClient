@@ -37,22 +37,27 @@ test_that("simple mdPattern, combine", {
     expect_true(is.matrix(res$pattern))
 })
 
-test_that("combine pools missing counts by variable name, not column position", {
+test_that("combine pools pattern counts by variable name, not column position", {
     res.split <- ds.mdPattern(x = "D", type = "split")
     res.combine <- suppressWarnings(ds.mdPattern(x = "D", type = "combine"))
 
-    # the last row of an md.pattern is the number missing per variable
-    missing.by.study <- lapply(res.split, function(study.res){
-        pattern <- study.res$pattern
-        stats::setNames(pattern[nrow(pattern), -ncol(pattern)], colnames(pattern)[-ncol(pattern)])
-    })
-    expected <- Reduce(`+`, lapply(missing.by.study, function(counts) counts[sort(names(counts))]))
+    # md.pattern rows are named by their count; the last row is a summary and
+    # suppressed rows have a non-numeric name, so both are dropped
+    count.by.pattern <- function(pattern){
+        var.names <- sort(colnames(pattern)[-ncol(pattern)])
+        rows <- pattern[-nrow(pattern), var.names, drop = FALSE]
+        counts <- suppressWarnings(as.numeric(rownames(rows)))
+        keep <- !is.na(counts)
+        keys <- apply(rows[keep, , drop = FALSE], 1, paste, collapse = "")
+        stats::setNames(counts[keep], keys)
+    }
 
-    pooled <- res.combine$pattern
-    actual <- stats::setNames(pooled[nrow(pooled), -ncol(pooled)], colnames(pooled)[-ncol(pooled)])
-    actual <- actual[sort(names(actual))]
+    per.study <- lapply(res.split, function(study.res) count.by.pattern(study.res$pattern))
+    expected <- tapply(unlist(per.study, use.names = FALSE), unlist(lapply(per.study, names)), sum)
+    actual <- tapply(count.by.pattern(res.combine$pattern), names(count.by.pattern(res.combine$pattern)), sum)
 
-    expect_equal(actual, expected)
+    expect_setequal(names(actual), names(expected))
+    expect_equal(as.vector(actual[names(expected)]), as.vector(expected))
 })
 
 test_that("fails if the object does not exist", {
