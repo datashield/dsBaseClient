@@ -163,15 +163,17 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
       stop("Cannot pool patterns: studies have different numbers of variables", call.=FALSE)
     }
 
+    # md.pattern orders variable columns by missingness, which differs across studies,
+    # so align them by name to study 1's order (the last, unnamed column stays last)
     var_names <- colnames(patterns_list[[1]])
-    if(length(patterns_list) > 1){
-      for(i in 2:length(patterns_list)){
-        if(!identical(colnames(patterns_list[[i]]), var_names)){
-          warning("Variable names differ across studies. Pooling by position.")
-          break
-        }
+    var_cols <- var_names[-length(var_names)]
+    patterns_list <- lapply(patterns_list, function(pattern){
+      study_vars <- colnames(pattern)[-ncol(pattern)]
+      if(!setequal(study_vars, var_cols)){
+        stop("Cannot pool patterns: studies have different variables", call.=FALSE)
       }
-    }
+      pattern[, c(match(var_cols, study_vars), ncol(pattern)), drop = FALSE]
+    })
 
     # Pool the patterns
     pooled_pattern <- .poolMdPatterns(patterns_list, study_names)

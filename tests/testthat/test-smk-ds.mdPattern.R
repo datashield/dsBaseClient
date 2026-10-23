@@ -37,6 +37,24 @@ test_that("simple mdPattern, combine", {
     expect_true(is.matrix(res$pattern))
 })
 
+test_that("combine pools missing counts by variable name, not column position", {
+    res.split <- ds.mdPattern(x = "D", type = "split")
+    res.combine <- suppressWarnings(ds.mdPattern(x = "D", type = "combine"))
+
+    # the last row of an md.pattern is the number missing per variable
+    missing.by.study <- lapply(res.split, function(study.res){
+        pattern <- study.res$pattern
+        stats::setNames(pattern[nrow(pattern), -ncol(pattern)], colnames(pattern)[-ncol(pattern)])
+    })
+    expected <- Reduce(`+`, lapply(missing.by.study, function(counts) counts[sort(names(counts))]))
+
+    pooled <- res.combine$pattern
+    actual <- stats::setNames(pooled[nrow(pooled), -ncol(pooled)], colnames(pooled)[-ncol(pooled)])
+    actual <- actual[sort(names(actual))]
+
+    expect_equal(actual, expected)
+})
+
 test_that("fails if the object does not exist", {
     expect_error(
         ds.mdPattern(x = "nonexistent_object"),
