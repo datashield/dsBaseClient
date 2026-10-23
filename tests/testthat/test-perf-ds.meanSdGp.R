@@ -12,7 +12,7 @@ connect.studies.dataset.survival(list("age.60", "female"))
 
 # context("ds.meanSdGp::perf::combine:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration()
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

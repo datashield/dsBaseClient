@@ -161,6 +161,19 @@ test_that("simple boole, big neg constant V2", {
     expect_equal(res.boole$sim3$`quantiles & mean`[[8]], 0.0)
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.Boole(V1 = "nonexistent_object", V2 = "1", Boolean.operator = "=="),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #
