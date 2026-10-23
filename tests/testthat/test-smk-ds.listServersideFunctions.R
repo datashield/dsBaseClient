@@ -24,14 +24,14 @@ test_that("check results", {
     assign.functions <- factor(c(
       "BooleDS", "abs", "absDS", "acos", "as.character", "as.null", "as.numeric", "asCharacterDS", "asDataMatrixDS",
       "asFactorDS2", "asFactorSimpleDS", "asIntegerDS", "asListDS", "asLogicalDS", "asMatrixDS",
-      "asNumericDS", "asin", "atan", "attach", "blackBoxRanksDS", "blackBoxRanksDS", "boxPlotGG_data_TreatmentDS", "boxPlotGG_data_Treatment_numericDS", "cDS",
-      "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameFillDS", "dataFrameSortDS",
+      "asNumericDS", "asin", "atan", "attach", "boxPlotGG_data_TreatmentDS", "boxPlotGG_data_Treatment_numericDS", "cDS",
+      "cbindDS", "changeRefGroupDS", "completeCasesDS", "complete.cases", "dataFrameDS", "dataFrameSortDS",
       "dataFrameSubsetDS2", "dataFrameDS", "dmtC2SDS", "expDS", "glmPredictDS.as", "glmSLMADS.assign", "glmSummaryDS.as", "glmerSLMADS.assign",
       "lexisDS2", "lexisDS3", "list", "listDS", "logDS", "lsplineDS",
       "matrixDS", "matrixDetDS2", "matrixDiagDS", "matrixDimnamesDS", "matrixInvertDS",
       "matrixMultDS", "matrixTransposeDS", "mergeDS", "nsDS", "qlsplineDS", "rBinomDS", "rNormDS", "rPoisDS",
-      "rUnifDS", "ranksSecureDS2", "ranksSecureDS4", "ranksSecureDS5", "rbindDS", "reShapeDS", "recodeLevelsDS", "recodeValuesDS", "repDS",
-      "replaceNaDS", "rowColCalcDS", "seqDS", "sin", "subsetByClassDS", "subsetDS", "sum", "sampleDS",
+      "rUnifDS", "rbindDS", "reShapeDS", "recodeValuesDS", "repDS",
+      "replaceNaDS", "rowColCalcDS", "seqDS", "sin", "sum", "sampleDS",
       "tableDS.assign", "tan", "tapplyDS.assign", "unlist", "unListDS", "vectorDS"
     ))
     aggregate.functions <- factor(c(
@@ -44,13 +44,12 @@ test_that("check results", {
       "heatmapPlotDS", "histogramDS1", "histogramDS2", "is.character", "is.factor", "is.list", "is.null", "is.numeric",
       "isNaDS", "isValidDS", "kurtosisDS1", "kurtosisDS2", "lengthDS",
       "levelsDS", "lexisDS1", "listDisclosureSettingsDS", "lmerSLMADS2", "lsDS",
-      "matrixDetDS1", "meanDS", "meanSdGpDS", "messageDS", "miceDS",
+      "matrixDetDS1", "meanDS", "meanSdGpDS", "miceDS",
       "namesDS", "numNaDS", "quantileMeanDS", "rangeDS",
-      "ranksSecureDS1", "ranksSecureDS3",
       "rmDS", "skewnessDS1", "skewnessDS2", "scatterPlotDS",
       "scoreVectDS", "setSeedDS", "t.test",
-      "table1DDS", "table2DDS", "tableDS", "tableDS2", "tapplyDS",
-      "testObjExistsDS", "varDS"
+      "table1DDS", "tableDS", "tableDS2", "tapplyDS",
+      "varDS"
     ))
 
     expect_warning(res <- ds.listServersideFunctions(), "'ds.listServersideFunctions' is deprecated.", fixed=TRUE)
