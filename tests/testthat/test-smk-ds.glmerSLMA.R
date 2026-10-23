@@ -246,6 +246,35 @@ test_that("check slope formulae - 2", {
     expect_equal(class(res$Convergence.error.message), "character")
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.glmerSLMA(formula = "incid_rate ~ trtGrp + Male + (1|idDoctor)", dataName = "nonexistent_object", family = "poisson"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is the wrong type", {
+    ds.asCharacter(x = "D$incid_rate", newobj = "not_a_df")
+    expect_error(
+        ds.glmerSLMA(formula = "incid_rate ~ trtGrp + Male + (1|idDoctor)", dataName = "not_a_df", family = "poisson"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type data.frame or list. 'not_a_df' is type character.", fixed = TRUE)
+    }
+
+    ds.rm("not_a_df")
+})
+
 #
 # Shutdown phase 2
 #

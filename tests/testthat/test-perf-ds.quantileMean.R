@@ -12,7 +12,7 @@ connect.studies.dataset.cnsim(list('LAB_HDL'))
 
 # context("ds.quantileMean::perf::combine:0")
 test_that("combine - performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration()
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

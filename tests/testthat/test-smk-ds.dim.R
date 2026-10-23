@@ -78,6 +78,19 @@ test_that("dim of a vector is NULL, as in R", {
     }
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.dim(x = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #

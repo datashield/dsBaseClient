@@ -343,6 +343,32 @@ test_that("simple glmSLMA, poisson-assigned", {
                           "str.medi.lpd", "num.medi.lpd", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.glmSLMA(formula = "LAB_TSC~LAB_TRIG", family = "gaussian", dataName = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is the wrong type", {
+    expect_error(
+        ds.glmSLMA(formula = "LAB_TSC~LAB_TRIG", family = "gaussian", dataName = "D$LAB_TSC"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type data.frame or list. 'D$LAB_TSC' is type numeric.", fixed = TRUE)
+    }
+})
+
 #
 # Done
 #

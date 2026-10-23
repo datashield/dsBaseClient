@@ -61,6 +61,32 @@ test_that("simple changeRefGroup", {
     expect_equal(res.levels$sim3$Levels[3], 'overweight')
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.changeRefGroup(x = "nonexistent_object", ref = "1"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
+test_that("fails if the object is the wrong type", {
+    expect_error(
+        ds.changeRefGroup(x = "D", ref = "1"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object must be of type factor. 'D' is type data.frame.", fixed = TRUE)
+    }
+})
+
 #
 # Done
 #
