@@ -12,7 +12,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.rBinom::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration()
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

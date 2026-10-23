@@ -19,7 +19,7 @@ ds.dataFrameSubset(df.name="tablesource", V1.name="factorInteger", V2.name='6', 
 
 # context("ds.table::perf::0")
 test_that("performance", {
-    .durationSec  <- 30 # seconds
+    .durationSec  <- perf.testduration()
     .count        <- 0
     .start.time   <- Sys.time()
     .current.time <- .start.time

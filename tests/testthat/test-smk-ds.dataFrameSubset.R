@@ -91,6 +91,19 @@ test_that("dataFrameSubset_exists scalar", {
     
 })
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.dataFrameSubset(df.name = "nonexistent_object", V1.name = "D$LAB_TSC", V2.name = "1", Boolean.operator = ">"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 #
 # Done
 #

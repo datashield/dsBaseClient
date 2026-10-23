@@ -49,6 +49,19 @@ test_that("isNA, wrong input class returns a server error", {
 
 # context("ds.isNA::smk::shutdown")
 
+test_that("fails if the object does not exist", {
+    expect_error(
+        ds.isNA(x = "nonexistent_object"),
+        "There are some DataSHIELD errors, list them with datashield.errors()",
+        fixed = TRUE
+    )
+
+    res.errors <- DSI::datashield.errors()
+    for (study.errors in res.errors) {
+        expect_match(study.errors, "The server-side object 'nonexistent_object' does not exist")
+    }
+})
+
 test_that("shutdown", {
     ds_expect_variables(c("D"))
 })
