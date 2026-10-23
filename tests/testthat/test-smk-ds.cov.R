@@ -87,7 +87,7 @@ test_that("fails if the object is the wrong type", {
 
     res.errors <- DSI::datashield.errors()
     for (study.errors in res.errors) {
-        expect_match(study.errors, "The server-side object must be of type numeric, integer, matrix or data.frame. 'not_a_numeric' is type character.", fixed = TRUE)
+        expect_match(study.errors, "The server-side object must be of type numeric, integer, factor, matrix or data.frame. 'not_a_numeric' is type character.", fixed = TRUE)
     }
 
     ds.rm("not_a_numeric")
@@ -116,8 +116,14 @@ test_that("error, x numeric vector requires y", {
     expect_match(res.errors[[1]], "If x is a numeric vector, y must also be a numeric vector")
 })
 
+test_that("cov accepts a factor variable", {
+    ds.asFactorSimple(input.var.name = "D$female", newobj.name = "female.factor")
+
+    expect_no_error(ds.cov(x = "female.factor", y = "D$survtime", type = "split"))
+})
+
 test_that("shutdown", {
-    ds_expect_variables(c("D"))
+    ds_expect_variables(c("D", "female.factor"))
 })
 
 disconnect.studies.dataset.survival()
