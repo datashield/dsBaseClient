@@ -27,7 +27,6 @@
 "ds.corTest::perf::combine:0","22.45","0.333","3"
 "ds.cov::perf::combine:0","7.010","0.333","3"
 "ds.dataFrame::perf::0","4.043","0.333","3"
-"ds.dataFrameFill::perf::0","3.549","0.333","3"
 "ds.dataFrameSort::perf::0","24.38","0.333","3"
 "ds.dataFrameSubset::perf::0","2.450","0.333","3"
 "ds.densityGrid::perf::0","4.653","0.333","3"

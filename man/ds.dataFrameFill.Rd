@@ -4,96 +4,19 @@
 \alias{ds.dataFrameFill}
 \title{Creates missing values columns in the server-side}
 \usage{
-ds.dataFrameFill(
-  df.name = NULL,
-  newobj = NULL,
-  datasources = NULL,
-  classConsistencyCheck = TRUE
-)
+ds.dataFrameFill(...)
 }
 \arguments{
-\item{df.name}{a character string representing the name of the input data frame that will be
-filled with extra columns of missing values.}
-
-\item{newobj}{a character string that provides the name for the output data frame
-that is stored on the data servers. Default value is "dataframefill.newobj".}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login.
-If the \code{datasources} argument is not specified 
-the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
-
-\item{classConsistencyCheck}{logical. If TRUE, verifies that each input object has the same class across all studies. Default TRUE.}
-}
-\value{
-\code{ds.dataFrameFill} returns the object specified by the \code{newobj} argument which
-is written to the server-side.
+\item{...}{Not used.}
 }
 \description{
-Adds extra columns with missing values in a data frame on the server-side.
-}
-\details{
-This function checks if the input data frames have the same variables (i.e. the same
-column names) in all of the used studies. When a study does not have some of the variables, the
-function generates those variables as vectors of missing values and combines them as columns to
-the input data frame. If any of the generated variables are of class factor, the function 
-assigns to those the corresponding levels of the factors given from the studies where such 
-factors exist.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Server function called: \code{dataFrameFillDS}
-}
-\examples{
-\dontrun{
-
-  ## Version 6, for version 5 see the Wiki 
-  # Connecting to the Armadillo/Opal servers
-
-  require('DSI')
-  require('DSMolgenisArmadillo')
-  require('DSOpal')
-  require('dsBaseClient')
-
-  armadillo_url <- "http://192.168.56.100:8080/"
-  token <- armadillo.get_credentials(armadillo_url)
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = armadillo_url, 
-                 token = token@access_token, 
-                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
-  builder$append(server = "study2", 
-                 url = "https://192.168.56.100:8443/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
-                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
-                 
-  logindata <- builder$build()
-  
-  # Log onto the remote Armadillo/Opal training servers
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  # Create two data frames with one different column
-  
-  ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL",
-                     "D$LAB_GLUC_ADJUSTED","D$PM_BMI_CONTINUOUS"),
-               newobj = "df1",
-               datasources = connections[1])
-               
-  ds.dataFrame(x = c("D$LAB_TSC","D$LAB_TRIG","D$LAB_HDL","D$LAB_GLUC_ADJUSTED"),
-               newobj = "df1",
-               datasources = connections[2])
-  
-  # Fill the data frame with NA columns
-  
-  ds.dataFrameFill(df.name = "df1",
-                   newobj = "D.Fill",
-                   datasources = connections[c(1,2)]) # Two servers are used
-
-
-  # Clear the Datashield R sessions and logout
-  datashield.logout(connections) 
-}
+This function is defunct. Please use \code{ds.standardiseDf()} instead.
 }
 \author{
 Demetris Avraam for DataSHIELD Development Team
 
 Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
+\keyword{internal}
