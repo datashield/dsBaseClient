@@ -27,10 +27,10 @@ test_that("setup", {
 
 # context("ds.changeRefGroup::smk")
 test_that("simple changeRefGroup", {
-    newNames <- c('normal', 'overweight', 'obesity')
+    newNames <- c('norm', 'over', 'obese')
     ds.recodeValues(var.name='D$PM_BMI_CATEGORICAL', values2replace.vector=c(1, 2, 3), new.values.vector=newNames, newobj='bmi_new')
 
-    res <- ds.changeRefGroup(x='bmi_new', ref='obesity', newobj='bmi_ob')
+    res <- ds.changeRefGroup(x='bmi_new', ref='obese', newobj='bmi_ob')
 
     res.class  <- ds.class("bmi_ob")
     res.levels <- ds.levels(x='bmi_ob')
@@ -46,19 +46,19 @@ test_that("simple changeRefGroup", {
     expect_length(res.levels, 3)
     expect_length(res.levels$sim1, 1)
     expect_length(res.levels$sim1$Levels, 3)
-    expect_equal(res.levels$sim1$Levels[1], 'obesity')
-    expect_equal(res.levels$sim1$Levels[2], 'normal')
-    expect_equal(res.levels$sim1$Levels[3], 'overweight')
+    expect_equal(res.levels$sim1$Levels[1], 'obese')
+    expect_equal(res.levels$sim1$Levels[2], 'norm')
+    expect_equal(res.levels$sim1$Levels[3], 'over')
     expect_length(res.levels$sim2, 1)
     expect_length(res.levels$sim2$Levels, 3)
-    expect_equal(res.levels$sim2$Levels[1], 'obesity')
-    expect_equal(res.levels$sim2$Levels[2], 'normal')
-    expect_equal(res.levels$sim2$Levels[3], 'overweight')
+    expect_equal(res.levels$sim2$Levels[1], 'obese')
+    expect_equal(res.levels$sim2$Levels[2], 'norm')
+    expect_equal(res.levels$sim2$Levels[3], 'over')
     expect_length(res.levels$sim3, 1)
     expect_length(res.levels$sim3$Levels, 3)
-    expect_equal(res.levels$sim3$Levels[1], 'obesity')
-    expect_equal(res.levels$sim3$Levels[2], 'normal')
-    expect_equal(res.levels$sim3$Levels[3], 'overweight')
+    expect_equal(res.levels$sim3$Levels[1], 'obese')
+    expect_equal(res.levels$sim3$Levels[2], 'norm')
+    expect_equal(res.levels$sim3$Levels[3], 'over')
 })
 
 test_that("fails if the object does not exist", {
