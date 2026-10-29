@@ -65,6 +65,7 @@ test_that("residual deviation tends to 0",
 # context("ds.mean::math::location_parameter::single")
 test_that("mean(X+a) - mean(X) = a",
 {
+  skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite's parser misreads '+<number>' in expressions as a signed number")
   connect.dataset.1()
   
   .test.location.parameter('D$INTEGER')
@@ -80,6 +81,7 @@ test_that("mean(X+a) - mean(X) = a",
 # context("ds.mean::math::location_parameter::multiple")
 test_that("mean(X+a) - mean(X) = a",
 {
+  skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite's parser misreads '+<number>' in expressions as a signed number")
   connect.all.datasets()
   
   .test.location.parameter('D$INTEGER')

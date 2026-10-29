@@ -127,6 +127,7 @@ test_that("dataset 3",
 # context("ds.dataFrameSubset::expt_dgr::multiple::subset_by_rows_columns")
 test_that("all datasets",
           { 
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
             subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",TRUE,"subset.server",local.df.list)
@@ -146,6 +147,7 @@ test_that("all datasets",
 # context("ds.dataFrameSubset::expt_dgr::single::subset_by_rows_columns")
 test_that("dataset 1",
           { 
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.dataset.1()
             local.df.list<-list(ds.test_env$local.values.1)
             subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",TRUE,"subset.server",local.df.list)
@@ -166,6 +168,7 @@ test_that("dataset 1",
 # context("ds.dataFrameSubset::expt_dgr::multiple::subset_by_rows_columns")
 test_that("all datasets",
           { 
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.all.datasets()
             local.df.list<-list(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
             subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",TRUE,"subset.server",local.df.list)
@@ -184,6 +187,7 @@ test_that("all datasets",
 # context("ds.dataFrameSubset::expt_dgr::single::subset_by_rows_columns")
 test_that("dataset 2",
           { 
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.dataset.2()
             local.df.list<-list(ds.test_env$local.values.2)
             subset.by.rows.cols("D","INTEGER","NUMERIC",1:4,">",TRUE,"subset.server",local.df.list)
@@ -203,6 +207,7 @@ test_that("dataset 2",
 # context("ds.dataFrameSubset::expt_dgr::multiple::all_rows_subset_by_columns")
 test_that("all datasets",
           {  connect.all.datasets()
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             local.df.list<-list(ds.test_env$local.values.1,ds.test_env$local.values.2,ds.test_env$local.values.3)
             subset.by.cols("D","INTEGER",1:4,TRUE,"subset.server",local.df.list)
             subset.by.cols("D","NEGATIVE_INTEGER",c(2,5,10:15),FALSE,"subset.server",local.df.list)
@@ -215,6 +220,7 @@ test_that("all datasets",
 # context("ds.dataFrameSubset::expt_dgr::multiple::all_rows_subset_by_columns")
 test_that("dataset 3",
           {  connect.dataset.3()
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             local.df.list<-list(ds.test_env$local.values.3)
             subset.by.cols("D","INTEGER",1:4,TRUE,"subset.server",local.df.list)
             subset.by.cols("D","NEGATIVE_INTEGER",c(2,5,10:15),FALSE,"subset.server",local.df.list)
