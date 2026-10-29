@@ -89,9 +89,9 @@ test_that("dataFrameSubset_erros", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
-    expect_match(res.errors$sim2, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
-    expect_match(res.errors$sim3, "* Error : FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
+    expect_match(res.errors$sim1, "FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
+    expect_match(res.errors$sim2, "FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
+    expect_match(res.errors$sim3, "FAILED: Boolean.operator must be: '==', '!=', '<', '<=', '>' or '>='*")
 })
 
 #

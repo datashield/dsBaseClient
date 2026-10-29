@@ -117,9 +117,9 @@ test_that("simple test, error", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$survival1, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
-    expect_match(res.errors$survival2, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
-    expect_match(res.errors$survival3, "* Error : FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
+    expect_match(res.errors$survival1, "FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
+    expect_match(res.errors$survival2, "FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
+    expect_match(res.errors$survival3, "FAILED: if sampling without replacement size must be less than or equal to length\\(x\\)*")
 })
 
 # context("ds.sample::smk::test nonexistent object")
