@@ -106,8 +106,8 @@
 #' If the number of failures in one or more 
 #' periods in a given study is less than the specified disclosure filter determining minimum
 #' acceptable cell size in a table (\code{nfilter.tab}) 
-#' then the expanded data frame is not created in that study, and a study-side message 
-#' to this effect is made available in that study via \code{ds.message()} function.
+#' then the expanded data frame is not created in that study, and the function fails in that
+#' study with an error that can be viewed with \code{DSI::datashield.errors()}.
 #' 
 #' 
 #' Server functions called: \code{lexisDS1}, \code{lexisDS2} and \code{lexisDS3} 
@@ -270,9 +270,7 @@ intervalWidth.transmit<-paste0(as.character(intervalWidth),collapse=",")
 #RETURN COMPLETION INFORMATION TO CLIENT SIDE
   Note1<-"END OF LAST FOLLOW-UP PERIOD SET (RANDOMLY) AT maxmaxtime:"
   Note2<-"ASSIGN FUNCTION COMPLETED - USE ds.ls() TO CONFIRM"
-  Note3<-"IF FUNCTION FAILED ON ONE OR MORE STUDIES WITHOUT EXPLANATION, TYPE [PRECISELY] THE COMMAND:"
-  Note4<-"ds.message('messageobj') FOR MORE ERROR MESSAGES"
-  out.obj<-list(Note1=Note1,maxmaxtime=maxmaxtime,Note2=Note2,Note3=Note3,Note4=Note4)
+  out.obj<-list(Note1=Note1,maxmaxtime=maxmaxtime,Note2=Note2)
   return(out.obj)
 }
 #ds.lexis

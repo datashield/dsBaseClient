@@ -72,8 +72,9 @@
 #'
 #'       # define a vector with the new levels and recode the initial levels
 #'       newNames <- c("normal", "overweight", "obesity")
-#'       ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
-#'                       newCategories = newNames,
+#'       ds.recodeValues(var.name = "D$PM_BMI_CATEGORICAL",
+#'                       values2replace.vector = c(1, 2, 3),
+#'                       new.values.vector = newNames,
 #'                       newobj = "bmi_new",
 #'                       datasources = connections)
 #'
@@ -93,10 +94,11 @@
 #'
 #'     # Example 2: change the reference and re-order by the reference level
 #'       # If re-ordering is sought, the action is completed but a warning is issued
-#'       ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
-#'                       newCategories = newNames,
+#'       ds.recodeValues(var.name = "D$PM_BMI_CATEGORICAL",
+#'                       values2replace.vector = c(1, 2, 3),
+#'                       new.values.vector = newNames,
 #'                       newobj = "bmi_new",
-#'                      datasources = connections)
+#'                       datasources = connections)
 #'       ds.changeRefGroup(x = "bmi_new",
 #'                         ref = "obesity",
 #'                         newobj = "bmi_ob",
