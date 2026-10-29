@@ -4,71 +4,17 @@
 \alias{ds.testObjExists}
 \title{Checks if an R object exists on the server-side}
 \usage{
-ds.testObjExists(test.obj.name = NULL, datasources = NULL)
+ds.testObjExists(...)
 }
 \arguments{
-\item{test.obj.name}{a character string specifying the name of the object to search.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
-objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
-}
-\value{
-\code{ds.testObjExists} returns a list of messages specifying that the object exists
-on the server-side.
-If the specified object does not exist in at least one 
-of the specified data sources or it exists but is of
-class NULL, the function returns an error message specifying that
-the object does not exist in all data sources.
+\item{...}{Not used.}
 }
 \description{
-This function checks that a specified data object exists or has been correctly created on a
-specified set of data servers.
-}
-\details{
-Close copies of the code in this function
-are embedded into other functions that create an object and you then wish to test whether it has successfully
-been created e.g. \code{ds.make} or \code{ds.asFactor}. 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Server function called: \code{testObjExistsDS}
-}
-\examples{
-\dontrun{
-  ## Version 6, for version 5 see the Wiki
-  
-  # connecting to the Armadillo/Opal servers
-
-  require('DSI')
-  require('DSMolgenisArmadillo')
-  require('DSOpal')
-  require('dsBaseClient')
-
-  armadillo_url <- "http://192.168.56.100:8080/"
-  token <- armadillo.get_credentials(armadillo_url)
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = armadillo_url, 
-                 token = token@access_token, 
-                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
-  builder$append(server = "study2", 
-                 url = "https://192.168.56.100:8443/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
-                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
-  logindata <- builder$build()
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  #Check if D object exists on the server-side
-  
-  ds.testObjExists(test.obj.name = "D",
-                   datasources = connections)
- 
-  # Clear the Datashield R sessions and logout                 
-  datashield.logout(connections) 
-  
-}   
+This function is defunct. Server-side functions now check that their input objects exist.
 }
 \author{
 DataSHIELD Development Team
 }
+\keyword{internal}

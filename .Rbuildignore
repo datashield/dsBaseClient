@@ -14,7 +14,6 @@
 ^docker-compose_armadillo\.yml$
 ^docker-compose_opal\.yml$
 ^docker-compose\.yml$
-^R/secure.global.ranking.md$
 ^_pkgdown\.yml$
 ^docs$
 ^dsBase_7.0.0\.tar\.gz$

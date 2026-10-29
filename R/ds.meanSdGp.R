@@ -6,16 +6,10 @@
 #' and the standard error of the mean (SEM) of a continuous variable broken down into subgroups
 #' defined by a single factor. 
 #' 
-#' There are important differences between \code{ds.meanSdGp} function compared to 
-#' the function \code{ds.meanByClass}:
-#' 
-#' (A) \code{ds.meanSdGp} does not actually subset the data it simply calculates the required statistics
-#' and reports them. This means you cannot use this function if you wish to physically break the
-#' data into subsets. On the other hand, it makes the function very much faster than \code{ds.meanByClass}
-#' if you do not need to create physical subsets. \cr
-#' (B) \code{ds.meanByClass} allows you to specify up to
-#' three categorising factors, but \code{ds.meanSdGp} only allows one. However, this is not a serious
-#' problem. If you have two factors (e.g. sex with two levels \code{[0,1]} and \code{BMI.categorical} with
+#' \code{ds.meanSdGp} does not subset the data; it only calculates and reports the statistics.
+#' To create physical subsets use \code{ds.dataFrameSubset}.
+#'
+#' Only one categorising factor is allowed. If you have two factors (e.g. sex with two levels \code{[0,1]} and \code{BMI.categorical} with
 #' three levels \code{[1,2,3]}) you simply need to create a new factor that combines the two together in a
 #' way that gives each combination of levels a different value in the new factor. So, in the
 #' example given, the calculation \code{newfactor = (3*sex) + BMI} gives you six values: \cr
@@ -26,23 +20,10 @@
 #' (5) \code{sex = 1} and \code{BMI = 2} -> \code{newfactor = 5} \cr
 #' (6) \code{sex = 1} and \code{BMI = 3} -> \code{newfactor = 6} \cr
 #' 
-#' (C) At present, \code{ds.meanByClass} calculates the sample size in each group to mean the 
-#' total sample size (i.e. it
-#' includes all observations in each group regardless of whether or not they include missing values
-#' for the continuous variable or the factor). The calculation of sample size in each group by
-#' \code{ds.meanSdGp} always reports the number of observations that are non-missing both for the
-#' continuous variable and the factor. This makes sense - in the case of \code{ds.meanByClass},
-#' the total size of the physical subsets was important, 
-#' but when it comes down only to \code{ds.meanSdGp} which
-#' undertakes analysis without physical subsetting,  it is only the observations with non-missing
-#' values in both variables that contribute to the calculation of means and SDs within each group
-#' and so it is logical to consider those counts as primary. The only reference \code{ds.meanSdGp} makes
-#' to missing counts is in the reporting of \code{Ntotal} and \code{Nmissing} overall (ie not broken down by
-#' group). 
-#' 
-#' For the future, we plan to extend \code{ds.meanByClass} to report both total and non-missing
-#' counts in subgroups.
-#' 
+#' The sample size reported for each group is the number of observations that are non-missing
+#' for both the continuous variable and the factor, because only those contribute to the group
+#' means and SDs. Missing counts are reported only overall, as \code{Ntotal} and \code{Nmissing}.
+#'
 #' Depending on the variable \code{type} can be carried out different analysis:\cr
 #' (1) \code{"combine"}: a pooled table of results is generated. \cr
 #' (2) \code{"split"} a table of results is generated for each study. \cr
@@ -66,9 +47,7 @@
 #' 
 #' @author DataSHIELD Development Team
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
-#' @seealso \code{\link{ds.subsetByClass}} to subset by the classes of factor vector(s).
-#' @seealso \code{\link{ds.subset}} to subset by complete cases (i.e. removing missing values), threshold,
-#' columns and rows.
+#' @seealso \code{\link{ds.dataFrameSubset}} to subset a data frame by rows or columns.
 #' @export
 #' @examples
 #' \dontrun{

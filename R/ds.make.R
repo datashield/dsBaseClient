@@ -58,8 +58,6 @@
 #' \code{ds.make(toAssign = 'indID-indID',newobj = 'ZEROS')} 
 #' to create a vector of zeros of that same length may also be useful.
 #' 
-#' Server function : \code{messageDS}
-#' 
 #' The \code{ds.make} function is a wrapper for the DSI package function \code{datashield.assign}
 #' @param toAssign a character string specifying the function  or the arithmetic expression.
 #' @param newobj a character string that provides the name for the output 
