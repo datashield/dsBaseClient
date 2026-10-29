@@ -26,6 +26,9 @@ library(DSOpal)
 library(DSMolgenisArmadillo)
 library(DSLite)
 
+# 'dgr-' files rely on an earlier file in the same session having attached dsDangerClient; attach it here so each file also runs on its own
+if (requireNamespace("dsDangerClient", quietly = TRUE)) library(dsDangerClient)
+
 source("dstest_functions/ds_expect_variables.R")
 source("perf_tests/perf_rate.R")
 source("connection_to_datasets/login_details.R")
