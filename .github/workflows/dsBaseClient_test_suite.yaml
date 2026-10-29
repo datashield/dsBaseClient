@@ -837,3 +837,73 @@ jobs:
               'log:coverage': `<a href="${codecovUrl}" target="_blank" rel="noopener noreferrer">Codecov</a>`
             }});
 
+
+  ################################################################################
+  # DSLite - the servers run inside the R session, so dsBase is installed into
+  # the runner's R library instead of a server. Runs the same files as the Opal
+  # and Armadillo shards, except perf, as DSLite timings are not comparable;
+  # DSLite is fast enough to run them all in one job.
+  ################################################################################
+  dslite-dsbase:
+    name: DSLite tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DS_DRIVER: DSLiteDriver
+      DSDANGER_REF: '6.3.4'
+      TEST_FILTER: 'smk-ds.[a-lA-L]|smk-(checkClass|isDefined)|smk-ds.[m-vM-V]|arg-|datachk-|disc-|expt-|smk_expt-|math-|_-|__dgr-|datachk_dgr-|smk_dgr-|arg_dgr-|disc_dgr-|smk_expt_dgr-|expt_dgr-|math_dgr-'
+    steps:
+      - name: Checkout dsBaseClient
+        uses: actions/checkout@v5
+        with:
+          path: dsBaseClient
+
+      - uses: ./dsBaseClient/.github/actions/setup-r-with-dsbase-deps
+
+      - name: Check out dsBase
+        uses: actions/checkout@v5
+        with:
+          repository: datashield/dsBase
+          ref: ${{ env.DSBASE_REF }}
+          path: dsBase
+
+      - name: Install dsBase
+        run: R -q -e 'pak::pkg_install("local::./dsBase")'
+
+      - name: Install dsDanger
+        run: R -q -e 'pak::pkg_install("github::datashield/dsDanger@${{ env.DSDANGER_REF }}")'
+
+      - name: Run tests with JUnit report
+        run: |
+          R -q -e '
+            devtools::load_all(quiet = TRUE);
+            library(testthat);
+            output_file <- file("test_console_output.txt");
+            sink(output_file, split = TRUE);
+            junit_rep <- JunitReporter$new(file = file.path(getwd(), "test_results.xml"));
+            progress_rep <- ProgressReporter$new(max_failures = 999999);
+            multi_rep <- MultiReporter$new(reporters = list(progress_rep, junit_rep));
+            options("datashield.return_errors" = FALSE, "default_driver" = "${{ env.DS_DRIVER }}");
+            test_dir("tests/testthat", filter = "${{ env.TEST_FILTER }}", reporter = multi_rep, stop_on_failure = FALSE)' || R_EXIT=$?
+          cat test_console_output.txt
+          n_tests=$(grep -c '<testcase' test_results.xml || true)
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_tests:-0}" -eq 0 ]; then
+            echo "0 tests actually ran (no <testcase> entries in test_results.xml) - treating as a failure rather than a silent pass."
+            R_EXIT=1
+          fi
+          n_failed=$(grep -oE '<(failure|error)[ >]' test_results.xml | wc -l | tr -d ' ')
+          if [ "${R_EXIT:-0}" -eq 0 ] && [ "${n_failed:-0}" -gt 0 ]; then
+            echo "$n_failed test failure(s)/error(s) in test_results.xml - failing this shard."
+            R_EXIT=1
+          fi
+          exit "${R_EXIT:-0}"
+        working-directory: dsBaseClient
+
+      - name: Upload shard results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: dslite
+          path: |
+            dsBaseClient/test_results.xml
+            dsBaseClient/test_console_output.txt
