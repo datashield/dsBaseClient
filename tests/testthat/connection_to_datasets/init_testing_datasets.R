@@ -217,7 +217,7 @@ description.methods <- function()
     packages <- installed.packages(fields = c("AggregateMethods", "AssignMethods"))
     packages <- packages[!duplicated(packages[, "Package"]), , drop = FALSE]
     packages <- packages[!(is.na(packages[, "AggregateMethods"]) & is.na(packages[, "AssignMethods"])), , drop = FALSE]
-    packages <- packages[!nzchar(sapply(packages[, "Package"], system.file, file = "DATASHIELD")), , drop = FALSE]
+    packages <- packages[!nzchar(vapply(packages[, "Package"], system.file, character(1), file = "DATASHIELD")), , drop = FALSE]
     ds.test_env$description.methods <- packages[, c("Package", "AggregateMethods", "AssignMethods"), drop = FALSE]
   }
   ds.test_env$description.methods
@@ -225,13 +225,13 @@ description.methods <- function()
 
 register.description.methods <- function(server)
 {
-  methods <- description.methods()
-  for (i in seq_len(nrow(methods)))
+  declared <- description.methods()
+  for (i in seq_len(nrow(declared)))
   {
-    package <- methods[i, "Package"]
-    for (method in setdiff(strsplit(gsub("\\s", "", methods[i, "AggregateMethods"]), ",")[[1]], NA))
+    package <- declared[i, "Package"]
+    for (method in setdiff(strsplit(gsub("\\s", "", declared[i, "AggregateMethods"]), ",")[[1]], NA))
       server$aggregateMethod(method, paste0(package, "::", method))
-    for (method in setdiff(strsplit(gsub("\\s", "", methods[i, "AssignMethods"]), ",")[[1]], NA))
+    for (method in setdiff(strsplit(gsub("\\s", "", declared[i, "AssignMethods"]), ",")[[1]], NA))
       server$assignMethod(method, paste0(package, "::", method))
   }
 }
@@ -250,10 +250,10 @@ ci.tables <- function(table.names)
 {
   files <- list.files("data_files", pattern = "[.]rda$", recursive = TRUE, full.names = TRUE)
   tables <- lapply(table.names, function(table.name) {
-    file <- files[sub("[.]rda$", "", basename(files)) == sub("^.*[.]", "", table.name)]
-    if (length(file) != 1)
+    tableFile <- files[sub("[.]rda$", "", basename(files)) == sub("^.*[.]", "", table.name)]
+    if (length(tableFile) != 1)
       stop("No unique data_files table for DSLite table '", table.name, "'", call. = FALSE)
-    get(load(file, envir = environment()))
+    get(load(tableFile, envir = environment()))
   })
   setNames(tables, table.names)
 }
