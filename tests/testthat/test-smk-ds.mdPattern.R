@@ -37,6 +37,29 @@ test_that("simple mdPattern, combine", {
     expect_true(is.matrix(res$pattern))
 })
 
+test_that("combine pools pattern counts by variable name, not column position", {
+    res.split <- ds.mdPattern(x = "D", type = "split")
+    res.combine <- suppressWarnings(ds.mdPattern(x = "D", type = "combine"))
+
+    # md.pattern rows are named by their count; the last row is a summary and
+    # suppressed rows have a non-numeric name, so both are dropped
+    count.by.pattern <- function(pattern){
+        var.names <- sort(colnames(pattern)[-ncol(pattern)])
+        rows <- pattern[-nrow(pattern), var.names, drop = FALSE]
+        counts <- suppressWarnings(as.numeric(rownames(rows)))
+        keep <- !is.na(counts)
+        keys <- apply(rows[keep, , drop = FALSE], 1, paste, collapse = "")
+        stats::setNames(counts[keep], keys)
+    }
+
+    per.study <- lapply(res.split, function(study.res) count.by.pattern(study.res$pattern))
+    expected <- tapply(unlist(per.study, use.names = FALSE), unlist(lapply(per.study, names)), sum)
+    actual <- tapply(count.by.pattern(res.combine$pattern), names(count.by.pattern(res.combine$pattern)), sum)
+
+    expect_setequal(names(actual), names(expected))
+    expect_equal(as.vector(actual[names(expected)]), as.vector(expected))
+})
+
 test_that("fails if the object does not exist", {
     expect_error(
         ds.mdPattern(x = "nonexistent_object"),
