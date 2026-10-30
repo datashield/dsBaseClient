@@ -209,33 +209,6 @@ init.testing.dataset.factor_levels.1 <- function()
   }
 }
 
-# DSLite reads methods only from inst/DATASHIELD; Opal/Rock also read the DESCRIPTION fields of every installed package, which is where e.g. dsDanger declares them
-description.methods <- function()
-{
-  if (is.null(ds.test_env$description.methods))
-  {
-    packages <- installed.packages(fields = c("AggregateMethods", "AssignMethods"))
-    packages <- packages[!duplicated(packages[, "Package"]), , drop = FALSE]
-    packages <- packages[!(is.na(packages[, "AggregateMethods"]) & is.na(packages[, "AssignMethods"])), , drop = FALSE]
-    packages <- packages[!nzchar(vapply(packages[, "Package"], system.file, character(1), file = "DATASHIELD")), , drop = FALSE]
-    ds.test_env$description.methods <- packages[, c("Package", "AggregateMethods", "AssignMethods"), drop = FALSE]
-  }
-  ds.test_env$description.methods
-}
-
-register.description.methods <- function(server)
-{
-  declared <- description.methods()
-  for (i in seq_len(nrow(declared)))
-  {
-    package <- declared[i, "Package"]
-    for (method in setdiff(strsplit(gsub("\\s", "", declared[i, "AggregateMethods"]), ",")[[1]], NA))
-      server$aggregateMethod(method, paste0(package, "::", method))
-    for (method in setdiff(strsplit(gsub("\\s", "", declared[i, "AssignMethods"]), ",")[[1]], NA))
-      server$assignMethod(method, paste0(package, "::", method))
-  }
-}
-
 # A real server keeps its R warnings to itself; DSLite raises them in the client session, where testthat records each one
 DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer, # nolint: namespace_linter.
   public = list(
@@ -258,17 +231,25 @@ ci.tables <- function(table.names)
   setNames(tables, table.names)
 }
 
+# Matches the CI servers: same tables, permissive privacy control, dsDanger methods available
+new.dslite.server <- function(table.names)
+{
+  server <- DSLiteTestServer$new(
+    tables = ci.tables(table.names),
+    config = DSLite::defaultDSConfiguration(include = c("dsBase", "dsDanger")) # nolint: namespace_linter.
+  )
+  server$option("default.datashield.privacyControlLevel", deparse("permissive"))
+  server
+}
+
 log.in.data.server <- function()
 {
   variables <- ds.test_env$stats.var
   if (ds.test_env$driver == "DSLiteDriver")
   {
-    ds.test_env$dslite.server <- DSLiteTestServer$new(tables = ci.tables(unique(ds.test_env$login.data$table)))
+    ds.test_env$dslite.server <- new.dslite.server(unique(ds.test_env$login.data$table))
     # Opal/Armadillo treat the variables filter as a set; DSLite would duplicate repeated columns as 'X.1'
     variables <- unique(variables)
-    # CI servers run with 'default.datashield.privacyControlLevel' set to 'permissive'
-    ds.test_env$dslite.server$option("default.datashield.privacyControlLevel", deparse("permissive"))
-    register.description.methods(ds.test_env$dslite.server)
   }
   # ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
   ds.test_env$connections <- DSI::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=variables, opts = getOption("datashield.opts"))
