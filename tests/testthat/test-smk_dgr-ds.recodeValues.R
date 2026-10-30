@@ -15,6 +15,8 @@
 
 # context("ds.recodeValues::smk_dgr::setup")
 
+skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
+
 connect.studies.dataset.survival(list("time.id"))
 
 test_that("setup", {

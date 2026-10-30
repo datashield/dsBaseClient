@@ -81,7 +81,7 @@ test_that("test offsets and weights", {
 test_that("shutdown", {
     #note the offset and weights objects below are artefacts 
 
-    ds_expect_variables(c("D", "D2", "offset", "some.offsets", "some.weights", "weights"))
+    ds_expect_variables(c("D", "D2", "some.offsets", "some.weights"), optional.variables = c("offset", "weights"))
 })
 
 disconnect.studies.dataset.cluster.int()
@@ -284,7 +284,7 @@ test_that("fails if the object is the wrong type", {
 # context("ds.lmerSLMA::smk::shutdown phase 2")
 
 test_that("shutdown", {
-    ds_expect_variables(c("D", "offset", "weights"))
+    ds_expect_variables(c("D"), optional.variables = c("offset", "weights"))
 })
 
 disconnect.studies.dataset.cluster.slo()

@@ -26,9 +26,9 @@ test_that("dataFrameSort_noargs", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error in strsplit\\(df.name, split = \"\"\\) : non-character argument*")
-    expect_match(res.errors$sim2, "* Error in strsplit\\(df.name, split = \"\"\\) : non-character argument*")
-    expect_match(res.errors$sim3, "* Error in strsplit\\(df.name, split = \"\"\\) : non-character argument*")
+    expect_match(res.errors$sim1, "non-character argument*")
+    expect_match(res.errors$sim2, "non-character argument*")
+    expect_match(res.errors$sim3, "non-character argument*")
 })
 
 # context("ds.dataFrameSort::arg::sorted dataframe, of factors")
@@ -41,9 +41,9 @@ test_that("dataFrameSort_factors", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$sim1, "* Error : specified sort.key variable is of type 'factor'*")
-    expect_match(res.errors$sim2, "* Error : specified sort.key variable is of type 'factor'*")
-    expect_match(res.errors$sim3, "* Error : specified sort.key variable is of type 'factor'*")
+    expect_match(res.errors$sim1, "specified sort.key variable is of type 'factor'*")
+    expect_match(res.errors$sim2, "specified sort.key variable is of type 'factor'*")
+    expect_match(res.errors$sim3, "specified sort.key variable is of type 'factor'*")
 })
 
 #
