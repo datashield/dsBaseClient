@@ -82,7 +82,7 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
                       i.control = c(0.001, 50, 30, 0.001), centiles = FALSE, 
                       xvar = NULL, newobj = NULL, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -158,9 +158,7 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
     stop("Provide the name of the explanatory variable in 'xvar' argument", call.=FALSE)
   }
   
-  if(is.null(newobj)){
-    newobj <- 'gamlss_res'
-  }
+  newobj <- .resolveNewobjName(newobj, 'gamlss_res')
   
   calltext <- call('gamlssDS', formula=formula, sigma.formula=sigma.formula, 
                    nu.formula=nu.formula, tau.formula=tau.formula,

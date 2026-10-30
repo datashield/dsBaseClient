@@ -28,7 +28,7 @@
 #'
 ds.elspline <- function(x, n, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   if(is.null(x)){
     stop("Please provide the name of the input variable x!", call.=FALSE)
@@ -43,9 +43,7 @@ ds.elspline <- function(x, n, marginal = FALSE, names = NULL, newobj = NULL, dat
   }
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "elspline.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "elspline.newobj")
   
   # now do the business
   calltext <- call("elsplineDS", x, n, marginal, names)

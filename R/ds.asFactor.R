@@ -188,7 +188,7 @@
 ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.levels=NULL, fixed.dummy.vars=FALSE,
                         baseline.level=1, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the column that holds the input variable
   if(is.null(input.var.name)){

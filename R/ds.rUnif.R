@@ -128,7 +128,7 @@
 ds.rUnif<-function(samp.size=1,min=0,max=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -172,9 +172,9 @@ return(mess2)
 }
 
 numsources<-length(datasources)
-min<-.expand_to_studies(min, "min", numsources)
-max<-.expand_to_studies(max, "max", numsources)
-force.output.to.k.decimal.places<-.expand_to_studies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
+min<-.expandToStudies(min, "min", numsources)
+max<-.expandToStudies(max, "max", numsources)
+force.output.to.k.decimal.places<-.expandToStudies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
 
 
 minmax.valid<-1

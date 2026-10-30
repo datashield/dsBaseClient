@@ -69,7 +69,7 @@
 #'
 ds.names <- function(xname=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(xname)){
     stop("Please provide the name of the input list!", call.=FALSE)

@@ -130,7 +130,7 @@
 ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, prob = NULL, newobj=NULL,datasources=NULL, notify.of.progress=FALSE){
  
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x
   if(is.null(x)){
@@ -145,10 +145,7 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
   }
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj))
-  {
-    newobj <- "newobj.sample"
-  }
+  newobj <- .resolveNewobjName(newobj, "newobj.sample")
 
 ########################
 #TEST SEED PRIMING VALUE

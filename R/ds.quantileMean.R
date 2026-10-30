@@ -69,7 +69,7 @@
 #'
 ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)

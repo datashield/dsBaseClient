@@ -119,7 +119,7 @@
 #' @export
 ds.ls <- function(search.filter=NULL, env.to.search=1L, search.GlobalEnv=TRUE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # make default to .GlobalEnv unambiguous
   if(search.GlobalEnv||is.null(env.to.search)){

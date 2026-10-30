@@ -94,7 +94,7 @@
 #'
 ds.matrixMult<-function(M1=NULL, M2=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){
@@ -111,9 +111,7 @@ ds.matrixMult<-function(M1=NULL, M2=NULL, newobj=NULL, datasources=NULL){
 
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "matrixmult.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrixmult.newobj")
 
 # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("matrixMultDS", M1, M2)

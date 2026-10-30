@@ -370,7 +370,7 @@
 ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combine.with.metafor=TRUE,
 	newobj=NULL,dataName=NULL,checks=FALSE, maxit=30, notify.of.progress=FALSE, datasources=NULL) {
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -591,9 +591,7 @@ if(at.least.one.study.data.error)
 #OBJECT ON SERVERSIDE
 
 # if no value specified for glm output object, then specify a default
-		if(is.null(newobj)){
-		newobj <- "new.glm.obj"
-		}
+		newobj <- .resolveNewobjName(newobj, "new.glm.obj")
 
    if (notify.of.progress) {
        message("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")

@@ -75,7 +75,7 @@
 #'
 ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)

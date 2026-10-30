@@ -103,7 +103,7 @@
 #'
 ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, standing=NA, thirdPart=NA, newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(sex)){
     stop("Please provide the column name of the 'sex' variable!", call.=FALSE)
@@ -132,9 +132,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "getWGSR.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "getWGSR.newobj")
   
   cally <- call("getWGSRDS", sex, firstPart, secondPart, index, standing, thirdPart)
   DSI::datashield.assign(datasources, newobj, cally)

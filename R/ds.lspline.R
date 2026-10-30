@@ -25,7 +25,7 @@
 #'
 ds.lspline <- function(x, knots = NULL, marginal = FALSE, names = NULL, newobj = NULL, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   if(is.null(x)){
     stop("Please provide the name of the input variable x!", call.=FALSE)
@@ -36,9 +36,7 @@ ds.lspline <- function(x, knots = NULL, marginal = FALSE, names = NULL, newobj =
   }
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "lspline.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "lspline.newobj")
   
   # now do the business
   calltext <- call("lsplineDS", x, knots, marginal, names)

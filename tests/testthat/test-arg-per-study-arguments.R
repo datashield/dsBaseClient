@@ -17,7 +17,7 @@ record_server_calls <- function(env = parent.frame()) {
             invisible(NULL)
         },
         datashield.aggregate = function(conns, expr, ...) list(),
-        .set_datasources = function(datasources) datasources,
+        .resolveDatasources = function(datasources) datasources,
         .env = env
     )
     sent
@@ -27,18 +27,18 @@ record_server_calls <- function(env = parent.frame()) {
 # Tests
 #
 
-# context("per-study arguments::arg::.expand_to_studies")
-test_that(".expand_to_studies repeats a single value for every study", {
-    expect_equal(.expand_to_studies(5, "x", 3), c(5, 5, 5))
+# context("per-study arguments::arg::.expandToStudies")
+test_that(".expandToStudies repeats a single value for every study", {
+    expect_equal(.expandToStudies(5, "x", 3), c(5, 5, 5))
 })
 
-test_that(".expand_to_studies keeps one value per study", {
-    expect_equal(.expand_to_studies(c(1, 2, 3), "x", 3), c(1, 2, 3))
+test_that(".expandToStudies keeps one value per study", {
+    expect_equal(.expandToStudies(c(1, 2, 3), "x", 3), c(1, 2, 3))
 })
 
-test_that(".expand_to_studies rejects any other length", {
-    expect_error(.expand_to_studies(c(1, 2), "x", 3), "'x' must be length 1 or one value per\\s+study")
-    expect_error(.expand_to_studies(c(1, 2, 3, 4), "x", 3), "'x' must be length 1 or one value per\\s+study")
+test_that(".expandToStudies rejects any other length", {
+    expect_error(.expandToStudies(c(1, 2), "x", 3), "'x' must be length 1 or one value per\\s+study")
+    expect_error(.expandToStudies(c(1, 2, 3, 4), "x", 3), "'x' must be length 1 or one value per\\s+study")
 })
 
 # context("per-study arguments::arg::ds.rBinom")

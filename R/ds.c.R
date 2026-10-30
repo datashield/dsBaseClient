@@ -60,16 +60,14 @@
 #'
 ds.c <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
   }
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "c.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "c.newobj")
 
   if(classConsistencyCheck){
     for(i in seq_along(x)){

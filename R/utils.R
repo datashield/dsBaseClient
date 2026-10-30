@@ -6,7 +6,7 @@
 #' @return A list of data sources.
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.get_datasources <- function(datasources) {
+.getDatasources <- function(datasources) {
   if (is.null(datasources)) {
     datasources <- datashield.connections_find()
   }
@@ -19,9 +19,9 @@
 #' @importFrom cli cli_abort
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.verify_datasources <- function(datasources) {
-  is_connection_class <- sapply(datasources, function(x) inherits(unlist(x), "DSConnection"))
-  if (!all(is_connection_class)) {
+.verifyDatasources <- function(datasources) {
+  isConnectionClass <- vapply(datasources, function(x) inherits(unlist(x), "DSConnection"), logical(1))
+  if (!all(isConnectionClass)) {
     cli_abort("The 'datasources' were expected to be a list of DSConnection-class objects")
   }
 }
@@ -33,9 +33,9 @@
 #' @return A list of verified data sources.
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.set_datasources <- function(datasources) {
-  datasources <- .get_datasources(datasources)
-  .verify_datasources(datasources)
+.resolveDatasources <- function(datasources) {
+  datasources <- .getDatasources(datasources)
+  .verifyDatasources(datasources)
   return(datasources)
 }
 
@@ -48,16 +48,16 @@
 #' @param results A named list of server-side aggregate results, one per study,
 #'   each containing the class field named by `field`.
 #' @param field The name of the element holding the class. Default `"class"`.
-#' @param object_name Optional name of the input object, used to make the error
+#' @param objectName Optional name of the input object, used to make the error
 #'   message specific. If `NULL` a generic message is used.
 #' @importFrom cli cli_abort
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.checkClassConsistency <- function(results, field = "class", object_name = NULL) {
+.checkClassConsistency <- function(results, field = "class", objectName = NULL) {
   classes <- lapply(results, function(r) r[[field]])
   if (length(unique(lapply(classes, sort))) > 1) {
-    subject <- if (is.null(object_name)) "The input object" else paste0("'", object_name, "'")
+    subject <- if (is.null(objectName)) "The input object" else paste0("'", objectName, "'")
     cli_abort("{subject} is not of the same class in all studies!")
   }
 }
@@ -73,7 +73,7 @@
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.check_newobj_name <- function(newobj) {
+.checkNewobjName <- function(newobj) {
   if (!is.character(newobj) || length(newobj) != 1) {
     cli_abort("'newobj' must be a single character string")
   }
@@ -91,11 +91,11 @@
 #' @return A validated, single character string.
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.set_newobj_name <- function(newobj, default) {
+.resolveNewobjName <- function(newobj, default) {
   if (is.null(newobj)) {
     newobj <- default
   }
-  .check_newobj_name(newobj)
+  .checkNewobjName(newobj)
   return(newobj)
 }
 
@@ -108,7 +108,7 @@
 #' @return Invisibly returns `NULL`. Called for its side effect (error checking).
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.check_df_name_provided <- function(df) {
+.checkDfNameProvided <- function(df) {
   if(is.null(df)){
     cli_abort("Please provide the name of a data.frame or matrix!")
   }
@@ -119,19 +119,19 @@
 #' Arguments that may differ between studies can be given either as a single
 #' value, used for every study, or as a vector with one value per study.
 #'
-#' @param values A vector of length 1 or `num_studies`.
-#' @param arg_name The name of the argument, used in the error message.
-#' @param num_studies The number of studies being analysed.
+#' @param values A vector of length 1 or `numStudies`.
+#' @param argName The name of the argument, used in the error message.
+#' @param numStudies The number of studies being analysed.
 #' @importFrom cli cli_abort
-#' @return A vector of length `num_studies`.
+#' @return A vector of length `numStudies`.
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.expand_to_studies <- function(values, arg_name, num_studies) {
+.expandToStudies <- function(values, argName, numStudies) {
   if (length(values) == 1) {
-    return(rep(values, num_studies))
+    return(rep(values, numStudies))
   }
-  if (length(values) != num_studies) {
-    cli_abort("'{arg_name}' must be length 1 or one value per study")
+  if (length(values) != numStudies) {
+    cli_abort("'{argName}' must be length 1 or one value per study")
   }
   return(values)
 }

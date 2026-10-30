@@ -87,7 +87,7 @@
 ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel = "x axis", 
                        ylabel = "y axis", type = "pooled", datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # Ensure type is 'pooled' or 'split'
   if((length(type) == 1) && (! any(type %in% c("pooled", "split")))){
@@ -96,7 +96,7 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
 
   # Determine class of x for dispatch
   cls <- datashield.aggregate(datasources, call("classDS", x))
-  .checkClassConsistency(lapply(cls, function(study.class) list(class = study.class)), object_name = x)
+  .checkClassConsistency(lapply(cls, function(study.class) list(class = study.class)), objectName = x)
   cls <- unique(unlist(cls))
 
   if(!any(c("numeric", "data.frame") %in% cls)){

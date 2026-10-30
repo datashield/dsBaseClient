@@ -175,7 +175,7 @@
 #'
 ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x1
   if(is.null(x1)){
@@ -183,10 +183,7 @@ ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datas
   }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj))
-  {
-    newobj <- "matrixdiag.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrixdiag.newobj")
 
   #process x1 to make transmittable depending on aim
   #Check that valid aim has been specified

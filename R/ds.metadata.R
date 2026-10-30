@@ -50,7 +50,7 @@
 ds.metadata = function(x=NULL, datasources=NULL)
 {
 
-    datasources <- .set_datasources(datasources)
+    datasources <- .resolveDatasources(datasources)
 
     #####################################################################################
     #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #

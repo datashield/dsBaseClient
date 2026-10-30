@@ -191,7 +191,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
 				          	table.assign=FALSE,	newobj=NULL, datasources=NULL, 
 				          	force.nfilter=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for rvar
   if(is.null(rvar)){
@@ -332,10 +332,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
 if(table.assign)
 	{
 
-	if(is.null(newobj))
-		{
-		newobj<-"table.newobj"
-		}
+	newobj <- .resolveNewobjName(newobj, "table.newobj")
 		
 
 # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION

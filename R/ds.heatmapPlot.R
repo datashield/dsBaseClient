@@ -153,7 +153,7 @@
 ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, 
                            method="smallCellsRule", k=3, noise=0.25, datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
@@ -193,8 +193,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     # call the server-side function that generates the x and y coordinates of the centroids
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -212,8 +212,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     # call the server-side function that generates the x and y coordinates of the anonymous.data
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -254,8 +254,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       # generate the grid density object to plot
       grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
       if(classConsistencyCheck){
-        .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-        .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+        .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+        .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
       }
       grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
@@ -413,8 +413,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
      # generate the grid density object to plot
      grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
      if(classConsistencyCheck){
-       .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-       .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+       .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+       .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
      }
      grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 

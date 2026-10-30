@@ -145,7 +145,7 @@
 ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, ncols.scalar=NULL, byrow = FALSE,
                      dimnames = NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for mdata
   if(is.null(mdata)){
@@ -153,9 +153,7 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "matrix.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrix.newobj")
 
   #process mdata to make transmittable depending on <from>
   #Check that valid from has been specified

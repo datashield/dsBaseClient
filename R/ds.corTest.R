@@ -67,7 +67,7 @@
 #'
 ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=0.95, type='split', datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)

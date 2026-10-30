@@ -87,7 +87,7 @@
 #' @export
 ds.setSeed<-function(seed.as.integer=NULL,datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 
 seed.valid<-0

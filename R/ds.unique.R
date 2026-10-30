@@ -48,15 +48,13 @@
 #'
 ds.unique <- function(x.name = NULL, newobj = NULL, datasources = NULL) {
 
-    datasources <- .set_datasources(datasources)
+    datasources <- .resolveDatasources(datasources)
 
     if (is.null(x.name)) {
         stop("x.name=NULL. Please provide the names of the objects to de-duplicated!", call. = FALSE)
     }
 
-    if (is.null(newobj)) {
-        newobj <- "unique.newobj"
-    }
+    newobj <- .resolveNewobjName(newobj, "unique.newobj")
 
     cally <- call('uniqueDS', x.name)
     DSI::datashield.assign(datasources, newobj, cally)

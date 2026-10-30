@@ -104,7 +104,7 @@
 #'
 ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE, na.assign="NA",newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the column or scalar that holds V1
   if(is.null(V1)){
@@ -127,9 +127,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   }
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "boole.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "boole.newobj")
 
   #convert Boolean operator to numeric
 
@@ -163,9 +161,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- paste0(V1,"_Boole")
-  }
+  newobj <- .resolveNewobjName(newobj, paste0(V1,"_Boole"))
 
   # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("BooleDS", V1, V2, BO.n, na.assign, numeric.output)

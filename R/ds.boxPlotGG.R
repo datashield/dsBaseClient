@@ -24,7 +24,7 @@
 
 ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
   x_var <- lower <- upper <- ymin <- ymax <- middle <- fill <- NULL
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   plot_data <- datashield.aggregate(datasources, call("boxPlotGGDS", data_table.name=x, group=group, group2=group2))
 

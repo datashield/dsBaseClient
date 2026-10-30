@@ -32,7 +32,7 @@
 ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=TRUE, 
                             newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # verify that 'sex' was set
   if(is.null(sex)){
@@ -55,9 +55,7 @@ ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=T
   }
   
   # if no output object specified then provide a default name
-  if(is.null(newobj)){
-    newobj <- "bp.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "bp.newobj")
   
   # call the server-side assign function
   cally <- call('bp_standardsDS', sex, age, height, bp, systolic)

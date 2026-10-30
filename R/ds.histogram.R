@@ -155,7 +155,7 @@
 #'
 ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -188,7 +188,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   # call the server-side function that returns the range of the vector from each study
   histogram.ranges <- datashield.aggregate(datasources, call("histogramDS1", x=x, method.indicator=method.indicator, k=k, noise=noise))
   if(classConsistencyCheck){
-    .checkClassConsistency(histogram.ranges, object_name = x)
+    .checkClassConsistency(histogram.ranges, objectName = x)
   }
   ranges <- unique(unlist(lapply(histogram.ranges, function(r) r$range)))
 

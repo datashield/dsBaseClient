@@ -83,7 +83,7 @@
 ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL,
                    datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
@@ -104,9 +104,7 @@ ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "rbind.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "rbind.newobj")
 
 #CREATE THE VECTOR OF COLUMN NAMES
 if(!is.null(force.colnames)){

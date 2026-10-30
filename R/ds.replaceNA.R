@@ -92,7 +92,7 @@
 #' 
 ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a vector!", call.=FALSE)
@@ -119,9 +119,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     }
   }
 
-  if(is.null(newobj)){
-    newobj <- "replacena.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "replacena.newobj")
 
   # call the server side function and doo the replacement for each server
   for(i in 1:length(datasources)){

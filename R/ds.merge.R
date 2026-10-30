@@ -114,7 +114,7 @@
 ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,all.x=FALSE,all.y=FALSE,
 			 sort=TRUE, suffixes = c(".x",".y"), no.dups=TRUE, incomparables=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # dataframe names
   if(is.null(x.name)){
@@ -147,9 +147,7 @@ ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,a
   suffixes.transmit <- paste(suffixes, collapse=",")
 
   # create a name by default if user did not provide a name for the new dataframe
-  if(is.null(newobj)){
-    newobj <- "merge.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "merge.newobj")
 
   # call the server side function
 	calltext <- call("mergeDS", x.name, y.name, by.x.names.transmit, by.y.names.transmit, all.x, all.y,

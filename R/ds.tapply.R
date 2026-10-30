@@ -125,7 +125,7 @@
 ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=NULL){
 
   ###datasources
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   ###X.name
   # check if user has provided the name of the column that holds X.name

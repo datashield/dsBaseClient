@@ -206,7 +206,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
                       control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE,
                       assign=FALSE, newobj=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -286,9 +286,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   
   if(assign==TRUE){
     
-    if(is.null(newobj)){
-      newobj <- "new.lmer.obj"
-    }
+    newobj <- .resolveNewobjName(newobj, "new.lmer.obj")
     
     if (notify.of.progress) {
         message("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")

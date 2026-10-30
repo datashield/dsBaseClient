@@ -77,7 +77,7 @@
 #'
 ds.matrixDet.report<-function(M1=NULL, logarithm=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){

@@ -92,16 +92,14 @@
 #' @export
 ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=TRUE, stringsAsFactors=TRUE, completeCases=FALSE, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
   }
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "dataframe.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "dataframe.newobj")
 
   if(DataSHIELD.checks){
 
@@ -154,9 +152,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "df_new"
-  }
+  newobj <- .resolveNewobjName(newobj, "df_new")
 
   # CREATE THE VECTOR OF COLUMN NAMES
   colname.list <- list()

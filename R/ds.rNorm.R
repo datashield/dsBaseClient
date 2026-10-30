@@ -120,7 +120,7 @@
 ds.rNorm<-function(samp.size=1,mean=0,sd=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE,
                      force.output.to.k.decimal.places=9,datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -163,9 +163,9 @@ return(mess2)
 }
 
 numsources<-length(datasources)
-mean<-.expand_to_studies(mean, "mean", numsources)
-sd<-.expand_to_studies(sd, "sd", numsources)
-force.output.to.k.decimal.places<-.expand_to_studies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
+mean<-.expandToStudies(mean, "mean", numsources)
+sd<-.expandToStudies(sd, "sd", numsources)
+force.output.to.k.decimal.places<-.expandToStudies(force.output.to.k.decimal.places, "force.output.to.k.decimal.places", numsources)
 
 sd.valid<-1
 if(is.numeric(sd)){

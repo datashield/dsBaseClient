@@ -16,7 +16,7 @@
 #'
 ds.auc <- function(pred=NULL, y=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # verify that 'pred' was set
   if(is.null(pred)){

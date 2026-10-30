@@ -128,7 +128,7 @@ ds.glmPredict <- function(glmname = NULL, newdataname = NULL, output.type = "res
                           se.fit = FALSE, dispersion = NULL, terms = NULL,
                           na.action = "na.pass", newobj = NULL, datasources = NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check that <glmname> is set
   if(is.null(glmname)){
@@ -146,9 +146,7 @@ ds.glmPredict <- function(glmname = NULL, newdataname = NULL, output.type = "res
   }
 
   # provide value for newobj if none specified
-  if(is.null(newobj)){
-    newobj<-"predict_glm"
-  }
+  newobj <- .resolveNewobjName(newobj, "predict_glm")
 
   calltext <- call("glmPredictDS.as", glmname, newdataname, output.type, se.fit, dispersion, terms, na.action)
   DSI::datashield.assign(datasources, newobj, calltext)

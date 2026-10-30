@@ -73,15 +73,13 @@
 #' 
 ds.completeCases <- function(x1=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x1)){
     return("Error: x1 must be a character string naming a serverside data.frame, matrix or vector")
   }
 
-  if(is.null(newobj)){
-    newobj <- paste0(x1,"_complete.cases")
-  }
+  newobj <- .resolveNewobjName(newobj, paste0(x1,"_complete.cases"))
 
   calltext <- call("completeCasesDS", x1)
   DSI::datashield.assign(datasources, newobj, calltext)

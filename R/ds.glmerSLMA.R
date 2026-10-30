@@ -247,7 +247,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
                        start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE, 
                        assign=FALSE, newobj=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
   if(is.null(formula)){
@@ -342,9 +342,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   if(assign==TRUE){
     
-    if(is.null(newobj)){
-      newobj <- "new.glmer.obj"
-    }
+    newobj <- .resolveNewobjName(newobj, "new.glmer.obj")
     
     
     if (notify.of.progress) {

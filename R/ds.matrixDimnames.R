@@ -83,7 +83,7 @@
 
 ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of matrix representing M1
   if(is.null(M1)){
@@ -91,9 +91,7 @@ ds.matrixDimnames<-function(M1=NULL, dimnames=NULL, newobj=NULL, datasources=NUL
   }
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "matrixdimnames.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrixdimnames.newobj")
 
 
 

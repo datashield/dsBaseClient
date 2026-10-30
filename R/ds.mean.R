@@ -97,7 +97,7 @@
 #'
 ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)

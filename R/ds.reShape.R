@@ -82,7 +82,7 @@
 ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name="time", idvar.name="id",
                             drop=NULL, direction=NULL, sep=".", newobj="newObject", datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(data.name)){
     stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)

@@ -58,15 +58,13 @@
 #'
 ds.exp <- function(x=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input object!", call.=FALSE)
   }
 
-  if(is.null(newobj)){
-    newobj <- "exp.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "exp.newobj")
 
   cally <- call("expDS", x)
   DSI::datashield.assign(datasources, newobj, cally)

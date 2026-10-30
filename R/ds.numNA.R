@@ -56,7 +56,7 @@
 #'
 ds.numNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a vector!", call.=FALSE)

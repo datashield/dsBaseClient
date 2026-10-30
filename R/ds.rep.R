@@ -96,7 +96,7 @@ ds.rep<-function(x1=NULL,  times=NA,  length.out=NA, each=1,
 				source.length.out=NULL,source.each=NULL,
 				x1.includes.characters=FALSE,newobj=NULL,datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x1
   if(is.null(x1)){
@@ -104,10 +104,7 @@ ds.rep<-function(x1=NULL,  times=NA,  length.out=NA, each=1,
   }
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj))
-  {
-    newobj <- paste0("seq.vect")
-  }
+  newobj <- .resolveNewobjName(newobj, paste0("seq.vect"))
 
 #set up aliases for 'clientside', 'serverside' as 'c' and 's'
 if(source.x1=='c')source.x1<-'clientside'

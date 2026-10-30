@@ -100,7 +100,7 @@
 #'
 ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)

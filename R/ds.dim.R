@@ -80,7 +80,7 @@
 #'
 ds.dim <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE) {
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)

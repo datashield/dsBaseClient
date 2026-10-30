@@ -103,7 +103,7 @@
 #'
 ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of the input vector!", call.=FALSE)
@@ -130,8 +130,8 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL, classCons
   if(classConsistencyCheck){
     # check the summarised variable (x) and grouping factor (y) each have the
     # same class in all studies
-    .checkClassConsistency(output, field = "class.x", object_name = x)
-    .checkClassConsistency(output, field = "class.index", object_name = y)
+    .checkClassConsistency(output, field = "class.x", objectName = x)
+    .checkClassConsistency(output, field = "class.index", objectName = y)
   }
 
   numsources <- length(output)

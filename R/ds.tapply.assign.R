@@ -130,7 +130,7 @@
 ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   ###X.name
   # check if user has provided the name of the column that holds X.name
@@ -166,9 +166,7 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
   }
 
     # create a name by default if user did not provide a name for the new tapply object
-  if(is.null(newobj)){
-    newobj <- "tapply.assign.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "tapply.assign.newobj")
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("tapplyDS.assign", X.name, INDEX.names.transmit, FUN.name)

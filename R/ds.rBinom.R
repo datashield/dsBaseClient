@@ -106,12 +106,10 @@
 #' @export
 ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj=NULL, seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "rbinom.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "rbinom.newobj")
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -154,8 +152,8 @@ return(mess2)
 }
 
 numsources<-length(datasources)
-size<-.expand_to_studies(size, "size", numsources)
-prob<-.expand_to_studies(prob, "prob", numsources)
+size<-.expandToStudies(size, "size", numsources)
+prob<-.expandToStudies(prob, "prob", numsources)
 
 size.valid<-1
 if(is.numeric(size)){

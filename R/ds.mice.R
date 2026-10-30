@@ -49,7 +49,7 @@
 ds.mice <- function(data=NULL, m=5, maxit=5, method=NULL, predictorMatrix=NULL, post=NULL, 
                     seed=NA, newobj_mids=NULL, newobj_df=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'data' was set
   if(is.null(data)){

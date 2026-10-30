@@ -32,7 +32,7 @@
 #' 
 ds.hetcor <- function(data=NULL, ML=TRUE, std.err=TRUE, bins=4, pd=TRUE, use="complete.obs", datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   if(is.null(data)){
     stop("Please provide the name of the input object!", call.=FALSE)

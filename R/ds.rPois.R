@@ -102,7 +102,7 @@
 #' @export
 ds.rPois<-function(samp.size=1,lambda=1, newobj="newObject", seed.as.integer=NULL, return.full.seed.as.set=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 ########################
 #TEST SEED PRIMING VALUE
@@ -145,7 +145,7 @@ return(mess2)
 }
 
 numsources<-length(datasources)
-lambda<-.expand_to_studies(lambda, "lambda", numsources)
+lambda<-.expandToStudies(lambda, "lambda", numsources)
 
 lambda.valid<-1
 if(is.numeric(lambda)){

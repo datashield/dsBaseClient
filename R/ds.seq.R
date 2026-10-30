@@ -117,7 +117,7 @@
 ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL, LENGTH.OUT.value.char = NULL, ALONG.WITH.name=NULL,
                    newobj="newObj", datasources=NULL) {
 ###datasources
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 ###FROM.value.char
   # check FROM.value.char is valid

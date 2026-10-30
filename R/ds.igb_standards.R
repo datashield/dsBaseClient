@@ -42,7 +42,7 @@
 ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=NULL, 
                              fun='igb_value2zscore', newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # check if user has provided the name of the input variables
   if(is.null(gagebrth)){
@@ -70,9 +70,7 @@ ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=N
   }
   
   # if no output variable specified then provide a default name
-  if(is.null(newobj)){
-    newobj <- "igb.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "igb.newobj")
   
   # call the server-side assign function
   cally <-  call('igb_standardsDS', gagebrth, z, p, val, var, sex, fun)

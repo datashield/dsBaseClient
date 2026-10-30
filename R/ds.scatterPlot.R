@@ -139,7 +139,7 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
     stop("Please provide the name of the y-variable", call.=FALSE)
   }
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -163,8 +163,8 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
   # call the server-side function that generates the x and y coordinates of the centroids
   output <- datashield.aggregate(datasources, call("scatterPlotDS", x.name=x, y.name=y, method.indicator=method.indicator, k=k, noise=noise))
   if(classConsistencyCheck){
-    .checkClassConsistency(output, field = "class.x", object_name = x)
-    .checkClassConsistency(output, field = "class.y", object_name = y)
+    .checkClassConsistency(output, field = "class.x", objectName = x)
+    .checkClassConsistency(output, field = "class.y", objectName = y)
   }
 
   pooled.points.x <- c()

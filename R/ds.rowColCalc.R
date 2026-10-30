@@ -68,7 +68,7 @@
 #' 
 ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(x)){
     stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
@@ -89,9 +89,7 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
   indx <- which(ops == operation)
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "rowcolcalc.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "rowcolcalc.newobj")
 
   # call the server side function that does the job
   DSI::datashield.assign(datasources, newobj, call("rowColCalcDS", dataset.name=x, operation=indx))
