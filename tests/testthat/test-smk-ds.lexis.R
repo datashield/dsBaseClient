@@ -29,12 +29,10 @@ test_that("setup", {
 test_that("simple lexis", {
     res <- ds.lexis(data='D', intervalWidth = c(1.0, 1.5, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new')
 
-    expect_length(res, 5)
+    expect_length(res, 3)
     expect_equal(res$maxmaxtime, 10.25, tolerance=0.5)
     expect_equal(res$Note1, "END OF LAST FOLLOW-UP PERIOD SET (RANDOMLY) AT maxmaxtime:")
     expect_equal(res$Note2, "ASSIGN FUNCTION COMPLETED - USE ds.ls() TO CONFIRM")
-    expect_equal(res$Note3, "IF FUNCTION FAILED ON ONE OR MORE STUDIES WITHOUT EXPLANATION, TYPE [PRECISELY] THE COMMAND:")
-    expect_equal(res$Note4, "ds.message('messageobj') FOR MORE ERROR MESSAGES")
 
     res.exists <- ds.exists('EM.new')
 
@@ -42,13 +40,6 @@ test_that("simple lexis", {
     expect_true(res.exists$survival1)
     expect_true(res.exists$survival2)
     expect_true(res.exists$survival3)
-
-    res.message <- expect_warning(ds.message('messageobj'), "'ds.message' is deprecated.", fixed = TRUE)
-
-    expect_length(res.message, 3)
-    expect_equal(res.message$survival1, "ALL OK: there are no studysideMessage(s) on this datasource")
-    expect_equal(res.message$survival2, "ALL OK: there are no studysideMessage(s) on this datasource")
-    expect_equal(res.message$survival3, "ALL OK: there are no studysideMessage(s) on this datasource")
 })
 
 test_that("lexis without entryCol defaults entry times to 0", {

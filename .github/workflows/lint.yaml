@@ -63,16 +63,13 @@ jobs:
           # commits, a plain two-dot diff shows those too, not just what this
           # PR actually added - matching what GitHub's own "Files changed"
           # tab and Advanced Security baseline compare against.
-          patch=$(git diff --unified=0 "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd')
-          echo "patch<<DIFF_PATCH_EOF" >> "$GITHUB_ENV"
-          echo "$patch" >> "$GITHUB_ENV"
-          echo "DIFF_PATCH_EOF" >> "$GITHUB_ENV"
+          git diff --unified=0 "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" -- '*.R' '*.Rmd' > "$RUNNER_TEMP/pr.patch"
 
       - name: Lint
         id: lint
         env:
           IS_PR: ${{ github.event_name == 'pull_request' }}
-          DIFF_PATCH: ${{ env.patch }}
+          DIFF_PATCH_FILE: ${{ runner.temp }}/pr.patch
         run: |
           Rscript -e '
             al <- lintr::available_linters()
@@ -114,7 +111,7 @@ jobs:
               added
             }
 
-            added_lines <- if (is_pr) parse_added_lines(Sys.getenv("DIFF_PATCH")) else new.env()
+            added_lines <- if (is_pr) parse_added_lines(paste(readLines(Sys.getenv("DIFF_PATCH_FILE")), collapse = "\n")) else new.env()
             is_new <- vapply(lints, function(l) {
               lines <- added_lines[[l$filename]]
               !is.null(lines) && l$line_number %in% lines

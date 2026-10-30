@@ -202,7 +202,7 @@ jobs:
     # Install test datasets.
     # If previous steps have failed then don't run.
   - bash: |
-      sleep 60
+      sleep 120
 
       R -q -f "obiba_opal-upload_testing_datasets.R"
 

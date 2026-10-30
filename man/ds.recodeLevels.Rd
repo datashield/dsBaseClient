@@ -4,84 +4,19 @@
 \alias{ds.recodeLevels}
 \title{Recodes the levels of a server-side factor vector}
 \usage{
-ds.recodeLevels(
-  x = NULL,
-  newCategories = NULL,
-  newobj = NULL,
-  datasources = NULL
-)
+ds.recodeLevels(...)
 }
 \arguments{
-\item{x}{a character string specifying  the name of a factor variable.}
-
-\item{newCategories}{a character vector specifying the new levels. Its length must  be equal or greater
-to the current number of levels.}
-
-\item{newobj}{a character string that provides the name for the output object
-that is stored on the data servers. Default \code{recodelevels.newobj}.}
-
-\item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} 
-objects obtained after login. If the \code{datasources} argument is not specified
-the default set of connections will be used: see \code{\link[DSI]{datashield.connections_default}}.}
-}
-\value{
-\code{ds.recodeLevels} returns to the server-side a variable of type factor
-with the replaces levels.
+\item{...}{Not used.}
 }
 \description{
-The function replaces the levels of a factor by the specified new ones.
-}
-\details{
-This function is similar to native R function \code{levels()}. 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-It can for example be used to merge two classes into one, to add a level(s) to a vector
-or to rename (i.e. re-label) the levels of a vector.
-
-Server function called: \code{levels()}
-}
-\examples{
-\dontrun{
-
-  ## Version 6, for version 5 see the Wiki
-  
-  # connecting to the Armadillo/Opal servers
-
-  require('DSI')
-  require('DSMolgenisArmadillo')
-  require('DSOpal')
-  require('dsBaseClient')
-
-  armadillo_url <- "http://192.168.56.100:8080/"
-  token <- armadillo.get_credentials(armadillo_url)
-  builder <- DSI::newDSLoginBuilder()
-  builder$append(server = "study1", 
-                 url = armadillo_url, 
-                 token = token@access_token, 
-                 table = "datashield/cnsim/CNSIM1", driver = "ArmadilloDriver")
-  builder$append(server = "study2", 
-                 url = "https://192.168.56.100:8443/", 
-                 user = "administrator", password = "datashield_test&", 
-                 table = "CNSIM.CNSIM2", driver = "OpalDriver",
-                 options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
-  logindata <- builder$build()
-  
-  connections <- DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D") 
-  
-  # Recode the levels of a factor variable
-  
-  ds.recodeLevels(x = "D$PM_BMI_CATEGORICAL",
-                  newCategories = c("1","2","3"),
-                  newobj = "BMI_CAT",
-                  datasources = connections)
-                 
-  # Clear the Datashield R sessions and logout                 
-  datashield.logout(connections) 
-  
-}   
-
+This function is defunct. Please use \code{ds.recodeValues()} instead.
 }
 \author{
 DataSHIELD Development Team
 
 Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 }
+\keyword{internal}
