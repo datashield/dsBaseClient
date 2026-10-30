@@ -840,9 +840,7 @@ jobs:
 
   ################################################################################
   # DSLite - the servers run inside the R session, so dsBase is installed into
-  # the runner's R library instead of a server. Runs the same files as the Opal
-  # and Armadillo shards, except perf, as DSLite timings are not comparable;
-  # DSLite is fast enough to run them all in one job.
+  # the runner's R library. Perf tests are excluded as timings are not comparable.
   ################################################################################
   dslite-dsbase:
     name: DSLite tests
