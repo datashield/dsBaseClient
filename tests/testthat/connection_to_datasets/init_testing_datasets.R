@@ -237,7 +237,7 @@ register.description.methods <- function(server)
 }
 
 # A real server keeps its R warnings to itself; DSLite raises them in the client session, where testthat records each one
-DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer, # nolint: missing_package_linter.
+DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer, # nolint: namespace_linter.
   public = list(
     aggregate = function(sid, expr) suppressWarnings(super$aggregate(sid, expr)),
     assignExpr = function(sid, symbol, expr) suppressWarnings(super$assignExpr(sid, symbol, expr))
