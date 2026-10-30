@@ -72,6 +72,11 @@ const MAX_ATTEMPTS = 3;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module.exports = async function postCiComment({ github, context, updates }) {
+  // GitHub gives pull_request runs from a fork a read-only token whatever
+  // the workflow's permissions say, so the comment can't be written there.
+  const pr = context.payload.pull_request;
+  if (pr && pr.head.repo?.full_name !== pr.base.repo.full_name) return;
+
   let prNumber = context.payload.pull_request?.number;
   if (!prNumber) {
     const branch = context.ref.replace('refs/heads/', '');
