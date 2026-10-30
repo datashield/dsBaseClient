@@ -109,7 +109,7 @@ init.studies.dataset.cluster.int <- function(variables)
     }
     else 
     {
-      ds.test_env$login.data <- dslite.login.data(c("cluster.int1", "cluster.int2", "cluster.int3"), c("CLUSTER_INT1", "CLUSTER_INT2", "CLUSTER_INT3"))
+      ds.test_env$login.data <- dslite.login.data(c("cluster.int1", "cluster.int2", "cluster.int3"), c("CLUSTER_INT1", "CLUSTER_INT2", "CLUSTER_INT3")) # nolint: object_usage_linter.
     }
     ds.test_env$stats.var <- variables
   }
@@ -142,7 +142,7 @@ init.studies.dataset.cluster.slo <- function(variables)
     }
     else 
     {
-      ds.test_env$login.data <- dslite.login.data(c("cluster.slo1", "cluster.slo2", "cluster.slo3"), c("CLUSTER_SLO1", "CLUSTER_SLO2", "CLUSTER_SLO3"))
+      ds.test_env$login.data <- dslite.login.data(c("cluster.slo1", "cluster.slo2", "cluster.slo3"), c("CLUSTER_SLO1", "CLUSTER_SLO2", "CLUSTER_SLO3")) # nolint: object_usage_linter.
     }
     ds.test_env$stats.var <- variables
 
@@ -176,7 +176,7 @@ init.studies.dataset.anthro <- function(variables)
     }
     else 
     {
-      ds.test_env$login.data <- dslite.login.data(c("study1", "study2", "study3"), c("anthro1", "anthro2", "anthro3"))
+      ds.test_env$login.data <- dslite.login.data(c("study1", "study2", "study3"), c("anthro1", "anthro2", "anthro3")) # nolint: object_usage_linter.
     }
     ds.test_env$stats.var <- variables
 
@@ -210,7 +210,7 @@ init.studies.dataset.gamlss <- function(variables)
     }
     else 
     {
-      ds.test_env$login.data <- dslite.login.data(c("study1", "study2", "study3"), c("gamlss1", "gamlss2", "gamlss3"))
+      ds.test_env$login.data <- dslite.login.data(c("study1", "study2", "study3"), c("gamlss1", "gamlss2", "gamlss3")) # nolint: object_usage_linter.
     }
     ds.test_env$stats.var <- variables
     

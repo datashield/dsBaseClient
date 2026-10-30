@@ -237,7 +237,7 @@ register.description.methods <- function(server)
 }
 
 # A real server keeps its R warnings to itself; DSLite raises them in the client session, where testthat records each one
-DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer,
+DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer, # nolint: missing_package_linter.
   public = list(
     aggregate = function(sid, expr) suppressWarnings(super$aggregate(sid, expr)),
     assignExpr = function(sid, symbol, expr) suppressWarnings(super$assignExpr(sid, symbol, expr))
@@ -271,7 +271,7 @@ log.in.data.server <- function()
     register.description.methods(ds.test_env$dslite.server)
   }
   # ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
-  ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=variables, opts = getOption("datashield.opts"))
+  ds.test_env$connections <- DSI::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=variables, opts = getOption("datashield.opts"))
 }
 
 
@@ -365,7 +365,6 @@ disconnect.testing.dataset.factor_levels.1 <- function()
 
 dslite.login.data <- function(servers, tables)
 {
-  options(datashield.env = ds.test_env)
   builder <- DSI::newDSLoginBuilder(.silent = TRUE)
   for (i in seq_along(servers))
     builder$append(server = servers[[i]], url = "dslite.server", table = tables[[i]], driver = "DSLiteDriver")
