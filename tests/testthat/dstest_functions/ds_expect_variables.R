@@ -12,10 +12,10 @@
 # Tests
 #
 
-ds_expect_variables <- function(expected.variables) {
+ds_expect_variables <- function(expected.variables, optional.variables = NULL) {
     studies.current.variables <- ds.ls()
 
     for (study.current.variables in studies.current.variables) {
-        expect_setequal(study.current.variables$objects.found, expected.variables)
+        expect_setequal(setdiff(study.current.variables$objects.found, optional.variables), expected.variables)
     }
 }
