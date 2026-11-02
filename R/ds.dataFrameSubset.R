@@ -120,7 +120,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V1.name))
   {	
-    stop("Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", call.=FALSE)
+    cli_abort("{.arg V1.name} must name a column or scalar as a character string, unless you are subsetting only columns.")
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V1.name))
@@ -136,7 +136,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V2.name))
   {	
-    stop("Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", call.=FALSE)
+    cli_abort("{.arg V2.name} must name a column or scalar as a character string, unless you are subsetting only columns.")
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V2.name))
@@ -146,15 +146,8 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
 
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(Boolean.operator))
   {
-    message1<-"Unless you are only subsetting columns, please provide a" 
-    message2<-"Boolean operator in character format: eg '==' or '>=' or '<' or '!='."
-    message3<-"However, if either keep.cols or rm.cols is non-null because you want"
-    message4<-"to subset columns and you specify both V1.name and V2.name as NULL (or 'ONES')"
-    message5<-"and Boolean.operator as NULL,ds.dataFrameSubset will subset out" 
-    message6<-"the specified columns but will keep all rows."
  
-    error.message<-paste(message1,message2,message3,message4,message5,message6)
-    stop(error.message, call.=FALSE)
+    cli_abort(c("{.arg Boolean.operator} must be a Boolean operator in character format, such as {.val ==} or {.val >=}, unless you are subsetting only columns.", "i" = "If {.arg keep.cols} or {.arg rm.cols} is set and {.arg V1.name}, {.arg V2.name} and {.arg Boolean.operator} are all {.code NULL}, the specified columns are subset and all rows are kept."))
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(Boolean.operator))
@@ -217,13 +210,13 @@ if(!is.null(rm.cols)){
         if (notify.of.progress)
 	{
             if(num.messages==1){
-	        message("\nSource",s,"\n",return.warning.message[[s]][[1]],"\n")
+	        cli_inform(c("Source {s}", "{return.warning.message[[s]][[1]]}"))
 	    }else{
-	        message("\nSource",s,"\n")
+	        cli_inform("Source {s}")
 		for(m in 1:(num.messages-1)){
-		    message(return.warning.message[[s]][[m]],"\n")
+		    cli_inform("{return.warning.message[[s]][[m]]}")
                 }
-                message(return.warning.message[[s]][[num.messages]],"\n")
+                cli_inform("{return.warning.message[[s]][[num.messages]]}")
 	    }
         }
     }

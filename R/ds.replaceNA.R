@@ -109,8 +109,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     cally <- call("numNaDS", x)
     numNAs <- DSI::datashield.aggregate(datasources[i], cally)
     if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]$numNA){
-      message("The number of replacement values must be of length 1 or of the same length as the number of missing values.")
-      stop(paste0("This is not the case in ", names(datasources)[i]), call.=FALSE)
+      cli_abort(c("Replacement values must have length 1 or match the number of missing values.", "x" = "This isn't the case in {.val {names(datasources)[i]}}."))
     }
   }
 
@@ -118,7 +117,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
   # call the server side function and doo the replacement for each server
   for(i in 1:length(datasources)){
-    message(paste0("--Processing ", names(datasources)[i], "..."))
+    cli_inform("Processing {names(datasources)[i]}...")
     cally <- call("replaceNaDS", x, forNA[[i]])
     DSI::datashield.assign(datasources[i], newobj, cally)
 

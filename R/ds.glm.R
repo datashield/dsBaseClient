@@ -338,7 +338,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){
-    message(" -- Verifying the variables in the model")
+    cli_inform("Verifying the variables in the model.")
     # call the function that checks the variables in the formula are defined (exist) on the server site and are not missing at complete
     glmChecks(formula, data, offset, weights, datasources)
   }else{
@@ -449,7 +449,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 
     iteration.count<-iteration.count+1
 
-    message("Iteration ", iteration.count, "...")
+    cli_inform("Iteration {iteration.count}...")
 
   # NOW CALL SECOND COMPONENT OF glmDS TO GENERATE SCORE VECTORS AND INFORMATION MATRICES
   cally2 <- call('glmDS2', formula, family, beta.vect.temp, offset, weights, data)
@@ -490,7 +490,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
     Nmissing.total<-Reduce(f="+", .select(study.summary, 'Nmissing'))
     Ntotal.total<-Reduce(f="+", .select(study.summary, 'Ntotal'))
 
-    message("CURRENT DEVIANCE:      ", dev.total)
+    cli_inform("Current deviance: {dev.total}.")
 
     if(iteration.count==1) {
       # Sum participants only during first iteration.
@@ -528,36 +528,36 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 
     if(viewIter){
       #For ALL iterations summarise model state after current iteration
-      message("SUMMARY OF MODEL STATE after iteration ", iteration.count)
-      message("Current deviance ", dev.total," on ",(nsubs.total-length(beta.vect.next)), " degrees of freedom")
-      message("Convergence criterion ",converge.state," (", converge.value,")")
+      cli_inform("Summary of model state after iteration {iteration.count}.")
+      cli_inform("Current deviance {dev.total} on {nsubs.total-length(beta.vect.next)} degrees of freedom.")
+      cli_inform("Convergence criterion {converge.state} ({converge.value}).")
 
-      message("\nbeta: ", paste(as.vector(beta.vect.next), collapse=" "))
+      cli_inform("beta: {paste(as.vector(beta.vect.next), collapse = ' ')}")
 
-      message("\nInformation matrix overall:")
-      message(paste(utils::capture.output(info.matrix.total), collapse="\n"))
+      cli_inform("Information matrix overall:")
+      cli_verbatim(utils::capture.output(info.matrix.total))
 
-      message("\nScore vector overall:")
-      message(paste(utils::capture.output(score.vect.total), collapse="\n"))
+      cli_inform("Score vector overall:")
+      cli_verbatim(utils::capture.output(score.vect.total))
 
-      message("\nCurrent deviance: ", dev.total, "\n")
+      cli_inform("Current deviance: {dev.total}.")
     }
   }
   if(!viewIter){
     #For ALL iterations summarise model state after current iteration
-    message("SUMMARY OF MODEL STATE after iteration ", iteration.count)
-    message("Current deviance ", dev.total," on ",(nsubs.total-length(beta.vect.next)), " degrees of freedom")
-    message("Convergence criterion ",converge.state," (", converge.value,")")
+    cli_inform("Summary of model state after iteration {iteration.count}.")
+    cli_inform("Current deviance {dev.total} on {nsubs.total-length(beta.vect.next)} degrees of freedom.")
+    cli_inform("Convergence criterion {converge.state} ({converge.value}).")
 
-    message("\nbeta: ", paste(as.vector(beta.vect.next), collapse=" "))
+    cli_inform("beta: {paste(as.vector(beta.vect.next), collapse = ' ')}")
 
-    message("\nInformation matrix overall:")
-    message(paste(utils::capture.output(info.matrix.total), collapse="\n"))
+    cli_inform("Information matrix overall:")
+    cli_verbatim(utils::capture.output(info.matrix.total))
 
-    message("\nScore vector overall:")
-    message(paste(utils::capture.output(score.vect.total), collapse="\n"))
+    cli_inform("Score vector overall:")
+    cli_verbatim(utils::capture.output(score.vect.total))
 
-    message("\nCurrent deviance: ", dev.total, "\n")
+    cli_inform("Current deviance: {dev.total}.")
   }
 
   #If convergence has been obtained, declare final (maximum likelihood) beta vector,
@@ -752,7 +752,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
     }
 
   } else {
-    warning(paste("Did not converge after", maxit, "iterations. Increase maxit parameter as necessary."))
+    cli_warn(c("The model didn't converge after {maxit} iterations.", "i" = "Increase {.arg maxit} if necessary."))
     return(NULL)
   }
 

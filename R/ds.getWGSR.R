@@ -117,12 +117,12 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   
   # If 'thirdPart' (age) is missing for BMI-for-age return an error message
   if(index == "bfa" & is.na(thirdPart)) {
-    stop("'thirdPart' variable should not be missing for index 'bfa'", call.=FALSE)
+    cli_abort("{.arg thirdPart} must be provided when {.arg index} is {.val bfa}.")
   }
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message
   if(!any(standing %in% c(NA, 1, 2, 3))) {
-    stop("The 'standing' variable must be a numeric value either 1, 2, or 3!", call.=FALSE)
+    cli_abort("{.arg standing} must be 1, 2 or 3.")
   }
   
   # check newobj not actively declared as null

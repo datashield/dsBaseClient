@@ -181,13 +181,12 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-message("NO SEED SET IN STUDY",study.id,"\n\n")
+cli_inform("No seed set in study {study.id}.")
 
 } else {
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 }
 }
-message("\n\n")
 
 
 

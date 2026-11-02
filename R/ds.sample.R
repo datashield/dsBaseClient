@@ -174,16 +174,14 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 if(seed.as.text=="NULL"){
     if (notify.of.progress)
-        message("NO SEED SET IN STUDY",study.id,"\n\n")
+        cli_inform("No seed set in study {study.id}.")
 
 }
     if (notify.of.progress)
-      message("setSeedDS(", seed.as.text, ")")
+      cli_inform("setSeedDS({seed.as.text})")
 
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 } 
-if (notify.of.progress)
-    message("\n\n")
 
 
 

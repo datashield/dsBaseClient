@@ -270,7 +270,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
  }
 
  if (length(rvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for rvar: '", rvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg rvar}, {.val {rvar}}.")
  }
  
  rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
@@ -292,7 +292,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
    }
    
    if (length(cvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for cvar: '", cvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg cvar}, {.val {cvar}}.")
    }
 
    cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
@@ -316,7 +316,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
    }
    
    if (length(stvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for stvar: '", stvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg stvar}, {.val {stvar}}.")
    }
 
    stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
@@ -463,12 +463,11 @@ if(num.valid.studies==numsources.orig)
     validity.message<-"Data in all studies were valid"
     if (! table.assign)
     {
-	    message("\n",validity.message,"\n")
+	    cli_inform("{validity.message}")
 	    for(ns in 1:numsources.orig)
 		{
-		    message("\nStudy",ns,": ",error.messages[[ns]])
+		    cli_inform("Study {ns}: {error.messages[[ns]]}")
 		}
-		message("\n\n")
     }
 }
 

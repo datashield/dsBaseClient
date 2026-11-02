@@ -60,7 +60,7 @@ ds.metadata = function(x=NULL, datasources=NULL)
     #####################################################################################
     #MODULE 4: CHECK CONSISTANCY OF VARIABLE NAME (SINGLE)                              #
     if ((! is.character(x)) || (length(x) != 1)){                                       #
-        stop("Please provide the name of the object!", call.=FALSE)                     #
+        cli_abort("{.arg x} must be a single character string.")                     #
     }                                                                                   #
     #####################################################################################
 

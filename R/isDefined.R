@@ -34,7 +34,7 @@ isDefined <- function(datasources=NULL, obj=NULL, error.message=TRUE){
     }
     
     if(error.message==TRUE & any(out==FALSE)){
-      stop("The input object ", inputobj[i], " is not defined in ", paste(names(which(out==FALSE)), collapse=", "), "!" , call.=FALSE)
+      cli_abort("{.val {inputobj[i]}} isn't defined in {.val {names(which(out==FALSE))}}.")
     }else{
       return(out)
     }

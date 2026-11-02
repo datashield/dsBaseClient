@@ -39,7 +39,7 @@ test_that("default test, dataframe D", {
 })
 
 test_that("default test, dataframe E", {
-    expect_error(isDefined(ds.test_env$connections, "E"), "The input object E is not defined in discordant1, discordant2, discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "E"), "\"E\" isn't defined in \"discordant1\", \"discordant2\", and \"discordant3\"", fixed=TRUE)
 })
 
 test_that("default test, dataframe column E$A", {
@@ -57,19 +57,19 @@ test_that("default test, dataframe column E$A", {
 })
 
 test_that("default test, dataframe column D$A", {
-    expect_error(isDefined(ds.test_env$connections, "D$A"), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$A"), "\"D$A\" isn't defined in \"discordant3\"", fixed=TRUE)
 })
 
 test_that("default test, dataframe column D$B", {
-    expect_error(isDefined(ds.test_env$connections, "D$B"), "The input object D$B is not defined in discordant2!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$B"), "\"D$B\" isn't defined in \"discordant2\"", fixed=TRUE)
 })
 
 test_that("default test, dataframe column D$C", {
-    expect_error(isDefined(ds.test_env$connections, "D$C"), "The input object D$C is not defined in discordant1!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$C"), "\"D$C\" isn't defined in \"discordant1\"", fixed=TRUE)
 })
 
 test_that("default test, dataframe column D$D", {
-    expect_error(isDefined(ds.test_env$connections, "D$D"), "The input object D$D is not defined in discordant1, discordant2, discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$D"), "\"D$D\" isn't defined in \"discordant1\", \"discordant2\", and \"discordant3\"", fixed=TRUE)
 })
 
 test_that("default test, dataframe columns D,D$B", {
@@ -85,7 +85,7 @@ test_that("default test, dataframe columns D,D$B", {
 })
 
 test_that("default test, dataframe columns D$A,D$B", {
-    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B")), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B")), "\"D$A\" isn't defined in \"discordant3\"", fixed=TRUE)
 })
 
 # error.message = FALSE
@@ -209,7 +209,7 @@ test_that("error.message=TRUE test, dataframe D", {
 })
 
 test_that("error.message=TRUE test, dataframe E", {
-    expect_error(isDefined(ds.test_env$connections, "E", error.message = TRUE), "The input object E is not defined in discordant1, discordant2, discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "E", error.message = TRUE), "\"E\" isn't defined in \"discordant1\", \"discordant2\", and \"discordant3\"", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column E$A", {
@@ -227,19 +227,19 @@ test_that("error.message=TRUE test, dataframe column E$A", {
 })
 
 test_that("error.message=TRUE test, dataframe column D$A", {
-    expect_error(isDefined(ds.test_env$connections, "D$A", error.message = TRUE), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$A", error.message = TRUE), "\"D$A\" isn't defined in \"discordant3\"", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column D$B", {
-    expect_error(isDefined(ds.test_env$connections, "D$B", error.message = TRUE), "The input object D$B is not defined in discordant2!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$B", error.message = TRUE), "\"D$B\" isn't defined in \"discordant2\"", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column D$C", {
-    expect_error(isDefined(ds.test_env$connections, "D$C", error.message = TRUE), "The input object D$C is not defined in discordant1!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$C", error.message = TRUE), "\"D$C\" isn't defined in \"discordant1\"", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe column D$D", {
-    expect_error(isDefined(ds.test_env$connections, "D$D", error.message = TRUE), "The input object D$D is not defined in discordant1, discordant2, discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, "D$D", error.message = TRUE), "\"D$D\" isn't defined in \"discordant1\", \"discordant2\", and \"discordant3\"", fixed=TRUE)
 })
 
 test_that("error.message=TRUE test, dataframe columns D,D$B", {
@@ -255,7 +255,7 @@ test_that("error.message=TRUE test, dataframe columns D,D$B", {
 })
 
 test_that("error.message=TRUE test, dataframe columns D$A,D$B", {
-    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B"), error.message=TRUE), "The input object D$A is not defined in discordant3!", fixed=TRUE)
+    expect_error(isDefined(ds.test_env$connections, c("D$A","D$B"), error.message=TRUE), "\"D$A\" isn't defined in \"discordant3\"", fixed=TRUE)
 })
 
 #

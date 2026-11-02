@@ -208,7 +208,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   for(i in 1:length(datasources)){
     output <- outputs[[i]]
     if(is.null(output)){
-      stop("Equidistant break points that span all the data points could not be find, in stdnames[i]!")
+      cli_abort("Can't find equidistant break points that span all the data in {.val {names(datasources)[i]}}.")
     }
     hist.objs[[i]] <- output$histobject
     invalidcells[[i]] <- output$invalidcells
@@ -254,7 +254,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
         numc <- 2
         graphics::par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          warning(names(datasources)[i], ": ", invalidcells[[i]], " invalid cells", immediate.=TRUE, call.=FALSE)
+          cli_warn("{names(datasources)[i]}: {invalidcells[[i]]} invalid cells.")
           if(vertical.axis=="Frequency"){
             graphics::plot(hist.objs[[i]], freq=TRUE, xlab=varname, main=paste("Histogram of ", names(datasources)[i], sep=""))
           }
@@ -265,7 +265,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
         return(hist.objs)
       }else{
         graphics::par(mfrow=c(1,1))
-        warning(names(datasources)[1], ": ", invalidcells[[1]], " invalid cells", immediate.=TRUE, call.=FALSE)
+        cli_warn("{names(datasources)[1]}: {invalidcells[[1]]} invalid cells.")
         if(vertical.axis=="Frequency"){
           graphics::plot(hist.objs[[1]], freq=TRUE, xlab=varname, main=paste("Histogram of ", names(datasources)[1], sep=""))
         }

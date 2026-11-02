@@ -259,7 +259,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
 
       # print the number of invalid cells in each participating study
       for (i in 1:num.sources){
-        message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+        cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
       }
 
       Global.grid.density <- matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -458,7 +458,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
 
      # print the number of invalid cells in each participating study
      for (i in 1:num.sources) {
-       message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+       cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
      }
 
      if(num.sources > 1){

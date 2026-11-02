@@ -133,7 +133,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources){
-      message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+      cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
     }
 
     Global.grid.density <- matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -141,8 +141,6 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
       Global.grid.density <- Global.grid.density + grid.density.obj[[i]][,1:(numcol-2)]
       names(dimnames(Global.grid.density))[2] <- "Grid Density Matrix of the Pooled Data"
     }
-    # newline for some space between the previous messages and the matrix when it is displayed
-    message()
     return(Global.grid.density)
   }else{
     if(type=="split"){
@@ -157,7 +155,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
       # print the number of invalid cells in each participating study
       for (i in 1:num.sources){
-        message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+        cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
       }
       return(grid.density.obj)
     }else{

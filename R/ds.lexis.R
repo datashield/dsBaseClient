@@ -216,7 +216,7 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
 
   # if no valid value provided for 'intervalWidth' instruct user to specify one
   if(any(is.null(intervalWidth))||any(is.na(intervalWidth))||any(intervalWidth==0)){
-    stop("Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", call.=FALSE)
+    cli_abort("{.arg intervalWidth} must be a non-zero numeric value or vector.")
   }
 
   # if no value spcified for output (expanded) data set, then specify a default

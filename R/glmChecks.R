@@ -57,7 +57,7 @@ glmChecks <- function(formula, data, offset, weights, datasources){
   stdnames <- names(datasources)
   for(i in 1:length(elts)){
     if(is.na(suppressWarnings(as.numeric(elts[i])))){ # making sure an eventual intercept term is not included in the checks
-      message(paste0("    ", elts[i], "..."))
+      cli_inform("{elts[i]}...")
       for(j in 1: length(datasources)){
         # check if the variable is defined on the server site
         myterms <- unlist(strsplit(elts[i], split='$', fixed=TRUE))
@@ -65,12 +65,12 @@ glmChecks <- function(formula, data, offset, weights, datasources){
           cally <- call("exists", myterms[1])
           out <- DSI::datashield.aggregate(datasources[j], cally)
           if(!(out[[1]])){
-            stop(paste0("'", myterms[1], "' is not defined in ", stdnames[j], "!"), call.=FALSE)
+            cli_abort("{.val {myterms[1]}} isn't defined in {.val {stdnames[j]}}.")
           }else{
             cally <- call("colnamesDS", myterms[1])
             clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(myterms[2] %in% clnames)){
-              stop(paste0("'", myterms[2], "' is not defined in ", stdnames[j], "!"), call.=FALSE)
+              cli_abort("{.val {myterms[2]}} isn't defined in {.val {stdnames[j]}}.")
             }else{
               call0 <- call("isNaDS", elts[i])
               if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
@@ -101,18 +101,18 @@ glmChecks <- function(formula, data, offset, weights, datasources){
         # check if variable is not missing at complete
         out1 <- DSI::datashield.aggregate(datasources[j], call0)
         if(out1[[1]]$is.na){
-          stop("The variable ", elts[i], " in ", stdnames[j], " is missing at complete (all values are 'NA').", call.=FALSE)
+          cli_abort("{.val {elts[i]}} has only missing values in {.val {stdnames[j]}}.")
         }
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value
         if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){
           if(!('numeric' %in% typ)){
-            stop(paste0("'", elts[i], "' ", "is not a numeric in ", stdnames[j]), call.=FALSE)
+            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}.")
           }
         }
         if(varIdentifier[i] == "weights"){
           checkres <- unlist(DSI::datashield.aggregate(datasources[j], as.symbol(call1)))
           if(checkres){
-            stop(paste0("Negative weights not allowed - check study ", stdnames[j], "!"), call.=FALSE)
+            cli_abort("Weights must not be negative in {.val {stdnames[j]}}.")
           }
         }
 

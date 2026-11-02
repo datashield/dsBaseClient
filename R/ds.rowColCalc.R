@@ -74,9 +74,7 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
 
   ops <- c("rowSums","colSums","rowMeans","colMeans")
   if(is.null(operation)){
-    message(" ALERT!")
-    message(" Please indicate the calculation required.")
-    stop("'operation' = NULL. Please set it to 'rowSums', 'colSums', 'rowMeans' or 'colMeans'", call.=FALSE)
+    cli_abort("{.arg operation} must be {.or {.val {ops}}}, not {.code NULL}.")
   }else{
     if(!any(operation %in% ops)){
       .abortInvalidChoice("operation", ops)

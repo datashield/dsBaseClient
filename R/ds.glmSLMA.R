@@ -429,7 +429,7 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
   
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){
-    message(" -- Verifying the variables in the model")
+    cli_inform("Verifying the variables in the model.")
     # call the function that checks the variables in the formula are defined (exist) on the server site and are not missing at complete
 
    glmChecks(formula, dataName, offset, weights, datasources)
@@ -539,13 +539,7 @@ if(!at.least.one.study.valid)
 #CASE 2 - AT LEAST ONE STUDY VALID AND AT LEAST ONE INVALID
 if(at.least.one.study.data.error)
 	{
-	message("\n\nAT LEAST ONE STUDY HAS DATA THAT COULD BE POTENTIALLY DISCLOSIVE UNDER THE CURRENT MODEL:\n",
-        "Any values of 1 in the following tables denote potential disclosure risks.\n",
-		"No analytic results are returned for potentially disclosive studies and\n",
-		"pooled co-estimates across studies are based only on the valid studies.\n",
-		"You may also choose to exclude invalid studies from\n",
-		"the whole analysis using the <datasources> argument.\n",
-		"Errors by study are as follows:\n")
+	cli_inform(c("At least one study has data that could be potentially disclosive under the current model.", "i" = "Values of 1 in the following tables denote potential disclosure risks.", "*" = "No results are returned for those studies, and pooled estimates use only the valid studies. You can exclude invalid studies from the whole analysis with {.arg datasources}."))
 	}
 
    beta.vect.next <- rep(0,num.par.glm)
@@ -572,7 +566,7 @@ if(at.least.one.study.data.error)
 		newobj <- .resolveNewobjName(newobj, "new.glm.obj")
 
    if (notify.of.progress) {
-       message("\n\nSAVING SERVERSIDE glm OBJECT AS: <",newobj,">\n\n")
+       cli_inform("Saving server-side glm object as {.val {newobj}}.")
    }
 
    calltext.2 <- call('glmSLMADS.assign', formula, family, offset, weights, dataName)
@@ -619,17 +613,16 @@ if(!all.studies.valid)
 {
 	for(sse in study.with.errors)
 	    {
-		message("\n","Error report from second serverside function for study",sse,"\n")
-		message("############################################################","\n")
-		message(unlist(study.summary[[sse]][[1]]),"\n")
-		message(unlist(study.summary[[sse]][[2]]),"\n\n")
+		cli_inform("Error report from second server-side function for study {sse}.")
+		cli_inform("{unlist(study.summary[[sse]][[1]])}")
+		cli_inform("{unlist(study.summary[[sse]][[2]])}")
 
 	num.messages<-length(study.summary[[sse]])-2
 		for(m in 1:num.messages)
 			{
 			if(!is.null(unlist(study.summary[[sse]][[2+m]])))
 				{
-				message(unlist(study.summary[[sse]][[2+m]]),"\n\n")
+				cli_inform("{unlist(study.summary[[sse]][[2+m]])}")
 				}
 			}
 		}
@@ -761,8 +754,7 @@ if(num.valid.studies>1){
 
 
   if(!coefficient.vectors.match){
-    message("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
-	message("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
+    cli_inform(c("Models in different sources vary in structure.", "i" = "Match coefficients for meta-analysis individually.", "*" = "You can use the DataSHIELD estimates and standard errors as the basis for a meta-analysis, but carry out the final pooling step independently of DataSHIELD."))
 return(list(output.summary=output.summary))
     }
 

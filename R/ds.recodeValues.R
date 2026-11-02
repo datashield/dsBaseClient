@@ -86,28 +86,27 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
 
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
-    stop("Please provide a vector in the 'values2replace.vector' argument specifying
-         the values to be replaced eg c(1,7)", call.=FALSE)
+    cli_abort(c("{.arg values2replace.vector} must specify the values to replace.", "i" = "For example, {.code c(1, 7)}."))
   }
 
   # check user has provided the vector specifying the set of values to replace them with
   if(is.null(values2replace.vector)){
-    stop("Please provide a vector specifying the new values to be set eg c(3,4)", call.=FALSE)
+    cli_abort(c("{.arg new.values.vector} must specify the new values.", "i" = "For example, {.code c(3, 4)}."))
   }
 
   # check values2replace.vector and new.values.vector have the same length
   if(length(values2replace.vector) != length(new.values.vector)){
-    stop("Please ensure that values2replace.vector and new.values.vector have same length and are in the same order", call.=FALSE)
+    cli_abort("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.")
   }
 
   # check no duplicate values in values2replace.vector
   if(length(values2replace.vector) != length(unique(values2replace.vector))){
-    stop("No value may appear more than once in the values2replace.vector", call.=FALSE)
+    cli_abort("{.arg values2replace.vector} must not contain duplicate values.")
   }
   
   # simple work around for a bug in the format for values2replace.vector
   if(any(is.na(values2replace.vector))){
-    stop("To recode NAs you need to use the 'missing' argument", call.=FALSE)
+    cli_abort("Use {.arg missing} to recode {.code NA} values.")
   }
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){
