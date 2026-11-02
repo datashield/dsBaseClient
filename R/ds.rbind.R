@@ -85,21 +85,14 @@ ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
-  }
+  .checkArgProvided(x, "a vector of the names of the input elements")
 
 
   if(DataSHIELD.checks){
 
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     if(classConsistencyCheck){
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-        stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-      }
-    }
+    .checkObjectClasses(datasources, x)
     }
   }
   

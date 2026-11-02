@@ -113,22 +113,7 @@ ds.rBinom<-function(samp.size=1,size=0,prob=1, newobj=NULL, seed.as.integer=NULL
 
 ########################
 #TEST SEED PRIMING VALUE
-seed.valid<-0
-
-if(is.null(seed.as.integer)){
-seed.as.text<-"NULL"
-seed.valid<-1
-}
-
-if(is.numeric(seed.as.integer)){
-seed.as.text<-as.character(seed.as.integer)
-seed.valid<-1
-}
-
-if(seed.valid==0){
-mess1<-("ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL")
-return(mess1)
-}
+seed.as.text <- .seedAsText(seed.as.integer)
 
 ###################################################################################
 #samp.size is either a numeric scalar or a numeric vector set
@@ -140,16 +125,7 @@ return(mess1)
 #Such serverside vectors must be named in inverted commas. These get
 #stripped off when the vector name is passed to the serverside.
 
-arguments.valid<-1
-
-if(is.null(samp.size)||is.null(size)||is.null(prob)||is.null(newobj)){
-arguments.valid<-0
-}
-
-if(!arguments.valid){
-mess2<-("ERROR: appropriate values must be set for samp.size, size, prob, and newobj name")
-return(mess2)
-}
+.checkArgsSet(samp.size = samp.size, size = size, prob = prob, newobj = newobj)
 
 numsources<-length(datasources)
 size<-.expandToStudies(size, "size", numsources)
@@ -163,8 +139,7 @@ if(is.numeric(size)){
 }
 
 if(!size.valid){
-mess3<-("ERROR: size must be > 0")
-return(mess3)
+cli_abort("{.arg size} must be greater than 0.")
 }
 
 prob.valid<-1
@@ -175,8 +150,7 @@ if(is.numeric(prob)){
 }
 
 if(!prob.valid){
-mess4<-("ERROR: prob must lie in range 0 < prob < 1")
-return(mess4)
+cli_abort("{.arg prob} must be between 0 and 1.")
 }
 
 

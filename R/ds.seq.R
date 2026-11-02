@@ -127,7 +127,7 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=FROM.value.char))))FROM.valid<-0
 	}
 	if(!FROM.valid){
-  return("Error: If FROM.value.char is non.NULL, it must be a real number in inverted commas eg '-3.7' or '0'")
+  cli_abort(c("{.arg FROM.value.char} must be a real number in inverted commas.", "i" = "For example, {.val -3.7} or {.val 0}."))
 	}
 
 ###TO.value.char
@@ -138,7 +138,7 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=TO.value.char))))TO.valid<-0
 	}
 	if(!TO.valid){
-  return("Error: If TO.value.char is non.NULL, it must be a real number in inverted commas eg '-3.7' or '0'")
+  cli_abort(c("{.arg TO.value.char} must be a real number in inverted commas.", "i" = "For example, {.val -3.7} or {.val 0}."))
 	}
 
 ###BY.value.char
@@ -149,7 +149,7 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=BY.value.char))))BY.valid<-0
 	}
 	if(!BY.valid){
-  return("Error: If FROM.value.char is non.NULL, it must be a real number in inverted commas eg '5' or '-98.7321'")
+  cli_abort(c("{.arg BY.value.char} must be a real number in inverted commas.", "i" = "For example, {.val 5} or {.val -98.7321}."))
 	}
 
 ###LENGTH.OUT.value.char
@@ -160,19 +160,19 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=LENGTH.OUT.value.char))))LENGTH.OUT.valid<-0
 	}
 	if(!LENGTH.OUT.valid){
-  return("Error: If LENGTH.OUT.value.char is non.NULL, it must be an integer in inverted commas eg '87187'")
+  cli_abort(c("{.arg LENGTH.OUT.value.char} must be an integer in inverted commas.", "i" = "For example, {.val 87187}."))
 	}
 
 
 ###ALONG.WITH.name
   # check if user has correctly provided the name of a column to hold ALONG.WITH.name
   if(!(is.null(ALONG.WITH.name) || is.character(ALONG.WITH.name))){
-    return("Error: If ALONG.WITH.name is non.NULL, it must specify the name of a serverside vector in inverted commas")
+    cli_abort("{.arg ALONG.WITH.name} must be the name of a server-side vector in inverted commas.")
 	}
 
 ###Either LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL
 if(is.null(TO.value.char)&&is.null(LENGTH.OUT.value.char)&&is.null(ALONG.WITH.name)){
-    return("Error: Either TO.value.char or LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL, they cannot both be NULL")
+    cli_abort("One of {.arg TO.value.char}, {.arg LENGTH.OUT.value.char} or {.arg ALONG.WITH.name} must be set.")
 	}
 
 

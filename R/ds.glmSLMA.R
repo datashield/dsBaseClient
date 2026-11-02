@@ -373,28 +373,17 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
   datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
-  if(is.null(formula)){
-    stop(" Please provide a valid regression formula!", call.=FALSE)
-  }
+  .checkArgProvided(formula, "a valid regression formula")
 
 # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
 # to provide name of offset or weights variable
-    if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
-       sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0)
-{
-       message("\n\n WARNING: you may have specified an offset or regression weights")
-       message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-       message("\n you must specify an offset or weights separately from the formula")
-       message("\n using the offset or weights argument.\n\n")
-}
+    .warnOffsetInFormula(formula)
 
   formula <- stats::as.formula(formula)
 
 
   # check that 'family' was set
-  if(is.null(family)){
-    stop(" Please provide a valid 'family' argument!", call.=FALSE)
-  }
+  .checkArgProvided(family, "a valid family")
 
 #####################
   #if family is non-standard (i.e.family includes calls to either link or variance) convert to transmittable form:
@@ -531,31 +520,20 @@ dimnames(errorMessage)<-list(names(datasources),"ERROR MESSAGES")
 
 
 
-output.blocked.information.1<-"EVERY STUDY HAS DATA THAT COULD BE POTENTIALLY DISCLOSIVE UNDER THE CURRENT MODEL:"
-output.blocked.information.2<-"Any values of 1 in the following tables denote potential disclosure risks."
-output.blocked.information.3<-"Please use the argument <datasources> to include only valid studies."
-output.blocked.information.4<-"Errors by study are as follows:"
 
 
 #CASE 1 - NO STUDIES VALID
 if(!at.least.one.study.valid)
 	{
-	message("\n\nEVERY STUDY HAS DATA THAT COULD BE POTENTIALLY DISCLOSIVE UNDER THE CURRENT MODEL:\n",
-	    "Any values of 1 in the following tables denote potential disclosure risks.\n",
-		"Errors by study are as follows:\n")
+	cli_inform(c("Every study has data that could be potentially disclosive under the current model.", "i" = "Values of 1 in the following tables denote potential disclosure risks."))
 
-
-    return(list(
-		    output.blocked.information.1,
-		    output.blocked.information.2,
-		    output.blocked.information.4,
-				y.vector.error=y.invalid,
-                X.matrix.error=Xpar.invalid,
-                weight.vector.error=w.invalid,
-                offset.vector.error=o.invalid,
-                glm.overparameterized=glm.saturation.invalid,
-	        errorMessage=errorMessage
-                ))
+	cli_verbatim(utils::capture.output(as.matrix(y.invalid)))
+	cli_verbatim(utils::capture.output(as.matrix(Xpar.invalid)))
+	cli_verbatim(utils::capture.output(as.matrix(w.invalid)))
+	cli_verbatim(utils::capture.output(as.matrix(o.invalid)))
+	cli_verbatim(utils::capture.output(as.matrix(glm.saturation.invalid)))
+	cli_verbatim(utils::capture.output(as.matrix(errorMessage)))
+	cli_abort("Can't fit the model because every study has data that could be disclosive.")
 	}
 
 #CASE 2 - AT LEAST ONE STUDY VALID AND AT LEAST ONE INVALID

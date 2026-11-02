@@ -21,8 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.glm::arg::test errors")
 test_that("glm_errors", {
-    expect_error(ds.glm(), " Please provide a valid regression formula!", fixed=TRUE)
-    expect_error(ds.glm("D$LAB_TSC~D$LAB_TSC"), " Please provide a valid 'family' argument!", fixed=TRUE)
+    expect_error(ds.glm(), "must be a valid regression formula", fixed=TRUE)
+    expect_error(ds.glm("D$LAB_TSC~D$LAB_TSC"), "must be a valid family", fixed=TRUE)
 })
 
 #

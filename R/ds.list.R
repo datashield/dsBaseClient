@@ -58,9 +58,7 @@ ds.list <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the objects to coerce into a list!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the names of the objects to coerce into a list")
 
   # create a name by default if user did not provide a name for the new variable
   newobj <- .resolveNewobjName(newobj, "list.newobj")

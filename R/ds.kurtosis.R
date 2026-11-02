@@ -31,9 +31,7 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL, classCo
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
   
   if(!all(method %in% c(1,2,3))){
     stop("method must be an integer between 1 and 3", call.=FALSE)
@@ -44,7 +42,7 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL, classCo
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
   if(type != 'combine' & type != 'split' & type != 'both'){
-    stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
+    .abortInvalidChoice("type", c("both", "combine", "split"))
   }
   
   if (type=='split' | type=='both'){

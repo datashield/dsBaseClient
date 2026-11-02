@@ -94,17 +94,12 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a vector")
 
   # check if replacement values have been provided
-  if(is.null(forNA)){
-    stop("Please provide a list of replacement values!", call.=FALSE)
-  }else{
-    if(length(forNA) != length(datasources)){
-      stop("'forNA' must be of the same length as the number of datasources/studies!", call.=FALSE)
-    }
+  .checkArgProvided(forNA, "a list of replacement values")
+  if(length(forNA) != length(datasources)){
+    cli_abort("{.arg forNA} must have one element per study.")
   }
 
   for(i in 1:length(datasources)){

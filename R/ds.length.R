@@ -77,9 +77,7 @@ ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyChe
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
   ###################################################################################################
   # MODULE: EXTEND "type" argument to include "both" and enable valid aliases                      #
@@ -87,7 +85,7 @@ ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyChe
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
   if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
   if(type != 'combine' & type != 'split' & type != 'both'){                                         #
-    stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
+    .abortInvalidChoice("type", c("both", "combine", "split"))     #
   }
 
   # call the server-side function
@@ -123,7 +121,7 @@ ds.length <- function(x=NULL, type='both', datasources=NULL, classConsistencyChe
         out <- c(lengths, pooled.length)
         names(out) <- c(outputnames, paste0('total length of ', x, ' in all studies combined'))
       }else{
-        stop('Function argument "type" has to be either "both", "combine" or "split"')
+        .abortInvalidChoice("type", c("both", "combine", "split"))
       }
     }
   }

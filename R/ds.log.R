@@ -60,9 +60,7 @@ ds.log <- function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   newobj <- .resolveNewobjName(newobj, "log.newobj")
 

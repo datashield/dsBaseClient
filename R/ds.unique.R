@@ -50,9 +50,7 @@ ds.unique <- function(x.name = NULL, newobj = NULL, datasources = NULL) {
 
     datasources <- .resolveDatasources(datasources)
 
-    if (is.null(x.name)) {
-        stop("x.name=NULL. Please provide the names of the objects to de-duplicated!", call. = FALSE)
-    }
+    .checkArgProvided(x.name, "the names of the objects to de-duplicate")
 
     newobj <- .resolveNewobjName(newobj, "unique.newobj")
 

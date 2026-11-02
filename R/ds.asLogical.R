@@ -58,9 +58,7 @@ ds.asLogical <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
   
   newobj <- .resolveNewobjName(newobj, "aslogical.newobj")
 

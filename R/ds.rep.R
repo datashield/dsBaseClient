@@ -99,9 +99,7 @@ ds.rep<-function(x1=NULL,  times=NA,  length.out=NA, each=1,
   datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x1
-  if(is.null(x1)){
-    return("Error: x1 must have a value which is a character string, a numeric vector on the clientside or a scalar")
-  }
+  .checkArgProvided(x1, "a character string, a client-side numeric vector or a scalar")
 
   # if no value specified for output object, then specify a default
   newobj <- .resolveNewobjName(newobj, paste0("seq.vect"))
@@ -138,9 +136,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.x1!="serverside"&&source.x1!="clientside")
   {
-  message("            FAILED: if source.x1 is non-null it must be specified as
-  one of the following: 'clientside','serverside','c', or 's'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("source.x1", c("clientside", "serverside", "c", "s"))
   }
 
   #process appropriately for source
@@ -161,9 +157,7 @@ if(source.each=='s')source.each<-'serverside'
  #Check that source has been specified
   if(source.times!="serverside"&&source.times!="clientside"&&!is.null(source.times))
   {
-  message("            FAILED: if source.times is non-null it must be specified as
-  one of the following: 'clientside','serverside','c', or 's'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("source.times", c("clientside", "serverside", "c", "s"))
   }
 
 
@@ -195,9 +189,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.length.out!="serverside"&&source.length.out!="clientside"&&!is.null(source.length.out))
   {
-  message("            FAILED: if source.length.out is non-null it must be specified as
-  one of the following: 'clientside','serverside','c', or 's'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("source.length.out", c("clientside", "serverside", "c", "s"))
   }
 
 
@@ -230,9 +222,7 @@ if(source.each=='s')source.each<-'serverside'
   #Check that source has been specified
   if(source.each!="serverside"&&source.each!="clientside"&&!is.null(source.each))
   {
-  message("            FAILED: if source.each is non-null it must be specified as
-  one of the following: 'clientside','serverside','c', or 's'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("source.each", c("clientside", "serverside", "c", "s"))
   }
 
 

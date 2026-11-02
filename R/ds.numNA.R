@@ -58,9 +58,7 @@ ds.numNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a vector")
 
   cally <- call("numNaDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)

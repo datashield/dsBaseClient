@@ -88,13 +88,9 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the numeric vector 'x'!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a numeric vector")
 
-  if(is.null(y)){
-    stop("Please provide the name of the numeric vector 'y'!", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of a numeric vector")
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -165,7 +161,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
       }
       return(grid.density.obj)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

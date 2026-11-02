@@ -82,9 +82,7 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   datasources <- .resolveDatasources(datasources)
 
   # check user has provided the name of the variable to be recoded
-  if(is.null(var.name)){
-    stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
-  }
+  .checkArgProvided(var.name, "the name of the variable to recode")
 
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){

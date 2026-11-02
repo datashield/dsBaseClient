@@ -133,15 +133,13 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
   datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x
-  if(is.null(x)){
-    return("Error: x must denote a character string naming the serverside object to be sampled or an integer N denoting permute 1:N")
-  }
+  .checkArgProvided(x, "a character string that names a server-side object, or an integer N to permute 1:N")
 
  # check if a valid value has been provided for size if x denotes a vector,
  # matrix or data.frame on the serverside
  
   if(is.character(x)&&is.null(size)){
-    return("Error: size must have a value which is an integer denoting how many records to be sampled")
+    cli_abort("{.arg size} must be an integer that sets how many records to sample.")
   }
 
   # if no value specified for output object, then specify a default
@@ -149,22 +147,7 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
 
 ########################
 #TEST SEED PRIMING VALUE
-seed.valid<-0
-
-if(is.null(seed.as.integer)){
-seed.as.text<-"NULL"
-seed.valid<-1
-}
-
-if(is.numeric(seed.as.integer)){
-seed.as.text<-as.character(seed.as.integer)
-seed.valid<-1
-}
-
-if(seed.valid==0){
-mess1<-("ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL")
-return(mess1)
-}
+seed.as.text <- .seedAsText(seed.as.integer)
 
 #############################################################
 #SET SEED IN EACH STUDY AS IN PSEUDORANDOM NUMBER GENERATORS

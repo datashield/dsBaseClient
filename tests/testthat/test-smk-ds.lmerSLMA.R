@@ -51,8 +51,7 @@ test_that("alternative formulae for nested groups", {
 test_that("server side error", {
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idSurgery)', dataName = 'D', optimizer = 'nloptwrap')
     expect_equal(res$Convergence.error.message[2], "Study2: no convergence error reported")
-    res=ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idSurgery)', dataName = 'D', optimizer = 'not_this_one')
-    expect_equal(res$errorMessage, "ERROR: the only optimizer currently available for lmer is 'nloptwrap', please respecify")
+    expect_error(ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idSurgery)', dataName = 'D', optimizer = 'not_this_one'), "must be \"nloptwrap\"")
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor)', dataName = "D", REML = FALSE)
     expect_equal(res$output.summary$study1$methTitle, "Linear mixed model fit by maximum likelihood ")
 })

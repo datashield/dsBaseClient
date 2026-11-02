@@ -53,7 +53,7 @@
 ds.colnames <- function(x=NULL, datasources=NULL) {
 
   datasources <- .resolveDatasources(datasources)
-  .checkDfNameProvided(x)
+  .checkArgProvided(x, "the name of a data.frame or matrix")
 
   cally <- call("colnamesDS", x)
   column_names <- DSI::datashield.aggregate(datasources, cally)

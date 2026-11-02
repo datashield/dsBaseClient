@@ -107,12 +107,8 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
-  }
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a numeric vector")
+  .checkArgProvided(y, "the name of a numeric vector")
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -120,7 +116,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+    .abortInvalidChoice("method", c("smallCellsRule", "deterministic", "probabilistic"))
   }
 
   # extract the variable names to be used as labels in the plot
@@ -352,7 +348,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
       # plot a combined contour plot
       graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Contour Plot of the Pooled Data (zoomed)")
     }else{
-      stop('Function argument "show" has to be either "all" or "zoomed"')
+      .abortInvalidChoice("show", c("all", "zoomed"))
     }
 
   } else if (type=='split') {
@@ -501,7 +497,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
           graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main=title)
 
         }else{
-          stop('Function argument "show" has to be either "all" or "zoomed"')
+          .abortInvalidChoice("show", c("all", "zoomed"))
         }
 
       }
@@ -589,11 +585,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
         graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Contour Plot of the Pooled Data")
 
       }else{
-        stop('Function argument "show" has to be either "all" or "zoomed"')
+        .abortInvalidChoice("show", c("all", "zoomed"))
       }
 	}
   }else{
-    stop('Function argument "type" has to be either "combine" or "split"')
+    .abortInvalidChoice("type", c("combine", "split"))
   }
 
 }

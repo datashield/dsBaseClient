@@ -191,9 +191,7 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
   datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the column that holds the input variable
-  if(is.null(input.var.name)){
-    stop("Please provide the name of the variable that is to be converted to a factor e.g. 'varname'", call.=FALSE)
-  }
+  .checkArgProvided(input.var.name, "the name of the variable to convert to a factor")
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){

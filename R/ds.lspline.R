@@ -27,13 +27,9 @@ ds.lspline <- function(x, knots = NULL, marginal = FALSE, names = NULL, newobj =
   
   datasources <- .resolveDatasources(datasources)
   
-  if(is.null(x)){
-    stop("Please provide the name of the input variable x!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input variable")
   
-  if(is.null(knots)){
-    stop("Please provide a vector of knots!", call.=FALSE)
-  }
+  .checkArgProvided(knots, "a vector of knots")
   
   # create a name by default if user did not provide a name for the new variable
   newobj <- .resolveNewobjName(newobj, "lspline.newobj")

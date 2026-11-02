@@ -62,9 +62,7 @@ ds.c <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TR
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the objects to concatenate!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the names of the objects to concatenate")
 
   # create a name by default if user did not provide a name for the new variable
   newobj <- .resolveNewobjName(newobj, "c.newobj")

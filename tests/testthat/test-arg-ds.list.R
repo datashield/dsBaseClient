@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.list::arg::test errors")
 test_that("simple ds.list errors", {
-    expect_error(ds.list(), "x=NULL. Please provide the names of the objects to coerce into a list!")
+    expect_error(ds.list(), "must be the names of the objects to coerce into a list")
 })
 
 #

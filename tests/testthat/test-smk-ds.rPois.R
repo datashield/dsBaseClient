@@ -64,7 +64,7 @@ test_that("one value per study", {
 
 # context("ds.rPois::smk::wrong number of values")
 test_that("wrong number of values per study", {
-    expect_error(ds.rPois(samp.size = 50, lambda = c(1, 50), newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
+    expect_error(ds.rPois(samp.size = 50, lambda = c(1, 50), newobj = "no.obj", seed.as.integer = 27), "must have length 1")
 })
 
 #

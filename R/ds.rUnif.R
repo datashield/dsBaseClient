@@ -132,22 +132,7 @@ ds.rUnif<-function(samp.size=1,min=0,max=1, newobj="newObject", seed.as.integer=
 
 ########################
 #TEST SEED PRIMING VALUE
-seed.valid<-0
-
-if(is.null(seed.as.integer)){
-seed.as.text<-"NULL"
-seed.valid<-1
-}
-
-if(is.numeric(seed.as.integer)){
-seed.as.text<-as.character(seed.as.integer)
-seed.valid<-1
-}
-
-if(seed.valid==0){
-mess1<-("ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL")
-return(mess1)
-}
+seed.as.text <- .seedAsText(seed.as.integer)
 
 ###################################################################################
 #samp.size is either a numeric scalar or a numeric vector set
@@ -159,17 +144,7 @@ return(mess1)
 #Such serverside vectors must be named in inverted commas. These get
 #stripped off when the vector name is passed to the serverside.
 
-arguments.valid<-1
-
-if(is.null(samp.size)||is.null(min)||is.null(max)||is.null(newobj)){
-arguments.valid<-0
-}
-
-
-if(!arguments.valid){
-mess2<-("ERROR: appropriate values must be set for samp.size, min, max, and newobj name")
-return(mess2)
-}
+.checkArgsSet(samp.size = samp.size, min = min, max = max, newobj = newobj)
 
 numsources<-length(datasources)
 min<-.expandToStudies(min, "min", numsources)
@@ -187,8 +162,7 @@ if(is.numeric(min) && is.numeric(max)){
 }
 
 if(!minmax.valid){
-mess3<-("ERROR: max must be greater than min")
-return(mess3)
+cli_abort("{.arg max} must be greater than {.arg min}.")
 }
 
 decimal.places.valid<-1
@@ -197,8 +171,7 @@ decimal.places.valid<-0
 }
 
 if(!decimal.places.valid){
-mess4<-("ERROR: force.output.to.k.decimal.places must be an integer in range 0-9")
-return(mess4)
+cli_abort("{.arg force.output.to.k.decimal.places} must be an integer between 0 and 9.")
 }
 
 

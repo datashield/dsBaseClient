@@ -61,9 +61,7 @@ ds.isNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   stdnames <- names(datasources)
   xnames <- extract(x)

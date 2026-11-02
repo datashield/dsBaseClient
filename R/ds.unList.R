@@ -72,9 +72,7 @@ ds.unList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
 
 
   # create a name by default if user did not provide a name for the new variable

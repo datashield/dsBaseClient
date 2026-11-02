@@ -35,13 +35,9 @@ ds.qlspline <- function(x, q, na.rm = TRUE, marginal = FALSE, names = NULL, newo
   
   datasources <- .resolveDatasources(datasources)
   
-  if(is.null(x)){
-    stop("Please provide the name of the input variable x!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input variable")
   
-  if(is.null(q)){
-    stop("Argument 'q' is missing, with no default!", call.=FALSE)
-  }
+  .checkArgProvided(q, "a number of quantiles")
   
   # create a name by default if user did not provide a name for the new variable
   newobj <- .resolveNewobjName(newobj, "qlspline.newobj")

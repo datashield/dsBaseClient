@@ -71,9 +71,7 @@ ds.rm<-function(x.names=NULL, datasources=NULL){
     
     datasources <- .resolveDatasources(datasources)
     
-    if (is.null(x.names)) {
-        stop("Please provide the names of the objects to be deleted (eg 'object.name') as the x.names argument", call.=FALSE)
-    }
+    .checkArgProvided(x.names, "the names of the objects to delete")
     
     #make transmittable via parser
     x.names.transmit <- paste(x.names,collapse=",")

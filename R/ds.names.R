@@ -71,9 +71,7 @@ ds.names <- function(xname=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(xname)){
-    stop("Please provide the name of the input list!", call.=FALSE)
-  }
+  .checkArgProvided(xname, "the name of the input list")
 
   calltext <- call("namesDS", xname)
   output <- DSI::datashield.aggregate(datasources, calltext)

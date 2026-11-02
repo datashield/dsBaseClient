@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.numNA::arg::test errors")
 test_that("simple ds.numNA errors", {
-    expect_error(ds.numNA(), "Please provide the name of a vector!")
+    expect_error(ds.numNA(), "must be the name of a vector")
 })
 
 #

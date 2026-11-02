@@ -69,15 +69,11 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
-  }
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the first numeric vector")
+  .checkArgProvided(y, "the name of the second numeric vector")
 
   if(!(method %in% c("pearson", "kendall", "spearman"))){
-    stop('Function argument "method" has to be either "pearson", "kendall" or "spearman"', call.=FALSE)
+    .abortInvalidChoice("method", c("pearson", "kendall", "spearman"))
   }
 
   # call the server side function
@@ -132,7 +128,7 @@ ds.corTest <- function(x=NULL, y=NULL, method="pearson", exact=NULL, conf.level=
         return(out)
       }  
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

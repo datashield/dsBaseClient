@@ -45,28 +45,22 @@ ds.igb_standards <- function(gagebrth=NULL, z=0, p=50, val=NULL, var=NULL, sex=N
   datasources <- .resolveDatasources(datasources)
   
   # check if user has provided the name of the input variables
-  if(is.null(gagebrth)){
-    stop("Please provide the name of the gagebrth variable", call.=FALSE)
-  }
-  if(is.null(sex)){
-    stop("Please provide the name of the sex variable", call.=FALSE)
-  }
+  .checkArgProvided(gagebrth, "the name of the gestational age variable")
+  .checkArgProvided(sex, "the name of the sex variable")
   
   # check if the provided fun is valid
   if(!(fun %in% c("igb_centile2value","igb_zscore2value","igb_value2zscore","igb_value2centile"))){
-    stop("Please provide a valid fun", call.=FALSE)
+    .abortInvalidChoice("fun", c("igb_centile2value", "igb_zscore2value", "igb_value2zscore", "igb_value2centile"))
   }
   
   # check if val is provided if fun is either igb_value2zscore or igb_value2centile
   if(fun %in% c("igb_value2zscore","igb_value2centile")){
-    if(is.null(val)){
-      stop("Please provide the name of the val variable", call.=FALSE)
-    }
+    .checkArgProvided(val, "the name of the value variable")
   }
   
   # check if the provided var is valid
   if(!(var %in% c("lencm", "wtkg", "hcircm", "wlr"))){
-    stop("Please provide a valid var", call.=FALSE)
+    .abortInvalidChoice("var", c("lencm", "wtkg", "hcircm", "wlr"))
   }
   
   # if no output variable specified then provide a default name

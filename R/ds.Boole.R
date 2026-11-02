@@ -107,23 +107,17 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the column or scalar that holds V1
-  if(is.null(V1)){
-    stop("Please provide the name of the column or scalar that holds V1!", call.=FALSE)
-  }
+  .checkArgProvided(V1, "the name of the column or scalar that holds V1")
 
   # check if user has provided the name of a column or scalar holding V2 or has declared a scalar value: eg '3'
-  if(is.null(V2)){
-    stop("Please provide the name of a column or scalar holding V2 or declare a scalar in character format: eg '3'", call.=FALSE)
-  }
+  .checkArgProvided(V2, "the name of a column or scalar that holds V2")
 
   # check if user has provided a Boolean operator in character format: eg '==' or '>=' or '<' or '!='
-  if(is.null(Boolean.operator)){
-    stop("Please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='", call.=FALSE)
-  }
+  .checkArgProvided(Boolean.operator, "a Boolean operator in character format, such as '==' or '>='")
 
   #check if na.assign has legal value
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
-    stop("Error: na.assign must be a character string taking value 'NA', '0' or '1'- if <na.action> not specified default is 'NA'", call.=FALSE)
+    .abortInvalidChoice("na.assign", c("NA", "0", "1"))
   }
 
   # create a name by default if user did not provide a name for the new variable

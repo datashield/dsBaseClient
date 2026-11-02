@@ -155,13 +155,9 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the first numeric vector")
 
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of the second numeric vector")
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -169,7 +165,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
   
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+    .abortInvalidChoice("method", c("smallCellsRule", "deterministic", "probabilistic"))
   }
 
   # prepare the axis labels
@@ -404,7 +400,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data (zoomed)")
 
     }else{
-       stop('Function argument "show" has to be either "all" or "zoomed"')
+       .abortInvalidChoice("show", c("all", "zoomed"))
     }
   } else if (type=='split') {
 
@@ -557,7 +553,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
            fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab = x.lab, ylab = y.lab, main = title)
 
          }else{
-           stop('Function argument "show" has to be either "all" or "zoomed"')
+           .abortInvalidChoice("show", c("all", "zoomed"))
          }
        }
 
@@ -651,11 +647,11 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
          fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab = x.lab, ylab = y.lab, main = "Heatmap Plot of the Pooled Data")
 
        }else{
-         stop('Function argument "show" has to be either "all" or "zoomed"')
+         .abortInvalidChoice("show", c("all", "zoomed"))
        }
      }
 
    }else{
-     stop('Function argument "type" has to be either "combine" or "split"')
+     .abortInvalidChoice("type", c("combine", "split"))
    }
 }

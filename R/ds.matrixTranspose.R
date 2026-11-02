@@ -85,9 +85,7 @@ ds.matrixTranspose<-function(M1=NULL, newobj=NULL, datasources=NULL){
   datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of matrix representing M1
-  if(is.null(M1)){
-    return("Error: Please provide the name of the matrix representing M1")
-  }
+  .checkArgProvided(M1, "the name of the matrix that represents M1")
 
   # if no value spcified for output object, then specify a default
   newobj <- .resolveNewobjName(newobj, "matrixtranspose.newobj")

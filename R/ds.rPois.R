@@ -106,22 +106,7 @@ ds.rPois<-function(samp.size=1,lambda=1, newobj="newObject", seed.as.integer=NUL
 
 ########################
 #TEST SEED PRIMING VALUE
-seed.valid<-0
-
-if(is.null(seed.as.integer)){
-seed.as.text<-"NULL"
-seed.valid<-1
-}
-
-if(is.numeric(seed.as.integer)){
-seed.as.text<-as.character(seed.as.integer)
-seed.valid<-1
-}
-
-if(seed.valid==0){
-mess1<-("ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL")
-return(mess1)
-}
+seed.as.text <- .seedAsText(seed.as.integer)
 
 ###################################################################################
 #samp.size is either a numeric scalar or a numeric vector set
@@ -133,16 +118,7 @@ return(mess1)
 #Such serverside vectors must be named in inverted commas. These get
 #stripped off when the vector name is passed to the serverside.
 
-arguments.valid<-1
-
-if(is.null(samp.size)||is.null(lambda)||is.null(newobj)){
-arguments.valid<-0
-}
-
-if(!arguments.valid){
-mess2<-("ERROR: appropriate values must be set for samp.size, lambda, and newobj name")
-return(mess2)
-}
+.checkArgsSet(samp.size = samp.size, lambda = lambda, newobj = newobj)
 
 numsources<-length(datasources)
 lambda<-.expandToStudies(lambda, "lambda", numsources)
@@ -155,8 +131,7 @@ if(is.numeric(lambda)){
 }
 
 if(!lambda.valid){
-mess3<-("ERROR: lambda must be > 0")
-return(mess3)
+cli_abort("{.arg lambda} must be greater than 0.")
 }
 ###################################################################################
 

@@ -70,9 +70,7 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a data.frame or matrix")
 
   ops <- c("rowSums","colSums","rowMeans","colMeans")
   if(is.null(operation)){
@@ -81,7 +79,7 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
     stop("'operation' = NULL. Please set it to 'rowSums', 'colSums', 'rowMeans' or 'colMeans'", call.=FALSE)
   }else{
     if(!any(operation %in% ops)){
-      stop("'operation' must be set to: 'rowSums', 'colSums', 'rowMeans' or 'colMeans'")
+      .abortInvalidChoice("operation", ops)
     }
   }
 

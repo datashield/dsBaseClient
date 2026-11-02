@@ -91,7 +91,7 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
 
   # Ensure type is 'pooled' or 'split'
   if((length(type) == 1) && (! any(type %in% c("pooled", "split")))){
-    stop("[type] can only be set to 'pooled' or 'split'")
+    .abortInvalidChoice("type", c("pooled", "split"))
   }
 
   # Determine class of x for dispatch

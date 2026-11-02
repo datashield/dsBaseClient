@@ -134,9 +134,7 @@ ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(toAssign)){
-    stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
-  }
+  .checkArgProvided(toAssign, "the name of the object to assign or an expression to evaluate")
   
   # create a name by default if user did not provide a name for the new variable
   newobj <- .resolveNewobjName(newobj, "make.newobj")

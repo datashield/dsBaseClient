@@ -105,13 +105,9 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL, classCons
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
-  if(is.null(y)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of the input vector")
 
   # names of the studies
   stdnames <- names(datasources)
@@ -142,8 +138,7 @@ ds.meanSdGp <- function(x=NULL, y=NULL, type='both', datasources=NULL, classCons
   }
 
   if(all.tables.valid<1){
-    warning.message<-"At least 1 cell count is 1-nfilter, please regroup"
-    return(warning.message)
+    cli_abort(c("At least one cell count is below {.code nfilter.tab}.", "i" = "Regroup the data and try again."))
   }
 
   if(all.tables.valid==1){

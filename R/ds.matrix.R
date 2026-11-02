@@ -148,9 +148,7 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for mdata
-  if(is.null(mdata)){
-    return("Error: mdata must be a character string, a numeric vector or a scalar")
-  }
+  .checkArgProvided(mdata, "a character string, numeric vector or scalar")
 
   # if no value spcified for output object, then specify a default
   newobj <- .resolveNewobjName(newobj, "matrix.newobj")
@@ -159,9 +157,7 @@ ds.matrix <- function(mdata = NA, from="clientside.scalar", nrows.scalar=NULL, n
   #Check that valid from has been specified
   if(from!="serverside.vector"&&from!="serverside.scalar"&&from!="clientside.scalar")
   {
-  message("            FAILED: <from> must be specified as one of the following - 'serverside.vector',
-        'serverside.scalar', 'clientside.scalar'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("from", c("serverside.vector", "serverside.scalar", "clientside.scalar"))
   }
 
   if(from=="serverside.vector"||from=="serverside.scalar"){

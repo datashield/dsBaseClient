@@ -64,7 +64,7 @@ test_that("one value per study", {
 
 # context("ds.rNorm::smk::wrong number of values")
 test_that("wrong number of values per study", {
-    expect_error(ds.rNorm(samp.size = 50, mean = c(0, 100), sd = 1, newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
+    expect_error(ds.rNorm(samp.size = 50, mean = c(0, 100), sd = 1, newobj = "no.obj", seed.as.integer = 27), "must have length 1")
 })
 
 #

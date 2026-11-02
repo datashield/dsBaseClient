@@ -132,7 +132,7 @@ ds.boxPlotGG <- function(x, group = NULL, group2 = NULL, xlabel = "x axis", ylab
     plt <- do.call(gridExtra::grid.arrange, plt)
     
   }
-  else{stop("Invalid type")}
+  else{.abortInvalidChoice("type", c("pooled", "split"))}
   
   return(plt)
   

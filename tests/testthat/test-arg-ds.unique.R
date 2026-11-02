@@ -21,12 +21,12 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.unique::arg::no arguments")
 test_that("simple ds.unique no arguments", {
-    expect_error(ds.unique(), "x.name=NULL. Please provide the names of the objects to de-duplicated!", fixed = TRUE)
+    expect_error(ds.unique(), "must be the names of the objects to de-duplicate", fixed = TRUE)
 })
 
 # context("ds.unique::arg::NULL arguments")
 test_that("simple ds.unique NULL arguments", {
-    expect_error(ds.unique(NULL), "x.name=NULL. Please provide the names of the objects to de-duplicated!", fixed = TRUE)
+    expect_error(ds.unique(NULL), "must be the names of the objects to de-duplicate", fixed = TRUE)
 })
 
 #

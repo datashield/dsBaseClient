@@ -85,9 +85,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL, classConsiste
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a matrix, data.frame or numeric vector")
 
   # name of the studies to be used in the output
   stdnames <- names(datasources)
@@ -164,7 +162,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL, classConsiste
 	    n4 <- "Correlation Matrix"
 	    names(results) <- c(n1, n2, n3, n4)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

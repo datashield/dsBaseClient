@@ -71,12 +71,10 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsi
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   if (! all(type %in% c("combine", "split"))) {
-    stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+    .abortInvalidChoice("type", c("combine", "split"))
   }
 
   # get the server function that produces the quantiles
@@ -116,7 +114,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsi
     if(type=="split"){
       return(quants)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"', call.=FALSE)
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 }

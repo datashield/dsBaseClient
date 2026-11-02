@@ -61,9 +61,7 @@ ds.levels <- function(x=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   cally <- call("levelsDS", x)
   results <- DSI::datashield.aggregate(datasources, cally)

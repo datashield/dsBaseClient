@@ -34,9 +34,7 @@ ds.hetcor <- function(data=NULL, ML=TRUE, std.err=TRUE, bins=4, pd=TRUE, use="co
   
   datasources <- .resolveDatasources(datasources)
   
-  if(is.null(data)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(data, "the name of the input object")
   
   calltext <- call('hetcorDS', data, ML, std.err, bins, pd, use)
   output <- DSI::datashield.aggregate(datasources, calltext)

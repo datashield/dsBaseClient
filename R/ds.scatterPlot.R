@@ -131,13 +131,9 @@
 #'
 ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.25, type="split", return.coords=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
-  if(is.null(x)){
-    stop("Please provide the name of the x-variable", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the x variable")
 
-  if(is.null(y)){
-    stop("Please provide the name of the y-variable", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of the y variable")
 
   datasources <- .resolveDatasources(datasources)
 
@@ -214,7 +210,7 @@ ds.scatterPlot <- function(x=NULL, y=NULL, method='deterministic', k=3, noise=0.
           return(message=return.message)
         }  
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 }

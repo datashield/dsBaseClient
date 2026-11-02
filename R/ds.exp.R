@@ -60,9 +60,7 @@ ds.exp <- function(x=NULL, newobj=NULL, datasources=NULL){
 
   datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
   newobj <- .resolveNewobjName(newobj, "exp.newobj")
 

@@ -110,9 +110,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
   datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the data.frame to be subsetted
-  if(is.null(df.name)){
-    stop("Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", call.=FALSE)
-  }
+  .checkArgProvided(df.name, "the name of the data.frame to subset")
 
   # check if user has provided the name of the column or scalar that holds V1. If not
   # have they instead provided a non.null keep.cols or non.null rm.cols argument
