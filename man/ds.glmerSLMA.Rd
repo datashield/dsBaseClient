@@ -144,6 +144,14 @@ regression coefficient across all studies with pooling under SLMA via
 random-effects meta-analysis under maximum likelihood (ML), restricted maximum
 likelihood (REML) or via fixed-effects meta-analysis (FE).
 
+\code{SLMA.heterogeneity}: a data.frame of the between-study heterogeneity
+from the same meta-analyses, with one row per regression coefficient and method
+(ML, REML and FE). The columns are \code{coefficient}, \code{method}, \code{tau2}
+(estimated between-study variance; 0 under FE), \code{I2} (percentage of total
+variability due to heterogeneity), \code{Q} (Cochran's Q statistic) and
+\code{Q.pval} (p-value of the test for heterogeneity). Returned only with
+\code{SLMA.pooled.ests.matrix}.
+
 \code{convergence.error.message}: reports for each study whether the model converged.
 If it did not some information about the reason for this is reported.
 }

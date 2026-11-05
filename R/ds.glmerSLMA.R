@@ -162,6 +162,13 @@
 #' regression coefficient across all studies with pooling under SLMA via
 #' random-effects meta-analysis under maximum likelihood (ML), restricted maximum
 #' likelihood (REML) or via fixed-effects meta-analysis (FE).
+#' @return \code{SLMA.heterogeneity}: a data.frame of the between-study heterogeneity
+#' from the same meta-analyses, with one row per regression coefficient and method
+#' (ML, REML and FE). The columns are \code{coefficient}, \code{method}, \code{tau2}
+#' (estimated between-study variance; 0 under FE), \code{I2} (percentage of total
+#' variability due to heterogeneity), \code{Q} (Cochran's Q statistic) and
+#' \code{Q.pval} (p-value of the test for heterogeneity). Returned only with
+#' \code{SLMA.pooled.ests.matrix}.
 #' @return \code{convergence.error.message}: reports for each study whether the model converged.
 #' If it did not some information about the reason for this is reported.
 #' @examples 
@@ -555,6 +562,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   
   
+  SLMA.heterogeneity<-NULL
   for(p in 1:numcoefficients){
     rma.ML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="ML")
     rma.REML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="REML")
@@ -568,6 +576,8 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
     
     SLMA.pooled.ests.matrix[p,5]<-rma.FE$beta
     SLMA.pooled.ests.matrix[p,6]<-rma.FE$se
+    SLMA.heterogeneity<-rbind(SLMA.heterogeneity,
+      .get_slma_heterogeneity(list(ML=rma.ML, REML=rma.REML, FE=rma.FE), rownames(as.matrix(betamatrix.valid))[p]))
     
   }
   
@@ -608,7 +618,8 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   }	
   
   return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
-              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))
+              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message,
+              SLMA.heterogeneity=SLMA.heterogeneity))
   
 }
 

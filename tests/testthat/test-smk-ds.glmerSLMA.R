@@ -28,10 +28,10 @@ test_that("setup", {
 # context("ds.glmerSLMA::smk::phase 1")
 test_that("simple glmerSLMA tesing (mis)use of arguments", {
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_theta = c(1))
-    expect_length(res, 8)
+    expect_length(res, 9)
 
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = "D", start_fixef = c(1,1,1), start_theta = c(1))
-    expect_length(res, 8)
+    expect_length(res, 9)
 })
 
 test_that("test offsets and weights", {
@@ -61,14 +61,25 @@ test_that("alternative formulae for nested groups", {
 test_that("simple glmerSLMA", {
     res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", dataName = "D")
 
-    expect_length(res, 8)
+    expect_length(res, 9)
+
+    heterogeneity <- res$SLMA.heterogeneity
+    coefficients <- rownames(res$betamatrix.valid)
+    expect_s3_class(heterogeneity, "data.frame")
+    expect_named(heterogeneity, c("coefficient", "method", "tau2", "I2", "Q", "Q.pval"))
+    expect_equal(heterogeneity$coefficient, rep(coefficients, each = 3))
+    expect_equal(heterogeneity$method, rep(c("ML", "REML", "FE"), times = length(coefficients)))
+
+    fit <- metafor::rma(yi = res$betamatrix.valid[2, ], sei = res$sematrix.valid[2, ], method = "REML")
+    row <- heterogeneity[heterogeneity$coefficient == coefficients[2] & heterogeneity$method == "REML", ]
+    expect_equal(c(row$tau2, row$I2, row$Q, row$Q.pval), c(fit$tau2, fit$I2, fit$QE, fit$QEp))
 })
 
 
 test_that("simple glmerSLMA with assign=TRUE", {
     res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", assign=TRUE, newobj="glmerSLMA.assigned", dataName = "D")
 
-    expect_length(res, 8)
+    expect_length(res, 9)
 })
 
 #
@@ -105,7 +116,7 @@ test_that("setup", {
 test_that("check slope formulae - 1", {
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', family='poisson', dataName = 'D', control_type = 'check.conv.grad', control_value = 0.1)
 
-    expect_length(res, 8)
+    expect_length(res, 9)
     expect_length(res$output.summary, 5)
     expect_equal(class(res$output.summary), "list")
     expect_length(res$num.valid.studies, 1)
@@ -177,7 +188,7 @@ test_that("check slope formulae - 1", {
 test_that("check slope formulae - 2", {
     res = ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor) + (trtGrp||idSurgery)', family='poisson', dataName = 'D', control_type = 'check.conv.grad', control_value = 0.1)
 
-    expect_length(res, 8)
+    expect_length(res, 9)
     expect_length(res$output.summary, 5)
     expect_equal(class(res$output.summary), "list")
     expect_length(res$num.valid.studies, 1)
