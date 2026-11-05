@@ -131,6 +131,7 @@ test_that('dataset 3',
 # context("ds.dataFrameSort::expt_dgr::multiple::numeric::ascending")
 test_that('all datasets',
           {  
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.all.datasets()
             all.local.values <- list(ds.test_env$local.values.1, ds.test_env$local.values.2, ds.test_env$local.values.3)
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",all.local.values)
@@ -152,6 +153,7 @@ test_that('all datasets',
 # context("ds.dataFrameSort::expt_dgr::single::numeric::ascending")
 test_that('dataset 1',
           {  
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.dataset.1()
             all.local.values <- list(ds.test_env$local.values.1)
             .test.data.frame.sorting("D","LOGICAL",FALSE,"numeric","server.data",all.local.values)
@@ -173,6 +175,7 @@ test_that('dataset 1',
 # context("ds.dataFrameSort::expt_dgr::multiple::numeric::descending")
 test_that('all datasets',
           {  
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.all.datasets()
             all.local.values <- list(ds.test_env$local.values.1, ds.test_env$local.values.2, ds.test_env$local.values.3)
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",all.local.values)
@@ -196,6 +199,7 @@ test_that('all datasets',
 # context("ds.dataFrameSort::expt_dgr::single::numeric::descending")
 test_that('dataset 1',
           {  
+            skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
             connect.dataset.1()
             all.local.values <- list(ds.test_env$local.values.1)
             .test.data.frame.sorting("D","LOGICAL",TRUE,"numeric","server.data",all.local.values)

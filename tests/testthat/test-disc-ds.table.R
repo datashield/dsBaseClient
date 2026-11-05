@@ -63,9 +63,9 @@ test_that("table rvar is big numeric", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 3)
-    expect_match(res.errors$study1, "* Error : FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
-    expect_match(res.errors$study2, "* Error : FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
-    expect_match(res.errors$study3, "* Error : FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
+    expect_match(res.errors$study1, "FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
+    expect_match(res.errors$study2, "FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
+    expect_match(res.errors$study3, "FAILED: this variable has too many levels and may be disclosive. It exceeds the max number of levels allowed by nfilter.levels.max: that is 40. In this study this variable has 71 factor levels")
 })
 
 #

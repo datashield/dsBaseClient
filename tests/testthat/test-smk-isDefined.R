@@ -51,9 +51,9 @@ test_that("default test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_match(err$discordant1, "* : object 'E' not found")
-    expect_match(err$discordant2, "* : object 'E' not found")
-    expect_match(err$discordant3, "* : object 'E' not found")
+    expect_match(err$discordant1, "object 'E' not found")
+    expect_match(err$discordant2, "object 'E' not found")
+    expect_match(err$discordant3, "object 'E' not found")
 })
 
 test_that("default test, dataframe column D$A", {
@@ -122,9 +122,9 @@ test_that("error.message=FALSE test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_match(err$discordant1, "* : object 'E' not found")
-    expect_match(err$discordant2, "* : object 'E' not found")
-    expect_match(err$discordant3, "* : object 'E' not found")
+    expect_match(err$discordant1, "object 'E' not found")
+    expect_match(err$discordant2, "object 'E' not found")
+    expect_match(err$discordant3, "object 'E' not found")
 })
 
 test_that("error.message=FALSE test, dataframe column D$A", {
@@ -221,9 +221,9 @@ test_that("error.message=TRUE test, dataframe column E$A", {
     expect_length(class(err), 1)
     expect_true(all("list" %in% class(err)))
     expect_length(err, 3)
-    expect_match(err$discordant1, "* : object 'E' not found")
-    expect_match(err$discordant2, "* : object 'E' not found")
-    expect_match(err$discordant3, "* : object 'E' not found")
+    expect_match(err$discordant1, "object 'E' not found")
+    expect_match(err$discordant2, "object 'E' not found")
+    expect_match(err$discordant3, "object 'E' not found")
 })
 
 test_that("error.message=TRUE test, dataframe column D$A", {

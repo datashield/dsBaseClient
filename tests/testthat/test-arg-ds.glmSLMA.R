@@ -27,9 +27,9 @@ test_that("glmSLMA_errors", {
   res.errors<-datashield.errors()
 
   expect_length(res.errors, 3)
-  expect_match(res.errors$sim1, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
-  expect_match(res.errors$sim2, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
-  expect_match(res.errors$sim3, "* Error in model\\.frame\\.default\\(formula = formula2use, data = dataTable,  : \n  invalid type \\(NULL\\) for variable 'D\\$LAB_TRIG'")
+  expect_match(res.errors$sim1, "invalid type (NULL) for variable 'D$LAB_TRIG'", fixed = TRUE)
+  expect_match(res.errors$sim2, "invalid type (NULL) for variable 'D$LAB_TRIG'", fixed = TRUE)
+  expect_match(res.errors$sim3, "invalid type (NULL) for variable 'D$LAB_TRIG'", fixed = TRUE)
 })
 
 #

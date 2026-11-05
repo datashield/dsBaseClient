@@ -15,6 +15,7 @@ source("definition_tests/def-ds.skewness.R")
 # context("ds.skewness::math_dgr::mean.median.mode::multiple")
 test_that("skewness >0 & mode<median<mean or skewness<0 & mean<median<mode",
 {
+ skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
  connect.all.datasets()
             
   .test.skewness.mean.median.mode('D$INTEGER', method = 1)
@@ -31,6 +32,7 @@ test_that("skewness >0 & mode<median<mean or skewness<0 & mean<median<mode",
 # context("ds.skewness::math_dgr::Q1.Q2.Q3::multiple")
 test_that("skewness >0 & Q3-Q2>Q2-Q1 or skewness<0 & Q3-Q2<Q2-Q1",
 {
+  skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
   connect.all.datasets()
             
   .test.skewness.Q1.Q2.Q3('D$INTEGER', method = 1)
