@@ -400,7 +400,7 @@ if(num.valid.studies==0)
 {
 	if ((! table.assign) || report.chisq.tests)
 	{
-	    failures <- paste0(names(error.messages), ": ", unlist(error.messages))
+	    failures <- paste0(names(error.messages), ": ", unlist(error.messages)) # nolint: object_usage_linter.
 	    cli_abort(c("All studies failed.", "x" = "{failures}"))
 	}
 	else

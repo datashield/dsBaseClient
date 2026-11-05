@@ -133,9 +133,9 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .checkArgsSet <- function(..., call = parent.frame()) {
-  args <- list(...)
-  if (any(vapply(args, is.null, logical(1)))) {
-    cli_abort("{.arg {names(args)}} must all be set.", call = call)
+  values <- list(...)
+  if (any(vapply(values, is.null, logical(1)))) {
+    cli_abort("{.arg {names(values)}} must all be set.", call = call)
   }
 }
 
