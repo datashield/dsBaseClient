@@ -61,10 +61,23 @@
   classes <- lapply(results, function(r) r[[field]])
   if (length(unique(lapply(classes, sort))) > 1) {
     if (is.null(objectName)) {
-      cli_abort("The input object must have the same class in all studies.", call = call)
+      cli_abort(c("The input object must have the same class in all studies.", .describeStudyClasses(classes)), call = call)
     }
-    cli_abort("{.val {objectName}} must have the same class in all studies.", call = call)
+    cli_abort(c("{.val {objectName}} must have the same class in all studies.", .describeStudyClasses(classes)), call = call)
   }
+}
+
+#' Describe the Class of an Object in Each Study
+#'
+#' @param classes A named list with the class of the object in each study.
+#' @return A character vector of `cli` bullets, one per study, named `"x"`.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.describeStudyClasses <- function(classes) {
+  described <- vapply(classes, function(cls) paste(cls, collapse = ", "), character(1))
+  bullets <- paste0(names(classes), " has class ", described, ".")
+  names(bullets) <- rep("x", length(bullets))
+  bullets
 }
 
 #' Check That a New Object Name Is Valid
@@ -228,14 +241,15 @@
 
 #' Abort Because an Argument Is Not One of the Allowed Values
 #'
-#' @param argName The name of the argument.
+#' @param argName The name of the argument, as defined in the calling function.
 #' @param choices A character vector of the allowed values.
-#' @param call The frame to report the error from.
+#' @param call The frame to report the error from, which also holds the argument.
 #' @importFrom cli cli_abort cli_inform cli_verbatim cli_warn
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .abortInvalidChoice <- function(argName, choices, call = parent.frame()) {
-  cli_abort("{.arg {argName}} must be {.or {.val {choices}}}.", call = call)
+  value <- get(argName, envir = call)
+  cli_abort("{.arg {argName}} must be {.or {.val {choices}}}, not {.val {value}}.", call = call)
 }
 
 #' Expand an Argument to One Value per Study

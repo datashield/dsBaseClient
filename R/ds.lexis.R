@@ -215,8 +215,9 @@ ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exi
   .checkArgProvided(exitCol, "the name of the column that holds exit times")
 
   # if no valid value provided for 'intervalWidth' instruct user to specify one
-  if(any(is.null(intervalWidth))||any(is.na(intervalWidth))||any(intervalWidth==0)){
-    cli_abort("{.arg intervalWidth} must be a non-zero numeric value or vector.")
+  .checkArgProvided(intervalWidth, "a non-zero numeric value or vector")
+  if(any(is.na(intervalWidth))||any(intervalWidth==0)){
+    cli_abort("{.arg intervalWidth} must be a non-zero numeric value or vector, not {.val {intervalWidth}}.")
   }
 
   # if no value spcified for output (expanded) data set, then specify a default

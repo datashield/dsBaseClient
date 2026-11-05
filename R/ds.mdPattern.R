@@ -152,7 +152,9 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     # Check if all patterns have the same variables (columns)
     n_vars <- sapply(patterns_list, ncol)
     if(length(unique(n_vars)) > 1){
-      cli_abort("Can't pool patterns because studies have different numbers of variables.")
+      counts <- paste0(names(n_vars), " has ", n_vars - 1, " variables.")
+      names(counts) <- rep("x", length(counts))
+      cli_abort(c("Can't pool patterns because studies have different numbers of variables.", counts))
     }
 
     # md.pattern orders variable columns by missingness, which differs across studies,
@@ -162,7 +164,7 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     patterns_list <- lapply(patterns_list, function(pattern){
       study_vars <- colnames(pattern)[-ncol(pattern)]
       if(!setequal(study_vars, var_cols)){
-        cli_abort("Can't pool patterns because studies have different variables.")
+        cli_abort(c("Can't pool patterns because studies have different variables.", "x" = "Not in every study: {.val {union(setdiff(study_vars, var_cols), setdiff(var_cols, study_vars))}}."))
       }
       pattern[, c(match(var_cols, study_vars), ncol(pattern)), drop = FALSE]
     })

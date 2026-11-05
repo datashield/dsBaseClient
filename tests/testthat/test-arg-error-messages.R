@@ -55,7 +55,7 @@ test_that("ds.elspline rejects fewer than two knots", {
 test_that("ds.forestplot rejects a variable that is not in the model", {
     betas <- matrix(1, dimnames = list("age", "study1"))
     mod <- list(num.valid.studies = 1, output.summary = list(study1 = 1, input.beta.matrix.for.SLMA = betas, input.se.matrix.for.SLMA = betas))
-    expect_error(ds.forestplot(mod, variable = "bmi"), "\"bmi\" is not a valid variable")
+    expect_error(ds.forestplot(mod, variable = "bmi"), "not \"bmi\"")
 })
 
 test_that("ds.getWGSR rejects a missing thirdPart and an invalid standing", {
@@ -197,12 +197,12 @@ test_that("ds.histogram reports missing break points and invalid cells", {
         histogramDS2 = function(study, expr) if (study == "sim1") list(histobject = one_bar, invalidcells = 2)
     )
     expect_error(ds.histogram("x", datasources = studies), "Can't find equidistant break points")
-    expect_warning(ds.histogram("x", datasources = studies[1]), "sim1: 2 invalid cells")
+    expect_warning(ds.histogram("x", datasources = studies[1]), "2 bins in \"sim1\" had fewer than")
 
     fake_server(histogramDS1 = list(range = c(1, 2)), histogramDS2 = list(histobject = one_bar, invalidcells = 2))
     warnings <- capture_warnings(ds.histogram("x", datasources = studies[1:2]))
-    expect_match(warnings, "sim1: 2 invalid cells", all = FALSE)
-    expect_match(warnings, "sim2: 2 invalid cells", all = FALSE)
+    expect_match(warnings, "2 bins in \"sim1\" had fewer than", all = FALSE)
+    expect_match(warnings, "2 bins in \"sim2\" had fewer than", all = FALSE)
 })
 
 test_that("ds.kurtosis and ds.skewness report too few observations for a combined result", {
@@ -253,7 +253,7 @@ test_that("glmChecks reports variables that fail its checks", {
     expect_error(suppressMessages(glmChecks(formula, NULL, "D$o", NULL, studies[1])), "\"D\\$o\" must be numeric in \"sim1\"")
 
     fake_server(exists = TRUE, isNaDS = list(is.na = FALSE), classDS = "numeric", checkNegValueDS = TRUE)
-    expect_error(suppressMessages(glmChecks(formula, NULL, NULL, "D$w", studies[1])), "Weights must not be negative in \"sim1\"")
+    expect_error(suppressMessages(glmChecks(formula, NULL, NULL, "D$w", studies[1])), "Weights \"D\\$w\" must not be negative in \"sim1\"")
 })
 
 test_that("ds.meanSdGp rejects invalid tables", {

@@ -96,17 +96,17 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
 
   # check values2replace.vector and new.values.vector have the same length
   if(length(values2replace.vector) != length(new.values.vector)){
-    cli_abort("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.")
+    cli_abort(c("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.", "x" = "{.arg values2replace.vector} has length {length(values2replace.vector)} and {.arg new.values.vector} has length {length(new.values.vector)}."))
   }
 
   # check no duplicate values in values2replace.vector
   if(length(values2replace.vector) != length(unique(values2replace.vector))){
-    cli_abort("{.arg values2replace.vector} must not contain duplicate values.")
+    cli_abort(c("{.arg values2replace.vector} must not contain duplicate values.", "x" = "Duplicated: {.val {unique(values2replace.vector[duplicated(values2replace.vector)])}}."))
   }
   
   # simple work around for a bug in the format for values2replace.vector
   if(any(is.na(values2replace.vector))){
-    cli_abort("Use {.arg missing} to recode {.code NA} values.")
+    cli_abort(c("{.arg values2replace.vector} can't contain {.code NA}.", "i" = "Use {.arg missing} to recode {.code NA} values."))
   }
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){

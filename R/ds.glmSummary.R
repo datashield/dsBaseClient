@@ -83,7 +83,7 @@ ds.glmSummary <- function(x.name, newobj=NULL, datasources=NULL) {
 
   # check if a value has been provided for x
   if(is.null(x.name)||!is.character(x.name)){
-    cli_abort("{.arg x.name} must be a character string that names a glm object on the server.")
+    cli_abort("{.arg x.name} must be a character string that names a glm object on the server, not {.cls {class(x.name)}}.")
   }
 
   # create a name by default if the user did not provide a name for the new object

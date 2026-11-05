@@ -489,7 +489,9 @@ if(numsources>1)
       if(table.dimensions[ns]!=table.dimensions[ns+1])
       {
       all.dims.same<-FALSE
-      cli_abort(c("Tables in different sources have different numbers of dimensions.", "i" = "Analyse and combine them yourself from the study-specific tables."))
+      dims <- paste0(study.names.valid, " has ", table.dimensions, " dimensions.")
+      names(dims) <- rep("x", length(dims))
+      cli_abort(c("Tables in different sources have different numbers of dimensions.", dims, "i" ="Analyse and combine them yourself from the study-specific tables."))
       }
     }
 
@@ -705,7 +707,7 @@ for(oo in 1:length(table.current.study[,1]))
    
   if(d1.a!=d1||d2.a!=d2||d3.a!=d3)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}}, {.arg cvar} = {.val {d2}}, {.arg stvar} = {.val {d3}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell
@@ -924,7 +926,7 @@ for(oo in 1:length(table.current.study[,1]))
    
   if(d1.a!=d1||d2.a!=d2)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}}, {.arg cvar} = {.val {d2}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell
@@ -1116,7 +1118,7 @@ for(oo in 1:length(table.current.study[,1]))
 
   if(d1.a!=d1)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell

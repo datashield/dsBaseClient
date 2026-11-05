@@ -106,13 +106,13 @@ glmChecks <- function(formula, data, offset, weights, datasources){
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value
         if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){
           if(!('numeric' %in% typ)){
-            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}.")
+            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}, not {.cls {typ}}.")
           }
         }
         if(varIdentifier[i] == "weights"){
           checkres <- unlist(DSI::datashield.aggregate(datasources[j], as.symbol(call1)))
           if(checkres){
-            cli_abort("Weights must not be negative in {.val {stdnames[j]}}.")
+            cli_abort("Weights {.val {elts[i]}} must not be negative in {.val {stdnames[j]}}.")
           }
         }
 

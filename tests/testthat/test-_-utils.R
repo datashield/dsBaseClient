@@ -12,9 +12,10 @@ test_that(".checkArgProvided names the argument and reports the calling function
 })
 
 # context("utils::.abortInvalidChoice")
-test_that(".abortInvalidChoice lists the allowed values", {
-    expect_error(.abortInvalidChoice("type", c("combine", "split")), "`type` must be \"combine\" or \"split\"")
-    expect_error(.abortInvalidChoice("type", c("both", "combine", "split")), "`type` must be \"both\", \"combine\", or \"split\"")
+test_that(".abortInvalidChoice lists the allowed values and the value given", {
+    type <- "pooled"
+    expect_error(.abortInvalidChoice("type", c("combine", "split")), "`type` must be \"combine\" or \"split\", not \"pooled\"")
+    expect_error(.abortInvalidChoice("type", c("both", "combine", "split")), "`type` must be \"both\", \"combine\", or \"split\", not \"pooled\"")
 })
 
 # context("utils::.resolveNewobjName")
@@ -41,6 +42,7 @@ test_that(".checkClassConsistency compares the chosen field across studies", {
     expect_null(.checkClassConsistency(same))
     expect_error(.checkClassConsistency(different), "The input object must have the same class")
     expect_error(.checkClassConsistency(different, objectName = "D"), "\"D\" must have the same class")
+    expect_error(.checkClassConsistency(different), "b has class factor")
 })
 
 # context("utils::.seedAsText")

@@ -139,7 +139,7 @@ ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=
   
   # check if the vector or list of INDEX.names includes up to two names
   if(length(INDEX.names) > 2){
-    cli_abort("{.arg INDEX.names} must name no more than two factors.")
+    cli_abort(c("{.arg INDEX.names} must name no more than two factors.", "x" = "You supplied {length(INDEX.names)}."))
   }
   
   # make INDEX.names transmitable

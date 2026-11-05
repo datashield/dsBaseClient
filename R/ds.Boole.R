@@ -151,7 +151,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   }
 
   if(BO.n == 0){
-    cli_abort("{.val {Boolean.operator}} is not a recognised Boolean operator.")
+    .abortInvalidChoice("Boolean.operator", c("==", "!=", "<", "<=", ">", ">="))
   }
 
   # if no value spcified for output object, then specify a default

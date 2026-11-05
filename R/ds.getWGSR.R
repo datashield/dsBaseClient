@@ -122,7 +122,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message
   if(!any(standing %in% c(NA, 1, 2, 3))) {
-    cli_abort("{.arg standing} must be 1, 2 or 3.")
+    cli_abort("{.arg standing} must be 1, 2 or 3, not {.val {standing}}.")
   }
   
   # check newobj not actively declared as null

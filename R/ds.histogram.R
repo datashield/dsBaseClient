@@ -254,7 +254,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
         numc <- 2
         graphics::par(mfrow=c(numr,numc))
         for(i in 1:ll){
-          cli_warn("{names(datasources)[i]}: {invalidcells[[i]]} invalid cells.")
+          cli_warn("{invalidcells[[i]]} bin{?s} in {.val {names(datasources)[i]}} had fewer than {.code nfilter.tab} observations, so {qty(invalidcells[[i]])}{?its count was/their counts were} set to 0.")
           if(vertical.axis=="Frequency"){
             graphics::plot(hist.objs[[i]], freq=TRUE, xlab=varname, main=paste("Histogram of ", names(datasources)[i], sep=""))
           }
@@ -265,7 +265,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
         return(hist.objs)
       }else{
         graphics::par(mfrow=c(1,1))
-        cli_warn("{names(datasources)[1]}: {invalidcells[[1]]} invalid cells.")
+        cli_warn("{invalidcells[[1]]} bin{?s} in {.val {names(datasources)[1]}} had fewer than {.code nfilter.tab} observations, so {qty(invalidcells[[1]])}{?its count was/their counts were} set to 0.")
         if(vertical.axis=="Frequency"){
           graphics::plot(hist.objs[[1]], freq=TRUE, xlab=varname, main=paste("Histogram of ", names(datasources)[1], sep=""))
         }

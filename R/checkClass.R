@@ -17,7 +17,7 @@ checkClass <- function(datasources=NULL, obj=NULL){
   classes <- unique(unlist(classesBy))
   for (n in names(classesBy)) {
     if (!all(classes == classesBy[[n]])) {
-      cli_abort(c("{.val {obj}} must have the same class in all studies.", "i" = "Use {.fn ds.class} to check its class in each study."))
+      cli_abort(c("{.val {obj}} must have the same class in all studies.", .describeStudyClasses(classesBy)))
     }
   }
   return(classes)
