@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple glmSLMA, gaussian", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -79,7 +79,7 @@ test_that("simple glmSLMA, gaussian", {
 test_that("simple glmSLMA, gaussian-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="glmSLMA_1.newobj")
     
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -136,7 +136,7 @@ test_that("simple glmSLMA, binomial", {
 
     glmSLMA.res <- ds.glmSLMA('num.medi.lpd~num.gender*num.dis.diab', family="binomial")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -194,7 +194,7 @@ test_that("simple glmSLMA, binomial-assigned", {
 
     glmSLMA.res <- ds.glmSLMA('num.medi.lpd~num.gender*num.dis.diab', family="binomial", newobj="glmSLMA_2.newobj")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -245,7 +245,7 @@ test_that("simple glmSLMA, binomial-assigned", {
 test_that("simple glmSLMA, poisson", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -296,7 +296,7 @@ test_that("simple glmSLMA, poisson", {
 test_that("simple glmSLMA, poisson-assigned", {
     glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="poisson", newobj="glmSLMA_3.newobj")
 
-    expect_length(glmSLMA.res, 7)
+    expect_length(glmSLMA.res, 8)
     expect_equal(glmSLMA.res$num.valid.studies, 3)
     expect_true("matrix" %in% class(glmSLMA.res$betamatrix.all))
     expect_true("matrix" %in% class(glmSLMA.res$sematrix.all))
@@ -341,6 +341,22 @@ test_that("simple glmSLMA, poisson-assigned", {
     expect_equal(glmSLMA.res$output.summary$study3$Nmissing, 655)
     ds_expect_variables(c("D", "new.glm.obj", "glmSLMA_1.newobj", "glmSLMA_2.newobj", "glmSLMA_3.newobj",
                           "str.medi.lpd", "num.medi.lpd", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
+})
+
+test_that("glmSLMA returns heterogeneity of the pooled estimates", {
+    glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
+    heterogeneity <- glmSLMA.res$SLMA.heterogeneity
+    coefficients <- rownames(glmSLMA.res$betamatrix.valid)
+
+    expect_s3_class(heterogeneity, "data.frame")
+    expect_named(heterogeneity, c("coefficient", "method", "tau2", "I2", "Q", "Q.pval"))
+    expect_equal(heterogeneity$coefficient, rep(coefficients, each = 3))
+    expect_equal(heterogeneity$method, rep(c("ML", "REML", "FE"), times = length(coefficients)))
+    expect_equal(heterogeneity$tau2[heterogeneity$method == "FE"], rep(0, length(coefficients)))
+
+    fit <- metafor::rma(yi = glmSLMA.res$betamatrix.valid[2, ], sei = glmSLMA.res$sematrix.valid[2, ], method = "REML")
+    row <- heterogeneity[heterogeneity$coefficient == coefficients[2] & heterogeneity$method == "REML", ]
+    expect_equal(c(row$tau2, row$I2, row$Q, row$Q.pval), c(fit$tau2, fit$I2, fit$QE, fit$QEp))
 })
 
 test_that("fails if the object does not exist", {

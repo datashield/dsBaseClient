@@ -135,3 +135,27 @@
   }
   return(values)
 }
+
+#' Get Heterogeneity Statistics From Meta-Analysis Fits
+#'
+#' Internal helper that collects the between-study heterogeneity of one pooled
+#' regression coefficient from its \code{metafor::rma()} fits.
+#'
+#' @param fits A named list of \code{rma} fits of the same coefficient, one per
+#'   pooling method, named by method.
+#' @param coefficient The name of the pooled coefficient.
+#' @return A data.frame with one row per fit and columns \code{coefficient},
+#'   \code{method}, \code{tau2}, \code{I2}, \code{Q} and \code{Q.pval}.
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.get_slma_heterogeneity <- function(fits, coefficient) {
+  data.frame(
+    coefficient = coefficient,
+    method = names(fits),
+    tau2 = vapply(fits, function(fit) fit$tau2, numeric(1)),
+    I2 = vapply(fits, function(fit) fit$I2, numeric(1)),
+    Q = vapply(fits, function(fit) fit$QE, numeric(1)),
+    Q.pval = vapply(fits, function(fit) fit$QEp, numeric(1)),
+    row.names = NULL
+  )
+}

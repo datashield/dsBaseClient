@@ -49,6 +49,7 @@ test_that("linear mixed model with 2 levels of hierarchy",
             }
               
             SLMA.pooled.ests.matrix<-matrix(NA,nrow<-numcoefficients,ncol=6)
+            heterogeneity<-NULL
             
             for(p in 1:numcoefficients){
               rma.ML<-metafor::rma(yi=as.matrix(betamatrix)[p,], sei=as.matrix(sematrix)[p,], method="ML")
@@ -63,6 +64,9 @@ test_that("linear mixed model with 2 levels of hierarchy",
               
               SLMA.pooled.ests.matrix[p,5]<-rma.FE$beta
               SLMA.pooled.ests.matrix[p,6]<-rma.FE$se   
+              for(fit in list(rma.ML, rma.REML, rma.FE)){
+                heterogeneity<-rbind(heterogeneity, c(fit$tau2, fit$I2, fit$QE, fit$QEp))
+              }
             }
             
             #check meta analyses are the same both locally and on the server
@@ -71,6 +75,8 @@ test_that("linear mixed model with 2 levels of hierarchy",
 #            print(res.server$SLMA.pooled.ests.matrix)
             
             expect_equal(SLMA.pooled.ests.matrix, res.server$SLMA.pooled.ests.matrix, tolerance = ds.test_env$tolerance, check.attributes = FALSE)
+            expect_equal(heterogeneity, as.matrix(res.server$SLMA.heterogeneity[, c("tau2", "I2", "Q", "Q.pval")]), tolerance = ds.test_env$tolerance, check.attributes = FALSE)
+            expect_equal(res.server$SLMA.heterogeneity$method, rep(c("ML", "REML", "FE"), times = numcoefficients))
           }
 )
 

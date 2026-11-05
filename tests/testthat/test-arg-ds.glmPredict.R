@@ -30,7 +30,7 @@ test_that("glmPredict_errors", {
   #glmSLMA.res <- ds.glmSLMA('D$DIS_DIAB~D$LAB_TRIG', family="binomial", newobj="binomial.glmslma.obj")
   glmSLMA.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj")
   
-  expect_length(glmSLMA.res, 7)
+  expect_length(glmSLMA.res, 8)
   expect_equal(glmSLMA.res$num.valid.studies, 3)
   ds_expect_variables(c("D", "gaussian.glmslma.obj"))
 })

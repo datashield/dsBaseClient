@@ -261,6 +261,13 @@
 #' argument combine.with.metafor is set to TRUE. Otherwise, users can take
 #' the \code{betamatrix.valid} and \code{sematrix.valid} matrices and enter
 #' them into their meta-analysis package of choice.
+#' @return \code{SLMA.heterogeneity}: a data.frame of the between-study heterogeneity
+#' from the same meta-analyses, with one row per regression coefficient and method
+#' (ML, REML and FE). The columns are \code{coefficient}, \code{method}, \code{tau2}
+#' (estimated between-study variance; 0 under FE), \code{I2} (percentage of total
+#' variability due to heterogeneity), \code{Q} (Cochran's Q statistic) and
+#' \code{Q.pval} (p-value of the test for heterogeneity). Returned only with
+#' \code{SLMA.pooled.ests.matrix}.
 #' @author Paul Burton, for DataSHIELD Development Team 07/07/20
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @examples
@@ -804,6 +811,7 @@ return(list(output.summary=output.summary))
 
 
 
+  SLMA.heterogeneity<-NULL
   for(p in 1:numcoefficients){
     rma.ML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="ML")
     rma.REML<-metafor::rma(yi=as.matrix(betamatrix.valid)[p,], sei=as.matrix(sematrix.valid)[p,], method="REML")
@@ -817,6 +825,8 @@ return(list(output.summary=output.summary))
 
     SLMA.pooled.ests.matrix[p,5]<-rma.FE$beta
     SLMA.pooled.ests.matrix[p,6]<-rma.FE$se
+    SLMA.heterogeneity<-rbind(SLMA.heterogeneity,
+      .get_slma_heterogeneity(list(ML=rma.ML, REML=rma.REML, FE=rma.FE), rownames(as.matrix(betamatrix.valid))[p]))
 
   }
 
@@ -824,7 +834,7 @@ return(list(output.summary=output.summary))
   return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,
               betamatrix.all=betamatrix.all,
               sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid, sematrix.valid=sematrix.valid,
-              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix))
+              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix, SLMA.heterogeneity=SLMA.heterogeneity))
 
 }
 

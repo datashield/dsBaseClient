@@ -29,7 +29,7 @@ test_that("setup", {
 test_that("simple lmerSLMA", {
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = "D")
 
-    expect_length(res, 8)
+    expect_length(res, 9)
 })
 
 
@@ -107,7 +107,7 @@ test_that("setup", {
 test_that("check slope formulae", {
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (1|idSurgery) + (0+trtGrp|idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
 
-    expect_length(res, 8)
+    expect_length(res, 9)
     expect_length(res$output.summary, 5)
     expect_equal(class(res$output.summary), "list")
     expect_length(res$num.valid.studies, 1)
@@ -179,7 +179,7 @@ test_that("check slope formulae", {
 test_that("check slope formulae", {
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor) + (trtGrp||idSurgery)', dataName = 'D', control_type = 'check.conv.grad',control_value = 0.1)
 
-    expect_length(res, 8)
+    expect_length(res, 9)
     expect_length(res$output.summary, 5)
     expect_equal(class(res$output.summary), "list")
     expect_length(res$num.valid.studies, 1)
