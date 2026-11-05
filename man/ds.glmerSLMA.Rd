@@ -97,6 +97,12 @@ potentially disclosive elements
 such as individual-level residuals and linear predictor values are blocked. 
 In this case, only non-disclosive elements are returned from each study separately.
 
+When the models are fitted, the list has class \code{ds_glmerSLMA}: the full list
+described below, \code{output.summary} alone when \code{combine.with.metafor} is
+FALSE, or a list holding only \code{output.summary} when the model structures differ
+between studies. The lists returned for an invalid \code{control_type} argument, or
+when every study fails, have no class.
+
 The list of elements returned by \code{ds.glmerSLMA} is mentioned below:
 
 \code{coefficients}: a matrix with 5 columns:

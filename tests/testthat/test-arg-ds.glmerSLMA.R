@@ -39,6 +39,7 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
 
     res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'xtol_rel')
     expect_equal(res$errorMessage, "ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7",fixed=TRUE)
+    expect_false(inherits(res, "ds_glmerSLMA"))
     expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'check.conv.grad',control_value = 'nothing'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 
     errs <- datashield.errors()

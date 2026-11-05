@@ -62,6 +62,11 @@ test_that("simple glmerSLMA", {
     res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", dataName = "D")
 
     expect_length(res, 8)
+    expect_s3_class(res, "ds_glmerSLMA", exact = TRUE)
+
+    res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family="poisson", dataName = "D", combine.with.metafor = FALSE)
+
+    expect_s3_class(res, "ds_glmerSLMA", exact = TRUE)
 })
 
 
