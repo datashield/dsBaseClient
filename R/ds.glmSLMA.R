@@ -197,6 +197,11 @@
 #' \code{ds.glmSLMA} include: a mixture of non-disclosive elements of the glm object
 #' reported separately by study included in a list object called \code{output.summary}; and
 #' a series of other list objects that represent inferences aggregated across studies.
+#' @return The list has class \code{ds_glmSLMA} when it holds model results: the
+#' full list described below, \code{output.summary} alone when
+#' \code{combine.with.metafor} is FALSE, or a list holding only \code{output.summary}
+#' when the model structures differ between studies. The lists returned when every
+#' study is blocked or fails have no class.
 #' @return the study specific items include: 
 #' @return \code{coefficients}: a matrix with 5 columns:
 #'    \describe{
@@ -727,6 +732,7 @@ SLMA.pooled.ests.matrix<-matrix(NA,nrow<-numcoefficients,ncol=6)
 
 if(!combine.with.metafor)
 {
+class(output.summary) <- "ds_glmSLMA"
 return(output.summary)
 }
 
@@ -787,7 +793,9 @@ if(num.valid.studies>1){
   if(!coefficient.vectors.match){
     message("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
 	message("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
-return(list(output.summary=output.summary))
+output <- list(output.summary=output.summary)
+class(output) <- "ds_glmSLMA"
+return(output)
     }
 
 
@@ -821,10 +829,12 @@ return(list(output.summary=output.summary))
   }
 
 
-  return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,
+  output <- list(output.summary=output.summary, num.valid.studies=num.valid.studies,
               betamatrix.all=betamatrix.all,
               sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid, sematrix.valid=sematrix.valid,
-              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix))
+              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix)
+  class(output) <- "ds_glmSLMA"
+  return(output)
 
 }
 

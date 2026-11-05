@@ -69,6 +69,10 @@ potentially disclosive elements
 such as individual-level residuals and linear predictor values are blocked. 
 In this case, only non-disclosive elements are returned from each study separately.
 
+When the model is fitted, the list has class \code{ds_glm}, whichever of
+\code{viewVarCov} and \code{viewCor} are set. The list returned when model fitting is
+terminated for disclosure risk or data errors has no class.
+
 The list of elements returned by \code{ds.glm} is mentioned below:
 
 \code{Nvalid}: total number of valid observational units across all studies.

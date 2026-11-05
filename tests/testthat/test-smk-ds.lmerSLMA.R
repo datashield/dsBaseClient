@@ -30,6 +30,7 @@ test_that("simple lmerSLMA", {
     res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = "D")
 
     expect_length(res, 8)
+    expect_s3_class(res, "ds_lmerSLMA", exact = TRUE)
 })
 
 
@@ -45,6 +46,7 @@ test_that("alternative formulae for nested groups", {
     #expect_equal(res$Convergence.error.message[2], "Study2: no convergence error reported")
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor)', dataName = "D", combine.with.metafor = FALSE)
     expect_length(res, 5)
+    expect_s3_class(res, "ds_lmerSLMA", exact = TRUE)
 })
 
 
@@ -53,6 +55,7 @@ test_that("server side error", {
     expect_equal(res$Convergence.error.message[2], "Study2: no convergence error reported")
     res=ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idSurgery)', dataName = 'D', optimizer = 'not_this_one')
     expect_equal(res$errorMessage, "ERROR: the only optimizer currently available for lmer is 'nloptwrap', please respecify")
+    expect_false(inherits(res, "ds_lmerSLMA"))
     res = ds.lmerSLMA(formula = 'BMI ~ trtGrp + Male + (1|idDoctor)', dataName = "D", REML = FALSE)
     expect_equal(res$output.summary$study1$methTitle, "Linear mixed model fit by maximum likelihood ")
 })

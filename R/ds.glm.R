@@ -173,6 +173,10 @@
 #' such as individual-level residuals and linear predictor values are blocked. 
 #' In this case, only non-disclosive elements are returned from each study separately.
 #' 
+#' When the model is fitted, the list has class \code{ds_glm}, whichever of
+#' \code{viewVarCov} and \code{viewCor} are set. The list returned when model fitting is
+#' terminated for disclosure risk or data errors has no class.
+#'
 #' The list of elements returned by \code{ds.glm} is mentioned below: 
 #' 
 #' @return \code{Nvalid}: total number of valid observational units across all studies.
@@ -738,7 +742,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
             output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
         )
 
-#   class(glmds) <- 'glmds'
+        class(glmds) <- "ds_glm"
 
         return(glmds)
 	}
@@ -761,7 +765,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
                         df=(nsubs.total-length(beta.vect.next)),
 			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
                  )
-#   class(glmds) <- 'glmds'
+        class(glmds) <- "ds_glm"
 			return(glmds)
     }
 	if(!viewVarCov & viewCor){
@@ -781,6 +785,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
                         df=(nsubs.total-length(beta.vect.next)),
 		        output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
                 )
+        class(glmds) <- "ds_glm"
         return(glmds)
     }
 
@@ -802,6 +807,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
                         df=(nsubs.total-length(beta.vect.next)),
 			output.information="SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES"
                 )
+        class(glmds) <- "ds_glm"
         return(glmds)
     }
 

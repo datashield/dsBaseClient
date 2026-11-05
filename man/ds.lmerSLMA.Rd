@@ -94,6 +94,13 @@ The list of elements returned by \code{ds.lmerSLMA} is mentioned below:
 \code{ds.lmerSLMA} returns a list of  elements mentioned 
 below separately for each study.
 
+The list has class \code{ds_lmerSLMA} when it holds model results: the
+full list described below, \code{output.summary} alone when
+\code{combine.with.metafor} is FALSE, or a list holding only \code{output.summary}
+when the model structures differ between studies. The lists returned for invalid
+\code{control_type} or \code{optimizer} arguments, or when every study fails, have
+no class.
+
 \code{coefficients}: a matrix with 5 columns:
    \describe{
    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 

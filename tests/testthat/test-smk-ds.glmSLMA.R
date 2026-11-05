@@ -343,6 +343,14 @@ test_that("simple glmSLMA, poisson-assigned", {
                           "str.medi.lpd", "num.medi.lpd", "str.gender", "num.gender", "str.dis.diab", "num.dis.diab"))
 })
 
+test_that("glmSLMA result has class ds_glmSLMA", {
+    pooled.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian")
+    unpooled.res <- ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", combine.with.metafor=FALSE)
+
+    expect_s3_class(pooled.res, "ds_glmSLMA", exact = TRUE)
+    expect_s3_class(unpooled.res, "ds_glmSLMA", exact = TRUE)
+})
+
 test_that("fails if the object does not exist", {
     expect_error(
         ds.glmSLMA(formula = "LAB_TSC~LAB_TRIG", family = "gaussian", dataName = "nonexistent_object"),

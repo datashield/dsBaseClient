@@ -77,6 +77,14 @@ test_that("glm_gaussian, with check", {
     expect_equal(res$output.information, "SEE TOP OF OUTPUT FOR INFORMATION ON MISSING DATA AND ERROR MESSAGES")
 })
 
+test_that("glm_gaussian, result has class ds_glm", {
+    for (view in list(c(FALSE, FALSE), c(TRUE, TRUE), c(FALSE, TRUE), c(TRUE, FALSE))) {
+        res <- ds.glm('D$LAB_TSC~D$LAB_TRIG', family="gaussian", viewVarCov=view[1], viewCor=view[2])
+
+        expect_s3_class(res, "ds_glm", exact = TRUE)
+    }
+})
+
 test_that("fails if the object does not exist", {
     expect_error(
         ds.glm(formula = "LAB_TSC~LAB_TRIG", data = "nonexistent_object", family = "gaussian"),

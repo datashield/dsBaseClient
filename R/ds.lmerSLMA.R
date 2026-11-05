@@ -123,6 +123,12 @@
 #' 
 #' @return \code{ds.lmerSLMA} returns a list of  elements mentioned 
 #' below separately for each study.  
+#' @return The list has class \code{ds_lmerSLMA} when it holds model results: the
+#' full list described below, \code{output.summary} alone when
+#' \code{combine.with.metafor} is FALSE, or a list holding only \code{output.summary}
+#' when the model structures differ between studies. The lists returned for invalid
+#' \code{control_type} or \code{optimizer} arguments, or when every study fails, have
+#' no class.
 #' @return \code{coefficients}: a matrix with 5 columns:
 #'    \describe{
 #'    \item{First}{: the names of all of the regression parameters (coefficients) in the model} 
@@ -418,6 +424,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
 
 
   if(!combine.with.metafor){
+    class(output.summary) <- "ds_lmerSLMA"
     return(output.summary)
   }
   
@@ -478,7 +485,9 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   if(!coefficient.vectors.match){
     message("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
     message("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
-    return(list(output.summary=output.summary))
+    output <- list(output.summary=output.summary)
+    class(output) <- "ds_lmerSLMA"
+    return(output)
   }
   
   
@@ -547,8 +556,10 @@ for(q in 1:numstudies)
     }
   }
 
-  return(list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
-              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message))
+  output <- list(output.summary=output.summary, num.valid.studies=num.valid.studies,betamatrix.all=betamatrix.all,sematrix.all=sematrix.all, betamatrix.valid=betamatrix.valid,sematrix.valid=sematrix.valid,
+              SLMA.pooled.ests.matrix=SLMA.pooled.ests.matrix,Convergence.error.message=full.error.message)
+  class(output) <- "ds_lmerSLMA"
+  return(output)
 
 }
 

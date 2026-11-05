@@ -77,6 +77,12 @@ standard glm object in native R, the components of the glm object that are retur
 reported separately by study included in a list object called \code{output.summary}; and
 a series of other list objects that represent inferences aggregated across studies.
 
+The list has class \code{ds_glmSLMA} when it holds model results: the
+full list described below, \code{output.summary} alone when
+\code{combine.with.metafor} is FALSE, or a list holding only \code{output.summary}
+when the model structures differ between studies. The lists returned when every
+study is blocked or fails have no class.
+
 the study specific items include:
 
 \code{coefficients}: a matrix with 5 columns:
