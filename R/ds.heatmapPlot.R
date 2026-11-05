@@ -153,15 +153,11 @@
 ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=20, 
                            method="smallCellsRule", k=3, noise=0.25, datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the 1st numeric vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the first numeric vector")
 
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of the 2nd numeric vector!", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of the second numeric vector")
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -169,7 +165,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
   
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+    .abortInvalidChoice("method", c("smallCellsRule", "deterministic", "probabilistic"))
   }
 
   # prepare the axis labels
@@ -193,8 +189,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     # call the server-side function that generates the x and y coordinates of the centroids
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -212,8 +208,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
     # call the server-side function that generates the x and y coordinates of the anonymous.data
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -254,8 +250,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       # generate the grid density object to plot
       grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
       if(classConsistencyCheck){
-        .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-        .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+        .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+        .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
       }
       grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
@@ -404,7 +400,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
       fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab=x.lab, ylab=y.lab, main="Heatmap Plot of the Pooled Data (zoomed)")
 
     }else{
-       stop('Function argument "show" has to be either "all" or "zoomed"')
+       .abortInvalidChoice("show", c("all", "zoomed"))
     }
   } else if (type=='split') {
 
@@ -413,8 +409,8 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
      # generate the grid density object to plot
      grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
      if(classConsistencyCheck){
-       .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-       .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+       .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+       .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
      }
      grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
@@ -557,7 +553,7 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
            fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab = x.lab, ylab = y.lab, main = title)
 
          }else{
-           stop('Function argument "show" has to be either "all" or "zoomed"')
+           .abortInvalidChoice("show", c("all", "zoomed"))
          }
        }
 
@@ -651,11 +647,11 @@ ds.heatmapPlot <- function(x=NULL, y=NULL, type="combine", show="all", numints=2
          fields::image.plot(x.zoomed, y.zoomed, z.zoomed, xlab = x.lab, ylab = y.lab, main = "Heatmap Plot of the Pooled Data")
 
        }else{
-         stop('Function argument "show" has to be either "all" or "zoomed"')
+         .abortInvalidChoice("show", c("all", "zoomed"))
        }
      }
 
    }else{
-     stop('Function argument "type" has to be either "combine" or "split"')
+     .abortInvalidChoice("type", c("combine", "split"))
    }
 }

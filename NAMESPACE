@@ -121,6 +121,9 @@ import(DSI)
 import(data.table)
 importFrom(DSI,datashield.connections_find)
 importFrom(cli,cli_abort)
+importFrom(cli,cli_inform)
+importFrom(cli,cli_verbatim)
+importFrom(cli,cli_warn)
 importFrom(stats,
   as.formula,
   na.omit,

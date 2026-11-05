@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.glmSLMA::arg::test errors")
 test_that("glmSLMA_errors", {
-  expect_error(ds.glmSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
+  expect_error(ds.glmSLMA(), "must be a valid regression formula", fixed=TRUE)
   
   expect_error(ds.glmSLMA('D$LAB_TSC~D$LAB_TRIG', family="gaussian", newobj="gaussian.glmslma.obj"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
   res.errors<-datashield.errors()

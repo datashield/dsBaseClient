@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.c::arg::test errors")
 test_that("simple c errors", {
-    expect_error(ds.c(), "x=NULL. Please provide the names of the objects to concatenate!")
+    expect_error(ds.c(), "must be the names of the objects to concatenate")
 })
 
 #

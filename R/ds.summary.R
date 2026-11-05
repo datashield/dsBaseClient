@@ -67,11 +67,9 @@
 #'
 ds.summary <- function(x=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   # check the type of x to drive client-side dispatch
   typ <- checkClass(datasources, x)

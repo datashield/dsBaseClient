@@ -206,23 +206,14 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
                       control_value = NULL, optimizer = NULL, verbose = 0, notify.of.progress=FALSE,
                       assign=FALSE, newobj=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
-  if(is.null(formula)){
-    stop(" Please provide a valid regression formula!", call.=FALSE)
-  }
+  .checkArgProvided(formula, "a valid regression formula")
   
   # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
   # to provide name of offset or weights variable
-  if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
-     sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0)
-  {
-    message("\n\n WARNING: you may have specified an offset or regression weights")
-    message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-    message("\n you must specify an offset or weights separately from the formula")
-    message("\n using the offset or weights argument.\n\n")
-  }
+  .warnOffsetInFormula(formula)
   
   formula <- stats::as.formula(formula)
   
@@ -255,8 +246,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
 
  if(!is.null(control_type) && is.null(control_value))
 	{
-	errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
-	return(list(errorMessage=errorMessage.cv))
+	cli_abort(c("{.arg control_value} must be set when {.arg control_type} is set.", "i" = "For example, {.code control_value = 1.0e-7}."))
 	}
 
 	if(!is.null(control_value))
@@ -273,9 +263,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
  
  if(!is.null(optimizer)&&optimizer!="nloptwrap")
         {
-	errorMessage.opt<-"ERROR: the only optimizer currently available for lmer is 'nloptwrap', please respecify"
-	message("\n",errorMessage.opt,"\n")
-	return(list(errorMessage=errorMessage.opt))
+	.abortInvalidChoice("optimizer", "nloptwrap")
 	}
 
  
@@ -286,9 +274,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   
   if(assign==TRUE){
     
-    if(is.null(newobj)){
-      newobj <- "new.lmer.obj"
-    }
+    newobj <- .resolveNewobjName(newobj, "new.lmer.obj")
     
     if (notify.of.progress) {
         message("\n\nSAVING SERVERSIDE lmerMod OBJECT AS: <",newobj,">\n\n")

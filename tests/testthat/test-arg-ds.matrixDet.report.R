@@ -22,9 +22,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # context("ds.matrixDet.report::arg::test errors")
 
 test_that("ds.matixDet.report erros", {
-    res <- ds.matrixDet.report(M1=NULL)
+    expect_error(ds.matrixDet.report(M1=NULL), "must be the name of the matrix that represents M1")
 
-    expect_equal(res, "Error: Please provide the name of the matrix representing M1")
 })
 
 #

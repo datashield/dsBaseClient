@@ -322,29 +322,19 @@
 ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NULL, checks=FALSE, maxit=20, CI=0.95,
                      viewIter=FALSE, viewVarCov=FALSE, viewCor=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
-  if(is.null(formula)){
-    stop(" Please provide a valid regression formula!", call.=FALSE)
-  }
+  .checkArgProvided(formula, "a valid regression formula")
 
   # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
   # to provide name of offset or weights variable
-  if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
-     sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0){
-       message("\n\n WARNING: you may have specified an offset or regression weights")
-       message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-       message("\n you must specify an offset or weights separately from the formula")
-       message("\n using the offset or weights argument.\n\n")
-	}
+  .warnOffsetInFormula(formula)
 
   formula <- stats::as.formula(formula)
 
   # check that 'family' was set
-  if(is.null(family)){
-    stop(" Please provide a valid 'family' argument!", call.=FALSE)
-  }
+  .checkArgProvided(family, "a valid family")
 
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){
@@ -426,36 +416,17 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
   errorMessage <- as.matrix(errorMessage)
   dimnames(errorMessage) <- list(names(datasources), "ERROR MESSAGES")
   
-  output.blocked.information.1 <- "MODEL FITTING TERMINATED AT FIRST ITERATION:"
-  output.blocked.information.2 <- "Any values of 1 in the following tables denote potential disclosure risks"
-  output.blocked.information.3 <- "please use the argument <datasources> to include only valid studies."
-  output.blocked.information.4 <- "Errors by study are as follows:"
 
   if(sum.y.invalid>0||sum.Xpar.invalid>0||sum.w.invalid>0||sum.o.invalid>0||sum.glm.saturation.invalid>0||at.least.one.study.data.error==1){
-	  message("\n\nMODEL FITTING TERMINATED AT FIRST ITERATION:\n",
-            "Any values of 1 in the following tables denote potential disclosure risks\n",
-		        "please use the argument <datasources> to include only valid studies.\n",
-		        "Errors by study are as follows:\n")
-		message(as.matrix(y.invalid))
-		message(as.matrix(Xpar.invalid))
-		message(as.matrix(w.invalid))
-		message(as.matrix(o.invalid))
-		message(as.matrix(glm.saturation.invalid))
-		message(as.matrix(errorMessage))
+	  cli_inform(c("Model fitting terminated at the first iteration.", "i" = "Values of 1 in the following tables denote potential disclosure risks.", "*" = "Use {.arg datasources} to include only valid studies."))
+		cli_verbatim(utils::capture.output(as.matrix(y.invalid)))
+		cli_verbatim(utils::capture.output(as.matrix(Xpar.invalid)))
+		cli_verbatim(utils::capture.output(as.matrix(w.invalid)))
+		cli_verbatim(utils::capture.output(as.matrix(o.invalid)))
+		cli_verbatim(utils::capture.output(as.matrix(glm.saturation.invalid)))
+		cli_verbatim(utils::capture.output(as.matrix(errorMessage)))
 
-	  return(list(
-      		    output.blocked.information.1,
-      		    output.blocked.information.2,
-      		    output.blocked.information.3,
-      		    output.blocked.information.4,
-      				y.vector.error=y.invalid,
-              X.matrix.error=Xpar.invalid,
-              weight.vector.error=w.invalid,
-              offset.vector.error=o.invalid,
-              glm.overparameterized=glm.saturation.invalid,
-              errorMessage=errorMessage
-          ))
-		stop("DATA ERROR")
+		cli_abort("Can't fit the model because of a data error.")
   }
 
    beta.vect.next <- rep(0, num.par.glm)
@@ -506,34 +477,9 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
   dimnames(errorMessage2) <- list(names(datasources), "ERROR MESSAGES")
 
   if(disclosure.risk.total>0){
-	message("Potential disclosure risk in y.vect, X.mat, w.vect or offset \n",
-	        "or model overparameterized in at least one study.\n",
-			"In addition clientside function appears to have been modified\n",
-			"to avoid traps in first serverside function.\n",
-			"Score vectors and information matrices therefore destroyed in all invalid studies\n",
-			"and model fitting terminated. This error is recorded in the log file but\n",
-			"please report it to the DataSHIELD team as we need to understand how\n",
-			"the controlled shutdown traps in glmDS1 have been circumvented\n\n")
+	cli_inform(c("Potential disclosure risk in y.vect, X.mat, w.vect or offset, or the model is overparameterized, in at least one study.", "x" = "The client-side function also appears to have been modified to avoid traps in the first server-side function.", "i" = "Score vectors and information matrices were destroyed in all invalid studies and model fitting was terminated.", "*" = "This error is recorded in the log file. Please report it to the DataSHIELD team, as we need to understand how the controlled shutdown traps in {.fn glmDS1} were circumvented."))
 
-	output.blocked.information.1<-"Potential disclosure risk in y.vect, X.mat, w.vect or offset"
-	output.blocked.information.2<-"or model overparameterized in at least one study."
-	output.blocked.information.3<-"In addition clientside function appears to have been modified"
-	output.blocked.information.4<-"to avoid disclosure traps in first serverside function."
-	output.blocked.information.5<-"Score vectors and information matrices therefore destroyed in all invalid studies"
-	output.blocked.information.6<-"and model fitting terminated. This error is recorded in the log file but"
-	output.blocked.information.7<-"please also report it to the DataSHIELD team as we need to understand how"
-	output.blocked.information.8<-"the controlled shutdown traps in glmDS1 have been circumvented."
-
-
-        return(list(output.blocked.information.1,
-			output.blocked.information.2,
-			output.blocked.information.3,
-			output.blocked.information.4,
-			output.blocked.information.5,
-			output.blocked.information.6,
-			output.blocked.information.7,
-			output.blocked.information.8
-	            ))
+	cli_abort("Can't fit the model because of a potential disclosure risk.")
 	}
 
 

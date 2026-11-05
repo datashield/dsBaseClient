@@ -64,7 +64,7 @@ test_that("one value per study", {
 
 # context("ds.rUnif::smk::wrong number of values")
 test_that("wrong number of values per study", {
-    expect_error(ds.rUnif(samp.size = 50, min = c(0, 10), max = 30, newobj = "no.obj", seed.as.integer = 27), "must be length 1 or one value per study")
+    expect_error(ds.rUnif(samp.size = 50, min = c(0, 10), max = 30, newobj = "no.obj", seed.as.integer = 27), "must have length 1")
 })
 
 #

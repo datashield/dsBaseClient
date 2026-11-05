@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.summary::arg::test errors")
 test_that("summary_erros", {
-    expect_error(ds.summary(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.summary(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #

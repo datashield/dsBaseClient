@@ -80,11 +80,9 @@
 #'
 ds.dim <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=TRUE) {
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a data.frame or matrix")
 
   ###################################################################################################
   #MODULE: EXTEND "type" argument to include "both" and enable valid aliases                        #
@@ -130,7 +128,7 @@ ds.dim <- function(x=NULL, type='both', datasources=NULL, classConsistencyCheck=
         out <- c(dimensions, pooled.dim)
 		    names(out) <- c(outputnames, paste0('dimensions of ', x, ' in combined studies'))
 	    }else{
-        stop('Function argument "type" has to be either "both", "combine" or "split"')
+        .abortInvalidChoice("type", c("both", "combine", "split"))
       }
     }
   }

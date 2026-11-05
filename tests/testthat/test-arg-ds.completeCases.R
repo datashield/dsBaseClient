@@ -21,8 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.completeCases::arg::test errors")
 test_that("completeCases_errors", {
-  res <- ds.completeCases()
-  expect_equal(res, "Error: x1 must be a character string naming a serverside data.frame, matrix or vector", fixed = TRUE)
+  expect_error(ds.completeCases(), "must be a character string that names a server-side")
 })
 
 #

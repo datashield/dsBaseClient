@@ -70,17 +70,13 @@
 #' @export
 ds.unList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
 
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "unlist.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "unlist.newobj")
 
      # call the server side function
   calltext <- call("unListDS", x.name)

@@ -27,7 +27,7 @@ test_that("setup", {
 
 # context("ds.glmerSLMA::arg::testing")
 test_that("simple glmerSLMA tesing (mis)use of arguments", {
-    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), " Please provide a valid 'family' argument!", fixed=TRUE)
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D'), "must be a valid family", fixed=TRUE)
 
     expect_error(ds.glmerSLMA(formula = 'diab_dis ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 
@@ -37,8 +37,7 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
     expect_length(errs$sim2, 0)
     expect_length(errs$sim3, 0)
 
-    res <- ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'xtol_rel')
-    expect_equal(res$errorMessage, "ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7",fixed=TRUE)
+    expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'xtol_rel'), "must be set when")
     expect_error(ds.glmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', family='poisson', dataName = 'D', control_type = 'check.conv.grad',control_value = 'nothing'), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 
     errs <- datashield.errors()
@@ -47,7 +46,7 @@ test_that("simple glmerSLMA tesing (mis)use of arguments", {
     expect_length(errs$sim2, 0)
     expect_length(errs$sim3, 0)
 
-    expect_error(ds.glmerSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
+    expect_error(ds.glmerSLMA(), "must be a valid regression formula", fixed=TRUE)
 })
 
 #

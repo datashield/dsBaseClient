@@ -38,13 +38,10 @@ test_that("simple lmerSLMA tesing (mis)use of arguments", {
     expect_length(errs$sim2, 0)
     expect_length(errs$sim3, 0)
 
-    res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel')
-    expect_equal(res$errorMessage, "ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7", fixed=TRUE)
-#    res <- ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel',control_value = 'nothing')
-#    expect_equal(res$study1$errorMessage, "REAL() can only be applied to a 'numeric', not a 'logical'", fixed=TRUE)
+    expect_error(ds.lmerSLMA(formula = 'incid_rate ~ trtGrp + Male + (1|idDoctor)', dataName = 'D', control_type = 'xtol_rel'), "must be set when")
 
 
-    expect_error(ds.lmerSLMA(), " Please provide a valid regression formula!", fixed=TRUE)
+    expect_error(ds.lmerSLMA(), "must be a valid regression formula", fixed=TRUE)
 })
 
 #
