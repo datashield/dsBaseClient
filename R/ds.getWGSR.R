@@ -103,38 +103,30 @@
 #'
 ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, standing=NA, thirdPart=NA, newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(sex)){
-    stop("Please provide the column name of the 'sex' variable!", call.=FALSE)
-  }
+  .checkArgProvided(sex, "the name of the sex column")
   
-  if(is.null(firstPart)){
-    stop("Please provide the column name of the 'firstPart' variable!", call.=FALSE)
-  }
+  .checkArgProvided(firstPart, "the name of the column that holds the first part")
   
-  if(is.null(secondPart)){
-    stop("Please provide the column name of the 'secondPart' variable!", call.=FALSE)
-  }
+  .checkArgProvided(secondPart, "the name of the column that holds the second part")
   
   if(!any(index %in% c("bfa", "hca", "hfa", "lfa", "mfa", "ssa", "tsa", "wfa", "wfh", "wfl"))){
-    stop("Please provide a correct abbreviation for the index!", call.=FALSE)
+    .abortInvalidChoice("index", c("bfa", "hca", "hfa", "lfa", "mfa", "ssa", "tsa", "wfa", "wfh", "wfl"))
   }
   
   # If 'thirdPart' (age) is missing for BMI-for-age return an error message
   if(index == "bfa" & is.na(thirdPart)) {
-    stop("'thirdPart' variable should not be missing for index 'bfa'", call.=FALSE)
+    cli_abort("{.arg thirdPart} must be provided when {.arg index} is {.val bfa}.")
   }
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message
   if(!any(standing %in% c(NA, 1, 2, 3))) {
-    stop("The 'standing' variable must be a numeric value either 1, 2, or 3!", call.=FALSE)
+    cli_abort("{.arg standing} must be 1, 2 or 3, not {.val {standing}}.")
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "getWGSR.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "getWGSR.newobj")
   
   cally <- call("getWGSRDS", sex, firstPart, secondPart, index, standing, thirdPart)
   DSI::datashield.assign(datasources, newobj, cally)

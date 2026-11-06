@@ -105,14 +105,10 @@
 #' 
 ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=20, method="smallCellsRule", k=3, noise=0.25, datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
-  }
-  if(is.null(y)){
-    stop("y=NULL. Please provide the names of two numeric vectors!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a numeric vector")
+  .checkArgProvided(y, "the name of a numeric vector")
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -120,7 +116,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
   
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+    .abortInvalidChoice("method", c("smallCellsRule", "deterministic", "probabilistic"))
   }
 
   # extract the variable names to be used as labels in the plot
@@ -145,8 +141,8 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     # call the server-side function that generates the x and y coordinates of the centroids
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -164,8 +160,8 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     # call the server-side function that generates the x and y coordinates of the anonymous.data
     anonymous.data <- datashield.aggregate(datasources, call("heatmapPlotDS", x.name=x, y.name=y, k=k, noise=noise, method.indicator=method.indicator))
     if(classConsistencyCheck){
-      .checkClassConsistency(anonymous.data, field = "class.x", object_name = x)
-      .checkClassConsistency(anonymous.data, field = "class.y", object_name = y)
+      .checkClassConsistency(anonymous.data, field = "class.x", objectName = x)
+      .checkClassConsistency(anonymous.data, field = "class.y", objectName = y)
     }
 
     pooled.points.x <- c()
@@ -206,8 +202,8 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
     # generate the grid density object to plot
     grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
     if(classConsistencyCheck){
-      .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-      .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+      .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+      .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
     }
     grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
 
@@ -215,7 +211,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
 
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+      cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
     }
 
     Global.grid.density <- matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -352,7 +348,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
       # plot a combined contour plot
       graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Contour Plot of the Pooled Data (zoomed)")
     }else{
-      stop('Function argument "show" has to be either "all" or "zoomed"')
+      .abortInvalidChoice("show", c("all", "zoomed"))
     }
 
   } else if (type=='split') {
@@ -361,8 +357,8 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
      # generate the grid density object to plot
      grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
      if(classConsistencyCheck){
-       .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-       .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+       .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+       .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
      }
      grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
      numcol <- dim(grid.density.obj[[1]])[2]
@@ -410,7 +406,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
 
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources) {
-      message(stdnames[i],': ', names(dimnames(grid.density.obj[[i]])[2]))
+      cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
     }
 
     if(num.sources > 1){
@@ -501,7 +497,7 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
           graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main=title)
 
         }else{
-          stop('Function argument "show" has to be either "all" or "zoomed"')
+          .abortInvalidChoice("show", c("all", "zoomed"))
         }
 
       }
@@ -589,11 +585,11 @@ ds.contourPlot <- function(x=NULL, y=NULL, type='combine', show='all', numints=2
         graphics::contour(x.zoomed,y.zoomed,z.zoomed, xlab=x.lab, ylab=y.lab, main="Contour Plot of the Pooled Data")
 
       }else{
-        stop('Function argument "show" has to be either "all" or "zoomed"')
+        .abortInvalidChoice("show", c("all", "zoomed"))
       }
 	}
   }else{
-    stop('Function argument "type" has to be either "combine" or "split"')
+    .abortInvalidChoice("type", c("combine", "split"))
   }
 
 }

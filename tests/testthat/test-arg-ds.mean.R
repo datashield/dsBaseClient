@@ -21,8 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.mean::arg::test errors")
 test_that("mean_erros", {
-    expect_error(ds.mean(), "Please provide the name of the input object!", fixed=TRUE)
-    expect_error(ds.mean(x='D$LAB_TSC', type='datashield'), 'Function argument "type" has to be either "both", "combine" or "split"', fixed=TRUE)
+    expect_error(ds.mean(), "must be the name of the input object", fixed=TRUE)
+    expect_error(ds.mean(x='D$LAB_TSC', type='datashield'), "must be \"both\", \"combine\", or \"split\"", fixed=TRUE)
 })
 
 #context("ds.mean::arg::discordant errors")

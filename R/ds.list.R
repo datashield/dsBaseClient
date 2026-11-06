@@ -56,16 +56,12 @@
 #'
 ds.list <- function(x=NULL, newobj=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the names of the objects to coerce into a list!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the names of the objects to coerce into a list")
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "list.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "list.newobj")
 
   # get the variable names
   xnames <- extract(x)

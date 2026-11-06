@@ -68,20 +68,16 @@
 #' 
 ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a data.frame or matrix!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a data.frame or matrix")
 
   ops <- c("rowSums","colSums","rowMeans","colMeans")
   if(is.null(operation)){
-    message(" ALERT!")
-    message(" Please indicate the calculation required.")
-    stop("'operation' = NULL. Please set it to 'rowSums', 'colSums', 'rowMeans' or 'colMeans'", call.=FALSE)
+    cli_abort("{.arg operation} must be {.or {.val {ops}}}, not {.code NULL}.")
   }else{
     if(!any(operation %in% ops)){
-      stop("'operation' must be set to: 'rowSums', 'colSums', 'rowMeans' or 'colMeans'")
+      .abortInvalidChoice("operation", ops)
     }
   }
 
@@ -89,9 +85,7 @@ ds.rowColCalc <- function(x=NULL, operation=NULL, newobj=NULL, datasources=NULL)
   indx <- which(ops == operation)
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "rowcolcalc.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "rowcolcalc.newobj")
 
   # call the server side function that does the job
   DSI::datashield.assign(datasources, newobj, call("rowColCalcDS", dataset.name=x, operation=indx))

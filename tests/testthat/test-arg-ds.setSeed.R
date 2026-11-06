@@ -21,9 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.setSeed::arg::test errors")
 test_that("setSeed_erros", {
-    res <- ds.setSeed(seed.as.integer="Test")
+    expect_error(ds.setSeed(seed.as.integer="Test"), "must be an integer or")
 
-    expect_equal(res, "ERROR terminated: seed.as.integer must be set as an integer [numeric] or as being NULL")
 })
 
 #

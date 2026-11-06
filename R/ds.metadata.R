@@ -50,19 +50,17 @@
 ds.metadata = function(x=NULL, datasources=NULL)
 {
 
-    datasources <- .set_datasources(datasources)
+    datasources <- .resolveDatasources(datasources)
 
     #####################################################################################
     #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
-    if (is.null(x)){                                                                    #
-        stop("Please provide the name of the object!", call.=FALSE)                     #
-    }                                                                                   #
+    .checkArgProvided(x, "the name of an object")                                       #
     #####################################################################################
 
     #####################################################################################
     #MODULE 4: CHECK CONSISTANCY OF VARIABLE NAME (SINGLE)                              #
     if ((! is.character(x)) || (length(x) != 1)){                                       #
-        stop("Please provide the name of the object!", call.=FALSE)                     #
+        cli_abort("{.arg x} must be a single character string, not {.cls {class(x)}} of length {length(x)}.")                     #
     }                                                                                   #
     #####################################################################################
 

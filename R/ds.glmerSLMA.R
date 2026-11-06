@@ -247,34 +247,23 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
                        start_theta = NULL, start_fixef = NULL, notify.of.progress=FALSE, 
                        assign=FALSE, newobj=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
-  if(is.null(formula)){
-    stop(" Please provide a valid regression formula!", call.=FALSE)
-  }
+  .checkArgProvided(formula, "a valid regression formula")
   
   # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
   # to provide name of offset or weights variable
-  if(sum(as.numeric(grepl('offset', formula, ignore.case=TRUE)))>0 ||
-     sum(as.numeric(grepl('weights', formula, ignore.case=TRUE)))>0)
-  {
-    message("\n\n WARNING: you may have specified an offset or regression weights")
-    message("\n as part of the model formula. In ds.glm (unlike the usual glm in R)")
-    message("\n you must specify an offset or weights separately from the formula")
-    message("\n using the offset or weights argument.\n\n")
-  }
+  .warnOffsetInFormula(formula)
   
   formula <- stats::as.formula(formula)
   
   # check that 'family' was set
-  if(is.null(family)){
-    stop(" Please provide a valid 'family' argument!", call.=FALSE)
-  }
+  .checkArgProvided(family, "a valid family")
   
   # beginning of optional checks - the process stops if any of these checks fails #
   if(checks){
-    message(" -- Verifying the variables in the model")
+    cli_inform("Verifying the variables in the model.")
     # call the function that checks the variables in the formula are defined (exist) on the server site and are not missing at complete
     
     glmChecks(formula, dataName, offset, weights, datasources)
@@ -311,9 +300,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   if(!is.null(control_type) && is.null(control_value))
   {
-    errorMessage.cv<-"ERROR: if control_type is non-null, you must specify a valid control_value eg control_value<-1.0e-7"
-    #	print(errorMessage.cv)
-    return(list(errorMessage=errorMessage.cv))
+    cli_abort(c("{.arg control_value} must be set when {.arg control_type} is set.", "i" = "For example, {.code control_value = 1.0e-7}."))
   }
   
   if(!is.null(control_value))
@@ -342,13 +329,11 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   if(assign==TRUE){
     
-    if(is.null(newobj)){
-      newobj <- "new.glmer.obj"
-    }
+    newobj <- .resolveNewobjName(newobj, "new.glmer.obj")
     
     
     if (notify.of.progress) {
-        message("\n\nSAVING SERVERSIDE glmerMod OBJECT AS: <",newobj,">\n\n")
+        cli_inform("Saving server-side glmerMod object as {.val {newobj}}.")
     }
 
     calltext.2 <- call('glmerSLMADS.assign', formula, offset, weights, dataName, family, 
@@ -392,17 +377,16 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
     {
       for(sse in study.with.errors)
       {
-        message("\n","Error report from second serverside function for study",sse,"\n")
-        message("############################################################","\n")
-        message(unlist(study.summary[[sse]][[1]]),"\n")
-        message(unlist(study.summary[[sse]][[2]]),"\n\n")
+        cli_inform("Error report from second server-side function for study {sse}.")
+        cli_inform("{unlist(study.summary[[sse]][[1]])}")
+        cli_inform("{unlist(study.summary[[sse]][[2]])}")
         
         num.messages<-length(study.summary[[sse]])-2
         for(m in 1:num.messages)
         {
           if(!is.null(unlist(study.summary[[sse]][[2+m]])))
           {
-            message(unlist(study.summary[[sse]][[2+m]]),"\n\n")
+            cli_inform("{unlist(study.summary[[sse]][[2+m]])}")
           }
         }
       }
@@ -410,8 +394,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
     
     if(all.studies.valid)
     {
-      message("\nAll studies passed disclosure tests\n")
-      message("Please check for convergence warnings in the study summaries\n\n\n")
+      cli_inform(c("All studies passed disclosure tests.", "i" = "Check for convergence warnings in the study summaries."))
     }
   }
   
@@ -536,8 +519,7 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   
   if(!coefficient.vectors.match){
-    message("\n\nModels in different sources vary in structure\nplease match coefficients for meta-analysis individually\n")
-    message("nYou can use the DataSHIELD generated estimates and standard errors as the basis for a meta-analysis\nbut carry out the final pooling step independently of DataSHIELD using whatever meta-analysis package you wish\n\n")
+    cli_inform(c("Models in different sources vary in structure.", "i" = "Match coefficients for meta-analysis individually.", "*" = "You can use the DataSHIELD estimates and standard errors as the basis for a meta-analysis, but carry out the final pooling step independently of DataSHIELD."))
     return(list(output.summary=output.summary))
   }
   
@@ -600,10 +582,10 @@ ds.glmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.m
   
   if (notify.of.progress)
   {
-    message("Convergence information\n")
+    cli_inform("Convergence information:")
     for(r in 1:numstudies)
     {
-      message(full.error.message[r],"\n")
+      cli_inform("{full.error.message[r]}")
     }
   }	
   

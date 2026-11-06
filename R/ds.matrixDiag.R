@@ -175,28 +175,20 @@
 #'
 ds.matrixDiag<-function(x1=NULL, aim=NULL, nrows.scalar=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for x1
-  if(is.null(x1)){
-    return("Error: x1 must have a value which is a character string, a numeric vector or a scalar")
-  }
+  .checkArgProvided(x1, "a character string, numeric vector or scalar")
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj))
-  {
-    newobj <- "matrixdiag.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrixdiag.newobj")
 
   #process x1 to make transmittable depending on aim
   #Check that valid aim has been specified
   if(aim!="serverside.vector.2.matrix"&&aim!="serverside.scalar.2.matrix"&&aim!="serverside.matrix.2.vector"&&
       aim!="clientside.vector.2.matrix"&&aim!="clientside.scalar.2.matrix")
   {
-  message("            FAILED: aim must be specified as one of the following - 'serverside.vector.2.matrix',
-        'serverside.scalar.2.matrix', 'serverside.matrix.2.vector',
-        'clientside.vector.2.matrix', 'clientside.scalar.2.matrix'\n\n")
-  return('Please respecify')
+  .abortInvalidChoice("aim", c("serverside.vector.2.matrix", "serverside.scalar.2.matrix", "serverside.matrix.2.vector", "clientside.vector.2.matrix", "clientside.scalar.2.matrix"))
   }
 
   if(aim=="serverside.vector.2.matrix"||aim=="serverside.scalar.2.matrix"||aim=="serverside.matrix.2.vector")

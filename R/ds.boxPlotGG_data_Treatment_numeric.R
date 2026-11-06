@@ -15,7 +15,7 @@
 
 ds.boxPlotGG_data_Treatment_numeric <- function(vector, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   datashield.assign.expr(datasources, "boxPlotRawDataNumeric", call("boxPlotGG_data_Treatment_numericDS", vector.name = vector))
   

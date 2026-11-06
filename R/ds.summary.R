@@ -67,11 +67,9 @@
 #'
 ds.summary <- function(x=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   # check the type of x to drive client-side dispatch
   typ <- checkClass(datasources, x)
@@ -79,7 +77,7 @@ ds.summary <- function(x=NULL, datasources=NULL){
   # the input object must be a numeric or an integer vector
   # the input object must be a dataframe or a factor
   if(!('data.frame' %in% typ) & !('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('list' %in% typ) & !('logical' %in% typ) & !('matrix' %in% typ) & !('numeric' %in% typ)){
-    stop("The input object must be a 'data.frame', 'character', factor', 'integer', 'list', 'logical', 'matrix' or 'numeric'.", call.=FALSE)
+    cli_abort("{.arg x} must be of class {.or {.val {c('data.frame', 'character', 'factor', 'integer', 'list', 'logical', 'matrix', 'numeric')}}}, not {.cls {typ}}.")
   }
 
   stdnames <- names(datasources)

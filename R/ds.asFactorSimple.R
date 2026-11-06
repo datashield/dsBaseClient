@@ -24,16 +24,14 @@
 #'
 ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the column that holds the input variable
-  if(is.null(input.var.name)){
-    stop("Please provide the name of the variable that is to be converted to a factor e.g. 'varname'", call.=FALSE)
-  }
+  .checkArgProvided(input.var.name, "the name of the variable to convert to a factor")
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){
-    stop("Please provide the name of the variable that is to be converted to a factor in character format e.g. 'varname'", call.=FALSE)
+    cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {.cls {class(input.var.name)}}.")
   }
 
   # if no output variable specified then provide a default name

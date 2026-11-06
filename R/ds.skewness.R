@@ -81,14 +81,12 @@
 #' 
 ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
   
   if(!all(method %in% c(1,2,3))){
-    stop("method must be an integer between 1 and 3", call.=FALSE)
+    cli_abort("{.arg method} must be 1, 2 or 3, not {.val {method}}.")
   }
 
   # enable valid aliases for "type" argument                  
@@ -96,7 +94,7 @@ ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL, classCo
   if(type == 'split' | type == 'splits' | type == 's') type <- 'split'
   if(type == 'both' | type == 'b' ) type <- 'both'
   if(type != 'combine' & type != 'split' & type != 'both')
-    stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)
+    .abortInvalidChoice("type", c("both", "combine", "split"))
 
   if (type=='split' | type=='both'){
     calltext.split <- call("skewnessDS1", x, method)
@@ -116,7 +114,7 @@ ds.skewness <- function(x=NULL, method=1, type='both', datasources=NULL, classCo
     #global.var <- ds.var(x, type='combine')$Global.Variance[,'EstimatedVar']
     
     if (is.na(global.mean)){
-      stop("FAILED: The number of valid observations in one or more studies is less than nfilter.tab. \n Check that by using the argument type=='split'", call.=FALSE)
+      cli_abort(c("The number of valid observations in at least one study is less than {.code nfilter.tab}.", "i" = "Use {.code type = \"split\"} to check each study."))
     }else{
       calltext.combined <- call("skewnessDS2", x, global.mean)
       output.combined <- DSI::datashield.aggregate(datasources, calltext.combined) 

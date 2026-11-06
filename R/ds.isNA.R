@@ -59,11 +59,9 @@
 #'
 ds.isNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   stdnames <- names(datasources)
   xnames <- extract(x)
@@ -81,7 +79,7 @@ ds.isNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
   for(i in 1:length(results)){
     if(results[[i]]$is.na){
       track[[i]] <- TRUE
-      message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")
+      cli_inform("{.val {varname}} has only missing values in {.val {stdnames[i]}}.")
     }else{
       track[[i]] <- FALSE
     }

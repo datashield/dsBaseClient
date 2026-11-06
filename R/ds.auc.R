@@ -16,17 +16,13 @@
 #'
 ds.auc <- function(pred=NULL, y=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # verify that 'pred' was set
-  if(is.null(pred)){
-    stop("Please provide the name of the vector with predicted values", call.=FALSE)
-  }
+  .checkArgProvided(pred, "the name of the vector of predicted values")
   
   # verify that 'y' was set
-  if(is.null(y)){
-    stop("Please provide the name of the outcome variable", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of the outcome variable")
   
   cally <- call('aucDS', pred, y)
   output <- DSI::datashield.aggregate(datasources, cally)

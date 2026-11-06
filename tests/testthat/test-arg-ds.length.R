@@ -21,8 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.length::arg::test errors")
 test_that("length_erros", {
-    expect_error(ds.length(), "Please provide the name of the input object!", fixed=TRUE)
-    expect_error(ds.length(x='D$LAB_TSC', type='datashield'), 'Function argument "type" has to be either "both", "combine" or "split"', fixed=TRUE)
+    expect_error(ds.length(), "must be the name of the input object", fixed=TRUE)
+    expect_error(ds.length(x='D$LAB_TSC', type='datashield'), "must be \"both\", \"combine\", or \"split\"", fixed=TRUE)
 })
 
 #

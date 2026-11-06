@@ -33,7 +33,7 @@ test_that("simple mdPattern, combine", {
     )
 
     expect_named(res, c("pattern", "valid", "message", "studies"))
-    expect_true(any(grepl("Disclosure control", caught_warnings)))
+    expect_true(any(grepl("disclosure control", caught_warnings)))
     expect_true(is.matrix(res$pattern))
 })
 
@@ -90,7 +90,7 @@ test_that("class consistency check aborts when classes differ across studies", {
     ds.asDataMatrix(x.name = "D", newobj = "mixed.class", datasources = ds.test_env$connections[1])
     ds.assign(toAssign = "D", newobj = "mixed.class", datasources = ds.test_env$connections[2:3])
 
-    expect_error(ds.mdPattern(x = "mixed.class"), "not of the same class in all studies")
+    expect_error(ds.mdPattern(x = "mixed.class"), "must have the same class in all studies")
     expect_no_error(ds.mdPattern(x = "mixed.class", classConsistencyCheck = FALSE))
 })
 

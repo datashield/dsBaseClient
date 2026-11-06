@@ -58,15 +58,11 @@
 #'
 ds.log <- function(x=NULL, base=exp(1), newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
-  if(is.null(newobj)){
-    newobj <- "log.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "log.newobj")
 
   cally <- call("logDS", x, base)
   DSI::datashield.assign(datasources, newobj, cally)

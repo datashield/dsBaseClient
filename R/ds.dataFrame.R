@@ -92,71 +92,26 @@
 #' @export
 ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=TRUE, stringsAsFactors=TRUE, completeCases=FALSE, DataSHIELD.checks=FALSE, newobj=NULL, datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the list that holds the input vectors!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the list that holds the input vectors")
 
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "dataframe.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "dataframe.newobj")
 
   if(DataSHIELD.checks){
 
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     if(classConsistencyCheck){
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-        stop("Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-      }
-    }
+    .checkObjectClasses(datasources, x)
     }
     
-    # check that there are no duplicated column names in the input components
-    for(j in 1:length(datasources)){
-      colNames <- list()
-      for(i in 1:length(x)){
-        typ <- checkClass(datasources, x[i])
-        if(typ %in% c('data.frame', 'matrix')){
-          colNames[[i]] <- ds.colnames(x=x[i], datasources=datasources[j])
-        }
-        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
-          colNames[[i]] <- as.character(x[i])
-        }
-        colNames <- unlist(colNames)
-        if(anyDuplicated(colNames) != 0){
-          message("\n Warning: Some column names in study", j, "are duplicated and a suffix '.k' will be added to the kth replicate \n")
-        }  
-      }  
-    } 
-    
-    # check that the number of rows is the same in all componets to be cbind
-    for(j in 1:length(datasources)){
-      nrows <- list()
-      for(i in 1:length(x)){
-        typ <- checkClass(datasources, x[i])
-        if(typ %in% c('data.frame', 'matrix')){
-          nrows[[i]] <- ds.dim(x=x[i], type='split', datasources=datasources[j])[[1]][1]
-        }
-        if(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical')){
-          nrows[[i]] <- ds.length(x[i], type='split', datasources=datasources[j])[[1]]
-        }
-      }
-      nrows <- unlist(nrows)
-      if(any(nrows != nrows[1])){
-        stop("The number of rows is not the same in all of the input components", call.=FALSE)
-      }
-    }  
+    .checkMultiObjectConsistency(datasources, x)
     
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "df_new"
-  }
+  newobj <- .resolveNewobjName(newobj, "df_new")
 
   # CREATE THE VECTOR OF COLUMN NAMES
   colname.list <- list()
@@ -169,7 +124,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       next.class <- DSI::datashield.aggregate(datasources[std], calltext1)
       class.vector <- c(class.vector, next.class[[1]])
       if (notify.of.progress){
-        message("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
+        cli_inform("{j} of {length(x)} elements to combine in step 1 of 2 in study {std}.")
       }  
     }
     for(j in 1:length(x)){
@@ -177,14 +132,14 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
         colname.vector <- c(colname.vector, test.df)
         if (notify.of.progress){
-          message("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          cli_inform("{j} of {length(x)} elements to combine in step 2 of 2 in study {std}.")
         }  
       }else{
         calltext2 <- call('colnamesDS', test.df)
         df.names <- DSI::datashield.aggregate(datasources[std], calltext2)
         colname.vector <- c(colname.vector, df.names[[1]])
         if (notify.of.progress){
-          message("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          cli_inform("{j} of {length(x)} elements to combine in step 2 of 2 in study {std}.")
         }  
       }
     }
@@ -192,7 +147,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   }
   
   if (notify.of.progress){
-    message("\nBoth steps in all studies completed\n")
+    cli_inform("Both steps completed in all studies.")
   }
   
   # prepare vectors for transmission

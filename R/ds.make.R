@@ -132,16 +132,12 @@
 #'
 ds.make<-function(toAssign=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(toAssign)){
-    stop("Please give the name of object to assign or an expression to evaluate and assign.!\n", call.=FALSE)
-  }
+  .checkArgProvided(toAssign, "the name of the object to assign or an expression to evaluate")
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "make.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "make.newobj")
 
   # now do the business
   DSI::datashield.assign(datasources, newobj, as.symbol(toAssign))

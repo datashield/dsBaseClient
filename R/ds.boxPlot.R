@@ -87,20 +87,20 @@
 ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel = "x axis", 
                        ylabel = "y axis", type = "pooled", datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # Ensure type is 'pooled' or 'split'
   if((length(type) == 1) && (! any(type %in% c("pooled", "split")))){
-    stop("[type] can only be set to 'pooled' or 'split'")
+    .abortInvalidChoice("type", c("pooled", "split"))
   }
 
   # Determine class of x for dispatch
   cls <- datashield.aggregate(datasources, call("classDS", x))
-  .checkClassConsistency(lapply(cls, function(study.class) list(class = study.class)), object_name = x)
+  .checkClassConsistency(lapply(cls, function(study.class) list(class = study.class)), objectName = x)
   cls <- unique(unlist(cls))
 
   if(!any(c("numeric", "data.frame") %in% cls)){
-    stop("The selected object is not a data frame nor a numerical vector")
+    cli_abort("{.arg x} must be a data.frame or numeric vector, not {.cls {cls}}.")
   }
 
   # Once all checks are passed, call the appropiate server functions

@@ -83,30 +83,21 @@
 ds.rbind<-function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL,
                    datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
-  }
+  .checkArgProvided(x, "a vector of the names of the input elements")
 
 
   if(DataSHIELD.checks){
 
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     if(classConsistencyCheck){
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-        stop(" Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-      }
-    }
+    .checkObjectClasses(datasources, x)
     }
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "rbind.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "rbind.newobj")
 
 #CREATE THE VECTOR OF COLUMN NAMES
 if(!is.null(force.colnames)){
@@ -124,7 +115,7 @@ calltext1<-call('classDS', testclass.var)
 next.class <- DSI::datashield.aggregate(datasources, calltext1)
 class.vector<-c(class.vector,next.class[[1]])
 if (notify.of.progress)
-    message("\n",j," of ", length(x), " elements to combine in step 1 of 2\n")
+    cli_inform("{j} of {length(x)} elements to combine in step 1 of 2.")
 }
 
 for(j in 1:length(x))
@@ -135,7 +126,7 @@ if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
 	{
 	colname.vector<-c(colname.vector,test.df)
         if (notify.of.progress)
-            message("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+            cli_inform("{j} of {length(x)} elements to combine in step 2 of 2.")
 	}
 else
 	{
@@ -143,11 +134,11 @@ else
     df.names <- DSI::datashield.aggregate(datasources, calltext2)
 	 colname.vector<-c(colname.vector,df.names[[1]])
          if (notify.of.progress)
-              message("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+              cli_inform("{j} of {length(x)} elements to combine in step 2 of 2.")
         }
 }
 if (notify.of.progress)
-    message("\nBoth steps completed\n")
+    cli_inform("Both steps completed.")
 
 #CHECK FOR DUPLICATE NAMES IN COLUMN NAME VECTOR AND ADD ".k" TO THE kth REPLICATE
 num.duplicates<-rep(0,length(colname.vector))

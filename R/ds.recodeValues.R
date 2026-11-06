@@ -79,37 +79,34 @@
 ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, 
                             missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check user has provided the name of the variable to be recoded
-  if(is.null(var.name)){
-    stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
-  }
+  .checkArgProvided(var.name, "the name of the variable to recode")
 
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
-    stop("Please provide a vector in the 'values2replace.vector' argument specifying
-         the values to be replaced eg c(1,7)", call.=FALSE)
+    cli_abort(c("{.arg values2replace.vector} must specify the values to replace.", "i" = "For example, {.code c(1, 7)}."))
   }
 
   # check user has provided the vector specifying the set of values to replace them with
   if(is.null(values2replace.vector)){
-    stop("Please provide a vector specifying the new values to be set eg c(3,4)", call.=FALSE)
+    cli_abort(c("{.arg new.values.vector} must specify the new values.", "i" = "For example, {.code c(3, 4)}."))
   }
 
   # check values2replace.vector and new.values.vector have the same length
   if(length(values2replace.vector) != length(new.values.vector)){
-    stop("Please ensure that values2replace.vector and new.values.vector have same length and are in the same order", call.=FALSE)
+    cli_abort(c("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.", "x" = "{.arg values2replace.vector} has length {length(values2replace.vector)} and {.arg new.values.vector} has length {length(new.values.vector)}."))
   }
 
   # check no duplicate values in values2replace.vector
   if(length(values2replace.vector) != length(unique(values2replace.vector))){
-    stop("No value may appear more than once in the values2replace.vector", call.=FALSE)
+    cli_abort(c("{.arg values2replace.vector} must not contain duplicate values.", "x" = "Duplicated: {.val {unique(values2replace.vector[duplicated(values2replace.vector)])}}."))
   }
   
   # simple work around for a bug in the format for values2replace.vector
   if(any(is.na(values2replace.vector))){
-    stop("To recode NAs you need to use the 'missing' argument", call.=FALSE)
+    cli_abort(c("{.arg values2replace.vector} can't contain {.code NA}.", "i" = "Use {.arg missing} to recode {.code NA} values."))
   }
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){
@@ -120,9 +117,7 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
     new.values.transmit <- NULL
   }
     
-  if(is.null(newobj)){
-    newobj <- paste0(var.name, "_recoded")
-  }
+  newobj <- .resolveNewobjName(newobj, paste0(var.name, "_recoded"))
 
   calltext <- call("recodeValuesDS", var.name, values2replace.transmit, new.values.transmit, missing)
   DSI::datashield.assign(datasources, newobj, calltext)

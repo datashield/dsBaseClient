@@ -21,17 +21,17 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.lexis::arg::test errors")
 test_that("lexis_erros", {
-    expect_error(ds.lexis(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
+    expect_error(ds.lexis(), "must be the name of the column that holds subject IDs", fixed=TRUE)
 })
 
 # context("ds.lexis::arg::test intervalWidth")
 test_that("simple lexis", {
-    expect_error(ds.lexis(data='D', intervalWidth = NA, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
-    expect_error(ds.lexis(data='D', intervalWidth = NULL, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
-    expect_error(ds.lexis(data='D', intervalWidth = 0.0, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
-    expect_error(ds.lexis(data='D', intervalWidth = c(1.0, NA, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
+    expect_error(ds.lexis(data='D', intervalWidth = NA, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "must be a non-zero numeric value or vector", fixed = TRUE)
+    expect_error(ds.lexis(data='D', intervalWidth = NULL, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "must be a non-zero numeric value or vector", fixed = TRUE)
+    expect_error(ds.lexis(data='D', intervalWidth = 0.0, idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "must be a non-zero numeric value or vector", fixed = TRUE)
+    expect_error(ds.lexis(data='D', intervalWidth = c(1.0, NA, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "must be a non-zero numeric value or vector", fixed = TRUE)
     expect_error(ds.lexis(data='D', intervalWidth = c(1.0, NULL.0, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "object 'NULL.0' not found", fixed = TRUE)
-    expect_error(ds.lexis(data='D', intervalWidth = c(1.0, 0.0, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "Please provide a (non-zero) single numeric value or vector to identify the survival time intervals", fixed = TRUE)
+    expect_error(ds.lexis(data='D', intervalWidth = c(1.0, 0.0, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new'), "must be a non-zero numeric value or vector", fixed = TRUE)
 
 #    res <- ds.lexis(data='D', intervalWidth = c(1.0, 1.5, 2.5), idCol = 'D$id', entryCol = 'D$starttime', exitCol = 'D$endtime', statusCol = 'D$cens', variables = c('D$age.60'), expandDF = 'EM.new')
 

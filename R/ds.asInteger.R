@@ -69,15 +69,11 @@
 #' @export
 ds.asInteger <- function(x.name=NULL, newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
   
-  if(is.null(newobj)){
-    newobj <- "asinteger.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "asinteger.newobj")
 
   calltext <- call("asIntegerDS", x.name)
   DSI::datashield.assign(datasources, newobj, calltext)

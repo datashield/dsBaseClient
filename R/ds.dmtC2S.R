@@ -46,17 +46,13 @@
 #'
 ds.dmtC2S <- function(dfdata=NA, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if a value has been provided for dfdata
-  if(is.null(dfdata)){
-    return("Error: dfdata must be a character string, a numeric vector or a scalar")
-  }
+  .checkArgProvided(dfdata, "a character string, numeric vector or scalar")
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "dmt.copied.C2S"
-  }
+  newobj <- .resolveNewobjName(newobj, "dmt.copied.C2S")
 
 #Generate values for arguments reflecting the key characteristics of the
 #clientside matrix/data frame to be copied to the serverside
@@ -86,8 +82,7 @@ if(dplyr::is.tbl(dfdata))
 		
   if(!is.matrix(dfdata) && !is.data.frame(dfdata) && !dplyr::is.tbl(dfdata))
 	{
-	   message("\n            FAILED: <dfdata> must either be a data.frame, matrix or tibble")	
-       return('Please respecify')
+	   cli_abort("{.arg dfdata} must be a data.frame, matrix or tibble.")
 	}
 
    inout.object.transmit<-paste0(as.character(inout.object),collapse=",")
