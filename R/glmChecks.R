@@ -14,12 +14,13 @@
 #' process. Should be NULL or a numeric vector.
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
+#' @param call The frame to report the error from.
 #' @keywords internal
 #' @return an integer 0 if check was passed and 1 if failed
 #' @author Gaye, A.
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #'
-glmChecks <- function(formula, data, offset, weights, datasources){
+glmChecks <- function(formula, data, offset, weights, datasources, call=parent.frame()){
 
   # turn the formula into a character
   formula <- paste0(Reduce(paste, deparse(formula)))
@@ -65,15 +66,15 @@ glmChecks <- function(formula, data, offset, weights, datasources){
           cally <- call("exists", myterms[1])
           out <- DSI::datashield.aggregate(datasources[j], cally)
           if(!(out[[1]])){
-            cli_abort("{.val {myterms[1]}} isn't defined in {.val {stdnames[j]}}.")
+            cli_abort("{.val {myterms[1]}} isn't defined in {.val {stdnames[j]}}.", call = call)
           }else{
             cally <- call("colnamesDS", myterms[1])
             clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(myterms[2] %in% clnames)){
-              cli_abort("{.val {myterms[2]}} isn't defined in {.val {stdnames[j]}}.")
+              cli_abort("{.val {myterms[2]}} isn't defined in {.val {stdnames[j]}}.", call = call)
             }else{
               call0 <- call("isNaDS", elts[i])
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
+              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }
           }
@@ -82,37 +83,37 @@ glmChecks <- function(formula, data, offset, weights, datasources){
             cally <- call("colnamesDS", data)
             clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(elts[i] %in% clnames)){
-              dd <- isDefined(datasources, elts[i])
+              dd <- isDefined(datasources, elts[i], call = call)
               call0 <- call("isNaDS", elts[i])
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
+              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }else{
               call0 <- call("isNaDS", paste0(data, "$", elts[i]))
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, paste0(data, "$", elts[i])) }
+              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, paste0(data, "$", elts[i]), call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", paste0(data, "$", elts[i]), ")") }
             }
           }else{
-            defined <- isDefined(datasources, elts[i])
+            defined <- isDefined(datasources, elts[i], call = call)
             call0 <- call("isNaDS", elts[i])
-            if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i]) }
+            if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
             if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
           }
         }
         # check if variable is not missing at complete
         out1 <- DSI::datashield.aggregate(datasources[j], call0)
         if(out1[[1]]$is.na){
-          cli_abort("{.val {elts[i]}} has only missing values in {.val {stdnames[j]}}.")
+          cli_abort("{.val {elts[i]}} has only missing values in {.val {stdnames[j]}}.", call = call)
         }
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value
         if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){
           if(!('numeric' %in% typ)){
-            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}, not {.cls {typ}}.")
+            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}, not {.cls {typ}}.", call = call)
           }
         }
         if(varIdentifier[i] == "weights"){
           checkres <- unlist(DSI::datashield.aggregate(datasources[j], as.symbol(call1)))
           if(checkres){
-            cli_abort("Weights {.val {elts[i]}} must not be negative in {.val {stdnames[j]}}.")
+            cli_abort("Weights {.val {elts[i]}} must not be negative in {.val {stdnames[j]}}.", call = call)
           }
         }
 

@@ -199,7 +199,7 @@
 .checkObjectClasses <- function(datasources, x, call = parent.frame()) {
   allowed <- c("data.frame", "matrix", "numeric", "integer", "character", "factor", "logical")
   for (name in x) {
-    if (!any(allowed %in% checkClass(datasources, name))) {
+    if (!any(allowed %in% checkClass(datasources, name, call = call))) {
       cli_abort("Each object must be of class {.or {.val {allowed}}}.", call = call)
     }
   }
@@ -218,7 +218,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .checkMultiObjectConsistency <- function(datasources, x, call = parent.frame()) {
-  isTable <- vapply(x, function(name) any(checkClass(datasources, name) %in% c("data.frame", "matrix")), logical(1))
+  isTable <- vapply(x, function(name) any(checkClass(datasources, name, call = call) %in% c("data.frame", "matrix")), logical(1))
   for (j in seq_along(datasources)) {
     study <- datasources[j]
     columns <- lapply(seq_along(x), function(i) {
