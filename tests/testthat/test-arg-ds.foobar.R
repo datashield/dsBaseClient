@@ -32,6 +32,8 @@ test_that("NULL connections", {
         expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
         expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
+    } else if (ds.test_env$driver == "DSLiteDriver") {
+        expect_error(datashield.aggregate(conns=NULL, expr=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else {
         fail(message = "Unknown driver type", info = ds.test_env$driver)
     }
@@ -58,11 +60,23 @@ test_that("non existent aggregate foobarDS", {
 
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim1, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    }
     expect_length(errs$sim2, 1)
-    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim2, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    }
     expect_length(errs$sim3, 1)
-    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim3, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'AGGREGATE' method with name: fooBarDS", "Bad request: No such DataSHIELD 'AGGREGATE' method with name: fooBarDS"))
+    }
 })
 
 # context("ds.foobar::arg::assign")
@@ -71,6 +85,8 @@ test_that("NULL connections", {
     if (ds.test_env$driver == "ArmadilloDriver") {
         expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else if (ds.test_env$driver == "OpalDriver") {
+        expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
+    } else if (ds.test_env$driver == "DSLiteDriver") {
         expect_error(datashield.assign(conns=NULL, symbol="new_obj", value=calltext), "unable to find an inherited method for function 'dsIsAsync' for signature 'conn = \"NULL\"'", fixed=TRUE)
     } else {
         fail(message = "Unknown driver type", info = ds.test_env$driver)
@@ -105,11 +121,23 @@ test_that("non existent assign foobarDS", {
     errs <- datashield.errors()
     expect_length(errs, 3)
     expect_length(errs$sim1, 1)
-    expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim1, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim1 %in% c("Command 'fooBarDS()' failed on 'sim1': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    }
     expect_length(errs$sim2, 1)
-    expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim2, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim2 %in% c("Command 'fooBarDS()' failed on 'sim2': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    }
     expect_length(errs$sim3, 1)
-    expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    if (ds.test_env$driver == "DSLiteDriver") {
+        expect_match(errs$sim3, "^DataSHIELD configuration does not allow expression: fooBarDS\n")
+    } else {
+        expect_true(errs$sim3 %in% c("Command 'fooBarDS()' failed on 'sim3': No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "[Client error: (400) Bad Request] No such DataSHIELD 'ASSIGN' method with name: fooBarDS", "Bad request: No such DataSHIELD 'ASSIGN' method with name: fooBarDS"))
+    }
 })
 
 #

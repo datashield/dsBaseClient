@@ -15,6 +15,8 @@
 
 # context("ds.recodeValues::smk_dgr::factor_missing::setup")
 
+skip_if(ds.test_env$driver == "DSLiteDriver", "dsDanger server functions look objects up outside the DSLite session")
+
 connect.studies.dataset.cnsim(list("GENDER", "PM_BMI_CATEGORICAL"))
 
 test_that("setup", {

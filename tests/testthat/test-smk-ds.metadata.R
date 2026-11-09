@@ -69,6 +69,7 @@ test_that("data.frame metadata", {
 })
 
 test_that("column metadata", {
+    skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite has no Opal variable metadata")
     res <- ds.metadata(x='D$LAB_TSC')
 
     if (ds.test_env$driver == "ArmadilloDriver") {

@@ -102,6 +102,7 @@ test_that("variance is to the power of 2 of the standard deviation",
 # context("ds.var::math::location::parameter::single")
 test_that("var (X+a) = Var(X)",
 {
+  skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite's parser misreads '+<number>' in expressions as a signed number")
   connect.dataset.1()
   .test.location.parameter('D$INTEGER')
   .test.location.parameter('D$NON_NEGATIVE_INTEGER')
@@ -116,6 +117,7 @@ test_that("var (X+a) = Var(X)",
 # context("ds.var::math::location::parameter::multiple")
 test_that("var (X+a) = Var(X)",
 {
+  skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite's parser misreads '+<number>' in expressions as a signed number")
   connect.all.datasets()
   .test.location.parameter('D$INTEGER')
   .test.location.parameter('D$NON_NEGATIVE_INTEGER')

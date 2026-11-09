@@ -17,6 +17,8 @@
 
 connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
+expected.environment <- if (ds.test_env$driver == "DSLiteDriver") "^DSLiteEnv_" else "^R_GlobalEnv$"
+
 test_that("setup", {
     ds_expect_variables(c("D"))
 })
@@ -31,15 +33,15 @@ test_that("simple ls", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 2)
-    expect_equal(res$sim1$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim1$environment.searched, expected.environment)
     expect_length(res$sim1$objects.found, 1)
     expect_equal(res$sim1$objects.found[1], "D")
     expect_length(res$sim2, 2)
-    expect_equal(res$sim2$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim2$environment.searched, expected.environment)
     expect_length(res$sim2$objects.found, 1)
     expect_equal(res$sim2$objects.found[1], "D")
     expect_length(res$sim3, 2)
-    expect_equal(res$sim3$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim3$environment.searched, expected.environment)
     expect_length(res$sim3$objects.found, 1)
     expect_equal(res$sim3$objects.found[1], "D")
 })
@@ -49,13 +51,13 @@ test_that("simple ls, with envir", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 3)
-    expect_equal(res$sim1$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim1$environment.searched, expected.environment)
     expect_length(res$sim1$objects.found, 0)
     expect_length(res$sim2, 3)
-    expect_equal(res$sim2$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim2$environment.searched, expected.environment)
     expect_length(res$sim2$objects.found, 0)
     expect_length(res$sim3, 3)
-    expect_equal(res$sim3$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim3$environment.searched, expected.environment)
     expect_length(res$sim3$objects.found, 0)
 })
 
@@ -64,13 +66,13 @@ test_that("simple ls, with envir, with wildcard postfix", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 3)
-    expect_equal(res$sim1$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim1$environment.searched, expected.environment)
     expect_length(res$sim1$objects.found, 0)
     expect_length(res$sim2, 3)
-    expect_equal(res$sim2$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim2$environment.searched, expected.environment)
     expect_length(res$sim2$objects.found, 0)
     expect_length(res$sim3, 3)
-    expect_equal(res$sim3$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim3$environment.searched, expected.environment)
     expect_length(res$sim3$objects.found, 0)
 })
 
@@ -79,13 +81,13 @@ test_that("simple ls, with envir, with wildcard infix", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 3)
-    expect_equal(res$sim1$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim1$environment.searched, expected.environment)
     expect_length(res$sim1$objects.found, 0)
     expect_length(res$sim2, 3)
-    expect_equal(res$sim2$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim2$environment.searched, expected.environment)
     expect_length(res$sim2$objects.found, 0)
     expect_length(res$sim3, 3)
-    expect_equal(res$sim3$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim3$environment.searched, expected.environment)
     expect_length(res$sim3$objects.found, 0)
 })
 
@@ -94,13 +96,13 @@ test_that("simple ls, with envir, with wildcard prefix", {
 
     expect_length(res, 3)
     expect_length(res$sim1, 3)
-    expect_equal(res$sim1$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim1$environment.searched, expected.environment)
     expect_length(res$sim1$objects.found, 0)
     expect_length(res$sim2, 3)
-    expect_equal(res$sim2$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim2$environment.searched, expected.environment)
     expect_length(res$sim2$objects.found, 0)
     expect_length(res$sim3, 3)
-    expect_equal(res$sim3$environment.searched, "R_GlobalEnv")
+    expect_match(res$sim3$environment.searched, expected.environment)
     expect_length(res$sim3$objects.found, 0)
 })
 

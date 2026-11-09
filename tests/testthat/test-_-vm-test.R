@@ -26,6 +26,7 @@ init.testing.datasets()
 
 test_that("The virtual machine is loaded. ",
 {
+    skip_if(ds.test_env$driver == "DSLiteDriver", "there is no Opal virtual machine under DSLite")
     response <- httr::HEAD(url=ds.test_env$ping_address, config=ds.test_env$ping_config)
     expect_true(http_status(response)$reason %in% c("OK", "Unauthorized"))
 })

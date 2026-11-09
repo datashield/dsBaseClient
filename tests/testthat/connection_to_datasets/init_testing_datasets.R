@@ -174,8 +174,7 @@ init.testing.dataset.factor_levels <- function()
     }
     else
     {
-      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
-      ds.test_env$login.data <- subset(login.data, server=="study1")
+      ds.test_env$login.data <- dslite.login.data(c("GROUP1", "GROUP2", "GROUP3"), c("FACTOR_LEVELS1", "FACTOR_LEVELS2", "FACTOR_LEVELS3"))
     }  
     ds.test_env$stats.var <- list('ID', 'COLOURS', 'COLOURS.NUMBERS', 'POSITIVE.NUMBERS', 'NEGATIVE.NUMBERS', 'NUMBERS',
                                   'POSITIVE.DECIMAL', 'NEGATIVE.DECIMAL', 'DECIMAL', 'PLANETS.CHARACTERS')
@@ -203,18 +202,57 @@ init.testing.dataset.factor_levels.1 <- function()
     }
     else
     {
-      login.data <- DSLite::setupDATASETTest("dsBase", env = ds.test_env)
-      ds.test_env$login.data <- subset(login.data, server=="study1")
+      ds.test_env$login.data <- dslite.login.data(c("GROUP1"), c("FACTOR_LEVELS1"))
     }  
     ds.test_env$stats.var <- list('ID', 'COLOURS', 'COLOURS.NUMBERS', 'POSITIVE.NUMBERS', 'NEGATIVE.NUMBERS', 'NUMBERS',
                                   'POSITIVE.DECIMAL', 'NEGATIVE.DECIMAL', 'DECIMAL', 'PLANETS.CHARACTERS')
   }
 }
 
+# A real server keeps its R warnings to itself; DSLite raises them in the client session, where testthat records each one
+DSLiteTestServer <- R6::R6Class("DSLiteTestServer", inherit = DSLite::DSLiteServer, # nolint: namespace_linter.
+  public = list(
+    aggregate = function(sid, expr) suppressWarnings(super$aggregate(sid, expr)),
+    assignExpr = function(sid, symbol, expr) suppressWarnings(super$assignExpr(sid, symbol, expr))
+  )
+)
+methods::setOldClass(c("DSLiteTestServer", "DSLiteServer"))
+
+# Serve the data_files tables that CI uploads to Opal/Armadillo, not DSLite's bundled copies, which hold different data
+ci.tables <- function(table.names)
+{
+  files <- list.files("data_files", pattern = "[.]rda$", recursive = TRUE, full.names = TRUE)
+  tables <- lapply(table.names, function(table.name) {
+    tableFile <- files[sub("[.]rda$", "", basename(files)) == sub("^.*[.]", "", table.name)]
+    if (length(tableFile) != 1)
+      stop("No unique data_files table for DSLite table '", table.name, "'", call. = FALSE)
+    get(load(tableFile, envir = environment()))
+  })
+  setNames(tables, table.names)
+}
+
+# Matches the CI servers: same tables, permissive privacy control, dsDanger methods available
+new.dslite.server <- function(table.names)
+{
+  server <- DSLiteTestServer$new(
+    tables = ci.tables(table.names),
+    config = DSLite::defaultDSConfiguration(include = c("dsBase", "dsDanger")) # nolint: namespace_linter.
+  )
+  server$option("default.datashield.privacyControlLevel", deparse("permissive"))
+  server
+}
+
 log.in.data.server <- function()
 {
+  variables <- ds.test_env$stats.var
+  if (ds.test_env$driver == "DSLiteDriver")
+  {
+    ds.test_env$dslite.server <- new.dslite.server(unique(ds.test_env$login.data$table))
+    # Opal/Armadillo treat the variables filter as a set; DSLite would duplicate repeated columns as 'X.1'
+    variables <- unique(variables)
+  }
   # ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts", list(ssl_verifyhost=0, ssl_verifypeer=0)))
-  ds.test_env$connections <- datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=ds.test_env$stats.var, opts = getOption("datashield.opts"))
+  ds.test_env$connections <- DSI::datashield.login(logins=ds.test_env$login.data, assign=TRUE,variables=variables, opts = getOption("datashield.opts"))
 }
 
 
@@ -304,4 +342,12 @@ disconnect.testing.dataset.factor_levels <- function()
 disconnect.testing.dataset.factor_levels.1 <- function()
 {
   log.out.data.server()
+}
+
+dslite.login.data <- function(servers, tables)
+{
+  builder <- DSI::newDSLoginBuilder(.silent = TRUE)
+  for (i in seq_along(servers))
+    builder$append(server = servers[[i]], url = "dslite.server", table = tables[[i]], driver = "DSLiteDriver")
+  builder$build()
 }
