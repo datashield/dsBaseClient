@@ -22,7 +22,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_HDL"))
 # context("ds.rowColCalc::arg::test errors")
 test_that("rowColCalc_errors", {
     expect_error(ds.rowColCalc(), "must be the name of a data.frame or matrix", fixed=TRUE)
-    expect_error(ds.rowColCalc(x='D', newobj="rsum_hdl_tsc"), "must be \"rowSums\", \"colSums\", \"rowMeans\", or \"colMeans\", not", fixed=TRUE)
+    expect_error(ds.rowColCalc(x='D', newobj="rsum_hdl_tsc"), "`operation` must be \"rowSums\", \"colSums\", \"rowMeans\", or \"colMeans\", not\\s+`NULL`")
     expect_error(ds.rowColCalc(x='D', newobj="rsum_hdl_tsc", operation="datashield"), "must be \"rowSums\", \"colSums\", \"rowMeans\", or \"colMeans\"", fixed=TRUE)
 })
 
