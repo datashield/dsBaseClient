@@ -83,7 +83,7 @@ ds.glmSummary <- function(x.name, newobj=NULL, datasources=NULL) {
 
   # check if a value has been provided for x
   if(is.null(x.name)||!is.character(x.name)){
-    supplied <- .describeSupplied(x.name)
+    supplied <- .describeSupplied(x.name) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg x.name} must be a character string that names a glm object on the server, not {supplied}.")
   }
 

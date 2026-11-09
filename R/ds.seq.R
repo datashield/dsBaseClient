@@ -127,7 +127,7 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=FROM.value.char))))FROM.valid<-0
 	}
 	if(!FROM.valid){
-  supplied <- .describeSupplied(FROM.value.char)
+  supplied <- .describeSupplied(FROM.value.char) # nolint: object_usage_linter. Used in the cli template
   cli_abort(c("{.arg FROM.value.char} must be a real number in inverted commas, not {supplied}.", "i" = "For example, {.val -3.7} or {.val 0}."))
 	}
 

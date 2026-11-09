@@ -24,7 +24,7 @@
   isConnectionClass <- vapply(datasources, function(x) inherits(unlist(x), "DSConnection"), logical(1))
   if (!all(isConnectionClass)) {
     bad <- which(!isConnectionClass)
-    supplied <- vapply(datasources[bad], .describeSupplied, character(1))
+    supplied <- vapply(datasources[bad], .describeSupplied, character(1)) # nolint: object_usage_linter. Used in the cli template
     bullets <- stats::setNames(paste0("Element ", bad, " is {supplied[", seq_along(bad), "]}."), rep("x", length(bad)))
     cli_abort(c("{.arg datasources} must be a list of {.cls DSConnection} objects.", bullets), call = call)
   }
@@ -98,7 +98,7 @@
 #' @noRd
 .checkNewobjName <- function(newobj, call = parent.frame()) {
   if (!is.character(newobj) || length(newobj) != 1) {
-    supplied <- .describeSupplied(newobj)
+    supplied <- .describeSupplied(newobj) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg newobj} must be a single character string, not {supplied}.", call = call)
   }
 }
@@ -151,11 +151,11 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .checkArgsSet <- function(..., call = parent.frame()) {
-  args <- list(...)
-  unset <- names(args)[vapply(args, is.null, logical(1))]
+  values <- list(...)
+  unset <- names(values)[vapply(values, is.null, logical(1))]
   if (length(unset) > 0) {
     cli_abort(c(
-      "{.arg {names(args)}} must all be set.",
+      "{.arg {names(values)}} must all be set.",
       "x" = "{.arg {unset}} {?is/are} {.code NULL}."
     ), call = call)
   }
@@ -174,7 +174,7 @@
     return("NULL")
   }
   if (!is.numeric(seed.as.integer)) {
-    supplied <- .describeSupplied(seed.as.integer)
+    supplied <- .describeSupplied(seed.as.integer) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg seed.as.integer} must be an integer or {.code NULL}, not {supplied}.", call = call)
   }
   return(as.character(seed.as.integer))
@@ -192,12 +192,12 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .checkOffsetInFormula <- function(formula, call = parent.frame()) {
-  text <- as.character(formula)
-  terms <- unlist(regmatches(text, gregexpr("\\b(offset|weights)\\s*\\([^)]*\\)", text)))
-  if (length(terms) > 0) {
+  formulaText <- as.character(formula)
+  found <- unlist(regmatches(formulaText, gregexpr("\\b(offset|weights)\\s*\\([^)]*\\)", formulaText)))
+  if (length(found) > 0) {
     cli_abort(c(
       "{.arg formula} can't contain {.code offset()} or {.code weights()}.",
-      "x" = "Found {.code {terms}}.",
+      "x" = "Found {.code {found}}.",
       "i" = "Use the {.arg offset} and {.arg weights} arguments instead."
     ), call = call)
   }
@@ -217,7 +217,7 @@
   for (name in x) {
     cls <- checkClass(datasources, name, call = call)
     if (!any(allowed %in% cls)) {
-      allowedClasses <- vapply(allowed, function(x) cli::format_inline("{.cls {x}}"), character(1))
+      allowedClasses <- vapply(allowed, function(x) cli::format_inline("{.cls {x}}"), character(1)) # nolint: object_usage_linter. Used in the cli template
       cli_abort("{.val {name}} must be of class {.or {allowedClasses}}, not {.cls {cls}}.", call = call)
     }
   }
@@ -269,7 +269,7 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .abortInvalidChoice <- function(argName, choices, call = parent.frame()) {
-  supplied <- .describeSupplied(get(argName, envir = call, inherits = FALSE))
+  supplied <- .describeSupplied(get(argName, envir = call, inherits = FALSE)) # nolint: object_usage_linter. Used in the cli template
   cli_abort("{.arg {argName}} must be {.or {.val {choices}}}, not {supplied}.", call = call)
 }
 
@@ -291,7 +291,7 @@
     return(rep(values, numStudies))
   }
   if (length(values) != numStudies) {
-    supplied <- .describeSupplied(values)
+    supplied <- .describeSupplied(values) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg {argName}} must have length 1 or {numStudies} (one value per study), not {supplied}.", call = call)
   }
   return(values)

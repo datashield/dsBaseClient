@@ -28,7 +28,7 @@ missing_pattern <- function(columns, count = "5") {
     list(pattern = pattern, valid = TRUE, message = "Valid")
 }
 
-one_bar <- structure(list(breaks = 1:2, counts = 1, density = 1, mids = 1.5, xname = "x", equidist = TRUE),
+one_bar <- structure(list(breaks = 1:2, counts = 1, density = 1, mids = 1.5, xname = "x", equidist = TRUE), # nolint: undesirable_function_linter.
     class = "histogram")
 
 #
@@ -143,7 +143,7 @@ test_that("ds.changeRefGroup warns about reorderByRef", {
 test_that("model functions reject an offset or weights in the formula", {
     fake_server()
     formula <- "y~x+offset(z)"
-    pattern <- "Found `offset\\(z\\)`"
+    pattern <- "Found `offset\\(z\\)`" # nolint: nonportable_path_linter. Regex, not a file path
     expect_error(ds.glm(formula, datasources = studies), pattern)
     expect_error(ds.glmSLMA(formula, datasources = studies), pattern)
     expect_error(ds.glmerSLMA(formula, datasources = studies), pattern)

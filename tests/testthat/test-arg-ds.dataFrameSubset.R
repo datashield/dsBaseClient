@@ -33,12 +33,12 @@ test_that("dataFrameSubset_erros", {
 
 # context("ds.dataFrameSubset::arg::missing 'V1' arg error")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(df.name="D"), "`V1.name` must name a column or scalar as a character string, not\\s+`NULL`")
+    expect_error(ds.dataFrameSubset(df.name="D"), "`V1.name` must name a column or scalar as a character string, not\\s+`NULL`") # nolint: nonportable_path_linter. Regex, not a file path
 })
 
 # context("ds.dataFrameSubset::arg::missing 'V2' arg error")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC"), "`V2.name` must name a column or scalar as a character string, not\\s+`NULL`")
+    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC"), "`V2.name` must name a column or scalar as a character string, not\\s+`NULL`") # nolint: nonportable_path_linter. Regex, not a file path
 })
 
 # context("ds.dataFrameSubset::arg::missing 'Boolean.operator' arg error")

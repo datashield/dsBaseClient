@@ -71,7 +71,7 @@ test_that(".checkArgsSet names every argument", {
 test_that(".checkOffsetInFormula rejects offset() and weights() terms in the formula", {
     expect_null(.checkOffsetInFormula("y~x"))
     expect_null(.checkOffsetInFormula("y~x+D$weights_kg+offset_var"))
-    expect_error(.checkOffsetInFormula("y~offset(x)"), "Found `offset\\(x\\)`")
-    expect_error(.checkOffsetInFormula("y~x+weights(w)"), "can't contain `offset\\(\\)` or `weights\\(\\)`")
-    expect_error(.checkOffsetInFormula(y ~ x + offset(z)), "Found `offset\\(z\\)`")
+    expect_error(.checkOffsetInFormula("y~offset(x)"), "Found `offset\\(x\\)`") # nolint: nonportable_path_linter. Regex, not a file path
+    expect_error(.checkOffsetInFormula("y~x+weights(w)"), "can't contain `offset\\(\\)` or `weights\\(\\)`") # nolint: nonportable_path_linter. Regex, not a file path
+    expect_error(.checkOffsetInFormula(y ~ x + offset(z)), "Found `offset\\(z\\)`") # nolint: nonportable_path_linter. Regex, not a file path
 })

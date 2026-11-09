@@ -74,7 +74,7 @@ glmChecks <- function(formula, data, offset, weights, datasources, call=parent.f
               cli_abort("{.val {myterms[2]}} isn't defined in {.val {stdnames[j]}}.", call = call)
             }else{
               call0 <- call("isNaDS", elts[i])
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
+              if(varIdentifier[i] == "offset" || varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }
           }
@@ -83,19 +83,19 @@ glmChecks <- function(formula, data, offset, weights, datasources, call=parent.f
             cally <- call("colnamesDS", data)
             clnames <- unlist(DSI::datashield.aggregate(datasources[j], cally))
             if(!(elts[i] %in% clnames)){
-              dd <- isDefined(datasources, elts[i], call = call)
+              isDefined(datasources, elts[i], call = call)
               call0 <- call("isNaDS", elts[i])
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
+              if(varIdentifier[i] == "offset" || varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
             }else{
               call0 <- call("isNaDS", paste0(data, "$", elts[i]))
-              if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, paste0(data, "$", elts[i]), call = call) }
+              if(varIdentifier[i] == "offset" || varIdentifier[i] == "weights"){ typ <- checkClass(datasources, paste0(data, "$", elts[i]), call = call) }
               if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", paste0(data, "$", elts[i]), ")") }
             }
           }else{
-            defined <- isDefined(datasources, elts[i], call = call)
+            isDefined(datasources, elts[i], call = call)
             call0 <- call("isNaDS", elts[i])
-            if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
+            if(varIdentifier[i] == "offset" || varIdentifier[i] == "weights"){ typ <- checkClass(datasources, elts[i], call = call) }
             if(varIdentifier[i] == "weights"){ call1 <- paste0("checkNegValueDS(", elts[i], ")") }
           }
         }

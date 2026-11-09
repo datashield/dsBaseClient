@@ -99,7 +99,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
   # check if replacement values have been provided
   .checkArgProvided(forNA, "a list of replacement values")
   if(length(forNA) != length(datasources)){
-    supplied <- .describeSupplied(forNA)
+    supplied <- .describeSupplied(forNA) # nolint: object_usage_linter. Used in the cli template
     cli_abort(c("{.arg forNA} must have one element per study.", "x" = "{.arg forNA} is {supplied}, which has {length(forNA)} element{?s} for {length(datasources)} stud{?y/ies}."))
   }
 

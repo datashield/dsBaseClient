@@ -37,7 +37,7 @@ test_that(".expandToStudies keeps one value per study", {
 })
 
 test_that(".expandToStudies rejects any other length", {
-    expect_error(.expandToStudies(c(1, 2), "x", 3), "must have length 1 or 3 \\(one value per study\\), not 1 and 2")
+    expect_error(.expandToStudies(c(1, 2), "x", 3), "must have length 1 or 3 \\(one value per study\\), not 1 and 2") # nolint: nonportable_path_linter. Regex, not a file path
     expect_error(.expandToStudies(c(1, 2, 3, 4), "x", 3), "must have length 1")
 })
 

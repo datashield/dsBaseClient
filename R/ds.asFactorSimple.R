@@ -31,7 +31,7 @@ ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){
-    supplied <- .describeSupplied(input.var.name)
+    supplied <- .describeSupplied(input.var.name) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {supplied}.")
   }
 

@@ -161,11 +161,11 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     # so align them by name to study 1's order (the last, unnamed column stays last)
     var_names <- colnames(patterns_list[[1]])
     var_cols <- var_names[-length(var_names)]
-    call <- environment()
+    caller <- environment()
     patterns_list <- lapply(patterns_list, function(pattern){
       study_vars <- colnames(pattern)[-ncol(pattern)]
       if(!setequal(study_vars, var_cols)){
-        cli_abort(c("Can't pool patterns because studies have different variables.", "x" = "Not in every study: {.val {union(setdiff(study_vars, var_cols), setdiff(var_cols, study_vars))}}."), call = call)
+        cli_abort(c("Can't pool patterns because studies have different variables.", "x" = "Not in every study: {.val {union(setdiff(study_vars, var_cols), setdiff(var_cols, study_vars))}}."), call = caller)
       }
       pattern[, c(match(var_cols, study_vars), ncol(pattern)), drop = FALSE]
     })

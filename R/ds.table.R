@@ -197,7 +197,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
   .checkArgProvided(rvar, "a character string that names the row variable")
   
   if(!is.null(cvar)&&!is.character(cvar)){
-     supplied <- .describeSupplied(cvar)
+     supplied <- .describeSupplied(cvar) # nolint: object_usage_linter. Used in the cli template
      cli_abort("{.arg cvar} must be a character string that names the column variable, not {supplied}.")
   }
   
@@ -403,7 +403,7 @@ if(num.valid.studies==0)
 {
 	if ((! table.assign) || report.chisq.tests)
 	{
-	    failures <- paste0(names(error.messages), ": ", unlist(error.messages))
+	    failures <- paste0(names(error.messages), ": ", unlist(error.messages)) # nolint: object_usage_linter. Used in the cli template
 	    cli_abort(c("All studies failed.", "x" = "{failures}"))
 	}
 	else

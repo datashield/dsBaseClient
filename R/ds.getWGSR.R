@@ -122,7 +122,7 @@ ds.getWGSR <- function(sex=NULL, firstPart=NULL, secondPart=NULL, index=NULL, st
   
   # If 'standing' is not a value either 1, 2, 3, or NA return an error message
   if(!any(standing %in% c(NA, 1, 2, 3))) {
-    supplied <- .describeSupplied(standing)
+    supplied <- .describeSupplied(standing) # nolint: object_usage_linter. Used in the cli template
     cli_abort("{.arg standing} must be {.or {.val {1:3}}}, not {supplied}.")
   }
   
