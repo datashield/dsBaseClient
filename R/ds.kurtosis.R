@@ -34,7 +34,7 @@ ds.kurtosis <- function(x=NULL, method=1, type='both', datasources=NULL, classCo
   .checkArgProvided(x, "the name of the input vector")
   
   if(!all(method %in% c(1,2,3))){
-    cli_abort("{.arg method} must be 1, 2 or 3, not {.val {method}}.")
+    cli_abort("{.arg method} must be {.or {.val {1:3}}}, not {.val {method}}.")
   }
   
   # enable valid aliases for "type" argument                  

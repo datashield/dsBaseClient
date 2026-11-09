@@ -29,8 +29,8 @@ test_that("setup", {
 test_that("skewness_erros", {
     expect_error(ds.skewness(), "must be the name of the input vector", fixed=TRUE)
     expect_error(ds.skewness(x='D$LAB_TSC', type='datashield'), "must be \"both\", \"combine\", or \"split\"", fixed=TRUE)
-    expect_error(ds.skewness(x='D$LAB_TSC', method="0"), "must be 1, 2 or 3", fixed=TRUE)
-    expect_error(ds.skewness(x='D$LAB_TSC', method="4"), "must be 1, 2 or 3", fixed=TRUE)
+    expect_error(ds.skewness(x='D$LAB_TSC', method="0"), "must be 1, 2, or 3", fixed=TRUE)
+    expect_error(ds.skewness(x='D$LAB_TSC', method="4"), "must be 1, 2, or 3", fixed=TRUE)
 })
 
 #

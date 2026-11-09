@@ -23,7 +23,10 @@
 .verifyDatasources <- function(datasources, call = parent.frame()) {
   isConnectionClass <- vapply(datasources, function(x) inherits(unlist(x), "DSConnection"), logical(1))
   if (!all(isConnectionClass)) {
-    cli_abort("{.arg datasources} must be a list of {.cls DSConnection} objects.", call = call)
+    bad <- which(!isConnectionClass)
+    supplied <- vapply(datasources[bad], .describeSupplied, character(1))
+    bullets <- stats::setNames(paste0("Element ", bad, " is {supplied[", seq_along(bad), "]}."), rep("x", length(bad)))
+    cli_abort(c("{.arg datasources} must be a list of {.cls DSConnection} objects.", bullets), call = call)
   }
 }
 
@@ -74,8 +77,9 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .describeStudyClasses <- function(classes) {
-  described <- vapply(classes, function(cls) paste(cls, collapse = ", "), character(1))
-  bullets <- paste0(names(classes), " has class ", described, ".")
+  described <- vapply(classes, function(cls) cli::format_inline("{.cls {cls}}"), character(1))
+  studies <- vapply(names(classes), function(study) cli::format_inline("{.val {study}}"), character(1))
+  bullets <- paste0(studies, " has class ", described, ".")
   names(bullets) <- rep("x", length(bullets))
   bullets
 }
@@ -94,7 +98,8 @@
 #' @noRd
 .checkNewobjName <- function(newobj, call = parent.frame()) {
   if (!is.character(newobj) || length(newobj) != 1) {
-    cli_abort("{.arg newobj} must be a single character string.", call = call)
+    supplied <- .describeSupplied(newobj)
+    cli_abort("{.arg newobj} must be a single character string, not {supplied}.", call = call)
   }
 }
 
@@ -147,8 +152,12 @@
 #' @noRd
 .checkArgsSet <- function(..., call = parent.frame()) {
   args <- list(...)
-  if (any(vapply(args, is.null, logical(1)))) {
-    cli_abort("{.arg {names(args)}} must all be set.", call = call)
+  unset <- names(args)[vapply(args, is.null, logical(1))]
+  if (length(unset) > 0) {
+    cli_abort(c(
+      "{.arg {names(args)}} must all be set.",
+      "x" = "{.arg {unset}} {?is/are} {.code NULL}."
+    ), call = call)
   }
 }
 
@@ -165,24 +174,31 @@
     return("NULL")
   }
   if (!is.numeric(seed.as.integer)) {
-    cli_abort("{.arg seed.as.integer} must be an integer or {.code NULL}.", call = call)
+    supplied <- .describeSupplied(seed.as.integer)
+    cli_abort("{.arg seed.as.integer} must be an integer or {.code NULL}, not {supplied}.", call = call)
   }
   return(as.character(seed.as.integer))
 }
 
-#' Warn About an Offset or Weights Written Into a Model Formula
+#' Check That a Model Formula Has No Offset or Weights Term
+#'
+#' The server rejects function calls inside a formula, so an `offset()` or
+#' `weights()` term always fails there.
 #'
 #' @param formula The model formula, as a character string or formula.
-#' @param call The frame to report the warning from.
-#' @importFrom cli cli_warn
-#' @return Invisibly returns `NULL`. Called for its side effect.
+#' @param call The frame to report the error from.
+#' @importFrom cli cli_abort
+#' @return Invisibly returns `NULL`. Called for its side effect (error checking).
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
-.warnOffsetInFormula <- function(formula, call = parent.frame()) {
-  if (any(grepl("offset|weights", formula, ignore.case = TRUE))) {
-    cli_warn(c(
-      "You may have specified an offset or regression weights in the model formula.",
-      "i" = "Specify them separately with the {.arg offset} and {.arg weights} arguments."
+.checkOffsetInFormula <- function(formula, call = parent.frame()) {
+  text <- as.character(formula)
+  terms <- unlist(regmatches(text, gregexpr("\\b(offset|weights)\\s*\\([^)]*\\)", text)))
+  if (length(terms) > 0) {
+    cli_abort(c(
+      "{.arg formula} can't contain {.code offset()} or {.code weights()}.",
+      "x" = "Found {.code {terms}}.",
+      "i" = "Use the {.arg offset} and {.arg weights} arguments instead."
     ), call = call)
   }
 }
@@ -199,8 +215,10 @@
 .checkObjectClasses <- function(datasources, x, call = parent.frame()) {
   allowed <- c("data.frame", "matrix", "numeric", "integer", "character", "factor", "logical")
   for (name in x) {
-    if (!any(allowed %in% checkClass(datasources, name, call = call))) {
-      cli_abort("Each object must be of class {.or {.val {allowed}}}.", call = call)
+    cls <- checkClass(datasources, name, call = call)
+    if (!any(allowed %in% cls)) {
+      allowedClasses <- vapply(allowed, function(x) cli::format_inline("{.cls {x}}"), character(1))
+      cli_abort("{.val {name}} must be of class {.or {allowedClasses}}, not {.cls {cls}}.", call = call)
     }
   }
 }
@@ -225,7 +243,7 @@
       if (isTable[[i]]) ds.colnames(x = x[i], datasources = study) else as.character(x[i])
     })
     if (anyDuplicated(unlist(columns)) != 0) {
-      cli_warn("Some column names in study {j} are duplicated, so a suffix {.val .k} is added to the kth replicate.", call = call)
+      cli_warn("Some column names in {.val {names(datasources)[j]}} are duplicated, so a suffix {.val .k} is added to the kth replicate.", call = call)
     }
     rows <- vapply(seq_along(x), function(i) {
       if (isTable[[i]]) {
@@ -234,7 +252,10 @@
       as.numeric(ds.length(x[i], type = "split", datasources = study)[[1]])
     }, numeric(1))
     if (any(rows != rows[1])) {
-      cli_abort("All components must have the same number of rows.", call = call)
+      cli_abort(c(
+        "All components must have the same number of rows.",
+        "x" = "In {.val {names(datasources)[j]}}, {.val {x}} {?has/have} {rows} rows."
+      ), call = call)
     }
   }
 }
@@ -248,8 +269,8 @@
 #' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
 #' @noRd
 .abortInvalidChoice <- function(argName, choices, call = parent.frame()) {
-  value <- get(argName, envir = call)
-  cli_abort("{.arg {argName}} must be {.or {.val {choices}}}, not {.val {value}}.", call = call)
+  supplied <- .describeSupplied(get(argName, envir = call, inherits = FALSE))
+  cli_abort("{.arg {argName}} must be {.or {.val {choices}}}, not {supplied}.", call = call)
 }
 
 #' Expand an Argument to One Value per Study
@@ -270,7 +291,25 @@
     return(rep(values, numStudies))
   }
   if (length(values) != numStudies) {
-    cli_abort("{.arg {argName}} must have length 1 or one value per study.", call = call)
+    supplied <- .describeSupplied(values)
+    cli_abort("{.arg {argName}} must have length 1 or {numStudies} (one value per study), not {supplied}.", call = call)
   }
   return(values)
+}
+
+#' Describe a Supplied Value for an Error Message
+#'
+#' @param x The value the user supplied.
+#' @return A string: `NULL` as code, the value if `x` is a non-empty atomic
+#'   vector (quoted if character), otherwise its type, such as "a list".
+#' @author Tim Cadman, Genomics Coordination Centre, UMCG, Netherlands
+#' @noRd
+.describeSupplied <- function(x) {
+  if (is.null(x)) {
+    return(cli::format_inline("{.code NULL}"))
+  }
+  if (is.atomic(x) && length(x) > 0) {
+    return(cli::format_inline("{.val {x}}"))
+  }
+  cli::format_inline("{.obj_type_friendly {x}}")
 }

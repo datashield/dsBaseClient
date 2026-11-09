@@ -86,17 +86,17 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
 
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
-    cli_abort(c("{.arg values2replace.vector} must specify the values to replace.", "i" = "For example, {.code c(1, 7)}."))
+    cli_abort(c("{.arg values2replace.vector} must specify the values to replace, not {.code NULL}.", "i" = "For example, {.code c(1, 7)}."))
   }
 
   # check user has provided the vector specifying the set of values to replace them with
-  if(is.null(values2replace.vector)){
-    cli_abort(c("{.arg new.values.vector} must specify the new values.", "i" = "For example, {.code c(3, 4)}."))
+  if(is.null(new.values.vector)){
+    cli_abort(c("{.arg new.values.vector} must specify the new values, not {.code NULL}.", "i" = "For example, {.code c(3, 4)}."))
   }
 
   # check values2replace.vector and new.values.vector have the same length
   if(length(values2replace.vector) != length(new.values.vector)){
-    cli_abort(c("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.", "x" = "{.arg values2replace.vector} has length {length(values2replace.vector)} and {.arg new.values.vector} has length {length(new.values.vector)}."))
+    cli_abort(c("{.arg values2replace.vector} and {.arg new.values.vector} must have the same length and order.", "x" = "{.arg values2replace.vector} is {.val {values2replace.vector}}; {.arg new.values.vector} is {.val {new.values.vector}}."))
   }
 
   # check no duplicate values in values2replace.vector
@@ -106,7 +106,7 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
   
   # simple work around for a bug in the format for values2replace.vector
   if(any(is.na(values2replace.vector))){
-    cli_abort(c("{.arg values2replace.vector} can't contain {.code NA}.", "i" = "Use {.arg missing} to recode {.code NA} values."))
+    cli_abort(c("{.arg values2replace.vector} can't contain {.code NA}.", "x" = "{.arg values2replace.vector} is {.val {values2replace.vector}}.", "i" = "Use {.arg missing} to recode {.code NA} values."))
   }
   
   if(!is.null(values2replace.vector) & !is.null(new.values.vector)){

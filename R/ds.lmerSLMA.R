@@ -213,7 +213,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
   
   # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
   # to provide name of offset or weights variable
-  .warnOffsetInFormula(formula)
+  .checkOffsetInFormula(formula)
   
   formula <- stats::as.formula(formula)
   
@@ -246,7 +246,7 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
 
  if(!is.null(control_type) && is.null(control_value))
 	{
-	cli_abort(c("{.arg control_value} must be set when {.arg control_type} is set.", "i" = "For example, {.code control_value = 1.0e-7}."))
+	cli_abort(c("{.arg control_value} must be set when {.arg control_type} is set, not {.code NULL}.", "i" = "For example, {.code control_value = 1.0e-7}."))
 	}
 
 	if(!is.null(control_value))
@@ -317,16 +317,16 @@ ds.lmerSLMA <- function(formula=NULL, offset=NULL, weights=NULL, combine.with.me
     {
       for(sse in study.with.errors)
       {
-        cli_inform("Error report from second server-side function for study {sse}.")
-        cli_inform("{unlist(study.summary[[sse]][[1]])}")
-        cli_inform("{unlist(study.summary[[sse]][[2]])}")
+        cli_inform("Error report from second server-side function for {.val {names(datasources)[sse]}}.")
+        cli_verbatim(unlist(study.summary[[sse]][[1]]))
+        cli_verbatim(unlist(study.summary[[sse]][[2]]))
 
         num.messages<-length(study.summary[[sse]])-2
         for(m in 1:num.messages)
         {
           if(!is.null(unlist(study.summary[[sse]][[2+m]])))
           {
-            cli_inform("{unlist(study.summary[[sse]][[2+m]])}")
+            cli_verbatim(as.character(unlist(study.summary[[sse]][[2+m]])))
           }
         }
       }

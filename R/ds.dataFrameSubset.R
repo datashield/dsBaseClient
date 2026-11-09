@@ -120,7 +120,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V1.name))
   {	
-    cli_abort("{.arg V1.name} must name a column or scalar as a character string, unless you are subsetting only columns.")
+    cli_abort("{.arg V1.name} must name a column or scalar as a character string, not {.code NULL}, unless you are subsetting only columns.")
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V1.name))
@@ -136,7 +136,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
  
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(V2.name))
   {	
-    cli_abort("{.arg V2.name} must name a column or scalar as a character string, unless you are subsetting only columns.")
+    cli_abort("{.arg V2.name} must name a column or scalar as a character string, not {.code NULL}, unless you are subsetting only columns.")
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(V2.name))
@@ -147,7 +147,7 @@ ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.o
   if(is.null(keep.cols)&&is.null(rm.cols)&&is.null(Boolean.operator))
   {
  
-    cli_abort(c("{.arg Boolean.operator} must be a Boolean operator in character format, such as {.val ==} or {.val >=}, unless you are subsetting only columns.", "i" = "If {.arg keep.cols} or {.arg rm.cols} is set and {.arg V1.name}, {.arg V2.name} and {.arg Boolean.operator} are all {.code NULL}, the specified columns are subset and all rows are kept."))
+    cli_abort(c("{.arg Boolean.operator} must be a Boolean operator in character format, such as {.val ==} or {.val >=}, not {.code NULL}, unless you are subsetting only columns.", "i" = "If {.arg keep.cols} or {.arg rm.cols} is set and {.arg V1.name}, {.arg V2.name} and {.arg Boolean.operator} are all {.code NULL}, the specified columns are subset and all rows are kept."))
   }
  
   if((!is.null(keep.cols)||!is.null(rm.cols))&&is.null(Boolean.operator))

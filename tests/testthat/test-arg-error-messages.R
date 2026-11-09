@@ -44,7 +44,7 @@ test_that("ds.asFactorSimple rejects a name that is not a character string", {
 test_that("ds.dmtC2S rejects missing and unsupported data", {
     fake_server()
     expect_error(ds.dmtC2S(dfdata = NULL, datasources = studies), "`dfdata` must be a character string")
-    expect_error(ds.dmtC2S(dfdata = 1, datasources = studies), "`dfdata` must be a data.frame, matrix or tibble")
+    expect_error(ds.dmtC2S(dfdata = 1, datasources = studies), "`dfdata` must be a <data.frame>, <matrix>, or <tbl_df>, not 1")
 })
 
 test_that("ds.elspline rejects fewer than two knots", {
@@ -61,7 +61,7 @@ test_that("ds.forestplot rejects a variable that is not in the model", {
 test_that("ds.getWGSR rejects a missing thirdPart and an invalid standing", {
     fake_server()
     expect_error(ds.getWGSR(sex = "s", firstPart = "a", secondPart = "b", index = "bfa", datasources = studies), "`thirdPart` must be provided")
-    expect_error(ds.getWGSR(sex = "s", firstPart = "a", secondPart = "b", index = "hfa", standing = 4, datasources = studies), "`standing` must be 1, 2 or 3")
+    expect_error(ds.getWGSR(sex = "s", firstPart = "a", secondPart = "b", index = "hfa", standing = 4, datasources = studies), "`standing` must be 1, 2, or 3, not 4")
 })
 
 test_that("ds.glmSummary rejects a name that is not a character string", {
@@ -140,14 +140,14 @@ test_that("ds.changeRefGroup warns about reorderByRef", {
     expect_warning(ds.changeRefGroup("x", ref = "a", reorderByRef = TRUE, datasources = studies), "`reorderByRef` is `TRUE`")
 })
 
-test_that("model functions warn about an offset or weights in the formula", {
+test_that("model functions reject an offset or weights in the formula", {
     fake_server()
     formula <- "y~x+offset(z)"
-    pattern <- "offset or regression weights in the model formula"
-    expect_warning(tryCatch(ds.glm(formula, datasources = studies), error = function(e) NULL), pattern)
-    expect_warning(tryCatch(ds.glmSLMA(formula, datasources = studies), error = function(e) NULL), pattern)
-    expect_warning(tryCatch(ds.glmerSLMA(formula, datasources = studies), error = function(e) NULL), pattern)
-    expect_warning(tryCatch(ds.lmerSLMA(formula, datasources = studies), error = function(e) NULL), pattern)
+    pattern <- "Found `offset\\(z\\)`"
+    expect_error(ds.glm(formula, datasources = studies), pattern)
+    expect_error(ds.glmSLMA(formula, datasources = studies), pattern)
+    expect_error(ds.glmerSLMA(formula, datasources = studies), pattern)
+    expect_error(ds.lmerSLMA(formula, datasources = studies), pattern)
 })
 
 # context("error messages::arg::server replies")
@@ -168,12 +168,12 @@ test_that("ds.asFactor reports levels the server failed to find", {
 
 test_that("ds.boxPlot rejects a class it can't plot", {
     fake_server(classDS = "character")
-    expect_error(ds.boxPlot("x", datasources = studies), "`x` must be a data.frame or numeric vector")
+    expect_error(ds.boxPlot("x", datasources = studies), "`x` must be a <data.frame> or <numeric> vector")
 })
 
 test_that("ds.rbind and ds.summary reject an unsupported class", {
     fake_server(classDS = "function")
-    expect_error(ds.rbind("x", DataSHIELD.checks = TRUE, datasources = studies), "Each object must be of class")
+    expect_error(ds.rbind("x", DataSHIELD.checks = TRUE, datasources = studies), "\"x\" must be of class")
     expect_error(ds.summary("x", datasources = studies), "`x` must be of class")
 })
 
@@ -183,11 +183,11 @@ test_that("ds.cbind and ds.dataFrame warn about duplicate names and reject unequ
     x <- c("b", "a", "a")
     expect_warning(
         expect_error(ds.cbind(x, DataSHIELD.checks = TRUE, datasources = studies[1]), "All components must have the same number of rows"),
-        "column names in study 1 are duplicated"
+        "column names in \"sim1\" are duplicated"
     )
     expect_warning(
         expect_error(ds.dataFrame(x, DataSHIELD.checks = TRUE, datasources = studies[1]), "All components must have the same number of rows"),
-        "column names in study 1 are duplicated"
+        "column names in \"sim1\" are duplicated"
     )
 })
 
@@ -197,12 +197,12 @@ test_that("ds.histogram reports missing break points and invalid cells", {
         histogramDS2 = function(study, expr) if (study == "sim1") list(histobject = one_bar, invalidcells = 2)
     )
     expect_error(ds.histogram("x", datasources = studies), "Can't find equidistant break points")
-    expect_warning(ds.histogram("x", datasources = studies[1]), "2 bins in \"sim1\" had fewer than")
+    expect_warning(ds.histogram("x", datasources = studies[1]), "In \"sim1\", 2 bins had fewer than")
 
     fake_server(histogramDS1 = list(range = c(1, 2)), histogramDS2 = list(histobject = one_bar, invalidcells = 2))
     warnings <- capture_warnings(ds.histogram("x", datasources = studies[1:2]))
-    expect_match(warnings, "2 bins in \"sim1\" had fewer than", all = FALSE)
-    expect_match(warnings, "2 bins in \"sim2\" had fewer than", all = FALSE)
+    expect_match(warnings, "In \"sim1\", 2 bins had fewer than", all = FALSE)
+    expect_match(warnings, "In \"sim2\", 2 bins had fewer than", all = FALSE)
 })
 
 test_that("ds.kurtosis and ds.skewness report too few observations for a combined result", {
@@ -250,7 +250,7 @@ test_that("glmChecks reports variables that fail its checks", {
     expect_error(suppressMessages(glmChecks(formula, NULL, NULL, NULL, studies[1])), "\"D\\$y\" has only missing values in \"sim1\"")
 
     fake_server(exists = TRUE, isNaDS = list(is.na = FALSE), classDS = "character")
-    expect_error(suppressMessages(glmChecks(formula, NULL, "D$o", NULL, studies[1])), "\"D\\$o\" must be numeric in \"sim1\"")
+    expect_error(suppressMessages(glmChecks(formula, NULL, "D$o", NULL, studies[1])), "\"D\\$o\" must be <numeric> in \"sim1\"")
 
     fake_server(exists = TRUE, isNaDS = list(is.na = FALSE), classDS = "numeric", checkNegValueDS = TRUE)
     expect_error(suppressMessages(glmChecks(formula, NULL, NULL, "D$w", studies[1])), "Weights \"D\\$w\" must not be negative in \"sim1\"")

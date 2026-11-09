@@ -99,7 +99,8 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
   # check if replacement values have been provided
   .checkArgProvided(forNA, "a list of replacement values")
   if(length(forNA) != length(datasources)){
-    cli_abort(c("{.arg forNA} must have one element per study.", "x" = "{.arg forNA} has {length(forNA)} element{?s} for {length(datasources)} stud{?y/ies}."))
+    supplied <- .describeSupplied(forNA)
+    cli_abort(c("{.arg forNA} must have one element per study.", "x" = "{.arg forNA} is {supplied}, which has {length(forNA)} element{?s} for {length(datasources)} stud{?y/ies}."))
   }
 
   for(i in 1:length(datasources)){
@@ -109,7 +110,8 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
     cally <- call("numNaDS", x)
     numNAs <- DSI::datashield.aggregate(datasources[i], cally)
     if(length(forNA[[i]]) != 1 & length(forNA[[i]]) != numNAs[[1]]$numNA){
-      cli_abort(c("Replacement values must have length 1 or match the number of missing values.", "i" = "{.val {names(datasources)[i]}} has {numNAs[[1]]$numNA} missing value{?s}.", "x" = "{.arg forNA} has {length(forNA[[i]])} replacement value{?s} for it."))
+      supplied <- .describeSupplied(forNA[[i]])
+      cli_abort(c("Replacement values must have length 1 or match the number of missing values.", "i" = "{.val {names(datasources)[i]}} has {numNAs[[1]]$numNA} missing value{?s}.", "x" = "{.arg forNA} gives {supplied} for it."))
     }
   }
 
@@ -117,7 +119,7 @@ ds.replaceNA <- function(x=NULL, forNA=NULL, newobj=NULL, datasources=NULL){
 
   # call the server side function and doo the replacement for each server
   for(i in 1:length(datasources)){
-    cli_inform("Processing {names(datasources)[i]}...")
+    cli_inform("Processing {.val {names(datasources)[i]}}...")
     cally <- call("replaceNaDS", x, forNA[[i]])
     DSI::datashield.assign(datasources[i], newobj, cally)
 

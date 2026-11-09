@@ -153,7 +153,7 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
   # }
   
   if(centiles==TRUE & is.null(xvar)){
-    cli_abort("{.arg xvar} must name the explanatory variable when {.arg centiles} is {.code TRUE}.")
+    cli_abort("{.arg xvar} must name the explanatory variable when {.arg centiles} is {.code TRUE}, not {.code NULL}.")
   }
   
   newobj <- .resolveNewobjName(newobj, 'gamlss_res')

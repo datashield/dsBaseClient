@@ -107,7 +107,7 @@ glmChecks <- function(formula, data, offset, weights, datasources, call=parent.f
         # if offset and or weights are set check they are numeric and for weights that it does not hold negative value
         if(varIdentifier[i] == "offset" | varIdentifier[i] == "weights"){
           if(!('numeric' %in% typ)){
-            cli_abort("{.val {elts[i]}} must be numeric in {.val {stdnames[j]}}, not {.cls {typ}}.", call = call)
+            cli_abort("{.val {elts[i]}} must be {.cls numeric} in {.val {stdnames[j]}}, not {.cls {typ}}.", call = call)
           }
         }
         if(varIdentifier[i] == "weights"){

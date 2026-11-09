@@ -377,7 +377,7 @@ ds.glmSLMA<-function(formula=NULL, family=NULL, offset=NULL, weights=NULL, combi
 
 # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
 # to provide name of offset or weights variable
-    .warnOffsetInFormula(formula)
+    .checkOffsetInFormula(formula)
 
   formula <- stats::as.formula(formula)
 
@@ -613,16 +613,16 @@ if(!all.studies.valid)
 {
 	for(sse in study.with.errors)
 	    {
-		cli_inform("Error report from second server-side function for study {sse}.")
-		cli_inform("{unlist(study.summary[[sse]][[1]])}")
-		cli_inform("{unlist(study.summary[[sse]][[2]])}")
+		cli_inform("Error report from second server-side function for {.val {names(datasources)[sse]}}.")
+		cli_verbatim(unlist(study.summary[[sse]][[1]]))
+		cli_verbatim(unlist(study.summary[[sse]][[2]]))
 
 	num.messages<-length(study.summary[[sse]])-2
 		for(m in 1:num.messages)
 			{
 			if(!is.null(unlist(study.summary[[sse]][[2+m]])))
 				{
-				cli_inform("{unlist(study.summary[[sse]][[2+m]])}")
+				cli_verbatim(as.character(unlist(study.summary[[sse]][[2+m]])))
 				}
 			}
 		}

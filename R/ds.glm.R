@@ -329,7 +329,7 @@ ds.glm <- function(formula=NULL, data=NULL, family=NULL, offset=NULL, weights=NU
 
   # check if user gave offset or weights directly in formula, if so the argument 'offset' or 'weights'
   # to provide name of offset or weights variable
-  .warnOffsetInFormula(formula)
+  .checkOffsetInFormula(formula)
 
   formula <- stats::as.formula(formula)
 

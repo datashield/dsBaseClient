@@ -133,7 +133,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
     # print the number of invalid cells in each participating study
     for (i in 1:num.sources){
-      cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
+      cli_inform("{.val {stdnames[i]}}: {names(dimnames(grid.density.obj[[i]])[2])}")
     }
 
     Global.grid.density <- matrix(0, dim(grid.density.obj[[1]])[1], numcol-2)
@@ -155,7 +155,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
 
       # print the number of invalid cells in each participating study
       for (i in 1:num.sources){
-        cli_inform("{stdnames[i]}: {names(dimnames(grid.density.obj[[i]])[2])}")
+        cli_inform("{.val {stdnames[i]}}: {names(dimnames(grid.density.obj[[i]])[2])}")
       }
       return(grid.density.obj)
     }else{

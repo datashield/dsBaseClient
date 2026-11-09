@@ -35,7 +35,7 @@ ds.elspline <- function(x, n, marginal = FALSE, names = NULL, newobj = NULL, dat
   .checkArgProvided(n, "a number of knots")
   
   if(n < 2){
-    cli_abort("{.arg n} must be greater than or equal to 2, not {n}.")
+    cli_abort("{.arg n} must be greater than or equal to 2, not {.val {n}}.")
   }
   
   # create a name by default if user did not provide a name for the new variable

@@ -99,7 +99,7 @@ ds.cor <- function(x=NULL, y=NULL, type="split", datasources=NULL, classConsiste
   }
 
   if(!is.null(y) && any(output[[1]]$class %in% c("matrix", "data.frame"))){
-    cli_warn("{.arg x} is a matrix or data.frame, so {.arg y} is ignored and a correlation matrix is computed for {.arg x}.")
+    cli_warn("{.arg x} is a {.cls matrix} or {.cls data.frame}, so {.arg y} is ignored and a correlation matrix is computed for {.arg x}.")
   }
 
   if (type=="split"){

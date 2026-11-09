@@ -31,7 +31,8 @@ ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){
-    cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {.cls {class(input.var.name)}}.")
+    supplied <- .describeSupplied(input.var.name)
+    cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {supplied}.")
   }
 
   # if no output variable specified then provide a default name

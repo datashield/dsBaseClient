@@ -100,7 +100,7 @@ ds.boxPlot <- function(x, variables = NULL, group = NULL, group2 = NULL, xlabel 
   cls <- unique(unlist(cls))
 
   if(!any(c("numeric", "data.frame") %in% cls)){
-    cli_abort("{.arg x} must be a data.frame or numeric vector, not {.cls {cls}}.")
+    cli_abort("{.arg x} must be a {.cls data.frame} or {.cls numeric} vector, not {.cls {cls}}.")
   }
 
   # Once all checks are passed, call the appropiate server functions

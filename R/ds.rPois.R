@@ -131,7 +131,7 @@ if(is.numeric(lambda)){
 }
 
 if(!lambda.valid){
-cli_abort("{.arg lambda} must be greater than 0.")
+cli_abort("{.arg lambda} must be greater than 0, not {.val {unique(lambda[lambda <= 0])}}.")
 }
 ###################################################################################
 
@@ -160,7 +160,7 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-cli_inform("No seed set in study {study.id}.")
+cli_inform("No seed set in {.val {names(datasources)[study.id]}}.")
 
 }
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))

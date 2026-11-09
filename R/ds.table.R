@@ -197,11 +197,13 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
   .checkArgProvided(rvar, "a character string that names the row variable")
   
   if(!is.null(cvar)&&!is.character(cvar)){
-     cli_abort("{.arg cvar} must be a character string that names the column variable.")
+     supplied <- .describeSupplied(cvar)
+     cli_abort("{.arg cvar} must be a character string that names the column variable, not {supplied}.")
   }
   
   if(!is.null(stvar)&&!is.character(stvar)){
-     cli_abort("{.arg stvar} must be a character string that names the variable that codes the separate tables.")
+     supplied <- .describeSupplied(stvar)
+     cli_abort("{.arg stvar} must be a character string that names the variable that codes the separate tables, not {supplied}.")
   }
   
   if(useNA!="no" && useNA!="always"){
@@ -209,7 +211,8 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
 	 }
 
   if(!is.null(force.nfilter)&&!is.character(force.nfilter)){
-     cli_abort("{.arg force.nfilter} must be a character string that specifies an integer.")
+     supplied <- .describeSupplied(force.nfilter)
+     cli_abort("{.arg force.nfilter} must be a character string that specifies an integer, not {supplied}.")
   }
 
 
@@ -466,7 +469,7 @@ if(num.valid.studies==numsources.orig)
 	    cli_inform("{validity.message}")
 	    for(ns in 1:numsources.orig)
 		{
-		    cli_inform("Study {ns}: {error.messages[[ns]]}")
+		    cli_inform("{.val {names(error.messages)[ns]}}: {error.messages[[ns]]}")
 		}
     }
 }
@@ -489,7 +492,7 @@ if(numsources>1)
       if(table.dimensions[ns]!=table.dimensions[ns+1])
       {
       all.dims.same<-FALSE
-      dims <- paste0(study.names.valid, " has ", table.dimensions, " dimensions.")
+      dims <- paste0(vapply(study.names.valid, function(study) cli::format_inline("{.val {study}}"), character(1)), " has ", table.dimensions, " dimensions.")
       names(dims) <- rep("x", length(dims))
       cli_abort(c("Tables in different sources have different numbers of dimensions.", dims, "i" ="Analyse and combine them yourself from the study-specific tables."))
       }

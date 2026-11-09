@@ -151,7 +151,7 @@ if(is.numeric(sd)){
 }
 
 if(!sd.valid){
-cli_abort("{.arg sd} must be greater than 0.")
+cli_abort("{.arg sd} must be greater than 0, not {.val {unique(sd[sd <= 0])}}.")
 }
 
 decimal.places.valid<-1
@@ -160,7 +160,7 @@ decimal.places.valid<-0
 }
 
 if(!decimal.places.valid){
-cli_abort("{.arg force.output.to.k.decimal.places} must be an integer between 0 and 9.")
+cli_abort("{.arg force.output.to.k.decimal.places} must be an integer between 0 and 9, not {.val {unique(force.output.to.k.decimal.places[force.output.to.k.decimal.places < 0 | force.output.to.k.decimal.places > 9])}}.")
 }
 ###################################################################################
 
@@ -189,7 +189,7 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-cli_inform("No seed set in study {study.id}.")
+cli_inform("No seed set in {.val {names(datasources)[study.id]}}.")
 
 }
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
