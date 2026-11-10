@@ -17,9 +17,9 @@ fake_server <- function(..., env = parent.frame()) {
         lapply(study_names, function(study) if (is.function(reply)) reply(study, expr) else reply)
     }
     assign_nothing <- function(...) invisible(NULL)
-    local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
+    testthat::local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
         .package = "DSI", .env = env)
-    local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
+    testthat::local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
         .resolveDatasources = function(datasources) datasources, .env = env)
 }
 
@@ -179,7 +179,7 @@ test_that("ds.rbind and ds.summary reject an unsupported class", {
 
 test_that("ds.cbind and ds.dataFrame warn about duplicate names and reject unequal rows", {
     fake_server(classDS = "numeric")
-    local_mocked_bindings(ds.length = function(x, ...) list(if (x == "a") 3 else 4))
+    testthat::local_mocked_bindings(ds.length = function(x, ...) list(if (x == "a") 3 else 4))
     x <- c("b", "a", "a")
     expect_warning(
         expect_error(ds.cbind(x, DataSHIELD.checks = TRUE, datasources = studies[1]), "All components must have the same number of rows"),
