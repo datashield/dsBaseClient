@@ -17,9 +17,9 @@ fake_server <- function(..., env = parent.frame()) {
         lapply(study_names, function(study) if (is.function(reply)) reply(study, expr) else reply)
     }
     assign_nothing <- function(...) invisible(NULL)
-    testthat::local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
+    local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing, # nolint: object_usage_linter. testthat is a Suggests dep, not installed when lint runs
         .package = "DSI", .env = env)
-    testthat::local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing,
+    local_mocked_bindings(datashield.aggregate = answer, datashield.assign = assign_nothing, # nolint: object_usage_linter. testthat is a Suggests dep, not installed when lint runs
         .resolveDatasources = function(datasources) datasources, .env = env)
 }
 
@@ -179,7 +179,7 @@ test_that("ds.rbind and ds.summary reject an unsupported class", {
 
 test_that("ds.cbind and ds.dataFrame warn about duplicate names and reject unequal rows", {
     fake_server(classDS = "numeric")
-    testthat::local_mocked_bindings(ds.length = function(x, ...) list(if (x == "a") 3 else 4))
+    local_mocked_bindings(ds.length = function(x, ...) list(if (x == "a") 3 else 4)) # nolint: object_usage_linter. testthat is a Suggests dep, not installed when lint runs
     x <- c("b", "a", "a")
     expect_warning(
         expect_error(ds.cbind(x, DataSHIELD.checks = TRUE, datasources = studies[1]), "All components must have the same number of rows"),
@@ -207,7 +207,7 @@ test_that("ds.histogram reports missing break points and invalid cells", {
 
 test_that("ds.kurtosis and ds.skewness report too few observations for a combined result", {
     fake_server()
-    local_mocked_bindings(ds.mean = function(...) list(Global.Mean = matrix(NA, 1, 1, dimnames = list(NULL, "EstimatedMean"))))
+    local_mocked_bindings(ds.mean = function(...) list(Global.Mean = matrix(NA, 1, 1, dimnames = list(NULL, "EstimatedMean")))) # nolint: object_usage_linter. testthat is a Suggests dep, not installed when lint runs
     expect_error(ds.kurtosis("x", type = "combine", datasources = studies), "number of valid observations in at least one study")
     expect_error(ds.skewness("x", type = "combine", datasources = studies), "number of valid observations in at least one study")
 })
