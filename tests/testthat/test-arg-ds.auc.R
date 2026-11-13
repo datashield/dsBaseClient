@@ -25,8 +25,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 test_that("ds.auc errors for null pred or y", {
   
-    expect_error(ds.auc(pred=NULL, y='y'), "Please provide the name of the vector with predicted values", fixed=TRUE)
-    expect_error(ds.auc(pred='pred', y=NULL), "Please provide the name of the outcome variable", fixed=TRUE)
+    expect_error(ds.auc(pred=NULL, y='y'), "must be the name of the vector of predicted values", fixed=TRUE)
+    expect_error(ds.auc(pred='pred', y=NULL), "must be the name of the outcome variable", fixed=TRUE)
   
 })
 

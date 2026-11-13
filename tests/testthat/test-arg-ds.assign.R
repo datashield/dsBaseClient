@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.assign::arg::test errors")
 test_that("assign_erros", {
-    expect_error(ds.assign(), "Please give the name of object to assign or an expression to evaluate and assign.!\n")
+    expect_error(ds.assign(), "must be the name of the object to assign")
 })
 
 #

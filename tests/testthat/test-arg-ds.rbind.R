@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.rbind::arg::test errors")
 test_that("rbind_erros", {
-    expect_error(ds.rbind(), "Please provide a vector of character strings holding the name of the input elements!", fixed=TRUE)
+    expect_error(ds.rbind(), "must be a vector of the names of the input elements", fixed=TRUE)
 })
 
 #

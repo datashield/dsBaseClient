@@ -112,20 +112,14 @@
 #' @export
 ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a vector of type factor!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a factor")
 
-  if(is.null(ref)){
-    stop(" You must indicate a reference level - set the parameter 'ref'.", call.=FALSE)
-  }
+  .checkArgProvided(ref, "a reference level")
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "changerefgroup.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "changerefgroup.newobj")
 
   if(reorderByRef){
     warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)

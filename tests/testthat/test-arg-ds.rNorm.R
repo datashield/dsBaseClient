@@ -21,10 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.rNorm::arg::test errors")
 test_that("rNorm_erros", {
-    error.message <- ds.rNorm(seed.as.integer='Value')
-
-    expect_equal(class(error.message), 'character')
-    expect_equal(error.message, 'ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL')
+    expect_error(ds.rNorm(seed.as.integer='Value'), "must be an integer or")
 })
 
 #

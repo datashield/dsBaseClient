@@ -82,12 +82,10 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
                       i.control = c(0.001, 50, 30, 0.001), centiles = FALSE, 
                       xvar = NULL, newobj = NULL, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'formula' was set
-  if(is.null(formula)){
-    stop(" Please provide a valid formula!", call.=FALSE)
-  }
+  .checkArgProvided(formula, "a valid formula")
   
   formula <- gsub("(", "left_parenthesis", formula, fixed = TRUE)
   formula <- gsub(")", "right_parenthesis", formula, fixed = TRUE)
@@ -125,7 +123,7 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
   
   # check if method is either 'RS', 'CG' or 'mixed
   if(!(method %in% c("RS", "CG", "mixed"))){
-    stop("Argument 'method' must be either 'RS', 'CG' or 'mixed'", call.=FALSE)
+    .abortInvalidChoice("method", c("RS", "CG", "mixed"))
   }
   
   control <- paste0(as.character(control), collapse=",")
@@ -158,9 +156,7 @@ ds.gamlss <- function(formula = NULL, sigma.formula = '~1', nu.formula = '~1',
     stop("Provide the name of the explanatory variable in 'xvar' argument", call.=FALSE)
   }
   
-  if(is.null(newobj)){
-    newobj <- 'gamlss_res'
-  }
+  newobj <- .resolveNewobjName(newobj, 'gamlss_res')
   
   calltext <- call('gamlssDS', formula=formula, sigma.formula=sigma.formula, 
                    nu.formula=nu.formula, tau.formula=tau.formula,

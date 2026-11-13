@@ -21,10 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.matrixDiag::arg::test errors")
 test_that("matrixDiag_erros", {
-    res <- ds.matrixDiag()
+    expect_error(ds.matrixDiag(), "must be a character string, numeric vector or scalar")
 
-    expect_length(res, 1)
-    expect_equal(res, "Error: x1 must have a value which is a character string, a numeric vector or a scalar", fixed=TRUE)
 })
 
 #

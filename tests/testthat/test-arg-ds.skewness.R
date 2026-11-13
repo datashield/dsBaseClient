@@ -27,10 +27,10 @@ test_that("setup", {
 
 # context("ds.skewness::arg::test errors")
 test_that("skewness_erros", {
-    expect_error(ds.skewness(), "Please provide the name of the input vector!", fixed=TRUE)
-    expect_error(ds.skewness(x='D$LAB_TSC', type='datashield'), "Function argument \"type\" has to be either \"both\", \"combine\" or \"split\"", fixed=TRUE)
-    expect_error(ds.skewness(x='D$LAB_TSC', method="0"), "method must be an integer between 1 and 3", fixed=TRUE)
-    expect_error(ds.skewness(x='D$LAB_TSC', method="4"), "method must be an integer between 1 and 3", fixed=TRUE)
+    expect_error(ds.skewness(), "must be the name of the input vector", fixed=TRUE)
+    expect_error(ds.skewness(x='D$LAB_TSC', type='datashield'), "must be \"both\", \"combine\", or \"split\"", fixed=TRUE)
+    expect_error(ds.skewness(x='D$LAB_TSC', method="0"), "must be an integer between 1 and 3", fixed=TRUE)
+    expect_error(ds.skewness(x='D$LAB_TSC', method="4"), "must be an integer between 1 and 3", fixed=TRUE)
 })
 
 #

@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.levels::arg")
 test_that("simple levels", {
-    expect_error(ds.levels(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.levels(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #

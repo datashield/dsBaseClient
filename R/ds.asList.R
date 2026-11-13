@@ -57,15 +57,11 @@
 #' 
 ds.asList <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
 
-  if(is.null(newobj)){
-    newobj <- "aslist.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "aslist.newobj")
 
   datashield.assign(datasources, newobj, call("asListDS", x.name))
 

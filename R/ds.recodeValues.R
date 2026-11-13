@@ -79,12 +79,10 @@
 ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.values.vector=NULL, 
                             missing=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check user has provided the name of the variable to be recoded
-  if(is.null(var.name)){
-    stop("Please provide the name of the variable to be recoded: eg 'xxx'", call.=FALSE)
-  }
+  .checkArgProvided(var.name, "the name of the variable to recode")
 
   # check user has provided the vector specifying the set of values to be replaced
   if(is.null(values2replace.vector)){
@@ -120,9 +118,7 @@ ds.recodeValues <- function(var.name=NULL, values2replace.vector=NULL, new.value
     new.values.transmit <- NULL
   }
     
-  if(is.null(newobj)){
-    newobj <- paste0(var.name, "_recoded")
-  }
+  newobj <- .resolveNewobjName(newobj, paste0(var.name, "_recoded"))
 
   calltext <- call("recodeValuesDS", var.name, values2replace.transmit, new.values.transmit, missing)
   DSI::datashield.assign(datasources, newobj, calltext)

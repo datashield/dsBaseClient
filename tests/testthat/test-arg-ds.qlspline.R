@@ -28,9 +28,9 @@ test_that("setup", {
 # context("ds.qlspline::arg::test errors")
 test_that("qlspline_errors", {
     expect_error(ds.qlspline(), "argument \"x\" is missing, with no default", fixed=TRUE)
-    expect_error(ds.qlspline(x=NULL), "Please provide the name of the input variable x!", fixed=TRUE)
+    expect_error(ds.qlspline(x=NULL), "must be the name of the input variable", fixed=TRUE)
     expect_error(ds.qlspline(x='D$PM_BMI_CONTINUOUS'), "argument \"q\" is missing, with no default", fixed=TRUE)
-    expect_error(ds.qlspline(x='D$PM_BMI_CONTINUOUS', q=NULL), "Argument 'q' is missing, with no default!", fixed=TRUE)
+    expect_error(ds.qlspline(x='D$PM_BMI_CONTINUOUS', q=NULL), "must be a number of quantiles", fixed=TRUE)
 })
 
 #

@@ -18,7 +18,7 @@
 ds.boxPlotGG_table <- function(x, variables, group = NULL, group2 = NULL, xlabel = "x axis", 
                                ylabel = "y axis", type = "pooled", datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   ds.boxPlotGG_data_Treatment(x, variables, group, group2, datasources)
   

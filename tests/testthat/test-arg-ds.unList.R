@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.unList::arg::test errors")
 test_that("unList_erros", {
-    expect_error(ds.unList(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.unList(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #
