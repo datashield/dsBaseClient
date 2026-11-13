@@ -4,7 +4,7 @@
 \alias{glmChecks}
 \title{Checks if the elements in the glm model have the right characteristics}
 \usage{
-glmChecks(formula, data, offset, weights, datasources)
+glmChecks(formula, data, offset, weights, datasources, call = parent.frame())
 }
 \arguments{
 \item{formula}{a character, a regression formula given as a string character}
@@ -20,6 +20,8 @@ process. Should be NULL or a numeric vector.}
 
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
+
+\item{call}{The frame to report the error from.}
 }
 \value{
 an integer 0 if check was passed and 1 if failed

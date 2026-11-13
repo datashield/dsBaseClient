@@ -25,6 +25,11 @@ test_that("glm_errors", {
     expect_error(ds.glm("D$LAB_TSC~D$LAB_TSC"), "must be a valid family", fixed=TRUE)
 })
 
+test_that("glm warns and returns NULL when the model doesn't converge", {
+    expect_warning(mod <- ds.glm("D$LAB_TSC~1", family = "gaussian", maxit = 1), "The model didn't converge after 1 iterations")
+    expect_null(mod)
+})
+
 #
 # Done
 #

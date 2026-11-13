@@ -116,7 +116,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
   }
 
   if(!is.null(y) && any(output[[1]]$class %in% c("matrix", "data.frame"))){
-    warning("x is a matrix or a dataframe; y will be ignored and a covariance matrix computed for x!")
+    cli_warn("{.arg x} is a {.cls matrix} or {.cls data.frame}, so {.arg y} is ignored and a covariance matrix is computed for {.arg x}.")
   }
 
   if (type=="split"){

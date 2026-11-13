@@ -87,7 +87,8 @@ ds.reShape <- function(data.name=NULL, varying=NULL, v.names=NULL, timevar.name=
   .checkArgProvided(data.name, "the name of the list that holds the input vectors")
 
   if (!is.character(sep) || (nchar(sep) != 1)){
-    stop("'sep' must be a character string", call.=FALSE)
+    supplied <- .describeSupplied(sep) # nolint: object_usage_linter. Used in the cli template
+    cli_abort("{.arg sep} must be a single character, not {supplied}.")
   }
 
   if(!is.null(varying)){

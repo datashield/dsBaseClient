@@ -24,7 +24,7 @@ test_that("cbind_erros", {
     ds.asList(x='D$LAB_TSC', newobj="as_list")
 
     expect_error(ds.cbind(), "must be a vector of the names of the input elements", fixed=TRUE)
-    expect_error(ds.cbind(x="as_list", DataSHIELD.checks=TRUE), "Each object must be of class", fixed=TRUE)
+    expect_error(ds.cbind(x="as_list", DataSHIELD.checks=TRUE), "\"as_list\" must be of class", fixed=TRUE)
 })
 
 #

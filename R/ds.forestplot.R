@@ -59,7 +59,7 @@ ds.forestplot <- function(mod, variable = NULL, method = "ML", layout = "JAMA"){
     if(variables[1] == "(Intercept)"){variable <- variables[2]} else {variable <- variables[1]}
   } else { # Check supplied variable exists
     if(!(variable %in% variables)){
-      stop("[", variable, "] is not valid. Valid variables [", paste(variables, collapse = ", "), "]")
+      .abortInvalidChoice("variable", variables)
     }
   }
   

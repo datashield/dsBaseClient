@@ -22,9 +22,9 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # context("ds.reShape::arg::test errors")
 test_that("reShape_erros", {
     expect_error(ds.reShape(), "must be the name of the list that holds the input vectors", fixed=TRUE)
-    expect_error(ds.reShape(data.name="test", sep=TRUE), "must be a character string", fixed=TRUE)
-    expect_error(ds.reShape(data.name="test", sep=""), "must be a character string", fixed=TRUE)
-    expect_error(ds.reShape(data.name="test", sep="ts"), "must be a character string", fixed=TRUE)
+    expect_error(ds.reShape(data.name="test", sep=TRUE), "must be a single character", fixed=TRUE)
+    expect_error(ds.reShape(data.name="test", sep=""), "must be a single character", fixed=TRUE)
+    expect_error(ds.reShape(data.name="test", sep="ts"), "must be a single character", fixed=TRUE)
 })
 
 #

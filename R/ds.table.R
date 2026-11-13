@@ -197,11 +197,13 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
   .checkArgProvided(rvar, "a character string that names the row variable")
   
   if(!is.null(cvar)&&!is.character(cvar)){
-     cli_abort("{.arg cvar} must be a character string that names the column variable.")
+     supplied <- .describeSupplied(cvar) # nolint: object_usage_linter. Used in the cli template
+     cli_abort("{.arg cvar} must be a character string that names the column variable, not {supplied}.")
   }
   
   if(!is.null(stvar)&&!is.character(stvar)){
-     cli_abort("{.arg stvar} must be a character string that names the variable that codes the separate tables.")
+     supplied <- .describeSupplied(stvar)
+     cli_abort("{.arg stvar} must be a character string that names the variable that codes the separate tables, not {supplied}.")
   }
   
   if(useNA!="no" && useNA!="always"){
@@ -209,7 +211,8 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
 	 }
 
   if(!is.null(force.nfilter)&&!is.character(force.nfilter)){
-     cli_abort("{.arg force.nfilter} must be a character string that specifies an integer.")
+     supplied <- .describeSupplied(force.nfilter)
+     cli_abort("{.arg force.nfilter} must be a character string that specifies an integer, not {supplied}.")
   }
 
 
@@ -270,7 +273,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
  }
 
  if (length(rvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for rvar: '", rvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg rvar}, {.val {rvar}}.")
  }
  
  rvar.all.unique.levels <- as.character(unique(rvar.all.levels.all.studies))
@@ -292,7 +295,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
    }
    
    if (length(cvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for cvar: '", cvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg cvar}, {.val {cvar}}.")
    }
 
    cvar.all.unique.levels <- as.character(unique(cvar.all.levels.all.studies))
@@ -316,7 +319,7 @@ ds.table <- function(rvar=NULL, cvar=NULL, stvar=NULL, report.chisq.tests=FALSE,
    }
    
    if (length(stvar.all.levels.all.studies) == 0) {
-     stop(paste0("Unable to obtain factors for stvar: '", stvar , "'"), call. = FALSE)
+     cli_abort("Can't obtain factors for {.arg stvar}, {.val {stvar}}.")
    }
 
    stvar.all.unique.levels <- as.character(unique(stvar.all.levels.all.studies))
@@ -463,12 +466,11 @@ if(num.valid.studies==numsources.orig)
     validity.message<-"Data in all studies were valid"
     if (! table.assign)
     {
-	    message("\n",validity.message,"\n")
+	    cli_inform("{validity.message}")
 	    for(ns in 1:numsources.orig)
 		{
-		    message("\nStudy",ns,": ",error.messages[[ns]])
+		    cli_inform("{.val {names(error.messages)[ns]}}: {error.messages[[ns]]}")
 		}
-		message("\n\n")
     }
 }
 
@@ -490,7 +492,9 @@ if(numsources>1)
       if(table.dimensions[ns]!=table.dimensions[ns+1])
       {
       all.dims.same<-FALSE
-      cli_abort(c("Tables in different sources have different numbers of dimensions.", "i" = "Analyse and combine them yourself from the study-specific tables."))
+      dims <- paste0(vapply(study.names.valid, function(study) cli::format_inline("{.val {study}}"), character(1)), " has ", table.dimensions, " dimensions.")
+      names(dims) <- rep("x", length(dims))
+      cli_abort(c("Tables in different sources have different numbers of dimensions.", dims, "i" ="Analyse and combine them yourself from the study-specific tables."))
       }
     }
 
@@ -706,7 +710,7 @@ for(oo in 1:length(table.current.study[,1]))
    
   if(d1.a!=d1||d2.a!=d2||d3.a!=d3)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}}, {.arg cvar} = {.val {d2}}, {.arg stvar} = {.val {d3}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell
@@ -925,7 +929,7 @@ for(oo in 1:length(table.current.study[,1]))
    
   if(d1.a!=d1||d2.a!=d2)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}}, {.arg cvar} = {.val {d2}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell
@@ -1117,7 +1121,7 @@ for(oo in 1:length(table.current.study[,1]))
 
   if(d1.a!=d1)
   {
-  cli_abort(c("Table dimensions differ across studies.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
+  cli_abort(c("Table dimensions differ across studies.", "x" = "Cell {.arg rvar} = {.val {d1}} in {.val {study.names.valid[ns]}} doesn't match the combined table.", "i" = "Check the data in each study and calculate counts and percentages yourself from the counts in each study."))
   }
   
   #dimension markers match so allocate count to correct cell

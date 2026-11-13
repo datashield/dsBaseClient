@@ -4,6 +4,9 @@
 
 library(MolgenisArmadillo)
 
+# arrow's multi-threaded write_parquet() intermittently corrupts memory and hangs the CI upload
+options(arrow.use_threads = FALSE) # nolint: undesirable_function_linter. Must apply to the whole upload run
+
 upload_testing_dataset_table <- function(project_name, folder_name, table_name, dataset_file_name) {
     dataset_name <- load(file = dataset_file_name)
     dataset      <- eval(as.symbol(dataset_name))

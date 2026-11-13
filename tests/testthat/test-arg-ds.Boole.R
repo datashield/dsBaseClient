@@ -25,7 +25,7 @@ test_that("Boole_erros", {
     expect_error(ds.Boole(V1="D$LAB_TSC"), "must be the name of a column or scalar that holds V2", fixed=TRUE)
     expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG"), "must be a Boolean operator in character format", fixed=TRUE)
     expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG", Boolean.operator="==", na.assign=2), "must be \"NA\", \"0\", or \"1\"", fixed=TRUE)
-    expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG", Boolean.operator="AA"), "An unrecognized Boolean operator, AA, has provide", fixed=TRUE)
+    expect_error(ds.Boole(V1="D$LAB_TSC", V2="LAB_TRIG", Boolean.operator="AA"), "`Boolean.operator` must be \"==\", \"!=\", \"<\", \"<=\", \">\", or \">=\", not\\s+\"AA\"")
 })
 
 #

@@ -127,7 +127,8 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=FROM.value.char))))FROM.valid<-0
 	}
 	if(!FROM.valid){
-  cli_abort(c("{.arg FROM.value.char} must be a real number in inverted commas.", "i" = "For example, {.val -3.7} or {.val 0}."))
+  supplied <- .describeSupplied(FROM.value.char) # nolint: object_usage_linter. Used in the cli template
+  cli_abort(c("{.arg FROM.value.char} must be a real number in inverted commas, not {supplied}.", "i" = "For example, {.val -3.7} or {.val 0}."))
 	}
 
 ###TO.value.char
@@ -138,7 +139,8 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=TO.value.char))))TO.valid<-0
 	}
 	if(!TO.valid){
-  cli_abort(c("{.arg TO.value.char} must be a real number in inverted commas.", "i" = "For example, {.val -3.7} or {.val 0}."))
+  supplied <- .describeSupplied(TO.value.char)
+  cli_abort(c("{.arg TO.value.char} must be a real number in inverted commas, not {supplied}.", "i" = "For example, {.val -3.7} or {.val 0}."))
 	}
 
 ###BY.value.char
@@ -149,7 +151,8 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=BY.value.char))))BY.valid<-0
 	}
 	if(!BY.valid){
-  cli_abort(c("{.arg BY.value.char} must be a real number in inverted commas.", "i" = "For example, {.val 5} or {.val -98.7321}."))
+  supplied <- .describeSupplied(BY.value.char)
+  cli_abort(c("{.arg BY.value.char} must be a real number in inverted commas, not {supplied}.", "i" = "For example, {.val 5} or {.val -98.7321}."))
 	}
 
 ###LENGTH.OUT.value.char
@@ -160,14 +163,16 @@ ds.seq<-function(FROM.value.char = "1", BY.value.char = "1", TO.value.char=NULL,
 		if(!is.numeric(eval(parse(text=LENGTH.OUT.value.char))))LENGTH.OUT.valid<-0
 	}
 	if(!LENGTH.OUT.valid){
-  cli_abort(c("{.arg LENGTH.OUT.value.char} must be an integer in inverted commas.", "i" = "For example, {.val 87187}."))
+  supplied <- .describeSupplied(LENGTH.OUT.value.char)
+  cli_abort(c("{.arg LENGTH.OUT.value.char} must be an integer in inverted commas, not {supplied}.", "i" = "For example, {.val 87187}."))
 	}
 
 
 ###ALONG.WITH.name
   # check if user has correctly provided the name of a column to hold ALONG.WITH.name
   if(!(is.null(ALONG.WITH.name) || is.character(ALONG.WITH.name))){
-    cli_abort("{.arg ALONG.WITH.name} must be the name of a server-side vector in inverted commas.")
+    supplied <- .describeSupplied(ALONG.WITH.name)
+    cli_abort("{.arg ALONG.WITH.name} must be the name of a server-side vector in inverted commas, not {supplied}.")
 	}
 
 ###Either LENGTH.OUT.value.char or ALONG.WITH.name must be non-NULL

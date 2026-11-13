@@ -82,7 +82,8 @@ if(dplyr::is.tbl(dfdata))
 		
   if(!is.matrix(dfdata) && !is.data.frame(dfdata) && !dplyr::is.tbl(dfdata))
 	{
-	   cli_abort("{.arg dfdata} must be a data.frame, matrix or tibble.")
+	   supplied <- .describeSupplied(dfdata) # nolint: object_usage_linter. Used in the cli template
+	   cli_abort("{.arg dfdata} must be a {.cls data.frame}, {.cls matrix}, or {.cls tbl_df}, not {supplied}.")
 	}
 
    inout.object.transmit<-paste0(as.character(inout.object),collapse=",")

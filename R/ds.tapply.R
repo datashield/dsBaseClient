@@ -134,12 +134,12 @@ ds.tapply <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, datasources=
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names
   if(is.null(INDEX.names)){
-    cli_abort("{.arg INDEX.names} must name a single factor or a list of factors, in inverted commas.")
+    cli_abort("{.arg INDEX.names} must name a single factor or a list of factors, in inverted commas, not {.code NULL}.")
   }
   
   # check if the vector or list of INDEX.names includes up to two names
   if(length(INDEX.names) > 2){
-    stop("The 'INDEX.names' can include the names of up to two factors", call.=FALSE)
+    cli_abort(c("{.arg INDEX.names} must name no more than two factors.", "x" = "{.arg INDEX.names} is {.val {unlist(INDEX.names)}}."))
   }
   
   # make INDEX.names transmitable

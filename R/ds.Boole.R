@@ -113,7 +113,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   .checkArgProvided(V2, "the name of a column or scalar that holds V2")
 
   # check if user has provided a Boolean operator in character format: eg '==' or '>=' or '<' or '!='
-  .checkArgProvided(Boolean.operator, "a Boolean operator in character format, such as '==' or '>='")
+  .checkArgProvided(Boolean.operator, "a Boolean operator in character format, such as \"==\" or \">=\"")
 
   #check if na.assign has legal value
   if(!(na.assign=="NA"||na.assign=="0"||na.assign=="1")){
@@ -151,7 +151,7 @@ ds.Boole<-function(V1=NULL, V2=NULL, Boolean.operator=NULL, numeric.output=TRUE,
   }
 
   if(BO.n == 0){
-    stop(paste0("An unrecognized Boolean operator, ", Boolean.operator, ", has provide"), call.=FALSE)
+    .abortInvalidChoice("Boolean.operator", c("==", "!=", "<", "<=", ">", ">="))
   }
 
   # if no value spcified for output object, then specify a default

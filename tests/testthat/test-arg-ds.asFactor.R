@@ -22,8 +22,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 # context("ds.asFactor::arg::test errors")
 test_that("asFactor_erros", {
     expect_error(ds.asFactor(), "must be the name of the variable to convert", fixed=TRUE)
-    expect_error(ds.asFactor(input.var.name=1), "Please provide the name of the variable that is to be converted to a factor in character format e.g. 'varname'", fixed=TRUE)
-    expect_error(ds.asFactor(input.var.name=NA), "Please provide the name of the variable that is to be converted to a factor in character format e.g. 'varname'", fixed=TRUE)
+    expect_error(ds.asFactor(input.var.name=1), "`input.var.name` must be a character string, such as \"varname\", not 1", fixed=TRUE)
+    expect_error(ds.asFactor(input.var.name=NA), "`input.var.name` must be a character string, such as \"varname\", not NA", fixed=TRUE)
 })
 
 #

@@ -4,13 +4,15 @@
 \alias{checkClass}
 \title{Checks that an object has the same class in all studies}
 \usage{
-checkClass(datasources = NULL, obj = NULL)
+checkClass(datasources = NULL, obj = NULL, call = parent.frame())
 }
 \arguments{
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 the default set of connections will be used: see \link[DSI]{datashield.connections_default}.}
 
 \item{obj}{a string character, the name of the object to check for.}
+
+\item{call}{The frame to report the error from.}
 }
 \value{
 a message or the class of the object if the object has the same class in all studies.

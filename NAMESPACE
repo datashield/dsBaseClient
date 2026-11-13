@@ -120,10 +120,12 @@ export(ds.vectorCalc)
 import(DSI)
 import(data.table)
 importFrom(DSI,datashield.connections_find)
-importFrom(cli,cli_abort)
-importFrom(cli,cli_inform)
-importFrom(cli,cli_verbatim)
-importFrom(cli,cli_warn)
+importFrom(cli,
+  cli_abort,
+  cli_inform,
+  cli_verbatim,
+  cli_warn
+)
 importFrom(stats,
   as.formula,
   na.omit,

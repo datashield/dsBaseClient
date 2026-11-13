@@ -139,7 +139,7 @@ ds.sample<-function(x=NULL,  size=NULL, seed.as.integer=NULL, replace=FALSE, pro
  # matrix or data.frame on the serverside
  
   if(is.character(x)&&is.null(size)){
-    cli_abort("{.arg size} must be an integer that sets how many records to sample.")
+    cli_abort("{.arg size} must be an integer that sets how many records to sample, not {.code NULL}.")
   }
 
   # if no value specified for output object, then specify a default
@@ -174,16 +174,14 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 if(seed.as.text=="NULL"){
     if (notify.of.progress)
-        message("NO SEED SET IN STUDY",study.id,"\n\n")
+        cli_inform("No seed set in {.val {names(datasources)[study.id]}}.")
 
 }
     if (notify.of.progress)
-      message("setSeedDS(", seed.as.text, ")")
+      cli_inform("Setting seed {seed.as.text} in {.val {names(datasources)[study.id]}}.")
 
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 } 
-if (notify.of.progress)
-    message("\n\n")
 
 
 

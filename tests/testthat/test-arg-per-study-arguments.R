@@ -11,7 +11,7 @@ studies <- list(sim1 = "study1", sim2 = "study2", sim3 = "study3")
 record_server_calls <- function(env = parent.frame()) {
     sent <- new.env()
     sent$calls <- list()
-    testthat::local_mocked_bindings(
+    local_mocked_bindings( # nolint: object_usage_linter. testthat is a Suggests dep, not installed when lint runs
         datashield.assign = function(conns, symbol, value, ...) {
             sent$calls[[length(sent$calls) + 1]] <- value
             invisible(NULL)
@@ -37,7 +37,7 @@ test_that(".expandToStudies keeps one value per study", {
 })
 
 test_that(".expandToStudies rejects any other length", {
-    expect_error(.expandToStudies(c(1, 2), "x", 3), "must have length 1")
+    expect_error(.expandToStudies(c(1, 2), "x", 3), "must have length 1 or 3 \\(one value per study\\), not 1 and 2") # nolint: nonportable_path_linter. Regex, not a file path
     expect_error(.expandToStudies(c(1, 2, 3, 4), "x", 3), "must have length 1")
 })
 
