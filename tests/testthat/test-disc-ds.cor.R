@@ -54,7 +54,7 @@ test_that("simple disc test, type='split'", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 1)
-    expect_match(res.errors$sim2, "* Error : ERROR: The ratio of the number of variables over the number of individual-level\\n                          records exceeds the allowed threshold, there is a possible risk of disclosure")
+    expect_match(res.errors$sim2, "ERROR: The ratio of the number of variables over the number of individual-level\\n                          records exceeds the allowed threshold, there is a possible risk of disclosure")
 })
 
 test_that("simple disc test, naAction='pairwise.complete', type='split'", {
@@ -79,7 +79,7 @@ test_that("simple disc test, type='combine'", {
     res.errors <- DSI::datashield.errors()
 
     expect_length(res.errors, 1)
-    expect_match(res.errors$sim2, "* Error : ERROR: The ratio of the number of variables over the number of individual-level\\n                          records exceeds the allowed threshold, there is a possible risk of disclosure")
+    expect_match(res.errors$sim2, "ERROR: The ratio of the number of variables over the number of individual-level\\n                          records exceeds the allowed threshold, there is a possible risk of disclosure")
 
 #    expect_length(res, 5)
 #    expect_length(res$`Error message`, 3)

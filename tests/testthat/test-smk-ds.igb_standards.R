@@ -5,6 +5,8 @@
 
 # context("ds.igb_standards::smk::setup")
 
+skip_if(ds.test_env$driver == "DSLiteDriver", "DSLite's parser misreads '+<number>' in expressions as a signed number")
+
 connect.studies.dataset.anthro(list("age", "sex", "weight", "height", "muac"))
 
 test_that("setup", {
