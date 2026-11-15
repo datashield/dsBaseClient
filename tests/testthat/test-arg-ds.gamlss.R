@@ -23,7 +23,7 @@ connect.studies.dataset.gamlss(list("e3_bw", "e3_gac_None"))
 test_that("gamlss_errors", {
     expect_error(ds.gamlss(), "must be a valid formula", fixed=TRUE)
     expect_error(ds.gamlss(formula="e3_bw ~ e3_gac_None", method="RG"), "must be \"RS\", \"CG\", or \"mixed\"", fixed=TRUE)
-    expect_error(ds.gamlss(formula="e3_bw ~ e3_gac_None", method="RS", centiles=TRUE), "Provide the name of the explanatory variable in 'xvar' argument", fixed=TRUE)
+    expect_error(ds.gamlss(formula="e3_bw ~ e3_gac_None", method="RS", centiles=TRUE), "`xvar` must name the explanatory variable when `centiles` is `TRUE`, not\\s+`NULL`") # nolint: nonportable_path_linter. Regex, not a file path
 })
 
 #

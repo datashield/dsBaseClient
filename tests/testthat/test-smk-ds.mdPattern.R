@@ -33,7 +33,7 @@ test_that("simple mdPattern, combine", {
     )
 
     expect_named(res, c("pattern", "valid", "message", "studies"))
-    expect_true(any(grepl("Disclosure control", caught_warnings)))
+    expect_true(any(grepl("disclosure control", caught_warnings)))
     expect_true(is.matrix(res$pattern))
 })
 

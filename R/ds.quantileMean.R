@@ -108,7 +108,7 @@ ds.quantileMean <- function(x=NULL, type='combine', datasources=NULL, classConsi
   names(output) <- c("5%","10%","25%","50%","75%","90%","95%","Mean")
 
   if(type=="combine"){
-    message(" Quantiles of the pooled data")
+    cli_inform("Quantiles of the pooled data.")
     return(output)
   }else{
     if(type=="split"){

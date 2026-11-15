@@ -79,7 +79,7 @@ ds.isNA <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
   for(i in 1:length(results)){
     if(results[[i]]$is.na){
       track[[i]] <- TRUE
-      message("The variable ", varname, " in ", stdnames[i], " is missing at complete (all values are 'NA').")
+      cli_inform("{.val {varname}} has only missing values in {.val {stdnames[i]}}.")
     }else{
       track[[i]] <- FALSE
     }

@@ -124,7 +124,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       next.class <- DSI::datashield.aggregate(datasources[std], calltext1)
       class.vector <- c(class.vector, next.class[[1]])
       if (notify.of.progress){
-        message("\n",j," of ", length(x), " elements to combine in step 1 of 2 in study ", std, "\n")
+        cli_inform("{j} of {length(x)} elements to combine in step 1 of 2 in {.val {names(datasources)[std]}}.")
       }  
     }
     for(j in 1:length(x)){
@@ -132,14 +132,14 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
       if(class.vector[j]!="data.frame" && class.vector[j]!="matrix"){
         colname.vector <- c(colname.vector, test.df)
         if (notify.of.progress){
-          message("\n",j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          cli_inform("{j} of {length(x)} elements to combine in step 2 of 2 in {.val {names(datasources)[std]}}.")
         }  
       }else{
         calltext2 <- call('colnamesDS', test.df)
         df.names <- DSI::datashield.aggregate(datasources[std], calltext2)
         colname.vector <- c(colname.vector, df.names[[1]])
         if (notify.of.progress){
-          message("\n", j," of ", length(x), " elements to combine in step 2 of 2 in study ", std, "\n")
+          cli_inform("{j} of {length(x)} elements to combine in step 2 of 2 in {.val {names(datasources)[std]}}.")
         }  
       }
     }
@@ -147,7 +147,7 @@ ds.dataFrame <- function(x=NULL, row.names=NULL, check.rows=FALSE, check.names=T
   }
   
   if (notify.of.progress){
-    message("\nBoth steps in all studies completed\n")
+    cli_inform("Both steps completed in all studies.")
   }
   
   # prepare vectors for transmission

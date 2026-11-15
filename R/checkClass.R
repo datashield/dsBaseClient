@@ -6,20 +6,19 @@
 #' @param datasources a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. If the <datasources>
 #' the default set of connections will be used: see \link[DSI]{datashield.connections_default}.
 #' @param obj a string character, the name of the object to check for.
+#' @param call The frame to report the error from.
 #' @keywords internal
 #' @return a message or the class of the object if the object has the same class in all studies.
 #'
 #'
-checkClass <- function(datasources=NULL, obj=NULL){
+checkClass <- function(datasources=NULL, obj=NULL, call=parent.frame()){
   # check the class of the input object
   cally <- call("classDS", obj)
   classesBy <- DSI::datashield.aggregate(datasources, cally)
   classes <- unique(unlist(classesBy))
   for (n in names(classesBy)) {
     if (!all(classes == classesBy[[n]])) {
-      message("The input data is not of the same class in all studies!")
-      message("Use the function 'ds.class' to verify the class of the input object in each study.")
-      stop(" End of process!", call.=FALSE)
+      cli_abort(c("{.val {obj}} must have the same class in all studies.", .describeStudyClasses(classesBy)), call = call)
     }
   }
   return(classes)

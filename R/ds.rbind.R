@@ -115,7 +115,7 @@ calltext1<-call('classDS', testclass.var)
 next.class <- DSI::datashield.aggregate(datasources, calltext1)
 class.vector<-c(class.vector,next.class[[1]])
 if (notify.of.progress)
-    message("\n",j," of ", length(x), " elements to combine in step 1 of 2\n")
+    cli_inform("{j} of {length(x)} elements to combine in step 1 of 2.")
 }
 
 for(j in 1:length(x))
@@ -126,7 +126,7 @@ if(class.vector[j]!="data.frame" && class.vector[j]!="matrix")
 	{
 	colname.vector<-c(colname.vector,test.df)
         if (notify.of.progress)
-            message("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+            cli_inform("{j} of {length(x)} elements to combine in step 2 of 2.")
 	}
 else
 	{
@@ -134,11 +134,11 @@ else
     df.names <- DSI::datashield.aggregate(datasources, calltext2)
 	 colname.vector<-c(colname.vector,df.names[[1]])
          if (notify.of.progress)
-              message("\n",j," of ", length(x), " elements to combine in step 2 of 2\n")
+              cli_inform("{j} of {length(x)} elements to combine in step 2 of 2.")
         }
 }
 if (notify.of.progress)
-    message("\nBoth steps completed\n")
+    cli_inform("Both steps completed.")
 
 #CHECK FOR DUPLICATE NAMES IN COLUMN NAME VECTOR AND ADD ".k" TO THE kth REPLICATE
 num.duplicates<-rep(0,length(colname.vector))

@@ -162,7 +162,7 @@ if(is.numeric(min) && is.numeric(max)){
 }
 
 if(!minmax.valid){
-cli_abort("{.arg max} must be greater than {.arg min}.")
+cli_abort(c("{.arg max} must be greater than {.arg min}.", "x" = "{.arg min} is {.val {unique(min)}} and {.arg max} is {.val {unique(max)}}."))
 }
 
 decimal.places.valid<-1
@@ -171,7 +171,7 @@ decimal.places.valid<-0
 }
 
 if(!decimal.places.valid){
-cli_abort("{.arg force.output.to.k.decimal.places} must be an integer between 0 and 9.")
+cli_abort("{.arg force.output.to.k.decimal.places} must be an integer between 0 and 9, not {.val {unique(force.output.to.k.decimal.places[force.output.to.k.decimal.places < 0 | force.output.to.k.decimal.places > 9])}}.")
 }
 
 
@@ -203,7 +203,7 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-message("NO SEED SET IN STUDY",study.id,"\n")
+cli_inform("No seed set in {.val {names(datasources)[study.id]}}.")
 
 } else {
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))

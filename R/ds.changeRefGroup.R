@@ -122,7 +122,7 @@ ds.changeRefGroup <- function(x=NULL, ref=NULL, newobj=NULL, reorderByRef=FALSE,
   newobj <- .resolveNewobjName(newobj, "changerefgroup.newobj")
 
   if(reorderByRef){
-    warning("'reorderByRef' is set to TRUE. Please read the documentation for possible consequences!", call.=FALSE)
+    cli_warn(c("{.arg reorderByRef} is {.code TRUE}, so the levels of {.val {x}} are reordered.", "!" = "Results are invalid if the new vector is added to a table that isn't reordered in the same way."))
   }
 
   # call the server side function that will recode the levels

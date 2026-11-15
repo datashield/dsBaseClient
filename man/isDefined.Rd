@@ -4,7 +4,12 @@
 \alias{isDefined}
 \title{Checks if the objects are defined in all studies}
 \usage{
-isDefined(datasources = NULL, obj = NULL, error.message = TRUE)
+isDefined(
+  datasources = NULL,
+  obj = NULL,
+  error.message = TRUE,
+  call = parent.frame()
+)
 }
 \arguments{
 \item{datasources}{a list of \code{\link[DSI]{DSConnection-class}} objects obtained after login. 
@@ -16,6 +21,8 @@ used: see \code{\link[DSI]{datashield.connections_default}}.}
 \item{error.message}{a Boolean which specifies if the function should stop and return
 an error message when the input object is not defined in one or more studies or to
 return a list of TRUE/FALSE indicating in which studies the object is defined}
+
+\item{call}{The frame to report the error from.}
 }
 \value{
 returns an error message if \code{error.message} argument is set to TRUE (default)

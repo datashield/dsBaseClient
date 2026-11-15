@@ -102,7 +102,7 @@ test_that("ds.cov ignores y with a warning when x is a data.frame", {
 
     expect_warning(
         res.xy <- ds.cov(x = "D", y = "D$survtime", type = "split"),
-        "y will be ignored", fixed = TRUE
+        "`y` is ignored", fixed = TRUE
     )
 
     expect_equal(res.xy, res.x)
