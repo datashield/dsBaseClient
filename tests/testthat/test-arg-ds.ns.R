@@ -28,7 +28,7 @@ test_that("setup", {
 # context("ds.ns::arg::test errors")
 test_that("ns_errors", {
     expect_error(ds.ns(), "argument \"x\" is missing, with no default", fixed=TRUE)
-    expect_error(ds.qlspline(x=NULL), "Please provide the name of the input variable x!", fixed=TRUE)
+    expect_error(ds.qlspline(x=NULL), "must be the name of the input variable", fixed=TRUE)
 })
 
 #

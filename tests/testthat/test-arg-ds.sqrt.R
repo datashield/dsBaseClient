@@ -10,7 +10,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.sqrt::arg::test errors")
 test_that("sqrt_errors", {
-    expect_error(ds.sqrt(), "Please provide the name of the input object!", fixed=TRUE)
+    expect_error(ds.sqrt(), "must be the name of the input object", fixed=TRUE)
 })
 
 #

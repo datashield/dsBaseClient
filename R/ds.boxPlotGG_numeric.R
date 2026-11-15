@@ -12,7 +12,7 @@
 
 ds.boxPlotGG_numeric <- function(x, xlabel = "x axis", ylabel = "y axis", type = "pooled", datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   ds.boxPlotGG_data_Treatment_numeric(x, datasources)
   

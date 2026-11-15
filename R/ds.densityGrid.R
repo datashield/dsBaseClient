@@ -86,15 +86,11 @@
 #'
 ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the numeric vector 'x'!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a numeric vector")
 
-  if(is.null(y)){
-    stop("Please provide the name of the numeric vector 'y'!", call.=FALSE)
-  }
+  .checkArgProvided(y, "the name of a numeric vector")
   
   # name of the studies to be used in the plots' titles
   stdnames <- names(datasources)
@@ -129,8 +125,8 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
     # generate the grid density object to plot
     grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=TRUE, x.min=x.global.min, x.max=x.global.max, y.min=y.global.min, y.max=y.global.max, numints=numints))
     if(classConsistencyCheck){
-      .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-      .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+      .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+      .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
     }
     grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
     numcol <- dim(grid.density.obj[[1]])[2]
@@ -153,8 +149,8 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
       # generate the grid density object
       grid.density.obj <- datashield.aggregate(datasources, call("densityGridDS", x=x, y=y, limits=FALSE, x.min=NULL, x.max=NULL, y.min=NULL, y.max=NULL, numints=numints))
       if(classConsistencyCheck){
-        .checkClassConsistency(grid.density.obj, field = "class.x", object_name = x)
-        .checkClassConsistency(grid.density.obj, field = "class.y", object_name = y)
+        .checkClassConsistency(grid.density.obj, field = "class.x", objectName = x)
+        .checkClassConsistency(grid.density.obj, field = "class.y", objectName = y)
       }
       grid.density.obj <- lapply(grid.density.obj, function(r) r$grid)
       numcol <- dim(grid.density.obj[[1]])[2]
@@ -165,7 +161,7 @@ ds.densityGrid <- function(x=NULL, y=NULL, numints=20, type='combine', datasourc
       }
       return(grid.density.obj)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

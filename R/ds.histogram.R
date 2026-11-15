@@ -155,11 +155,9 @@
 #'
 ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCellsRule", k=3, noise=0.25, vertical.axis="Frequency", datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   # Save par and setup reseting of par values
   old_par <- graphics::par(no.readonly = TRUE)
@@ -167,12 +165,12 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
 
   # the argument vertical.axis must be "Frequency" or "Density"
   if(vertical.axis != 'Frequency' & vertical.axis != 'Density'){
-    stop('Function argument "vertical.axis" has to be either "Frequency" or "Density"', call.=FALSE)
+    .abortInvalidChoice("vertical.axis", c("Frequency", "Density"))
   }
 
   # the argument method must be either "smallCellsRule" or "deterministic" or "probabilistic"
   if(method != 'smallCellsRule' & method != 'deterministic' & method != 'probabilistic'){
-    stop('Function argument "method" has to be either "smallCellsRule" or "deterministic" or "probabilistic"', call.=FALSE)
+    .abortInvalidChoice("method", c("smallCellsRule", "deterministic", "probabilistic"))
   }
 
   # name of the studies to be used in the plots' titles
@@ -188,7 +186,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
   # call the server-side function that returns the range of the vector from each study
   histogram.ranges <- datashield.aggregate(datasources, call("histogramDS1", x=x, method.indicator=method.indicator, k=k, noise=noise))
   if(classConsistencyCheck){
-    .checkClassConsistency(histogram.ranges, object_name = x)
+    .checkClassConsistency(histogram.ranges, objectName = x)
   }
   ranges <- unique(unlist(lapply(histogram.ranges, function(r) r$range)))
 
@@ -277,7 +275,7 @@ ds.histogram <- function(x=NULL, type="split", num.breaks=10, method="smallCells
         return(hist.objs[[1]])
       }
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.names::arg::test errors")
 test_that("simple ds.names errors", {
-    expect_error(ds.names(), "Please provide the name of the input list!", fixed=TRUE)
+    expect_error(ds.names(), "must be the name of the input list", fixed=TRUE)
 
     res.errors <- DSI::datashield.errors()
 

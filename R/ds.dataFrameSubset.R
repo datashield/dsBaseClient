@@ -107,12 +107,10 @@
 
 ds.dataFrameSubset<-function(df.name=NULL, V1.name=NULL, V2.name=NULL, Boolean.operator=NULL, keep.cols=NULL, rm.cols=NULL, keep.NAs=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of the data.frame to be subsetted
-  if(is.null(df.name)){
-    stop("Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", call.=FALSE)
-  }
+  .checkArgProvided(df.name, "the name of the data.frame to subset")
 
   # check if user has provided the name of the column or scalar that holds V1. If not
   # have they instead provided a non.null keep.cols or non.null rm.cols argument
@@ -197,9 +195,7 @@ if(Boolean.operator == ">="){
 }
 
   # if no value spcified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "dataframesubset.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "dataframesubset.newobj")
 
  if(!is.null(keep.cols)){
   keep.cols<-paste0(as.character(keep.cols),collapse=",")

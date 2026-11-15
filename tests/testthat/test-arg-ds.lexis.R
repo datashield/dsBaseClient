@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.lexis::arg::test errors")
 test_that("lexis_erros", {
-    expect_error(ds.lexis(), "Please provide the name of the column that holds the subject IDs!", fixed=TRUE)
+    expect_error(ds.lexis(), "must be the name of the column that holds subject IDs", fixed=TRUE)
 })
 
 # context("ds.lexis::arg::test intervalWidth")

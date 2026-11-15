@@ -21,10 +21,10 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.dataFrame::arg::test errors")
 test_that("dataframe_erros", {
-    expect_error(ds.dataFrame(), "Please provide the name of the list that holds the input vectors!", fixed=TRUE)
+    expect_error(ds.dataFrame(), "must be the name of the list that holds the input vectors", fixed=TRUE)
 
     ds.asList(x='D$LAB_TSC', newobj="as_list")
-    expect_error(ds.dataFrame("as_list", DataSHIELD.checks=TRUE), "Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", fixed=TRUE)
+    expect_error(ds.dataFrame("as_list", DataSHIELD.checks=TRUE), "Each object must be of class", fixed=TRUE)
 })
 
 #

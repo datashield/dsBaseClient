@@ -73,15 +73,11 @@
 #'
 ds.abs <- function(x=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
-  if(is.null(newobj)){
-    newobj <- "abs.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "abs.newobj")
 
   cally <- call("absDS", x)
   DSI::datashield.assign(datasources, newobj, cally)

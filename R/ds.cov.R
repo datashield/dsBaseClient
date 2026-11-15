@@ -100,11 +100,9 @@
 #'
 ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("x=NULL. Please provide the name of a matrix or dataframe or the names of two numeric vectors!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a matrix, data.frame or numeric vector")
 
   # name of the studies to be used in the output
   stdnames <- names(datasources)
@@ -195,7 +193,7 @@ ds.cov <- function(x=NULL, y=NULL, naAction='pairwise.complete', type="split", d
       n5 <- "Error message"
       names(results) <- c(n1, n2, n3, n4, n5)
     }else{
-      stop('Function argument "type" has to be either "combine" or "split"')
+      .abortInvalidChoice("type", c("combine", "split"))
     }
   }
 

@@ -32,32 +32,22 @@
 ds.bp_standards <- function(sex=NULL, age=NULL, height=NULL, bp=NULL, systolic=TRUE, 
                             newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # verify that 'sex' was set
-  if(is.null(sex)){
-    stop("Please provide the name of the sex variable", call.=FALSE)
-  }
+  .checkArgProvided(sex, "the name of the sex variable")
   
   # verify that 'age' was set
-  if(is.null(age)){
-    stop("Please provide the name of the age in months variable", call.=FALSE)
-  }
+  .checkArgProvided(age, "the name of the age in months variable")
   
   # verify that 'height' was set
-  if(is.null(height)){
-    stop("Please provide the name of the height in cm variable", call.=FALSE)
-  }
+  .checkArgProvided(height, "the name of the height in cm variable")
   
   # verify that 'bp' was set
-  if(is.null(bp)){
-    stop("Please provide the name of the blood pressure variable", call.=FALSE)
-  }
+  .checkArgProvided(bp, "the name of the blood pressure variable")
   
   # if no output object specified then provide a default name
-  if(is.null(newobj)){
-    newobj <- "bp.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "bp.newobj")
   
   # call the server-side assign function
   cally <- call('bp_standardsDS', sex, age, height, bp, systolic)

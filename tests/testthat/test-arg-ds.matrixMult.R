@@ -21,9 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.matrixMult::arg::test errors")
 test_that("matrixMult_erros", {
-    res <- ds.matrixMult()
+    expect_error(ds.matrixMult(), "must be the name of the matrix that represents M1")
 
-    expect_equal(res, "Error: Please provide the name of the matrix representing M1")
 })
 
 #

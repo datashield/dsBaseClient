@@ -59,11 +59,9 @@
 #'
 ds.isValid <- function(x=NULL, datasources=NULL, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input vector")
 
   # call the server side function that does the job and return its output
   cally <- call("isValidDS", x)

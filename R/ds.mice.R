@@ -49,12 +49,10 @@
 ds.mice <- function(data=NULL, m=5, maxit=5, method=NULL, predictorMatrix=NULL, post=NULL, 
                     seed=NA, newobj_mids=NULL, newobj_df=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # verify that 'data' was set
-  if(is.null(data)){
-    stop("Please provide the name of the dataframe or matrix that contains the incomplete data!", call.=FALSE)
-  }
+  .checkArgProvided(data, "the name of the data.frame or matrix that holds the incomplete data")
 
   if(!is.null(method)){
     method <- paste0(as.character(method), collapse=",")

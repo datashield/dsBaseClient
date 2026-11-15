@@ -75,11 +75,9 @@
 #'
 ds.var <- function(x=NULL, type='split', datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
   ###################################################################################################
   #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                       #

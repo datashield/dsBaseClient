@@ -23,12 +23,9 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG"))
 
 # context("ds.sample::arg::test errors")
 test_that("cov_erros", {
-    res1 <- ds.sample()
-    expect_equal(res1, 'Error: x must denote a character string naming the serverside object to be sampled or an integer N denoting permute 1:N', fixed=TRUE)
-    res2 <- ds.sample(x='D$LAB_TSC')
-    expect_equal(res2, 'Error: size must have a value which is an integer denoting how many records to be sampled', fixed=TRUE)
-    res3 <- ds.sample(x='D$LAB_TSC', size=1234, seed.as.integer="FooBar")
-    expect_equal(res3, 'ERROR failed: seed.as.integer must be set as an integer [numeric] or left NULL', fixed=TRUE)
+    expect_error(ds.sample(), "must be a character string that names a server-side object")
+    expect_error(ds.sample(x='D$LAB_TSC'), "must be an integer that sets how many records")
+    expect_error(ds.sample(x='D$LAB_TSC', size=1234, seed.as.integer="FooBar"), "must be an integer or")
 })
 
 #

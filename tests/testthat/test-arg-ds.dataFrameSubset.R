@@ -28,7 +28,7 @@ test_that("setup", {
 
 # context("ds.dataFrameSubset::arg::missing 'ds.name' arg errors")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(), "Please provide the name of the data.frame to be subsetted as a character string: eg 'xxx'", fixed=TRUE)
+    expect_error(ds.dataFrameSubset(), "must be the name of the data.frame to subset", fixed=TRUE)
 })
 
 # context("ds.dataFrameSubset::arg::missing 'V1' arg error")

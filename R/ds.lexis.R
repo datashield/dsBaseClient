@@ -203,22 +203,16 @@
 #'
 ds.lexis<-function(data=NULL, intervalWidth=NULL, idCol=NULL, entryCol=NULL, exitCol=NULL, statusCol=NULL, variables=NULL, expandDF=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user have provided the name of the column that holds the subject ids
-  if(is.null(idCol)){
-    stop("Please provide the name of the column that holds the subject IDs!", call.=FALSE)
-  }
+  .checkArgProvided(idCol, "the name of the column that holds subject IDs")
 
   # check if user have provided the name of the column that holds failure information
-  if(is.null(statusCol)){
-    stop("Please provide the name of the column that holds 'failure' information!", call.=FALSE)
-  }
+  .checkArgProvided(statusCol, "the name of the column that holds failure information")
 
   # check if user have provided the name of the column that holds exit times
-  if(is.null(exitCol)){
-    stop("Please provide the name of the column that holds the exit times (i.e. end of follow up time)!", call.=FALSE)
-  }
+  .checkArgProvided(exitCol, "the name of the column that holds exit times")
 
   # if no valid value provided for 'intervalWidth' instruct user to specify one
   if(any(is.null(intervalWidth))||any(is.na(intervalWidth))||any(intervalWidth==0)){

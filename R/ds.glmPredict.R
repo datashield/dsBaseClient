@@ -128,27 +128,23 @@ ds.glmPredict <- function(glmname = NULL, newdataname = NULL, output.type = "res
                           se.fit = FALSE, dispersion = NULL, terms = NULL,
                           na.action = "na.pass", newobj = NULL, datasources = NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check that <glmname> is set
-  if(is.null(glmname)){
-	  stop("<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside", call.=FALSE)
-  }
+  .checkArgProvided(glmname, "the name of a glm object on the server")
 
   # check that <output.type> is correctly set
   if((output.type!="link") && (output.type!="response") && (output.type!="terms")){
-	  stop("<output.type> is not correctly set, please specify it as one of three character strings: 'link', 'response', or 'terms'", call.=FALSE)
+	  .abortInvalidChoice("output.type", c("link", "response", "terms"))
   }
 
   # check that <na.action> is correctly set
   if((na.action!="na.fail")&&(na.action!="na.omit")&&(na.action!="na.exclude")&&(na.action!="na.pass")){
-	  stop("<na.action> is not correctly set, please specify it as one of four character strings: 'na.fail', 'na.omit', 'na.exclude' or 'na.pass'", call.=FALSE)
+	  .abortInvalidChoice("na.action", c("na.fail", "na.omit", "na.exclude", "na.pass"))
   }
 
   # provide value for newobj if none specified
-  if(is.null(newobj)){
-    newobj<-"predict_glm"
-  }
+  newobj <- .resolveNewobjName(newobj, "predict_glm")
 
   calltext <- call("glmPredictDS.as", glmname, newdataname, output.type, se.fit, dispersion, terms, na.action)
   DSI::datashield.assign(datasources, newobj, calltext)

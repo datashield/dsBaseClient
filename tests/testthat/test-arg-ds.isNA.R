@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_HDL"))
 
 # context("ds.isNA::arg::errors")
 test_that("isNA errors", {
-    expect_error(ds.isNA(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.isNA(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #

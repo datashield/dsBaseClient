@@ -21,33 +21,30 @@ connect.studies.dataset.cnsim(list("DIS_CVA", "DIS_AMI", "LAB_TSC", "LAB_HDL"))
 
 # context("ds.table::arg::test rvar has value")
 test_that("table rvar has value", {
-    res <- ds.table()
+    expect_error(ds.table(), "must be a character string that names the row variable")
     
-    expect_equal(res, "Error: rvar must have a value which is a character string naming the row variable for the table", fixed=TRUE)
 })
 
 # context("ds.table::arg::test cvar has value")
 test_that("table cvar has value", {
-  res <- ds.table(rvar="D$LAB_TSC", cvar=30)
+  expect_error(ds.table(rvar="D$LAB_TSC", cvar=30), "must be a character string that names the column variable")
   
-  expect_equal(res, "Error: if cvar is not null, it must have a value which is a character string naming the column variable for the table", fixed=TRUE)
 })
 
 # context("ds.table::arg::test stvar has value")
 test_that("table stvar has value", {
-  res <- ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=25)
+  expect_error(ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=25), "must be a character string that names the variable")
   
-  expect_equal(res, "Error: if stvar is not null, it must have a value which is a character string naming the variable coding separate tables for the table", fixed=TRUE)
 })
 
 # context("ds.table::arg::test stvar has CORRECT value")
 test_that("table useNA has value", {
-  expect_error(ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=NULL, useNA = c("BEN")), "useNA must be either 'no' or 'always'.", fixed = TRUE)
+  expect_error(ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=NULL, useNA = c("BEN")), "must be \"no\" or \"always\"", fixed = TRUE)
 })
 
 # context("ds.table::arg::test force.nfilter has value")
 test_that("table force.nfilter has value", {
-  expect_error(ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=NULL, useNA = c("ifany"), force.nfilter =30), "useNA must be either 'no' or 'always'.", fixed = TRUE)
+  expect_error(ds.table(rvar="D$LAB_TSC", cvar=NULL, stvar=NULL, useNA = c("ifany"), force.nfilter =30), "must be \"no\" or \"always\"", fixed = TRUE)
 })
 
 

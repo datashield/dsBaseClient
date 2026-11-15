@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.asNumeric::arg::test errors")
 test_that("asNumeric_erros", {
-    expect_error(ds.asNumeric(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.asNumeric(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #

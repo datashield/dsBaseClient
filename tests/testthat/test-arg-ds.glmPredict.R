@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC", "LAB_TRIG", "DIS_AMI", "DIS_DIAB",
 
 # context("ds.glmPredict::arg::test _glmname_ arg is correct object")
 test_that("glmPredict_errors", {
-  expect_error(ds.glmPredict(), "<glmname> is not set, please specify it as a character string containing the name of a valid glm class object on the serverside", fixed=TRUE)
+  expect_error(ds.glmPredict(), "must be the name of a glm object on the server", fixed=TRUE)
 })
 
 # context("ds.glmPredict::arg::setting up glm obj for further testing")
@@ -47,7 +47,7 @@ test_that("glmPredict_errors", {
 # context("ds.glmPredict::arg::test _output.type_ arg is correct object")
 test_that("glmPredict_errors", {
   expect_error(ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = NULL), "missing value where TRUE/FALSE needed", fixed=TRUE)
-  expect_error(ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = 'blah'), "<output.type> is not correctly set, please specify it as one of three character strings: 'link', 'response', or 'terms'", fixed=TRUE)
+  expect_error(ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = 'blah'), "must be \"link\", \"response\", or \"terms\"", fixed=TRUE)
 })
 
 # context("ds.glmPredict::arg::test _se.fit_ arg is correct object")
@@ -71,7 +71,7 @@ test_that("glmPredict_errors", {
 
 # context("ds.glmPredict::arg::test _na.action_ arg is correct object")
 test_that("glmPredict_errors", {
-  expect_error(ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, dispersion = NULL, terms=NULL, na.action= "na.other"), "<na.action> is not correctly set, please specify it as one of four character strings: 'na.fail', 'na.omit', 'na.exclude' or 'na.pass'", fixed = TRUE)
+  expect_error(ds.glmPredict("gaussian.glmslma.obj", newdataname = NULL, output.type = "response", se.fit = FALSE, dispersion = NULL, terms=NULL, na.action= "na.other"), "must be \"na.fail\"", fixed = TRUE)
 })
 
 

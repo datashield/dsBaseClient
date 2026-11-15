@@ -50,13 +50,11 @@
 ds.metadata = function(x=NULL, datasources=NULL)
 {
 
-    datasources <- .set_datasources(datasources)
+    datasources <- .resolveDatasources(datasources)
 
     #####################################################################################
     #MODULE 3: SET UP KEY VARIABLES ALLOWING FOR DIFFERENT INPUT FORMATS                #
-    if (is.null(x)){                                                                    #
-        stop("Please provide the name of the object!", call.=FALSE)                     #
-    }                                                                                   #
+    .checkArgProvided(x, "the name of an object")                                       #
     #####################################################################################
 
     #####################################################################################

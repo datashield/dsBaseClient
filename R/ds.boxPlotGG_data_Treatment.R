@@ -20,7 +20,7 @@
 
 ds.boxPlotGG_data_Treatment <- function(table, variables, group = NULL, group2 = NULL, datasources = NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   datashield.assign.expr(datasources, "boxPlotRawData", call("boxPlotGG_data_TreatmentDS", table.name = table, variables = variables, group = group, group2 = group2))
   

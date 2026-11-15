@@ -21,9 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.matrixInvert::arg::test errors")
 test_that("matrixInvert_erros", {
-    res <- ds.matrixInvert()
+    expect_error(ds.matrixInvert(), "must be the name of the matrix that represents M1")
 
-    expect_equal(res, "Error: Please provide the name of the matrix representing M1")
 })
 
 #

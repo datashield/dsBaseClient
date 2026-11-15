@@ -98,15 +98,8 @@ test_that("setup", {
 
 # context("ds.table::disc::tests::phase 2::table.assign=FALSE")
 test_that("table disclosure, table.assign=FALSE", {
-  table.res <- ds.table(rvar='D$GENDER', cvar="D$DIS_AMI", table.assign=FALSE, newobj="new_table3")
-  
-  expect_length(table.res, 2)
-  expect_length(table.res$validity.message, 1)
-  expect_equal(table.res$validity.message, "All studies failed for reasons identified below", fixed = TRUE)
-  expect_length(table.res$error.message, 3)
-  expect_equal(table.res$error.message$sim1, "Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3", fixed = TRUE)
-  expect_equal(table.res$error.message$sim2, "Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3", fixed = TRUE)
-  expect_equal(table.res$error.message$sim3, "Failed: at least one cell has a non-zero count less than nfilter.tab i.e. 3", fixed = TRUE)
+  error <- expect_error(ds.table(rvar='D$GENDER', cvar="D$DIS_AMI", table.assign=FALSE, newobj="new_table3"), "All studies failed")
+  expect_match(conditionMessage(error), "non-zero count less than nfilter.tab")
 })
 
 # context("ds.table::disc::tests::phase 2::table.assign=TRUE")

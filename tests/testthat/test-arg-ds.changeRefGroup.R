@@ -21,8 +21,8 @@ connect.studies.dataset.cnsim(list("DIS_AMI", "LAB_TSC"))
 
 # context("ds.changeRefGroup::arg::test errors")
 test_that("changeRefGroup_erros", {
-    expect_error(ds.changeRefGroup(), "Please provide the name of a vector of type factor!")
-    expect_error(ds.changeRefGroup(x="D$DIS_AMI"), " You must indicate a reference level - set the parameter 'ref'.")
+    expect_error(ds.changeRefGroup(), "must be the name of a factor")
+    expect_error(ds.changeRefGroup(x="D$DIS_AMI"), "must be a reference level")
 
     expect_error(ds.changeRefGroup(x="D$LAB_TSC", ref="LAB_TSC"), "There are some DataSHIELD errors, list them with datashield.errors()", fixed=TRUE)
 

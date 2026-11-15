@@ -36,12 +36,10 @@
 ds.ns <- function(x, df = NULL, knots = NULL, intercept = FALSE, Boundary.knots = NULL, 
                   newobj=NULL, datasources=NULL){
   
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
   # create a name by default if user did not provide a name for the new variable
-  if(is.null(newobj)){
-    newobj <- "ns.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "ns.newobj")
   
   # now do the business
   calltext <- call("nsDS", x, df, knots, intercept, Boundary.knots)

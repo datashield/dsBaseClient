@@ -83,7 +83,7 @@
 ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FALSE,
                            sort.method="default", newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   if(is.null(sort.method)){
     sort.method <- "default"
@@ -105,7 +105,7 @@ ds.dataFrameSort<-function(df.name=NULL, sort.key.name=NULL, sort.descending=FAL
     sort.descending <- FALSE
   }
   
-  newobj <- .set_newobj_name(newobj, "dataframesort.newobj")
+  newobj <- .resolveNewobjName(newobj, "dataframesort.newobj")
   
   # Call to assign function
   calltext <- call("dataFrameSortDS", df.name, sort.key.name, sort.descending, sort.method)

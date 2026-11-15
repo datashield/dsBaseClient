@@ -55,11 +55,9 @@
 #'
 ds.class <- function(x=NULL, datasources=NULL) {
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
   cally <- call('classDS', x)
   output <- DSI::datashield.aggregate(datasources, cally)

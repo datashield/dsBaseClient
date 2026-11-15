@@ -101,7 +101,7 @@
 #' }
 #'
 ds.listDisclosureSettings <- function(datasources=NULL){
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # CALL THE MAIN SERVER SIDE FUNCTION
   calltext <- call("listDisclosureSettingsDS")

@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.exists::arg::test errors")
 test_that("simple exists errors", {
-    expect_error(ds.exists(), "Please provide the name of the input object!")
+    expect_error(ds.exists(), "must be the name of the input object")
 })
 
 #

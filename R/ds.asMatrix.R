@@ -58,15 +58,11 @@
 #' 
 ds.asMatrix <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
   
-  if(is.null(newobj)){
-    newobj <- "asmatrix.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "asmatrix.newobj")
 
 	calltext <- call("asMatrixDS", x.name)
 	DSI::datashield.assign(datasources, newobj, calltext)

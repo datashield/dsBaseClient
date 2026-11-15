@@ -70,15 +70,11 @@
 #' 
 ds.asNumeric <- function(x.name=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x.name)){
-    stop("Please provide the name of the input vector!", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the input vector")
   
-  if(is.null(newobj)){
-    newobj <- "asnumeric.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "asnumeric.newobj")
 
   calltext <- call("asNumericDS", x.name)
   DSI::datashield.assign(datasources, newobj, calltext)

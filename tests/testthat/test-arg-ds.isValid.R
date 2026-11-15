@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_HDL"))
 
 # context("ds.isValid::arg::errors")
 test_that("isValid errors", {
-    expect_error(ds.isValid(), "Please provide the name of the input vector!", fixed=TRUE)
+    expect_error(ds.isValid(), "must be the name of the input vector", fixed=TRUE)
 })
 
 #

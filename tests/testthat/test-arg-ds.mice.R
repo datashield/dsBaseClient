@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.mice::arg::test errors")
 test_that("mice_errors", {
-    expect_error(ds.mice(), "Please provide the name of the dataframe or matrix that contains the incomplete data!", fixed=TRUE)
+    expect_error(ds.mice(), "must be the name of the data.frame or matrix", fixed=TRUE)
 })
 
 #

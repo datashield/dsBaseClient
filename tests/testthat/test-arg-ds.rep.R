@@ -24,9 +24,8 @@ connect.studies.dataset.survival(list("survtime", "time.id", "female"))
 # context("ds.rep::arg::test errors")
 
 test_that("ds.rep erros", {
-    res <- ds.rep()
+    expect_error(ds.rep(), "must be a character string, a client-side numeric vector")
 
-    expect_equal(res, "Error: x1 must have a value which is a character string, a numeric vector on the clientside or a scalar", fixed=TRUE)
 })
 
 #

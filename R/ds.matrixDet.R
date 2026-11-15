@@ -81,12 +81,10 @@
 #'
 ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # check if user has provided the name of matrix representing M1
-  if(is.null(M1)){
-    return("Error: Please provide the name of the matrix representing M1")
-  }
+  .checkArgProvided(M1, "the name of the matrix that represents M1")
 
   # if no value or invalid value specified for logarithm, then specify a default
   if(is.null(logarithm)){
@@ -98,9 +96,7 @@ ds.matrixDet<-function(M1=NULL, newobj=NULL, logarithm=FALSE, datasources=NULL){
   }
 
   # if no value specified for output object, then specify a default
-  if(is.null(newobj)){
-    newobj <- "matrixdet.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "matrixdet.newobj")
 
   # CALL THE MAIN SERVER SIDE ASSIGN FUNCTION
   calltext <- call("matrixDetDS2", M1, logarithm)

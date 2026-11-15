@@ -21,8 +21,8 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.replaceNA::arg::test errors")
 test_that("simple ds.replaceNA errors", {
-    expect_error(ds.replaceNA(), "Please provide the name of a vector!", fixed=TRUE)
-    expect_error(ds.replaceNA(x="D$LAB_TSC"), "Please provide a list of replacement values!", fixed=TRUE)
+    expect_error(ds.replaceNA(), "must be the name of a vector", fixed=TRUE)
+    expect_error(ds.replaceNA(x="D$LAB_TSC"), "must be a list of replacement values", fixed=TRUE)
 })
 
 #

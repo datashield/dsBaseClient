@@ -97,11 +97,9 @@
 #'
 ds.mean <- function(x=NULL, type='split', save.mean.Nvalid=FALSE, datasources=NULL, classConsistencyCheck=FALSE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
   
-  if(is.null(x)){
-    stop("Please provide the name of the input object!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of the input object")
 
 ###################################################################################################
 #MODULE: EXTEND "type" argument to include "both" and enable valid alisases                     #
@@ -109,7 +107,7 @@ if(type == 'combine' | type == 'combined' | type == 'combines' | type == 'c') ty
 if(type == 'split' | type == 'splits' | type == 's') type <- 'split'                              #
 if(type == 'both' | type == 'b' ) type <- 'both'                                                  #
 if(type != 'combine' & type != 'split' & type != 'both'){                                        #
-  stop('Function argument "type" has to be either "both", "combine" or "split"', call.=FALSE)     #
+  .abortInvalidChoice("type", c("both", "combine", "split"))     #
 }  
 
   cally <- call("meanDS", x)

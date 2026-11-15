@@ -87,26 +87,10 @@
 #' @export
 ds.setSeed<-function(seed.as.integer=NULL,datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
 
-seed.valid<-0
-
-if(is.null(seed.as.integer)){
-seed.as.text<-"NULL"
-seed.valid<-1
-}
-
-if(is.numeric(seed.as.integer)){
-seed.as.text<-as.character(seed.as.integer)
-seed.valid<-1
-}
-
-
-if(seed.valid==0){
-mess1<-("ERROR terminated: seed.as.integer must be set as an integer [numeric] or as being NULL")
-return(mess1)
-}
+seed.as.text <- .seedAsText(seed.as.integer)
 
   ssDS.obj <- datashield.aggregate(datasources, call("setSeedDS", seedtext=seed.as.text))
 

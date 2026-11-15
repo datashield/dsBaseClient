@@ -130,21 +130,16 @@
 ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newobj=NULL, datasources=NULL){
 
   ###datasources
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   ###X.name
   # check if user has provided the name of the column that holds X.name
-  if(is.null(X.name)){
-    return("Error: Please provide the name of the variable to be summarized, as a character string")
-  }
+  .checkArgProvided(X.name, "the name of the variable to summarise, as a character string")
   
   ###INDEX.names
   # check if user has provided the name of the column(s) that holds INDEX.names
   if(is.null(INDEX.names)){
-    Err.1 <- "Error: Please provide the name of the single factor or"
-    Err.2 <- "the list of factors to index the variable to be summarized."
-    Err.3 <- "In either case the argument must be specified in inverted commas"
-    return(list(Error.message=Err.1, Err.cont2=Err.2, Err.cont3=Err.3))
+    cli_abort("{.arg INDEX.names} must name a single factor or a list of factors, in inverted commas.")
   }
   
   # check if the vector or list of INDEX.names includes up to two names
@@ -161,14 +156,10 @@ ds.tapply.assign <- function(X.name=NULL, INDEX.names=NULL, FUN.name=NULL, newob
   
   ###FUN.name
   # check if user has provided a valid summarizing function
-  if(is.null(FUN.name)){
-    return("Error: Please provide a valid summarizing function, as a character string")
-  }
+  .checkArgProvided(FUN.name, "a valid summarising function, as a character string")
 
     # create a name by default if user did not provide a name for the new tapply object
-  if(is.null(newobj)){
-    newobj <- "tapply.assign.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "tapply.assign.newobj")
 
   # CALL THE PRIMARY SERVER SIDE FUNCTION
   calltext <- call("tapplyDS.assign", X.name, INDEX.names.transmit, FUN.name)

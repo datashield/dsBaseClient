@@ -117,66 +117,23 @@
 #'
 ds.cbind <- function(x=NULL, DataSHIELD.checks=FALSE, force.colnames=NULL, newobj=NULL, datasources=NULL, notify.of.progress=FALSE, classConsistencyCheck=TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide a vector of character strings holding the name of the input elements!", call.=FALSE)
-  }
+  .checkArgProvided(x, "a vector of the names of the input elements")
   
   if(DataSHIELD.checks){
 
     # call the internal function that checks the input object(s) is(are) of the same legal class in all studies.
     if(classConsistencyCheck){
-    for(i in 1:length(x)){
-      typ <- checkClass(datasources, x[i])
-      if(!('data.frame' %in% typ) & !('matrix' %in% typ) & !('factor' %in% typ) & !('character' %in% typ) & !('numeric' %in% typ) & !('integer' %in% typ) & !('logical' %in% typ)){
-        stop("Only objects of type 'data.frame', 'matrix', 'numeric', 'integer', 'character', 'factor' and 'logical' are allowed.", call.=FALSE)
-      }
-    }
+    .checkObjectClasses(datasources, x)
     }
 
-    # check that there are no duplicated column names in the input components
-    for(j in 1:length(datasources)){
-      colNames <- list()
-      for(i in 1:length(x)){
-        typ <- checkClass(datasources, x[i])
-        if(any(typ %in% c('data.frame', 'matrix'))){
-          colNames[[i]] <- ds.colnames(x=x[i], datasources=datasources[j])
-        }
-        if(any(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical'))){
-          colNames[[i]] <- as.character(x[i])
-        }
-        colNames <- unlist(colNames)
-        if(anyDuplicated(colNames) != 0){
-          message("\n Warning: Some column names in study", j, "are duplicated and a suffix '.k' will be added to the kth replicate \n")
-        }
-      }
-    }
-
-    # check that the number of rows is the same in all componets to be cbind
-    for(j in 1:length(datasources)){
-      nrows <- list()
-      for(i in 1:length(x)){
-        typ <- checkClass(datasources, x[i])
-        if(any(typ %in% c('data.frame', 'matrix'))){
-          nrows[[i]] <- ds.dim(x=x[i], type='split', datasources=datasources[j])[[1]][1]
-        }
-        if(any(typ %in% c('factor', 'character', 'numeric', 'integer', 'logical'))){
-          nrows[[i]] <- ds.length(x[i], type='split', datasources=datasources[j])[[1]]
-        }
-      }
-      nrows <- unlist(nrows)
-      if(any(nrows != nrows[1])){
-        stop("The number of rows is not the same in all of the components to be cbind", call.=FALSE)
-      }
-    }
+    .checkMultiObjectConsistency(datasources, x)
 
   }
   
   # check newobj not actively declared as null
-  if(is.null(newobj)){
-    newobj <- "cbind.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "cbind.newobj")
   
   # CREATE THE VECTOR OF COLUMN NAMES
   colname.list <- list()

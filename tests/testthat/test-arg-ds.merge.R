@@ -21,11 +21,11 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.merge::arg::test errors")
 test_that("merge_erros", {
-    expect_error(ds.merge(), "Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", fixed=TRUE)
-    expect_error(ds.merge(x.name="A"), "Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", fixed=TRUE)
+    expect_error(ds.merge(), "must be the name of the first data.frame to merge", fixed=TRUE)
+    expect_error(ds.merge(x.name="A"), "must be the name of the second data.frame to merge", fixed=TRUE)
     expect_error(ds.merge(x.name="D$LAB_TSC", y.name="B", by.x.names="LAB_TSC", by.y.names="LAB_TSC"), "DataSHIELD errors")
-    expect_error(ds.merge(x.name="D$LAB_TSC", y.name="D$LAB_TSC", by.x.names="C"), "Please provide the names of columns in y dataframe on which to merge (eg c('id', 'time'))", fixed=TRUE)
-    expect_error(ds.merge(x.name="D$LAB_TSC", y.name="D$LAB_TSC", by.x.names="D$LAB_TSC", by.y.names="D", suffixes=NULL), "Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y'))", fixed=TRUE)
+    expect_error(ds.merge(x.name="D$LAB_TSC", y.name="D$LAB_TSC", by.x.names="C"), "must be the names of the columns in y to merge on", fixed=TRUE)
+    expect_error(ds.merge(x.name="D$LAB_TSC", y.name="D$LAB_TSC", by.x.names="D$LAB_TSC", by.y.names="D", suffixes=NULL), "must be the suffixes that separate duplicate column names", fixed=TRUE)
 })
 
 #

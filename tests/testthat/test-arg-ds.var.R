@@ -21,7 +21,7 @@ connect.studies.dataset.cnsim(list("LAB_TSC"))
 
 # context("ds.var::arg::test errors")
 test_that("var_erros", {
-    expect_error(ds.var(), "Please provide the name of the input object!", fixed=TRUE)
+    expect_error(ds.var(), "must be the name of the input object", fixed=TRUE)
 })
 
 #

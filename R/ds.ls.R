@@ -119,7 +119,7 @@
 #' @export
 ds.ls <- function(search.filter=NULL, env.to.search=1L, search.GlobalEnv=TRUE, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # make default to .GlobalEnv unambiguous
   if(search.GlobalEnv||is.null(env.to.search)){
@@ -160,10 +160,7 @@ if(!is.null(transmit.object))
 
 			if(original.code.problem==TRUE)
 			{
-	#			return.message<-paste0("Warning: Code replacing wildcard (i.e. '",replacement string,"' appears in your original code -please respecify")
-				return.message<-paste0("Warning: Code replacing wildcard (i.e. '",input.string,
-				"') is '",replacement.string,"' but this appears in your original search filter string - please respecify")
-				return(return.message)
+				cli_abort(c("The code that replaces the wildcard ({.val {input.string}}) is {.val {replacement.string}}, which also appears in your search filter.", "i" = "Respecify the filter."))
 			}
 		}
 	}

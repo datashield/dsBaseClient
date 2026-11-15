@@ -115,11 +115,9 @@
 #'
 ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classConsistencyCheck = TRUE){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
-  if(is.null(x)){
-    stop("Please provide the name of a data frame or matrix!", call.=FALSE)
-  }
+  .checkArgProvided(x, "the name of a data.frame or matrix")
 
   # Get study names
   study_names <- names(datasources)
@@ -208,7 +206,7 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     ))
 
   } else {
-    stop("Argument 'type' must be either 'split' or 'combine'", call.=FALSE)
+    .abortInvalidChoice("type", c("split", "combine"))
   }
 }
 

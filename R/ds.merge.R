@@ -114,42 +114,30 @@
 ds.merge <- function(x.name=NULL,y.name=NULL, by.x.names=NULL, by.y.names=NULL,all.x=FALSE,all.y=FALSE,
 			 sort=TRUE, suffixes = c(".x",".y"), no.dups=TRUE, incomparables=NULL, newobj=NULL, datasources=NULL){
 
-  datasources <- .set_datasources(datasources)
+  datasources <- .resolveDatasources(datasources)
 
   # dataframe names
-  if(is.null(x.name)){
-    stop("Please provide the name (eg 'name1') of first dataframe to be merged (called x) ", call.=FALSE)
-  }
+  .checkArgProvided(x.name, "the name of the first data.frame to merge")
 
-  if(is.null(y.name)){
-    stop("Please provide the name (eg 'name2') of second dataframe to be merged (called y) ", call.=FALSE)
-  }
+  .checkArgProvided(y.name, "the name of the second data.frame to merge")
 
   # names of columns to merge on (may be more than one)
-  if(is.null(by.x.names)){
-    stop("Please provide the names of columns in x dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
-	}
+  .checkArgProvided(by.x.names, "the names of the columns in x to merge on")
 
-  if(is.null(by.y.names)){
-    stop("Please provide the names of columns in y dataframe on which to merge (eg c('id', 'time'))", call.=FALSE)
-	}
+  .checkArgProvided(by.y.names, "the names of the columns in y to merge on")
 
 	# make transmittable via parser
   by.x.names.transmit <- paste(by.x.names, collapse=",")
   by.y.names.transmit <- paste(by.y.names, collapse=",")
 
   # suffixes
-  if(is.null(suffixes)){
-    stop("Please provide the suffixes to append to disambiguate duplicate column names (default = c('.x','.y'))", call.=FALSE)
-  }
+  .checkArgProvided(suffixes, "the suffixes that separate duplicate column names")
   
 	# make transmittable via parser
   suffixes.transmit <- paste(suffixes, collapse=",")
 
   # create a name by default if user did not provide a name for the new dataframe
-  if(is.null(newobj)){
-    newobj <- "merge.newobj"
-  }
+  newobj <- .resolveNewobjName(newobj, "merge.newobj")
 
   # call the server side function
 	calltext <- call("mergeDS", x.name, y.name, by.x.names.transmit, by.y.names.transmit, all.x, all.y,
