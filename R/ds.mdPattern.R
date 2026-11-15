@@ -143,13 +143,7 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     invalid_studies <- names(results)[sapply(results, function(r) !r$valid)]
 
     if(any_invalid){
-      warning(
-        "Disclosure control: Some studies have suppressed patterns (below threshold).\n",
-        "  Studies with suppressed patterns: ", paste(invalid_studies, collapse=", "), "\n",
-        "  These patterns are EXCLUDED from pooling to prevent disclosure.\n",
-        "  Pooled counts may underestimate the true total.",
-        call. = FALSE
-      )
+      cli_warn(c("Some studies have patterns suppressed by disclosure control.", "i" = "Affected studies: {.val {invalid_studies}}.", "!" = "These patterns are excluded from pooling, so pooled counts may underestimate the true total."))
     }
 
     # Extract patterns from each study
@@ -158,17 +152,20 @@ ds.mdPattern <- function(x = NULL, type = 'split', datasources = NULL, classCons
     # Check if all patterns have the same variables (columns)
     n_vars <- sapply(patterns_list, ncol)
     if(length(unique(n_vars)) > 1){
-      stop("Cannot pool patterns: studies have different numbers of variables", call.=FALSE)
+      counts <- paste0(vapply(names(n_vars), function(study) cli::format_inline("{.val {study}}"), character(1)), " has ", n_vars - 1, " variables.")
+      names(counts) <- rep("x", length(counts))
+      cli_abort(c("Can't pool patterns because studies have different numbers of variables.", counts))
     }
 
     # md.pattern orders variable columns by missingness, which differs across studies,
     # so align them by name to study 1's order (the last, unnamed column stays last)
     var_names <- colnames(patterns_list[[1]])
     var_cols <- var_names[-length(var_names)]
+    caller <- environment()
     patterns_list <- lapply(patterns_list, function(pattern){
       study_vars <- colnames(pattern)[-ncol(pattern)]
       if(!setequal(study_vars, var_cols)){
-        stop("Cannot pool patterns: studies have different variables", call.=FALSE)
+        cli_abort(c("Can't pool patterns because studies have different variables.", "x" = "Not in every study: {.val {union(setdiff(study_vars, var_cols), setdiff(var_cols, study_vars))}}."), call = caller)
       }
       pattern[, c(match(var_cols, study_vars), ncol(pattern)), drop = FALSE]
     })

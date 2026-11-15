@@ -33,17 +33,17 @@ test_that("dataFrameSubset_erros", {
 
 # context("ds.dataFrameSubset::arg::missing 'V1' arg error")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(df.name="D"), "Please provide the name of the column or scalar that holds V1 as a character string: eg 'xxx' or '3'", fixed=TRUE)
+    expect_error(ds.dataFrameSubset(df.name="D"), "`V1.name` must name a column or scalar as a character string, not\\s+`NULL`") # nolint: nonportable_path_linter. Regex, not a file path
 })
 
 # context("ds.dataFrameSubset::arg::missing 'V2' arg error")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC"), "Please provide the name of the column or scalar that holds V2 as a character string: eg 'xxx' or '3'", fixed=TRUE)
+    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC"), "`V2.name` must name a column or scalar as a character string, not\\s+`NULL`") # nolint: nonportable_path_linter. Regex, not a file path
 })
 
 # context("ds.dataFrameSubset::arg::missing 'Boolean.operator' arg error")
 test_that("dataFrameSubset_erros", {
-    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC", V2.name="LAB_TSC"), "Unless you are only subsetting columns, please provide a Boolean operator in character format: eg '==' or '>=' or '<' or '!='. However, if either keep.cols or rm.cols is non-null because you want to subset columns and you specify both V1.name and V2.name as NULL (or 'ONES') and Boolean.operator as NULL,ds.dataFrameSubset will subset out the specified columns but will keep all rows.", fixed=TRUE)
+    expect_error(ds.dataFrameSubset(df.name="D", V1.name="LAB_TSC", V2.name="LAB_TSC"), "must be a Boolean operator in character format", fixed=TRUE)
 })
 
 # context("ds.dataFrameSubset::arg::missing 'df.name' value server-side")

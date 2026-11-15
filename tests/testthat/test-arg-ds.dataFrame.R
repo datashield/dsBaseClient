@@ -24,7 +24,7 @@ test_that("dataframe_erros", {
     expect_error(ds.dataFrame(), "must be the name of the list that holds the input vectors", fixed=TRUE)
 
     ds.asList(x='D$LAB_TSC', newobj="as_list")
-    expect_error(ds.dataFrame("as_list", DataSHIELD.checks=TRUE), "Each object must be of class", fixed=TRUE)
+    expect_error(ds.dataFrame("as_list", DataSHIELD.checks=TRUE), "\"as_list\" must be of class", fixed=TRUE)
 })
 
 #

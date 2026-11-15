@@ -31,7 +31,8 @@ ds.asFactorSimple <- function(input.var.name=NULL, newobj.name=NULL, datasources
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){
-    stop("Please provide the name of the variable that is to be converted to a factor in character format e.g. 'varname'", call.=FALSE)
+    supplied <- .describeSupplied(input.var.name) # nolint: object_usage_linter. Used in the cli template
+    cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {supplied}.")
   }
 
   # if no output variable specified then provide a default name

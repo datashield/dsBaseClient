@@ -195,7 +195,8 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
 
   # check if user has provided the name of the input variable in a correct character format
   if(!is.character(input.var.name)){
-    stop("Please provide the name of the variable that is to be converted to a factor in character format e.g. 'varname'", call.=FALSE)
+    supplied <- .describeSupplied(input.var.name) # nolint: object_usage_linter. Used in the cli template
+    cli_abort("{.arg input.var.name} must be a character string, such as {.val varname}, not {supplied}.")
   }
 
   # if no output variable specified then provide a default name
@@ -215,7 +216,9 @@ ds.asFactor <- function(input.var.name=NULL, newobj.name=NULL, forced.factor.lev
       failed.levels <- TRUE
   }
   if (failed.levels) {
-    stop("Failed to obtain levels: ", paste0(unlist(all.levels), collapse=", "), call. = TRUE)
+    messages <- unlist(all.levels)
+    bullets <- stats::setNames(paste0("{messages[", seq_along(messages), "]}"), rep("x", length(messages)))
+    cli_abort(c("Can't obtain the factor levels.", bullets))
   }
 
   numstudies <- length(datasources)

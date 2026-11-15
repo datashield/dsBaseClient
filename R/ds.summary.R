@@ -77,7 +77,8 @@ ds.summary <- function(x=NULL, datasources=NULL){
   # the input object must be a numeric or an integer vector
   # the input object must be a dataframe or a factor
   if(!('data.frame' %in% typ) & !('character' %in% typ) & !('factor' %in% typ) & !('integer' %in% typ) & !('list' %in% typ) & !('logical' %in% typ) & !('matrix' %in% typ) & !('numeric' %in% typ)){
-    stop("The input object must be a 'data.frame', 'character', factor', 'integer', 'list', 'logical', 'matrix' or 'numeric'.", call.=FALSE)
+    allowedClasses <- vapply(c("data.frame", "character", "factor", "integer", "list", "logical", "matrix", "numeric"), function(x) cli::format_inline("{.cls {x}}"), character(1)) # nolint: object_usage_linter. Used in the cli template
+    cli_abort("{.arg x} must be of class {.or {allowedClasses}}, not {.cls {typ}}.")
   }
 
   stdnames <- names(datasources)

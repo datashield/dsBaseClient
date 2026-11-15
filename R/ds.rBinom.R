@@ -139,7 +139,7 @@ if(is.numeric(size)){
 }
 
 if(!size.valid){
-cli_abort("{.arg size} must be greater than 0.")
+cli_abort("{.arg size} must be greater than 0, not {.val {unique(size[size <= 0])}}.")
 }
 
 prob.valid<-1
@@ -150,7 +150,7 @@ if(is.numeric(prob)){
 }
 
 if(!prob.valid){
-cli_abort("{.arg prob} must be between 0 and 1.")
+cli_abort("{.arg prob} must be between 0 and 1, not {.val {unique(prob[prob <= 0 | prob >= 1])}}.")
 }
 
 
@@ -181,13 +181,12 @@ single.integer.seed<-c(single.integer.seed,seed.as.integer.study.specific)
 
 
 if(seed.as.text=="NULL"){
-message("NO SEED SET IN STUDY",study.id,"\n\n")
+cli_inform("No seed set in {.val {names(datasources)[study.id]}}.")
 
 } else {
   ssDS.obj[[study.id]] <- datashield.aggregate(datasources[study.id], call("setSeedDS", seedtext=seed.as.text))
 }
 }
-message("\n\n")
 
 
 
