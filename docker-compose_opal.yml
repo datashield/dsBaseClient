@@ -1,6 +1,6 @@
 services:
     opal:
-        image: datashield/opal_citest:6.1.1
+        image: datashield/opal_citest:6.2.1
         ports:
             - 8443:8443
             - 8080:8080
@@ -21,6 +21,6 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=foobar
     rock:
-        image: datashield/rock_citest-permissive:latest
+        image: datashield/rock-urban-devel-permissive:1.0.0
         environment:
             DEBUG: "FALSE"
